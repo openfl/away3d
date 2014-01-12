@@ -34,8 +34,7 @@ package away3d.materials.utils;
 			
 var s:UInt = flash.Lib.getTimer();
 trace("\nMipmap Start:"+s); 
-			mipmap.lock();
-			while (w >= 1 || h >= 1) {
+			//while (w >= 1 || h >= 1) {
 				if (alpha)
 					mipmap.fillRect(_rect, 0);
 				
@@ -55,8 +54,7 @@ trace("\nMipmap Start:"+s);
 
 				_rect.width = w > 1? w : 1;
 				_rect.height = h > 1? h : 1;
-			}
-			mipmap.unlock();
+			//}
 
 trace("\n         end:"+(flash.Lib.getTimer() - s)); 
 			

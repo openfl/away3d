@@ -57,6 +57,8 @@
 		
 		override private function uploadContent(texture:TextureBase):Void
 		{
+			//TODO: Don't create mipmaps just yet
+			_generateMipmaps = false;
 			if (_generateMipmaps)
 				MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true);
 			else

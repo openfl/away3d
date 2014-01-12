@@ -168,7 +168,8 @@ package away3d.materials.methods;
 			var wrap:String = forceWrap!=null ? forceWrap : (vo.repeatTextures ? "wrap" : "clamp");
 			var filter:String;
 			var format:String = getFormatStringForTexture(texture);
-			var enableMipMaps:Bool = vo.useMipmapping && texture.hasMipMaps;
+			// TODO: Disable mipmaps for now
+			var enableMipMaps:Bool = false; //vo.useMipmapping && texture.hasMipMaps;
 			
 			if (vo.useSmoothTextures)
 				filter = enableMipMaps? "linear,miplinear" : "linear";

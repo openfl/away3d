@@ -253,7 +253,9 @@ package away3d.materials.methods;
 				"add " + t + ".w, " + t + ".w, " + t + ".w\n" +
 				"mul " + t + ", " + t + ".w, " + normalReg + "\n" +
 				"sub " + t + ", " + t + ", " + viewDirReg + "\n" +
-				"tex " + t + ", " + t + ", " + cubeMapReg + " <cube," + (vo.useSmoothTextures? "linear" : "nearest") + ",miplinear>\n" +
+				// TODO: Disable mipmaps for now
+				//"tex " + t + ", " + t + ", " + cubeMapReg + " <cube," + (vo.useSmoothTextures? "linear" : "nearest") + ",miplinear>\n" +
+				"tex " + t + ", " + t + ", " + cubeMapReg + " <cube," + (vo.useSmoothTextures? "linear" : "nearest") + ",mipnone>\n" +
 				"mul " + t + ".xyz, " + t + ", " + weightRegister + "\n";
 			
 			if (_modulateMethod != null)

@@ -75,9 +75,10 @@ package away3d.materials.passes;
 				default:
 					format = "";
 			}
+			// TODO: Disable mipmaps for now
 			var mip:String = ",mipnone";
-			if (_cubeTexture.hasMipMaps)
-				mip = ",miplinear";
+			//if (_cubeTexture.hasMipMaps)
+			//	mip = ",miplinear";
 			return "tex ft0, v0, fs0 <cube," + format + "linear,clamp" + mip + ">	\n" +
 				"mov oc, ft0							\n";
 		}

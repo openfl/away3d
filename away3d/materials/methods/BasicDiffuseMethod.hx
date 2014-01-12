@@ -257,7 +257,9 @@ package away3d.materials.methods;
 				regCache.addFragmentTempUsages(t, 1);
 			}
 			
-			code += "tex " + t + ", " + _sharedRegisters.normalFragment + ", " + cubeMapReg + " <cube,linear,miplinear>\n" +
+			// TODO: Disable mipmaps for now
+			//code += "tex " + t + ", " + _sharedRegisters.normalFragment + ", " + cubeMapReg + " <cube,linear,miplinear>\n" +
+			code += "tex " + t + ", " + _sharedRegisters.normalFragment + ", " + cubeMapReg + " <cube,linear,mipnone>\n" +
 				"mul " + t + ".xyz, " + t + ".xyz, " + weightRegister + "\n";
 			
 			if (_modulateMethod != null)
