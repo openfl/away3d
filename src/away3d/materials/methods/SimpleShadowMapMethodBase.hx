@@ -10,6 +10,8 @@ package away3d.materials.methods;
 	import away3d.materials.compilation.*;
 	
 	import flash.geom.*;
+
+	import flash.errors.Error;
 	
 	//use namespace arcane;
 
@@ -27,7 +29,7 @@ package away3d.materials.methods;
 		 */
 		public function new(castingLight:LightBase)
 		{
-			_usePoint = cast(castingLight, PointLight);
+			_usePoint = Std.is(castingLight, PointLight);
 			super(castingLight);
 		}
 
@@ -86,6 +88,7 @@ package away3d.materials.methods;
 		public function set_depthMapCoordReg(value:ShaderRegisterElement) : ShaderRegisterElement
 		{
 			_depthMapCoordReg = value;
+			return value;
 		}
 
 		/**
@@ -189,7 +192,7 @@ package away3d.materials.methods;
 		override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 		{
 			if (!_usePoint)
-				DirectionalShadowMapper(_shadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);
+				cast(_shadowMapper, DirectionalShadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);
 		}
 
 		/**
@@ -205,6 +208,7 @@ package away3d.materials.methods;
 		public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement, targetRegister:ShaderRegisterElement):String
 		{
 			throw new Error("This shadow method is incompatible with cascade shadows");
+			return "";
 		}
 		
 		/**

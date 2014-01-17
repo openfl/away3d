@@ -48,7 +48,7 @@ package away3d.materials.methods;
 			var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			// TODO: not used
-			dataReg = dataReg;
+			//dataReg = dataReg;
 			var customDataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var depthCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 			var uvReg:ShaderRegisterElement;
