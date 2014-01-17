@@ -1,11 +1,10 @@
 package away3d.errors;
+import flash.errors.Error;
+class CastError extends Error {
 
-	
-	class CastError
-	{
-		public function new(message:String)
-		{
-			throw(message);
-		}
-	}
+    public function new(message:String) {
+        super(message);
+    }
+
+}
 

@@ -1,19 +1,21 @@
+/**
+ * TextureError is thrown when an invalid texture is used regarding Stage3D limitations.
+ */
 package away3d.errors;
+import flash.errors.Error;
+class InvalidTextureError extends Error {
 
-	
-	/**
-	 * TextureError is thrown when an invalid texture is used regarding Stage3D limitations.
+/**
+	 * Create a new TextureError.
+	 * @param message An optional message to override the default error message.
+	 * @param id The id of the error.
 	 */
-	class InvalidTextureError extends Error
-	{
-		/**
-		 * Create a new TextureError.
-		 * @param message An optional message to override the default error message.
-		 * @param id The id of the error.
-		 */
-		public function new(message:String = null, id:Int = 0)
-		{
-			super(message || "Invalid bitmapData! Must be power of 2 and not exceeding 2048.", id);
-		}
-	}
+    public function new(message:String = null, id:Int = 0) {
+        if (message == null) {
+            message = "Invalid bitmapData! Must be power of 2 and not exceeding 2048.";
+        }
+        super(message, id);
+    }
+
+}
 

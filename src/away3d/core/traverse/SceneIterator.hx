@@ -1,66 +1,62 @@
 package away3d.core.traverse;
 
-	//import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.Scene3D;
-	
-	//use namespace arcane;
-	
-	class SceneIterator
-	{
-		private static var PRE:Int = 0;
-		private static var IN:Int = 1;
-		private static var POST:Int = 2;
-		
-		var _childIndex:Int;
-		var _scene:Scene3D;
-		var _node:ObjectContainer3D;
-		var _traverseState:Int;
-		var _childIndexStack:Array<Int>;
-		var _stackPos:Int;
-		
-		public function new(scene:Scene3D)
-		{
-			_scene = scene;
-			reset();
-		}
-		
-		public function reset():Void
-		{
-			_childIndexStack = new Array<Int>();
-			_node = _scene._sceneGraphRoot;
-			_childIndex = 0;
-			_stackPos = 0;
-			_traverseState = PRE;
-		}
-		
-		public function next():ObjectContainer3D
-		{
-			do {
-				switch (_traverseState) {
-					case PRE:
-						// just entered a node
-						_childIndexStack[_stackPos++] = _childIndex;
-						_childIndex = 0;
-						_traverseState = IN;
-						return _node;
-					case IN:
-						if (_childIndex == _node.numChildren)
-							_traverseState = POST;
-						else {
-							_node = _node.getChildAt(_childIndex);
-							_traverseState = PRE;
-						}
-						break;
-					case POST:
-						_node = _node.parent;
-						_childIndex = _childIndexStack[--_stackPos] + 1;
-						_traverseState = IN;
-						break;
-				}
-			} while (!(_node == _scene._sceneGraphRoot && _traverseState == POST));
-			
-			return null;
-		}
-	}
+
+import flash.Vector;
+import away3d.containers.ObjectContainer3D;
+import away3d.containers.Scene3D;
+
+class SceneIterator {
+
+    static private var PRE:Int = 0;
+    static private var IN:Int = 1;
+    static private var POST:Int = 2;
+    private var _childIndex:Int;
+    private var _scene:Scene3D;
+    private var _node:ObjectContainer3D;
+    private var _traverseState:Int;
+    private var _childIndexStack:Vector<Int>;
+    private var _stackPos:Int;
+
+    public function new(scene:Scene3D) {
+        _scene = scene;
+        reset();
+    }
+
+    public function reset():Void {
+        _childIndexStack = new Vector<Int>();
+        _node = _scene._sceneGraphRoot;
+        _childIndex = 0;
+        _stackPos = 0;
+        _traverseState = PRE;
+    }
+
+    public function next():ObjectContainer3D {
+        do {
+            switch(_traverseState) {
+                case SceneIterator.PRE, SceneIterator.IN:
+                    switch(_traverseState) {
+                        case SceneIterator.PRE:
+// just entered a node
+                            _childIndexStack[_stackPos++] = _childIndex;
+                            _childIndex = 0;
+                            _traverseState = SceneIterator.IN;
+                            return _node;
+                    }
+                    if (_childIndex == _node.numChildren) _traverseState = SceneIterator.POST
+                    else {
+                        _node = _node.getChildAt(_childIndex);
+                        _traverseState = SceneIterator.PRE;
+                    }
+
+                case SceneIterator.POST:
+                    _node = _node.parent;
+                    _childIndex = _childIndexStack[--_stackPos] + 1;
+                    _traverseState = SceneIterator.IN;
+            }
+        }
+        while ((!(_node == _scene._sceneGraphRoot && _traverseState == POST)));
+        return null;
+    }
+
+}
 

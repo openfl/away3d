@@ -1,43 +1,43 @@
+/**
+ * LightNode is a space partitioning leaf node that contains a LightBase object.
+ */
 package away3d.core.partition;
 
-	import away3d.core.traverse.PartitionTraverser;
-	import away3d.lights.LightProbe;
-	
-	/**
-	 * LightNode is a space partitioning leaf node that contains a LightBase object.
+import away3d.core.traverse.PartitionTraverser;
+import away3d.lights.LightProbe;
+
+class LightProbeNode extends EntityNode {
+    public var light(get_light, never):LightProbe;
+
+    private var _light:LightProbe;
+/**
+	 * Creates a new LightNode object.
+	 * @param light The light to be contained in the node.
 	 */
-	class LightProbeNode extends EntityNode
-	{
-		var _light:LightProbe;
-		
-		/**
-		 * Creates a new LightNode object.
-		 * @param light The light to be contained in the node.
-		 */
-		public function new(light:LightProbe)
-		{
-			super(light);
-			_light = light;
-		}
-		
-		/**
-		 * The light object contained in this node.
-		 */
-		public var light(get, null) : LightProbe;
-		public function get_light() : LightProbe
-		{
-			return _light;
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		override public function acceptTraverser(traverser:PartitionTraverser):Void
-		{
-			if (traverser.enterNode(this)) {
-				super.acceptTraverser(traverser);
-				traverser.applyLightProbe(_light);
-			}
-		}
-	}
+
+    public function new(light:LightProbe) {
+        super(light);
+        _light = light;
+    }
+
+/**
+	 * The light object contained in this node.
+	 */
+
+    public function get_light():LightProbe {
+        return _light;
+    }
+
+/**
+	 * @inheritDoc
+	 */
+
+    override public function acceptTraverser(traverser:PartitionTraverser):Void {
+        if (traverser.enterNode(this)) {
+            super.acceptTraverser(traverser);
+            traverser.applyLightProbe(_light);
+        }
+    }
+
+}
 

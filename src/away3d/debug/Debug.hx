@@ -1,47 +1,37 @@
+/** Class for emmiting debuging messages, warnings and errors */
+/**
+ * @private
+ */
 package away3d.debug;
 
-	import flash.errors.Error;
+import flash.errors.Error;
+class Debug {
 
-	/** Class for emmiting debuging messages, warnings and errors */
-	class Debug
-	{
-		public static var active:Bool = false;
-		public static var warningsAsErrors:Bool = false;
-		
-		/**
-		 * @private
-		 */
-		public static function dotrace(message:Dynamic):Void
-		{
-			trace(message);
-		}
+    static public var active:Bool = false;
+    static public var warningsAsErrors:Bool = false;
 
-		public static function clear():Void
-		{
-		}
-		
-		public static function delimiter():Void
-		{
-		}
-		
-		public static function trace(message:Dynamic):Void
-		{
-			if (active)
-				dotrace(message);
-		}
-		
-		public static function warning(message:Dynamic):Void
-		{
-			if (warningsAsErrors) {
-				error(message);
-				return;
-			}
-			trace("WARNING: " + message);
-		}
-		
-		public static function error(message:Dynamic):Void
-		{
-			trace("ERROR: " + message);
-			throw new Error(message);
-		}
-	}
+    static public function clear():Void {
+    }
+
+    static public function delimiter():Void {
+    }
+
+    static public function trace(message:Dynamic):Void {
+        if (active) trace(message);
+    }
+
+    static public function warning(message:Dynamic):Void {
+        if (warningsAsErrors) {
+            error(message);
+            return;
+        }
+        trace("WARNING: " + message);
+    }
+
+    static public function error(message:Dynamic):Void {
+        trace("ERROR: " + message);
+        throw new Error(message);
+    }
+
+}
+
