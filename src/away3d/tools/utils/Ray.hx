@@ -81,7 +81,7 @@ class Ray {
 	 */
 
     public function intersectsSphere(pOrig:Vector3D, dir:Vector3D, sPos:Vector3D, radius:Float):Bool {
-        return cast((hasSphereIntersection(pOrig, dir, sPos, radius) > 0), Boolean);
+        return cast((hasSphereIntersection(pOrig, dir, sPos, radius) > 0), Bool );
     }
 
 /**
@@ -118,7 +118,8 @@ class Ray {
         _d = Math.sqrt(_d);
         var t:Float = ((bNearest)) ? (-0.5) * (_b - _d) / _a : (-0.5) * (_b + _d) / _a;
         if (t == 0.0) return null;
-        var result:Vector3D = outVector3D || new Vector3D(0.0, 0.0, 0.0);
+        var result:Vector3D = outVector3D;
+        if (result == null)result = new Vector3D(0.0, 0.0, 0.0);
         result.x = pOrig.x + (_pn.x * t);
         result.y = pOrig.y + (_pn.y * t);
         result.z = pOrig.z + (_pn.z * t);
@@ -187,7 +188,8 @@ class Ray {
         var b:Float = _pn.x * _dir.x + _pn.y * _dir.y + _pn.z * _dir.z;
         var r:Float = a / b;
         if (r < 0 || r > 1) return null;
-        var result:Vector3D = outVector3D || new Vector3D(0.0, 0.0, 0.0);
+        var result:Vector3D = outVector3D ;
+        if (result == null)result = new Vector3D(0.0, 0.0, 0.0);
         result.x = p0.x + (_dir.x * r);
         result.y = p0.y + (_dir.y * r);
         result.z = p0.z + (_dir.z * r);

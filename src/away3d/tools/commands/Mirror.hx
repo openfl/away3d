@@ -14,15 +14,15 @@ class Mirror {
     public var recenter(get_recenter, set_recenter):Bool;
     public var duplicate(get_duplicate, set_duplicate):Bool;
 
-    static public var X_AXIS:Int = 1;
+    inline static public var X_AXIS:Int = 1;
 // 001
-    static public var Y_AXIS:Int = 2;
+    inline static public var Y_AXIS:Int = 2;
 // 010
-    static public var Z_AXIS:Int = 4;
+    inline static public var Z_AXIS:Int = 4;
 // 100
-    static public var MIN_BOUND:String = "min";
-    static public var MAX_BOUND:String = "max";
-    static public var CENTER:String = "center";
+    inline static public var MIN_BOUND:String = "min";
+    inline static public var MAX_BOUND:String = "max";
+    inline static public var CENTER:String = "center";
     private var _recenter:Bool;
     private var _duplicate:Bool;
     private var _axis:Int;
@@ -301,40 +301,40 @@ class Mirror {
         var sy:Float;
         var sz:Float;
 //var addx : Number, addy : Number, addz : Number;
-        if (!_scaleTransform) {
+        if (_scaleTransform == null) {
             _scaleTransform = new Matrix3D();
             _fullTransform = new Matrix3D();
         }
         _fullTransform.identity();
         _scaleTransform.identity();
-        sx = ((_axis & X_AXIS)) ? -1 : 1;
-        sy = ((_axis & Y_AXIS)) ? -1 : 1;
-        sz = ((_axis & Z_AXIS)) ? -1 : 1;
+        sx = ((_axis & X_AXIS) != 0) ? -1 : 1;
+        sy = ((_axis & Y_AXIS) != 0) ? -1 : 1;
+        sz = ((_axis & Z_AXIS) != 0) ? -1 : 1;
         _fullTransform.appendScale(sx, sy, sz);
         _scaleTransform.appendScale(sx, sy, sz);
         switch(_offset) {
             case MIN_BOUND:
-                ox = ((_axis & X_AXIS)) ? 2 * bounds.min.x : 0;
-                oy = ((_axis & Y_AXIS)) ? 2 * bounds.min.y : 0;
-                oz = ((_axis & Z_AXIS)) ? 2 * bounds.min.z : 0;
+                ox = ((_axis & X_AXIS) != 0) ? 2 * bounds.min.x : 0;
+                oy = ((_axis & Y_AXIS) != 0) ? 2 * bounds.min.y : 0;
+                oz = ((_axis & Z_AXIS) != 0) ? 2 * bounds.min.z : 0;
             case MAX_BOUND:
-                ox = ((_axis & X_AXIS)) ? 2 * bounds.max.x : 0;
-                oy = ((_axis & Y_AXIS)) ? 2 * bounds.max.y : 0;
-                oz = ((_axis & Z_AXIS)) ? 2 * bounds.max.z : 0;
+                ox = ((_axis & X_AXIS) != 0) ? 2 * bounds.max.x : 0;
+                oy = ((_axis & Y_AXIS) != 0) ? 2 * bounds.max.y : 0;
+                oz = ((_axis & Z_AXIS) != 0) ? 2 * bounds.max.z : 0;
             default:
                 ox = oy = oz = 0;
         }
         if (_additionalOffset > 0) {
-            if (ox > 0) ox += ((_axis & X_AXIS)) ? _additionalOffset : 0;
-            if (ox < 0) ox -= ((_axis & X_AXIS)) ? _additionalOffset : 0;
-            if (oy > 0) oy += ((_axis & Y_AXIS)) ? _additionalOffset : 0;
-            if (oy < 0) oy -= ((_axis & Y_AXIS)) ? _additionalOffset : 0;
-            if (oz > 0) oz += ((_axis & Z_AXIS)) ? _additionalOffset : 0;
-            if (oz < 0) oz -= ((_axis & Z_AXIS)) ? _additionalOffset : 0;
+            if (ox > 0) ox += ((_axis & X_AXIS) != 0) ? _additionalOffset : 0;
+            if (ox < 0) ox -= ((_axis & X_AXIS) != 0) ? _additionalOffset : 0;
+            if (oy > 0) oy += ((_axis & Y_AXIS) != 0) ? _additionalOffset : 0;
+            if (oy < 0) oy -= ((_axis & Y_AXIS) != 0) ? _additionalOffset : 0;
+            if (oz > 0) oz += ((_axis & Z_AXIS) != 0) ? _additionalOffset : 0;
+            if (oz < 0) oz -= ((_axis & Z_AXIS) != 0) ? _additionalOffset : 0;
         }
         _fullTransform.appendTranslation(ox, oy, oz);
         if (_recenter) {
-            if (!_centerTransform) _centerTransform = new Matrix3D();
+            if (_centerTransform == null) _centerTransform = new Matrix3D();
             var recenterX:Float = 0;
             var recenterY:Float = 0;
             var recenterZ:Float = 0;

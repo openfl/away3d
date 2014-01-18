@@ -21,6 +21,7 @@ import away3d.tools.utils.Bounds;
 import away3d.tools.utils.GeomUtil;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import haxe.ds.StringMap.StringMap;
 
 
 /**

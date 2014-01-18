@@ -31,6 +31,7 @@ class ColorHitMap extends EventDispatcher {
 	 */
 
     public function new(bitmapData:BitmapData, scaleX:Float = 1, scaleY:Float = 1) {
+        super();
         _colorMap = bitmapData;
         _scaleX = scaleX;
         _scaleY = scaleY;
@@ -46,8 +47,8 @@ class ColorHitMap extends EventDispatcher {
 	 */
 
     public function read(x:Float, y:Float):Void {
-        if (!_colorObjects) return;
-        var color:Int = _colorMap.getPixel((x / _scaleX) + _offsetX, (y / _scaleY) + _offsetY);
+        if (_colorObjects == null) return;
+        var color:Int = _colorMap.getPixel(Std.int((x / _scaleX) + _offsetX), Std.int((y / _scaleY) + _offsetY));
         var co:ColorObject;
         var i:Int = 0;
         while (i < _colorObjects.length) {
@@ -73,7 +74,7 @@ class ColorHitMap extends EventDispatcher {
 	 */
 
     public function getColorAt(x:Float, y:Float):Int {
-        return _colorMap.getPixel((x / _scaleX) + _offsetX, (y / _scaleY) + _offsetY);
+        return _colorMap.getPixel(Std.int((x / _scaleX) + _offsetX), Std.int((y / _scaleY) + _offsetY));
     }
 
 /**
@@ -84,7 +85,7 @@ class ColorHitMap extends EventDispatcher {
 	 */
 
     public function plotAt(x:Float, y:Float, color:Int = 0xFF0000):Void {
-        _colorMap.setPixel((x / _scaleX) + _offsetX, (y / _scaleY) + _offsetY, color);
+        _colorMap.setPixel(Std.int((x / _scaleX) + _offsetX), Std.int((y / _scaleY) + _offsetY), color);
     }
 
 /**
@@ -96,8 +97,9 @@ class ColorHitMap extends EventDispatcher {
 	 * @param    listener        The function  that must be triggered
 	 */
 
-    public function addColorEvent(color:Float, eventID:String, listener:Dynamic -> Void):Void {
-        if (!_colorObjects) _colorObjects = new Vector<ColorObject>();
+    public function addColorEvent(color:Int, eventID:String, listener:Dynamic -> Void):Void {
+
+        if (_colorObjects == null) _colorObjects = new Vector<ColorObject>();
         var colorObject:ColorObject = new ColorObject();
         colorObject.color = color;
         colorObject.eventID = eventID;
@@ -113,7 +115,7 @@ class ColorHitMap extends EventDispatcher {
 	 */
 
     public function removeColorEvent(eventID:String):Void {
-        if (!_colorObjects) return;
+        if (_colorObjects == null) return;
         var co:ColorObject;
         var i:Int = 0;
         while (i < _colorObjects.length) {
@@ -198,5 +200,7 @@ class ColorObject {
     public var color:Int;
     public var eventID:String;
     public var listener:Dynamic -> Void;
+
+    public function new() {}
 }
 

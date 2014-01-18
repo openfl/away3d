@@ -26,9 +26,9 @@ class Drag3D {
     public var planeObject3d(never, set_planeObject3d):ObjectContainer3D;
     public var planePosition(never, set_planePosition):Vector3D;
 
-    static public var PLANE_XZ:String = "xz";
-    static public var PLANE_XY:String = "xy";
-    static public var PLANE_ZY:String = "zy";
+    inline static public var PLANE_XZ:String = "xz";
+    inline static public var PLANE_XY:String = "xy";
+    inline static public var PLANE_ZY:String = "zy";
     private var EPS:Float;
     private var _view:View3D;
     private var _debug:Bool;
@@ -89,9 +89,9 @@ class Drag3D {
 
     public function set_useRotations(b:Bool):Bool {
         _useRotations = b;
-        if (!b && _rotations) _baserotations = null;
+        if (!b && _rotations != null) _baserotations = null;
         _rotations = null;
-        if (_planesContainer) updateDebug();
+        if (_planesContainer != null) updateDebug();
         return b;
     }
 
@@ -107,7 +107,7 @@ class Drag3D {
 	 */
 
     public function set_offsetCenter(b:Bool):Bool {
-        if (b && !_object3d) throw new Error("offsetCenter requires that an object3d as been assigned to the Drag3D class first!");
+        if (b && _object3d == null) throw new Error("offsetCenter requires that an object3d as been assigned to the Drag3D class first!");
         if (b) {
             _offsetCenter.x = _object3d.scenePosition.x;
             _offsetCenter.y = _object3d.scenePosition.y;
@@ -173,7 +173,7 @@ class Drag3D {
         }
 
         else {
-            if (_planesContainer) {
+            if (_planesContainer != null) {
                 _planesContainer.removeChild(_planeXZ);
                 _planesContainer.removeChild(_planeXY);
                 _planesContainer.removeChild(_planeZY);
@@ -216,7 +216,7 @@ class Drag3D {
 	 *    @param     y        [optional] Number. y coordinate.
 	 */
 
-    public function getIntersect(x:Float = NaN, y:Float = NaN):Vector3D {
+    public function getIntersect(?x:Float, ? y:Float):Vector3D {
         intersect(x, y);
         return _intersect;
     }
@@ -285,7 +285,7 @@ class Drag3D {
                         _np.x = 0;
                         _np.y = 1;
                         _np.z = 0;
-                        break;
+
 //XY
                 }
                 switch(_planeid) {
@@ -293,7 +293,6 @@ class Drag3D {
                         _np.x = 0;
                         _np.y = 0;
                         _np.z = 1;
-                        break;
 //ZY
                 }
                 _np.x = 1;
@@ -309,7 +308,7 @@ class Drag3D {
     }
 
     private function init():Void {
-        if (Std.is(!_view.camera.lens, PerspectiveLens)) _view.camera.lens = new PerspectiveLens();
+        if (!Std.is(_view.camera.lens, PerspectiveLens)) _view.camera.lens = new PerspectiveLens();
     }
 
     private function updateDebug():Void {
@@ -322,7 +321,7 @@ class Drag3D {
             _planesContainer.x = -_a;
             _planesContainer.y = -_b;
             _planesContainer.z = -_c;
-            if (_useRotations && _rotations) {
+            if (_useRotations && _rotations != null) {
                 _planesContainer.rotationX = _rotations.x;
                 _planesContainer.rotationY = _rotations.y;
                 _planesContainer.rotationZ = _rotations.z;
@@ -332,7 +331,7 @@ class Drag3D {
     }
 
     private function toggleDebug():Void {
-        if (_planeXZ) {
+        if (_planeXZ != null) {
             var lowA:Float = .05;
             var highA:Float = .4;
             switch(_planeid) {
@@ -363,7 +362,7 @@ class Drag3D {
         }
     }
 
-    private function intersect(x:Float = NaN, y:Float = NaN):Void {
+    private function intersect(?x:Float, ?y:Float):Void {
         var pMouse:Vector3D = ((Math.isNaN(x) && Math.isNaN(y))) ? _view.unproject(_view.mouseX, _view.mouseY, 1) : _view.unproject(x, y, 1);
         var cam:Vector3D = _view.camera.position;
         var d0:Float = _np.x * cam.x + _np.y * cam.y + _np.z * cam.z - _d;
@@ -397,7 +396,7 @@ class Drag3D {
                     _np.y = obj.transform.rawData[1];
                     _np.z = obj.transform.rawData[2];
             }
-            if (!_rotations) {
+            if (_rotations == null) {
                 _rotations = new Vector3D();
                 _baserotations = new Vector3D();
             }
@@ -411,7 +410,7 @@ class Drag3D {
         }
 
         else {
-            if (_rotations && _baserotations) {
+            if (_rotations != null && _baserotations != null) {
                 _baserotations.x = _baserotations.y = _baserotations.z = 0;
                 _rotations.x = _rotations.y = _rotations.z = 0;
             }

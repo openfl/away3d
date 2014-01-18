@@ -4,6 +4,13 @@
 package away3d.tools.commands;
 
 
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import away3d.core.math.MathConsts;
+import Reflect;
+import away3d.core.math.MathConsts;
 import flash.errors.Error;
 import flash.Vector;
 import away3d.entities.Mesh;
@@ -11,12 +18,12 @@ import away3d.tools.utils.Bounds;
 
 class Align {
 
-    static public var X_AXIS:String = "x";
-    static public var Y_AXIS:String = "y";
-    static public var Z_AXIS:String = "z";
-    static public var POSITIVE:String = "+";
-    static public var NEGATIVE:String = "-";
-    static public var AVERAGE:String = "av";
+    inline static public var X_AXIS:String = "x";
+    inline static public var Y_AXIS:String = "y";
+    inline static public var Z_AXIS:String = "z";
+    inline static public var POSITIVE:String = "+";
+    inline static public var NEGATIVE:String = "-";
+    inline static public var AVERAGE:String = "av";
     static private var _axis:String;
     static private var _condition:String;
 /**
@@ -44,9 +51,9 @@ class Align {
                 while (i < meshes.length) {
                     m = meshes[i];
                     mb = bounds[i];
-                    val = m[_axis];
-                    val -= base - mb[prop] + m[_axis];
-                    m[_axis] = -val;
+                    val = Reflect.field(m, _axis);
+                    val -= base - Reflect.field(mb, prop) + Reflect.field(m, _axis);
+                    Reflect.setField(m, _axis, -val);
                     bounds[i] = null;
                     ++i;
                 }
@@ -56,9 +63,9 @@ class Align {
                 while (i < meshes.length) {
                     m = meshes[i];
                     mb = bounds[i];
-                    val = m[_axis];
-                    val -= base + mb[prop] + m[_axis];
-                    m[_axis] = -val;
+                    val = Reflect.field(m, _axis);
+                    val -= base + Reflect.field(mb, prop) + Reflect.field(m, _axis);
+                    Reflect.setField(m, _axis, -val);
                     bounds[i] = null;
                     ++i;
                 }
@@ -97,7 +104,7 @@ class Align {
     static public function align(aObjs:Array<Dynamic>, axis:String, condition:String = ""):Void {
         checkAxis(axis);
         checkCondition(condition);
-        var base:Float;
+        var base:Float = 0;
         switch(_condition) {
             case POSITIVE:
                 base = getMax(aObjs, _axis);
@@ -110,7 +117,7 @@ class Align {
         }
         var i:Int = 0;
         while (i < aObjs.length) {
-            aObjs[i][_axis] = base;
+            Reflect.setField(aObjs[i], _axis, base);
             ++i;
         }
     }
@@ -127,11 +134,13 @@ class Align {
         var max:Float = getMax(aObjs, _axis);
         var min:Float = getMin(aObjs, _axis);
         var unit:Float = (max - min) / aObjs.length;
-        aObjs.sortOn(axis, 16);
+//why
+//todo
+// aObjs.sortOn(axis, 16);
         var step:Float = 0;
         var i:Int = 0;
         while (i < aObjs.length) {
-            aObjs[i][_axis] = min + step;
+            Reflect.setField(aObjs[i], _axis, min + step);
             step += unit;
             ++i;
         }
@@ -161,20 +170,20 @@ class Align {
     }
 
     static private function getMin(a:Array<Dynamic>, prop:String):Float {
-        var min:Float = Infinity;
+        var min:Float = MathConsts.Infinity;
         var i:Int = 0;
         while (i < a.length) {
-            min = Math.min(a[i][prop], min);
+            min = Math.min(Reflect.field(a[i], prop), min);
             ++i;
         }
         return min;
     }
 
     static private function getMax(a:Array<Dynamic>, prop:String):Float {
-        var max:Float = -Infinity;
+        var max:Float = -MathConsts.Infinity;
         var i:Int = 0;
         while (i < a.length) {
-            max = Math.max(a[i][prop], max);
+            max = Math.max(Reflect.field(a[i], prop), max);
             ++i;
         }
         return max;
@@ -185,7 +194,7 @@ class Align {
         var loop:Int = a.length;
         var i:Int = 0;
         while (i < loop) {
-            av += a[i][prop];
+            av += Reflect.field(a[i], prop);
             ++i;
         }
         return av / loop;
@@ -212,7 +221,7 @@ class Align {
     }
 
     static private function getProp():String {
-        var prop:String;
+        var prop:String = "";
         switch(_axis) {
             case X_AXIS:
                 prop = ((_condition == POSITIVE)) ? "maxX" : "minX";
@@ -225,7 +234,7 @@ class Align {
     }
 
     static private function getMinBounds(bounds:Vector<MeshBound>):Float {
-        var min:Float = Infinity;
+        var min:Float = MathConsts.Infinity;
         var mb:MeshBound;
         var i:Int = 0;
         while (i < bounds.length) {
@@ -244,7 +253,7 @@ class Align {
     }
 
     static private function getMaxBounds(bounds:Vector<MeshBound>):Float {
-        var max:Float = -Infinity;
+        var max:Float = -MathConsts.Infinity;
         var mb:MeshBound;
         var i:Int = 0;
         while (i < bounds.length) {

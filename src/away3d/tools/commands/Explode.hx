@@ -45,7 +45,7 @@ class Explode {
 
     private function parse(object:ObjectContainer3D):Void {
         var child:ObjectContainer3D;
-        if (Std.is(object, Mesh && object.numChildren == 0)) apply(cast((object), Mesh).geometry, _keepNormals);
+        if (Std.is(object, Mesh) && object.numChildren == 0)apply(cast((object), Mesh).geometry, _keepNormals);
         var i:Int = 0;
         while (i < object.numChildren) {
             child = object.getChildAt(i);

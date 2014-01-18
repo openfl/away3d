@@ -14,8 +14,8 @@ import flash.geom.Vector3D;
 
 class SphereMaker {
 
-    static public var RADIUS:Int = 1;
-    static public var USE_BOUNDS_MAX:Int = 2;
+    inline static public var RADIUS:Int = 1;
+    inline static public var USE_BOUNDS_MAX:Int = 2;
     private var _weight:Float;
     private var _radius:Float;
     private var _radiusMode:Int;
@@ -99,7 +99,7 @@ class SphereMaker {
             vectorVert = new Vector3D(vd[vOffs + i * vStride + 0], vd[vOffs + i * vStride + 1], vd[vOffs + i * vStride + 2]);
             vectorVertLength = vectorVert.length;
             vectorNormal = vectorVert.clone();
-            vectordifference = Std.parseFloat(_radius) /* WARNING check type */ - Std.parseFloat(vectorVertLength) /* WARNING check type */;
+            vectordifference = (_radius) /* WARNING check type */ - (vectorVertLength) /* WARNING check type */;
             vectorNormal.normalize();
             vd[vOffs + i * vStride + 0] = vectorVert.x + ((vectorNormal.x * vectordifference) * _weight);
             vd[vOffs + i * vStride + 1] = vectorVert.y + ((vectorNormal.y * vectordifference) * _weight);

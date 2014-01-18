@@ -1,5 +1,6 @@
 package away3d.tools.serialize;
 
+import Type;
 import away3d.animators.IAnimator;
 import away3d.animators.data.JointPose;
 import away3d.animators.data.Skeleton;
@@ -38,9 +39,9 @@ class Serialize {
     static public function serializeMesh(mesh:Mesh, serializer:SerializerBase):Void {
         serializeObjectContainerInternal(cast(mesh, ObjectContainer3D), serializer, false);
         serializer.writeBoolean("castsShadows", mesh.castsShadows);
-        if (mesh.animator) serializeAnimationState(mesh.animator, serializer);
-        if (mesh.material) serializeMaterial(mesh.material, serializer);
-        if (mesh.subMeshes.length) {
+        if (mesh.animator != null) serializeAnimationState(mesh.animator, serializer);
+        if (mesh.material != null) serializeMaterial(mesh.material, serializer);
+        if (mesh.subMeshes.length > 0) {
             for (subMesh in mesh.subMeshes)serializeSubMesh(subMesh, serializer);
         }
         serializeChildren(cast(mesh, ObjectContainer3D), serializer);
@@ -60,8 +61,8 @@ class Serialize {
 
     static public function serializeSubMesh(subMesh:SubMesh, serializer:SerializerBase):Void {
         serializer.beginObject(classNameFromInstance(subMesh), null);
-        if (subMesh.material) serializeMaterial(subMesh.material, serializer);
-        if (subMesh.subGeometry) serializeSubGeometry(subMesh.subGeometry, serializer);
+        if (subMesh.material != null) serializeMaterial(subMesh.material, serializer);
+        if (subMesh.subGeometry != null) serializeSubGeometry(subMesh.subGeometry, serializer);
         serializer.endObject();
     }
 
@@ -72,7 +73,7 @@ class Serialize {
         serializer.writeBoolean("smooth", material.smooth);
         serializer.writeBoolean("repeat", material.repeat);
         serializer.writeBoolean("bothSides", material.bothSides);
-        serializer.writeString("blendMode", material.blendMode);
+        serializer.writeString("blendMode", Std.string(material.blendMode));
         serializer.writeBoolean("requiresBlending", material.requiresBlending);
         serializer.writeUint("uniqueId", material.uniqueId);
         serializer.writeUint("numPasses", material.numPasses);
@@ -82,13 +83,13 @@ class Serialize {
     static public function serializeSubGeometry(subGeometry:ISubGeometry, serializer:SerializerBase):Void {
         serializer.beginObject(classNameFromInstance(subGeometry), null);
         serializer.writeUint("numTriangles", subGeometry.numTriangles);
-        if (subGeometry.indexData) serializer.writeUint("numIndices", subGeometry.indexData.length);
+        if (subGeometry.indexData != null) serializer.writeUint("numIndices", subGeometry.indexData.length);
         serializer.writeUint("numVertices", subGeometry.numVertices);
-        if (subGeometry.UVData) serializer.writeUint("numUVs", subGeometry.UVData.length);
+        if (subGeometry.UVData != null) serializer.writeUint("numUVs", subGeometry.UVData.length);
         var skinnedSubGeometry:SkinnedSubGeometry = cast(subGeometry, SkinnedSubGeometry);
-        if (skinnedSubGeometry) {
-            if (skinnedSubGeometry.jointWeightsData) serializer.writeUint("numJointWeights", skinnedSubGeometry.jointWeightsData.length);
-            if (skinnedSubGeometry.jointIndexData) serializer.writeUint("numJointIndexes", skinnedSubGeometry.jointIndexData.length);
+        if (skinnedSubGeometry != null) {
+            if (skinnedSubGeometry.jointWeightsData != null) serializer.writeUint("numJointWeights", skinnedSubGeometry.jointWeightsData.length);
+            if (skinnedSubGeometry.jointIndexData != null) serializer.writeUint("numJointIndexes", skinnedSubGeometry.jointIndexData.length);
         }
         serializer.endObject();
     }
@@ -131,7 +132,7 @@ class Serialize {
     }
 
     static private function classNameFromInstance(instance:Dynamic):String {
-        return getQualifiedClassName(instance).split("::").pop();
+        return Type.getClassName(instance) ;
     }
 
     static private function serializeObjectContainerInternal(objectContainer:ObjectContainer3D, serializer:SerializerBase, serializeChildrenAndEnd:Bool):Void {

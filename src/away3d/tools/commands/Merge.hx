@@ -103,7 +103,7 @@ class Merge {
 
     public function applyToMeshes(receiver:Mesh, meshes:Vector<Mesh>):Void {
         reset();
-        if (!meshes.length) return;
+        if (meshes.length == 0) return;
         var i:Int = 0;
         while (i < meshes.length) {
             if (meshes[i] != receiver) collect(meshes[i], _disposeSources);
@@ -164,7 +164,7 @@ class Merge {
             }
             i++;
         }
-        if (_keepMaterial && !useSubMaterials && _geomVOs.length) destMesh.material = _geomVOs[0].material;
+        if (_keepMaterial && !useSubMaterials && _geomVOs.length > 0) destMesh.material = _geomVOs[0].material;
         if (dispose) {
             for (m in _toDispose) {
                 m.geometry.dispose();
@@ -178,7 +178,7 @@ class Merge {
     }
 
     private function collect(mesh:Mesh, dispose:Bool):Void {
-        if (mesh.geometry) {
+        if (mesh.geometry != null) {
             var subIdx:Int;
             var subGeometries:Vector<ISubGeometry> = mesh.geometry.subGeometries;
             var calc:Int;
@@ -215,7 +215,8 @@ class Merge {
                 uStride = subGeom.UVStride;
                 uOffs = subGeom.UVOffset;
 // Get (or create) a VO for this material
-                vo = getSubGeomData(mesh.subMeshes[subIdx].material || mesh.material);
+                if (mesh.subMeshes[subIdx].material != null) vo = getSubGeomData(mesh.subMeshes[subIdx].material);
+                else vo = getSubGeomData(mesh.material);
 // Vertices and normals are copied to temporary vectors, to be transformed
 // before concatenated onto those of the data. This is unnecessary if no
 // transformation will be performed, i.e. for object space merging.
@@ -245,7 +246,7 @@ class Merge {
                     i++;
                 }
 // Copy over triangle indices
-                indexOffset = ((!_objectSpace)) ? vo.vertices.length / 3 : 0;
+                indexOffset = ((!_objectSpace)) ? Std.int(vo.vertices.length / 3) : 0;
                 iIdx = vo.indices.length;
                 len = subGeom.numTriangles;
                 i = 0;
@@ -277,7 +278,7 @@ class Merge {
     }
 
     private function getSubGeomData(material:MaterialBase):GeometryVO {
-        var data:GeometryVO;
+        var data:GeometryVO = null;
         if (_keepMaterial) {
             var i:Int = 0;
             var len:Int;
@@ -292,12 +293,12 @@ class Merge {
             }
         }
 
-        else if (_geomVOs.length) {
+        else if (_geomVOs.length > 0) {
 // If materials are not to be kept, all data can be
 // put into a single VO, so return that one.
             data = _geomVOs[0];
         }
-        if (!data) {
+        if (data == null) {
             data = new GeometryVO();
             data.vertices = new Vector<Float>();
             data.normals = new Vector<Float>();
@@ -312,7 +313,7 @@ class Merge {
     private function parseContainer(receiver:Mesh, object:ObjectContainer3D):Void {
         var child:ObjectContainer3D;
         var i:Int = 0;
-        if (Std.is(object, Mesh && object != receiver)) collect(cast((object), Mesh), _disposeSources);
+        if (Std.is(object, Mesh) && object != receiver) collect(cast((object), Mesh), _disposeSources);
         i = 0;
         while (i < object.numChildren) {
             child = object.getChildAt(i);

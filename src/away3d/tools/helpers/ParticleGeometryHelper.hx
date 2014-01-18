@@ -56,7 +56,7 @@ class ParticleGeometryHelper {
                 }
                 sourceSubGeometry = sourceSubGeometries[srcIndex];
 //add a new particle subgeometry if this source subgeometry will take us over the maxvertex limit
-                if (sourceSubGeometry.numVertices + vertexCounters[sub2SubMap[srcIndex]] > MAX_VERTEX) {
+                if (Std.int(sourceSubGeometry.numVertices + vertexCounters[sub2SubMap[srcIndex]]) > MAX_VERTEX) {
 //update submap and add new subgeom vectors
                     sub2SubMap[srcIndex] = subGeometries.length;
                     verticesVector.push(new Vector<Float>());
@@ -82,11 +82,11 @@ class ParticleGeometryHelper {
                 var compact:CompactSubGeometry = cast(sourceSubGeometry, CompactSubGeometry);
                 var product:Int;
                 var sourceVertices:Vector<Float>;
-                if (compact) {
+                if (compact == null) {
                     tempLen = compact.numVertices;
                     compact.numTriangles;
                     sourceVertices = compact.vertexData;
-                    if (transforms) {
+                    if (transforms != null) {
                         var particleGeometryTransform:ParticleGeometryTransform = transforms[i];
                         var vertexTransform:Matrix3D = particleGeometryTransform.vertexTransform;
                         var invVertexTransform:Matrix3D = particleGeometryTransform.invVertexTransform;
@@ -111,13 +111,25 @@ class ParticleGeometryHelper {
                             tempTangents.z = sourceVertices[product + 8];
                             tempUV.x = sourceVertices[product + 9];
                             tempUV.y = sourceVertices[product + 10];
-                            if (vertexTransform) {
+                            if (vertexTransform != null) {
                                 tempVertex = vertexTransform.transformVector(tempVertex);
                                 tempNormal = invVertexTransform.deltaTransformVector(tempNormal);
                                 tempTangents = invVertexTransform.deltaTransformVector(tempNormal);
                             }
-                            if (UVTransform) tempUV = UVTransform.transformPoint(tempUV);
-                            vertices.push(tempVertex.x, tempVertex.y, tempVertex.z, tempNormal.x, tempNormal.y, tempNormal.z, tempTangents.x, tempTangents.y, tempTangents.z, tempUV.x, tempUV.y, sourceVertices[product + 11], sourceVertices[product + 12]);
+                            if (UVTransform != null) tempUV = UVTransform.transformPoint(tempUV);
+                            vertices.push(tempVertex.x);
+                            vertices.push(tempVertex.y);
+                            vertices.push(tempVertex.z);
+                            vertices.push(tempNormal.x);
+                            vertices.push(tempNormal.y);
+                            vertices.push(tempNormal.z);
+                            vertices.push(tempTangents.x);
+                            vertices.push(tempTangents.y);
+                            vertices.push(tempTangents.z);
+                            vertices.push(tempUV.x);
+                            vertices.push(tempUV.y);
+                            vertices.push(sourceVertices[product + 11]);
+                            vertices.push(sourceVertices[product + 12]);
                             k++;
                         }
                     }
@@ -127,7 +139,19 @@ class ParticleGeometryHelper {
                         while (k < tempLen) {
                             product = k * 13;
 //this is faster than that only push one data
-                            vertices.push(sourceVertices[product], sourceVertices[product + 1], sourceVertices[product + 2], sourceVertices[product + 3], sourceVertices[product + 4], sourceVertices[product + 5], sourceVertices[product + 6], sourceVertices[product + 7], sourceVertices[product + 8], sourceVertices[product + 9], sourceVertices[product + 10], sourceVertices[product + 11], sourceVertices[product + 12]);
+                            vertices.push(sourceVertices[product]);
+                            vertices.push(sourceVertices[product + 1]);
+                            vertices.push(sourceVertices[product + 2]);
+                            vertices.push(sourceVertices[product + 3]);
+                            vertices.push(sourceVertices[product + 4]);
+                            vertices.push(sourceVertices[product + 5]);
+                            vertices.push(sourceVertices[product + 6]);
+                            vertices.push(sourceVertices[product + 7]);
+                            vertices.push(sourceVertices[product + 8]);
+                            vertices.push(sourceVertices[product + 9]);
+                            vertices.push(sourceVertices[product + 10]);
+                            vertices.push(sourceVertices[product + 11]);
+                            vertices.push(sourceVertices[product + 12]);
                             k++;
                         }
                     }
@@ -143,7 +167,9 @@ class ParticleGeometryHelper {
                 k = 0;
                 while (k < tempLen) {
                     product = k * 3;
-                    indices.push(sourceIndices[product] + vertexCounter, sourceIndices[product + 1] + vertexCounter, sourceIndices[product + 2] + vertexCounter);
+                    indices.push(sourceIndices[product] + vertexCounter);
+                    indices.push(sourceIndices[product + 1] + vertexCounter);
+                    indices.push(sourceIndices[product + 2] + vertexCounter);
                     k++;
                 }
                 srcIndex++;

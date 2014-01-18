@@ -18,7 +18,8 @@ class MeshDebug extends SegmentSet {
     private var VERTEXNORMALS:Int;
     private var TANGENTS:Int;
 
-    function new() {
+    public function new() {
+        super();
         _normal = new Vector3D();
         VERTEXNORMALS = 1;
         TANGENTS = 2;

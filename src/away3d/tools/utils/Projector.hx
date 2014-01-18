@@ -1,6 +1,7 @@
 package away3d.tools.utils;
 
 
+import away3d.core.math.MathConsts;
 import away3d.core.base.CompactSubGeometry;
 import away3d.core.base.SubGeometry;
 import away3d.core.base.Geometry;
@@ -55,7 +56,7 @@ class Projector {
 
     static private function parse(obj:ObjectContainer3D):Void {
         var child:ObjectContainer3D;
-        if (Std.is(obj, Mesh && obj.numChildren == 0)) remapMesh(cast((obj), Mesh));
+        if (Std.is(obj, Mesh) && obj.numChildren == 0) remapMesh(cast((obj), Mesh));
         var i:Int = 0;
         while (i < obj.numChildren) {
             child = obj.getChildAt(i);
@@ -65,12 +66,12 @@ class Projector {
     }
 
     static private function remapMesh(mesh:Mesh):Void {
-        var minX:Float = Infinity;
-        var minY:Float = Infinity;
-        var minZ:Float = Infinity;
-        var maxX:Float = -Infinity;
-        var maxY:Float = -Infinity;
-        var maxZ:Float = -Infinity;
+        var minX:Float = MathConsts.Infinity;
+        var minY:Float = MathConsts.Infinity;
+        var minZ:Float = MathConsts.Infinity;
+        var maxX:Float = -MathConsts.Infinity;
+        var maxY:Float = -MathConsts.Infinity;
+        var maxZ:Float = -MathConsts.Infinity;
         Bounds.getMeshBounds(mesh);
         minX = Bounds.minX;
         minY = Bounds.minY;
@@ -107,11 +108,11 @@ class Projector {
         var geometry:Geometry = mesh.geometry;
         var geometries:Vector<ISubGeometry> = geometry.subGeometries;
         if (_orientation == SPHERICAL) {
-            if (!_center) _center = new Vector3D();
+            if (_center == null) _center = new Vector3D();
             _width = maxX - minX;
             _height = maxZ - minZ;
             _depth = maxY - minY;
-            _radius = Math.max(_width, _depth, _height) + 10;
+            _radius = Math.max(Math.max(_width, _depth), _height) + 10;
             _center.x = _center.y = _center.z = .0001;
             remapSpherical(geometries, mesh.scenePosition);
         }
@@ -149,7 +150,7 @@ class Projector {
             indices = sub_geom.indexData;
             numIndices = indices.length;
             switch(_orientation) {
-                case FRONT:
+                case Projector.FRONT:
                     offsetU = _offsetW + position.x;
                     offsetV = _offsetH + position.y;
                     j = 0;
@@ -160,7 +161,7 @@ class Projector {
                         uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offsetV) / _height;
                         ++j;
                     }
-                case BACK:
+                case Projector.BACK:
                     offsetU = _offsetW + position.x;
                     offsetV = _offsetH + position.y;
                     j = 0;
@@ -171,7 +172,7 @@ class Projector {
                         uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offsetV) / _height;
                         ++j;
                     }
-                case RIGHT:
+                case Projector.RIGHT:
                     offsetU = _offsetW + position.z;
                     offsetV = _offsetH + position.y;
                     j = 0;
@@ -182,7 +183,7 @@ class Projector {
                         uvs[uvIndex + 1] = 1 - (vertices[vIndex] + offsetV) / _height;
                         ++j;
                     }
-                case LEFT:
+                case Projector.LEFT:
                     offsetU = _offsetW + position.z;
                     offsetV = _offsetH + position.y;
                     j = 0;
@@ -193,7 +194,7 @@ class Projector {
                         uvs[uvIndex + 1] = 1 - (vertices[vIndex] + offsetV) / _height;
                         ++j;
                     }
-                case TOP:
+                case Projector.TOP:
                     offsetU = _offsetW + position.x;
                     offsetV = _offsetH + position.z;
                     j = 0;
@@ -204,7 +205,7 @@ class Projector {
                         uvs[uvIndex + 1] = 1 - (vertices[vIndex + 2] + offsetV) / _height;
                         ++j;
                     }
-                case BOTTOM:
+                case Projector.BOTTOM:
                     offsetU = _offsetW + position.x;
                     offsetV = _offsetH + position.z;
                     j = 0;
@@ -250,7 +251,7 @@ class Projector {
             indices = sub_geom.indexData;
             numIndices = indices.length;
             switch(_orientation) {
-                case CYLINDRICAL_X:
+                case Projector.CYLINDRICAL_X:
                     offset = _offsetW + position.x;
                     j = 0;
                     while (j < numIndices) {
@@ -260,7 +261,7 @@ class Projector {
                         uvs[uvIndex + 1] = (PI + Math.atan2(vertices[vIndex + 1], vertices[vIndex + 2])) / DOUBLEPI;
                         ++j;
                     }
-                case CYLINDRICAL_Y:
+                case Projector.CYLINDRICAL_Y:
                     offset = _offsetD + position.y;
                     j = 0;
                     while (j < numIndices) {
@@ -270,7 +271,7 @@ class Projector {
                         uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offset) / _depth;
                         ++j;
                     }
-                case CYLINDRICAL_Z:
+                case Projector.CYLINDRICAL_Z:
                     offset = _offsetW + position.z;
                     j = 0;
                     while (j < numIndices) {
@@ -288,7 +289,7 @@ class Projector {
     }
 
     static private function remapSpherical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
-        position = position;
+
         var numSubGeoms:Int = geometries.length;
         var sub_geom:ISubGeometry;
         var vertices:Vector<Float>;
@@ -331,7 +332,7 @@ class Projector {
     }
 
     static private function projectVertex(x:Float, y:Float, z:Float):Void {
-        if (!_dir) {
+        if (_dir == null) {
             _dir = new Vector3D(x, y, z);
             _uv = new UV();
             _vn = new Vector3D(0, -1, 0);

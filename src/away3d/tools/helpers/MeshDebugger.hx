@@ -48,7 +48,7 @@ class MeshDebugger {
 
     public function debug(mesh:Mesh, scene:Scene3D, displayNormals:Bool = true, displayVertexNormals:Bool = false, displayTangents:Bool = false):MeshDebugData {
         var meshDebugData:MeshDebugData = isMeshDebug(mesh);
-        if (!meshDebugData) {
+        if (meshDebugData == null) {
             meshDebugData = new MeshDebugData();
             meshDebugData.meshDebug = new MeshDebug();
             meshDebugData.mesh = mesh;
@@ -223,7 +223,7 @@ class MeshDebugger {
     }
 
     public function hasDebug(mesh:Mesh):Bool {
-        return (isMeshDebug(mesh)) ? true : false;
+        return (isMeshDebug(mesh) != null) ? true : false;
     }
 
 /*
@@ -232,7 +232,7 @@ class MeshDebugger {
 
     public function update():Void {
         var meshDebugData:MeshDebugData;
-        var tmpMDD:MeshDebugData;
+        var tmpMDD:MeshDebugData = null;
         var i:Int = 0;
         while (i < _meshesData.length) {
             meshDebugData = _meshesData[i];
@@ -240,9 +240,8 @@ class MeshDebugger {
                 ++i;
                 continue;
             }
-            ;
             if (_dirty) {
-                if (!tmpMDD) tmpMDD = new MeshDebugData();
+                if (tmpMDD == null) tmpMDD = new MeshDebugData();
                 tmpMDD.mesh = meshDebugData.mesh;
                 tmpMDD.scene = meshDebugData.scene;
                 tmpMDD.displayNormals = meshDebugData.displayNormals;
@@ -277,7 +276,7 @@ class MeshDebugger {
 
     private function parse(object:ObjectContainer3D, scene:Scene3D, displayNormals:Bool, displayVertexNormals:Bool, displayTangents:Bool):Void {
         var child:ObjectContainer3D;
-        if (Std.is(object, Mesh && object.numChildren == 0)) debug(cast((object), Mesh), scene, displayNormals, displayVertexNormals, displayTangents);
+        if (Std.is(object, Mesh) && object.numChildren == 0) debug(cast((object), Mesh), scene, displayNormals, displayVertexNormals, displayTangents);
         var i:Int = 0;
         while (i < object.numChildren) {
             child = object.getChildAt(i);

@@ -100,7 +100,7 @@ class Grid {
             object3d.scenePosition.y -= object3d.scenePosition.y % _unit;
             object3d.scenePosition.z -= object3d.scenePosition.z % _unit;
         }
-        if (Std.is(object3d, Mesh && object3d.numChildren == 0 && dovert)) snap(cast((object3d), Mesh));
+        if (Std.is(object3d, Mesh) && object3d.numChildren == 0 && dovert) snap(cast((object3d), Mesh));
         var i:Int = 0;
         while (i < object3d.numChildren) {
             child = object3d.getChildAt(i);

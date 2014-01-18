@@ -78,7 +78,7 @@ class TraceSerializer extends SerializerBase {
     override public function writeString(name:String, value:String):Void {
         var outputString:String = _indentString();
         outputString += name;
-        if (value) {
+        if (value != null) {
             outputString += separator;
             outputString += value;
         }
@@ -92,7 +92,7 @@ class TraceSerializer extends SerializerBase {
     override public function writeVector3D(name:String, value:Vector3D):Void {
         var outputString:String = _indentString();
         outputString += name;
-        if (value) {
+        if (value != null) {
             outputString += separator;
             outputString += value;
         }
@@ -106,7 +106,7 @@ class TraceSerializer extends SerializerBase {
     override public function writeTransform(name:String, value:Vector<Float>):Void {
         var outputString:String = _indentString();
         outputString += name;
-        if (value) {
+        if (value != null) {
             outputString += separator;
             var matrixIndent:Int = outputString.length;
             var i:Int = 0;
@@ -135,7 +135,7 @@ class TraceSerializer extends SerializerBase {
     override public function writeQuaternion(name:String, value:Quaternion):Void {
         var outputString:String = _indentString();
         outputString += name;
-        if (value) {
+        if (value != null) {
             outputString += separator;
             outputString += value;
         }

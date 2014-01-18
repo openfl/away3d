@@ -60,13 +60,13 @@ class LightsHelper {
 
     static private function parse(objectContainer3D:ObjectContainer3D, light:LightBase, id:Int):Void {
         _light = light;
-        if (!_light) return;
+        if (_light == null) return;
         _state = id;
         parseContainer(objectContainer3D);
     }
 
     static private function parseContainer(objectContainer3D:ObjectContainer3D):Void {
-        if (Std.is(objectContainer3D, Mesh && objectContainer3D.numChildren == 0)) parseMesh(cast((objectContainer3D), Mesh));
+        if (Std.is(objectContainer3D, Mesh) && objectContainer3D.numChildren == 0) parseMesh(cast((objectContainer3D), Mesh));
         var i:Int = 0;
         while (i < objectContainer3D.numChildren) {
             parseContainer(cast((objectContainer3D.getChildAt(i)), ObjectContainer3D));
@@ -77,22 +77,22 @@ class LightsHelper {
     static private function apply(materialOwner:IMaterialOwner):Void {
         var picker:StaticLightPicker;
         var aLights:Array<Dynamic>;
-        var hasLight:Bool;
+        var hasLight:Bool = false;
         var i:Int = 0;
 // TODO: not used
 //	var j : uint;
-        if (materialOwner.material) {
+        if (materialOwner.material != null) {
             switch(_state) {
                 case 0:
                     picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
-                    if (!picker || picker.lights != _lightsArray) materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
+                    if (picker == null || picker.lights != _lightsArray) materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
                 case 1:
                     if (materialOwner.material.lightPicker == null)
                         materialOwner.material.lightPicker = new StaticLightPicker([]);
                     picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
-                    if (picker) {
+                    if (picker != null) {
                         aLights = picker.lights;
-                        if (aLights && aLights.length > 0) {
+                        if (aLights != null && aLights.length > 0) {
                             i = 0;
                             while (i < aLights.length) {
                                 if (aLights[i] == _light) {
@@ -108,7 +108,7 @@ class LightsHelper {
 
                             else {
                                 hasLight = false;
-                                break;
+// break;
                             }
 
                         }
@@ -119,9 +119,9 @@ class LightsHelper {
                     if (materialOwner.material.lightPicker == null)
                         materialOwner.material.lightPicker = new StaticLightPicker([]);
                     picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
-                    if (picker) {
+                    if (picker != null) {
                         aLights = picker.lights;
-                        if (aLights) {
+                        if (aLights != null) {
                             i = 0;
                             while (i < aLights.length) {
                                 if (aLights[i] == _light) {

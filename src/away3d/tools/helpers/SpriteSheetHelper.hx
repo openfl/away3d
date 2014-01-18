@@ -3,6 +3,7 @@
  */
 package away3d.tools.helpers;
 
+import flash.display.BlendMode;
 import flash.errors.Error;
 import flash.Vector;
 import away3d.animators.data.SpriteSheetAnimationFrame;
@@ -46,22 +47,22 @@ class SpriteSheetHelper {
         var destCellW:Float = Math.round(h / cols);
         var destCellH:Float = Math.round(w / rows);
 //var cellRect:Rectangle = new Rectangle(0, 0, destCellW, destCellH);
-        var mcFrameW:Int = sourceMC.width;
-        var mcFrameH:Int = sourceMC.height;
+        var mcFrameW:Int = Std.int(sourceMC.width);
+        var mcFrameH:Int = Std.int(sourceMC.height);
         var sclw:Float = destCellW / mcFrameW;
         var sclh:Float = destCellH / mcFrameH;
         var t:Matrix = new Matrix();
         t.scale(sclw, sclh);
-        var tmpCache:BitmapData = new BitmapData(mcFrameW * sclw, mcFrameH * sclh, transparent, (transparent) ? 0x00FFFFFF : backgroundColor);
+        var tmpCache:BitmapData = new BitmapData( Std.int(mcFrameW * sclw), Std.int(mcFrameH * sclh), transparent, (transparent) ? 0x00FFFFFF : backgroundColor);
         var u:Int;
         var v:Int;
         var cellsPerMap:Int = cols * rows;
-        var maps:Int = framesCount / cellsPerMap;
+        var maps:Int = Std.int(framesCount / cellsPerMap);
         if (maps < framesCount / cellsPerMap) maps++;
         var pastePoint:Point = new Point();
         var frameNum:Int = 0;
         var bitmapTexture:BitmapTexture;
-        while (maps--) {
+        while (maps-- > 0) {
             u = v = 0;
             spriteSheet = new BitmapData(w, h, transparent, (transparent) ? 0x00FFFFFF : backgroundColor);
             i = 0;
@@ -71,7 +72,7 @@ class SpriteSheetHelper {
                     pastePoint.x = Math.round(destCellW * u);
                     pastePoint.y = Math.round(destCellH * v);
                     sourceMC.gotoAndStop(frameNum);
-                    tmpCache.draw(sourceMC, t, null, "normal", tmpCache.rect, true);
+                    tmpCache.draw(sourceMC, t, null, BlendMode.NORMAL, tmpCache.rect, true);
                     spriteSheet.copyPixels(tmpCache, tmpCache.rect, pastePoint);
                     if (transparent) tmpCache.fillRect(tmpCache.rect, 0x00FFFFFF);
                     u++;

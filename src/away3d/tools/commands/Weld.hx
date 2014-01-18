@@ -4,6 +4,8 @@
 package away3d.tools.commands;
 
 
+import haxe.ds.IntMap;
+import String;
 import flash.Vector;
 import away3d.containers.ObjectContainer3D;
 import away3d.core.base.CompactSubGeometry;
@@ -17,15 +19,15 @@ class Weld {
     public var verticesRemovedCount(get_verticesRemovedCount, never):Int;
     public var verticesAddedCount(get_verticesAddedCount, never):Int;
 
-    static public var USE_VERTEXNORMALS:String = "UseVertexNormals";
-    static public var USE_FACENORMALS:String = "UseFaceNormals";
+    inline static public var USE_VERTEXNORMALS:String = "UseVertexNormals";
+    inline static public var USE_FACENORMALS:String = "UseFaceNormals";
     private var _keepUvs:Bool;
     private var _normalThreshold:Float;
     private var _useNormalMode:String;
     private var _smoothNormals:Bool;
     private var _vertCnt:Int;
 
-    function new() {
+    public function new() {
     }
 
 /**
@@ -79,13 +81,13 @@ class Weld {
 
     public function get_verticesAddedCount():Int {
         if (Math.isNaN(_vertCnt)) return 0;
-        return ((_vertCnt < 0)) ? Math.abs(_vertCnt) : 0;
+        return ((_vertCnt < 0)) ? Std.int(Math.abs(_vertCnt)) : 0;
     }
 
     private function parse(obj:ObjectContainer3D):Int {
         var removedVertCnt:Int = 0;
         var child:ObjectContainer3D;
-        if (Std.is(obj, Mesh && obj.numChildren == 0)) removedVertCnt += applyToGeom(cast((obj), Mesh).geometry);
+        if (Std.is(obj, Mesh) && obj.numChildren == 0) removedVertCnt += applyToGeom(cast((obj), Mesh).geometry);
         var i:Int = 0;
         while (i < obj.numChildren) {
             child = obj.getChildAt(i);
@@ -157,8 +159,8 @@ class Weld {
         var faceNormals:Vector<Float> = subGeom.faceNormals;
         var faceIdx:Int = 0;
         var faceIdxCnt:Int = 3;
-        var targetNormal:Vector3D;
-        var storedFaceNormal:Vector3D;
+        var targetNormal:Vector3D = null;
+        var storedFaceNormal:Vector3D = null;
         var sharedNormalIndex:Int;
         var origIndex:Int;
         var foundNormalsCnt:Int = 0;
@@ -248,7 +250,7 @@ class Weld {
 
 
             if (outIndex < 0) {
-                outIndex = outVertices.length / 3;
+                outIndex = Std.int(outVertices.length / 3);
                 if (sharedNormalIndex < 0) {
                     sharedNormalIndex = outIndex;
                     maxNormalIdx = outIndex;
@@ -272,12 +274,12 @@ class Weld {
         }
 // calculated (and apply) the shared Normals:
         if (_normalThreshold > 0 && _smoothNormals) {
-            var sharedPointsfinalDic:Dictionary = new Dictionary();
+            var sharedPointsfinalDic:StringMap<Int> = new StringMap<Int>();
 //stores all Normal-vectors that have already been calculated
             var sharedPointsfinalVectors:Vector<Vector3D> = new Vector<Vector3D>();
             var foundVector:Int;
             var curIdx:Int;
-            inLen = outVertices.length / 3;
+            inLen = Std.int(outVertices.length / 3);
             i = 0;
             while (i < inLen) {
                 outnormal = new Vector3D();
@@ -286,8 +288,8 @@ class Weld {
 // the curIdx could point to list-position, thats pointing to another shared-Normal again,
 //so we need to make shure, we follow the redirection until we get a normal-index smaller than maxNormalIdx
                 while (curIdx > maxNormalIdx)curIdx = sharedNormalIndices[curIdx];
-                if (sharedPointsfinalDic[curIdx.toString()] != null) {
-                    foundVector = sharedPointsfinalDic[curIdx.toString()];
+                if (sharedPointsfinalDic.exists(Std.string(curIdx))) {
+                    foundVector = sharedPointsfinalDic.get(Std.string(curIdx));
                     outnormal = sharedPointsfinalVectors[foundVector];
                 }
                 if (foundVector < 0) {
@@ -309,7 +311,7 @@ class Weld {
                     outnormal.x /= foundNormalsCnt;
                     outnormal.y /= foundNormalsCnt;
                     outnormal.z /= foundNormalsCnt;
-                    sharedPointsfinalDic[curIdx.toString()] = sharedPointsfinalVectors.length;
+                    sharedPointsfinalDic.set(Std.string(curIdx), sharedPointsfinalVectors.length);
                     sharedPointsfinalVectors[sharedPointsfinalVectors.length] = outnormal;
                 }
                 outNormals[i * 3] = outnormal.x;
@@ -320,7 +322,7 @@ class Weld {
         }
         outSubGeom.fromVectors(outVertices, outUvs, outNormals, null);
         outSubGeom.updateIndexData(outIndices);
-        return int(oldVerticleCount - outSubGeom.numVertices);
+        return Std.int(oldVerticleCount - outSubGeom.numVertices);
     }
 
 }
