@@ -1,6 +1,7 @@
 /** Helper class for casting assets to usable objects */
 package away3d.utils;
 
+import flash.errors.Error;
 import flash.geom.Matrix;
 import flash.display.DisplayObject;
 import flash.display.Bitmap;
@@ -24,8 +25,7 @@ class Cast {
         return Std.string(data);
     }
 
-    static public function byteArray(data:Dynamic):ByteArray {
-//throw new Error(typeof(data));
+    static public function byteArray(data:Dynamic):ByteArray { 
         if (Std.is(data, Class)) data = Type.createInstance(data, []);
         if (Std.is(data, ByteArray)) return data;
         return cast((data), ByteArray);

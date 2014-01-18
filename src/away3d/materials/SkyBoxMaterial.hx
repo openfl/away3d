@@ -20,10 +20,11 @@ class SkyBoxMaterial extends MaterialBase {
 	 */
 
     public function new(cubeMap:CubeTextureBase) {
+		super();
         _cubeMap = cubeMap;
         addPass(_skyboxPass = new SkyBoxPass());
         _skyboxPass.cubeTexture = _cubeMap;
-        super();
+        
     }
 
 /**

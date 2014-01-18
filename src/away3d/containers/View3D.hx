@@ -162,8 +162,13 @@ class View3D  extends EventDispatcher {
         addEventListener(Event.ADDED, onAdded, false, 0, true);
         _camera.addEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
         _camera.partition = _scene.partition; 
+		init();
     }
-
+	public function init():Void {
+		
+		onAddedToStage(null);
+		onAdded(null);
+	}
     private function onScenePartitionChanged(event:Scene3DEvent):Void {
         if (_camera != null) _camera.partition = scene.partition;
     }

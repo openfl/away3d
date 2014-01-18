@@ -85,12 +85,12 @@ class Mouse3DManager {
             else {
 				//why
 				//todo
-				/*
-                if (view.getBounds(view.parent).contains(view.mouseX + view.x, view.mouseY + view.y)) {
+				 
+                if (view.parent.getBounds(null).contains(view.mouseX + view.x, view.mouseY + view.y)) {
                     if (_collidingViewObjects == null) _collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
                     _collidingObject = _collidingViewObjects[_view3Ds.get(view)] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
                 }
-				*/
+				 
             }
 
         }

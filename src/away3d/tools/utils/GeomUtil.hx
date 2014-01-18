@@ -17,11 +17,11 @@ class GeomUtil {
         var LIMIT_VERTS:Int = 3 * 0xffff;
         var LIMIT_INDICES:Int = 15 * 0xffff;
         var subs:Vector<ISubGeometry> = new Vector<ISubGeometry>();
-        if (uvs != null && uvs.length > 0) uvs = null;
-        if (normals != null && normals.length > 0) normals = null;
-        if (tangents != null && tangents.length > 0) tangents = null;
-        if (weights != null && weights.length > 0) weights = null;
-        if (jointIndices != null && jointIndices.length > 0) jointIndices = null;
+        if (uvs != null && uvs.length == 0) uvs = null;
+        if (normals != null && normals.length ==0) normals = null;
+        if (tangents != null && tangents.length == 0) tangents = null;
+        if (weights != null && weights.length == 0) weights = null;
+        if (jointIndices != null && jointIndices.length == 0) jointIndices = null;
         if ((indices.length >= LIMIT_INDICES) || (verts.length >= LIMIT_VERTS)) {
             var i:Int = 0;
             var len:Int;

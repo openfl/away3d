@@ -35,7 +35,7 @@ import away3d.materials.MaterialBase;
 import away3d.textures.Texture2DBase;
 import flash.geom.Vector3D;
 
-
+using away3d.Stage3DUtils;
 class Max3DSParser extends ParserBase {
     public static function supportsType(extension:String):Bool {
         extension = extension.toLowerCase();
@@ -328,7 +328,7 @@ class Max3DSParser extends ParserBase {
         _cur_obj.verts = new Vector<Float>(count * 3, true);
 
         i = 0;
-        len = _cur_obj.verts.length;
+        len = count * 3;
         while (i < len) {
             var x:Float, y:Float, z:Float;
 
@@ -352,7 +352,7 @@ class Max3DSParser extends ParserBase {
         _cur_obj.indices = new Vector<UInt>(count * 3, true);
 
         i = 0;
-        len = _cur_obj.indices.length;
+        len =count * 3;
         while (i < len) {
             var i0:UInt, i1:UInt, i2:UInt;
 
@@ -369,6 +369,8 @@ class Max3DSParser extends ParserBase {
         }
 
         _cur_obj.smoothingGroups = new Vector<UInt>(count, true);
+		_cur_obj.smoothingGroups.fillVector(0, count, 0);
+		
     }
 
     private function parseSmoothingGroups():Void {
@@ -389,7 +391,7 @@ class Max3DSParser extends ParserBase {
         _cur_obj.uvs = new Vector<Float>(count * 2, true);
 
         i = 0;
-        len = _cur_obj.uvs.length;
+        len = count * 2;
         while (i < len) {
             _cur_obj.uvs[i++] = _byteData.readFloat();
             _cur_obj.uvs[i++] = 1.0 - _byteData.readFloat();
@@ -408,7 +410,7 @@ class Max3DSParser extends ParserBase {
 
         faces = new Vector<UInt>(count, true);
         i = 0;
-        while (i < faces.length) {
+        while (i < count) {
             faces[i++] = _byteData.readUnsignedShort();
         }
 
@@ -654,6 +656,7 @@ class Max3DSParser extends ParserBase {
             if ((len = vGroups[i].length) < 1)
                 continue;
             clones = new Vector<UInt>(len, true);
+			clones.fillVector(0, len, 0);
             vClones[i] = clones;
             clones[0] = i;
             var v0:VertexVO = vertices[i];
