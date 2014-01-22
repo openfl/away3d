@@ -3,6 +3,7 @@ package away3d.core.managers;
 	//import away3d.arcane;
 	
 	import flash.display.Stage;
+	import flash.Vector;
 	import haxe.ds.ObjectMap;
 	
 	import flash.errors.Error;
@@ -37,7 +38,7 @@ package away3d.core.managers;
 			_stage = stage;
 			
 			if (_stageProxies==null)
-				_stageProxies = new Array<Stage3DProxy>();
+				_stageProxies = new Vector<Stage3DProxy>(1, true);
 		}
 		
 		/**

@@ -12,7 +12,11 @@ package away3d.events;
 		
 		public var objectContainer3D:ObjectContainer3D;
 		
+		#if html5
+		public function get_target() : Dynamic
+		#else
 		public override function get_target() : Dynamic
+		#end
 		{
 			return objectContainer3D;
 		}

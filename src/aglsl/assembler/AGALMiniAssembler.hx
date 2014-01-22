@@ -375,7 +375,7 @@ class AGALMiniAssembler
 		return true; 
 	}  
 	
-	public function addHeader( partname:String, version:UInt )
+	public function addHeader( partname:String, version:Int )
 	{
 		if( version == 0)
 		{

@@ -19,7 +19,7 @@ class AGLSLCompiler
 		var agalMiniAssembler: AGALMiniAssembler = new AGALMiniAssembler();
 		var tokenizer:AGALTokenizer = new AGALTokenizer();
 		
-		var data:ByteArray;
+		var data:ByteArray = new ByteArray();
 		var concatSource:String;
 		switch( programType )
 		{

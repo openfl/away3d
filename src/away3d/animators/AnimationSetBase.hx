@@ -5,6 +5,9 @@ package away3d.animators;
 	import away3d.library.assets.*;
 	
 	import flash.utils.*;
+	import flash.Vector;
+
+	import haxe.ds.WeakMap;
 	
 	/**
 	 * Provides an abstract base class for data set classes that hold animation data for use in animator classes.
@@ -14,15 +17,16 @@ package away3d.animators;
 	class AnimationSetBase extends NamedAssetBase implements IAsset
 	{
 		var _usesCPU:Bool;
-		var _animations:Array<AnimationNodeBase>;
-		var _animationNames:Array<String>;
-		var _animationDictionary:Dictionary;
+		var _animations:Vector<AnimationNodeBase>;
+		var _animationNames:Vector<String>;
+		var _animationDictionary:WeakMap<String, AnimationNodeBase>;
 		
 		public function new()
 		{
-			_animations = new Array<AnimationNodeBase>();
-			_animationNames = new Array<String>();
-			_animationDictionary = new Dictionary(true);
+			super();
+			_animations = new Vector<AnimationNodeBase>();
+			_animationNames = new Vector<String>();
+			_animationDictionary = new WeakMap<String, AnimationNodeBase>();
 		}
 		
 		/**
@@ -32,7 +36,7 @@ package away3d.animators;
 		 * @param excludeAnother An additional register that's not free.
 		 * @return A temporary register that can be used.
 		 */
-		private function findTempReg(exclude:Array<String>, excludeAnother:String = null):String
+		private function findTempReg(exclude:Vector<String>, excludeAnother:String = null):String
 		{
 			var i:UInt = 0;
 			var reg:String;
@@ -54,7 +58,7 @@ package away3d.animators;
 		 * GPU calls.
 		 */
 		public var usesCPU(get, null) : Bool;
-		public function get_usesCPU() : Bool
+		private function get_usesCPU() : Bool
 		{
 			return _usesCPU;
 		}
@@ -79,7 +83,7 @@ package away3d.animators;
 		 * @inheritDoc
 		 */
 		public var assetType(get, null) : String;
-		public function get_assetType() : String
+		private function get_assetType() : String
 		{
 			return AssetType.ANIMATION_SET;
 		}
@@ -87,8 +91,8 @@ package away3d.animators;
 		/**
 		 * Returns a vector of animation state objects that make up the contents of the animation data set.
 		 */
-		public var animations(get, null) : Array<AnimationNodeBase>;
-		public function get_animations() : Array<AnimationNodeBase>
+		public var animations(get, null) : Vector<AnimationNodeBase>;
+		private function get_animations() : Vector<AnimationNodeBase>
 		{
 			return _animations;
 		}
@@ -96,8 +100,8 @@ package away3d.animators;
 		/**
 		 * Returns a vector of animation state objects that make up the contents of the animation data set.
 		 */
-		public var animationNames(get, null) : Array<String>;
-		public function get_animationNames() : Array<String>
+		public var animationNames(get, null) : Vector<String>;
+		private function get_animationNames() : Vector<String>
 		{
 			return _animationNames;
 		}
@@ -109,7 +113,7 @@ package away3d.animators;
 		 */
 		public function hasAnimation(name:String):Bool
 		{
-			return _animationDictionary[name] != null;
+			return _animationDictionary.exists( name );
 		}
 		
 		/**
@@ -119,7 +123,7 @@ package away3d.animators;
 		 */
 		public function getAnimation(name:String):AnimationNodeBase
 		{
-			return _animationDictionary[name];
+			return _animationDictionary.get( name );
 		}
 		
 		/**
@@ -130,10 +134,10 @@ package away3d.animators;
 		 */
 		public function addAnimation(node:AnimationNodeBase):Void
 		{
-			if (_animationDictionary[node.name])
+			if (_animationDictionary.exists( node.name ))
 				throw new AnimationSetError("root node name '" + node.name + "' already exists in the set");
 			
-			_animationDictionary[node.name] = node;
+			_animationDictionary.set( node.name,  node );
 			
 			_animations.push(node);
 			

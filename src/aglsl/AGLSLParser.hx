@@ -13,14 +13,18 @@ class AGLSLParser
 		var header:String = "";
 		var body:String = "";
 		
-		//header += "precision mediump float;\n";
+		#if html5
+        header += "precision highp float;\n";
+		#end
 		var tag = desc.header.type.charAt(0);
 		
-		// declare uniforms
-		// if ( desc.header.type == "vertex" )
-		// {
-		// 	header += "uniform float yflip;\n";
-		// }
+		#if html5
+		declare uniforms
+		if ( desc.header.type == "vertex" )
+		{
+		 	header += "uniform float yflip;\n";
+		}
+		#end
 		if ( !desc.hasindirect )
 		{
 			var i:UInt;
@@ -197,8 +201,11 @@ class AGLSLParser
 		// adjust z from opengl range of -1..1 to 0..1 as in d3d, this also enforces a left handed coordinate system
 		if ( desc.header.type == "vertex" )
 		{
-			//body += "  gl_Position = vec4(outpos.x, yflip*outpos.y, outpos.z*2.0 - outpos.w, outpos.w);\n";
+			#if html5
+			body += "  gl_Position = vec4(outpos.x, yflip*outpos.y, outpos.z*2.0 - outpos.w, outpos.w);\n";
+			#else
 			body += "  gl_Position = vec4(outpos.x, outpos.y, outpos.z*2.0 - outpos.w, outpos.w);\n";
+			#end
 		}
 		
 		// clamp fragment depth

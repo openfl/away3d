@@ -63,6 +63,7 @@ package away3d.core.managers;
 		var _bufferClear:Bool;
 		var _mouse3DManager:Mouse3DManager;
 		var _touch3DManager:Touch3DManager;
+		var _renderFunction:Event -> Void;
 		
 		private function notifyViewportUpdated():Void
 		{
@@ -536,7 +537,7 @@ package away3d.core.managers;
 			_touch3DManager = value;
 			return value;
 		}
-		
+
 		/**
 		 * Frees the Context3D associated with this Stage3DProxy.
 		 */
@@ -560,7 +561,7 @@ package away3d.core.managers;
 				_context3D = _stage3D.context3D;
 				_context3D.enableErrorChecking = Debug.active;
 				
-				_usesSoftwareRendering = (_context3D.driverInfo.indexOf('Software') == 0);
+				_usesSoftwareRendering = (_context3D.driverInfo==null ? false : _context3D.driverInfo.indexOf('Software') == 0);
 				
 				// Only configure back buffer if width and height have been set,
 				// which they may not have been if View3D.render() has yet to be
@@ -571,9 +572,29 @@ package away3d.core.managers;
 				// Dispatch the appropriate event depending on whether context was
 				// created for the first time or recreated after a device loss.
 				dispatchEvent(new Stage3DEvent(hadContext? Stage3DEvent.CONTEXT3D_RECREATED : Stage3DEvent.CONTEXT3D_CREATED));
+
+				if (_renderFunction != null) {
+					setRenderCallback(_renderFunction);
+				}
 				
 			} else
 				throw new Error("Rendering context lost!");
+		}
+
+		/**
+		 *	Set the callback function for rendering
+		 */
+		public function setRenderCallback(func:Event -> Void) : Void {
+			if (_stage3D!=null && _stage3D.context3D!=null) {
+				
+				if (_renderFunction!=null)
+					OpenFLStage3D.removeRenderCallback(_stage3D.context3D, _renderFunction);
+				
+				if (func!=null)
+					OpenFLStage3D.setRenderCallback(_stage3D.context3D, func);
+			}
+
+			_renderFunction = func;
 		}
 		
 		/**
@@ -590,8 +611,9 @@ package away3d.core.managers;
 			
 			// ugly stuff for backward compatibility
 			var renderMode:String = Std.string(forceSoftware? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO);
-			if (profile == "baseline")
-				_stage3D.requestContext3D(renderMode);
+			OpenFLStage3D.requestAGLSLContext3D(_stage3D, renderMode);
+			//if (profile == "baseline")
+			//	_stage3D.requestContext3D(renderMode);
 			// else {
 			// 	try {
 			// 		_stage3D["requestContext3D"](renderMode, profile);

@@ -159,13 +159,21 @@ package away3d.events;
 		/**
 		 * @inheritDoc
 		 */
+		#if html5
+		public function get_bubbles() : Bool
+		{
+			var doesBubble:Bool = this.bubbles && _allowedToPropagate;
+			_allowedToPropagate = true;// Don't bubble if propagation has been stopped.
+			return doesBubble;
+		}
+		#else
 		public override function get_bubbles() : Bool
 		{
 			var doesBubble:Bool = super.bubbles && _allowedToPropagate;
-			_allowedToPropagate = true;
-			// Don't bubble if propagation has been stopped.
+			_allowedToPropagate = true;// Don't bubble if propagation has been stopped.
 			return doesBubble;
 		}
+		#end
 		
 		/**
 		 * @inheritDoc
