@@ -5,6 +5,7 @@ package away3d.loaders.parsers;
 
 import away3d.core.math.MathConsts;
 import away3d.debug.Debug;
+import away3d.utils.ArrayUtils;
 import haxe.ds.StringMap;
 import flash.Vector;
 import flash.geom.Matrix3D;
@@ -35,7 +36,7 @@ import away3d.materials.MaterialBase;
 import away3d.textures.Texture2DBase;
 import flash.geom.Vector3D;
 
-using away3d.Stage3DUtils;
+
 class Max3DSParser extends ParserBase {
     public static function supportsType(extension:String):Bool {
         extension = extension.toLowerCase();
@@ -369,7 +370,8 @@ class Max3DSParser extends ParserBase {
         }
 
         _cur_obj.smoothingGroups = new Vector<UInt>(count, true);
-		_cur_obj.smoothingGroups.fillVector(0, count, 0);
+		 
+		 ArrayUtils.Prefill(_cur_obj.smoothingGroups, count, 0);
 		
     }
 
@@ -656,7 +658,7 @@ class Max3DSParser extends ParserBase {
             if ((len = vGroups[i].length) < 1)
                 continue;
             clones = new Vector<UInt>(len, true);
-			clones.fillVector(0, len, 0);
+			ArrayUtils.Prefill(clones, len, 0);
             vClones[i] = clones;
             clones[0] = i;
             var v0:VertexVO = vertices[i];

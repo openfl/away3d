@@ -12,10 +12,7 @@ import away3d.primitives.WireframeCube;
 import away3d.primitives.WireframePrimitiveBase;
 import flash.geom.Vector3D;
 import flash.Vector;
-import away3d.core.math.Plane3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import away3d.core.math.Plane3D; 
 class AxisAlignedBoundingBox extends BoundingVolumeBase {
     public var halfExtentsX(get_halfExtentsX, never):Float;
     public var halfExtentsY(get_halfExtentsY, never):Float;
@@ -56,6 +53,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase {
 	 */
 
     override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
+		 
         var i:Int = 0;
         while (i < numPlanes) {
             var plane:Plane3D = planes[i];
@@ -66,10 +64,11 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase {
             var flippedExtentY:Float = b < (0) ? -_halfExtentsY : _halfExtentsY;
             var flippedExtentZ:Float = c < (0) ? -_halfExtentsZ : _halfExtentsZ;
             var projDist:Float = a * (_centerX + flippedExtentX) + b * (_centerY + flippedExtentY) + c * (_centerZ + flippedExtentZ) - plane.d;
-            if (projDist < 0) { 
+            if (projDist < 0) {  
+			 
 				return false;
 			
-			}  
+			}   
             ++i;
         }
         return true;

@@ -5,6 +5,7 @@
  */
 package away3d.materials.lightpickers;
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import flash.events.Event;
 import away3d.events.LightEvent;
@@ -78,6 +79,7 @@ class StaticLightPicker extends LightPickerBase {
         _numLightProbes = numLightProbes;
 // MUST HAVE MULTIPLE OF 4 ELEMENTS!
         _lightProbeWeights = new Vector<Float>(Math.ceil(numLightProbes / 4) * 4, true);
+        ArrayUtils.Prefill(_lightProbeWeights, Math.ceil(numLightProbes / 4) * 4,0);
 // notify material lights have changed
         dispatchEvent(new Event(Event.CHANGE));
         return value;
@@ -115,18 +117,24 @@ class StaticLightPicker extends LightPickerBase {
 
     private function updateDirectionalCasting(light:DirectionalLight):Void {
         if (light.castsShadows) {
-            --_numDirectionalLights;
-            ++_numCastingDirectionalLights;
-            _directionalLights.splice(_directionalLights.indexOf(cast(light, DirectionalLight)), 1);
-            _castingDirectionalLights.push(light);
-        }
-
-        else {
-            ++_numDirectionalLights;
-            --_numCastingDirectionalLights;
-            _castingDirectionalLights.splice(_castingDirectionalLights.indexOf(cast(light, DirectionalLight)), 1);
-            _directionalLights.push(light);
-        }
+			--_numDirectionalLights;
+			++_numCastingDirectionalLights;
+			#if flash 
+			_directionalLights.splice(_directionalLights.indexOf(cast(light, DirectionalLight)), 1);
+			#else
+			_directionalLights.splice(Lambda.indexOf(_directionalLights, cast(light, DirectionalLight)), 1);
+			#end
+			_castingDirectionalLights.push(light);
+		} else {
+			++_numDirectionalLights;
+			--_numCastingDirectionalLights;
+			#if flash 
+			_castingDirectionalLights.splice(_castingDirectionalLights.indexOf(cast(light, DirectionalLight)), 1);
+			#else
+			_castingDirectionalLights.splice(Lambda.indexOf(_castingDirectionalLights, cast(light, DirectionalLight)), 1);
+			#end
+			_directionalLights.push(light);
+		}
 
     }
 
@@ -135,19 +143,25 @@ class StaticLightPicker extends LightPickerBase {
 	 */
 
     private function updatePointCasting(light:PointLight):Void {
-        if (light.castsShadows) {
-            --_numPointLights;
-            ++_numCastingPointLights;
-            _pointLights.splice(_pointLights.indexOf(cast(light, PointLight)), 1);
-            _castingPointLights.push(light);
-        }
-
-        else {
-            ++_numPointLights;
-            --_numCastingPointLights;
-            _castingPointLights.splice(_castingPointLights.indexOf(cast(light, PointLight)), 1);
-            _pointLights.push(light);
-        }
+		if (light.castsShadows) {
+			--_numPointLights;
+			++_numCastingPointLights;
+			#if flash 
+			_pointLights.splice(_pointLights.indexOf(cast(light, PointLight)), 1);
+			#else
+			_pointLights.splice(Lambda.indexOf(_pointLights, cast(light, PointLight)), 1);
+			#end
+			_castingPointLights.push(light);
+		} else {
+			++_numPointLights;
+			--_numCastingPointLights;
+			#if flash
+			_castingPointLights.splice(_castingPointLights.indexOf(cast(light, PointLight)), 1);
+			#else
+			_castingPointLights.splice(Lambda.indexOf(_castingPointLights, cast(light, PointLight)), 1);
+			#end
+			_pointLights.push(light);
+		}
 
     }
 

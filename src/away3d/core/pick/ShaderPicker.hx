@@ -10,6 +10,7 @@
 package away3d.core.pick;
 
 
+import away3d.utils.ArrayUtils;
 import away3d.tools.utils.GeomUtil;
 import away3d.core.base.ISubGeometry;
 import away3d.core.base.SubMesh;
@@ -36,10 +37,7 @@ import flash.Vector;
 import away3d.core.managers.Stage3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.Program3D;
-import flash.display.BitmapData;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.display.BitmapData; 
 class ShaderPicker implements IPicker {
     public var onlyMouseEnabled(get_onlyMouseEnabled, set_onlyMouseEnabled):Bool;
 
@@ -94,9 +92,12 @@ class ShaderPicker implements IPicker {
         _rayPos = new Vector3D();
         _rayDir = new Vector3D();
         _id = new Vector<Float>(4, true);
+        ArrayUtils.Prefill(_id,4,0);
         _viewportData = new Vector<Float>(4, true);
+        ArrayUtils.Prefill(_viewportData,4,0);
 // first 2 contain scale, last 2 translation
         _boundOffsetScale = new Vector<Float>(8, true);
+        ArrayUtils.Prefill(_boundOffsetScale,8,false);
 // first 2 contain scale, last 2 translation
         _boundOffsetScale[3] = 0;
         _boundOffsetScale[7] = 1;

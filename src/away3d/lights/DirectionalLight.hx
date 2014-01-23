@@ -18,10 +18,7 @@ import away3d.core.partition.EntityNode;
 import away3d.lights.shadowmaps.DirectionalShadowMapper;
 import away3d.lights.shadowmaps.ShadowMapperBase;
 import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Vector3D; 
 class DirectionalLight extends LightBase {
     public var sceneDirection(get_sceneDirection, never):Vector3D;
     public var direction(get_direction, set_direction):Vector3D;

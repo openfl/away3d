@@ -26,10 +26,8 @@ import away3d.textures.Texture2DBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Matrix3D; 
+import away3d.utils.ArrayUtils;
 class CompiledPass extends MaterialPassBase {
     public var enableLightFallOff(get_enableLightFallOff, set_enableLightFallOff):Bool;
     public var forceSeparateMVP(get_forceSeparateMVP, set_forceSeparateMVP):Bool;
@@ -158,7 +156,7 @@ class CompiledPass extends MaterialPassBase {
 	 * @inheritDoc
 	 */
 
-    override private function updateProgram(stage3DProxy:Stage3DProxy):Void {
+    override public function updateProgram(stage3DProxy:Stage3DProxy):Void {
         reset(stage3DProxy.profile);
         super.updateProgram(stage3DProxy);
     }
@@ -194,8 +192,10 @@ class CompiledPass extends MaterialPassBase {
 	 */
 
     private function initConstantData():Void {
-        _vertexConstantData.length = _numUsedVertexConstants * 4;
-        _fragmentConstantData.length = _numUsedFragmentConstants * 4;
+        //_vertexConstantData.length = _numUsedVertexConstants*4;
+		//_fragmentConstantData.length = _numUsedFragmentConstants*4; 
+		 ArrayUtils.reSize(_vertexConstantData, _numUsedVertexConstants * 4,0);
+		 ArrayUtils.reSize(_fragmentConstantData, _numUsedFragmentConstants*4,0);
         initCommonsData();
         if (_uvTransformIndex >= 0) initUVTransformData();
         if (_cameraPositionIndex >= 0) _vertexConstantData[_cameraPositionIndex + 3] = 1;

@@ -11,13 +11,11 @@ import flash.display.Sprite;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
-import flash.events.ContextMenuEvent;
+ 
 import flash.events.Event;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
-import flash.ui.ContextMenu;
-import flash.ui.ContextMenuItem;
 
 import away3d.cameras.Camera3D;
 import away3d.core.managers.Mouse3DManager;
@@ -88,9 +86,6 @@ class View3D  extends EventDispatcher {
     private var _rttBufferManager:RTTBufferManager;
     private var _rightClickMenuEnabled:Bool;
     private var _sourceURL:String;
-    private var _menu0:ContextMenuItem;
-    private var _menu1:ContextMenuItem;
-    private var _ViewContextMenu:ContextMenu;
     private var _shareContext:Bool;
     private var _scissorRect:Rectangle;
     private var _scissorRectDirty:Bool;
@@ -99,9 +94,7 @@ class View3D  extends EventDispatcher {
     private var _profile:String;
     private var _layeredView:Bool;
 
-    private function viewSource(e:ContextMenuEvent):Void {
-
-    }
+   
 
     public function get_depthPrepass():Bool {
         return _depthPrepass;
@@ -112,9 +105,7 @@ class View3D  extends EventDispatcher {
         return value;
     }
 
-    private function visitWebsite(e:ContextMenuEvent):Void {
-
-    }
+     
  
 
  
@@ -122,6 +113,8 @@ class View3D  extends EventDispatcher {
     public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline") {
         _width = 0;
         _height = 0;
+		_x = 0;
+        _y = 0;
         _localPos = new Point();
         _globalPos = new Point();
         _time = 0;

@@ -239,8 +239,11 @@ class RendererBase {
         if (_stage3DProxy == null || _context == null) return;
         _rttViewProjectionMatrix.copyFrom(entityCollector.camera.viewProjection);
         _rttViewProjectionMatrix.appendScale(_textureRatioX, _textureRatioY, 1);
-        executeRender(entityCollector, target, scissorRect, surfaceSelector);
+      
+		executeRender(entityCollector, target, scissorRect, surfaceSelector);
 // clear buffers
+//todo  stage3d 
+/*
         var i:Int = 0;
         while (i < 8) {
 			
@@ -248,6 +251,7 @@ class RendererBase {
             _context.setTextureAt(i, null);
             ++i;
         }
+*/		
     }
 
 /**
@@ -261,13 +265,19 @@ class RendererBase {
     private function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void {
         _renderTarget = target;
         _renderTargetSurface = surfaceSelector;
+		
+	
         if (_renderableSorter != null) _renderableSorter.sort(entityCollector);
+		
         if (_renderToTexture) executeRenderToTexturePass(entityCollector);
         _stage3DProxy.setRenderTarget(target, true, surfaceSelector);
         if ((target != null || !_shareContext) && _clearOnRender) _context.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
         _context.setDepthTest(false, Context3DCompareMode.ALWAYS);
+		//return;
         _stage3DProxy.scissorRect = scissorRect;
         if (_backgroundImageRenderer != null) _backgroundImageRenderer.render();  
+			
+		//trace(entityCollector.entityHead, target);
         draw(entityCollector, target);
 //line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
         _context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);

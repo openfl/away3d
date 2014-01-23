@@ -3,6 +3,7 @@
  */
 package away3d.animators.data;
 
+import away3d.utils.ArrayUtils;
 import flash.display3D.Context3DVertexBufferFormat;
 import away3d.core.managers.Stage3DProxy;
 import away3d.core.math.MathConsts;
@@ -42,6 +43,7 @@ class AnimationSubGeometry {
         _numVertices = numVertices;
         _totalLenOfOneVertex = totalLenOfOneVertex;
         _vertexData = new Vector<Float>(numVertices * totalLenOfOneVertex, true);
+        ArrayUtils.Prefill(_vertexData,numVertices * totalLenOfOneVertex,0);
     }
 
     public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:Context3DVertexBufferFormat):Void {

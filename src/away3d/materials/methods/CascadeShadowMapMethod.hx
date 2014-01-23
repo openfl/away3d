@@ -12,6 +12,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterData;
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.lights.DirectionalLight;
@@ -135,10 +136,10 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
 /**
 	 * Creates the registers for the cascades' projection coordinates.
 	 */
-
+ 
     private function initProjectionsRegs(regCache:ShaderRegisterCache):Void {
-        _cascadeProjections = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
-        _depthMapCoordVaryings = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
+        _cascadeProjections = ArrayUtils.Prefill(new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades),_cascadeShadowMapper.numCascades);
+        _depthMapCoordVaryings =ArrayUtils.Prefill( new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades),_cascadeShadowMapper.numCascades);
         var i:Int = 0;
         while (i < _cascadeShadowMapper.numCascades) {
             _depthMapCoordVaryings[i] = regCache.getFreeVarying();

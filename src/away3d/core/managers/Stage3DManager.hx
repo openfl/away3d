@@ -72,7 +72,7 @@ class Stage3DManager {
 
         if (_stageProxies[index] == null) {
             _numStageProxies++;
-            _stageProxies[index] = new Stage3DProxy(index, _stage.getStage3D(index), this, forceSoftware, profile);
+            _stageProxies[index] = new Stage3DProxy(index, _stage.getStage3D(index), this, forceSoftware, profile); 
 
         }
 

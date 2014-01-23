@@ -1,6 +1,7 @@
 package away3d.tools.utils;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.base.CompactSubGeometry;
 import away3d.core.base.ISubGeometry;
@@ -35,6 +36,7 @@ class GeomUtil {
             var splitWeights:Vector<Float> = ((weights != null)) ? new Vector<Float>() : null;
             var splitJointIndices:Vector<Float> = ((jointIndices != null)) ? new Vector<Float>() : null;
             var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length / 3), true);
+            ArrayUtils.Prefill(mappings,Std.int(verts.length / 3),0);
             i = mappings.length;
             while (i-- > 0)mappings[i] = -1;
             var originalIndex:Int;

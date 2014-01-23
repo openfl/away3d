@@ -6,9 +6,7 @@ package away3d.primitives;
 
 import flash.Vector;
 import away3d.core.base.CompactSubGeometry;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import away3d.utils.ArrayUtils;
 class PlaneGeometry extends PrimitiveBase {
     public var segmentsW(get_segmentsW, set_segmentsW):Int;
     public var segmentsH(get_segmentsH, set_segmentsH):Int;
@@ -151,16 +149,17 @@ class PlaneGeometry extends PrimitiveBase {
         if (numVertices == target.numVertices) {
             data = target.vertexData;
             indices = target.indexData ;
-            if (indices == null) indices = new Vector<UInt>(numIndices, true);
+            if (indices == null) {
+                indices = new Vector<UInt>(numIndices, true);
+                ArrayUtils.Prefill(indices,numIndices,0);
+            }
         }
 
         else {
-            data = new Vector<Float>(numVertices * stride, true);
+            data =new Vector<Float>(numVertices * stride, true);
+            ArrayUtils.Prefill(data,numVertices * stride,0);
             indices = new Vector<UInt>(numIndices, true);
-			#if (cpp || neko || js) 
-				data.fillVector(0, numVertices * stride,0);
-				indices.fillVector(0, numIndices ,0);
-			#end
+            ArrayUtils.Prefill(indices,numIndices,0);
             invalidateUVs();
         }
 

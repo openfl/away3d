@@ -1,6 +1,7 @@
 package away3d.core.base;
 
 
+import away3d.utils.ArrayUtils;
 import flash.errors.Error;
 import flash.Vector;
 import away3d.core.managers.Stage3DProxy;
@@ -27,6 +28,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
 
     public function new() {
         _vertexDataInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_vertexDataInvalid,8,false);
         _vertexBuffer = new Vector<VertexBuffer3D>(8);
         _bufferContext = new Vector<Context3D>(8);
         _autoDeriveVertexNormals = false;
@@ -68,6 +70,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         if (contextIndex != _contextIndex) updateActiveBuffer(contextIndex);
         if (_activeBuffer == null || _activeContext != context) createBuffer(contextIndex, context);
         if (_activeDataInvalid) uploadData(contextIndex);
+		//todo 
+		//trace(index, _vertexData, 0, Context3DVertexBufferFormat.FLOAT_3);
         context.setVertexBufferAt(index, _activeBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
     }
 

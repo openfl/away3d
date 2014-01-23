@@ -1,6 +1,7 @@
 package away3d.lights.shadowmaps;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.cameras.Camera3D;
 import away3d.cameras.lenses.FreeMatrixLens;
@@ -11,10 +12,7 @@ import away3d.core.render.DepthRenderer;
 import away3d.lights.DirectionalLight;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Vector3D; 
 class DirectionalShadowMapper extends ShadowMapperBase {
     public var snap(get_snap, set_snap):Float;
     public var lightOffset(get_lightOffset, set_lightOffset):Float;
@@ -39,6 +37,7 @@ class DirectionalShadowMapper extends ShadowMapperBase {
         _overallDepthLens = new FreeMatrixLens();
         _overallDepthCamera = new Camera3D(_overallDepthLens);
         _localFrustum = new Vector<Float>(8 * 3);
+        ArrayUtils.Prefill(_localFrustum,8*3,0);
         _matrix = new Matrix3D();
     }
 

@@ -67,11 +67,7 @@ import away3d.controllers.ControllerBase;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import away3d.library.assets.NamedAssetBase;
-import away3d.events.Object3DEvent;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
-
+import away3d.events.Object3DEvent; 
 class Object3D extends NamedAssetBase {
     public var x(get_x, set_x):Float;
     public var y(get_y, set_y):Float;

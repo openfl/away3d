@@ -4,11 +4,9 @@
 package away3d.primitives;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
-import away3d.core.base.CompactSubGeometry;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import away3d.core.base.CompactSubGeometry; 
 class CubeGeometry extends PrimitiveBase {
     public var width(get_width, set_width):Float;
     public var height(get_height, set_height):Float;
@@ -185,16 +183,18 @@ class CubeGeometry extends PrimitiveBase {
         if (numVerts == target.numVertices) {
             data = target.vertexData;
             indices = target.indexData;
-            if (indices == null)indices = new Vector<UInt>(Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12), true);
+            if (indices == null){
+                indices = new Vector<UInt>(Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12), true);
+                ArrayUtils.Prefill(indices,Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12),0);
+            }
         }
 
         else {
             data = new Vector<Float>(numVerts * stride, true);
-            indices = new Vector<UInt>(Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12), true); 
-			#if (cpp || neko || js) 
-				data.fillVector(0, numVerts * stride,0);
-				indices.fillVector(0, Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12),0);
-			#end
+            indices = new Vector<UInt>(Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12), true);
+            ArrayUtils.Prefill(data, numVerts * stride,0);
+            ArrayUtils.Prefill(indices, Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12),0);
+
             invalidateUVs();  
         }
 
@@ -387,6 +387,7 @@ class CubeGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) data = target.UVData
         else {
             data = new Vector<Float>(numUvs, true);
+            ArrayUtils.Prefill(data,numUvs,0);
             invalidateGeometry();
         }
 

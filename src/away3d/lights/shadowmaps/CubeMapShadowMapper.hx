@@ -1,6 +1,7 @@
 package away3d.lights.shadowmaps;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.cameras.Camera3D;
 import away3d.cameras.lenses.PerspectiveLens;
@@ -22,6 +23,7 @@ class CubeMapShadowMapper extends ShadowMapperBase {
         super();
         _depthMapSize = 512;
         _needsRender = new Vector<Bool>(6, true);
+        ArrayUtils.Prefill(_needsRender,6,false);
         initCameras();
     }
 

@@ -3,6 +3,7 @@
  */
 package away3d.cameras.lenses;
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import flash.events.EventDispatcher;
 import flash.geom.Matrix3D;
@@ -43,6 +44,7 @@ class LensBase extends EventDispatcher {
         _aspectRatio = 1;
         _matrixInvalid = true;
         _frustumCorners = new Vector<Float>(8 * 3, true);
+        ArrayUtils.Prefill(_frustumCorners,8 * 3,0);
         _unprojectionInvalid = true;
         _matrix = new Matrix3D();
     }

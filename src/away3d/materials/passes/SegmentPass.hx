@@ -4,6 +4,7 @@
 package away3d.materials.passes;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
@@ -28,6 +29,7 @@ class SegmentPass extends MaterialPassBase {
 
     public function new(thickness:Float) {
         _constants = new Vector<Float>(4, true);
+        ArrayUtils.Prefill(_constants,4,0);
         _calcMatrix = new Matrix3D();
         _thickness = thickness;
         _constants[1] = 1 / 255;

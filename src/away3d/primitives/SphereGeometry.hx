@@ -4,6 +4,7 @@
 package away3d.primitives;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.base.CompactSubGeometry;
 
@@ -49,12 +50,17 @@ class SphereGeometry extends PrimitiveBase {
         if (numVerts == target.numVertices) {
             vertices = target.vertexData;
             indices = target.indexData ;
-            if (indices == null)indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+            if (indices == null){
+                indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+                ArrayUtils.Prefill(indices,(_segmentsH - 1) * _segmentsW * 6,0);
+            }
         }
 
         else {
             vertices = new Vector<Float>(numVerts * stride, true);
+            ArrayUtils.Prefill(vertices,numVerts * stride,0);
             indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+            ArrayUtils.Prefill(indices,(_segmentsH - 1) * _segmentsW * 6,0);
             invalidateGeometry();
         }
 
@@ -168,6 +174,7 @@ class SphereGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) data = target.UVData
         else {
             data = new Vector<Float>(numUvs, true);
+            ArrayUtils.Prefill(data,numUvs,0);
             invalidateGeometry();
         }
 

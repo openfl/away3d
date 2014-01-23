@@ -3,6 +3,10 @@
  */
 package away3d.extrusions;
 
+import away3d.extrusions.data.Line;
+import away3d.extrusions.data.FourPoints;
+import away3d.extrusions.data.RenderSide;
+import away3d.extrusions.data.SubGeometryList;
 import flash.errors.Error;
 import flash.Vector;
 import away3d.bounds.BoundingVolumeBase;
@@ -1323,57 +1327,3 @@ class LatheExtrude extends Mesh {
     }
 
 }
-
-class SubGeometryList {
-
-    public var id:Int;
-    public var uvs:Vector<Float>;
-    public var vertices:Vector<Float>;
-    public var normals:Vector<Float>;
-    public var indices:Vector<UInt>;
-    public var subGeometry:SubGeometry;
-    public var material:MaterialBase;
-
-    public function new() {
-    }
-
-}
-
-class RenderSide {
-
-    public var top:Bool;
-    public var bottom:Bool;
-    public var right:Bool;
-    public var left:Bool;
-    public var front:Bool;
-    public var back:Bool;
-
-    public function new() {
-    }
-
-}
-
-class Line {
-
-    public var ax:Float;
-    public var ay:Float;
-    public var bx:Float;
-    public var by:Float;
-
-    public function new() {
-    }
-
-}
-
-class FourPoints {
-
-    public var pt1:Point;
-    public var pt2:Point;
-    public var pt3:Point;
-    public var pt4:Point;
-
-    public function new() {
-    }
-
-}
-

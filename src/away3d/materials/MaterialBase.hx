@@ -45,7 +45,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     public var requiresBlending(get_requiresBlending, never):Bool;
     public var uniqueId(get_uniqueId, never):Int;
     public var numPasses(get_numPasses, never):Int;
-    public var owners(get_owners, never):Vector<IMaterialOwner>;
+    public var owners(get_owners, never):Array<IMaterialOwner>;
 
 /**
 	 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
@@ -88,7 +88,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 /**
 	 * A list of material owners, renderables or custom Entities.
 	 */
-    private var _owners:Vector<IMaterialOwner>;
+    private var _owners:Array<IMaterialOwner>;
     private var _alphaPremultiplied:Bool;
     private var _blendMode:BlendMode;
     private var _numPasses:Int;
@@ -110,7 +110,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
         _mipmap = true;
         _smooth = true;
         _depthCompareMode = Context3DCompareMode.LESS_EQUAL;
-        _owners = new Vector<IMaterialOwner>();
+        _owners = new Array<IMaterialOwner>();
         _passes = new Vector<MaterialPassBase>();
         _depthPass = new DepthMapPass();
         _distancePass = new DistanceMapPass();
@@ -492,7 +492,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 */
 
     public function removeOwner(owner:IMaterialOwner):Void {
-        _owners.splice(_owners.indexOf(owner), 1);
+      	_owners.splice(Lambda.indexOf(_owners, owner), 1);
         if (_owners.length == 0) {
             _animationSet = null;
             var i:Int = 0;
@@ -512,7 +512,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @private
 	 */
 
-    private function get_owners():Vector<IMaterialOwner> {
+    private function get_owners():Array<IMaterialOwner> {
         return _owners;
     }
 
@@ -545,33 +545,45 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 
     public function invalidatePasses(triggerPass:MaterialPassBase):Void {
         var owner:IMaterialOwner;
-        _depthPass.invalidateShaderProgram();
-        _distancePass.invalidateShaderProgram();
-// test if the depth and distance passes support animating the animation set in the vertex shader
-// if any object using this material fails to support accelerated animations for any of the passes,
-// we should do everything on cpu (otherwise we have the cost of both gpu + cpu animations)
-        if (_animationSet != null) {
-            _animationSet.resetGPUCompatibility();
-            for (owner in _owners) {
-                if (owner.animator != null) {
-                    owner.animator.testGPUCompatibility(_depthPass);
-                    owner.animator.testGPUCompatibility(_distancePass);
-                }
-            }
+			
+		_depthPass.invalidateShaderProgram();
+		_distancePass.invalidateShaderProgram();
 
-        }
-        var i:Int = 0;
-        while (i < _numPasses) {
-// only invalidate the pass if it wasn't the triggering pass
-            if (_passes[i] != triggerPass) _passes[i].invalidateShaderProgram(false);
-            if (_animationSet != null) {
-                for (owner in _owners) {
-                    if (owner.animator != null) owner.animator.testGPUCompatibility(_passes[i]);
-                }
+		// test if the depth and distance passes support animating the animation set in the vertex shader
+		// if any object using this material fails to support accelerated animations for any of the passes,
+		// we should do everything on cpu (otherwise we have the cost of both gpu + cpu animations)
+		if (_animationSet!=null) {
+			_animationSet.resetGPUCompatibility();
+			Lambda.foreach(_owners, function(owner:IMaterialOwner):Bool {
+				if (owner.animator!=null) {
+					owner.animator.testGPUCompatibility(_depthPass);
+					owner.animator.testGPUCompatibility(_distancePass);
+				}
+				return true;
+			});
+		}
+		
+		// For loop conversion - 						for (var i:Int = 0; i < _numPasses; ++i)
+		
+		var i:Int;
+		
+		for (i in 0..._numPasses) {
+			// only invalidate the pass if it wasn't the triggering pass
+			if (_passes[i] != triggerPass)
+				_passes[i].invalidateShaderProgram(false);
 
-            }
-            ++i;
-        }
+			// test if animation will be able to run on gpu BEFORE compiling materials
+			// test if the pass supports animating the animation set in the vertex shader
+			// if any object using this material fails to support accelerated animations for any of the passes,
+			// we should do everything on cpu (otherwise we have the cost of both gpu + cpu animations)
+			if (_animationSet!=null) {
+				Lambda.foreach(_owners, function(owner:IMaterialOwner):Bool {
+					if (owner.animator!=null)
+						owner.animator.testGPUCompatibility(_passes[i]);
+					return true;
+				});
+			}
+		}
     }
 
 /**
@@ -580,7 +592,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 */
 
     private function removePass(pass:MaterialPassBase):Void {
-        _passes.splice(_passes.indexOf(pass), 1);
+        _passes.splice(_passes.indexOf( pass), 1);
         --_numPasses;
     }
 

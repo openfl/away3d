@@ -3,6 +3,7 @@
  */
 package away3d.primitives;
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.base.CompactSubGeometry;
 
@@ -58,12 +59,17 @@ class CapsuleGeometry extends PrimitiveBase {
         if (numVerts == target.numVertices) {
             data = target.vertexData;
             indices = target.indexData ;
-            if (indices == null) indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+            if (indices == null) {
+                indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+                ArrayUtils.Prefill(indices,(_segmentsH - 1) * _segmentsW * 6,0);
+            }
         }
 
         else {
             data = new Vector<Float>(numVerts * stride, true);
+            ArrayUtils.Prefill(data,numVerts * stride,0);
             indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+            ArrayUtils.Prefill(indices,(_segmentsH - 1) * _segmentsW * 6,0);
             invalidateUVs();
         }
 
@@ -176,6 +182,7 @@ class CapsuleGeometry extends PrimitiveBase {
         if (target.UVData != null && UVlen == target.UVData.length) data = target.UVData
         else {
             data = new Vector<Float>(UVlen, true);
+            ArrayUtils.Prefill(data,UVlen,0);
             invalidateGeometry();
         }
 

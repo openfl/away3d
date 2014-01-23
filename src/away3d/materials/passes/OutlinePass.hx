@@ -6,6 +6,7 @@
 package away3d.materials.passes;
 
 
+import away3d.utils.ArrayUtils;
 import haxe.ds.StringMap;
 import flash.Vector;
 import away3d.cameras.Camera3D;
@@ -47,8 +48,10 @@ class OutlinePass extends MaterialPassBase {
         super();
         mipmap = false;
         _colorData = new Vector<Float>(4, true);
+        ArrayUtils.Prefill(_colorData,4,0);
         _colorData[3] = 1;
         _offsetData = new Vector<Float>(4, true);
+        ArrayUtils.Prefill(_colorData,4,0);
         this.outlineColor = outlineColor;
         this.outlineSize = outlineSize;
         _defaultCulling = Context3DTriangleFace.FRONT;

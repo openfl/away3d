@@ -18,8 +18,7 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import away3d.core.base.SubGeometry;
 import away3d.materials.MaterialBase;
-
-@:meta(Deprecated())
+import away3d.extrusions.data.SubGeometryList;
 class PathExtrude extends Mesh {
     public var upAxis(get_upAxis, set_upAxis):Vector3D;
     public var centerMesh(get_centerMesh, set_centerMesh):Bool;
@@ -1193,13 +1192,4 @@ class PathExtrude extends Mesh {
 
 }
 
-class SubGeometryList {
-
-    public var uvs:Vector<Float>;
-    public var vertices:Vector<Float>;
-    public var normals:Vector<Float>;
-    public var indices:Vector<UInt>;
-    public var subGeometry:SubGeometry;
-    public var material:MaterialBase;
-}
 

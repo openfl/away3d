@@ -3,6 +3,7 @@
  */
 package away3d.animators.data;
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.animators.nodes.AnimationNodeBase;
 import away3d.materials.compilation.ShaderRegisterCache;
@@ -108,7 +109,7 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public function setRegisterIndex(node:AnimationNodeBase, parameterIndex:Int, registerIndex:Int):Void {
 //8 should be enough for any node.
         if (!indexDictionary.exists(node))
-            indexDictionary.set(node, new Vector<Int>(8, true));
+            indexDictionary.set(node,  ArrayUtils.Prefill(new Vector<Int>(8, true),8,0));
 
         var t:Vector<Int> = indexDictionary.get(node);
         t[parameterIndex] = registerIndex;

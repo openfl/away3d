@@ -12,10 +12,7 @@ import away3d.primitives.WireframePrimitiveBase;
 import away3d.primitives.WireframeSphere;
 import flash.geom.Vector3D;
 import flash.Vector;
-import away3d.core.math.Plane3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import away3d.core.math.Plane3D; 
 class BoundingSphere extends BoundingVolumeBase {
     public var radius(get_radius, never):Float;
 

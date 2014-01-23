@@ -19,10 +19,7 @@ import away3d.core.partition.EntityNode;
 import away3d.entities.Entity;
 import away3d.events.CameraEvent;
 import away3d.events.LensEvent;
-import away3d.library.assets.AssetType;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import away3d.library.assets.AssetType; 
 class Camera3D extends Entity {
     public var frustumPlanes(get_frustumPlanes, never):Vector<Plane3D>;
     public var lens(get_lens, set_lens):LensBase;
@@ -78,7 +75,7 @@ class Camera3D extends Entity {
 	 */
 
     public function get_frustumPlanes():Vector<Plane3D> {
-        if (_frustumPlanesDirty) updateFrustum(); 
+        if (_frustumPlanesDirty) updateFrustum();  
         return _frustumPlanes;
     }
 
@@ -106,7 +103,7 @@ class Camera3D extends Entity {
         var p:Plane3D;
         var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         var invLen:Float; 
-        viewProjection.copyRawDataTo(raw);
+        viewProjection.copyRawDataTo(raw); 
         c11 = raw[(0)];
         c12 = raw[(4)];
         c13 = raw[(8)];
@@ -183,6 +180,8 @@ class Camera3D extends Entity {
         p.b = b * invLen;
         p.c = c * invLen;
         p.d = (c34 - c44) * invLen;
+		
+		
         _frustumPlanesDirty = false;
     }
 

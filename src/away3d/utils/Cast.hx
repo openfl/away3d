@@ -30,13 +30,13 @@ class Cast {
         if (Std.is(data, ByteArray)) return data;
         return cast((data), ByteArray);
     }
-
+/*
     static public function xml(data:Dynamic):XML {
         if (Std.is(data, Class)) data = Type.createInstance(data, []);
         if (Std.is(data, XML)) return data;
         return cast((data), XML);
     }
-
+*/
     static private function isHex(string:String):Bool {
         var length:Int = string.length;
         var i:Int = 0;

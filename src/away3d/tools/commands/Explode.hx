@@ -4,6 +4,7 @@
 package away3d.tools.commands;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.containers.ObjectContainer3D;
 import away3d.core.base.Geometry;
@@ -88,6 +89,10 @@ class Explode {
         vertices = new Vector<Float>(inIndices.length * 3, true);
         normals = new Vector<Float>(inIndices.length * 3, true);
         uvs = new Vector<Float>(inIndices.length * 2, true);
+        ArrayUtils.Prefill(outIndices,inIndices.length,0);
+        ArrayUtils.Prefill(vertices,inIndices.length,0);
+        ArrayUtils.Prefill(normals,inIndices.length,0);
+        ArrayUtils.Prefill(uvs,inIndices.length,0);
         vIdx = 0;
         uIdx = 0;
         len = inIndices.length;

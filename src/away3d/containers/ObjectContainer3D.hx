@@ -62,10 +62,7 @@ import away3d.library.assets.AssetType;
 import away3d.library.assets.IAsset;
 import flash.events.Event;
 import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Vector3D; 
 class ObjectContainer3D extends Object3D implements IAsset {
     public var ignoreTransform(get_ignoreTransform, set_ignoreTransform):Bool;
     public var implicitPartition(get_implicitPartition, set_implicitPartition):Partition3D;

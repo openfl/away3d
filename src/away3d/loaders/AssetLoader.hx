@@ -528,7 +528,9 @@ trace("AssetLoader.retrieveDependency:in-data");
 			}
 			
 			if (handled) {
-				if (isDependency && !event.isDefaultPrevented()) {
+				//why 
+				//todo
+				if (isDependency ){//&& !event.isDefaultPrevented()) {
 					_loadingDependency.resolveFailure();
 					retrieveNext();
 				} else {

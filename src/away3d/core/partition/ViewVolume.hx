@@ -147,6 +147,7 @@ class ViewVolume extends NodeBase {
         }
 
         _cells = new Vector<ViewCell>(_numCellsX * _numCellsY * _numCellsZ);
+        ArrayUtils.Prefill(_cells,_numCellsX * _numCellsY * _numCellsZ,null);
         if (_cellSize == -1) _cells[0] = new ViewCell();
     }
 

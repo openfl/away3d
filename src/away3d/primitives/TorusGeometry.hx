@@ -4,6 +4,7 @@
 package away3d.primitives;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.base.CompactSubGeometry;
 
@@ -83,13 +84,18 @@ class TorusGeometry extends PrimitiveBase {
             _rawVertexData = target.vertexData;
 
             _rawIndices = target.indexData ;
-            if (_rawIndices == null)_rawIndices = new Vector<UInt>(numTriangles * 3, true);
+            if (_rawIndices == null){
+                _rawIndices = new Vector<UInt>(numTriangles * 3, true);
+                ArrayUtils.Prefill(_rawIndices,numTriangles * 3,0);
+            }
         }
 
         else {
             var numVertComponents:Int = _numVertices * _vertexStride;
             _rawVertexData = new Vector<Float>(numVertComponents, true);
             _rawIndices = new Vector<UInt>(numTriangles * 3, true);
+            ArrayUtils.Prefill(_rawVertexData,numVertComponents,0);
+            ArrayUtils.Prefill(_rawIndices,numTriangles * 3,0);
             invalidateUVs();
         }
 
@@ -189,6 +195,7 @@ class TorusGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) data = target.UVData
         else {
             data = new Vector<Float>(numUvs, true);
+            ArrayUtils.Prefill(data,numUvs,0);
             invalidateGeometry();
         }
 

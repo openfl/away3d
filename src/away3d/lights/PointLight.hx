@@ -14,10 +14,7 @@ import away3d.core.partition.PointLightNode;
 import away3d.lights.shadowmaps.CubeMapShadowMapper;
 import away3d.lights.shadowmaps.ShadowMapperBase;
 import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Vector3D; 
 class PointLight extends LightBase {
     public var radius(get_radius, set_radius):Float;
     public var fallOff(get_fallOff, set_fallOff):Float;

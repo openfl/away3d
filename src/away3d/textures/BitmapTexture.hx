@@ -37,7 +37,7 @@ class BitmapTexture extends Texture2DBase {
         return value;
     }
 
-    override private function uploadContent(texture:TextureBase):Void {
+    override private function uploadContent(texture:TextureBase):Void { 
         if (_generateMipmaps) MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true)
         else cast((texture), Texture).uploadFromBitmapData(_bitmapData, 0);
     }

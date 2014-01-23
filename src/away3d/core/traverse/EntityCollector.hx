@@ -78,6 +78,14 @@ class EntityCollector extends PartitionTraverser {
         _lightProbes = new Vector<LightProbe>();
         _renderableListItemPool = new RenderableListItemPool();
         _entityListItemPool = new EntityListItemPool();
+        _numEntities=0;
+        _numLights=0;
+        _numTriangles=0;
+        _numMouseEnableds=0;
+        _numDirectionalLights=0;
+        _numPointLights=0;
+        _numLightProbes=0;
+        _numCullPlanes=0;
     }
 
 /**
@@ -93,6 +101,7 @@ class EntityCollector extends PartitionTraverser {
         _entryPoint = _camera.scenePosition;
         _cameraForward = _camera.forwardVector;
         _cullPlanes = _camera.frustumPlanes;
+		//todo
         return value;
     }
 

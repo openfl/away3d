@@ -5,10 +5,7 @@ package away3d.cameras.lenses;
 
 import flash.Vector;
 import away3d.core.math.Matrix3DUtils;
-import flash.geom.Vector3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Vector3D; 
 class PerspectiveLens extends LensBase {
     public var fieldOfView(get_fieldOfView, set_fieldOfView):Float;
     public var focalLength(get_focalLength, set_focalLength):Float;
@@ -150,6 +147,7 @@ class PerspectiveLens extends LensBase {
         _frustumCorners[19] = _frustumCorners[22] = yMaxFar;
         _frustumCorners[2] = _frustumCorners[5] = _frustumCorners[8] = _frustumCorners[11] = _near;
         _frustumCorners[14] = _frustumCorners[17] = _frustumCorners[20] = _frustumCorners[23] = _far;
+		 
         _matrixInvalid = false;
     }
 

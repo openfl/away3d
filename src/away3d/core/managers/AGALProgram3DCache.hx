@@ -19,7 +19,7 @@ class AGALProgram3DCache {
     private var _ids:StringMap<Int>;
     private var _usages:Array<Int>;
     private var _keys:Array<String>;
-    static private var _currentId:Int;
+    static private var _currentId:Int=0;
 
     public function new(stage3DProxy:Stage3DProxy) {
         _stage3DProxy = stage3DProxy;
@@ -41,8 +41,7 @@ class AGALProgram3DCache {
             stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_DISPOSED, onContext3DDisposed, false, 0, true);
             stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContext3DDisposed, false, 0, true);
             stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DDisposed, false, 0, true);
-        }
-
+        } 
         return _instances[index];
     }
 
@@ -72,14 +71,14 @@ class AGALProgram3DCache {
         _usages = null;
     }
 
-    public function setProgram3D(pass:MaterialPassBase, vertexCode:String, fragmentCode:String):Void {
+    public function setProgram3D(pass:MaterialPassBase, vertexCode:String, fragmentCode:String):Void { 
         var stageIndex:Int = _stage3DProxy.stage3DIndex;
         var program:Program3D;
         var key:String = getKey(vertexCode, fragmentCode);
-
-        if (!_program3Ds.exists(key)) {
+ 
+        if (!_program3Ds.exists(key)) { 
             _keys[_currentId] = key;
-            _usages[_currentId] = 0;
+            _usages[_currentId] = 0; 
             _ids.set(key, _currentId);
             ++_currentId;
             program = _stage3DProxy.context3D.createProgram();
@@ -91,7 +90,7 @@ class AGALProgram3DCache {
 
             _program3Ds.set(key, program);
         }
-
+	
         var oldId:Int = pass._program3Dids[stageIndex];
         var newId:Int = _ids.get(key);
 

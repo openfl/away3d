@@ -3,6 +3,11 @@
 // Zachary Forest Johnson
 package away3d.extrusions;
 
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import away3d.core.math.MathConsts;
 import flash.errors.Error;
 import flash.Vector;
 import away3d.bounds.BoundingVolumeBase;
@@ -22,9 +27,9 @@ class DelaunayMesh extends Mesh {
     public var flip(get_flip, set_flip):Bool;
     public var centerMesh(get_centerMesh, set_centerMesh):Bool;
 
-    static public var PLANE_XZ:String = "xz";
-    static public var PLANE_XY:String = "xy";
-    static public var PLANE_ZY:String = "zy";
+    inline static public var PLANE_XZ:String = "xz";
+    inline static public var PLANE_XY:String = "xy";
+    inline static public var PLANE_ZY:String = "zy";
     private var LIMIT:Int;
     private var EPS:Float;
     private var MAXRAD:Float;
@@ -85,7 +90,7 @@ class DelaunayMesh extends Mesh {
     }
 
     public function set_vectors(val:Vector<Vector3D>):Vector<Vector3D> {
-        if (_vectors.length < 3) return;
+        if (_vectors.length < 3) return val;
         _vectors = val;
         invalidateGeometry();
         return val;
@@ -100,7 +105,7 @@ class DelaunayMesh extends Mesh {
     }
 
     public function set_smoothSurface(val:Bool):Bool {
-        if (_smoothSurface == val) return;
+        if (_smoothSurface == val) return val;
         _smoothSurface = val;
         invalidateGeometry();
         return val;
@@ -115,8 +120,8 @@ class DelaunayMesh extends Mesh {
     }
 
     public function set_plane(val:String):String {
-        if (_plane == val) return;
-        if (val != PLANE_XZ && val != PLANE_XY && val != PLANE_ZY) return;
+        if (_plane == val) return val;
+        if (val != PLANE_XZ && val != PLANE_XY && val != PLANE_ZY) return val;
         _plane = val;
         invalidateGeometry();
         return val;
@@ -131,7 +136,7 @@ class DelaunayMesh extends Mesh {
     }
 
     public function set_flip(val:Bool):Bool {
-        if (_flip == val) return;
+        if (_flip == val) return val;
         _flip = val;
         invalidateGeometry();
         return val;
@@ -146,7 +151,7 @@ class DelaunayMesh extends Mesh {
     }
 
     public function set_centerMesh(val:Bool):Bool {
-        if (_centerMesh == val) return;
+        if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && _subGeometry.vertexData.length > 0) MeshHelper.applyPosition(this, (this.minX + this.maxX) * .5, (this.minY + this.maxY) * .5, (this.minZ + this.maxZ) * .5)
         else invalidateGeometry();
@@ -155,7 +160,7 @@ class DelaunayMesh extends Mesh {
 
     private function buildExtrude():Void {
         _geomDirty = false;
-        if (_vectors && _vectors.length > 2) {
+        if (_vectors!=null && _vectors.length > 2) {
             initHolders();
             generate();
         }
@@ -165,10 +170,10 @@ class DelaunayMesh extends Mesh {
     }
 
     private function initHolders():Void {
-        _axis0Min = Infinity;
-        _axis0Max = -Infinity;
-        _axis1Min = Infinity;
-        _axis1Max = -Infinity;
+        _axis0Min = MathConsts.Infinity;
+        _axis0Max = -MathConsts.Infinity;
+        _axis1Min = MathConsts.Infinity;
+        _axis1Max = -MathConsts.Infinity;
         _uvs = new Vector<Float>();
         _vertices = new Vector<Float>();
         _indices = new Vector<UInt>();
@@ -331,7 +336,9 @@ class DelaunayMesh extends Mesh {
         var limit:Int = _vectors.length;
         if (limit > 3) {
             var nVectors:Vector<Vector3D> = new Vector<Vector3D>();
-            nVectors = _vectors.sort(sortFunction);
+
+            nVectors =_vectors.concat();
+            nVectors.sort(sortFunction);
             var i:Int;
             var j:Int;
             var k:Int;
@@ -377,16 +384,16 @@ class DelaunayMesh extends Mesh {
                 edges[i] = new Edge();
                 ++i;
             }
-            sortMin = nVectors[0][_sortProp];
-            loopMin = nVectors[0][_loopProp];
+            sortMin = Reflect.field(nVectors[0],_sortProp);
+            loopMin = Reflect.field( nVectors[0],_loopProp);
             sortMax = sortMin;
             loopMax = loopMin;
             i = 1;
             while (i < nv) {
-                if (nVectors[i][_sortProp] < sortMin) sortMin = nVectors[i][_sortProp];
-                if (nVectors[i][_sortProp] > sortMax) sortMax = nVectors[i][_sortProp];
-                if (nVectors[i][_loopProp] < loopMin) loopMin = nVectors[i][_loopProp];
-                if (nVectors[i][_loopProp] > loopMax) loopMax = nVectors[i][_loopProp];
+                if (Reflect.field(nVectors[i],_sortProp) < sortMin) sortMin = Reflect.field(nVectors[i],_sortProp);
+                if (Reflect.field(nVectors[i],_sortProp) > sortMax) sortMax = Reflect.field(nVectors[i],_sortProp);
+                if (Reflect.field(nVectors[i],_loopProp)< loopMin) loopMin = Reflect.field(nVectors[i],_loopProp);
+                if (Reflect.field(nVectors[i],_loopProp) > loopMax) loopMax = Reflect.field(nVectors[i],_loopProp);
                 ++i;
             }
             var da:Float = sortMax - sortMin;
@@ -398,20 +405,20 @@ class DelaunayMesh extends Mesh {
             nVectors[nv + 1] = new Vector3D(0.0, 0.0, 0.0);
             nVectors[nv + 2] = new Vector3D(0.0, 0.0, 0.0);
             var offset:Float = 2.0;
-            nVectors[nv + 0][_sortProp] = sortMid - offset * dmax;
-            nVectors[nv + 0][_loopProp] = loopMid - dmax;
-            nVectors[nv + 1][_sortProp] = sortMid;
-            nVectors[nv + 1][_loopProp] = loopMid + offset * dmax;
-            nVectors[nv + 2][_sortProp] = sortMid + offset * dmax;
-            nVectors[nv + 2][_loopProp] = loopMid - dmax;
+            Reflect.setField(nVectors[nv + 0],_sortProp,sortMid - offset * dmax);
+            Reflect.setField(nVectors[nv + 0],_loopProp, loopMid - dmax);
+            Reflect.setField(nVectors[nv + 1],_sortProp, sortMid);
+            Reflect.setField(nVectors[nv + 1],_loopProp, loopMid + offset * dmax);
+            Reflect.setField(nVectors[nv + 2],_sortProp,sortMid + offset * dmax);
+            Reflect.setField(nVectors[nv + 2],_loopProp,loopMid - dmax);
             v[0].v0 = nv;
             v[0].v1 = nv + 1;
             v[0].v2 = nv + 2;
             bList[0] = false;
             i = 0;
             while (i < nv) {
-                valA = vectors[i][_sortProp];
-                valB = vectors[i][_loopProp];
+                valA = Reflect.field(vectors[i],_sortProp);
+                valB = Reflect.field(vectors[i],_loopProp);
                 nEdge = 0;
                 j = 0;
                 while (j < ntri) {
@@ -419,13 +426,12 @@ class DelaunayMesh extends Mesh {
                         ++j;
                         continue;
                     }
-                    ;
-                    x1 = nVectors[v[j].v0][_sortProp];
-                    y1 = nVectors[v[j].v0][_loopProp];
-                    x2 = nVectors[v[j].v1][_sortProp];
-                    y2 = nVectors[v[j].v1][_loopProp];
-                    x3 = nVectors[v[j].v2][_sortProp];
-                    y3 = nVectors[v[j].v2][_loopProp];
+                    x1 = Reflect.field(nVectors[v[j].v0],_sortProp);
+                    y1 = Reflect.field(nVectors[v[j].v0],_loopProp);
+                    x2 = Reflect.field(nVectors[v[j].v1],_sortProp);
+                    y2 = Reflect.field(nVectors[v[j].v1],_loopProp);
+                    x3 = Reflect.field(nVectors[v[j].v2],_sortProp);
+                    y3 = Reflect.field(nVectors[v[j].v2],_loopProp);
                     inside = circumCircle(valA, valB, x1, y1, x2, y2, x3, y3);
                     if (_circle.x + _circle.z < valA) bList[j] = true;
                     if (inside) {
@@ -486,7 +492,6 @@ class DelaunayMesh extends Mesh {
                     ++i;
                     continue;
                 }
-                ;
                 if ((v[i].v0 >= limit || v[i].v1 >= limit || v[i].v2 >= limit)) {
                     v[i] = v[ntri - 1];
                     ntri--;
@@ -543,8 +548,8 @@ class DelaunayMesh extends Mesh {
     }
 
     private function sortFunction(v0:Vector3D, v1:Vector3D):Int {
-        var a:Float = v0[_sortProp];
-        var b:Float = v1[_sortProp];
+        var a:Float = Reflect.field(v0,_sortProp);
+        var b:Float = Reflect.field(v1,_sortProp);
         if (a == b) return 0
         else if (a < b) return 1
         else return -1;
@@ -701,11 +706,17 @@ class Tri {
     public var v0:Int;
     public var v1:Int;
     public var v2:Int;
+    public function new(){
+
+    }
 }
 
 class Edge {
 
     public var v0:Int;
     public var v1:Int;
+    public function new(){
+
+    }
 }
 

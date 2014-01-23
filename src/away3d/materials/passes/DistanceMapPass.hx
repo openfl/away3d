@@ -5,6 +5,7 @@
 package away3d.materials.passes;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
@@ -33,6 +34,7 @@ class DistanceMapPass extends MaterialPassBase {
         super();
         _fragmentData = Vector.ofArray(cast [1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
         _vertexData = new Vector<Float>(4, true);
+        ArrayUtils.Prefill(_vertexData,4,0);
         _vertexData[3] = 1;
         _numUsedVertexConstants = 9;
     }

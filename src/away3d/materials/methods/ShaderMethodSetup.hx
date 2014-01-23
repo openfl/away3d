@@ -282,7 +282,8 @@ class ShaderMethodSetup extends EventDispatcher {
     public function removeMethod(method:EffectMethodBase):Void {
         var methodSet:MethodVOSet = getMethodSetForMethod(method);
         if (methodSet != null) {
-            _methods.remove(methodSet);
+          	var index:Int = Lambda.indexOf(_methods, methodSet);
+				_methods.splice(index, 1);
             method.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
             invalidateShaderProgram();
         }

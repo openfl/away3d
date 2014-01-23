@@ -10,6 +10,7 @@
 package away3d.core.base;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.managers.Stage3DProxy;
 import flash.display3D.Context3D;
@@ -52,10 +53,15 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 
     public function new() {
         _verticesInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_verticesInvalid,8,false);
         _uvsInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_uvsInvalid,8,false);
         _secondaryUvsInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_secondaryUvsInvalid,8,false);
         _normalsInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_normalsInvalid,8,false);
         _tangentsInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_tangentsInvalid,8,false);
         _vertexBuffer = new Vector<VertexBuffer3D>(8);
         _uvBuffer = new Vector<VertexBuffer3D>(8);
         _secondaryUvBuffer = new Vector<VertexBuffer3D>(8);

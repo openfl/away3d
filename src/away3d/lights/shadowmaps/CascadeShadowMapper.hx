@@ -1,6 +1,7 @@
 package away3d.lights.shadowmaps;
 
 
+import away3d.utils.ArrayUtils;
 import away3d.core.math.MathConsts;
 import flash.errors.Error;
 import flash.Vector;
@@ -58,7 +59,9 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 
     private function init():Void {
         _splitRatios = new Vector<Float>(_numCascades, true);
+        ArrayUtils.Prefill(_splitRatios,_numCascades,0);
         _nearPlaneDistances = new Vector<Float>(_numCascades, true);
+        ArrayUtils.Prefill(_nearPlaneDistances,_numCascades,0);
         var s:Float = 1;
         var i:Int = _numCascades - 1;
         while (i >= 0) {
@@ -69,6 +72,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
         _texOffsetsX = Vector.ofArray([-1., 1, -1, 1]);
         _texOffsetsY = Vector.ofArray([1., 1, -1, -1]);
         _scissorRects = new Vector<Rectangle>(4, true);
+        ArrayUtils.Prefill(_scissorRects,4,0);
         _depthLenses = new Vector<FreeMatrixLens>();
         _depthCameras = new Vector<Camera3D>();
         i = 0;

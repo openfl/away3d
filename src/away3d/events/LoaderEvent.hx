@@ -8,7 +8,7 @@ import flash.events.Event;
 class LoaderEvent extends Event {
     public var url(get_url, never):String;
     public var message(get_message, never):String;
-    public var isDependency(get_isDependency, never):Bool;
+   // public var isDependency(get_isDependency, never):Bool;
 
 /**
 	 * Dispatched when loading of a asset failed.
@@ -70,19 +70,19 @@ class LoaderEvent extends Event {
 /**
 	 * @inheritDoc
 	 */
-
+/*
     override public function preventDefault():Void {
         _isDefaultPrevented = true;
     }
-
+*/
 /**
 	 * @inheritDoc
 	 */
-
+/*
     override public function isDefaultPrevented():Bool {
         return _isDefaultPrevented;
     }
-
+*/
 /**
 	 * Clones the current event.
 	 * @return An exact duplicate of the current event.

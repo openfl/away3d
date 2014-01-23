@@ -1,24 +1,20 @@
+
 package aglsl;
 
-class OpLUT
-{
-	
-	public var s:String;
-	public var flags:UInt;
-	public var dest:Bool;
-	public var a:Bool;
-	public var b:Bool;
-	public var matrixwidth:UInt;
-	public var matrixheight:UInt;
-	public var ndwm:Bool;
-	public var scalar:Bool;
-	public var dm:Bool;
-	public var lod:Bool;
-	
-	public function new ( ?s:String, ?flags:UInt, ?dest:Bool, ?a:Bool, ?b:Bool,
-				 ?matrixwidth:UInt, ?matrixheight:UInt, ?ndwm:Bool,
-				 ?scaler:Bool, ?dm:Bool, ?lod:Bool )
-	{
+class OpLUT {
+
+	public var s : String;
+	public var flags : Int;
+	public var dest : Bool;
+	public var a : Bool;
+	public var b : Bool;
+	public var matrixwidth : Int;
+	public var matrixheight : Int;
+	public var ndwm : Bool;
+	public var scalar : Bool;
+	public var dm : Bool;
+	public var lod : Bool;
+	public function new(?s : Null<String>, ?flags : Int=0, ?dest : Bool=false, ?a : Bool=false, ?b : Bool=false, ?matrixwidth : Int=0, ?matrixheight : Int=0, ?ndwm : Bool = false, ?scaler : Bool = false, ?dm : Bool = false, ?lod : Bool = false) {
 		this.s = s;
 		this.flags = flags;
 		this.dest = dest;
@@ -31,4 +27,6 @@ class OpLUT
 		this.dm = dm;
 		this.lod = lod;
 	}
+
 }
+

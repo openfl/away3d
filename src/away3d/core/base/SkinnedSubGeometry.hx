@@ -6,6 +6,7 @@
 package away3d.core.base;
 
 
+import away3d.utils.ArrayUtils;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.Vector;
 import away3d.core.managers.Stage3DProxy;
@@ -45,7 +46,9 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         _jointWeightsBuffer = new Vector<VertexBuffer3D>(8);
         _jointIndexBuffer = new Vector<VertexBuffer3D>(8);
         _jointWeightsInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_jointWeightsInvalid,8,false);
         _jointIndicesInvalid = new Vector<Bool>(8, true);
+        ArrayUtils.Prefill(_jointIndicesInvalid,8,false);
         _jointWeightContext = new Vector<Context3D>(8);
         _jointIndexContext = new Vector<Context3D>(8);
         super();
@@ -187,6 +190,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         var newIndex:Int = 0;
         var dic:IntMap<Int> = new IntMap<Int>();
         _condensedJointIndexData = new Vector<Float>(len, true);
+        ArrayUtils.Prefill(_condensedJointIndexData,len,0);
         _condensedIndexLookUp = new Vector<UInt>();
         var i:Int = 0;
         while (i < len) {

@@ -4,6 +4,7 @@
 package away3d.animators.nodes;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.animators.data.ParticleProperties;
 import away3d.animators.ParticleAnimationSet;
@@ -109,6 +110,7 @@ class ParticleNodeBase extends AnimationNodeBase {
         _priority = priority;
         _dataLength = dataLength;
         _oneData = new Vector<Float>(_dataLength, true);
+        ArrayUtils.Prefill(_oneData,_dataLength,0);
         super();
     }
 

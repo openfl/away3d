@@ -21,10 +21,7 @@ import flash.display3D.Context3DCompareMode;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
-import flash.geom.Vector3D;
-#if (cpp || neko || js)
-using away3d.Stage3DUtils;
-#end
+import flash.geom.Vector3D; 
 class DefaultRenderer extends RendererBase {
 
     static private var RTT_PASSES:Int = 1;
@@ -93,6 +90,7 @@ class DefaultRenderer extends RendererBase {
 	 */
 
     override private function draw(entityCollector:EntityCollector, target:TextureBase):Void {
+		//	return;
         _context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
         if (entityCollector.skyBox != null) {
             if (_activeMaterial != null) _activeMaterial.deactivate(_stage3DProxy);
@@ -100,6 +98,7 @@ class DefaultRenderer extends RendererBase {
             _context.setDepthTest(false, Context3DCompareMode.ALWAYS);
             drawSkyBox(entityCollector);
         }
+	
         _context.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
         var which:Int = (target != null) ? SCREEN_PASSES : ALL_PASSES;
         drawRenderables(entityCollector.opaqueRenderableHead, entityCollector, which);

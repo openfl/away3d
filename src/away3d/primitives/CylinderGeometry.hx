@@ -4,6 +4,7 @@
 package away3d.primitives;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.base.CompactSubGeometry;
 
@@ -106,13 +107,18 @@ class CylinderGeometry extends PrimitiveBase {
         if (_numVertices == target.numVertices) {
             _rawData = target.vertexData;
             _rawIndices = target.indexData;
-            if (_rawIndices == null)_rawIndices = new Vector<UInt>(numTriangles * 3, true);
+            if (_rawIndices == null){
+                _rawIndices = new Vector<UInt>(numTriangles * 3, true);
+                ArrayUtils.Prefill(_rawIndices,numTriangles * 3,0);
+            }
         }
 
         else {
             var numVertComponents:Int = _numVertices * _stride;
             _rawData = new Vector<Float>(numVertComponents, true);
             _rawIndices = new Vector<UInt>(numTriangles * 3, true);
+            ArrayUtils.Prefill(_rawData,numVertComponents,0);
+            ArrayUtils.Prefill(_rawIndices,numTriangles * 3,0);
         }
 
 // evaluate revolution steps
@@ -295,6 +301,7 @@ class CylinderGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) UVData = target.UVData
         else {
             UVData = new Vector<Float>(numUvs, true);
+            ArrayUtils.Prefill(UVData,numUvs,0);
             invalidateGeometry();
         }
 

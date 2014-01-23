@@ -73,7 +73,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
             _textures[contextIndex] = tex = createTexture(context);
             _dirty[contextIndex] = context;
             uploadContent(tex);
-        }
+				
+        } 
         return tex;
     }
 

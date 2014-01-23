@@ -5,6 +5,7 @@
 package away3d.materials.compilation;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 class SuperShaderCompiler extends ShaderCompiler {
 
@@ -24,9 +25,9 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 */
 
     override private function initLightData():Void {
-        super.initLightData();
-        _pointLightRegisters = new Vector<ShaderRegisterElement>(_numPointLights * 3, true);
-        _dirLightRegisters = new Vector<ShaderRegisterElement>(_numDirectionalLights * 3, true);
+        super.initLightData();   
+        _pointLightRegisters = ArrayUtils.Prefill(new Vector<ShaderRegisterElement>(_numPointLights * 3, true),_numPointLights * 3);
+        _dirLightRegisters = ArrayUtils.Prefill(new Vector<ShaderRegisterElement>(_numDirectionalLights * 3, true),_numDirectionalLights * 3);
     }
 
 /**
@@ -43,7 +44,7 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 */
 
     override private function compileNormalCode():Void {
-        var normalMatrix:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>(3, true);
+        var normalMatrix:Vector<ShaderRegisterElement> = ArrayUtils.Prefill( new Vector<ShaderRegisterElement>(3, true),3);
         _sharedRegisters.normalFragment = _registerCache.getFreeFragmentVectorTemp();
         _registerCache.addFragmentTempUsages(_sharedRegisters.normalFragment, _dependencyCounter.normalDependencies);
         if (_methodSetup._normalMethod.hasOutput && !_methodSetup._normalMethod.tangentSpace) {

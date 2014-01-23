@@ -1,6 +1,7 @@
 package away3d.core.base;
 
 
+import away3d.utils.ArrayUtils;
 import flash.Vector;
 import away3d.core.base.ISubGeometry;
 import away3d.core.managers.Stage3DProxy;
@@ -149,6 +150,8 @@ class SubGeometryBase {
             _indexBuffer[contextIndex].uploadFromVector(_indices, 0, _numIndices);
             _indicesInvalid[contextIndex] = false;
         }
+		//todo
+		//trace(_indices, 0, _numIndices);
         return _indexBuffer[contextIndex];
     }
 
@@ -256,8 +259,14 @@ class SubGeometryBase {
         var posStride:Int = vertexStride;
         var posOffset:Int = vertexOffset;
         if (_faceNormals == null)
+        {
             _faceNormals = new Vector<Float>(len, true);
-        if (_faceWeights == null) _faceWeights = new Vector<Float>(Std.int(len / 3), true);
+            ArrayUtils.Prefill(_faceNormals,len,0);
+        }
+        if (_faceWeights == null){
+            _faceWeights = new Vector<Float>(Std.int(len / 3), true);
+            ArrayUtils.Prefill(_faceWeights,Std.int(len / 3),0);
+        }
 		 
         while (i < len) {
             index = posOffset + _indices[i++] * posStride;
@@ -311,7 +320,10 @@ class SubGeometryBase {
         var normalStride:Int = vertexNormalStride;
         var normalOffset:Int = vertexNormalOffset;
         if (target == null)
+        {
             target = new Vector<Float>(lenV, true);
+            ArrayUtils.Prefill(target,lenV,0);
+        }
         v1 = normalOffset;
         while (v1 < lenV) {
             target[v1] = 0.0;
@@ -371,7 +383,10 @@ class SubGeometryBase {
         var tangentStride:Int = vertexTangentStride;
         var tangentOffset:Int = vertexTangentOffset;
         if (target == null)
+        {
             target = new Vector<Float>(lenV, true);
+            ArrayUtils.Prefill(target,lenV,0);
+        }
         i = tangentOffset;
         while (i < lenV) {
             target[i] = 0.0;
