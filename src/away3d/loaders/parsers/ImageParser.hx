@@ -99,14 +99,12 @@ package away3d.loaders.parsers;
 			var asset:Texture2DBase;
 			if (Std.is(_data, Bitmap)) {
 				asset = new BitmapTexture(cast(_data, Bitmap).bitmapData);
-trace("ImageParser.proceedParsing:isBitmap: asset:"+cast(_data, Bitmap).bitmapData.width+"/"+cast(_data, Bitmap).bitmapData.height);
 				finalizeAsset(asset, _fileName);
 				return ParserBase.PARSING_DONE;
 			}
 			
 			if (Std.is(_data, BitmapData)) {
 				asset = new BitmapTexture(cast(_data, BitmapData));
-trace("ImageParser.proceedParsing:isBitmapData: asset:"+cast(_data, BitmapData).width+"/"+cast(_data, BitmapData).height+" _fileName:"+_fileName);
 				finalizeAsset(asset, _fileName);
 				return ParserBase.PARSING_DONE;
 			}

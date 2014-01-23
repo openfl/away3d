@@ -144,7 +144,6 @@ package away3d.loaders.misc;
 		 */
 		public function mapUrlToData(originalUrl:String, data:Dynamic):Void
 		{
-trace("AssetLoaderContext.mapUrlToData:originalUrl="+originalUrl+" data="+Type.getClassName(Type.getClass(data)));
 			_embeddedDataByUrl.set( originalUrl, data );
 		}
 		
@@ -154,7 +153,6 @@ trace("AssetLoaderContext.mapUrlToData:originalUrl="+originalUrl+" data="+Type.g
 		 */
 		public function hasDataForUrl(url:String):Bool
 		{
-trace("AssetLoaderContext.hasDataForUrl:url="+url+" -> "+_embeddedDataByUrl.exists(url));
 			return _embeddedDataByUrl.exists(url);
 		}
 		
@@ -164,7 +162,6 @@ trace("AssetLoaderContext.hasDataForUrl:url="+url+" -> "+_embeddedDataByUrl.exis
 		 */
 		public function getDataForUrl(url:String):Dynamic
 		{
-trace("AssetLoaderContext.getDataForUrl:url="+url+" -> data="+Type.getClassName(Type.getClass(_embeddedDataByUrl.get( url ))));
 			return _embeddedDataByUrl.get( url );
 		}
 		
@@ -174,7 +171,6 @@ trace("AssetLoaderContext.getDataForUrl:url="+url+" -> data="+Type.getClassName(
 		 */
 		public function hasMappingForUrl(url:String):Bool
 		{
-trace("AssetLoaderContext.hasMappingForUrl:url="+url+" -> "+_remappedUrls.exists(url));
 			return _remappedUrls.exists(url);
 		}
 		
@@ -184,7 +180,6 @@ trace("AssetLoaderContext.hasMappingForUrl:url="+url+" -> "+_remappedUrls.exists
 		 */
 		public function getRemappedUrl(originalUrl:String):String
 		{
-trace("AssetLoaderContext.getRemappedUrl:originalUrl="+originalUrl+" -> data="+Type.getClassName(Type.getClass(_remappedUrls.get( originalUrl ))));
 			return _remappedUrls.get( originalUrl );
 		}
 	}

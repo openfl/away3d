@@ -110,7 +110,6 @@
 		 */
 		public function resolve():Void
 		{
-trace("ResourceDependency.resolve:_parentParser="+_parentParser+" id="+_id+" url="+_req.url);
 			if (_parentParser!=null)
 				_parentParser.resolveDependency(this);
 		}

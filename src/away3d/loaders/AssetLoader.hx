@@ -319,18 +319,12 @@ package away3d.loaders;
 			if (_token==null) {
 				_token = new AssetLoaderToken(this);
 
-trace("AssetLoader.loadData:_token="+_token);
 				_uri = id;
-trace("AssetLoader.loadData:_uri="+_uri);
 				_context = context;
-trace("AssetLoader.loadData:_context="+_context);
 				_namespace = ns;
-trace("AssetLoader.loadData:_namespace="+_namespace);
-trace("AssetLoader.loadData:data="+(data!=null));
 				
 				_baseDependency = new ResourceDependency(id, null, data, null);
 				retrieveDependency(_baseDependency, parser);
-                trace("AssetLoader.loadData:exiting with _token:"+_token);
 				
 				return _token;
 			}
@@ -346,23 +340,19 @@ trace("AssetLoader.loadData:data="+(data!=null));
 		 */
 		private function retrieveNext(parser:ParserBase = null):Void
 		{
-trace("AssetLoader.retrieveNext:depLen="+_loadingDependency.dependencies.length+" stkLen:"+_stack.length);
 			if (_loadingDependency.dependencies.length>0) {
 				var dep:ResourceDependency = _loadingDependency.dependencies.pop();
 				
 				_stack.push(_loadingDependency);
 				retrieveDependency(dep);
-trace("AssetLoader.retrieveNext:>0");
 			} else if (_loadingDependency.loader.parser!=null && _loadingDependency.loader.parser.parsingPaused) {
 				_loadingDependency.loader.parser.resumeParsingAfterDependencies();
 				_stack.pop();
-trace("AssetLoader.retrieveNext:!=null && parsingPaused");
 			} else if (_stack.length>0) {
 				var prev:ResourceDependency = _loadingDependency;
 				
 				_loadingDependency = _stack.pop();
 				
-trace("AssetLoader.retrieveNext:stack.pop - prev.success="+prev.success);
 				if (prev.success)
 					prev.resolve();
 				
@@ -392,7 +382,6 @@ trace("AssetLoader.retrieveNext:stack.pop - prev.success="+prev.success);
 				data = _context.getDataForUrl(_loadingDependency.request.url);
 			
 			if (data!=null) {
-trace("AssetLoader.retrieveDependency:in-data");
 				if (_loadingDependency.retrieveAsRawData) {
                    trace("AssetLoader.retrieveDependency:in-retrieveAsRawData");
 					// No need to parse. The parent parser is expecting this
@@ -404,16 +393,13 @@ trace("AssetLoader.retrieveDependency:in-data");
 					// Move on to next dependency
 					retrieveNext();
 				} else {
-                    trace("AssetLoader.retrieveDependency:in-parseData");
 					_loadingDependency.loader.parseData(data, parser, _loadingDependency.request);
 				}
 			} else {
-               trace("AssetLoader.retrieveDependency:else-data");
 				// Resolve URL and start loading
 				dependency.request.url = resolveDependencyUrl(dependency);
 				_loadingDependency.loader.load(dependency.request, parser, _loadingDependency.retrieveAsRawData);
 			}
-            trace("AssetLoader.retrieveDependency:exiting");
 		}
 		
 		private function joinUrl(base:String, end:String):String
@@ -631,9 +617,7 @@ trace("AssetLoader.retrieveDependency:in-data");
 			
 			// Retrieve any last dependencies remaining on this loader, or
 			// if none exists, just move on.
-trace("AssetLoader.onRetrievalComplete:depLen="+loader.dependencies.length+" cont:"+_context+" iclDep:"+(_context!=null ? Std.string(_context.includeDependencies) : "NULL"));
 			if (loader.dependencies.length>0 && (_context==null || _context.includeDependencies)) { //context may be null
-trace("AssetLoader.onRetrievalComplete:about to retrieveLoaderDependencies");
 				retrieveLoaderDependencies(loader);
 			} else
 				retrieveNext();

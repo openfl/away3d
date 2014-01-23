@@ -347,7 +347,7 @@ class Max3DSParser extends ParserBase {
     private function parseFaceList():Void {
         var i:UInt;
         var len:UInt;
-        var count:UInt;
+        var count:Int;
 
         count = _byteData.readUnsignedShort();
         _cur_obj.indices = new Vector<UInt>(count * 3, true);
