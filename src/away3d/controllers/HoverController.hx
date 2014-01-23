@@ -36,7 +36,7 @@ class HoverController extends LookAtController {
     private var _steps:Int;
     private var _yFactor:Float;
     private var _wrapPanAngle:Bool;
-/**
+    /**
 	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
 	 *
 	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
@@ -57,7 +57,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
 	 */
 
@@ -73,7 +73,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Elevation angle of the camera in degrees. Defaults to 90.
 	 */
 
@@ -89,7 +89,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Distance between the camera and the specified target. Defaults to 1000.
 	 */
 
@@ -104,7 +104,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Minimum bounds for the <code>panAngle</code>. Defaults to -Infinity.
 	 *
 	 * @see    #panAngle
@@ -121,7 +121,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Maximum bounds for the <code>panAngle</code>. Defaults to Infinity.
 	 *
 	 * @see    #panAngle
@@ -138,7 +138,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
 	 *
 	 * @see    #tiltAngle
@@ -155,7 +155,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
 	 *
 	 * @see    #tiltAngle
@@ -172,7 +172,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Fractional difference in distance between the horizontal camera orientation and vertical camera orientation. Defaults to 2.
 	 *
 	 * @see    #distance
@@ -189,7 +189,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
 	 */
 
@@ -204,7 +204,7 @@ class HoverController extends LookAtController {
         return val;
     }
 
-/**
+    /**
 	 * Creates a new <code>HoverController</code> object.
 	 */
 
@@ -214,8 +214,8 @@ class HoverController extends LookAtController {
         _panAngle = 0;
         _tiltAngle = 90;
         _distance = 1000;
-        _minPanAngle = -MathConsts.Infinity;
-        _maxPanAngle = MathConsts.Infinity;
+        _minPanAngle = Math.NEGATIVE_INFINITY;
+        _maxPanAngle = Math.POSITIVE_INFINITY;
         _minTiltAngle = -90;
         _maxTiltAngle = 90;
         _steps = 8;
@@ -226,20 +226,19 @@ class HoverController extends LookAtController {
         this.panAngle = panAngle;
         this.tiltAngle = tiltAngle;
         this.minPanAngle = minPanAngle ;
-        if (Math.isNaN(this.minPanAngle)) this.minPanAngle = -MathConsts.Infinity;
-        this.maxPanAngle = maxPanAngle;
-        if (Math.isNaN(this.maxPanAngle)) this.maxPanAngle = MathConsts.Infinity;
+        this.minPanAngle = minPanAngle!=null ? minPanAngle : Math.NEGATIVE_INFINITY;
+        this.maxPanAngle = maxPanAngle!=null ? maxPanAngle : Math.POSITIVE_INFINITY;
         this.minTiltAngle = minTiltAngle;
         this.maxTiltAngle = maxTiltAngle;
         this.steps = steps;
         this.yFactor = yFactor;
         this.wrapPanAngle = wrapPanAngle;
-//values passed in contrustor are applied immediately
+        //values passed in contrustor are applied immediately
         _currentPanAngle = _panAngle;
         _currentTiltAngle = _tiltAngle;
     }
 
-/**
+    /**
 	 * Updates the current tilt angle and pan angle values.
 	 *
 	 * Values are calculated using the defined <code>tiltAngle</code>, <code>panAngle</code> and <code>steps</code> variables.
@@ -258,9 +257,7 @@ class HoverController extends LookAtController {
                 if (_panAngle < 0) {
                     _currentPanAngle += _panAngle % 360 + 360 - _panAngle;
                     _panAngle = _panAngle % 360 + 360;
-                }
-
-                else {
+                } else {
                     _currentPanAngle += _panAngle % 360 - _panAngle;
                     _panAngle = _panAngle % 360;
                 }
@@ -268,22 +265,22 @@ class HoverController extends LookAtController {
                 while (_panAngle - _currentPanAngle < -180)_currentPanAngle -= 360;
                 while (_panAngle - _currentPanAngle > 180)_currentPanAngle += 360;
             }
+            
             if (interpolate) {
                 _currentTiltAngle += (_tiltAngle - _currentTiltAngle) / (steps + 1);
                 _currentPanAngle += (_panAngle - _currentPanAngle) / (steps + 1);
-            }
-
-            else {
+            } else {
                 _currentPanAngle = _panAngle;
                 _currentTiltAngle = _tiltAngle;
             }
 
-//snap coords if angle differences are close
+            //snap coords if angle differences are close
             if ((Math.abs(tiltAngle - _currentTiltAngle) < 0.01) && (Math.abs(_panAngle - _currentPanAngle) < 0.01)) {
                 _currentTiltAngle = _tiltAngle;
                 _currentPanAngle = _panAngle;
             }
         }
+        
         var pos:Vector3D = ((lookAtObject != null)) ? lookAtObject.position : ((lookAtPosition != null)) ? lookAtPosition : _origin;
         targetObject.x = pos.x + distance * Math.sin(_currentPanAngle * MathConsts.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathConsts.DEGREES_TO_RADIANS);
         targetObject.z = pos.z + distance * Math.cos(_currentPanAngle * MathConsts.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathConsts.DEGREES_TO_RADIANS);
