@@ -1,26 +1,21 @@
 package away3d.core.data;
 
-	
-	import away3d.core.base.IRenderable;
-	
-	import away3d.geom.Matrix3D;
-	
-	class RenderableListItem
-	{
-		public var next:RenderableListItem;
-		public var renderable:IRenderable;
-		
-		// for faster access while sorting or rendering (cached values)
-		public var materialId:Int;
-		public var renderOrderId:Int;
-		public var zIndex:Float;
-		public var renderSceneTransform:Matrix3D;
-		
-		public var cascaded:Bool;
-		
-		public function new()
-		{
-		
-		}
-	}
+import away3d.core.base.IRenderable;
+import flash.geom.Matrix3D;
+
+class RenderableListItem {
+
+    public var next:RenderableListItem;
+    public var renderable:IRenderable;
+// for faster access while sorting or rendering (cached values)
+    public var materialId:Int;
+    public var renderOrderId:Int;
+    public var zIndex:Float;
+    public var renderSceneTransform:Matrix3D;
+    public var cascaded:Bool;
+
+    public function new() {
+    }
+
+}
 

@@ -1,6 +1,7 @@
 package away3d.materials.compilation;
 
 //	import flash.utils.Dictionary;
+	import away3d.utils.ArrayUtils;
 	import haxe.ds.StringMap;
 	import flash.errors.Error;
 	
@@ -158,6 +159,12 @@ package away3d.materials.compilation;
 			_usedSingleCount[1] = new Array<UInt>();
 			_usedSingleCount[2] = new Array<UInt>();
 			_usedSingleCount[3] = new Array<UInt>();
+			ArrayUtils.Prefill(_usedVectorCount, regCount,0);
+			ArrayUtils.Prefill(_usedSingleCount[0],regCount, 0);
+			ArrayUtils.Prefill(_usedSingleCount[1], regCount, 0);
+			ArrayUtils.Prefill(_usedSingleCount[2], regCount, 0);
+			ArrayUtils.Prefill(_usedSingleCount[3], regCount, 0);
+		 
 		
 		}
 		

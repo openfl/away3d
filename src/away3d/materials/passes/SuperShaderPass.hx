@@ -13,6 +13,7 @@ package away3d.materials.passes;
 	import away3d.materials.methods.ColorTransformMethod;
 	import away3d.materials.methods.EffectMethodBase;
 	import away3d.materials.methods.MethodVOSet;
+	import flash.Vector.Vector;
 	
 	import flash.display3D.Context3D;
 	
@@ -170,7 +171,7 @@ package away3d.materials.passes;
 		 */
 		override private function updateLights():Void
 		{
-			//			super.updateLights();
+						super.updateLights();
 			if (_lightPicker!=null && !_ignoreLights) {
 				_numPointLights = _lightPicker.numPointLights;
 				_numDirectionalLights = _lightPicker.numDirectionalLights;
@@ -298,7 +299,7 @@ package away3d.materials.passes;
 			var i:UInt, k:UInt;
 			var len:Int;
 			var dirPos:Vector3D;
-			var total:UInt = 0;
+			var total:Int = 0;
 			var numLightTypes:UInt = _includeCasters? 2 : 1;
 			
 			k = _lightFragmentConstantIndex;
@@ -307,8 +308,8 @@ package away3d.materials.passes;
 			
 			var castVal:Int;
 			
-			for (castVal in 0...numLightTypes) {
-				var dirLights:Array<DirectionalLight> = castVal!=0 ? _lightPicker.castingDirectionalLights : _lightPicker.directionalLights;
+			for (castVal in 0...numLightTypes) {  
+				var dirLights:Vector<DirectionalLight> = castVal!=0 ? _lightPicker.castingDirectionalLights : _lightPicker.directionalLights;
 				len = dirLights.length;
 				total += len;
 				
@@ -349,7 +350,7 @@ package away3d.materials.passes;
 			total = 0;
 			// For loop conversion - 			for (cast = 0; cast < numLightTypes; ++cast)
 			for (castVal in 0...numLightTypes) {
-				var pointLights:Array<PointLight> = castVal!=0 ? _lightPicker.castingPointLights : _lightPicker.pointLights;
+				var pointLights:Vector<PointLight> = castVal!=0 ? _lightPicker.castingPointLights : _lightPicker.pointLights;
 				len = pointLights.length;
 				// For loop conversion - 				for (i = 0; i < len; ++i)
 				for (i in 0...len) {
@@ -391,8 +392,8 @@ package away3d.materials.passes;
 		override private function updateProbes(stage3DProxy:Stage3DProxy):Void
 		{
 			var probe:LightProbe;
-			var lightProbes:Array<LightProbe> = _lightPicker.lightProbes;
-			var weights:Array<Float> = _lightPicker.lightProbeWeights;
+			var lightProbes:Vector<LightProbe> = _lightPicker.lightProbes;
+			var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 			var len:Int = lightProbes.length;
 			var addDiff:Bool = usesProbesForDiffuse();
 			var addSpec:Bool = (_methodSetup._specularMethod!=null && usesProbesForSpecular());

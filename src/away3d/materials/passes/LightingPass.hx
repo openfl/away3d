@@ -11,9 +11,10 @@ package away3d.materials.passes;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.compilation.LightingShaderCompiler;
 	import away3d.materials.compilation.ShaderCompiler;
+	import flash.Vector.Vector;
 	
 	import flash.display3D.Context3D;
-	import away3d.geom.Matrix3D;
+	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	
 	//use namespace arcane;
@@ -30,7 +31,7 @@ package away3d.materials.passes;
 		var _includeCasters:Bool;
 		var _tangentSpace:Bool;
 		var _lightVertexConstantIndex:Int;
-		var _inverseSceneMatrix:Array<Float>;
+		var _inverseSceneMatrix:Vector<Float>;
 		
 		var _directionalLightsOffset:UInt;
 		var _pointLightsOffset:UInt;
@@ -45,7 +46,7 @@ package away3d.materials.passes;
 		public function new(material:MaterialBase)
 		{
 			_includeCasters = true;
-			_inverseSceneMatrix = new Array<Float>();
+			_inverseSceneMatrix = new Vector<Float>();
 			_maxLights = 3;
 
 			super(material);
@@ -280,8 +281,8 @@ package away3d.materials.passes;
 			var i:UInt, k:UInt;
 			var len:Int;
 			var dirPos:Vector3D;
-			var total:UInt = 0;
-			var numLightTypes:UInt = _includeCasters? 2 : 1;
+			var total:Int = 0;
+			var numLightTypes:Int = _includeCasters? 2 : 1;
 			var l:Int;
 			var offset:Int;
 			
@@ -289,7 +290,7 @@ package away3d.materials.passes;
 			k = _lightFragmentConstantIndex;
 			
 			var caster:Int = 0;
-			var dirLights:Array<DirectionalLight> = _lightPicker.directionalLights;
+			var dirLights:Vector<DirectionalLight> = _lightPicker.directionalLights;
 			offset = _directionalLightsOffset;
 			len = _lightPicker.directionalLights.length;
 			if (offset > len) {
@@ -357,7 +358,7 @@ package away3d.materials.passes;
 			
 			total = 0;
 			
-			var pointLights:Array<PointLight> = _lightPicker.pointLights;
+			var pointLights:Vector<PointLight> = _lightPicker.pointLights;
 			offset = _pointLightsOffset;
 			len = _lightPicker.pointLights.length;
 			if (offset > len) {
@@ -429,8 +430,8 @@ package away3d.materials.passes;
 		{
 			var context:Context3D = stage3DProxy._context3D;
 			var probe:LightProbe;
-			var lightProbes:Array<LightProbe> = _lightPicker.lightProbes;
-			var weights:Array<Float> = _lightPicker.lightProbeWeights;
+			var lightProbes:Vector<LightProbe> = _lightPicker.lightProbes;
+			var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 			var len:Int = lightProbes.length - _lightProbesOffset;
 			var addDiff:Bool = usesProbesForDiffuse();
 			var addSpec:Bool = _methodSetup._specularMethod!=null && usesProbesForSpecular();

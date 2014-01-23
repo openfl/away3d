@@ -1,8 +1,45 @@
-package away3d.geom;
+package flash.geom;
+#if (flash || display)
+@:require(flash10) extern class Matrix3D {
+	var determinant(default,null) : Float;
+	var position : Vector3D;
+	var rawData : flash.Vector<Float>;
+	function new(?v : flash.Vector<Float>) : Void;
+	function append(lhs : Matrix3D) : Void;
+	function appendRotation(degrees : Float, axis : Vector3D, ?pivotPoint : Vector3D) : Void;
+	function appendScale(xScale : Float, yScale : Float, zScale : Float) : Void;
+	function appendTranslation(x : Float, y : Float, z : Float) : Void;
+	function clone() : Matrix3D;
+	@:require(flash11) function copyColumnFrom(column : UInt, vector3D : Vector3D) : Void;
+	@:require(flash11) function copyColumnTo(column : UInt, vector3D : Vector3D) : Void;
+	@:require(flash11) function copyFrom(sourceMatrix3D : Matrix3D) : Void;
+	@:require(flash11) function copyRawDataFrom(vector : flash.Vector<Float>, index : UInt = 0, transpose : Bool = false) : Void;
+	@:require(flash11) function copyRawDataTo(vector : flash.Vector<Float>, index : UInt = 0, transpose : Bool = false) : Void;
+	@:require(flash11) function copyRowFrom(row : UInt, vector3D : Vector3D) : Void;
+	@:require(flash11) function copyRowTo(row : UInt, vector3D : Vector3D) : Void;
+	@:require(flash11) function copyToMatrix3D(dest : Matrix3D) : Void;
+	function decompose(?orientationStyle : Orientation3D) : flash.Vector<Vector3D>;
+	function deltaTransformVector(v : Vector3D) : Vector3D;
+	function identity() : Void;
+	function interpolateTo(toMat : Matrix3D, percent : Float) : Void;
+	function invert() : Bool;
+	function pointAt(pos : Vector3D, ?at : Vector3D, ?up : Vector3D) : Void;
+	function prepend(rhs : Matrix3D) : Void;
+	function prependRotation(degrees : Float, axis : Vector3D, ?pivotPoint : Vector3D) : Void;
+	function prependScale(xScale : Float, yScale : Float, zScale : Float) : Void;
+	function prependTranslation(x : Float, y : Float, z : Float) : Void;
+	function recompose(components : flash.Vector<Vector3D>, ?orientationStyle : Orientation3D) : Bool;
+	function transformVector(v : Vector3D) : Vector3D;
+	function transformVectors(vin : flash.Vector<Float>, vout : flash.Vector<Float>) : Void;
+	function transpose() : Void;
+	static function interpolate(thisMat : Matrix3D, toMat : Matrix3D, percent : Float) : Matrix3D;
+}
+#else
 
 import flash.geom.Vector3D;
 import flash.errors.Error;
 
+import flash.Vector;
 class Matrix3D
 {
    
@@ -12,23 +49,24 @@ class Matrix3D
     * <p>An exception is thrown if the rawData property is set to a matrix that is not invertible. The Matrix3D 
     * object must be invertible. If a non-invertible matrix is needed, create a subclass of the Matrix3D object.</p>
     */
-   public var rawData:Array<Float>;
+   public var rawData:Vector<Float>;
    
    /**
     * Creates a Matrix3D object.
     */
    public function new ( ?v:Array<Float> )
    {
+	   
       if( v != null && v.length == 16 )
       {
          this.rawData = v;
       }
       else
       {
-         this.rawData = [ 1, 0, 0, 0,
+         this.rawData =Vector.ofArray([ 1., 0, 0, 0,
                       0, 1, 0, 0,
                       0, 0, 1, 0,
-                      0, 0, 0, 1 ];
+                      0, 0, 0, 1 ]);
       }
    }
    
@@ -214,7 +252,7 @@ class Matrix3D
       //this.rawData = sourceMatrix3D.rawData.slice( 0 );
    }
    
-   public function copyRawDataFrom( vector:Array<Float>, index:UInt = 0, transpose:Bool = false ):Void
+   public function copyRawDataFrom( vector:Vector<Float>, index:UInt = 0, transpose:Bool = false ):Void
    {
       // Initial Tests - OK
       if ( transpose )
@@ -234,17 +272,17 @@ class Matrix3D
          }
    }
    
-   public function copyRawDataTo( vector:Array<Float>, index:UInt = 0, transpose:Bool = false ) : Void
+   public function copyRawDataTo( vector:Vector<Float>, index:UInt = 0, transpose:Bool = false ) : Void
    {
 
          // Initial Tests - OK
-
+			
 
          if ( transpose )
          {
+			
              this.transpose();
          }
-
          var l : UInt = this.rawData.length;
          for ( c in 0...l )     // for ( var c : UInt = 0; c < l ; c ++ )
          {
@@ -252,7 +290,6 @@ class Matrix3D
              vector[c + index ] = this.rawData[c];
 
          }
-
          if ( transpose )
          {
              this.transpose();
@@ -338,19 +375,19 @@ class Matrix3D
 
          // Initial Tests - OK
 
-      dest.rawData = Lambda.array(this.rawData);
+      dest.rawData =this.rawData.copy();
    }
    
    // TODO orientationStyle:string = "eulerAngles"
    /**
     * Returns the transformation matrix's translation, rotation, and scale settings as a Vector of three Vector3D objects.
     */
-   public function decompose():Array<Vector3D>
+   public function decompose():Vector<Vector3D>
    {
 
          // Initial Tests - Not OK
 
-      var vec:Array<Vector3D> = [];
+      var vec:Vector<Vector3D> =new Vector<Vector3D>();
       var m = this.clone();
       var mr = Lambda.array(m.rawData);
       
@@ -580,7 +617,7 @@ class Matrix3D
    /**
     * Sets the transformation matrix's translation, rotation, and scale settings.
     */
-   public function recompose( components:Array<Vector3D> ): Bool
+   public function recompose( components:Vector<Vector3D> ): Bool
    {
 
          // Initial Tests - OK
@@ -625,7 +662,7 @@ class Matrix3D
    /**
     * Uses the transformation matrix to transform a Vector of Numbers from one coordinate space to another.
     */
-   public function transformVectors( vin:Array<Float>, vout:Array<Float> )
+   public function transformVectors( vin:Vector<Float>, vout:Vector<Float> )
    {
 
          // Initial Tests - OK
@@ -653,7 +690,7 @@ class Matrix3D
 
          // Initial Tests - OK
 
-      var oRawData:Array<Float> = Lambda.array(this.rawData);
+      var oRawData:Vector<Float> = this.rawData.copy();
       
       this.rawData[1] = oRawData[4];
       this.rawData[2] = oRawData[8];
@@ -743,7 +780,8 @@ class Matrix3D
 
       return value;
    }
-
+   
+   
    /**
     * A flash.geom.Matrix3D equivalent of the current Matrix
     */
@@ -758,14 +796,17 @@ class Matrix3D
    }
 
    private function set_flashMatrix3D(mat:flash.geom.Matrix3D) : flash.geom.Matrix3D {
-      var raw:Array<Float> = mat.rawData;
-      this.rawData = [
+      var raw:Vector<Float> = mat.rawData;
+      this.rawData =Vector.ofArray( [
         raw[0], raw[4], raw[8], raw[12],
         raw[1], raw[5], raw[9], raw[13],
         raw[2], raw[6], raw[10], raw[14],
         raw[3], raw[7], raw[11], raw[15]
-      ];
+      ]);
       return mat;
    }
 
+
+ 
 }
+#end

@@ -46,7 +46,7 @@ package away3d.loaders.parsers;
 		 */
 		public override function get_dependencies() : Array<ResourceDependency>
 		{
-			return _parser? _parser.dependencies : super.dependencies;
+			return _parser!=null? _parser.dependencies : super.dependencies;
 		}
 		
 		/**
@@ -54,7 +54,7 @@ package away3d.loaders.parsers;
 		 */
 		public override function get_parsingComplete() : Bool
 		{
-			return _parser? _parser.parsingComplete : false;
+			return _parser!=null? _parser.parsingComplete : false;
 		}
 		
 		/**
@@ -62,7 +62,7 @@ package away3d.loaders.parsers;
 		 */
 		public override function get_parsingPaused() : Bool
 		{
-			return _parser? _parser.parsingPaused : false;
+			return _parser!=null? _parser.parsingPaused : false;
 		}
 		
 		/**
@@ -71,7 +71,7 @@ package away3d.loaders.parsers;
 		 */
 		override function resolveDependency(resourceDependency:ResourceDependency):Void
 		{
-			if (_parser)
+			if (_parser!=null)
 				_parser.resolveDependency(resourceDependency);
 		}
 		
@@ -81,7 +81,7 @@ package away3d.loaders.parsers;
 		 */
 		override function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
 		{
-			if (_parser)
+			if (_parser!=null)
 				_parser.resolveDependencyFailure(resourceDependency);
 		}
 		
@@ -91,14 +91,14 @@ package away3d.loaders.parsers;
 		 */
 		override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 		{
-			if (_parser)
+			if (_parser!=null)
 				return _parser.resolveDependencyName(resourceDependency, asset);
 			return asset.name;
 		}
 		
 		override function resumeParsingAfterDependencies():Void
 		{
-			if (_parser)
+			if (_parser!=null)
 				_parser.resumeParsingAfterDependencies();
 		}
 		
@@ -108,7 +108,7 @@ package away3d.loaders.parsers;
 		 */
 		private override function proceedParsing():Bool
 		{
-			if (!_parser) {
+			if (_parser==null) {
 				// Inspect data to find correct parser. AWD2 parser
 				// file inspection is the most reliable
 				if (AWD2Parser.supportsData(_data))
@@ -140,7 +140,7 @@ package away3d.loaders.parsers;
 			// Return MORE_TO_PARSE while delegate parser is working. Once the delegate
 			// finishes parsing, this dummy parser instance will be stopped as well as
 			// a result of the delegate's PARSE_COMPLETE event (onParseComplete).
-			return MORE_TO_PARSE;
+			return ParserBase.MORE_TO_PARSE;
 		}
 		
 		/**
@@ -196,5 +196,5 @@ package away3d.loaders.parsers;
 			finishParsing();
 		}
 	}
-}
+ 
 

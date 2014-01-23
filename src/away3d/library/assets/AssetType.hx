@@ -1,28 +1,27 @@
 package away3d.library.assets;
 
-	
-	class AssetType
-	{
-		public static var ENTITY:String = 'entity';
-		public static var SKYBOX:String = 'skybox';
-		public static var CAMERA:String = 'camera';
-		public static var SEGMENT_SET:String = 'segmentSet';
-		public static var MESH:String = 'mesh';
-		public static var GEOMETRY:String = 'geometry';
-		public static var SKELETON:String = 'skeleton';
-		public static var SKELETON_POSE:String = 'skeletonPose';
-		public static var CONTAINER:String = 'container';
-		public static var TEXTURE:String = 'texture';
-		public static var TEXTURE_PROJECTOR:String = 'textureProjector';
-		public static var MATERIAL:String = 'material';
-		public static var ANIMATION_SET:String = 'animationSet';
-		public static var ANIMATION_STATE:String = 'animationState';
-		public static var ANIMATION_NODE:String = 'animationNode';
-		public static var ANIMATOR:String = 'animator';
-		public static var STATE_TRANSITION:String = 'stateTransition';
-		public static var LIGHT:String = 'light';
-		public static var LIGHT_PICKER:String = 'lightPicker';
-		public static var SHADOW_MAP_METHOD:String = 'shadowMapMethod';
-		public static var EFFECTS_METHOD:String = 'effectsMethod';
-	}
+class AssetType {
+
+    static public var ENTITY:String = "entity";
+    static public var SKYBOX:String = "skybox";
+    static public var CAMERA:String = "camera";
+    static public var SEGMENT_SET:String = "segmentSet";
+    static public var MESH:String = "mesh";
+    static public var GEOMETRY:String = "geometry";
+    static public var SKELETON:String = "skeleton";
+    static public var SKELETON_POSE:String = "skeletonPose";
+    static public var CONTAINER:String = "container";
+    static public var TEXTURE:String = "texture";
+    static public var TEXTURE_PROJECTOR:String = "textureProjector";
+    static public var MATERIAL:String = "material";
+    static public var ANIMATION_SET:String = "animationSet";
+    static public var ANIMATION_STATE:String = "animationState";
+    static public var ANIMATION_NODE:String = "animationNode";
+    static public var ANIMATOR:String = "animator";
+    static public var STATE_TRANSITION:String = "stateTransition";
+    static public var LIGHT:String = "light";
+    static public var LIGHT_PICKER:String = "lightPicker";
+    static public var SHADOW_MAP_METHOD:String = "shadowMapMethod";
+    static public var EFFECTS_METHOD:String = "effectsMethod";
+}
 

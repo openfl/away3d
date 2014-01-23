@@ -20,7 +20,7 @@ class AGALMiniAssembler
 		this.cur = new Part();
 	}
 	
-	public function assemble( source:String, ext_part = null, ext_version = null ):Dynamic
+	public function assemble( source:String, ?ext_part = null,? ext_version = null ):Dynamic
 	{
 		if( ext_version == 0 )
 		{
@@ -217,7 +217,7 @@ class AGALMiniAssembler
 
 		if ( RegMap.map.get(reg[1])==null ) 
 			return false;
-
+		if (Std.parseInt(reg[2]) == null) reg[2] = "0";
 		var em = { num:reg[2]!=null?reg[2]:"0", code:RegMap.map.get(reg[1]).code, mask:this.stringToMask(reg[3]) };
 		pr.data.writeShort ( Std.parseInt(em.num) );
 		pr.data.writeByte ( em.mask );
@@ -386,7 +386,7 @@ class AGALMiniAssembler
 			this.r.set(partname, new aglsl.assembler.Part( partname, version ));
 			this.emitHeader( this.r.get( partname ) ); 
 		} 
-		else if ( this.r.get(partname).version != version )
+		else if ( this.r.get(partname).version != Std.int(version) )
 		{
 			throw "Multiple versions for part " + partname;
 		}

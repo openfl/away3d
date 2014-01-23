@@ -6,11 +6,12 @@
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.textures.Texture2DBase;
+	import flash.Vector.Vector;
 	
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DTextureFormat;
-	import away3d.geom.Matrix3D;
+	import flash.geom.Matrix3D;
 	
 	//use namespace arcane;
 
@@ -20,7 +21,7 @@
 	 */
 	class DepthMapPass extends MaterialPassBase
 	{
-		var _data:Array<Float>;
+		var _data:Vector<Float>;
 		var _alphaThreshold:Float = 0;
 		var _alphaMask:Texture2DBase;
 
@@ -30,9 +31,9 @@
 		public function new()
 		{
 			super();
-			_data = [    1.0, 255.0, 65025.0, 16581375.0,
+			_data =   Vector.ofArray([    1.0, 255.0, 65025.0, 16581375.0,
 				1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0,
-				0.0, 0.0, 0.0, 0.0];
+				0.0, 0.0, 0.0, 0.0]);
 		}
 		
 		/**
@@ -158,7 +159,7 @@
 			var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix.append(viewProjection);
-			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix.flashMatrix3D, true);
+			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
 			renderable.activateVertexBuffer(0, stage3DProxy);
 			context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
