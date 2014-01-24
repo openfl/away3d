@@ -77,7 +77,9 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
 	 * @param    [optional] looping         Defines whether the spritesheet animation is set to loop indefinitely. Defaults to true.
 	 */
 
-    public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:Int = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Int = MathConsts.MAX_VALUE) {
+    public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:Int = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Float =0) {
+    //todo totalFrames= Math.POSITIVE_INFINITY;
+
         var len:Int = 0;
         if (usesCycle) {
             len = 2;

@@ -435,12 +435,12 @@ class SegmentSet extends Entity implements IRenderable {
         var len:Int;
         var v:Float;
         var index:Int;
-        var minX:Float = MathConsts.Infinity;
-        var minY:Float = MathConsts.Infinity;
-        var minZ:Float = MathConsts.Infinity;
-        var maxX:Float = -MathConsts.Infinity;
-        var maxY:Float = -MathConsts.Infinity;
-        var maxZ:Float = -MathConsts.Infinity;
+        var minX:Float = Math.POSITIVE_INFINITY;
+        var minY:Float = Math.POSITIVE_INFINITY;
+        var minZ:Float = Math.POSITIVE_INFINITY;
+        var maxX:Float = Math.NEGATIVE_INFINITY;
+        var maxY:Float = Math.NEGATIVE_INFINITY;
+        var maxZ:Float = Math.NEGATIVE_INFINITY;
         var vertices:Vector<Float>;
         var i:Int = 0;
         while (i < _subSetCount) {
@@ -468,7 +468,7 @@ class SegmentSet extends Entity implements IRenderable {
 
             ++i;
         }
-        if (minX != MathConsts.Infinity) _bounds.fromExtremes(minX, minY, minZ, maxX, maxY, maxZ)
+        if (minX != Math.POSITIVE_INFINITY) _bounds.fromExtremes(minX, minY, minZ, maxX, maxY, maxZ)
         else {
             var min:Float = .5;
             _bounds.fromExtremes(-min, -min, -min, min, min, min);

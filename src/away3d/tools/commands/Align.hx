@@ -170,7 +170,7 @@ class Align {
     }
 
     static private function getMin(a:Array<Dynamic>, prop:String):Float {
-        var min:Float = MathConsts.Infinity;
+        var min:Float = Math.POSITIVE_INFINITY;
         var i:Int = 0;
         while (i < a.length) {
             min = Math.min(Reflect.field(a[i], prop), min);
@@ -180,7 +180,7 @@ class Align {
     }
 
     static private function getMax(a:Array<Dynamic>, prop:String):Float {
-        var max:Float = -MathConsts.Infinity;
+        var max:Float = Math.NEGATIVE_INFINITY;
         var i:Int = 0;
         while (i < a.length) {
             max = Math.max(Reflect.field(a[i], prop), max);
@@ -234,7 +234,7 @@ class Align {
     }
 
     static private function getMinBounds(bounds:Vector<MeshBound>):Float {
-        var min:Float = MathConsts.Infinity;
+        var min:Float = Math.POSITIVE_INFINITY;
         var mb:MeshBound;
         var i:Int = 0;
         while (i < bounds.length) {
@@ -253,7 +253,7 @@ class Align {
     }
 
     static private function getMaxBounds(bounds:Vector<MeshBound>):Float {
-        var max:Float = -MathConsts.Infinity;
+        var max:Float = Math.NEGATIVE_INFINITY;
         var mb:MeshBound;
         var i:Int = 0;
         while (i < bounds.length) {

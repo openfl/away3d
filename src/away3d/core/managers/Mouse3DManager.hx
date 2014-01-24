@@ -105,7 +105,7 @@ class Mouse3DManager {
         if (_collidingViewObjects != null) {
             _collidingObject = null;
 // Get the top-most view colliding object
-            var distance:Float = MathConsts.Infinity;
+            var distance:Float = Math.POSITIVE_INFINITY;
             var view:View3D;
             var v:Int = _viewCount - 1;
             while (v >= 0) {

@@ -157,12 +157,12 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
         var xF:Float;
         var yF:Float;
         var zF:Float;
-        var minX:Float = MathConsts.POSITIVE_INFINITY;
-        var minY:Float = MathConsts.POSITIVE_INFINITY;
+        var minX:Float = Math.POSITIVE_INFINITY;
+        var minY:Float = Math.POSITIVE_INFINITY;
         var minZ:Float;
-        var maxX:Float = MathConsts.NEGATIVE_INFINITY;
-        var maxY:Float = MathConsts.NEGATIVE_INFINITY;
-        var maxZ:Float = MathConsts.NEGATIVE_INFINITY;
+        var maxX:Float = Math.NEGATIVE_INFINITY;
+        var maxY:Float = Math.NEGATIVE_INFINITY;
+        var maxZ:Float = Math.NEGATIVE_INFINITY;
         var i:Int = 0;
         while (i < 12) {
             xN = _localFrustum[i];

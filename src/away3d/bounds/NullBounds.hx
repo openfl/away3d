@@ -24,8 +24,8 @@ class NullBounds extends BoundingVolumeBase {
         super();
         _alwaysIn = alwaysIn;
         _renderable = renderable;
-        _max.x = _max.y = _max.z = MathConsts.POSITIVE_INFINITY;
-        _min.x = _min.y = _min.z = (_alwaysIn) ? MathConsts.NEGATIVE_INFINITY : MathConsts.POSITIVE_INFINITY;
+        _max.x = _max.y = _max.z = Math.POSITIVE_INFINITY;
+        _min.x = _min.y = _min.z = (_alwaysIn) ? Math.NEGATIVE_INFINITY : Math.POSITIVE_INFINITY;
     }
 
     override public function clone():BoundingVolumeBase {

@@ -66,12 +66,12 @@ class Projector {
     }
 
     static private function remapMesh(mesh:Mesh):Void {
-        var minX:Float = MathConsts.Infinity;
-        var minY:Float = MathConsts.Infinity;
-        var minZ:Float = MathConsts.Infinity;
-        var maxX:Float = -MathConsts.Infinity;
-        var maxY:Float = -MathConsts.Infinity;
-        var maxZ:Float = -MathConsts.Infinity;
+        var minX:Float = Math.POSITIVE_INFINITY;
+        var minY:Float = Math.POSITIVE_INFINITY;
+        var minZ:Float = Math.POSITIVE_INFINITY;
+        var maxX:Float = Math.NEGATIVE_INFINITY;
+        var maxY:Float = Math.NEGATIVE_INFINITY;
+        var maxZ:Float = Math.NEGATIVE_INFINITY;
         Bounds.getMeshBounds(mesh);
         minX = Bounds.minX;
         minY = Bounds.minY;

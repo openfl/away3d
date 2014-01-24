@@ -339,7 +339,7 @@ class DAEParser extends ParserBase {
 
     private function parseAnimationInfo():DAEAnimationInfo {
         var info:DAEAnimationInfo = new DAEAnimationInfo();
-        info.minTime = MathConsts.NEGATIVE_INFINITY;
+        info.minTime = Math.NEGATIVE_INFINITY;
         info.maxTime = -info.minTime;
         info.numFrames = 0;
 
@@ -1993,7 +1993,7 @@ class DAENode extends DAEElement {
         var channelsBySID:StringMap<DAEChannel> = new StringMap();
         var transform:DAETransform;
         var channel:DAEChannel;
-        var minTime:Float = MathConsts.NEGATIVE_INFINITY;
+        var minTime:Float = Math.NEGATIVE_INFINITY;
         var maxTime:Float = -minTime;
 
         for (i in 0...this.channels.length) {

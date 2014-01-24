@@ -60,7 +60,7 @@ class Bounds {
             return;
         }
         if (worldBased) {
-            var b:Vector<Float> = Vector.ofArray(cast [MathConsts.Infinity, MathConsts.Infinity, MathConsts.Infinity, -MathConsts.Infinity, -MathConsts.Infinity, -MathConsts.Infinity]);
+            var b:Vector<Float> = Vector.ofArray(cast [Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY]);
             var c:Vector<Float> = getBoundsCorners(_minX, _minY, _minZ, _maxX, _maxY, _maxZ);
             transformContainer(b, c, container.sceneTransform);
             _minX = b[0];
@@ -188,8 +188,8 @@ class Bounds {
 
     static public function reset():Void {
         _containers = new ObjectMap<ObjectContainer3D, Vector<Float>>();
-        _minX = _minY = _minZ = MathConsts.Infinity;
-        _maxX = _maxY = _maxZ = -MathConsts.Infinity;
+        _minX = _minY = _minZ = Math.POSITIVE_INFINITY;
+        _maxX = _maxY = _maxZ = Math.NEGATIVE_INFINITY;
         _defaultPosition.x = 0.0;
         _defaultPosition.y = 0.0;
         _defaultPosition.z = 0.0;
@@ -244,7 +244,7 @@ class Bounds {
     }
 
     static private function isInfinite(value:Float):Bool {
-        return value == MathConsts.POSITIVE_INFINITY || value == MathConsts.NEGATIVE_INFINITY;
+        return value == Math.POSITIVE_INFINITY || value == Math.NEGATIVE_INFINITY;
     }
 
     static private function parseObjectBounds(oC:ObjectContainer3D, parentTransform:Matrix3D = null, resetBounds:Bool = false):Void {
@@ -267,8 +267,8 @@ class Bounds {
         }
 
         if (resetBounds) {
-            cB[0] = cB[1] = cB[2] = MathConsts.Infinity;
-            cB[3] = cB[4] = cB[5] = -MathConsts.Infinity;
+            cB[0] = cB[1] = cB[2] = Math.POSITIVE_INFINITY;
+            cB[3] = cB[4] = cB[5] = Math.NEGATIVE_INFINITY;
         }
         transformContainer(cB, corners, mat);
     }

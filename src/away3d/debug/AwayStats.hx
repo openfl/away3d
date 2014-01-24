@@ -68,7 +68,7 @@ class AwayStats extends Sprite {
     private var _fps:Int;
     private var _ram:Float;
     private var _max_ram:Float;
-    private var _min_fps:Int;
+    private var _min_fps:Float;
     private var _avg_fps:Float;
     private var _max_fps:Int;
     private var _tfaces:Int;
@@ -605,7 +605,7 @@ class AwayStats extends Sprite {
 // Reset all values
         _updates = 0;
         _num_frames = 0;
-        _min_fps = MathConsts.MAX_VALUE;
+        _min_fps = Math.POSITIVE_INFINITY;
         _max_fps = 0;
         _avg_fps = 0;
         _fps_sum = 0;

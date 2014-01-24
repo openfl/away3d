@@ -30,7 +30,7 @@ class AnimationSubGeometry {
         _bufferContext = new Vector<Context3D>(8);
         _bufferDirty = new Vector<Bool>(8);
         numProcessedVertices = 0;
-        previousTime = MathConsts.NEGATIVE_INFINITY;
+        previousTime = Math.NEGATIVE_INFINITY;
         animationParticles = new Vector<ParticleAnimationData>();
         var i:Int = 0;
         while (i < 8) {

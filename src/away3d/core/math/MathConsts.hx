@@ -6,10 +6,7 @@ package away3d.core.math;
 class MathConsts {
 
 
-    inline static public var Infinity:Int = 100000;
-    inline static public var MAX_VALUE:Int = 100000;
-    inline static public var POSITIVE_INFINITY:Float = 100000;
-    inline static public var NEGATIVE_INFINITY:Float = -100000;
+
 /**
 	 * The amount to multiply with when converting radians to degrees.
 	 */

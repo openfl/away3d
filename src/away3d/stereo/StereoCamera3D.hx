@@ -92,7 +92,7 @@ class StereoCamera3D extends Camera3D {
     }
 
     private function updateFocusPoint():Void {
-        if (_focus == MathConsts.Infinity) _focusInfinity = true
+        if (_focus == Math.POSITIVE_INFINITY) _focusInfinity = true
         else {
             _focusPoint.x = 0;
             _focusPoint.y = 0;

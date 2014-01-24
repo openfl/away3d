@@ -63,7 +63,7 @@ class Max3DSParser extends ParserBase {
     private var _materials:StringMap<MaterialVO>;
     private var _unfinalized_objects:StringMap<ObjectVO>;
 
-    private var _cur_obj_end:Int;
+    private var _cur_obj_end:Float;
     private var _cur_obj:ObjectVO;
 
     private var _cur_mat_end:Int;
@@ -118,11 +118,11 @@ class Max3DSParser extends ParserBase {
             if (_cur_mat != null && _byteData.position >= _cur_mat_end) {
                 finalizeCurrentMaterial();
             }
-            else if (_cur_obj != null && _byteData.position >= _cur_obj_end) {
+            else if (_cur_obj != null && _byteData.position >= Std.int(_cur_obj_end)) {
 // Can't finalize at this point, because we have to wait until the full
 // animation section has been parsed for any potential pivot definitions
                 _unfinalized_objects.set(_cur_obj.name, _cur_obj);
-                _cur_obj_end = MathConsts.MAX_VALUE;
+                _cur_obj_end = Math.POSITIVE_INFINITY;
                 _cur_obj = null;
             }
 

@@ -151,8 +151,8 @@ class BoundingVolumeBase {
         var maxZ:Float;
         if (numSubGeoms > 0) {
             var j:Int = 0;
-            minX = minY = minZ = MathConsts.POSITIVE_INFINITY;
-            maxX = maxY = maxZ = MathConsts.NEGATIVE_INFINITY;
+            minX = minY = minZ = Math.POSITIVE_INFINITY;
+            maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
             while (j < numSubGeoms) {
                 var subGeom:ISubGeometry = subGeoms[j++];
                 var vertices:Vector<Float> = subGeom.vertexData;

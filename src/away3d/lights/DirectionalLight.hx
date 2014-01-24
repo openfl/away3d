@@ -114,12 +114,12 @@ class DirectionalLight extends LightBase {
         m.append(inverseSceneTransform);
         if (_projAABBPoints == null) _projAABBPoints = new Vector<Float>();
         m.transformVectors(bounds.aabbPoints, _projAABBPoints);
-        var xMin:Float = MathConsts.POSITIVE_INFINITY;
-        var xMax:Float = MathConsts.NEGATIVE_INFINITY;
-        var yMin:Float = MathConsts.POSITIVE_INFINITY;
-        var yMax:Float = MathConsts.NEGATIVE_INFINITY;
-        var zMin:Float = MathConsts.POSITIVE_INFINITY;
-        var zMax:Float = MathConsts.NEGATIVE_INFINITY;
+        var xMin:Float = Math.POSITIVE_INFINITY;
+        var xMax:Float = Math.NEGATIVE_INFINITY;
+        var yMin:Float = Math.POSITIVE_INFINITY;
+        var yMax:Float = Math.NEGATIVE_INFINITY;
+        var zMin:Float = Math.POSITIVE_INFINITY;
+        var zMax:Float = Math.NEGATIVE_INFINITY;
         var d:Float;
         var i:Int = 0;
         while (i < 24) {

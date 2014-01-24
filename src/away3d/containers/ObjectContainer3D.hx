@@ -323,7 +323,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     public function get_minX():Float {
         var i:Int = 0;
         var len:Int = _children.length;
-        var min:Float = MathConsts.POSITIVE_INFINITY;
+        var min:Float = Math.POSITIVE_INFINITY;
         var m:Float;
         while (i < len) {
             var child:ObjectContainer3D = _children[i++];
@@ -341,7 +341,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     public function get_minY():Float {
         var i:Int = 0;
         var len:Int = _children.length;
-        var min:Float = MathConsts.POSITIVE_INFINITY;
+        var min:Float = Math.POSITIVE_INFINITY;
         var m:Float;
         while (i < len) {
             var child:ObjectContainer3D = _children[i++];
@@ -359,7 +359,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     public function get_minZ():Float {
         var i:Int = 0;
         var len:Int = _children.length;
-        var min:Float = MathConsts.POSITIVE_INFINITY;
+        var min:Float = Math.POSITIVE_INFINITY;
         var m:Float;
         while (i < len) {
             var child:ObjectContainer3D = _children[i++];
@@ -378,7 +378,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
 // todo: this isn't right, doesn't take into account transforms
         var i:Int = 0;
         var len:Int = _children.length;
-        var max:Float = MathConsts.NEGATIVE_INFINITY;
+        var max:Float = Math.NEGATIVE_INFINITY;
         var m:Float;
         while (i < len) {
             var child:ObjectContainer3D = _children[i++];
@@ -396,7 +396,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     public function get_maxY():Float {
         var i:Int = 0;
         var len:Int = _children.length;
-        var max:Float = MathConsts.NEGATIVE_INFINITY;
+        var max:Float = Math.NEGATIVE_INFINITY;
         var m:Float;
         while (i < len) {
             var child:ObjectContainer3D = _children[i++];
@@ -414,7 +414,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     public function get_maxZ():Float {
         var i:Int = 0;
         var len:Int = _children.length;
-        var max:Float = MathConsts.NEGATIVE_INFINITY;
+        var max:Float = Math.NEGATIVE_INFINITY;
         var m:Float;
         while (i < len) {
             var child:ObjectContainer3D = _children[i++];

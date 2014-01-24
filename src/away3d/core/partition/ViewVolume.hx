@@ -2,6 +2,7 @@
 package away3d.core.partition;
 
 
+import away3d.utils.ArrayUtils;
 import flash.errors.Error;
 import flash.Vector;
 import away3d.containers.ObjectContainer3D;

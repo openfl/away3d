@@ -13,6 +13,7 @@ class ArrayUtils {
 			}				
 			while (c > count) {
 				array.pop();
+				c--;
 			}			
 		#end
 			for (i in 0...array.length) {
@@ -29,7 +30,7 @@ class ArrayUtils {
 			c++;
 		}
         #elseif (cpp || neko || js)
-		var c:UInt = 0;
+		var c:Int = 0;
 		while (c++ < count) {
 			array.push(defaultValue);
 	 

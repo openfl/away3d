@@ -155,7 +155,7 @@ class RaycastPicker implements IPicker {
 // Evaluate triangle collisions when needed.
 // Replaces collision data provided by bounds collider with more precise data.
 // ---------------------------------------------------------------------
-        var shortestCollisionDistance:Float = MathConsts.MAX_VALUE;
+        var shortestCollisionDistance:Float = Math.POSITIVE_INFINITY;
         var bestCollisionVO:PickingCollisionVO = null;
         var pickingCollisionVO:PickingCollisionVO;
         var entity:Entity;

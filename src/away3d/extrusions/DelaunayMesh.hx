@@ -170,10 +170,10 @@ class DelaunayMesh extends Mesh {
     }
 
     private function initHolders():Void {
-        _axis0Min = MathConsts.Infinity;
-        _axis0Max = -MathConsts.Infinity;
-        _axis1Min = MathConsts.Infinity;
-        _axis1Max = -MathConsts.Infinity;
+        _axis0Min = Math.POSITIVE_INFINITY;
+        _axis0Max = Math.NEGATIVE_INFINITY;
+        _axis1Min = Math.POSITIVE_INFINITY;
+        _axis1Max = Math.NEGATIVE_INFINITY;
         _uvs = new Vector<Float>();
         _vertices = new Vector<Float>();
         _indices = new Vector<UInt>();
