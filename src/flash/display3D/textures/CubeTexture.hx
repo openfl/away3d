@@ -41,7 +41,11 @@ class CubeTexture extends TextureBase
 
     public function uploadFromBitmapData( data:BitmapData, side:Int, miplevel:Int = 0 ):Void
     {
-        var p = data.getRGBAPixels();
+        #if html5
+            var p = data.getPixels(new flash.geom.Rectangle(0, 0, data.width, data.height));
+        #else
+            var p = data.getRGBAPixels();
+        #end
 		var source:UInt8Array = null;
 		#if html5
         source = new UInt8Array(p.length);
