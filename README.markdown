@@ -1,11 +1,13 @@
 #Away3D for OpenFL
 
+### *** CURRENTLY THIS BUILD IS VERY EXPERIMENTAL ***
+
 ##Introduction
-Away3D for OpenFl is a port of the Flash Away3D engine, enabling OpenFL C++ native builds for OSX, Windows, iOS, Android and maybe others.
+Away3D for OpenFl is a port of the Flash Away3D engine, enabling targetting Flash, Neko, HTML5 and native CPP builds for OSX, Windows, iOS, Android, etc. 
 
 ##Features
 - AGLSL conversion of AGAL code to support OpenGLES.
-- Native builds across platforms
+- Targets cross platform - web, mobile, desktop
 
 ##Installation
 haxelib installation to follow. 
