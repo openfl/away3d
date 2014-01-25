@@ -27,20 +27,20 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     private var _isolatedVertexPositionDataDirty:Bool;
 
     public function new() {
+        super();
         _vertexDataInvalid = new Vector<Bool>(8, true);
         ArrayUtils.Prefill(_vertexDataInvalid,8,false);
         _vertexBuffer = new Vector<VertexBuffer3D>(8);
         _bufferContext = new Vector<Context3D>(8);
         _autoDeriveVertexNormals = false;
         _autoDeriveVertexTangents = false;
-        super();
     }
 
     public function get_numVertices():Int {
         return _numVertices;
     }
 
-/**
+    /**
 	 * Updates the vertex data. All vertex properties are contained in a single Vector, and the order is as follows:
 	 * 0 - 2: vertex position X, Y, Z
 	 * 3 - 5: normal X, Y, Z
@@ -337,7 +337,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
             if (uvs != null && uvs.length > 0) {
                 data[index++] = uvs[u];
                 data[index++] = uvs[u + 1];
-// use same secondary uvs as primary
+                // use same secondary uvs as primary
                 data[index++] = uvs[u++];
                 data[index++] = uvs[u++];
             }

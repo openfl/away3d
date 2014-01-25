@@ -24,7 +24,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     public var secondaryUVStride(get_secondaryUVStride, never):Int;
     public var secondaryUVOffset(get_secondaryUVOffset, never):Int;
 
-// raw data:
+    // raw data:
     private var _uvs:Vector<Float>;
     private var _secondaryUvs:Vector<Float>;
     private var _vertexNormals:Vector<Float>;
@@ -34,24 +34,25 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     private var _secondaryUvsInvalid:Vector<Bool>;
     private var _normalsInvalid:Vector<Bool>;
     private var _tangentsInvalid:Vector<Bool>;
-// buffers:
+    // buffers:
     private var _vertexBuffer:Vector<VertexBuffer3D>;
     private var _uvBuffer:Vector<VertexBuffer3D>;
     private var _secondaryUvBuffer:Vector<VertexBuffer3D>;
     private var _vertexNormalBuffer:Vector<VertexBuffer3D>;
     private var _vertexTangentBuffer:Vector<VertexBuffer3D>;
-// buffer dirty flags, per context:
+    // buffer dirty flags, per context:
     private var _vertexBufferContext:Vector<Context3D>;
     private var _uvBufferContext:Vector<Context3D>;
     private var _secondaryUvBufferContext:Vector<Context3D>;
     private var _vertexNormalBufferContext:Vector<Context3D>;
     private var _vertexTangentBufferContext:Vector<Context3D>;
     private var _numVertices:Int;
-/**
+    /**
 	 * Creates a new SubGeometry object.
 	 */
 
     public function new() {
+        super();
         _verticesInvalid = new Vector<Bool>(8, true);
         ArrayUtils.Prefill(_verticesInvalid,8,false);
         _uvsInvalid = new Vector<Bool>(8, true);
@@ -72,10 +73,9 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         _secondaryUvBufferContext = new Vector<Context3D>(8);
         _vertexNormalBufferContext = new Vector<Context3D>(8);
         _vertexTangentBufferContext = new Vector<Context3D>(8);
-        super();
     }
 
-/**
+    /**
 	 * The total amount of vertices in the SubGeometry.
 	 */
 
@@ -83,7 +83,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return _numVertices;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
 
@@ -102,7 +102,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         context.setVertexBufferAt(index, _vertexBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
 
@@ -122,7 +122,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         context.setVertexBufferAt(index, _uvBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_2);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
 
@@ -141,7 +141,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         context.setVertexBufferAt(index, _secondaryUvBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_2);
     }
 
-/**
+    /**
 	 * Retrieves the VertexBuffer3D object that contains vertex normals.
 	 * @param context The Context3D for which we request the buffer
 	 * @return The VertexBuffer3D object that contains vertex normals.
@@ -163,7 +163,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         context.setVertexBufferAt(index, _vertexNormalBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
     }
 
-/**
+    /**
 	 * Retrieves the VertexBuffer3D object that contains vertex tangents.
 	 * @param context The Context3D for which we request the buffer
 	 * @return The VertexBuffer3D object that contains vertex tangents.
@@ -192,7 +192,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_tangentsInvalid);
     }
 
-/**
+    /**
 	 * Clones the current object
 	 * @return An exact duplicate of the current object.
 	 */
@@ -208,7 +208,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return clone;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
 
@@ -217,7 +217,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_verticesInvalid);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
 
@@ -226,7 +226,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_uvsInvalid);
     }
 
-/**
+    /**
 	 * Clears all resources used by the SubGeometry object.
 	 */
 
@@ -258,7 +258,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         disposeVertexBuffers(_vertexTangentBuffer);
     }
 
-/**
+    /**
 	 * The raw vertex position data.
 	 */
 
@@ -270,7 +270,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return _vertexData;
     }
 
-/**
+    /**
 	 * Updates the vertex data of the SubGeometry.
 	 * @param vertices The new vertex data to upload.
 	 */
@@ -287,7 +287,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBounds();
     }
 
-/**
+    /**
 	 * The raw texture coordinate data.
 	 */
 
@@ -300,13 +300,13 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return _secondaryUvs;
     }
 
-/**
+    /**
 	 * Updates the uv coordinates of the SubGeometry.
 	 * @param uvs The uv coordinates to upload.
 	 */
 
     public function updateUVData(uvs:Vector<Float>):Void {
-// normals don't get dirty from this
+        // normals don't get dirty from this
         if (_autoDeriveVertexTangents) _vertexTangentsDirty = true;
         _faceTangentsDirty = true;
         _uvs = uvs;
@@ -318,7 +318,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_secondaryUvsInvalid);
     }
 
-/**
+    /**
 	 * The raw vertex normal data.
 	 */
 
@@ -327,7 +327,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return _vertexNormals;
     }
 
-/**
+    /**
 	 * Updates the vertex normals of the SubGeometry. When updating the vertex normals like this,
 	 * autoDeriveVertexNormals will be set to false and vertex normals will no longer be calculated automatically.
 	 * @param vertexNormals The vertex normals to upload.
@@ -340,7 +340,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_normalsInvalid);
     }
 
-/**
+    /**
 	 * The raw vertex tangent data.
 	 *
 	 * @private
@@ -351,7 +351,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return _vertexTangents;
     }
 
-/**
+    /**
 	 * Updates the vertex tangents of the SubGeometry. When updating the vertex tangents like this,
 	 * autoDeriveVertexTangents will be set to false and vertex tangents will no longer be calculated automatically.
 	 * @param vertexTangents The vertex tangents to upload.
