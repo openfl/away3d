@@ -123,7 +123,7 @@ class PathExtrude extends Mesh {
         _matIndex = 0;
         _geomDirty = true;
         _MaterialsSubGeometries = new Vector<SubGeometryList>();
-        distribute = distribute;
+
         var geom:Geometry = new Geometry();
         _subGeometry = new SubGeometry();
         super(geom, material);
@@ -138,7 +138,7 @@ class PathExtrude extends Mesh {
         _mapFit = mapFit;
         _flip = flip;
         _closePath = closePath;
-        _materials = ((materials)) ? materials : new Vector<MaterialBase>();
+        _materials = ((materials != null)) ? materials : new Vector<MaterialBase>();
         _scales = scales;
         _smoothScale = smoothScale;
         _rotations = rotations;
@@ -192,7 +192,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_centerMesh(val:Bool):Bool {
-        if (_centerMesh == val) return;
+        if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && this.geometry.subGeometries.length > 0) MeshHelper.recenter(this)
         else invalidateGeometry();
@@ -208,10 +208,10 @@ class PathExtrude extends Mesh {
     }
 
     public function set_distributeU(val:Bool):Bool {
-        if (_distributeU == val) return;
+        if (_distributeU == val) return val;
         _distributeU = val;
         if (val && _mapFit) _mapFit = false;
-        if (!val && _distributedU) _distributedU = null;
+        if (!val && _distributedU != null) _distributedU = null;
         invalidateGeometry();
         return val;
     }
@@ -291,7 +291,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_materials(val:Vector<MaterialBase>):Vector<MaterialBase> {
-        if (val == null) return;
+        if (val == null) return val;
         _materials = val;
         _geomDirty = true;
         return val;
@@ -307,7 +307,7 @@ class PathExtrude extends Mesh {
 
     public function set_subdivision(val:Int):Int {
         val = ((val < 2)) ? 2 : val;
-        if (_subdivision == val) return;
+        if (_subdivision == val) return val;
         _subdivision = val;
         _geomDirty = true;
         return val;
@@ -322,7 +322,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_coverAll(val:Bool):Bool {
-        if (_coverAll == val) return;
+        if (_coverAll == val) return val;
         _coverAll = val;
         _geomDirty = true;
         return val;
@@ -339,7 +339,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_distribute(val:Bool):Bool {
-        if (_distribute == val) return;
+        if (_distribute == val) return val;
         _distribute = val;
         _geomDirty = true;
         return val;
@@ -354,7 +354,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_smoothSurface(val:Bool):Bool {
-        if (_smoothSurface == val) return;
+        if (_smoothSurface == val) return val;
         _smoothSurface = val;
         _geomDirty = true;
         return val;
@@ -384,7 +384,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_mapFit(val:Bool):Bool {
-        if (_mapFit == val) return;
+        if (_mapFit == val) return val;
         if (val && _distributeU) _distributeU = false;
         _mapFit = val;
         _geomDirty = true;
@@ -400,7 +400,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_flip(val:Bool):Bool {
-        if (_flip == val) return;
+        if (_flip == val) return val;
         _flip = val;
         _geomDirty = true;
         return val;
@@ -415,7 +415,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_closePath(val:Bool):Bool {
-        if (_closePath == val) return;
+        if (_closePath == val) return val;
         _closePath = val;
         _geomDirty = true;
         return val;
@@ -432,7 +432,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_alignToPath(val:Bool):Bool {
-        if (_alignToPath == val) return;
+        if (_alignToPath == val) return val;
         _alignToPath = val;
         _geomDirty = true;
         return val;
@@ -447,7 +447,7 @@ class PathExtrude extends Mesh {
     }
 
     public function set_smoothScale(val:Bool):Bool {
-        if (_smoothScale == val) return;
+        if (_smoothScale == val) return val;
         _smoothScale = val;
         _geomDirty = true;
         return val;
@@ -475,7 +475,7 @@ class PathExtrude extends Mesh {
 	 */
 
     public function get_startProfile():Vector<Vector3D> {
-        if (!_path || !_startPoints) return null;
+        if (_path == null || _startPoints == null) return null;
         return _startPoints;
     }
 
@@ -485,7 +485,7 @@ class PathExtrude extends Mesh {
 	 */
 
     public function get_endProfile():Vector<Vector3D> {
-        if (!_path || !_endPoints) return null;
+        if (_path == null || _endPoints == null) return null;
         return _endPoints;
     }
 
@@ -544,10 +544,14 @@ class PathExtrude extends Mesh {
         var v2:Float = 0;
         var countloop:Int = points1.length;
         var mat:MaterialBase;
+        var dist:Float = 0;
+        var tdist:Float;
+        var bleft:Vector3D;
+
+        var bu:Float = 0;
+        var bincu:Float = 0;
         if (_mapFit) {
-            var dist:Float = 0;
-            var tdist:Float;
-            var bleft:Vector3D;
+
             i = 0;
             while (i < countloop) {
                 j = 0;
@@ -566,8 +570,8 @@ class PathExtrude extends Mesh {
         }
 
         else {
-            var bu:Float = 0;
-            var bincu:Float = 1 / (countloop - 1);
+
+            bincu = 1 / (countloop - 1);
         }
 
         function getDouble(x:Float, y:Float, z:Float):Vertex {
@@ -594,12 +598,12 @@ class PathExtrude extends Mesh {
             }
             ++i;
         }
-        var floored:Int = (_coverSegment) ? indexp : 0;
-        if (_materials && _materials.length > 0) {
+        var floored:Int = (_coverSegment) ? Std.int(indexp) : 0;
+        if (_materials != null && _materials.length > 0) {
             if (_coverSegment && indexp - floored == 0) _matIndex = ((_matIndex + 1 > _materials.length - 1)) ? 0 : _matIndex + 1
             else if (!coverAll && !_coverSegment) _matIndex = ((_matIndex + 1 > _materials.length - 1)) ? 0 : _matIndex + 1;
         }
-        mat = ((_coverAll || !_materials || _materials.length == 0)) ? this.material : _materials[_matIndex];
+        mat = ((_coverAll || _materials == null || _materials.length == 0)) ? this.material : _materials[_matIndex];
         var covSub:Bool = _coverAll && _subdivision > 1;
         var cosegSub:Bool = _coverSegment && _subdivision > 1;
         i = 0;
@@ -651,7 +655,7 @@ class PathExtrude extends Mesh {
     }
 
     private function initHolders():Void {
-        if (!_uva) {
+        if (_uva == null) {
             _uva = new UV(0, 0);
             _uvb = new UV(0, 0);
             _uvc = new UV(0, 0);
@@ -661,7 +665,7 @@ class PathExtrude extends Mesh {
             _normal2 = new Vector3D(0.0, 0.0, 0.0);
             _normalTmp = new Vector3D(0.0, 0.0, 0.0);
         }
-        if (_materials && _materials.length > 0) {
+        if (_materials != null && _materials.length > 0) {
             var sglist:SubGeometryList = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();
@@ -687,7 +691,7 @@ class PathExtrude extends Mesh {
     }
 
     private function getSubGeometryListFromMaterial(mat:MaterialBase):SubGeometryList {
-        var sglist:SubGeometryList;
+        var sglist:SubGeometryList = null;
         var i:Int = 0;
         while (i < _MaterialsSubGeometries.length) {
             if (_MaterialsSubGeometries[i].material == mat) {
@@ -696,7 +700,7 @@ class PathExtrude extends Mesh {
             }
             ++i;
         }
-        if (!sglist) {
+        if (sglist == null) {
             sglist = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();
@@ -732,8 +736,8 @@ class PathExtrude extends Mesh {
         var normals:Vector<Float>;
         var indices:Vector<UInt>;
         var sglist:SubGeometryList;
-        var startMat:Bool;
-        if (_activeMaterial != mat && _materials && _materials.length > 0) {
+        var startMat:Bool = false;
+        if (_activeMaterial != mat && _materials != null && _materials.length > 0) {
             _activeMaterial = mat;
             sglist = getSubGeometryListFromMaterial(mat);
             _subGeometry = subGeom = sglist.subGeometry;
@@ -762,7 +766,7 @@ class PathExtrude extends Mesh {
             subGeom = new SubGeometry();
             subGeom.autoDeriveVertexTangents = true;
             if (!_smoothSurface) subGeom.autoDeriveVertexNormals = true;
-            if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 1) {
+            if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 1) {
                 sglist = getSubGeometryListFromMaterial(mat);
                 sglist.subGeometry = _subGeometry = subGeom;
                 sglist.uvs = _uvs = uvs = new Vector<Float>();
@@ -780,12 +784,12 @@ class PathExtrude extends Mesh {
             }
 
         }
-        var bv0:Bool;
-        var bv1:Bool;
-        var bv2:Bool;
-        var ind0:Int;
-        var ind1:Int;
-        var ind2:Int;
+        var bv0:Bool = false;
+        var bv1:Bool = false;
+        var bv2:Bool = false;
+        var ind0:Int = 0;
+        var ind1:Int = 0;
+        var ind2:Int = 0;
         if (_smoothSurface && !startMat) {
             var uvind:Int;
             var uvindV:Int;
@@ -798,7 +802,7 @@ class PathExtrude extends Mesh {
             var ab:Float;
             if (indlength > 0) {
                 var back:Float = indlength - _maxIndProfile;
-                var limitBack:Int = ((back < 0)) ? 0 : back;
+                var limitBack:Int = ((back < 0)) ? 0 : Std.int(back);
                 var i:Int = indlength - 1;
                 while (i > limitBack) {
                     ind = indices[i];
@@ -873,42 +877,65 @@ class PathExtrude extends Mesh {
             }
         }
         if (!bv0) {
-            ind0 = vertices.length / 3;
-            vertices.push(v0.x, v0.y, v0.z);
-            uvs.push(uv0.u, uv0.v);
-            if (_smoothSurface) normals.push(_normal0.x, _normal0.y, _normal0.z);
+            ind0 = Std.int(vertices.length / 3);
+            vertices.push(v0.x);
+            vertices.push(v0.y);
+            vertices.push(v0.z);
+            uvs.push(uv0.u);
+            uvs.push(uv0.v);
+            if (_smoothSurface) {
+                normals.push(_normal0.x);
+                normals.push(_normal0.y);
+                normals.push(_normal0.z);
+            }
         }
         if (!bv1) {
-            ind1 = vertices.length / 3;
-            vertices.push(v1.x, v1.y, v1.z);
-            uvs.push(uv1.u, uv1.v);
-            if (_smoothSurface) normals.push(_normal1.x, _normal1.y, _normal1.z);
+            ind1 = Std.int(vertices.length / 3);
+            vertices.push(v1.x);
+            vertices.push(v1.y);
+            vertices.push(v1.z);
+            uvs.push(uv1.u);
+            uvs.push(uv1.v);
+            if (_smoothSurface) {
+                normals.push(_normal1.x);
+                normals.push(_normal1.y);
+                normals.push(_normal1.z);
+            }
         }
         if (!bv2) {
-            ind2 = vertices.length / 3;
-            vertices.push(v2.x, v2.y, v2.z);
-            uvs.push(uv2.u, uv2.v);
-            if (_smoothSurface) normals.push(_normal2.x, _normal2.y, _normal2.z);
+            ind2 = Std.int(vertices.length / 3);
+            vertices.push(v2.x);
+            vertices.push(v2.y);
+            vertices.push(v2.z);
+            uvs.push(uv2.u);
+            uvs.push(uv2.v);
+            if (_smoothSurface) {
+                normals.push(_normal2.x);
+                normals.push(_normal2.y);
+                normals.push(_normal2.z);
+            }
         }
-        indices.push(ind0, ind1, ind2);
+        indices.push(ind0);
+        indices.push(ind1);
+        indices.push(ind2);
     }
 
     private function distributeVectors():Vector<Vector<Vector3D>> {
         var segs:Vector<Vector<Vector3D>> = _path.getPointsOnCurvePerSegment(_subdivision);
         var nSegs:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
         var seg:Vector<Vector3D>;
-        var j:Int;
+        var j:Int = 0;
         var estLength:Float = 0;
-        var vCount:Int;
+        var vCount:Int = 0;
         var v:Vector3D;
         var tmpV:Vector3D = new Vector3D();
-        var prevV:Vector3D;
+        var prevV:Vector3D = null;
         var i:Int = 0;
         while (i < segs.length) {
             seg = segs[i];
             j = 0;
             while (j < _subdivision) {
-                if (prevV) estLength += Vector3D.distance(prevV, seg[j]);
+                if (prevV != null) estLength += Vector3D.distance(prevV, seg[j]);
                 prevV = seg[j];
                 vCount++;
                 ++j;
@@ -994,34 +1021,40 @@ class PathExtrude extends Mesh {
         _geomDirty = false;
         initHolders();
         _maxIndProfile = _profile.length * 9;
-        var vSegPts:Vector<Vector<Vector3D>>;
+        var vSegPts:Vector<Vector<Vector3D>> = null;
         if (_distribute) vSegPts = distributeVectors()
         else vSegPts = _path.getPointsOnCurvePerSegment(_subdivision);
         if (_distributeU) generateUlist();
         var vPtsList:Vector<Vector3D> = new Vector<Vector3D>();
         var vSegResults:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
-        var atmp:Vector<Vector3D>;
+        var atmp:Vector<Vector3D> = null;
         var tmppt:Vector3D = new Vector3D(0, 0, 0);
-        var i:Int;
-        var j:Int;
-        var k:Int;
-        var nextpt:Vector3D;
+        var i:Int = 0;
+        var j:Int = 0;
+        var k:Int = 0;
+        var nextpt:Vector3D = null;
         if (_coverSegment) _segv = 1 / (_subdivision - 1);
-        var lastP:Vector<Vector3D>;
+        var lastP:Vector<Vector3D> = null;
         if (_closePath) lastP = new Vector<Vector3D>();
         var rescale:Bool = (_scales != null);
-        var lastscale:Vector3D;
+        var lastscale:Vector3D = null;
         if (rescale) lastscale = ((_scales[0] == null)) ? new Vector3D(1, 1, 1) : _scales[0];
         var rotate:Bool = (_rotations != null);
+        var lastrotate:Vector3D = null;
+        var nextrotate:Vector3D = null;
+        var rotation:Vector<Vector3D> = null ;
+        var tweenrot:Vector3D = null;
+        var nextscale:Vector3D = null;
+        var vScales:Vector<Vector3D> = null;
         if (rotate && _rotations.length > 0) {
-            var lastrotate:Vector3D = _rotations[0];
-            var nextrotate:Vector3D;
-            var rotation:Vector<Vector3D> = new Vector<Vector3D>();
-            var tweenrot:Vector3D;
+            lastrotate = _rotations[0];
+
+            rotation = new Vector<Vector3D>();
+
         }
         if (_smoothScale && rescale) {
-            var nextscale:Vector3D = new Vector3D(1, 1, 1);
-            var vScales:Vector<Vector3D> = Vector.ofArray(cast [lastscale]);
+            nextscale = new Vector3D(1, 1, 1);
+            vScales = Vector.ofArray(cast [lastscale]);
             if (_scales.length != _path.numSegments + 2) {
                 var lastScl:Vector3D = _scales[_scales.length - 1];
                 while (_scales.length != _path.numSegments + 2)_scales.push(lastScl);
@@ -1036,9 +1069,9 @@ class PathExtrude extends Mesh {
                 rotation = Vector.ofArray(cast [lastrotate]);
                 rotation = rotation.concat(Vector3DUtils.subdivide(lastrotate, nextrotate, _subdivision));
             }
-            if (rescale) lastscale = ((!_scales[i])) ? lastscale : _scales[i];
+            if (rescale) lastscale = ((_scales[i] == null)) ? lastscale : _scales[i];
             if (_smoothScale && rescale) {
-                nextscale = ((!_scales[i + 1])) ? ((!_scales[i])) ? lastscale : _scales[i] : _scales[i + 1];
+                nextscale = ((_scales[i + 1] == null)) ? ((_scales[i] == null)) ? lastscale : _scales[i] : _scales[i + 1];
                 vScales = vScales.concat(Vector3DUtils.subdivide(lastscale, nextscale, _subdivision));
             }
             j = 0;
@@ -1149,7 +1182,7 @@ class PathExtrude extends Mesh {
             }
         }
 
-        else if (_startPoints) {
+        else if (_startPoints != null) {
             i = 0;
             while (i < tmploop) {
                 _startPoints[i] = _endPoints[i] = null;
@@ -1160,14 +1193,14 @@ class PathExtrude extends Mesh {
         generate(vSegResults, ((_closePath && _coverAll)) ? 1 : 0, (_closePath && !_coverAll));
         vSegPts = null;
         _varr = null;
-        if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 0) {
+        if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 0) {
             var sglist:SubGeometryList;
             var sg:SubGeometry;
             i = 0;
             while (i < _MaterialsSubGeometries.length) {
                 sglist = _MaterialsSubGeometries[i];
                 sg = sglist.subGeometry;
-                if (sg && sglist.vertices.length > 0) {
+                if (sg != null && sglist.vertices.length > 0) {
                     this.geometry.addSubGeometry(sg);
                     this.subMeshes[this.subMeshes.length - 1].material = sglist.material;
                     sg.updateVertexData(sglist.vertices);

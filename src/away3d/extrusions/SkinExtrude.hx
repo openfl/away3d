@@ -38,7 +38,7 @@ class SkinExtrude extends Mesh {
     private var _indices:Vector<UInt>;
     private var _geomDirty:Bool;
     private var _profiles:Vector<Vector<Vector3D>>;
-    private var _subdivision:Int;
+    private var _subdivision:Float;
     private var _centerMesh:Bool;
     private var _closeShape:Bool;
     private var _coverAll:Bool;
@@ -92,7 +92,7 @@ class SkinExtrude extends Mesh {
     }
 
     public function set_coverAll(val:Bool):Bool {
-        if (_coverAll == val) return;
+        if (_coverAll == val) return val;
         _coverAll = val;
         invalidateGeometry();
         return val;
@@ -107,7 +107,7 @@ class SkinExtrude extends Mesh {
     }
 
     public function set_closeShape(val:Bool):Bool {
-        if (_closeShape == val) return;
+        if (_closeShape == val) return val;
         _closeShape = val;
         invalidateGeometry();
         return val;
@@ -122,7 +122,7 @@ class SkinExtrude extends Mesh {
     }
 
     public function set_flip(val:Bool):Bool {
-        if (_flip == val) return;
+        if (_flip == val) return val;
         _flip = val;
         invalidateGeometry();
         return val;
@@ -137,7 +137,7 @@ class SkinExtrude extends Mesh {
     }
 
     public function set_centerMesh(val:Bool):Bool {
-        if (_centerMesh == val) return;
+        if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && _subGeometry.vertexData.length > 0) MeshHelper.applyPosition(this, (this.minX + this.maxX) * .5, (this.minY + this.maxY) * .5, (this.minZ + this.maxZ) * .5)
         else invalidateGeometry();
@@ -149,7 +149,7 @@ class SkinExtrude extends Mesh {
     }
 
     public function set_subdivision(val:Float):Float {
-        if (_subdivision == val) return;
+        if (_subdivision == val) return val;
         _subdivision = val;
         invalidateGeometry();
         return val;
@@ -213,7 +213,9 @@ class SkinExtrude extends Mesh {
             stepz = (vectsB[i].z - vectsA[i].z) / _subdivision;
             j = 0;
             while (j < _subdivision + 1) {
-                _tmpVectors.push(vectsA[i].x + (stepx * j), vectsA[i].y + (stepy * j), vectsA[i].z + (stepz * j));
+                _tmpVectors.push(vectsA[i].x + (stepx * j));
+                _tmpVectors.push(vectsA[i].y + (stepy * j));
+                _tmpVectors.push(vectsA[i].z + (stepz * j));
                 ++j;
             }
             ++i;
@@ -241,10 +243,10 @@ class SkinExtrude extends Mesh {
                 _vb.x = _tmpVectors[vertIndice = (index + j + 1) * 3];
                 _vb.y = _tmpVectors[vertIndice + 1];
                 _vb.z = _tmpVectors[vertIndice + 2];
-                _vc.x = _tmpVectors[vertIndice = (index + j + _subdivision + 2) * 3];
+                _vc.x = _tmpVectors[vertIndice = Std.int((index + j + _subdivision + 2) * 3)];
                 _vc.y = _tmpVectors[vertIndice + 1];
                 _vc.z = _tmpVectors[vertIndice + 2];
-                _vd.x = _tmpVectors[vertIndice = (index + j + _subdivision + 1) * 3];
+                _vd.x = _tmpVectors[vertIndice = Std.int((index + j + _subdivision + 1) * 3)];
                 _vd.y = _tmpVectors[vertIndice + 1];
                 _vd.z = _tmpVectors[vertIndice + 2];
                 if (_vertices.length == LIMIT) {
@@ -261,17 +263,69 @@ class SkinExtrude extends Mesh {
                     _indice = 0;
                 }
                 if (_flip) {
-                    _vertices.push(_va.x, _va.y, _va.z, _vb.x, _vb.y, _vb.z, _vc.x, _vc.y, _vc.z);
-                    _uvs.push(_uva.u, _uva.v, _uvb.u, _uvb.v, _uvc.u, _uvc.v);
-                    _vertices.push(_va.x, _va.y, _va.z, _vc.x, _vc.y, _vc.z, _vd.x, _vd.y, _vd.z);
-                    _uvs.push(_uva.u, _uva.v, _uvc.u, _uvc.v, _uvd.u, _uvd.v);
+                    _vertices.push(_va.x);
+                    _vertices.push(_va.y);
+                    _vertices.push(_va.z);
+                    _vertices.push(_vb.x);
+                    _vertices.push(_vb.y);
+                    _vertices.push(_vb.z);
+                    _vertices.push(_vc.x);
+                    _vertices.push(_vc.y);
+                    _vertices.push(_vc.z);
+                    _uvs.push(_uva.u);
+                    _uvs.push(_uva.v);
+                    _uvs.push(_uvb.u);
+                    _uvs.push(_uvb.v);
+                    _uvs.push(_uvc.u);
+                    _uvs.push(_uvc.v);
+                    _vertices.push(_va.x);
+                    _vertices.push(_va.y);
+                    _vertices.push(_va.z);
+                    _vertices.push(_vc.x);
+                    _vertices.push(_vc.y);
+                    _vertices.push(_vc.z);
+                    _vertices.push(_vd.x);
+                    _vertices.push(_vd.y);
+                    _vertices.push(_vd.z);
+                    _uvs.push(_uva.u);
+                    _uvs.push(_uva.v);
+                    _uvs.push(_uvc.u);
+                    _uvs.push(_uvc.v);
+                    _uvs.push(_uvd.u);
+                    _uvs.push(_uvd.v);
                 }
 
                 else {
-                    _vertices.push(_vb.x, _vb.y, _vb.z, _va.x, _va.y, _va.z, _vc.x, _vc.y, _vc.z);
-                    _uvs.push(_uvb.u, _uvb.v, _uva.u, _uva.v, _uvc.u, _uvc.v);
-                    _vertices.push(_vc.x, _vc.y, _vc.z, _va.x, _va.y, _va.z, _vd.x, _vd.y, _vd.z);
-                    _uvs.push(_uvc.u, _uvc.v, _uva.u, _uva.v, _uvd.u, _uvd.v);
+                    _vertices.push(_vb.x);
+                    _vertices.push(_vb.y);
+                    _vertices.push(_vb.z);
+                    _vertices.push(_va.x);
+                    _vertices.push(_va.y);
+                    _vertices.push(_va.z);
+                    _vertices.push(_vc.x);
+                    _vertices.push(_vc.y);
+                    _vertices.push(_vc.z);
+                    _uvs.push(_uvb.u);
+                    _uvs.push(_uvb.v);
+                    _uvs.push(_uva.u);
+                    _uvs.push(_uva.v);
+                    _uvs.push(_uvc.u);
+                    _uvs.push(_uvc.v);
+                    _vertices.push(_vc.x);
+                    _vertices.push(_vc.y);
+                    _vertices.push(_vc.z);
+                    _vertices.push(_va.x);
+                    _vertices.push(_va.y);
+                    _vertices.push(_va.z);
+                    _vertices.push(_vd.x);
+                    _vertices.push(_vd.y);
+                    _vertices.push(_vd.z);
+                    _uvs.push(_uvc.u);
+                    _uvs.push(_uvc.v);
+                    _uvs.push(_uva.u);
+                    _uvs.push(_uva.v);
+                    _uvs.push(_uvd.u);
+                    _uvs.push(_uvd.v);
                 }
 
                 k = 0;
@@ -282,7 +336,7 @@ class SkinExtrude extends Mesh {
                 }
                 ++j;
             }
-            index += _subdivision + 1;
+            index += Std.int(_subdivision + 1);
             ++i;
         }
     }

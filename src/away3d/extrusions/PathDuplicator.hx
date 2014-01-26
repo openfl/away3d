@@ -168,14 +168,14 @@ class PathDuplicator {
     public function clearData(destroyCachedMeshes:Bool):Void {
         if (destroyCachedMeshes) {
             var i:Int = 0;
-            if (meshes) {
+            if (meshes != null) {
                 i = 0;
                 while (i < meshes.length) {
                     meshes[i] = null;
                     ++i;
                 }
             }
-            if (_clones) {
+            if (_clones != null) {
                 i;
                 while (i < _clones.length) {
                     _clones[i] = null;
@@ -204,8 +204,8 @@ class PathDuplicator {
 	 */
 
     public function build():Void {
-        if (!_path || !_meshes || meshes.length == 0) throw new Error("PathDuplicator error: Missing Path or Meshes data.");
-        if (!_scene && !_container) throw new Error("PathDuplicator error: Missing Scene3D or ObjectContainer3D.");
+        if (_path == null || _meshes == null || meshes.length == 0) throw new Error("PathDuplicator error: Missing Path or Meshes data.");
+        if (_scene == null && _container == null) throw new Error("PathDuplicator error: Missing Scene3D or ObjectContainer3D.");
         _mIndex = _meshes.length - 1;
         _count = 0;
         _clones = new Vector<Mesh>();
@@ -286,7 +286,7 @@ class PathDuplicator {
         clone.name = ((m.name != null)) ? m.name + "_" + _count : "clone_" + _count;
         _count++;
         if (_randomRotationY) clone.rotationY = Math.random() * 360;
-        if (_container) _container.addChild(clone)
+        if (_container != null) _container.addChild(clone)
         else _scene.addChild(clone);
         _clones.push(clone);
     }

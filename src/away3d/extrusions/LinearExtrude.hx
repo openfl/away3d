@@ -1,5 +1,13 @@
 package away3d.extrusions;
 
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import away3d.extrusions.data.RenderSide;
 import away3d.extrusions.data.Line;
 import away3d.extrusions.data.FourPoints;
 import away3d.extrusions.data.SubGeometryList;
@@ -32,9 +40,9 @@ class LinearExtrude extends Mesh {
     public var thicknessSubdivision(get_thicknessSubdivision, set_thicknessSubdivision):Int;
     public var ignoreSides(get_ignoreSides, set_ignoreSides):String;
 
-    static public var X_AXIS:String = "x";
-    static public var Y_AXIS:String = "y";
-    static public var Z_AXIS:String = "z";
+    inline static public var X_AXIS:String = "x";
+    inline static public var Y_AXIS:String = "y";
+    inline static public var Z_AXIS:String = "z";
     private var LIMIT:Int;
     private var EPS:Float;
     private var _varr:Vector<Vertex>;
@@ -96,7 +104,7 @@ class LinearExtrude extends Mesh {
         _geomDirty = true;
         var geom:Geometry = new Geometry();
         _subGeometry = new SubGeometry();
-        if (!material && materials && materials.front) material = materials.front;
+        if (material == null && materials != null && materials.front != null) material = materials.front;
         super(geom, material);
         _aVectors = vectors;
         _axis = axis;
@@ -109,12 +117,12 @@ class LinearExtrude extends Mesh {
         this.thicknessSubdivision = thicknessSubdivision;
         _ignoreSides = ignoreSides;
         _closePath = closePath;
-        if (materials) this.materials = materials;
+        if (materials != null) this.materials = materials;
         if (_closePath && ignoreSides != "") this.ignoreSides = ignoreSides;
     }
 
     private function buildExtrude():Void {
-        if (!_aVectors.length || _aVectors.length < 2) throw new Error("LinearExtrusion error: at least 2 vector3D required!");
+        if (_aVectors.length != 0 || _aVectors.length < 2) throw new Error("LinearExtrusion error: at least 2 vector3D required!");
         if (_closePath) _aVectors.push(new Vector3D(_aVectors[0].x, _aVectors[0].y, _aVectors[0].z));
         _maxIndProfile = _aVectors.length * 9;
         _MaterialsSubGeometries = null;
@@ -127,14 +135,14 @@ class LinearExtrude extends Mesh {
             _subGeometry.updateUVData(_uvs);
             this.geometry.addSubGeometry(_subGeometry);
         }
-        if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 0) {
+        if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 0) {
             var sglist:SubGeometryList;
             var sg:SubGeometry;
             var i:Int = 1;
             while (i < _MaterialsSubGeometries.length) {
                 sglist = _MaterialsSubGeometries[i];
                 sg = sglist.subGeometry;
-                if (sg && sglist.vertices.length > 0) {
+                if (sg != null && sglist.vertices.length > 0) {
                     this.geometry.addSubGeometry(sg);
                     this.subMeshes[this.subMeshes.length - 1].material = sglist.material;
                     sg.updateVertexData(sglist.vertices);
@@ -158,7 +166,7 @@ class LinearExtrude extends Mesh {
     }
 
     public function set_axis(val:String):String {
-        if (_axis == val) return;
+        if (_axis == val) return val;
         _axis = val;
         invalidateGeometry();
         return val;
@@ -174,7 +182,7 @@ class LinearExtrude extends Mesh {
 
     public function set_materials(val:MultipleMaterials):MultipleMaterials {
         _materials = val;
-        if (_materials.front && this.material != _materials.front) this.material = _materials.front;
+        if (_materials.front != null && this.material != _materials.front) this.material = _materials.front;
         invalidateGeometry();
         return val;
     }
@@ -189,7 +197,7 @@ class LinearExtrude extends Mesh {
 
     public function set_subdivision(val:Int):Int {
         val = ((val < 3)) ? 3 : val;
-        if (_subdivision == val) return;
+        if (_subdivision == val) return val;
         _subdivision = val;
         invalidateGeometry();
         return val;
@@ -204,7 +212,7 @@ class LinearExtrude extends Mesh {
     }
 
     public function set_coverAll(val:Bool):Bool {
-        if (_coverAll == val) return;
+        if (_coverAll == val) return val;
         _coverAll = val;
         invalidateGeometry();
         return val;
@@ -219,7 +227,7 @@ class LinearExtrude extends Mesh {
     }
 
     public function set_flip(val:Bool):Bool {
-        if (_flip == val) return;
+        if (_flip == val) return val;
         _flip = val;
         invalidateGeometry();
         return val;
@@ -234,7 +242,7 @@ class LinearExtrude extends Mesh {
     }
 
     public function set_centerMesh(val:Bool):Bool {
-        if (_centerMesh == val) return;
+        if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && _subGeometry.vertexData.length > 0) MeshHelper.recenter(this)
         else invalidateGeometry();
@@ -251,7 +259,7 @@ class LinearExtrude extends Mesh {
 
     public function set_thickness(val:Float):Float {
         val = Math.abs(val);
-        if (_thickness == val) return;
+        if (_thickness == val) return val;
         _thickness = val;
         invalidateGeometry();
         return val;
@@ -267,7 +275,7 @@ class LinearExtrude extends Mesh {
 
     public function set_thicknessSubdivision(val:Int):Int {
         val = ((val < 3)) ? 3 : val;
-        if (_thicknessSubdivision == val) return;
+        if (_thicknessSubdivision == val) return val;
         _thicknessSubdivision = val;
         invalidateGeometry();
         return val;
@@ -326,7 +334,7 @@ class LinearExtrude extends Mesh {
 // var normals:Vector.<Number>;
         var indices:Vector<UInt>;
         var sglist:SubGeometryList;
-        if (_activeMaterial != mat && _materials) {
+        if (_activeMaterial != mat && _materials != null) {
             sglist = getSubGeometryListFromMaterial(mat);
             _subGeometry = subGeom = sglist.subGeometry;
             _uvs = uvs = sglist.uvs;
@@ -350,7 +358,7 @@ class LinearExtrude extends Mesh {
             subGeom = new SubGeometry();
             subGeom.autoDeriveVertexTangents = true;
             subGeom.autoDeriveVertexNormals = true;
-            if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 1) {
+            if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 1) {
                 sglist = getSubGeometryListFromMaterial(mat);
                 sglist.subGeometry = _subGeometry = subGeom;
                 sglist.uvs = _uvs = uvs = new Vector<Float>();
@@ -366,14 +374,49 @@ class LinearExtrude extends Mesh {
             }
 
         }
-        var ind:Int = vertices.length / 3;
-        if (invertU) uvs.push(1 - uv0.u, uv0.v, 1 - uv1.u, uv1.v, 1 - uv2.u, uv2.v)
-        else uvs.push(uv0.u, uv0.v, uv1.u, uv1.v, uv2.u, uv2.v);
-        vertices.push(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
-        indices.push(ind, ind + 1, ind + 2);
+        var ind:Int = Std.int(vertices.length / 3);
+        if (invertU) {
+            uvs.push(1 - uv0.u);
+            uvs.push(uv0.v);
+            uvs.push(1 - uv1.u);
+            uvs.push(uv1.v);
+            uvs.push(1 - uv2.u);
+            uvs.push(uv2.v);
+        }
+        else {
+            uvs.push(uv0.u);
+            uvs.push(uv0.v);
+            uvs.push(uv1.u);
+            uvs.push(uv1.v);
+            uvs.push(uv2.u);
+            uvs.push(uv2.v);
+        }
+        vertices.push(v0.x);
+        vertices.push(v0.y);
+        vertices.push(v0.z);
+        vertices.push(v1.x);
+        vertices.push(v1.y);
+        vertices.push(v1.z);
+        vertices.push(v2.x);
+        vertices.push(v2.y);
+        vertices.push(v2.z);
+        indices.push(ind);
+        indices.push(ind + 1);
+        indices.push(ind + 2);
     }
 
     private function generate():Void {
+        var v1a:Vertex;
+        var v1b:Vertex;
+        var v1c:Vertex;
+        var v2a:Vertex;
+        var v2b:Vertex;
+        var v2c:Vertex;
+        var v3a:Vertex;
+        var v3b:Vertex;
+        var v3c:Vertex;
+        var v4b:Vertex;
+        var v4c:Vertex;
         var i:Int;
         var j:Int;
         var increase:Float = _offset / _subdivision;
@@ -395,7 +438,7 @@ class LinearExtrude extends Mesh {
         }
         var offset:Float = 0;
         switch(_axis) {
-            case X_AXIS:
+            case LinearExtrude.X_AXIS:
                 _baseMax = Math.abs(baseMaxX) - Math.abs(baseMinX);
                 if (baseMinZ > 0 && baseMaxZ > 0) {
                     _baseMin = baseMaxZ - baseMinZ;
@@ -412,7 +455,7 @@ class LinearExtrude extends Mesh {
                     offset = Math.abs(baseMinZ) + (((baseMaxZ < 0)) ? -baseMaxZ : 0);
                 }
 
-            case Y_AXIS:
+            case LinearExtrude.Y_AXIS:
                 _baseMax = Math.abs(baseMaxY) - Math.abs(baseMinY);
                 if (baseMinX > 0 && baseMaxX > 0) {
                     _baseMin = baseMaxX - baseMinX;
@@ -429,7 +472,7 @@ class LinearExtrude extends Mesh {
                     offset = Math.abs(baseMinX) + (((baseMaxX < 0)) ? -baseMaxX : 0);
                 }
 
-            case Z_AXIS:
+            case LinearExtrude.Z_AXIS:
                 _baseMax = Math.abs(baseMaxZ) - Math.abs(baseMinZ);
                 if (baseMinY > 0 && baseMaxY > 0) {
                     _baseMin = baseMaxY - baseMinY;
@@ -448,28 +491,30 @@ class LinearExtrude extends Mesh {
 
         }
         var aLines:Array<Dynamic>;
-        var prop1:String;
-        var prop2:String;
-        var prop3:String;
+        var prop1:String = "";
+        var prop2:String = "";
+        var prop3:String = "";
         var vector:Vertex = new Vertex();
+        var renderSide:RenderSide = null;
         if (_thickness != 0) {
             var aListsides:Array<Dynamic> = ["top", "bottom", "right", "left", "front", "back"];
-            var renderSide:RenderSide = new RenderSide();
+            renderSide = new RenderSide();
             i = 0;
             while (i < aListsides.length) {
-                renderSide[aListsides[i]] = (_ignoreSides.indexOf(aListsides[i]) == -1);
+
+                Reflect.setField(renderSide, aListsides[i], (_ignoreSides.indexOf(aListsides[i]) == -1));
                 ++i;
             }
             switch(_axis) {
-                case X_AXIS:
+                case LinearExtrude.X_AXIS:
                     prop1 = Z_AXIS;
                     prop2 = Y_AXIS;
                     prop3 = X_AXIS;
-                case Y_AXIS:
+                case LinearExtrude.Y_AXIS:
                     prop1 = X_AXIS;
                     prop2 = Z_AXIS;
                     prop3 = Y_AXIS;
-                case Z_AXIS:
+                case LinearExtrude.Z_AXIS:
                     prop1 = Y_AXIS;
                     prop2 = X_AXIS;
                     prop3 = Z_AXIS;
@@ -483,57 +528,57 @@ class LinearExtrude extends Mesh {
             while (i < aLines.length) {
                 points = cast((aLines[i]), FourPoints);
                 if (i == 0) {
-                    vector[prop1] = points.pt2.x;
-                    vector[prop2] = points.pt2.y;
-                    vector[prop3] = _aVectors[0][prop3];
+                    Reflect.setField(vector, prop1, points.pt2.x);
+                    Reflect.setField(vector, prop2, points.pt2.y);
+                    Reflect.setField(vector, prop3, Reflect.field(_aVectors[0], prop3));
                     _varr.push(new Vertex(vector.x, vector.y, vector.z));
-                    vector2[prop1] = points.pt1.x;
-                    vector2[prop2] = points.pt1.y;
-                    vector2[prop3] = _aVectors[0][prop3];
+                    Reflect.setField(vector2, prop1, points.pt1.x);
+                    Reflect.setField(vector2, prop2, points.pt1.y);
+                    Reflect.setField(vector2, prop3, Reflect.field(_aVectors[0], prop3));
                     _varr2.push(new Vertex(vector2.x, vector2.y, vector2.z));
                     elevate(vector, vector2, increase);
                     if (aLines.length == 1) {
-                        vector3[prop1] = points.pt4.x;
-                        vector3[prop2] = points.pt4.y;
-                        vector3[prop3] = _aVectors[0][prop3];
+                        Reflect.setField(vector3, prop1, points.pt4.x);
+                        Reflect.setField(vector3, prop2, points.pt4.y);
+                        Reflect.setField(vector3, prop3, Reflect.field(_aVectors[0], prop3));
                         _varr.push(new Vertex(vector3.x, vector3.y, vector3.z));
-                        vector4[prop1] = points.pt3.x;
-                        vector4[prop2] = points.pt3.y;
-                        vector4[prop3] = _aVectors[0][prop3];
+                        Reflect.setField(vector4, prop1, points.pt3.x);
+                        Reflect.setField(vector4, prop2, points.pt3.y);
+                        Reflect.setField(vector4, prop3, Reflect.field(_aVectors[0], prop3));
                         _varr2.push(new Vertex(vector4.x, vector4.y, vector4.z));
                         elevate(vector3, vector4, increase);
                     }
                 }
 
                 else if (i == aLines.length - 1) {
-                    vector[prop1] = points.pt2.x;
-                    vector[prop2] = points.pt2.y;
-                    vector[prop3] = _aVectors[i][prop3];
+                    Reflect.setField(vector, prop1, points.pt2.x);
+                    Reflect.setField(vector, prop2, points.pt2.y);
+                    Reflect.setField(vector, prop3, Reflect.field(_aVectors[i], prop3));
                     _varr.push(new Vertex(vector.x, vector.y, vector.z));
-                    vector2[prop1] = points.pt1.x;
-                    vector2[prop2] = points.pt1.y;
-                    vector2[prop3] = _aVectors[i][prop3];
+                    Reflect.setField(vector2, prop1, points.pt1.x);
+                    Reflect.setField(vector2, prop2, points.pt1.y);
+                    Reflect.setField(vector2, prop3, Reflect.field(_aVectors[i], prop3));
                     _varr2.push(new Vertex(vector2.x, vector2.y, vector2.z));
                     elevate(vector, vector2, increase);
-                    vector3[prop1] = points.pt4.x;
-                    vector3[prop2] = points.pt4.y;
-                    vector3[prop3] = _aVectors[i][prop3];
+                    Reflect.setField(vector3, prop1, points.pt4.x);
+                    Reflect.setField(vector3, prop2, points.pt4.y);
+                    Reflect.setField(vector3, prop3, Reflect.field(_aVectors[i], prop3));
                     _varr.push(new Vertex(vector3.x, vector3.y, vector3.z));
-                    vector4[prop1] = points.pt3.x;
-                    vector4[prop2] = points.pt3.y;
-                    vector4[prop3] = _aVectors[i][prop3];
+                    Reflect.setField(vector4, prop1, points.pt3.x);
+                    Reflect.setField(vector4, prop2, points.pt3.y);
+                    Reflect.setField(vector4, prop3, Reflect.field(_aVectors[i], prop3));
                     _varr2.push(new Vertex(vector4.x, vector4.y, vector4.z));
                     elevate(vector3, vector4, increase);
                 }
 
                 else {
-                    vector[prop1] = points.pt2.x;
-                    vector[prop2] = points.pt2.y;
-                    vector[prop3] = _aVectors[i][prop3];
+                    Reflect.setField(vector, prop1, points.pt2.x);
+                    Reflect.setField(vector, prop2, points.pt2.y);
+                    Reflect.setField(vector, prop3, Reflect.field(_aVectors[i], prop3));
                     _varr.push(new Vertex(vector.x, vector.y, vector.z));
-                    vector2[prop1] = points.pt1.x;
-                    vector2[prop2] = points.pt1.y;
-                    vector2[prop3] = _aVectors[i][prop3];
+                    Reflect.setField(vector2, prop1, points.pt1.x);
+                    Reflect.setField(vector2, prop2, points.pt1.y);
+                    Reflect.setField(vector2, prop3, Reflect.field(_aVectors[i], prop3));
                     _varr2.push(new Vertex(vector2.x, vector2.y, vector2.z));
                     elevate(vector, vector2, increase);
                 }
@@ -551,7 +596,7 @@ class LinearExtrude extends Mesh {
                 _varr.push(new Vertex(vector.x, vector.y, vector.z));
                 j = 0;
                 while (j < _subdivision) {
-                    vector[_axis] += increase;
+                    Reflect.setField(vector, _axis, Reflect.field(vector, _axis) + increase);
                     _varr.push(new Vertex(vector.x, vector.y, vector.z));
                     j++;
                 }
@@ -562,17 +607,7 @@ class LinearExtrude extends Mesh {
         var index:Int = 0;
         var mat:MaterialBase;
         if (_thickness > 0) {
-            var v1a:Vertex;
-            var v1b:Vertex;
-            var v1c:Vertex;
-            var v2a:Vertex;
-            var v2b:Vertex;
-            var v2c:Vertex;
-            var v3a:Vertex;
-            var v3b:Vertex;
-            var v3c:Vertex;
-            var v4b:Vertex;
-            var v4c:Vertex;
+
         }
         var step:Float = 1 / (_aVectors.length - 1);
         var vindex:Int;
@@ -624,7 +659,7 @@ class LinearExtrude extends Mesh {
                     v4c = _varr2[vindex + _subdivision + 1];
 //right
                     if (renderSide.right) {
-                        mat = ((materials && materials.right)) ? materials.right : this.material;
+                        mat = ((materials != null && materials.right != null)) ? materials.right : this.material;
                         if (_flip) {
                             addFace(v1a, v1b, v1c, _uva, _uvb, _uvc, mat);
                             addFace(v2a, v2b, v2c, _uva, _uvc, _uvd, mat);
@@ -637,7 +672,7 @@ class LinearExtrude extends Mesh {
 
                     }
                     if (renderSide.left) {
-                        mat = ((materials && materials.left)) ? materials.left : this.material;
+                        mat = ((materials != null && materials.left != null)) ? materials.left : this.material;
                         if (_flip) {
                             addFace(v4c, v3b, v3a, _uvd, _uvb, _uva, mat, true);
                             addFace(v4c, v4b, v3b, _uvd, _uvc, _uvb, mat, true);
@@ -650,7 +685,7 @@ class LinearExtrude extends Mesh {
 
                     }
                     if (i == 0 && renderSide.back) {
-                        mat = ((materials && materials.back)) ? materials.back : this.material;
+                        mat = ((materials != null && materials.back != null)) ? materials.back : this.material;
                         if (_flip) {
                             addFace(v3a, v3b, v1b, _uva, _uvb, _uvc, mat);
                             addFace(v3a, v1b, v1a, _uva, _uvc, _uvd, mat);
@@ -663,15 +698,15 @@ class LinearExtrude extends Mesh {
 
                     }
                     if (j == 0 && renderSide.bottom) {
-                        mat = ((materials && materials.bottom)) ? materials.bottom : this.material;
+                        mat = ((materials != null && materials.bottom != null)) ? materials.bottom : this.material;
                         addThicknessSubdivision([v4c, v3a], [v2c, v1a], _uvd.u, _uvb.u, mat);
                     }
                     if (j == _subdivision - 1 && renderSide.top) {
-                        mat = ((materials && materials.top)) ? materials.top : this.material;
+                        mat = ((materials != null && materials.top != null)) ? materials.top : this.material;
                         addThicknessSubdivision([v3b, v3c], [v1b, v1c], _uva.u, _uvc.u, mat);
                     }
                     if (i == _aVectors.length - 2 && renderSide.front) {
-                        mat = ((materials && materials.front)) ? materials.front : this.material;
+                        mat = ((materials != null && materials.front != null)) ? materials.front : this.material;
                         if (_flip) {
                             addFace(v2c, v2b, v3c, _uva, _uvb, _uvc, mat);
                             addFace(v2c, v3c, v4c, _uva, _uvc, _uvd, mat);
@@ -756,10 +791,10 @@ class LinearExtrude extends Mesh {
     private function elevate(v0:Dynamic, v1:Dynamic, increase:Float):Void {
         var i:Int = 0;
         while (i < _subdivision) {
-            v0[_axis] += increase;
-            v1[_axis] += increase;
-            _varr.push(new Vertex(v0[X_AXIS], v0[Y_AXIS], v0[Z_AXIS]));
-            _varr2.push(new Vertex(v1[X_AXIS], v1[Y_AXIS], v1[Z_AXIS]));
+            Reflect.setField(v0, _axis, Reflect.field(v0, _axis) + increase);
+            Reflect.setField(v1, _axis, Reflect.field(v1, _axis) + increase);
+            _varr.push(new Vertex(Reflect.field(v0, X_AXIS), Reflect.field(v0, Y_AXIS), Reflect.field(v0, Z_AXIS)));
+            _varr2.push(new Vertex(Reflect.field(v1, X_AXIS), Reflect.field(v1, Y_AXIS), Reflect.field(v1, Z_AXIS)));
             ++i;
         }
     }
@@ -769,9 +804,13 @@ class LinearExtrude extends Mesh {
         var lines:Array<Dynamic> = [];
         var i:Int = 0;
         while (i < _aVectors.length - 1) {
-            if (_aVectors[i][prop1] == 0 && _aVectors[i][prop2] == 0) _aVectors[i][prop1] = EPS;
-            if (_aVectors[i + 1][prop2] && _aVectors[i][prop2] == _aVectors[i + 1][prop2]) _aVectors[i + 1][prop2] += EPS;
-            if (_aVectors[i][prop1] && _aVectors[i][prop1] == _aVectors[i + 1][prop1]) _aVectors[i + 1][prop1] += EPS;
+            if (Reflect.field(_aVectors[i], prop1) == 0 && Reflect.field(_aVectors[i], prop2) == 0) Reflect.setField(_aVectors[i], prop1, EPS);
+            if (Reflect.field(_aVectors[i + 1], prop2) && Reflect.field(_aVectors[i], prop2) == Reflect.field(_aVectors[i + 1], prop2)) {
+                Reflect.setField(_aVectors[i + 1], prop2, Reflect.field(_aVectors[i + 1], prop2) + EPS);
+            }
+            if (Reflect.field(_aVectors[i], prop1) && Reflect.field(_aVectors[i], prop1) == Reflect.field(_aVectors[i + 1], prop1)) {
+                Reflect.setField(_aVectors[i + 1], prop1, Reflect.field(_aVectors[i + 1], prop1) + EPS);
+            }
             anchors.push(defineAnchors(_aVectors[i], _aVectors[i + 1], prop1, prop2));
             ++i;
         }
@@ -837,14 +876,14 @@ class LinearExtrude extends Mesh {
     }
 
     private function defineAnchors(base:Vector3D, baseEnd:Vector3D, prop1:String, prop2:String):FourPoints {
-        var angle:Float = (Math.atan2(base[prop2] - baseEnd[prop2], base[prop1] - baseEnd[prop1]) * 180) / Math.PI;
+        var angle:Float = (Math.atan2(Reflect.field(base, prop2) - Reflect.field(baseEnd, prop2), Reflect.field(base, prop1) - Reflect.field(baseEnd, prop1)) * 180) / Math.PI;
         angle -= 270;
         var angle2:Float = angle + 180;
         var fourPoints:FourPoints = new FourPoints();
-        fourPoints.pt1 = new Point(base[prop1], base[prop2]);
-        fourPoints.pt2 = new Point(base[prop1], base[prop2]);
-        fourPoints.pt3 = new Point(baseEnd[prop1], baseEnd[prop2]);
-        fourPoints.pt4 = new Point(baseEnd[prop1], baseEnd[prop2]);
+        fourPoints.pt1 = new Point(Reflect.field(base, prop1), Reflect.field(base, prop2));
+        fourPoints.pt2 = new Point(Reflect.field(base, prop1), Reflect.field(base, prop2));
+        fourPoints.pt3 = new Point(Reflect.field(baseEnd, prop1), Reflect.field(baseEnd, prop2));
+        fourPoints.pt4 = new Point(Reflect.field(baseEnd, prop1), Reflect.field(baseEnd, prop2));
         var radius:Float = _thickness * .5;
         fourPoints.pt1.x = fourPoints.pt1.x + Math.cos(-angle / 180 * Math.PI) * radius;
         fourPoints.pt1.y = fourPoints.pt1.y + Math.sin(angle / 180 * Math.PI) * radius;
@@ -866,6 +905,10 @@ class LinearExtrude extends Mesh {
         return line;
     }
 
+    private function isFinite(ptx:Float):Bool {
+        return (Math.POSITIVE_INFINITY == (ptx) || Math.POSITIVE_INFINITY == (ptx));
+    }
+
     private function lineIntersect(Line1:Line, Line2:Line):Point {
         Line1.bx = ((Line1.bx == 0)) ? EPS : Line1.bx;
         Line2.bx = ((Line2.bx == 0)) ? EPS : Line2.bx;
@@ -885,7 +928,7 @@ class LinearExtrude extends Mesh {
     }
 
     private function initHolders():Void {
-        if (!_uva) {
+        if (_uva == null) {
             _uva = new UV(0, 0);
             _uvb = new UV(0, 0);
             _uvc = new UV(0, 0);
@@ -897,7 +940,7 @@ class LinearExtrude extends Mesh {
         _uvs = new Vector<Float>();
         _vertices = new Vector<Float>();
         _indices = new Vector<UInt>();
-        if (_materials) {
+        if (_materials != null) {
             _MaterialsSubGeometries = new Vector<SubGeometryList>();
             var sglist:SubGeometryList = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
@@ -918,7 +961,7 @@ class LinearExtrude extends Mesh {
     }
 
     private function getSubGeometryListFromMaterial(mat:MaterialBase):SubGeometryList {
-        var sglist:SubGeometryList;
+        var sglist:SubGeometryList = null;
         var i:Int = 0;
         while (i < _MaterialsSubGeometries.length) {
             if (_MaterialsSubGeometries[i].material == mat) {
@@ -927,7 +970,7 @@ class LinearExtrude extends Mesh {
             }
             ++i;
         }
-        if (!sglist) {
+        if (sglist == null) {
             sglist = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();

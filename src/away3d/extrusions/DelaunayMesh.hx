@@ -7,6 +7,8 @@ import Reflect;
 import Reflect;
 import Reflect;
 import Reflect;
+import Reflect;
+import Reflect;
 import away3d.core.math.MathConsts;
 import flash.errors.Error;
 import flash.Vector;
@@ -160,7 +162,7 @@ class DelaunayMesh extends Mesh {
 
     private function buildExtrude():Void {
         _geomDirty = false;
-        if (_vectors!=null && _vectors.length > 2) {
+        if (_vectors != null && _vectors.length > 2) {
             initHolders();
             generate();
         }
@@ -196,7 +198,9 @@ class DelaunayMesh extends Mesh {
         var uvs:Vector<Float> = _uvs;
         var vertices:Vector<Float> = _vertices;
         var indices:Vector<UInt> = _indices;
-        if (_smoothSurface) var normals:Vector<Float> = _normals;
+        var normals:Vector<Float >= null;
+        if (_smoothSurface)
+            normals = _normals;
         if (vertices.length + 9 > LIMIT) {
             subGeom.updateVertexData(vertices);
             subGeom.updateIndexData(indices);
@@ -216,12 +220,12 @@ class DelaunayMesh extends Mesh {
 
             subGeom.autoDeriveVertexTangents = true;
         }
-        var bv0:Bool;
-        var bv1:Bool;
-        var bv2:Bool;
-        var ind0:Int;
-        var ind1:Int;
-        var ind2:Int;
+        var bv0:Bool = false;
+        var bv1:Bool = false;
+        var bv2:Bool = false;
+        var ind0:Int = 0;
+        var ind1:Int = 0;
+        var ind2:Int = 0;
         if (_smoothSurface) {
             var uvind:Int;
             var uvindV:Int;
@@ -301,24 +305,47 @@ class DelaunayMesh extends Mesh {
             }
         }
         if (!bv0) {
-            ind0 = vertices.length / 3;
-            vertices.push(v0.x, v0.y, v0.z);
-            uvs.push(uv0.u, uv0.v);
-            if (_smoothSurface) normals.push(_normal0.x, _normal0.y, _normal0.z);
+            ind0 = Std.int(vertices.length / 3);
+            vertices.push(v0.x);
+            vertices.push(v0.y);
+            vertices.push(v0.z);
+            uvs.push(uv0.u);
+            uvs.push(uv0.v);
+            if (_smoothSurface) {
+                normals.push(_normal0.x);
+                normals.push(_normal0.y);
+                normals.push(_normal0.z);
+            }
         }
         if (!bv1) {
-            ind1 = vertices.length / 3;
-            vertices.push(v1.x, v1.y, v1.z);
-            uvs.push(uv1.u, uv1.v);
-            if (_smoothSurface) normals.push(_normal1.x, _normal1.y, _normal1.z);
+            ind1 = Std.int(vertices.length / 3);
+            vertices.push(v1.x);
+            vertices.push(v1.y);
+            vertices.push(v1.z);
+            uvs.push(uv1.u);
+            uvs.push(uv1.v);
+            if (_smoothSurface) {
+                normals.push(_normal1.x);
+                normals.push(_normal1.y);
+                normals.push(_normal1.z);
+            }
         }
         if (!bv2) {
-            ind2 = vertices.length / 3;
-            vertices.push(v2.x, v2.y, v2.z);
-            uvs.push(uv2.u, uv2.v);
-            if (_smoothSurface) normals.push(_normal2.x, _normal2.y, _normal2.z);
+            ind2 = Std.int(vertices.length / 3);
+            vertices.push(v2.x);
+            vertices.push(v2.y);
+            vertices.push(v2.z);
+            uvs.push(uv2.u);
+            uvs.push(uv2.v);
+            if (_smoothSurface) {
+                normals.push(_normal2.x);
+                normals.push(_normal2.y);
+                normals.push(_normal2.z);
+            }
         }
-        indices.push(ind0, ind1, ind2);
+        indices.push(ind0);
+        indices.push(ind1);
+        indices.push(ind2);
     }
 
     private function generate():Void {
@@ -337,7 +364,7 @@ class DelaunayMesh extends Mesh {
         if (limit > 3) {
             var nVectors:Vector<Vector3D> = new Vector<Vector3D>();
 
-            nVectors =_vectors.concat();
+            nVectors = _vectors.concat();
             nVectors.sort(sortFunction);
             var i:Int;
             var j:Int;
@@ -384,16 +411,16 @@ class DelaunayMesh extends Mesh {
                 edges[i] = new Edge();
                 ++i;
             }
-            sortMin = Reflect.field(nVectors[0],_sortProp);
-            loopMin = Reflect.field( nVectors[0],_loopProp);
+            sortMin = Reflect.field(nVectors[0], _sortProp);
+            loopMin = Reflect.field(nVectors[0], _loopProp);
             sortMax = sortMin;
             loopMax = loopMin;
             i = 1;
             while (i < nv) {
-                if (Reflect.field(nVectors[i],_sortProp) < sortMin) sortMin = Reflect.field(nVectors[i],_sortProp);
-                if (Reflect.field(nVectors[i],_sortProp) > sortMax) sortMax = Reflect.field(nVectors[i],_sortProp);
-                if (Reflect.field(nVectors[i],_loopProp)< loopMin) loopMin = Reflect.field(nVectors[i],_loopProp);
-                if (Reflect.field(nVectors[i],_loopProp) > loopMax) loopMax = Reflect.field(nVectors[i],_loopProp);
+                if (Reflect.field(nVectors[i], _sortProp) < sortMin) sortMin = Reflect.field(nVectors[i], _sortProp);
+                if (Reflect.field(nVectors[i], _sortProp) > sortMax) sortMax = Reflect.field(nVectors[i], _sortProp);
+                if (Reflect.field(nVectors[i], _loopProp) < loopMin) loopMin = Reflect.field(nVectors[i], _loopProp);
+                if (Reflect.field(nVectors[i], _loopProp) > loopMax) loopMax = Reflect.field(nVectors[i], _loopProp);
                 ++i;
             }
             var da:Float = sortMax - sortMin;
@@ -405,20 +432,20 @@ class DelaunayMesh extends Mesh {
             nVectors[nv + 1] = new Vector3D(0.0, 0.0, 0.0);
             nVectors[nv + 2] = new Vector3D(0.0, 0.0, 0.0);
             var offset:Float = 2.0;
-            Reflect.setField(nVectors[nv + 0],_sortProp,sortMid - offset * dmax);
-            Reflect.setField(nVectors[nv + 0],_loopProp, loopMid - dmax);
-            Reflect.setField(nVectors[nv + 1],_sortProp, sortMid);
-            Reflect.setField(nVectors[nv + 1],_loopProp, loopMid + offset * dmax);
-            Reflect.setField(nVectors[nv + 2],_sortProp,sortMid + offset * dmax);
-            Reflect.setField(nVectors[nv + 2],_loopProp,loopMid - dmax);
+            Reflect.setField(nVectors[nv + 0], _sortProp, sortMid - offset * dmax);
+            Reflect.setField(nVectors[nv + 0], _loopProp, loopMid - dmax);
+            Reflect.setField(nVectors[nv + 1], _sortProp, sortMid);
+            Reflect.setField(nVectors[nv + 1], _loopProp, loopMid + offset * dmax);
+            Reflect.setField(nVectors[nv + 2], _sortProp, sortMid + offset * dmax);
+            Reflect.setField(nVectors[nv + 2], _loopProp, loopMid - dmax);
             v[0].v0 = nv;
             v[0].v1 = nv + 1;
             v[0].v2 = nv + 2;
             bList[0] = false;
             i = 0;
             while (i < nv) {
-                valA = Reflect.field(vectors[i],_sortProp);
-                valB = Reflect.field(vectors[i],_loopProp);
+                valA = Reflect.field(vectors[i], _sortProp);
+                valB = Reflect.field(vectors[i], _loopProp);
                 nEdge = 0;
                 j = 0;
                 while (j < ntri) {
@@ -426,18 +453,20 @@ class DelaunayMesh extends Mesh {
                         ++j;
                         continue;
                     }
-                    x1 = Reflect.field(nVectors[v[j].v0],_sortProp);
-                    y1 = Reflect.field(nVectors[v[j].v0],_loopProp);
-                    x2 = Reflect.field(nVectors[v[j].v1],_sortProp);
-                    y2 = Reflect.field(nVectors[v[j].v1],_loopProp);
-                    x3 = Reflect.field(nVectors[v[j].v2],_sortProp);
-                    y3 = Reflect.field(nVectors[v[j].v2],_loopProp);
+                    x1 = Reflect.field(nVectors[v[j].v0], _sortProp);
+                    y1 = Reflect.field(nVectors[v[j].v0], _loopProp);
+                    x2 = Reflect.field(nVectors[v[j].v1], _sortProp);
+                    y2 = Reflect.field(nVectors[v[j].v1], _loopProp);
+                    x3 = Reflect.field(nVectors[v[j].v2], _sortProp);
+                    y3 = Reflect.field(nVectors[v[j].v2], _loopProp);
                     inside = circumCircle(valA, valB, x1, y1, x2, y2, x3, y3);
                     if (_circle.x + _circle.z < valA) bList[j] = true;
                     if (inside) {
                         if (nEdge + 3 >= maxEdges) {
                             maxEdges += 3;
-                            edges.push(new Edge(), new Edge(), new Edge());
+                            edges.push(new Edge());
+                            edges.push(new Edge());
+                            edges.push(new Edge());
                         }
                         edges[nEdge].v0 = v[j].v0;
                         edges[nEdge].v1 = v[j].v1;
@@ -505,12 +534,12 @@ class DelaunayMesh extends Mesh {
                 v0 = nVectors[v[i].v0];
                 v1 = nVectors[v[i].v1];
                 v2 = nVectors[v[i].v2];
-                uv0.u = (v0[_loopProp] + offW) / w;
-                uv0.v = 1 - (v0[_sortProp] + offH) / h;
-                uv1.u = (v1[_loopProp] + offW) / w;
-                uv1.v = 1 - (v1[_sortProp] + offH) / h;
-                uv2.u = (v2[_loopProp] + offW) / w;
-                uv2.v = 1 - (v2[_sortProp] + offH) / h;
+                uv0.u = (Reflect.field(v0, _loopProp) + offW) / w;
+                uv0.v = 1 - (Reflect.field(v0, _sortProp) + offH) / h;
+                uv1.u = (Reflect.field(v1, _loopProp) + offW) / w;
+                uv1.v = 1 - (Reflect.field(v1, _sortProp) + offH) / h;
+                uv2.u = (Reflect.field(v2, _loopProp) + offW) / w;
+                uv2.v = 1 - (Reflect.field(v2, _sortProp) + offH) / h;
                 if (_flip) addFace(v0, v1, v2, uv0, uv1, uv2)
                 else addFace(v1, v0, v2, uv1, uv0, uv2);
                 ++i;
@@ -529,16 +558,37 @@ class DelaunayMesh extends Mesh {
             v0 = _vectors[0];
             v1 = _vectors[1];
             v2 = _vectors[2];
-            _vertices.push(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
-            uv0.u = (v0[_loopProp] + offW) / w;
-            uv0.v = 1 - (v0[_sortProp] + offH) / h;
-            uv1.u = (v1[_loopProp] + offW) / w;
-            uv1.v = 1 - (v1[_sortProp] + offH) / h;
-            uv2.u = (v2[_loopProp] + offW) / w;
-            uv2.v = 1 - (v2[_sortProp] + offH) / h;
-            _uvs.push(uv0.u, uv0.v, uv1.u, uv1.v, uv2.u, uv2.v);
-            if (_flip) _indices.push(1, 0, 2)
-            else _indices.push(0, 1, 2);
+            _vertices.push(v0.x);
+            _vertices.push(v0.y);
+            _vertices.push(v0.z);
+            _vertices.push(v1.x);
+            _vertices.push(v1.y);
+            _vertices.push(v1.z);
+            _vertices.push(v2.x);
+            _vertices.push(v2.y);
+            _vertices.push(v2.z);
+            uv0.u = (Reflect.field(v0, _loopProp) + offW) / w;
+            uv0.v = 1 - (Reflect.field(v0, _sortProp) + offH) / h;
+            uv1.u = (Reflect.field(v1, _loopProp) + offW) / w;
+            uv1.v = 1 - (Reflect.field(v1, _sortProp) + offH) / h;
+            uv2.u = (Reflect.field(v2, _loopProp) + offW) / w;
+            uv2.v = 1 - (Reflect.field(v2, _sortProp) + offH) / h;
+            _uvs.push(uv0.u);
+            _uvs.push(uv0.v);
+            _uvs.push(uv1.u);
+            _uvs.push(uv1.v);
+            _uvs.push(uv2.u);
+            _uvs.push(uv2.v);
+            if (_flip) {
+                _indices.push(1);
+                _indices.push(0);
+                _indices.push(2);
+            }
+            else {
+                _indices.push(0);
+                _indices.push(1);
+                _indices.push(2);
+            }
             _subGeometry.autoDeriveVertexNormals = true;
         }
 
@@ -548,8 +598,8 @@ class DelaunayMesh extends Mesh {
     }
 
     private function sortFunction(v0:Vector3D, v1:Vector3D):Int {
-        var a:Float = Reflect.field(v0,_sortProp);
-        var b:Float = Reflect.field(v1,_sortProp);
+        var a:Float = Reflect.field(v0, _sortProp);
+        var b:Float = Reflect.field(v1, _sortProp);
         if (a == b) return 0
         else if (a < b) return 1
         else return -1;
@@ -696,7 +746,7 @@ class DelaunayMesh extends Mesh {
         _circle.x = xc;
         _circle.y = yc;
         _circle.z = Math.sqrt(rsqr);
-        return cast((drsqr <= rsqr), Boolean);
+        return cast((drsqr <= rsqr), Bool);
     }
 
 }
@@ -706,7 +756,8 @@ class Tri {
     public var v0:Int;
     public var v1:Int;
     public var v2:Int;
-    public function new(){
+
+    public function new() {
 
     }
 }
@@ -715,7 +766,8 @@ class Edge {
 
     public var v0:Int;
     public var v1:Int;
-    public function new(){
+
+    public function new() {
 
     }
 }

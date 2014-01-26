@@ -71,7 +71,7 @@ class Elevation extends Mesh {
 	 */
 
     public function set_minElevation(val:Int):Int {
-        if (_minElevation == val) return;
+        if (_minElevation == val) return val;
         _minElevation = val;
         invalidateGeometry();
         return val;
@@ -87,7 +87,7 @@ class Elevation extends Mesh {
 	 */
 
     public function set_maxElevation(val:Int):Int {
-        if (_maxElevation == val) return;
+        if (_maxElevation == val) return val;
         _maxElevation = val;
         invalidateGeometry();
         return val;
@@ -158,7 +158,7 @@ class Elevation extends Mesh {
 	 */
 
     public function getHeightAt(x:Float, z:Float):Float {
-        var col:Int = _activeMap.getPixel((x / _width + .5) * (_activeMap.width - 1), (-z / _depth + .5) * (_activeMap.height - 1)) & 0xff;
+        var col:Int = _activeMap.getPixel(Std.int((x / _width + .5) * (_activeMap.width - 1)), Std.int((-z / _depth + .5) * (_activeMap.height - 1))) & 0xff;
         return ((col > _maxElevation)) ? (_maxElevation / 0xff) * _height : (((col < _minElevation)) ? (_minElevation / 0xff) * _height : (col / 0xff) * _height);
     }
 
@@ -170,27 +170,27 @@ class Elevation extends Mesh {
 	 */
 
     public function generateSmoothedHeightMap():BitmapData {
-        if (_smoothedHeightMap) _smoothedHeightMap.dispose();
+        if (_smoothedHeightMap != null) _smoothedHeightMap.dispose();
         _smoothedHeightMap = new BitmapData(_heightMap.width, _heightMap.height, false, 0);
         var w:Int = _smoothedHeightMap.width;
         var h:Int = _smoothedHeightMap.height;
-        var i:Int;
-        var j:Int;
-        var k:Int;
-        var l:Int;
-        var px1:Int;
-        var px2:Int;
-        var px3:Int;
-        var px4:Int;
-        var lockx:Int;
-        var locky:Int;
+        var i:Int = 0;
+        var j:Int = 0;
+        var k:Int = 0;
+        var l:Int = 0;
+        var px1:Int = 0;
+        var px2:Int = 0;
+        var px3:Int = 0;
+        var px4:Int = 0;
+        var lockx:Int = 0;
+        var locky:Int = 0;
         _smoothedHeightMap.lock();
         var incXL:Float;
         var incXR:Float;
         var incYL:Float;
         var incYR:Float;
-        var pxx:Float;
-        var pxy:Float;
+        var pxx:Int;
+        var pxy:Int;
         i = 0;
         while (i < w + 1) {
             if (i + _segmentsW > w - 1) lockx = w - 1
@@ -227,8 +227,8 @@ class Elevation extends Mesh {
                     while (l < _segmentsH) {
                         incYL = 1 / _segmentsH * l;
                         incYR = 1 - incYL;
-                        pxx = ((px1 * incXR) + (px2 * incXL)) * incYR;
-                        pxy = ((px4 * incXR) + (px3 * incXL)) * incYL;
+                        pxx = Std.int(((px1 * incXR) + (px2 * incXL)) * incYR);
+                        pxy = Std.int(((px4 * incXR) + (px3 * incXL)) * incYL);
 //_smoothedHeightMap.setPixel(k+i, l+j, pxy+pxx << 16 |  0xFF-(pxy+pxx) << 8 | 0xFF-(pxy+pxx) );
                         _smoothedHeightMap.setPixel(k + i, l + j, pxy + pxx << 16 | pxy + pxx << 8 | pxy + pxx);
                         ++l;
@@ -255,17 +255,17 @@ class Elevation extends Mesh {
     private function buildGeometry():Void {
         var vertices:Vector<Float>;
         var indices:Vector<UInt>;
-        var x:Float;
-        var z:Float;
-        var numInds:Int;
-        var base:Int;
+        var x:Float = 0;
+        var z:Float = 0;
+        var numInds:Int = 0;
+        var base:Int = 0;
         var tw:Int = _segmentsW + 1;
         var numVerts:Int = (_segmentsH + 1) * tw;
         var uDiv:Float = (_heightMap.width - 1) / _segmentsW;
         var vDiv:Float = (_heightMap.height - 1) / _segmentsH;
-        var u:Float;
-        var v:Float;
-        var y:Float;
+        var u:Float = 0;
+        var v:Float = 0;
+        var y:Float = 0;
         if (numVerts == _subGeometry.numVertices) {
             vertices = _subGeometry.vertexData;
             indices = _subGeometry.indexData;
@@ -286,7 +286,7 @@ class Elevation extends Mesh {
                 z = (zi / _segmentsH - .5) * _depth;
                 u = xi * uDiv;
                 v = (_segmentsH - zi) * vDiv;
-                col = _heightMap.getPixel(u, v) & 0xff;
+                col = _heightMap.getPixel(Std.int(u), Std.int(v)) & 0xff;
                 y = ((col > _maxElevation)) ? (_maxElevation / 0xff) * _height : (((col < _minElevation)) ? (_minElevation / 0xff) * _height : (col / 0xff) * _height);
                 vertices[numVerts++] = x;
                 vertices[numVerts++] = y;
@@ -317,7 +317,7 @@ class Elevation extends Mesh {
     private function buildUVs():Void {
         var uvs:Vector<Float> = new Vector<Float>();
         var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * 2;
-        if (_subGeometry.UVData && numUvs == _subGeometry.UVData.length) uvs = _subGeometry.UVData
+        if (_subGeometry.UVData != null && numUvs == _subGeometry.UVData.length) uvs = _subGeometry.UVData
         else uvs = new Vector<Float>(numUvs, true);
         numUvs = 0;
         var yi:Int = 0;

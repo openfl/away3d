@@ -3,6 +3,14 @@
  */
 package away3d.extrusions;
 
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
+import Reflect;
 import away3d.extrusions.data.Line;
 import away3d.extrusions.data.FourPoints;
 import away3d.extrusions.data.RenderSide;
@@ -87,9 +95,9 @@ class LatheExtrude extends Mesh {
     private var _normal0:Vector3D;
     private var _normal1:Vector3D;
     private var _normal2:Vector3D;
-    static public var X_AXIS:String = "x";
-    static public var Y_AXIS:String = "y";
-    static public var Z_AXIS:String = "z";
+    inline static public var X_AXIS:String = "x";
+    inline static public var Y_AXIS:String = "y";
+    inline static public var Z_AXIS:String = "z";
 /**
 	 *  Class LatheExtrude generates circular meshes such as donuts, pipes, pyramids etc.. from a series of Vector3D's
 	 *
@@ -121,7 +129,7 @@ class LatheExtrude extends Mesh {
         _MaterialsSubGeometries = new Vector<SubGeometryList>();
         var geom:Geometry = new Geometry();
         _subGeometry = new SubGeometry();
-        if (!material && materials && materials.front) material = materials.front;
+        if (material == null && materials != null && materials.front != null) material = materials.front;
         super(geom, material);
         _profile = profile;
         _axis = axis;
@@ -179,7 +187,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_axis(val:String):String {
-        if (_axis == val) return;
+        if (_axis == val) return val;
         _axis = val;
         invalidateGeometry();
         return val;
@@ -194,7 +202,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_revolutions(val:Float):Float {
-        if (_revolutions == val) return;
+        if (_revolutions == val) return val;
         _revolutions = ((_revolutions > .001)) ? _revolutions : .001;
         _revolutions = val;
         invalidateGeometry();
@@ -213,7 +221,7 @@ class LatheExtrude extends Mesh {
 
     public function set_subdivision(val:Int):Int {
         val = ((val < 3)) ? 3 : val;
-        if (_subdivision == val) return;
+        if (_subdivision == val) return val;
         _subdivision = val;
         invalidateGeometry();
         return val;
@@ -228,7 +236,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_offsetRadius(val:Float):Float {
-        if (_offsetRadius == val) return;
+        if (_offsetRadius == val) return val;
         _offsetRadius = val;
         invalidateGeometry();
         return val;
@@ -244,7 +252,7 @@ class LatheExtrude extends Mesh {
 
     public function set_materials(val:MultipleMaterials):MultipleMaterials {
         _materials = val;
-        if (_materials.front && this.material != _materials.front) this.material = _materials.front;
+        if (_materials.front != null && this.material != _materials.front) this.material = _materials.front;
         invalidateGeometry();
         return val;
     }
@@ -258,7 +266,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_coverAll(val:Bool):Bool {
-        if (_coverAll == val) return;
+        if (_coverAll == val) return val;
         _coverAll = val;
         invalidateGeometry();
         return val;
@@ -273,7 +281,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_flip(val:Bool):Bool {
-        if (_flip == val) return;
+        if (_flip == val) return val;
         _flip = val;
         invalidateGeometry();
         return val;
@@ -288,7 +296,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_smoothSurface(val:Bool):Bool {
-        if (_smoothSurface == val) return;
+        if (_smoothSurface == val) return val;
         _smoothSurface = val;
         _geomDirty = true;
         return val;
@@ -303,7 +311,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_keepLastProfile(val:Bool):Bool {
-        if (_keepLastProfile == val) return;
+        if (_keepLastProfile == val) return val;
         _keepLastProfile = val;
         return val;
     }
@@ -313,7 +321,7 @@ class LatheExtrude extends Mesh {
 	 */
 
     public function get_lastProfile():Vector<Vector3D> {
-        if (keepLastProfile && !_lastProfile) buildExtrude();
+        if (keepLastProfile && _lastProfile == null) buildExtrude();
         return _lastProfile;
     }
 
@@ -326,7 +334,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_preciseThickness(val:Bool):Bool {
-        if (_preciseThickness == val) return;
+        if (_preciseThickness == val) return val;
         _preciseThickness = val;
         invalidateGeometry();
         return val;
@@ -341,7 +349,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_centerMesh(val:Bool):Bool {
-        if (_centerMesh == val) return;
+        if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && _subGeometry.vertexData.length > 0) MeshHelper.recenter(this)
         else invalidateGeometry();
@@ -357,7 +365,7 @@ class LatheExtrude extends Mesh {
     }
 
     public function set_thickness(val:Float):Float {
-        if (_thickness == val) return;
+        if (_thickness == val) return val;
         _thickness = ((val > 0)) ? val : _thickness;
         invalidateGeometry();
         return val;
@@ -560,12 +568,11 @@ class LatheExtrude extends Mesh {
 
     private function generate(vectors:Vector<Vector3D>, axis:String, tweek:Dynamic, render:Bool = true, id:Int = 0):Void {
 // TODO: not used
-        axis = axis;
         if (!tweek) tweek = { };
-        if (Math.isNaN(tweek[X_AXIS]) || !tweek[X_AXIS]) tweek[X_AXIS] = 0;
-        if (Math.isNaN(tweek[Y_AXIS]) || !tweek[Y_AXIS]) tweek[Y_AXIS] = 0;
-        if (Math.isNaN(tweek[Z_AXIS]) || !tweek[Z_AXIS]) tweek[Z_AXIS] = 0;
-        if (Math.isNaN(tweek["radius"]) || !tweek["radius"]) tweek["radius"] = 0;
+        if (Math.isNaN(Reflect.field(tweek, X_AXIS)) || !Reflect.field(tweek, X_AXIS)) Reflect.setField(tweek, X_AXIS, 0);
+        if (Math.isNaN(Reflect.field(tweek, Y_AXIS)) || !Reflect.field(tweek, Y_AXIS)) Reflect.setField(tweek, Y_AXIS, 0);
+        if (Math.isNaN(Reflect.field(tweek, Z_AXIS)) || !Reflect.field(tweek, Z_AXIS)) Reflect.setField(tweek, Z_AXIS, 0);
+        if (Math.isNaN(Reflect.field(tweek, "radius")) || !Reflect.field(tweek, "radius")) Reflect.setField(tweek, "radius", 0);
         var angle:Float = _startRotationOffset;
         var step:Float = 360 / _subdivision;
         var j:Int;
@@ -579,7 +586,7 @@ class LatheExtrude extends Mesh {
         var uvu:Float;
         var uvv:Float;
         var i:Int;
-        if (!_varr) _varr = new Vector<Vector3D>();
+        if (_varr == null) _varr = new Vector<Vector3D>();
         i = 0;
         while (i < vectors.length) {
             _varr.push(new Vector3D(vectors[i].x, vectors[i].y, vectors[i].z));
@@ -599,9 +606,9 @@ class LatheExtrude extends Mesh {
             j = 0;
             while (j < tmpVecs.length) {
                 factor = ((_revolutions - 1) / (_varr.length + 1));
-                if (tweek[X_AXIS] != 0) tweekX += (tweek[X_AXIS] * factor) / _revolutions;
-                if (tweek[Y_AXIS] != 0) tweekY += (tweek[Y_AXIS] * factor) / _revolutions;
-                if (tweek[Z_AXIS] != 0) tweekZ += (tweek[Z_AXIS] * factor) / _revolutions;
+                if (Reflect.field(tweek, X_AXIS) != 0) tweekX += (Reflect.field(tweek, X_AXIS) * factor) / _revolutions;
+                if (Reflect.field(tweek, Y_AXIS) != 0) tweekY += (Reflect.field(tweek, Y_AXIS) * factor) / _revolutions;
+                if (Reflect.field(tweek, Z_AXIS) != 0) tweekZ += (Reflect.field(tweek, Z_AXIS) * factor) / _revolutions;
                 if (tweek.radius != 0) tweekradius += (tweek.radius / (_varr.length + 1));
                 if (tweek.rotation != 0) tweekrotation += 360 / (tweek.rotation * _subdivision);
                 if (_axis == X_AXIS) {
@@ -741,37 +748,38 @@ class LatheExtrude extends Mesh {
     }
 
     private function buildExtrude():Void {
-        if (!_profile) throw new Error("LatheExtrude error: No profile Vector.<Vector3D> set");
+        if (_profile == null) throw new Error("LatheExtrude error: No profile Vector.<Vector3D> set");
         _MaterialsSubGeometries = null;
         _geomDirty = false;
         initHolders();
+        var i:Int = 0;
         _maxIndProfile = _profile.length * 9;
         if (_profile.length > 1) {
             if (_thickness != 0) {
-                var i:Int;
+
                 var aListsides:Array<Dynamic> = ["top", "bottom", "right", "left", "front", "back"];
                 var renderSide:RenderSide = new RenderSide();
                 i = 0;
                 while (i < aListsides.length) {
-                    renderSide[aListsides[i]] = (_ignoreSides.indexOf(aListsides[i]) == -1);
+                    Reflect.setField(renderSide, aListsides[i], (_ignoreSides.indexOf(aListsides[i]) == -1));
                     ++i;
                 }
                 _varr = new Vector<Vector3D>();
                 _varr2 = new Vector<Vector3D>();
                 if (_preciseThickness) {
-                    var prop1:String;
-                    var prop2:String;
-                    var prop3:String;
+                    var prop1:String = "";
+                    var prop2:String = "";
+                    var prop3:String = "";
                     switch(_axis) {
-                        case X_AXIS:
+                        case LatheExtrude.X_AXIS:
                             prop1 = X_AXIS;
                             prop2 = Z_AXIS;
                             prop3 = Y_AXIS;
-                        case Y_AXIS:
+                        case LatheExtrude.Y_AXIS:
                             prop1 = Y_AXIS;
                             prop2 = X_AXIS;
                             prop3 = Z_AXIS;
-                        case Z_AXIS:
+                        case LatheExtrude.Z_AXIS:
                             prop1 = Z_AXIS;
                             prop2 = Y_AXIS;
                             prop3 = X_AXIS;
@@ -790,57 +798,57 @@ class LatheExtrude extends Mesh {
                         vector = new Vector3D();
                         vector2 = new Vector3D();
                         if (i == 0) {
-                            vector[prop1] = points.pt2.x;
-                            vector[prop2] = points.pt2.y;
-                            vector[prop3] = _profile[0][prop3];
+                            Reflect.setField(vector, prop1, points.pt2.x);
+                            Reflect.setField(vector, prop2, points.pt2.y);
+                            Reflect.setField(vector, prop3, Reflect.field(_profile[0], prop3));
                             profileFront.push(vector);
-                            vector2[prop1] = points.pt1.x;
-                            vector2[prop2] = points.pt1.y;
-                            vector2[prop3] = _profile[0][prop3];
+                            Reflect.setField(vector2, prop1, points.pt1.x);
+                            Reflect.setField(vector2, prop2, points.pt1.y);
+                            Reflect.setField(vector2, prop3, Reflect.field(_profile[0], prop3));
                             profileBack.push(vector2);
                             if (lines.length == 1) {
                                 vector3 = new Vector3D();
                                 vector4 = new Vector3D();
-                                vector3[prop1] = points.pt4.x;
-                                vector3[prop2] = points.pt4.y;
-                                vector3[prop3] = _profile[0][prop3];
+                                Reflect.setField(vector3, prop1, points.pt4.x);
+                                Reflect.setField(vector3, prop2, points.pt4.y);
+                                Reflect.setField(vector3, prop3, Reflect.field(_profile[0], prop3));
                                 profileFront.push(vector3);
-                                vector4[prop1] = points.pt3.x;
-                                vector4[prop2] = points.pt3.y;
-                                vector4[prop3] = _profile[0][prop3];
+                                Reflect.setField(vector4, prop1, points.pt3.x);
+                                Reflect.setField(vector4, prop2, points.pt3.y);
+                                Reflect.setField(vector4, prop3, Reflect.field(_profile[0], prop3));
                                 profileBack.push(vector4);
                             }
                         }
 
                         else if (i == lines.length - 1) {
-                            vector[prop1] = points.pt2.x;
-                            vector[prop2] = points.pt2.y;
-                            vector[prop3] = _profile[i][prop3];
+                            Reflect.setField(vector, prop1, points.pt2.x);
+                            Reflect.setField(vector, prop2, points.pt2.y);
+                            Reflect.setField(vector, prop3, Reflect.field(_profile[i], prop3));
                             profileFront.push(vector);
-                            vector2[prop1] = points.pt1.x;
-                            vector2[prop2] = points.pt1.y;
-                            vector2[prop3] = _profile[i][prop3];
+                            Reflect.setField(vector2, prop1, points.pt1.x);
+                            Reflect.setField(vector2, prop2, points.pt1.y);
+                            Reflect.setField(vector2, prop3, Reflect.field(_profile[i], prop3));
                             profileBack.push(vector2);
                             vector3 = new Vector3D();
                             vector4 = new Vector3D();
-                            vector3[prop1] = points.pt4.x;
-                            vector3[prop2] = points.pt4.y;
-                            vector3[prop3] = _profile[i][prop3];
+                            Reflect.setField(vector3, prop1, points.pt4.x);
+                            Reflect.setField(vector3, prop2, points.pt4.y);
+                            Reflect.setField(vector3, prop3, Reflect.field(_profile[i], prop3));
                             profileFront.push(vector3);
-                            vector4[prop1] = points.pt3.x;
-                            vector4[prop2] = points.pt3.y;
-                            vector4[prop3] = _profile[i][prop3];
+                            Reflect.setField(vector4, prop1, points.pt3.x);
+                            Reflect.setField(vector4, prop2, points.pt3.y);
+                            Reflect.setField(vector4, prop3, Reflect.field(_profile[i], prop3));
                             profileBack.push(vector4);
                         }
 
                         else {
-                            vector[prop1] = points.pt2.x;
-                            vector[prop2] = points.pt2.y;
-                            vector[prop3] = _profile[i][prop3];
+                            Reflect.setField(vector, prop1, points.pt2.x);
+                            Reflect.setField(vector, prop2, points.pt2.y);
+                            Reflect.setField(vector, prop3, Reflect.field(_profile[i], prop3));
                             profileFront.push(vector);
-                            vector2[prop1] = points.pt1.x;
-                            vector2[prop2] = points.pt1.y;
-                            vector2[prop3] = _profile[i][prop3];
+                            Reflect.setField(vector2, prop1, points.pt1.x);
+                            Reflect.setField(vector2, prop2, points.pt1.y);
+                            Reflect.setField(vector2, prop3, Reflect.field(_profile[i], prop3));
                             profileBack.push(vector2);
                         }
 
@@ -897,14 +905,14 @@ class LatheExtrude extends Mesh {
             if (_smoothSurface) _subGeometry.updateVertexNormalData(_normals);
             this.geometry.addSubGeometry(_subGeometry);
         }
-        if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 0) {
+        if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 0) {
             var sglist:SubGeometryList;
             var sg:SubGeometry;
             i = 1;
             while (i < 6) {
                 sglist = _MaterialsSubGeometries[i];
                 sg = sglist.subGeometry;
-                if (sg && sglist.vertices.length > 0) {
+                if (sg != null && sglist.vertices.length > 0) {
                     this.geometry.addSubGeometry(sg);
                     this.subMeshes[this.subMeshes.length - 1].material = sglist.material;
                     sg.updateVertexData(sglist.vertices);
@@ -944,7 +952,7 @@ class LatheExtrude extends Mesh {
         var normals:Vector<Float>;
         var vertices:Vector<Float>;
         var indices:Vector<UInt>;
-        if (subGeomInd > 0 && _MaterialsSubGeometries && _MaterialsSubGeometries.length > 0) {
+        if (subGeomInd > 0 && _MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 0) {
             subGeom = _MaterialsSubGeometries[subGeomInd].subGeometry;
             uvs = _MaterialsSubGeometries[subGeomInd].uvs;
             vertices = _MaterialsSubGeometries[subGeomInd].vertices;
@@ -966,10 +974,10 @@ class LatheExtrude extends Mesh {
             subGeom.updateUVData(uvs);
             if (_smoothSurface) subGeom.updateVertexNormalData(normals);
             this.geometry.addSubGeometry(subGeom);
-            if (subGeomInd > 0 && _MaterialsSubGeometries && _MaterialsSubGeometries[subGeomInd].subGeometry) this.subMeshes[this.subMeshes.length - 1].material = _MaterialsSubGeometries[subGeomInd].material;
+            if (subGeomInd > 0 && _MaterialsSubGeometries != null && _MaterialsSubGeometries[subGeomInd].subGeometry != null) this.subMeshes[this.subMeshes.length - 1].material = _MaterialsSubGeometries[subGeomInd].material;
             subGeom = new SubGeometry();
             subGeom.autoDeriveVertexTangents = true;
-            if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 0) {
+            if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 0) {
                 _MaterialsSubGeometries[subGeomInd].subGeometry = subGeom;
                 uvs = new Vector<Float>();
                 vertices = new Vector<Float>();
@@ -1001,12 +1009,12 @@ class LatheExtrude extends Mesh {
             }
 
         }
-        var bv0:Bool;
-        var bv1:Bool;
-        var bv2:Bool;
-        var ind0:Int;
-        var ind1:Int;
-        var ind2:Int;
+        var bv0:Bool = false;
+        var bv1:Bool = false;
+        var bv2:Bool = false;
+        var ind0:Int = 0;
+        var ind1:Int = 0;
+        var ind2:Int = 0;
         if (_smoothSurface) {
             var uvind:Int;
             var uvindV:Int;
@@ -1019,7 +1027,7 @@ class LatheExtrude extends Mesh {
             var ab:Float;
             if (indlength > 0) {
                 var back:Float = indlength - _maxIndProfile;
-                var limitBack:Int = ((back < 0)) ? 0 : back;
+                var limitBack:Int = Std.int(((back < 0)) ? 0 : back);
                 var i:Int = indlength - 1;
                 while (i > limitBack) {
                     ind = indices[i];
@@ -1094,24 +1102,47 @@ class LatheExtrude extends Mesh {
             }
         }
         if (!bv0) {
-            ind0 = vertices.length / 3;
-            vertices.push(v0.x, v0.y, v0.z);
-            uvs.push(uv0.u, uv0.v);
-            if (_smoothSurface) normals.push(_normal0.x, _normal0.y, _normal0.z);
+            ind0 = Std.int(vertices.length / 3);
+            vertices.push(v0.x);
+            vertices.push(v0.y);
+            vertices.push(v0.z);
+            uvs.push(uv0.u);
+            uvs.push(uv0.v);
+            if (_smoothSurface) {
+                normals.push(_normal0.x);
+                normals.push(_normal0.y);
+                normals.push(_normal0.z);
+            }
         }
         if (!bv1) {
-            ind1 = vertices.length / 3;
-            vertices.push(v1.x, v1.y, v1.z);
-            uvs.push(uv1.u, uv1.v);
-            if (_smoothSurface) normals.push(_normal1.x, _normal1.y, _normal1.z);
+            ind1 = Std.int(vertices.length / 3);
+            vertices.push(v1.x);
+            vertices.push(v1.y);
+            vertices.push(v1.z);
+            uvs.push(uv1.u);
+            uvs.push(uv1.v);
+            if (_smoothSurface) {
+                normals.push(_normal1.x);
+                normals.push(_normal1.y);
+                normals.push(_normal1.z);
+            }
         }
         if (!bv2) {
-            ind2 = vertices.length / 3;
-            vertices.push(v2.x, v2.y, v2.z);
-            uvs.push(uv2.u, uv2.v);
-            if (_smoothSurface) normals.push(_normal2.x, _normal2.y, _normal2.z);
+            ind2 = Std.int(vertices.length / 3);
+            vertices.push(v2.x);
+            vertices.push(v2.y);
+            vertices.push(v2.z);
+            uvs.push(uv2.u);
+            uvs.push(uv2.v);
+            if (_smoothSurface) {
+                normals.push(_normal2.x);
+                normals.push(_normal2.y);
+                normals.push(_normal2.z);
+            }
         }
-        indices.push(ind0, ind1, ind2);
+        indices.push(ind0);
+        indices.push(ind1);
+        indices.push(ind2);
     }
 
     private function initHolders():Void {
@@ -1137,7 +1168,7 @@ class LatheExtrude extends Mesh {
 
         else _subGeometry.autoDeriveVertexNormals = true;
         _subGeometry.autoDeriveVertexTangents = true;
-        if (_materials && _thickness > 0) initSubGeometryList();
+        if (_materials != null && _thickness > 0) initSubGeometryList();
     }
 
     private function buildThicknessPoints(aPoints:Vector<Vector3D>, thickness:Float, prop1:String, prop2:String):Array<Dynamic> {
@@ -1146,9 +1177,13 @@ class LatheExtrude extends Mesh {
         var i:Int;
         i = 0;
         while (i < aPoints.length - 1) {
-            if (aPoints[i][prop1] == 0 && aPoints[i][prop2] == 0) aPoints[i][prop1] = EPS;
-            if (aPoints[i + 1][prop2] != null && aPoints[i][prop2] == aPoints[i + 1][prop2]) aPoints[i + 1][prop2] += EPS;
-            if (aPoints[i][prop1] != null && aPoints[i][prop1] == aPoints[i + 1][prop1]) aPoints[i + 1][prop1] += EPS;
+            if (Reflect.field(aPoints[i], prop1) == 0 && Reflect.field(aPoints[i], prop2) == 0) Reflect.setField(aPoints[i], prop1, EPS);
+            if (Reflect.field(aPoints[i + 1], prop2) != null && Reflect.field(aPoints[i], prop2) == Reflect.field(aPoints[i + 1], prop2)) {
+                Reflect.setField(aPoints[i + 1], prop2, Reflect.field(aPoints[i + 1], prop2) + EPS);
+            }
+            if (Reflect.field(aPoints[i], prop1) != null && Reflect.field(aPoints[i], prop1) == Reflect.field(aPoints[i + 1], prop1)) {
+                Reflect.setField(aPoints[i + 1], prop1, Reflect.field(aPoints[i + 1], prop1) + EPS);
+            }
             anchors.push(defineAnchors(aPoints[i], aPoints[i + 1], thickness, prop1, prop2));
             ++i;
         }
@@ -1214,14 +1249,14 @@ class LatheExtrude extends Mesh {
     }
 
     private function defineAnchors(base:Vector3D, baseEnd:Vector3D, thickness:Float, prop1:String, prop2:String):FourPoints {
-        var angle:Float = (Math.atan2(base[prop2] - baseEnd[prop2], base[prop1] - baseEnd[prop1]) * 180) / Math.PI;
+        var angle:Float = (Math.atan2(Reflect.field(base, prop2) - Reflect.field(baseEnd, prop2), Reflect.field(base, prop1) - Reflect.field(baseEnd, prop1)) * 180) / Math.PI;
         angle -= 270;
         var angle2:Float = angle + 180;
         var fourPoints:FourPoints = new FourPoints();
-        fourPoints.pt1 = new Point(base[prop1], base[prop2]);
-        fourPoints.pt2 = new Point(base[prop1], base[prop2]);
-        fourPoints.pt3 = new Point(baseEnd[prop1], baseEnd[prop2]);
-        fourPoints.pt4 = new Point(baseEnd[prop1], baseEnd[prop2]);
+        fourPoints.pt1 = new Point(Reflect.field(base, prop1), Reflect.field(base, prop2));
+        fourPoints.pt2 = new Point(Reflect.field(base, prop1), Reflect.field(base, prop2));
+        fourPoints.pt3 = new Point(Reflect.field(baseEnd, prop1), Reflect.field(baseEnd, prop2));
+        fourPoints.pt4 = new Point(Reflect.field(baseEnd, prop1), Reflect.field(baseEnd, prop2));
         var radius:Float = thickness * .5;
         fourPoints.pt1.x = fourPoints.pt1.x + Math.cos(-angle / 180 * Math.PI) * radius;
         fourPoints.pt1.y = fourPoints.pt1.y + Math.sin(angle / 180 * Math.PI) * radius;
@@ -1241,6 +1276,11 @@ class LatheExtrude extends Mesh {
         line.bx = endX - origX;
         line.by = endY - origY;
         return line;
+    }
+
+
+    private function isFinite(ptx:Float):Bool {
+        return (Math.POSITIVE_INFINITY == (ptx) || Math.POSITIVE_INFINITY == (ptx));
     }
 
     private function lineIntersect(Line1:Line, Line2:Line):Point {
@@ -1273,7 +1313,7 @@ class LatheExtrude extends Mesh {
     private function initSubGeometryList():Void {
         var i:Int;
         var sglist:SubGeometryList;
-        if (!_MaterialsSubGeometries) _MaterialsSubGeometries = new Vector<SubGeometryList>();
+        if (_MaterialsSubGeometries == null) _MaterialsSubGeometries = new Vector<SubGeometryList>();
         i = 0;
         while (i < 6) {
             sglist = new SubGeometryList();
@@ -1314,10 +1354,10 @@ class LatheExtrude extends Mesh {
                 default:
                     prop = "front";
             }
-            if (_materials[prop] && _MaterialsSubGeometries[i].subGeometry == null) {
+            if (Reflect.field(_materials, prop) != null && _MaterialsSubGeometries[i].subGeometry == null) {
                 sglist = _MaterialsSubGeometries[i];
                 sg = new SubGeometry();
-                sglist.material = _materials[prop];
+                sglist.material = Reflect.field(_materials, prop);
                 sglist.subGeometry = sg;
                 sg.autoDeriveVertexNormals = true;
                 sg.autoDeriveVertexTangents = true;

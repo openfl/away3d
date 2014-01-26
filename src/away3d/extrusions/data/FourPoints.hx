@@ -1,4 +1,3 @@
-
 package away3d.extrusions.data;
 import flash.geom.Point;
 class FourPoints {
