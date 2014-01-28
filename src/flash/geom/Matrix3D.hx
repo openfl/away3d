@@ -59,7 +59,7 @@ class Matrix3D
 	   
       if( v != null && v.length == 16 )
       {
-         this.rawData = v;
+         this.rawData = Vector.ofArray(v);
       }
       else
       {
@@ -159,8 +159,9 @@ class Matrix3D
    {
 
          // Initial Tests - OK
-
-      return new Matrix3D( Lambda.array(this.rawData) );
+	  var mtr = new Matrix3D(   );
+	  copyToMatrix3D(mtr);
+      return mtr;
    }
    
    /**
@@ -389,7 +390,7 @@ class Matrix3D
 
       var vec:Vector<Vector3D> =new Vector<Vector3D>();
       var m = this.clone();
-      var mr = Lambda.array(m.rawData);
+      var mr =  (m.rawData).copy();
       
       var pos: Vector3D = new Vector3D( mr[12], mr[13], mr[14] );
       mr[12] = 0;
@@ -459,7 +460,7 @@ class Matrix3D
     */
    public function identity() : Void
    {
-      this.rawData = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 ];
+      this.rawData = Vector.ofArray( [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 ]);
    }
    
    /**
