@@ -224,8 +224,7 @@ class HoverController extends LookAtController {
         super(targetObject, lookAtObject);
         this.distance = distance;
         this.panAngle = panAngle;
-        this.tiltAngle = tiltAngle;
-        this.minPanAngle = minPanAngle ;
+        this.tiltAngle = tiltAngle; 
         this.minPanAngle = minPanAngle!=null ? minPanAngle : Math.NEGATIVE_INFINITY;
         this.maxPanAngle = maxPanAngle!=null ? maxPanAngle : Math.POSITIVE_INFINITY;
         this.minTiltAngle = minTiltAngle;
