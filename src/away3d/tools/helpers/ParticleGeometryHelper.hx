@@ -82,7 +82,7 @@ class ParticleGeometryHelper {
                 var compact:CompactSubGeometry = cast(sourceSubGeometry, CompactSubGeometry);
                 var product:Int;
                 var sourceVertices:Vector<Float>;
-                if (compact == null) {
+                if (compact != null) {
                     tempLen = compact.numVertices;
                     compact.numTriangles;
                     sourceVertices = compact.vertexData;
