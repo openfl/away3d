@@ -36,6 +36,7 @@ package flash.display3D;
     function setVertexBufferAt(index : Int, buffer : VertexBuffer3D, bufferOffset : Int = 0, ?format : Context3DVertexBufferFormat) : Void;
 }
 #else
+import openfl.gl.GLRenderbuffer;
 import openfl.utils.Float32Array;
 import flash.display3D.textures.CubeTexture;
 import flash.display3D.textures.Texture;
@@ -87,6 +88,7 @@ class Context3D
     private var texturesCreated : Array<TextureBase>;
 
     private var tmpFrameBuffer : GLFramebuffer;
+	private var depthRenderBuffer : GLRenderbuffer;
 
     private var boundTextures : Map<Location,TextureBase>;
     private var samplerParameters : Map<Location,Array<Dynamic>>; //TODO : use Tupple3
@@ -217,6 +219,12 @@ class Context3D
             GL.deleteFramebuffer(tmpFrameBuffer);
             tmpFrameBuffer = null;
         }
+		
+        if(depthRenderBuffer != null){
+            GL.deleteRenderbuffer(depthRenderBuffer);
+            depthRenderBuffer = null;
+        }
+		
 
 
         disposed = true;
@@ -390,34 +398,31 @@ class Context3D
     }
 
     // TODO : currently does not work (frameBufferStatus always return zero)
-    public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {
-
-        // TODO antiAlias (could this be achieved using a texture multiple of the screensize ?)
-        // TODO surfaceSelector
-
+    public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {		 
         if(tmpFrameBuffer == null){
             tmpFrameBuffer = GL.createFramebuffer();
+        } 
+        if(!enableDepthAndStencil){
+			GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer); 
+			GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.TEXTURE_2D, texture.glTexture, 0);  
+        } else { 
+			if(depthRenderBuffer == null){
+				depthRenderBuffer = GL.createRenderbuffer();
+			}  
+            GL.bindRenderbuffer(GL.RENDERBUFFER, depthRenderBuffer);
+            GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT,  texture.width, texture.height); 
+			GL.bindFramebuffer(GL.RENDERBUFFER, tmpFrameBuffer); 			
+			 if (Std.is (texture, flash.display3D.textures.Texture)) {				 
+					GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
+			 }
+			 else if (Std.is (texture, flash.display3D.textures.CubeTexture)) {
+				 for (  i  in 0...6) {
+					GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_CUBE_MAP_NEGATIVE_X+i, texture.glTexture, 0);
+                }
+			} 
+            GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, depthRenderBuffer); 
         }
-        GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer);
-
-
-        GL.bindTexture(GL.TEXTURE_2D, texture.glTexture);
-
-
-        //TODO ? poor filterring needed  (http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/)?
-        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
-        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
-
-
-        GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
-
-        //TODO :
-        //        if(enableDepthAndStencil){
-        //            var depthRenderBuffer = GL.createRenderbuffer();
-        //            GL.bindRenderbuffer(GL.RENDERBUFFER, depthRenderBuffer);
-        //            GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT, texture.width, texture.heigth);
-        //            GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, depthRenderBuffer);
-        //        }
+        
 
         var frameBufferStatus = GL.checkFramebufferStatus(GL.FRAMEBUFFER);
         switch(frameBufferStatus){
@@ -428,15 +433,7 @@ class Context3D
             case GL.FRAMEBUFFER_UNSUPPORTED : trace("FRAMEBUFFER_UNSUPPORTED");
             default : trace("frameBufferStatus " + frameBufferStatus);
         }
-
-
-        // Render to our framebuffer
-        //GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer);
-
-        //TODO viewport ? with other textures type
-        //var texture2d : Texture= cast(texture);
-        //GL.viewport(0,0,texture2d.width,texture2d.height);
-
+ 
 
     }
 

@@ -14,12 +14,15 @@ import flash.events.EventDispatcher;
 
 class TextureBase extends EventDispatcher 
 {
+	public var width : Int;
+    public var height : Int;
     public var glTexture:GLTexture;
 
-   public function new(glTexture:GLTexture) 
+   public function new(glTexture:GLTexture, width : Int=0, height : Int=0) 
    {
       super();
-
+		this.width = width;
+		this.height = height;
         this.glTexture = glTexture;
     }
 

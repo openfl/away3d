@@ -24,7 +24,7 @@ class CubeTexture extends TextureBase
 
     public function new (glTexture:GLTexture, size : Int) {
 
-        super (glTexture);
+        super (glTexture,size,size);
         this.size = size;
 
         this._textures = [];

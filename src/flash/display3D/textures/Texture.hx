@@ -21,14 +21,12 @@ import openfl.utils.UInt8Array;
 
 class Texture extends TextureBase 
 {
-   public var width : Int;
-    public var height : Int;
+
 
 	public function new(glTexture:GLTexture, width : Int, height : Int) {
 
-		super (glTexture);
-		this.width = width;
-		this.height = height;
+		super (glTexture,width , height );
+	
 
         GL.bindTexture (GL.TEXTURE_2D, glTexture);
         GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, width, height, 0, GL.RGBA, GL.UNSIGNED_BYTE, null);
