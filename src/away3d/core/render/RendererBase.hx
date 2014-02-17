@@ -243,7 +243,7 @@ class RendererBase {
 		executeRender(entityCollector, target, scissorRect, surfaceSelector);
 // clear buffers
 //todo  stage3d 
-/*
+
         var i:Int = 0;
         while (i < 8) {
 			
@@ -251,7 +251,7 @@ class RendererBase {
             _context.setTextureAt(i, null);
             ++i;
         }
-*/		
+		
     }
 
 /**

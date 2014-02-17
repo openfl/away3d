@@ -119,20 +119,16 @@ class StaticLightPicker extends LightPickerBase {
         if (light.castsShadows) {
 			--_numDirectionalLights;
 			++_numCastingDirectionalLights;
-			#if flash 
+	 
 			_directionalLights.splice(_directionalLights.indexOf(cast(light, DirectionalLight)), 1);
-			#else
-			_directionalLights.splice(Lambda.indexOf(_directionalLights, cast(light, DirectionalLight)), 1);
-			#end
+			 
 			_castingDirectionalLights.push(light);
 		} else {
 			++_numDirectionalLights;
 			--_numCastingDirectionalLights;
-			#if flash 
+		 
 			_castingDirectionalLights.splice(_castingDirectionalLights.indexOf(cast(light, DirectionalLight)), 1);
-			#else
-			_castingDirectionalLights.splice(Lambda.indexOf(_castingDirectionalLights, cast(light, DirectionalLight)), 1);
-			#end
+	 
 			_directionalLights.push(light);
 		}
 
@@ -146,20 +142,16 @@ class StaticLightPicker extends LightPickerBase {
 		if (light.castsShadows) {
 			--_numPointLights;
 			++_numCastingPointLights;
-			#if flash 
+		 
 			_pointLights.splice(_pointLights.indexOf(cast(light, PointLight)), 1);
-			#else
-			_pointLights.splice(Lambda.indexOf(_pointLights, cast(light, PointLight)), 1);
-			#end
+		 
 			_castingPointLights.push(light);
 		} else {
 			++_numPointLights;
 			--_numCastingPointLights;
-			#if flash
+		 
 			_castingPointLights.splice(_castingPointLights.indexOf(cast(light, PointLight)), 1);
-			#else
-			_castingPointLights.splice(Lambda.indexOf(_castingPointLights, cast(light, PointLight)), 1);
-			#end
+			 
 			_pointLights.push(light);
 		}
 
