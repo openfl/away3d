@@ -393,6 +393,7 @@ class Context3D
    public function setRenderToBackBuffer ():Void {
 
         GL.bindFramebuffer(GL.FRAMEBUFFER, null);
+		GL.bindRenderbuffer(GL.RENDERBUFFER, null);
         //GL.viewport(Std.int(ogl.scrollRect.x),Std.int(ogl.scrollRect.y),Std.int(ogl.scrollRect.width),Std.int(ogl.scrollRect.height));
 
     }
@@ -401,7 +402,7 @@ class Context3D
     public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {		 
         if(tmpFrameBuffer == null){
             tmpFrameBuffer = GL.createFramebuffer();
-        } 
+        }  
         if(!enableDepthAndStencil){
 			GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer); 
 			GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.TEXTURE_2D, texture.glTexture, 0);  
@@ -410,8 +411,8 @@ class Context3D
 				depthRenderBuffer = GL.createRenderbuffer();
 			}  
             GL.bindRenderbuffer(GL.RENDERBUFFER, depthRenderBuffer);
-            GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT,  texture.width, texture.height); 
-			GL.bindFramebuffer(GL.RENDERBUFFER, tmpFrameBuffer); 			
+            GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16,  texture.width, texture.height); 
+			GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer); 			
 			 if (Std.is (texture, flash.display3D.textures.Texture)) {				 
 					GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
 			 }
@@ -423,7 +424,6 @@ class Context3D
             GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, depthRenderBuffer); 
         }
         
-
         var frameBufferStatus = GL.checkFramebufferStatus(GL.FRAMEBUFFER);
         switch(frameBufferStatus){
             case GL.FRAMEBUFFER_COMPLETE: trace("FRAMEBUFFER_COMPLETE");
