@@ -36,6 +36,7 @@ package flash.display3D;
     function setVertexBufferAt(index : Int, buffer : VertexBuffer3D, bufferOffset : Int = 0, ?format : Context3DVertexBufferFormat) : Void;
 }
 #else
+import haxe.ds.IntMap.IntMap;
 import openfl.gl.GLRenderbuffer;
 import openfl.utils.Float32Array;
 import flash.display3D.textures.CubeTexture;
@@ -87,26 +88,31 @@ class Context3D
     private var programsCreated : Array<Program3D>;
     private var texturesCreated : Array<TextureBase>;
 
-    private var tmpFrameBuffer : GLFramebuffer;
-	private var depthRenderBuffer : GLRenderbuffer;
-
-    private var boundTextures : Map<Location,TextureBase>;
-    private var samplerParameters : Map<Location,Array<Dynamic>>; //TODO : use Tupple3
-
+    private var framebuffer : GLFramebuffer;
+	private var renderbuffer : GLRenderbuffer;
+ 
+    private var samplerParameters :Array<SamplerState>; //TODO : use Tupple3
+	private var scrollRect:Rectangle;
+	public static var MAX_SAMPLERS:Int = 8;
    public function new() 
    {
         disposed = false;
         vertexBuffersCreated = new Array();
         indexBuffersCreated = new Array();
         programsCreated = new Array();
-        texturesCreated = new Array();
-        boundTextures = new Map();
-        samplerParameters = new Map();
-
+        texturesCreated = new Array(); 
+        samplerParameters = new Array<SamplerState>();
+		for (  i in 0...MAX_SAMPLERS) {
+			this.samplerParameters[ i ] = new SamplerState(); 
+			this.samplerParameters[ i ].wrap = Context3DWrapMode.REPEAT;
+			this.samplerParameters[ i ].filter = Context3DTextureFilter.LINEAR;
+			this.samplerParameters[ i ].mipfilter =Context3DMipFilter.MIPNONE;
+		}
       var stage = Lib.current.stage;
 
       ogl = new OpenGLView();
       ogl.scrollRect = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+	  scrollRect = ogl.scrollRect.clone();
       ogl.width = stage.stageWidth;
       ogl.height = stage.stageHeight;
 	  //todo html something 
@@ -147,6 +153,9 @@ class Context3D
         // TODO use antiAlias parameter
         //GL.enable(GL.)
       ogl.scrollRect = new Rectangle(0, 0, width, height);
+	  scrollRect = ogl.scrollRect.clone();
+	   GL.viewport(Std.int(scrollRect.x),Std.int(scrollRect.y),Std.int(scrollRect.width),Std.int(scrollRect.height));
+
    }
 
    public function createCubeTexture(size:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool, streamingLevels:Int = 0):CubeTexture 
@@ -172,7 +181,7 @@ class Context3D
 
    public function createTexture(width:Int, height:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool, streamingLevels:Int = 0):flash.display3D.textures.Texture 
    {
-       var texture = new flash.display3D.textures.Texture (GL.createTexture (), width, height);     // TODO use format, optimizeForRenderToTexture and  streamingLevels?
+       var texture = new flash.display3D.textures.Texture (GL.createTexture (), optimizeForRenderToTexture,width, height);     // TODO use format, optimizeForRenderToTexture and  streamingLevels?
        texturesCreated.push(texture);
         return texture;
    }
@@ -205,8 +214,7 @@ class Context3D
             program.dispose();
         }
         programsCreated = null;
-
-        boundTextures = null;
+ 
         samplerParameters = null;
 
         for(texture in texturesCreated)
@@ -215,14 +223,14 @@ class Context3D
         }
         texturesCreated = null;
 
-        if(tmpFrameBuffer != null){
-            GL.deleteFramebuffer(tmpFrameBuffer);
-            tmpFrameBuffer = null;
+        if(framebuffer != null){
+            GL.deleteFramebuffer(framebuffer);
+            framebuffer = null;
         }
 		
-        if(depthRenderBuffer != null){
-            GL.deleteRenderbuffer(depthRenderBuffer);
-            depthRenderBuffer = null;
+        if(renderbuffer != null){
+            GL.deleteRenderbuffer(renderbuffer);
+            renderbuffer = null;
         }
 		
 
@@ -394,36 +402,30 @@ class Context3D
 
         GL.bindFramebuffer(GL.FRAMEBUFFER, null);
 		GL.bindRenderbuffer(GL.RENDERBUFFER, null);
-        //GL.viewport(Std.int(ogl.scrollRect.x),Std.int(ogl.scrollRect.y),Std.int(ogl.scrollRect.width),Std.int(ogl.scrollRect.height));
+       if(scrollRect!=null) GL.viewport(Std.int(scrollRect.x),Std.int(scrollRect.y),Std.int(scrollRect.width),Std.int(scrollRect.height));
 
     }
-
+	
     // TODO : currently does not work (frameBufferStatus always return zero)
     public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {		 
-        if(tmpFrameBuffer == null){
-            tmpFrameBuffer = GL.createFramebuffer();
-        }  
-        if(!enableDepthAndStencil){
-			GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer); 
-			GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.TEXTURE_2D, texture.glTexture, 0);  
-        } else { 
-			if(depthRenderBuffer == null){
-				depthRenderBuffer = GL.createRenderbuffer();
-			}  
-            GL.bindRenderbuffer(GL.RENDERBUFFER, depthRenderBuffer);
-            GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16,  texture.width, texture.height); 
-			GL.bindFramebuffer(GL.FRAMEBUFFER, tmpFrameBuffer); 			
-			 if (Std.is (texture, flash.display3D.textures.Texture)) {				 
-					GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
-			 }
-			 else if (Std.is (texture, flash.display3D.textures.CubeTexture)) {
-				 for (  i  in 0...6) {
-					GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_CUBE_MAP_NEGATIVE_X+i, texture.glTexture, 0);
-                }
-			} 
-            GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, depthRenderBuffer); 
-        }
         
+	 
+		if(framebuffer ==null) framebuffer= GL.createFramebuffer();
+		if (renderbuffer == null) renderbuffer = GL.createRenderbuffer();
+		
+		
+		
+		if (enableDepthAndStencil) {
+			GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);
+			GL.bindRenderbuffer(GL.RENDERBUFFER, renderbuffer); 
+			GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, texture.width, texture.height);	 
+			GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
+			GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, renderbuffer);
+		}else {
+			GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);  
+			GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
+		} 
+        GL.viewport(0, 0, texture.width, texture.height); 
         var frameBufferStatus = GL.checkFramebufferStatus(GL.FRAMEBUFFER);
         switch(frameBufferStatus){
             case GL.FRAMEBUFFER_COMPLETE: trace("FRAMEBUFFER_COMPLETE");
@@ -433,30 +435,20 @@ class Context3D
             case GL.FRAMEBUFFER_UNSUPPORTED : trace("FRAMEBUFFER_UNSUPPORTED");
             default : trace("frameBufferStatus " + frameBufferStatus);
         }
- 
-
+  
     }
 
    public function setSamplerStateAt(sampler:Int, wrap:Context3DWrapMode, filter:Context3DTextureFilter, mipfilter:Context3DMipFilter):Void
    {
-        //TODO for flash < 11.6 : patch the AGAL (using specific opcodes) and rebuild the program?
-        var locationName =  "fs" + sampler;
-        setGLSLSamplerStateAt(locationName, wrap, filter, mipfilter);
-   }
+        //TODO for flash < 11.6 : patch the AGAL (using specific opcodes) and rebuild the program? 
 
-   public function setGLSLSamplerStateAt(locationName:String, wrap:Context3DWrapMode, filter:Context3DTextureFilter, mipfilter:Context3DMipFilter):Void
-   {
-        var location = GL.getUniformLocation (currentProgram.glProgram, locationName);
-
-
-        samplerParameters.set(location,[wrap,filter,mipfilter]);
-
-        var texture = boundTextures.get(location);
-
-        if(texture != null)
-        {
-            setTextureParameters(texture,wrap, filter, mipfilter);
-        }
+		if (0 <= sampler && sampler <  MAX_SAMPLERS) {
+			this.samplerParameters[ sampler ].wrap = wrap;
+			this.samplerParameters[ sampler ].filter = filter;
+			this.samplerParameters[ sampler ].mipfilter = mipfilter;
+		} else {
+			throw "Sampler is out of bounds.";
+		}
 
 
    }
@@ -474,6 +466,7 @@ class Context3D
                 case Context3DWrapMode.REPEAT:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
+			 
             }
 
 
@@ -483,6 +476,7 @@ class Context3D
 
                 case Context3DTextureFilter.NEAREST:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+		 
             }
 
             //TODO CHECK the mipmap filters
@@ -494,10 +488,9 @@ class Context3D
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST_MIPMAP_NEAREST);
 
                 case Context3DMipFilter.MIPNONE:
-                    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
+                    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST); 
 
-            }
-
+            } 
 
         }else if (Std.is (texture, flash.display3D.textures.CubeTexture)) {
             GL.bindTexture(GL.TEXTURE_CUBE_MAP, cast(texture, flash.display3D.textures.CubeTexture).glTexture);
@@ -543,8 +536,11 @@ class Context3D
         // TODO test it
 		if (rectangle == null) {
 			 
+			GL.disable(GL.SCISSOR_TEST);
 			return;
 		}
+
+		GL.enable(GL.SCISSOR_TEST);
         GL.scissor(Std.int(rectangle.x), Std.int(rectangle.y), Std.int(rectangle.width), Std.int(rectangle.height));
    }
 
@@ -596,25 +592,25 @@ class Context3D
         if ( Std.is (texture, flash.display3D.textures.Texture) )
         {
             GL.bindTexture(GL.TEXTURE_2D, cast(texture, flash.display3D.textures.Texture).glTexture);
-            GL.uniform1i(location, textureIndex);
-            boundTextures.set(location, texture);
+            GL.uniform1i(location, textureIndex);  
+ 
         } 
         else if ( Std.is(texture, CubeTexture) )
         {        
             GL.bindTexture( GL.TEXTURE_CUBE_MAP, cast(texture, flash.display3D.textures.CubeTexture).glTexture );
-            GL.uniform1i( location, textureIndex );
-            boundTextures.set(location, texture);
+            GL.uniform1i( location, textureIndex ); 
         }
         else {
             throw "Texture of type " + Type.getClassName(Type.getClass(texture)) + " not supported yet";
         }
 
-        var parameters = samplerParameters.get(location);
+        var parameters :SamplerState= samplerParameters[textureIndex];
         if(parameters != null){
-            setTextureParameters(texture, parameters[0], parameters[1], parameters[2]);
+            setTextureParameters(texture, parameters.wrap, parameters.filter, parameters.mipfilter);
         }else{
             setTextureParameters(texture, Context3DWrapMode.REPEAT, Context3DTextureFilter.NEAREST, Context3DMipFilter.MIPNONE);
         }
+	
 
 
     }
