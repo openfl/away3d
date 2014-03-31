@@ -36,6 +36,7 @@ class HoverController extends LookAtController {
     private var _steps:Int;
     private var _yFactor:Float;
     private var _wrapPanAngle:Bool;
+    
     /**
 	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
 	 *
@@ -44,7 +45,6 @@ class HoverController extends LookAtController {
 	 * @see    #tiltAngle
 	 * @see    #panAngle
 	 */
-
     public function get_steps():Int {
         return _steps;
     }
@@ -60,12 +60,12 @@ class HoverController extends LookAtController {
     /**
 	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
 	 */
-
     public function get_panAngle():Float {
         return _panAngle;
     }
 
     public function set_panAngle(val:Float):Float {
+        if (Math.isNaN(val)) val=0;
         val = Math.max(_minPanAngle, Math.min(_maxPanAngle, val));
         if (_panAngle == val) return val;
         _panAngle = val;
@@ -76,12 +76,12 @@ class HoverController extends LookAtController {
     /**
 	 * Elevation angle of the camera in degrees. Defaults to 90.
 	 */
-
     public function get_tiltAngle():Float {
         return _tiltAngle;
     }
 
     public function set_tiltAngle(val:Float):Float {
+        if (Math.isNaN(val)) val=0;
         val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
         if (_tiltAngle == val) return val;
         _tiltAngle = val;
@@ -92,7 +92,6 @@ class HoverController extends LookAtController {
     /**
 	 * Distance between the camera and the specified target. Defaults to 1000.
 	 */
-
     public function get_distance():Float {
         return _distance;
     }
@@ -109,7 +108,6 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #panAngle
 	 */
-
     public function get_minPanAngle():Float {
         return _minPanAngle;
     }
@@ -126,7 +124,6 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #panAngle
 	 */
-
     public function get_maxPanAngle():Float {
         return _maxPanAngle;
     }
@@ -143,7 +140,6 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #tiltAngle
 	 */
-
     public function get_minTiltAngle():Float {
         return _minTiltAngle;
     }
@@ -160,7 +156,6 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #tiltAngle
 	 */
-
     public function get_maxTiltAngle():Float {
         return _maxTiltAngle;
     }
@@ -177,7 +172,6 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #distance
 	 */
-
     public function get_yFactor():Float {
         return _yFactor;
     }
@@ -192,7 +186,6 @@ class HoverController extends LookAtController {
     /**
 	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
 	 */
-
     public function get_wrapPanAngle():Bool {
         return _wrapPanAngle;
     }
@@ -207,7 +200,6 @@ class HoverController extends LookAtController {
     /**
 	 * Creates a new <code>HoverController</code> object.
 	 */
-
     public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, panAngle:Float = 0, tiltAngle:Float = 90, distance:Float = 1000, minTiltAngle:Float = -90, maxTiltAngle:Float = 90, ? minPanAngle:Float = null, ? maxPanAngle:Float = null, ?steps:Int = 8, ?yFactor:Float = 2, ?wrapPanAngle:Bool = false) {
         _currentPanAngle = 0;
         _currentTiltAngle = 90;
@@ -248,7 +240,6 @@ class HoverController extends LookAtController {
 	 * @see    #panAngle
 	 * @see    #steps
 	 */
-
     override public function update(interpolate:Bool = true):Void {
         if (_tiltAngle != _currentTiltAngle || _panAngle != _currentPanAngle) {
             notifyUpdate();
@@ -287,6 +278,5 @@ class HoverController extends LookAtController {
 
         super.update();
     }
-
 }
 

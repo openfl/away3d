@@ -17,9 +17,10 @@ class BitmapTexture extends Texture2DBase {
     private var _mipMapHolder:BitmapData;
     private var _generateMipmaps:Bool;
 
-    public function new(bitmapData:BitmapData, generateMipmaps:Bool = true) {
+    public function new(bitmapData:BitmapData, generateMipmaps:Bool = false) {
         super();
-        this.bitmapData = bitmapData;
+        _bitmapData = bitmapData;
+        setSize(_bitmapData.width, _bitmapData.height);
         _generateMipmaps = generateMipmaps;
     }
 

@@ -66,7 +66,7 @@ class Max3DSParser extends ParserBase {
     private var _cur_obj_end:Float;
     private var _cur_obj:ObjectVO;
 
-    private var _cur_mat_end:Int;
+    private var _cur_mat_end:UInt;
     private var _cur_mat:MaterialVO;
 
 
@@ -90,7 +90,7 @@ class Max3DSParser extends ParserBase {
 
 
     override public function resolveDependencyFailure(resourceDependency:ResourceDependency):Void {
-// TODO: Implement
+        // TODO: Implement
     }
 
 
@@ -105,22 +105,21 @@ class Max3DSParser extends ParserBase {
             _unfinalized_objects = new StringMap<ObjectVO>();
         }
 
-
-// TODO: With this construct, the loop will run no-op for as long
-// as there is time once file has finished reading. Consider a nice
-// way to stop loop when byte array is empty, without putting it in
-// the while-conditional, which will prevent finalizations from
-// happening after the last chunk.
+        // TODO: With this construct, the loop will run no-op for as long
+        // as there is time once file has finished reading. Consider a nice
+        // way to stop loop when byte array is empty, without putting it in
+        // the while-conditional, which will prevent finalizations from
+        // happening after the last chunk.
         while (hasTime()) {
 
-// If we are currently working on an object, and the most recent chunk was
-// the last one in that object, finalize the current object.
+        // If we are currently working on an object, and the most recent chunk was
+        // the last one in that object, finalize the current object.
             if (_cur_mat != null && _byteData.position >= _cur_mat_end) {
                 finalizeCurrentMaterial();
             }
-            else if (_cur_obj != null && _byteData.position >= Std.int(_cur_obj_end)) {
-// Can't finalize at this point, because we have to wait until the full
-// animation section has been parsed for any potential pivot definitions
+            else if (_cur_obj != null && _byteData.position >= _cur_obj_end) {
+                // Can't finalize at this point, because we have to wait until the full
+                // animation section has been parsed for any potential pivot definitions
                 _unfinalized_objects.set(_cur_obj.name, _cur_obj);
                 _cur_obj_end = Math.POSITIVE_INFINITY;
                 _cur_obj = null;
@@ -140,11 +139,11 @@ class Max3DSParser extends ParserBase {
                     case 0x4D4D: // MAIN3DS
                     case 0x3D3D: // EDIT3DS
                     case 0xB000: // KEYF3DS
-// This types are "container chunks" and contain only
-// sub-chunks (no data on their own.) This means that
-// there is nothing more to parse at this point, and
-// instead we should progress to the next chunk, which
-// will be the first sub-chunk of this one.
+                        // This types are "container chunks" and contain only
+                        // sub-chunks (no data on their own.) This means that
+                        // there is nothing more to parse at this point, and
+                        // instead we should progress to the next chunk, which
+                        // will be the first sub-chunk of this one.
                         continue;
 
 
@@ -194,15 +193,15 @@ class Max3DSParser extends ParserBase {
 
 
                     default:
-// Skip this (unknown) chunk
+                        // Skip this (unknown) chunk
                         _byteData.position += (len - 6);
 
                 }
 
 
-// Pause parsing if there were any dependencies found during this
-// iteration (i.e. if there are any dependencies that need to be
-// retrieved at this time.)
+                // Pause parsing if there were any dependencies found during this
+                // iteration (i.e. if there are any dependencies that need to be
+                // retrieved at this time.)
                 if (dependencies.length > 0) {
                     pauseAndRetrieveDependencies();
                     break;
@@ -211,16 +210,16 @@ class Max3DSParser extends ParserBase {
         }
 
 
-// More parsing is required if the entire byte array has not yet
-// been read, or if there is a currently non-finalized object in
-// the pipeline.
+        // More parsing is required if the entire byte array has not yet
+        // been read, or if there is a currently non-finalized object in
+        // the pipeline.
         if (_byteData.bytesAvailable > 0 || _cur_obj != null || _cur_mat != null) {
             return ParserBase.MORE_TO_PARSE;
         }
         else {
             var name:String;
 
-// Finalize any remaining objects before ending.
+            // Finalize any remaining objects before ending.
             var keys = _unfinalized_objects.keys();
             for (name in keys) {
                 var obj:ObjectContainer3D = constructObject(_unfinalized_objects.get(name));
@@ -288,7 +287,7 @@ class Max3DSParser extends ParserBase {
     }
 
 
-    private function parseTexture(end:Int):TextureVO {
+    private function parseTexture(end:UInt):TextureVO {
         var tex:TextureVO;
 
         tex = new TextureVO();
@@ -307,7 +306,7 @@ class Max3DSParser extends ParserBase {
 
 
                 default:
-// Skip this unknown texture sub-chunk
+                    // Skip this unknown texture sub-chunk
                     _byteData.position += (len - 6);
 
             }
@@ -365,7 +364,7 @@ class Max3DSParser extends ParserBase {
             _cur_obj.indices[i++] = i2;
             _cur_obj.indices[i++] = i1;
 
-// Skip "face info", irrelevant in a3d
+            // Skip "face info", irrelevant in a3d
             _byteData.position += 2;
         }
 
@@ -428,7 +427,7 @@ class Max3DSParser extends ParserBase {
         var name:String = null;
         var hier:Int;
 
-// Pivot defaults to origin
+        // Pivot defaults to origin
         pivot = new Vector3D();
 
         while (_byteData.position < end) {
@@ -458,9 +457,9 @@ class Max3DSParser extends ParserBase {
             }
         }
 
-// If name is "$$$DUMMY" this is an empty object (e.g. a container)
-// and will be ignored in this version of the parser
-// TODO: Implement containers in 3DS parser.
+        // If name is "$$$DUMMY" this is an empty object (e.g. a container)
+        // and will be ignored in this version of the parser
+        // TODO: Implement containers in 3DS parser.
         if (name != "$$$DUMMY" && _unfinalized_objects.exists(name)) {
             vo = _unfinalized_objects.get(name);
             obj = constructObject(vo, pivot);
@@ -487,7 +486,7 @@ class Max3DSParser extends ParserBase {
             if (obj.materials.length > 1)
                 Debug.trace('The a3d 3DS parser does not support multiple materials per mesh at this point.');
 
-// Ignore empty objects
+            // Ignore empty objects
             if (obj.indices == null || obj.indices.length == 0)
                 return null;
 
@@ -511,9 +510,9 @@ class Max3DSParser extends ParserBase {
             }
 
             if (obj.uvs != null) {
-// If the object had UVs to start with, use UVs generated by
-// smoothing group splitting algorithm. Otherwise those UVs
-// will be nonsense and should be skipped.
+                // If the object had UVs to start with, use UVs generated by
+                // smoothing group splitting algorithm. Otherwise those UVs
+                // will be nonsense and should be skipped.
                 obj.uvs = new Vector<Float>(vertices.length * 2, true);
                 for (i in 0...vertices.length) {
                     obj.uvs[i * 2] = vertices[i].u;
@@ -523,8 +522,8 @@ class Max3DSParser extends ParserBase {
 
             geom = new Geometry();
 
-// Construct sub-geometries (potentially splitting buffers)
-// and add them to geometry.
+            // Construct sub-geometries (potentially splitting buffers)
+            // and add them to geometry.
             subs = GeomUtil.fromVectors(obj.verts, obj.indices, obj.uvs, null, null, null, null);
             for (i in 0...subs.length) {
                 geom.subGeometries.push(subs[i]);
@@ -536,12 +535,12 @@ class Max3DSParser extends ParserBase {
                 mat = _materials.get(mname).material;
             }
 
-// Apply pivot translation to geometry if a pivot was
-// found while parsing the keyframe chunk earlier.
+            // Apply pivot translation to geometry if a pivot was
+            // found while parsing the keyframe chunk earlier.
             if (pivot != null) {
                 if (obj.transform != null) {
-// If a transform was found while parsing the
-// object chunk, use it to find the local pivot vector
+                    // If a transform was found while parsing the
+                    // object chunk, use it to find the local pivot vector
                     var dat:Vector<Float> = obj.transform.concat();
                     dat[12] = 0;
                     dat[13] = 0;
@@ -557,30 +556,30 @@ class Max3DSParser extends ParserBase {
                 geom.applyTransformation(mtx);
             }
 
-// Apply transformation to geometry if a transformation
-// was found while parsing the object chunk earlier.
+            // Apply transformation to geometry if a transformation
+            // was found while parsing the object chunk earlier.
             if (obj.transform != null) {
                 mtx = new Matrix3D(obj.transform);
                 mtx.invert();
                 geom.applyTransformation(mtx);
             }
 
-// Final transform applied to geometry. Finalize the geometry,
-// which will no longer be modified after this point.
+            // Final transform applied to geometry. Finalize the geometry,
+            // which will no longer be modified after this point.
             finalizeAsset(geom, obj.name + '_geom');
 
-// Build mesh and return it
+            // Build mesh and return it
             mesh = new Mesh(geom, mat);
             mesh.transform = new Matrix3D(obj.transform);
             return mesh;
         }
 
-// If reached, unknown
+        // If reached, unknown
         return null;
     }
 
     private function prepareData(vertices:Vector<VertexVO>, faces:Vector<FaceVO>, obj:ObjectVO):Void {
-// convert raw ObjectVO's data to structured VertexVO and FaceVO
+        // convert raw ObjectVO's data to structured VertexVO and FaceVO
         var i:Int;
         var j:Int;
         var k:Int;
@@ -614,9 +613,9 @@ class Max3DSParser extends ParserBase {
     }
 
     private function applySmoothGroups(vertices:Vector<VertexVO>, faces:Vector<FaceVO>):Void {
-// clone vertices according to following rule:
-// clone if vertex's in faces from groups 1+2 and 3
-// don't clone if vertex's in faces from groups 1+2, 3 and 1+3
+        // clone vertices according to following rule:
+        // clone if vertex's in faces from groups 1+2 and 3
+        // don't clone if vertex's in faces from groups 1+2, 3 and 1+3
 
         var i:Int;
         var j:Int;
@@ -626,7 +625,7 @@ class Max3DSParser extends ParserBase {
         var numVerts:Int = vertices.length;
         var numFaces:Int = faces.length;
 
-// extract groups data for vertices
+        // extract groups data for vertices
         var vGroups:Vector<Vector<UInt>> = new Vector<Vector<UInt>>(numVerts, true);
         for (i in 0...numVerts) {
             vGroups[i] = new Vector<UInt>();
@@ -651,7 +650,7 @@ class Max3DSParser extends ParserBase {
                 groups.push(group);
             }
         }
-// clone vertices
+        // clone vertices
         var vClones:Vector<Vector<UInt>> = new Vector<Vector<UInt>>(numVerts, true);
         var clones:Vector<UInt>;
         for (i in 0...numVerts) {
@@ -689,7 +688,7 @@ class Max3DSParser extends ParserBase {
                     ((group & groups[l]) > 0)) {
                         var index:UInt = clones[l];
                         if (group == 0) {
-// vertex is unique if no smoothGroup found
+                            // vertex is unique if no smoothGroup found
                             groups.splice(l, 1);
                             clones.splice(l, 1);
                         }
@@ -764,25 +763,25 @@ class Max3DSParser extends ParserBase {
 
         data = new Vector<Float>(16, true);
 
-// X axis
+        // X axis
         data[0] = _byteData.readFloat(); // X
         data[2] = _byteData.readFloat(); // Z
         data[1] = _byteData.readFloat(); // Y
         data[3] = 0;
 
-// Z axis
+        // Z axis
         data[8] = _byteData.readFloat(); // X
         data[10] = _byteData.readFloat(); // Z
         data[9] = _byteData.readFloat(); // Y
         data[11] = 0;
 
-// Y Axis
+        // Y Axis
         data[4] = _byteData.readFloat(); // X
         data[6] = _byteData.readFloat(); // Z
         data[5] = _byteData.readFloat(); // Y
         data[7] = 0;
 
-// Translation
+        // Translation
         data[12] = _byteData.readFloat(); // X
         data[14] = _byteData.readFloat(); // Z
         data[13] = _byteData.readFloat(); // Y

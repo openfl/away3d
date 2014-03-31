@@ -65,17 +65,17 @@ class CubeTexture extends TextureBase
         switch( side )
         {
             case 0:
-                GL.texImage2D( GL.TEXTURE_CUBE_MAP_POSITIVE_X, miplevel, GL.RGBA, size, size, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+                GL.texImage2D( GL.TEXTURE_CUBE_MAP_POSITIVE_X, miplevel, GL.RGBA, data.width, data.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
             case 1:
-                GL.texImage2D( GL.TEXTURE_CUBE_MAP_NEGATIVE_X, miplevel, GL.RGBA, size, size, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+                GL.texImage2D( GL.TEXTURE_CUBE_MAP_NEGATIVE_X, miplevel, GL.RGBA, data.width, data.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
             case 2:
-                GL.texImage2D( GL.TEXTURE_CUBE_MAP_POSITIVE_Y, miplevel, GL.RGBA, size, size, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+                GL.texImage2D( GL.TEXTURE_CUBE_MAP_POSITIVE_Y, miplevel, GL.RGBA, data.width, data.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
             case 3:
-                GL.texImage2D( GL.TEXTURE_CUBE_MAP_NEGATIVE_Y, miplevel, GL.RGBA, size, size, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+                GL.texImage2D( GL.TEXTURE_CUBE_MAP_NEGATIVE_Y, miplevel, GL.RGBA, data.width, data.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
             case 4:
-                GL.texImage2D( GL.TEXTURE_CUBE_MAP_POSITIVE_Z, miplevel, GL.RGBA, size, size, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+                GL.texImage2D( GL.TEXTURE_CUBE_MAP_POSITIVE_Z, miplevel, GL.RGBA, data.width, data.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
             case 5:
-                GL.texImage2D( GL.TEXTURE_CUBE_MAP_NEGATIVE_Z, miplevel, GL.RGBA, size, size, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+                GL.texImage2D( GL.TEXTURE_CUBE_MAP_NEGATIVE_Z, miplevel, GL.RGBA, data.width, data.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
             default :
                 throw "unknown side type";
         }

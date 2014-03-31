@@ -1,7 +1,3 @@
-/****
-* 
-****/
-
 package flash.display3D;
 #if (flash || display)
 @:fakeEnum(String) extern enum Context3DTriangleFace {
@@ -12,9 +8,8 @@ package flash.display3D;
 }
 #else
 import openfl.gl.GL;
- 
 	
-@:coreType abstract    Context3DTriangleFace( Int )   {
+abstract Context3DTriangleFace( Int )   {
 	inline function new(a:Int)
     {
 		this = a;

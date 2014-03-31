@@ -1,6 +1,5 @@
 package away3d.textures;
 
-
 import flash.errors.Error;
 import away3d.materials.utils.MipmapGenerator;
 import away3d.tools.utils.TextureUtils;
@@ -8,9 +7,9 @@ import flash.display.BitmapData;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.TextureBase;
+import flash.display3D.textures.Texture;
 
 class RenderTexture extends Texture2DBase {
-
 
     public function new(_width:Int, _height:Int) {
         super();
@@ -34,15 +33,14 @@ class RenderTexture extends Texture2DBase {
     }
 
     override private function uploadContent(texture:TextureBase):Void {
-// fake data, to complete texture for sampling
-        var bmp:BitmapData = new BitmapData(width, height, false, 0xff0000);
-        MipmapGenerator.generateMipMaps(bmp, texture);
-        bmp.dispose();
+        // fake data, to complete texture for sampling
+        //var bmp:BitmapData = new BitmapData(width, height, false, 0xff0000);
+        //MipmapGenerator.generateMipMaps(bmp, texture);
+        //bmp.dispose();
     }
 
     override private function createTexture(context:Context3D):TextureBase {
         return context.createTexture(width, height, Context3DTextureFormat.BGRA, true);
     }
-
 }
 

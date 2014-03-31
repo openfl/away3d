@@ -12,15 +12,15 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
     public var ambientTexture(get_ambientTexture, set_ambientTexture):Texture2DBase;
 
     private var _animateUVs:Bool;
-/**
+    
+    /**
 	 * Creates a new TextureMultiPassMaterial.
 	 * @param texture The texture used for the material's albedo color.
 	 * @param smooth Indicates whether the texture should be filtered when sampled. Defaults to true.
 	 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
 	 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
 	 */
-
-    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true) {
+    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = false) {
         super();
         this.texture = texture;
         this.smooth = smooth;
@@ -28,10 +28,9 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
         this.mipmap = mipmap;
     }
 
-/**
+    /**
 	 * Specifies whether or not the UV coordinates should be animated using a transformation matrix.
 	 */
-
     public function get_animateUVs():Bool {
         return _animateUVs;
     }
@@ -41,10 +40,9 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
         return value;
     }
 
-/**
+    /**
 	 * The texture object to use for the albedo colour.
 	 */
-
     public function get_texture():Texture2DBase {
         return diffuseMethod.texture;
     }
@@ -54,10 +52,9 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
         return value;
     }
 
-/**
+    /**
 	 * The texture object to use for the ambient colour.
 	 */
-
     public function get_ambientTexture():Texture2DBase {
         return ambientMethod.texture;
     }
@@ -72,6 +69,5 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
         super.updateScreenPasses();
         if (_effectsPass != null) _effectsPass.animateUVs = _animateUVs;
     }
-
 }
 

@@ -1,7 +1,3 @@
-/****
-* 
-****/
-
 package flash.display3D.textures;
 
 #if (flash || display)
@@ -15,6 +11,7 @@ package flash.display3D.textures;
 using flash.display.BitmapData;
 import openfl.gl.GL;
 import openfl.gl.GLTexture;
+import openfl.gl.GLFramebuffer;
 import openfl.utils.ArrayBuffer;
 import flash.utils.ByteArray;
 import openfl.utils.UInt8Array;
@@ -23,35 +20,24 @@ class Texture extends TextureBase
 {
 
 	public var optimizeForRenderToTexture:Bool;
-	public function new(glTexture:GLTexture,optimizeForRenderToTexture:Bool, width : Int, height : Int) {
-
-		super (glTexture,width , height );
 	
+	public function new(glTexture:GLTexture, optimizeForRenderToTexture:Bool, width : Int, height : Int) {
 
-        GL.bindTexture (GL.TEXTURE_2D, glTexture);
-		 
+		super (glTexture, width , height );
+
 		if (optimizeForRenderToTexture) { 
 				 
 			GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, 1); 
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST); 			
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE); 
-		 
+			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE); 	 
 		}  
-		
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, width, height, 0, GL.RGBA, GL.UNSIGNED_BYTE, null);
-		 
-
 	}
-
 
 	public function uploadCompressedTextureFromByteArray(data:ByteArray, byteArrayOffset:Int, async:Bool = false):Void {
-
 		// TODO
-
 	}
-
 
 	public function uploadFromBitmapData (bitmapData:BitmapData, miplevel:Int = 0):Void {
         #if html5
@@ -59,14 +45,12 @@ class Texture extends TextureBase
         #else
         var p = bitmapData.getRGBAPixels();
         #end
+		width = bitmapData.width;
+        height = bitmapData.height;
         uploadFromByteArray(p, 0, miplevel);
-
 	}
 
-
 	public function uploadFromByteArray(data:ByteArray, byteArrayOffset:Int, miplevel:Int = 0):Void {
-        //TODO mipLevel
-
         GL.bindTexture (GL.TEXTURE_2D, glTexture);
 		 
 		if (optimizeForRenderToTexture) { 
@@ -91,8 +75,8 @@ class Texture extends TextureBase
         //TODO byteArrayOffset ?
         source = new UInt8Array(data);
         #end
-        GL.texSubImage2D(GL.TEXTURE_2D, miplevel, 0, 0, width, height, GL.RGBA, GL.UNSIGNED_BYTE, source);
-
+        GL.texImage2D( GL.TEXTURE_2D, miplevel, GL.RGBA, width, height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
+        GL.bindTexture (GL.TEXTURE_2D, null);
 	}
 }
 

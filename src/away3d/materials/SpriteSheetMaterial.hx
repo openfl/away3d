@@ -11,7 +11,7 @@ import away3d.textures.Texture2DBase;
 
 class SpriteSheetMaterial extends TextureMaterial {
 
-//private var currentID:uint = 0;
+    //private var currentID:uint = 0;
     private var _diffuses:Vector<Texture2DBase>;
     private var _normals:Vector<Texture2DBase>;
     private var _speculars:Vector<Texture2DBase>;
@@ -19,7 +19,8 @@ class SpriteSheetMaterial extends TextureMaterial {
     private var _TBNormal:Texture2DBase;
     private var _TBSpecular:Texture2DBase;
     private var _currentMapID:Int;
-/**
+
+    /**
 	 * Creates a new SpriteSheetMaterial required for a SpriteSheetAnimator
 	 *
 	 * (the sprite sheet maps of each textures must have power of 2 sizes)
@@ -30,8 +31,7 @@ class SpriteSheetMaterial extends TextureMaterial {
 	 * @param repeat        Boolean : Material repeat. Default is false.
 	 * @param mipmap        Boolean : Material mipmap. Set it to false if the animation graphics have thin lines or text information in them. Default is true.
 	 */
-
-    public function new(diffuses:Vector<Texture2DBase>, normals:Vector<Texture2DBase> = null, speculars:Vector<Texture2DBase> = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true) {
+    public function new(diffuses:Vector<Texture2DBase>, normals:Vector<Texture2DBase> = null, speculars:Vector<Texture2DBase> = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = false) {
         _diffuses = diffuses;
         _normals = normals;
         _speculars = speculars;
@@ -66,6 +66,5 @@ class SpriteSheetMaterial extends TextureMaterial {
         }
         return false;
     }
-
 }
 

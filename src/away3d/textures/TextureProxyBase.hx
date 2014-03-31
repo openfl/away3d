@@ -27,7 +27,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
 
     public function new() {
         _format = Context3DTextureFormat.BGRA;
-        _hasMipmaps = true;
+        _hasMipmaps = false;
         _textures = new Vector<TextureBase>(8);
         _dirty = new Vector<Context3D>(8);
         super();
@@ -115,10 +115,9 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
         return null;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function dispose():Void {
         var i:Int = 0;
         while (i < 8) {
@@ -126,6 +125,5 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
             ++i;
         }
     }
-
 }
 

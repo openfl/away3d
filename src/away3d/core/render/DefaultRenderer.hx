@@ -22,6 +22,7 @@ import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D; 
+
 class DefaultRenderer extends RendererBase {
 
     static private var RTT_PASSES:Int = 1;
@@ -31,15 +32,15 @@ class DefaultRenderer extends RendererBase {
     private var _distanceRenderer:DepthRenderer;
     private var _depthRenderer:DepthRenderer;
     private var _skyboxProjection:Matrix3D;
-/**
+    
+    /**
 	 * Creates a new DefaultRenderer object.
 	 * @param antiAlias The amount of anti-aliasing to use.
 	 * @param renderMode The render mode to use.
 	 */
-
     public function new() {
-        _skyboxProjection = new Matrix3D();
         super();
+        _skyboxProjection = new Matrix3D();
         _depthRenderer = new DepthRenderer();
         _distanceRenderer = new DepthRenderer(false, true);
     }
@@ -52,7 +53,7 @@ class DefaultRenderer extends RendererBase {
 
     override private function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void {
         updateLights(entityCollector);
-// otherwise RTT will interfere with other RTTs
+        // otherwise RTT will interfere with other RTTs
         if (target != null) {
             drawRenderables(entityCollector.opaqueRenderableHead, entityCollector, RTT_PASSES);
             drawRenderables(entityCollector.blendedRenderableHead, entityCollector, RTT_PASSES);
@@ -85,12 +86,10 @@ class DefaultRenderer extends RendererBase {
         }
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function draw(entityCollector:EntityCollector, target:TextureBase):Void {
-		//	return;
         _context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
         if (entityCollector.skyBox != null) {
             if (_activeMaterial != null) _activeMaterial.deactivate(_stage3DProxy);
@@ -108,11 +107,10 @@ class DefaultRenderer extends RendererBase {
         _activeMaterial = null;
     }
 
-/**
+    /**
 	 * Draw the skybox if present.
 	 * @param entityCollector The EntityCollector containing all potentially visible information.
 	 */
-
     private function drawSkyBox(entityCollector:EntityCollector):Void {
         var skyBox:IRenderable = entityCollector.skyBox;
         var material:MaterialBase = skyBox.material;
@@ -143,12 +141,11 @@ class DefaultRenderer extends RendererBase {
         _skyboxProjection.copyRowFrom(2, new Vector3D(cx * a, cy * a, cz * a, cw * a));
     }
 
-/**
+    /**
 	 * Draw a list of renderables.
 	 * @param renderables The renderables to draw.
 	 * @param entityCollector The EntityCollector containing all potentially visible information.
 	 */
-
     private function drawRenderables(item:RenderableListItem, entityCollector:EntityCollector, which:Int):Void {
         var numPasses:Int;
         var j:Int;
@@ -193,6 +190,5 @@ class DefaultRenderer extends RendererBase {
         _depthRenderer = null;
         _distanceRenderer = null;
     }
-
 }
 

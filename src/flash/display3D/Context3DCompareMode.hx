@@ -1,7 +1,3 @@
-/****
-* 
-****/
-
 package flash.display3D;
 #if (flash || display)
 @:fakeEnum(String) extern enum Context3DCompareMode {
@@ -17,7 +13,7 @@ package flash.display3D;
 #else
 import openfl.gl.GL;
 
-@:coreType abstract    Context3DCompareMode( Int )   {
+abstract Context3DCompareMode( Int )   {
 	inline function new(a:Int)
     {
 		this = a;

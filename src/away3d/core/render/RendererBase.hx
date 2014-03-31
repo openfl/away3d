@@ -47,7 +47,8 @@ class RendererBase {
     private var _shareContext:Bool;
     private var _renderTarget:TextureBase;
     private var _renderTargetSurface:Int;
-// only used by renderers that need to render geometry to textures
+
+    // only used by renderers that need to render geometry to textures
     private var _viewWidth:Float;
     private var _viewHeight:Float;
     private var _renderableSorter:IEntitySorter;
@@ -61,10 +62,10 @@ class RendererBase {
     private var _snapshotRequired:Bool;
     private var _clearOnRender:Bool;
     private var _rttViewProjectionMatrix:Matrix3D;
-/**
+
+    /**
 	 * Creates a new RendererBase object.
 	 */
-
     public function new(renderToTexture:Bool = false) {
         _backgroundR = 0;
         _backgroundG = 0;
@@ -123,12 +124,11 @@ class RendererBase {
         return value;
     }
 
-/**
+    /**
 	 * The background color's red component, used when clearing.
 	 *
 	 * @private
 	 */
-
     private function get_backgroundR():Float {
         return _backgroundR;
     }
@@ -138,12 +138,11 @@ class RendererBase {
         return value;
     }
 
-/**
+    /**
 	 * The background color's green component, used when clearing.
 	 *
 	 * @private
 	 */
-
     private function get_backgroundG():Float {
         return _backgroundG;
     }
@@ -153,12 +152,11 @@ class RendererBase {
         return value;
     }
 
-/**
+    /**
 	 * The background color's blue component, used when clearing.
 	 *
 	 * @private
 	 */
-
     private function get_backgroundB():Float {
         return _backgroundB;
     }
@@ -168,12 +166,11 @@ class RendererBase {
         return value;
     }
 
-/**
+    /**
 	 * The Stage3DProxy that will provide the Context3D used for rendering.
 	 *
 	 * @private
 	 */
-
     private function get_stage3DProxy():Stage3DProxy {
         return _stage3DProxy;
     }
@@ -197,13 +194,12 @@ class RendererBase {
         return value;
     }
 
-/**
+    /**
 	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
 	 * to share the same Context3D object.
 	 *
 	 * @private
 	 */
-
     private function get_shareContext():Bool {
         return _shareContext;
     }
@@ -213,12 +209,11 @@ class RendererBase {
         return value;
     }
 
-/**
+    /**
 	 * Disposes the resources used by the RendererBase.
 	 *
 	 * @private
 	 */
-
     public function dispose():Void {
         stage3DProxy = null;
         if (_backgroundImageRenderer != null) {
@@ -227,60 +222,62 @@ class RendererBase {
         }
     }
 
-/**
+    /**
 	 * Renders the potentially visible geometry to the back buffer or texture.
 	 * @param entityCollector The EntityCollector object containing the potentially visible geometry.
 	 * @param target An option target texture to render to.
 	 * @param surfaceSelector The index of a CubeTexture's face to render to.
 	 * @param additionalClearMask Additional clear mask information, in case extra clear channels are to be omitted.
 	 */
-
     public function render(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void {
         if (_stage3DProxy == null || _context == null) return;
         _rttViewProjectionMatrix.copyFrom(entityCollector.camera.viewProjection);
         _rttViewProjectionMatrix.appendScale(_textureRatioX, _textureRatioY, 1);
-      
+                
 		executeRender(entityCollector, target, scissorRect, surfaceSelector);
-// clear buffers
-//todo  stage3d 
+        
+        // clear buffers
+        //todo  stage3d 
 
         var i:Int = 0;
-        while (i < 8) {
-			
+        while (i < 8) {	
             _context.setVertexBufferAt(i, null);
             _context.setTextureAt(i, null);
             ++i;
-        }
-		
+        }	
     }
 
-/**
+    /**
 	 * Renders the potentially visible geometry to the back buffer or texture. Only executed if everything is set up.
 	 * @param entityCollector The EntityCollector object containing the potentially visible geometry.
 	 * @param target An option target texture to render to.
 	 * @param surfaceSelector The index of a CubeTexture's face to render to.
 	 * @param additionalClearMask Additional clear mask information, in case extra clear channels are to be omitted.
 	 */
-
     private function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void {
         _renderTarget = target;
         _renderTargetSurface = surfaceSelector;
 		
-	
-        if (_renderableSorter != null) _renderableSorter.sort(entityCollector);
+        if (_renderableSorter != null) 
+            _renderableSorter.sort(entityCollector);
 		
-        if (_renderToTexture) executeRenderToTexturePass(entityCollector);
+        if (_renderToTexture) 
+            executeRenderToTexturePass(entityCollector);
+        
         _stage3DProxy.setRenderTarget(target, true, surfaceSelector);
-        if ((target != null || !_shareContext) && _clearOnRender) _context.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
+        
+        if ((target != null || !_shareContext) && _clearOnRender)
+            _context.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
         _context.setDepthTest(false, Context3DCompareMode.ALWAYS);
-		//return;
-        _stage3DProxy.scissorRect = scissorRect;
-        if (_backgroundImageRenderer != null) _backgroundImageRenderer.render();  
+		_stage3DProxy.scissorRect = scissorRect;
+        if (_backgroundImageRenderer != null) 
+            _backgroundImageRenderer.render();  
 			
-		//trace(entityCollector.entityHead, target);
         draw(entityCollector, target);
-//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
+
+        //line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
         _context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
+        
         if (!_shareContext) {
             if (_snapshotRequired && _snapshotBitmapData != null) {
                 _context.drawToBitmapData(_snapshotBitmapData);
@@ -290,10 +287,9 @@ class RendererBase {
         _stage3DProxy.scissorRect = null;
     }
 
-/*
+    /*
 	 * Will draw the renderer's output on next render to the provided bitmap data.
 	 * */
-
     public function queueSnapshot(bmd:BitmapData):Void {
         _snapshotRequired = true;
         _snapshotBitmapData = bmd;
@@ -303,19 +299,17 @@ class RendererBase {
         throw new AbstractMethodError();
     }
 
-/**
+    /**
 	 * Performs the actual drawing of geometry to the target.
 	 * @param entityCollector The EntityCollector object containing the potentially visible geometry.
 	 */
-
     private function draw(entityCollector:EntityCollector, target:TextureBase):Void {
         throw new AbstractMethodError();
     }
 
-/**
+    /**
 	 * Assign the context once retrieved
 	 */
-
     private function onContextUpdate(event:Event):Void {
         _context = _stage3DProxy.context3D;
     }
@@ -374,6 +368,5 @@ class RendererBase {
         _textureRatioY = value;
         return value;
     }
-
 }
 

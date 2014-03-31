@@ -69,12 +69,14 @@ class MaterialPassBase extends EventDispatcher {
 	private var _animatableAttributes:Vector<String>;
 	private var _animationTargetRegisters:Vector<String>;
 	private var _shadedTarget:String;
-// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
+	
+	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
 	static private var _previousUsedStreams:Vector<Int> = Vector.ofArray(cast [0, 0, 0, 0, 0, 0, 0, 0]);
 	static private var _previousUsedTexs:Vector<Int> = Vector.ofArray(cast [0, 0, 0, 0, 0, 0, 0, 0]);
 	private var _defaultCulling:Context3DTriangleFace;
 	private var _renderToTexture:Bool;
-// render state mementos for render-to-texture passes
+	
+	// render state mementos for render-to-texture passes
 	private var _oldTarget:TextureBase;
 	private var _oldSurface:Int;
 	private var _oldDepthStencil:Bool;
@@ -104,7 +106,7 @@ class MaterialPassBase extends EventDispatcher {
 		ArrayUtils.Prefill(_context3Ds, 8);
 		_smooth = true;
 		_repeat = false;
-		_mipmap = true;
+		_mipmap = false;
 		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 		
 		_blendFactorSource = Context3DBlendFactor.ONE;
@@ -437,7 +439,7 @@ class MaterialPassBase extends EventDispatcher {
 		
 		context.setProgram(_program3Ds[contextIndex]);
 
-		context.setCulling(Context3DTriangleFace.NONE);//_bothSides? Context3DTriangleFace.NONE : _defaultCulling);
+		context.setCulling(_bothSides ? Context3DTriangleFace.NONE : _defaultCulling);
 		
 		if (_renderToTexture) {
 			_oldTarget = stage3DProxy.renderTarget;

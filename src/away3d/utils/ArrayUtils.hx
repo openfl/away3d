@@ -6,19 +6,19 @@ class ArrayUtils {
 		#if flash
         array.length = count;
         #elseif (cpp || neko || js)
-			var c:UInt = array.length;		
-			while (c < count) {
-				array.push(defaultValue);
-				c++;
-			}				
-			while (c > count) {
-				array.pop();
-				c--;
-			}			
+		var c:UInt = array.length;		
+		while (c < count) {
+			array.push(defaultValue);
+			c++;
+		}				
+		while (c > count) {
+			array.pop();
+			c--;
+		}			
 		#end
-			for (i in 0...array.length) {
-				array[i] = defaultValue;
-			}
+		for (i in 0...array.length) {
+			array[i] = defaultValue;
+		}
 		return array;
 	}
 	
@@ -30,6 +30,7 @@ class ArrayUtils {
 			c++;
 		}
         #elseif (cpp || neko || js)
+		array.splice(0, array.length);
 		var c:Int = 0;
 		while (c++ < count) {
 			array.push(defaultValue);
