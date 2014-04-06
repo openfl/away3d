@@ -4,7 +4,7 @@
 package away3d.animators.nodes;
 
 import away3d.animators.states.IAnimationState;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.NamedAssetBase;
 import away3d.library.assets.IAsset;
 
@@ -18,28 +18,24 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset {
         return _stateClass;
     }
 
-/**
+    /**
 	 * Creates a new <code>AnimationNodeBase</code> object.
 	 */
-
     public function new() {
         super();
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function dispose():Void {
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function get_assetType():String {
-        return AssetType.ANIMATION_NODE;
+        return Asset3DType.ANIMATION_NODE;
     }
-
 }
 

@@ -1,6 +1,3 @@
-/**
- *
- */
 package away3d.animators.states;
 
 import away3d.core.math.Quaternion;
@@ -25,82 +22,87 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
         _skeletonPoseDirty = true;
         _blendWeights = new Vector<Float>();
         _inputs = new Vector<ISkeletonAnimationState>();
+        
         super(animator, skeletonAnimationNode);
+        
         _skeletonAnimationNode = skeletonAnimationNode;
+        
         var i:Int = _skeletonAnimationNode.numInputs;
-        while (i-- > 0)_inputs[i] = cast(animator.getAnimationState(_skeletonAnimationNode._inputs[i]), ISkeletonAnimationState) ;
+        while (i-- > 0)
+            _inputs[i] = cast(animator.getAnimationState(_skeletonAnimationNode._inputs[i]), ISkeletonAnimationState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function phase(value:Float):Void {
         _skeletonPoseDirty = true;
         _positionDeltaDirty = true;
+        
         var j:Int = 0;
         while (j < _skeletonAnimationNode.numInputs) {
-            if (_blendWeights[j] > 0) _inputs[j].update(Std.int(value));
+            if (_blendWeights[j] > 0) 
+                _inputs[j].update(Std.int(value));
             ++j;
         }
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updateTime(time:Int):Void {
         var j:Int = 0;
         while (j < _skeletonAnimationNode.numInputs) {
-            if (_blendWeights[j] > 0) _inputs[j].update(time);
+            if (_blendWeights[j] > 0) 
+                _inputs[j].update(time);
             ++j;
         }
         super.updateTime(time);
     }
 
-/**
+    /**
 	 * Returns the current skeleton pose of the animation in the clip based on the internal playhead position.
 	 */
-
     public function getSkeletonPose(skeleton:Skeleton):SkeletonPose {
-        if (_skeletonPoseDirty) updateSkeletonPose(skeleton);
+        if (_skeletonPoseDirty) 
+            updateSkeletonPose(skeleton);
+        
         return _skeletonPose;
     }
 
-/**
+    /**
 	 * Returns the blend weight of the skeleton aniamtion node that resides at the given input index.
 	 *
 	 * @param index The input index for which the skeleton animation node blend weight is requested.
 	 */
-
     public function getBlendWeightAt(index:Int):Float {
         return _blendWeights[index];
     }
 
-/**
+    /**
 	 * Sets the blend weight of the skeleton aniamtion node that resides at the given input index.
 	 *
 	 * @param index The input index on which the skeleton animation node blend weight is to be set.
 	 * @param blendWeight The blend weight value to use for the given skeleton animation node index.
 	 */
-
     public function setBlendWeightAt(index:Int, blendWeight:Float):Void {
         _blendWeights[index] = blendWeight;
         _positionDeltaDirty = true;
         _skeletonPoseDirty = true;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updatePositionDelta():Void {
         _positionDeltaDirty = false;
         var delta:Vector3D;
         var weight:Float;
+        
         positionDelta.x = 0;
         positionDelta.y = 0;
         positionDelta.z = 0;
+        
         var j:Int = 0;
         while (j < _skeletonAnimationNode.numInputs) {
             weight = _blendWeights[j];
@@ -114,12 +116,11 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
         }
     }
 
-/**
+    /**
 	 * Updates the output skeleton pose of the node based on the blend weight values given to the input nodes.
 	 *
 	 * @param skeleton The skeleton used by the animator requesting the ouput pose.
 	 */
-
     private function updateSkeletonPose(skeleton:Skeleton):Void {
         _skeletonPoseDirty = false;
         var weight:Float;
@@ -142,7 +143,8 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
         var y1:Float;
         var z1:Float;
         var numJoints:Int = skeleton.numJoints;
-// :s
+
+        // :s
         if (endPoses.length != numJoints) endPoses.length = numJoints;
         var j:Int = 0;
         while (j < _skeletonAnimationNode.numInputs) {
@@ -156,7 +158,9 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
                 firstPose = poses;
                 i = 0;
                 while (i < numJoints) {
-                    if (endPoses[i] == null) endPoses[i] = new JointPose();
+                    if (endPoses[i] == null) 
+                        endPoses[i] = new JointPose();
+
                     endPose = endPoses[i];
                     pose = poses[i];
                     q = pose.orientation;
@@ -172,9 +176,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
                     endTr.z = weight * tr.z;
                     ++i;
                 }
-            }
-
-            else {
+            } else {
                 i = 0;
                 while (i < skeleton.numJoints) {
                     endPose = endPoses[i];
@@ -190,7 +192,8 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
                     y1 = q.y;
                     z1 = q.z;
                     w1 = q.w;
-// find shortest direction
+                    
+                    // find shortest direction
                     if (x0 * x1 + y0 * y1 + z0 * z1 + w0 * w1 < 0) {
                         x1 = -x1;
                         y1 = -y1;
@@ -212,12 +215,12 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 
             ++j;
         }
+        
         i = 0;
         while (i < skeleton.numJoints) {
             endPoses[i].orientation.normalize();
             ++i;
         }
     }
-
 }
 

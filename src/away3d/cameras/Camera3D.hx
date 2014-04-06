@@ -19,7 +19,7 @@ import away3d.core.partition.EntityNode;
 import away3d.entities.Entity;
 import away3d.events.CameraEvent;
 import away3d.events.LensEvent;
-import away3d.library.assets.AssetType; 
+import away3d.library.assets.Asset3DType; 
 class Camera3D extends Entity {
     public var frustumPlanes(get_frustumPlanes, never):Vector<Plane3D>;
     public var lens(get_lens, set_lens):LensBase;
@@ -61,7 +61,7 @@ class Camera3D extends Entity {
     }
 
     override public function get_assetType():String {
-        return AssetType.CAMERA;
+        return Asset3DType.CAMERA;
     }
 
     private function onLensMatrixChanged(event:LensEvent):Void {

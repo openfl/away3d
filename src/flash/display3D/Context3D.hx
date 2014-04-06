@@ -87,7 +87,9 @@ class Context3D
 
     private var framebuffer : GLFramebuffer;
 	private var renderbuffer : GLRenderbuffer;
- 
+    private var depthbuffer : GLRenderbuffer;
+    private var stencilbuffer : GLRenderbuffer;
+
     private var samplerParameters :Array<SamplerState>; //TODO : use Tupple3
 	private var scrollRect:Rectangle;
 	public static var MAX_SAMPLERS:Int = 8;
@@ -406,16 +408,21 @@ class Context3D
     public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {		 
         
         if (framebuffer == null) {
+
             framebuffer = GL.createFramebuffer();
             GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);
 
             GL.bindTexture(GL.TEXTURE_2D, texture.glTexture);
-
             GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, texture.width, texture.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, null);
 
             if (renderbuffer == null) renderbuffer = GL.createRenderbuffer();
             GL.bindRenderbuffer(GL.RENDERBUFFER, renderbuffer);
             GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, texture.width, texture.height);
+
+            if (enableDepthAndStencil) {
+                GL.enable(GL.DEPTH_TEST);
+                GL.enable(GL.STENCIL_TEST);
+            }
 
             GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
             GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, renderbuffer);
@@ -426,11 +433,6 @@ class Context3D
         }
 
         GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);
-
-        if (enableDepthAndStencil) {
-            GL.enable(GL.STENCIL_TEST);
-            GL.enable(GL.DEPTH_TEST);
-        }
 
         GL.viewport(0, 0, texture.width, texture.height); 
     }

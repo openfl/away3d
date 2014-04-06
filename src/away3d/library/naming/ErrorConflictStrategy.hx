@@ -10,7 +10,7 @@ class ErrorConflictStrategy extends ConflictStrategyBase {
     }
 
     override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Dynamic, precedence:String):Void {
-        throw new Error("Asset name collision while AssetLibrary.namingStrategy set to AssetLibrary.THROW_ERROR. Asset path: " + changedAsset.assetFullPath);
+        throw new Error("Asset name collision while Asset3DLibrary.namingStrategy set to Asset3DLibrary.THROW_ERROR. Asset path: " + changedAsset.assetFullPath);
     }
 
     override public function create():ConflictStrategyBase {

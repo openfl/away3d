@@ -19,7 +19,7 @@ import away3d.core.base.IMaterialOwner;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
 import away3d.core.traverse.EntityCollector;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 import away3d.materials.lightpickers.LightPickerBase;
@@ -131,7 +131,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @inheritDoc
 	 */
     public function get_assetType():String {
-        return AssetType.MATERIAL;
+        return Asset3DType.MATERIAL;
     }
 
     /**

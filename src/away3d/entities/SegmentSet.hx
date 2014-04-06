@@ -14,7 +14,7 @@ import away3d.core.partition.RenderableNode;
 import away3d.materials.MaterialBase;
 import away3d.materials.SegmentMaterial;
 import away3d.primitives.data.Segment;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.IndexBuffer3D;
@@ -558,7 +558,7 @@ class SegmentSet extends Entity implements IRenderable {
     }
 
     override public function get_assetType():String {
-        return AssetType.SEGMENT_SET;
+        return Asset3DType.SEGMENT_SET;
     }
 
     public function getRenderSceneTransform(camera:Camera3D):Matrix3D {

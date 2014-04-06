@@ -1,6 +1,6 @@
 package away3d.library.assets;
 
-class AssetType {
+class Asset3DType {
 
     static public var ENTITY:String = "entity";
     static public var SKYBOX:String = "skybox";

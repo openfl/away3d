@@ -2,13 +2,14 @@
  * AWDParser provides a parser for the AWD data type.
  */
 package away3d.loaders.parsers;
+
 import haxe.ds.StringMap;
 import flash.Lib;
 import flash.utils.CompressionAlgorithm;
 import flash.display.BitmapData;
 import flash.display.BitmapData;
 import flash.geom.Vector3D;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.animators.VertexAnimator;
 import away3d.animators.AnimatorBase;
 import away3d.animators.SkeletonAnimator;
@@ -83,7 +84,7 @@ import away3d.lights.LightBase;
 import away3d.primitives.SkyBox;
 import flash.geom.Vector3D;
 import away3d.materials.MaterialBase;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.primitives.ConeGeometry;
 import away3d.primitives.ConeGeometry;
 import away3d.primitives.CapsuleGeometry;
@@ -129,7 +130,8 @@ typedef AssetVO = {
  * AWDParser provides a parser for the AWD data type.
  */
 class AWD2Parser extends ParserBase {
-//set to "true" to have some traces in the Console
+    
+    //set to "true" to have some traces in the Console
     private var _debug:Bool = false;
     private var _byteData:ByteArray;
     private var _startedParsing:Bool;
@@ -195,12 +197,11 @@ class AWD2Parser extends ParserBase {
     private var blendModeDic:Vector<BlendMode>;
     private var _depthSizeDic:Vector<UInt>;
 
-/**
+    /**
 	 * Creates a new AWDParser object.
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
-
     public function new() {
         super(ParserDataFormat.BINARY);
 
@@ -224,7 +225,7 @@ class AWD2Parser extends ParserBase {
         blendModeDic.push(BlendMode.MULTIPLY);
         blendModeDic.push(BlendMode.OVERLAY);
         blendModeDic.push(BlendMode.SCREEN);
-        blendModeDic.push(BlendMode.SHADER);
+        //blendModeDic.push(BlendMode.SHADER);
 
         _depthSizeDic = new Vector<UInt>(); // used to translate ints to depthSize-values
         _depthSizeDic.push(256);
@@ -234,26 +235,24 @@ class AWD2Parser extends ParserBase {
         _version = []; // will contain 2 int (major-version, minor-version) for awd-version-check
     }
 
-/**
+    /**
 	 * Indicates whether or not a given file extension is supported by the parser.
 	 * @param extension The file extension of a potential file to be parsed.
 	 * @return Whether or not the given file type is supported.
 	 */
-
     public static function supportsType(extension:String):Bool {
         extension = extension.toLowerCase();
         return extension == "awd";
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function resolveDependency(resourceDependency:ResourceDependency):Void {
-// this function will be called when Dependency has finished loading.
-// the Assets waiting for this Bitmap, can be Texture or CubeTexture.
-// if the Bitmap is awaited by a CubeTexture, we need to check if its the last Bitmap of the CubeTexture,
-// so we know if we have to finalize the Asset (CubeTexture) or not.
+        // this function will be called when Dependency has finished loading.
+        // the Assets waiting for this Bitmap, can be Texture or CubeTexture.
+        // if the Bitmap is awaited by a CubeTexture, we need to check if its the last Bitmap of the CubeTexture,
+        // so we know if we have to finalize the Asset (CubeTexture) or not.
         if (resourceDependency.assets.length == 1) {
             var isCubeTextureArray:Array<String> = resourceDependency.id.split("#");
             var ressourceID:String = isCubeTextureArray[0];
@@ -264,15 +263,17 @@ class AWD2Parser extends ParserBase {
                 asset = cast(resourceDependency.assets[0], Texture2DBase);
                 if (asset != null) {
                     var mat:TextureMaterial;
-//var users:Array;
+                    //var users:Array;
                     block = _blocks[Std.parseInt(resourceDependency.id)];
                     block.data = asset; // Store finished asset
-// Reset name of texture to the one defined in the AWD file,
-// as opposed to whatever the image parser came up with.
+
+                    // Reset name of texture to the one defined in the AWD file,
+                    // as opposed to whatever the image parser came up with.
                     asset.resetAssetPath(block.name, null, true);
                     block.name = asset.name;
-// Finalize texture asset to dispatch texture event, which was
-// previously suppressed while the dependency was loaded.
+
+                    // Finalize texture asset to dispatch texture event, which was
+                    // previously suppressed while the dependency was loaded.
                     finalizeAsset(asset);
                     if (_debug) {
                         trace("Successfully loadet Bitmap for texture");
@@ -292,12 +293,14 @@ class AWD2Parser extends ParserBase {
                     asset = new BitmapCubeTexture(_cubeTextures[0], _cubeTextures[1], _cubeTextures[2], _cubeTextures[3], _cubeTextures[4], _cubeTextures[5]);
                     block = _blocks[Std.parseInt(ressourceID)];
                     block.data = asset; // Store finished asset
-// Reset name of texture to the one defined in the AWD file,
-// as opposed to whatever the image parser came up with.
+
+                    // Reset name of texture to the one defined in the AWD file,
+                    // as opposed to whatever the image parser came up with.
                     asset.resetAssetPath(block.name, null, true);
                     block.name = asset.name;
-// Finalize texture asset to dispatch texture event, which was
-// previously suppressed while the dependency was loaded.
+
+                    // Finalize texture asset to dispatch texture event, which was
+                    // previously suppressed while the dependency was loaded.
                     finalizeAsset(asset);
                     if (_debug) {
                         trace("Parsed CubeTexture: Name = " + block.name);
@@ -307,27 +310,25 @@ class AWD2Parser extends ParserBase {
         }
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function resolveDependencyFailure(resourceDependency:ResourceDependency):Void {
-//not used - if a dependcy fails, the awaiting Texture or CubeTexture will never be finalized, and the default-bitmaps will be used.
-// this means, that if one Bitmap of a CubeTexture fails, the CubeTexture will have the DefaultTexture applied for all six Bitmaps.
+        //not used - if a dependcy fails, the awaiting Texture or CubeTexture will never be finalized, and the default-bitmaps will be used.
+        // this means, that if one Bitmap of a CubeTexture fails, the CubeTexture will have the DefaultTexture applied for all six Bitmaps.
     }
 
-/**
+    /**
 	 * Resolve a dependency name
 	 *
 	 * @param resourceDependency The dependency to be resolved.
 	 */
-
     override public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String {
         var oldName:String = asset.name;
         if (asset != null) {
             var block:AWDBlock = _blocks[Std.parseInt(resourceDependency.id)];
-// Reset name of texture to the one defined in the AWD file,
-// as opposed to whatever the image parser came up with.
+            // Reset name of texture to the one defined in the AWD file,
+            // as opposed to whatever the image parser came up with.
             asset.resetAssetPath(block.name, null, true);
         }
         var newName:String = asset.name;
@@ -335,20 +336,18 @@ class AWD2Parser extends ParserBase {
         return newName;
     }
 
-/**
+    /**
 	 * Tests whether a data block can be parsed by the parser.
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-
     public static function supportsData(data:Dynamic):Bool {
         return (ParserUtil.toString(data, 3) == 'AWD');
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function proceedParsing():Bool {
         if (!_startedParsing) {
             _byteData = getByteData();
@@ -358,10 +357,11 @@ class AWD2Parser extends ParserBase {
         if (!_parsed_header) {
             _byteData.endian = Endian.LITTLE_ENDIAN;
 
-// Parse header and decompress body if needed
+            // Parse header and decompress body if needed
             parseHeader();
             switch (_compression)
             {
+                #if !html
                 case DEFLATE:
                     _body = new ByteArray();
                     _byteData.readBytes(_body, 0, _byteData.bytesAvailable);
@@ -371,6 +371,7 @@ class AWD2Parser extends ParserBase {
                     _body = new ByteArray();
                     _byteData.readBytes(_body, 0, _byteData.bytesAvailable);
                     _body.uncompress(CompressionAlgorithm.LZMA);
+                #end
 
                 case UNCOMPRESSED:
                     _body = _byteData;
@@ -385,7 +386,7 @@ class AWD2Parser extends ParserBase {
             parseNextBlock();
         }
 
-// Return complete status
+        // Return complete status
         if (_body.bytesAvailable == 0) {
             return ParserBase.PARSING_DONE;
         }
@@ -408,9 +409,9 @@ class AWD2Parser extends ParserBase {
             _accuracyProps = BitFlags.test(flags, BitFlags.FLAG4);
         }
 
-// if we set _accuracyOnBlocks, the precision-values are read from each block-header.
+        // if we set _accuracyOnBlocks, the precision-values are read from each block-header.
 
-// set storagePrecision types
+        // set storagePrecision types
         _geoNrType = FLOAT32;
         if (_accuracyGeo)
             _geoNrType = FLOAT64;
@@ -429,7 +430,7 @@ class AWD2Parser extends ParserBase {
             _accuracyProps);
         }
 
-// Check file integrity
+        // Check file integrity
         body_len = _byteData.readUnsignedInt();
         if (!_streaming && body_len != _byteData.bytesAvailable) {
             dieWithError('AWD2 body length does not match header integrity field');
@@ -472,12 +473,16 @@ class AWD2Parser extends ParserBase {
         }
         _newBlockBytes = new ByteArray();
         _body.readBytes(_newBlockBytes, 0, len);
+        
+        #if !html
         if (blockCompression) {
             if (blockCompressionLZMA)
                 _newBlockBytes.uncompress(CompressionAlgorithm.LZMA);
             else
                 _newBlockBytes.uncompress();
         }
+        #end
+
         _newBlockBytes.endian = Endian.LITTLE_ENDIAN;
         _newBlockBytes.position = 0;
         block = new AWDBlock();
@@ -577,7 +582,7 @@ class AWD2Parser extends ParserBase {
             }
         }
         var msgCnt:Int = 0;
-        if (_newBlockBytes.position == Std.int(blockEndBlock)) {
+        if (_newBlockBytes.position == blockEndBlock) {
             if (_debug) {
                 if (block.errorMessages != null) {
                     while (msgCnt < block.errorMessages.length) {
@@ -607,33 +612,34 @@ class AWD2Parser extends ParserBase {
     }
 
 
-//Block ID = 1
+    //Block ID = 1
 
     private function parseTriangleGeometrieBlock(blockID:UInt):Void {
 
         var geom:Geometry = new Geometry();
 
-// Read name and sub count
+        // Read name and sub count
         var name:String = parseVarStr();
         var num_subs:Int = _newBlockBytes.readUnsignedShort();
 
-// Read optional properties
+        // Read optional properties
         var props:AWDProperties = parseProperties({ "1":_geoNrType, "2":_geoNrType });
         var geoScaleU:Float = props.getValue(1, 1);
         var geoScaleV:Float = props.getValue(2, 1);
         var sub_geoms:Vector<ISubGeometry> = new Vector<ISubGeometry>();
-// Loop through sub meshes
+        
+        // Loop through sub meshes
         var subs_parsed:Int = 0;
         while (subs_parsed < num_subs) {
-            var i:Int;
-            var sm_len:Int, sm_end:Int;
+            var i:UInt;
+            var sm_len:UInt, sm_end:UInt;
             var w_indices:Vector<Float> = null;
             var weights:Vector<Float> = null;
 
             sm_len = _newBlockBytes.readUnsignedInt();
             sm_end = _newBlockBytes.position + sm_len;
 
-// Ignore for now
+            // Ignore for now
             var subProps:AWDProperties = parseProperties({ "1":_geoNrType, "2":_geoNrType });
 
             var verts:Vector<Float> = null;
@@ -641,13 +647,13 @@ class AWD2Parser extends ParserBase {
             var uvs:Vector<Float> = null;
             var normals:Vector<Float> = null;
 
-// Loop through data streams
+            // Loop through data streams
             while (_newBlockBytes.position < sm_end) {
 
-                var idx:Int = 0;
-                var str_ftype:Int, str_type:Int, str_len:Int, str_end:Int;
+                var idx:UInt = 0;
+                var str_ftype:UInt, str_type:UInt, str_len:UInt, str_end:UInt;
 
-// Type, field type, length
+                // Type, field type, length
                 str_type = _newBlockBytes.readUnsignedByte();
                 str_ftype = _newBlockBytes.readUnsignedByte();
                 str_len = _newBlockBytes.readUnsignedInt();
@@ -658,7 +664,8 @@ class AWD2Parser extends ParserBase {
                 if (str_type == 1) {
                     verts = new Vector<Float>();
                     while (_newBlockBytes.position < str_end) {
-// TODO: Respect stream field type
+                        
+                        // TODO: Respect stream field type
                         x = readNumber(_accuracyGeo);
                         y = readNumber(_accuracyGeo);
                         z = readNumber(_accuracyGeo);
@@ -671,7 +678,7 @@ class AWD2Parser extends ParserBase {
                 else if (str_type == 2) {
                     indices = new Vector<UInt>();
                     while (_newBlockBytes.position < str_end) {
-// TODO: Respect stream field type
+                        // TODO: Respect stream field type
                         indices[idx++] = _newBlockBytes.readUnsignedShort();
                     }
                 }
@@ -720,8 +727,8 @@ class AWD2Parser extends ParserBase {
                 if (setSubUVs)
                     sub_geoms[i].scaleUV(scaleU, scaleV);
                 geom.addSubGeometry(sub_geoms[i]);
-// TODO: Somehow map in-sub to out-sub indices to enable look-up
-// when creating meshes (and their material assignments.)
+                // TODO: Somehow map in-sub to out-sub indices to enable look-up
+                // when creating meshes (and their material assignments.)
             }
             subs_parsed++;
         }
@@ -738,7 +745,7 @@ class AWD2Parser extends ParserBase {
 
     }
 
-//Block ID = 11
+    //Block ID = 11
 
     private function parsePrimitves(blockID:Int):Void {
         var name:String;
@@ -748,7 +755,7 @@ class AWD2Parser extends ParserBase {
         var props:AWDProperties;
         var bsm:Matrix3D;
 
-// Read name and sub count
+        // Read name and sub count
         name = parseVarStr();
         primType = _newBlockBytes.readUnsignedByte();
         props = parseProperties({ "101": _geoNrType,
@@ -767,7 +774,7 @@ class AWD2Parser extends ParserBase {
         var primitveTypes:Array<String> = ["Unsupported Type-ID", "PlaneGeometry", "CubeGeometry", "SphereGeometry", "CylinderGeometry", "ConeGeometry", "CapsuleGeometry", "TorusGeometry"];
         switch (primType)
         {
-// to do, not all properties are set on all primitives
+            // to do, not all properties are set on all primitives
             case 1:
                 geom = new PlaneGeometry(props.getValue(101, 100), props.getValue(102, 100), props.getValue(301, 1), props.getValue(302, 1), props.getValue(701, true), props.getValue(702, false));
             case 2:
@@ -811,7 +818,7 @@ class AWD2Parser extends ParserBase {
         }
     }
 
-// Block ID = 22
+    // Block ID = 22
 
     private function parseContainer(blockID:Int):Void {
         var name:String;
@@ -826,7 +833,7 @@ class AWD2Parser extends ParserBase {
         var parentName:String = "Root (TopLevel)";
         ctr = new ObjectContainer3D();
         ctr.transform = mtx;
-        var assetVO:AssetVO = getAssetByID(par_id, [AssetType.CONTAINER, AssetType.LIGHT, AssetType.MESH, AssetType.ENTITY, AssetType.SEGMENT_SET]);
+        var assetVO:AssetVO = getAssetByID(par_id, [Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]);
         if (assetVO.enable) {
             cast(assetVO.data, ObjectContainer3D).addChild(ctr);
             parentName = cast(assetVO.data, ObjectContainer3D).name;
@@ -834,7 +841,7 @@ class AWD2Parser extends ParserBase {
         else if (par_id > 0)
             _blocks[blockID].addError("Could not find a parent for this ObjectContainer3D");
 
-// in AWD version 2.1 we read the Container properties
+        // in AWD version 2.1 we read the Container properties
         if ((_version[0] == 2) && (_version[1] == 1)) {
             var props:Dynamic = parseProperties({"1" : _matrixNrType,
             "2": _matrixNrType,
@@ -842,11 +849,11 @@ class AWD2Parser extends ParserBase {
             "4": UINT8});
             ctr.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
         }
-// in other versions we do not read the Container properties
+        // in other versions we do not read the Container properties
         else {
             parseProperties(null);
         }
-// the extraProperties should only be set for AWD2.1-Files, but is read for both versions
+        // the extraProperties should only be set for AWD2.1-Files, but is read for both versions
         ctr.extra = parseUserAttributes();
         finalizeAsset(ctr, name);
         _blocks[blockID].data = ctr;
@@ -855,7 +862,7 @@ class AWD2Parser extends ParserBase {
         }
     }
 
-// Block ID = 23
+    // Block ID = 23
 
     private function parseMeshInstance(blockID:Int):Void {
         var num_materials:Int;
@@ -868,7 +875,7 @@ class AWD2Parser extends ParserBase {
         var parentName:String = "Root (TopLevel)";
         var data_id:Int = _newBlockBytes.readUnsignedInt();
         var geom:Geometry;
-        var geometryAssetVO:AssetVO = getAssetByID(data_id, [AssetType.GEOMETRY]);
+        var geometryAssetVO:AssetVO = getAssetByID(data_id, [Asset3DType.GEOMETRY]);
         if (geometryAssetVO.enable) {
             geom = cast(geometryAssetVO.data, Geometry);
         }
@@ -886,7 +893,7 @@ class AWD2Parser extends ParserBase {
         while (materials_parsed < num_materials) {
             var mat_id:Int;
             mat_id = _newBlockBytes.readUnsignedInt();
-            materialAssetVO = getAssetByID(mat_id, [AssetType.MATERIAL]);
+            materialAssetVO = getAssetByID(mat_id, [Asset3DType.MATERIAL]);
             if (!materialAssetVO.enable && (mat_id > 0))
                 _blocks[blockID].addError("Could not find Material Nr " + materials_parsed + " (ID = " + mat_id + " ) for this Mesh");
             materials.push(cast(materialAssetVO.data, MaterialBase));
@@ -899,7 +906,7 @@ class AWD2Parser extends ParserBase {
         var mesh:Mesh = new Mesh(geom, null);
         mesh.transform = mtx;
 
-        var parentAssetVO:AssetVO = getAssetByID(par_id, [AssetType.CONTAINER, AssetType.LIGHT, AssetType.MESH, AssetType.ENTITY, AssetType.SEGMENT_SET]);
+        var parentAssetVO:AssetVO = getAssetByID(par_id, [Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]);
         if (parentAssetVO.enable) {
             cast(parentAssetVO.data, ObjectContainer3D).addChild(mesh);
             parentName = cast(parentAssetVO.data, ObjectContainer3D).name;
@@ -912,8 +919,8 @@ class AWD2Parser extends ParserBase {
         }
         else if (materials.length > 1) {
             var i:UInt;
-// Assign each sub-mesh in the mesh a material from the list. If more sub-meshes
-// than materials, repeat the last material for all remaining sub-meshes.
+            // Assign each sub-mesh in the mesh a material from the list. If more sub-meshes
+            // than materials, repeat the last material for all remaining sub-meshes.
             for (i in 0...mesh.subMeshes.length) {
                 mesh.subMeshes[i].material = materials[Std.int(Math.min(materials.length - 1, i))];
             }
@@ -943,13 +950,13 @@ class AWD2Parser extends ParserBase {
 
     }
 
-//Block ID 31
+    //Block ID 31
 
     private function parseSkyBoxInstance(blockID:UInt):Void {
         var name:String = parseVarStr();
         var cubeTexAddr:UInt = _newBlockBytes.readUnsignedInt();
 
-        var cubeTexAssetVO:AssetVO = getAssetByID(cubeTexAddr, [AssetType.TEXTURE], "CubeTexture");
+        var cubeTexAssetVO:AssetVO = getAssetByID(cubeTexAddr, [Asset3DType.TEXTURE], "CubeTexture");
         if (!cubeTexAssetVO.enable && (cubeTexAddr != 0))
             _blocks[blockID].addError("Could not find the Cubetexture (ID = " + cubeTexAddr + " ) for this SkyBox");
         var asset:SkyBox = new SkyBox(cast(cubeTexAssetVO.data, BitmapCubeTexture));
@@ -963,7 +970,7 @@ class AWD2Parser extends ParserBase {
 
     }
 
-//Block ID = 41
+    //Block ID = 41
 
     private function parseLight(blockID:UInt):Void {
         var light:LightBase = null;
@@ -1023,7 +1030,8 @@ class AWD2Parser extends ParserBase {
         light.diffuse = props.getValue(5, 1.0);
         light.ambientColor = props.getValue(7, 0xffffff);
         light.ambient = props.getValue(8, 0.0);
-// if a shadowMapper has been created, adjust the depthMapSize if needed, assign to light and set castShadows to true
+        
+        // if a shadowMapper has been created, adjust the depthMapSize if needed, assign to light and set castShadows to true
         if (newShadowMapper != null) {
             if (Std.is(newShadowMapper, CubeMapShadowMapper)) {
                 if (props.getValue(10, 1) != 1)
@@ -1038,7 +1046,7 @@ class AWD2Parser extends ParserBase {
             light.castsShadows = true;
         }
         if (par_id != 0) {
-            var parentAssetVO:AssetVO = getAssetByID(par_id, [AssetType.CONTAINER, AssetType.LIGHT, AssetType.MESH, AssetType.ENTITY, AssetType.SEGMENT_SET]);
+            var parentAssetVO:AssetVO = getAssetByID(par_id, [Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]);
             if (parentAssetVO.enable) {
                 cast(parentAssetVO.data, ObjectContainer3D).addChild(light);
                 parentName = cast(parentAssetVO.data, ObjectContainer3D).name;
@@ -1057,7 +1065,7 @@ class AWD2Parser extends ParserBase {
 
     }
 
-//Block ID = 43
+    //Block ID = 43
 
     private function parseCamera(blockID:UInt):Void {
 
@@ -1090,7 +1098,7 @@ class AWD2Parser extends ParserBase {
         }
         var camera:Camera3D = new Camera3D(lens);
         camera.transform = mtx;
-        var parentAssetVO:AssetVO = getAssetByID(par_id, [AssetType.CONTAINER, AssetType.LIGHT, AssetType.MESH, AssetType.ENTITY, AssetType.SEGMENT_SET]);
+        var parentAssetVO:AssetVO = getAssetByID(par_id, [Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]);
         if (parentAssetVO.enable) {
             cast(parentAssetVO.data, ObjectContainer3D).addChild(camera);
             parentName = cast(parentAssetVO.data, ObjectContainer3D).name;
@@ -1117,7 +1125,7 @@ class AWD2Parser extends ParserBase {
 
     }
 
-//Block ID = 43
+    //Block ID = 43
 
     private function parseTextureProjector(blockID:UInt):Void {
 
@@ -1126,7 +1134,7 @@ class AWD2Parser extends ParserBase {
         var name:String = parseVarStr();
         var parentName:String = "Root (TopLevel)";
         var tex_id:UInt = _newBlockBytes.readUnsignedInt();
-        var geometryAssetVO:AssetVO = getAssetByID(tex_id, [AssetType.TEXTURE]);
+        var geometryAssetVO:AssetVO = getAssetByID(tex_id, [Asset3DType.TEXTURE]);
         if (!geometryAssetVO.enable && (tex_id != 0)) {
             _blocks[blockID].addError("Could not find the Texture (ID = " + tex_id + " ( for this TextureProjector!");
         }
@@ -1149,7 +1157,7 @@ class AWD2Parser extends ParserBase {
 
     }
 
-//Block ID = 51
+    //Block ID = 51
 
     private function parseLightPicker(blockID:UInt):Void {
         var name:String = parseVarStr();
@@ -1161,7 +1169,7 @@ class AWD2Parser extends ParserBase {
         var lightsArrayNames:Array<String> = [];
         for (k in 0...numLights) {
             lightID = _newBlockBytes.readUnsignedInt();
-            lightAssetVO = getAssetByID(lightID, [AssetType.LIGHT]);
+            lightAssetVO = getAssetByID(lightID, [Asset3DType.LIGHT]);
             if (lightAssetVO.enable) {
                 lightsArray.push(cast(lightAssetVO.data, LightBase));
                 lightsArrayNames.push(cast(lightAssetVO.data, LightBase).name);
@@ -1184,11 +1192,11 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a StaticLightPicker: Name = '" + name + "' | Texture-Name = " + lightsArrayNames.toString());
     }
 
-//Block ID = 81
+    //Block ID = 81
 
     private function parseMaterial(blockID:UInt):Void {
-// TODO: not used
-////blockLength = block.len;
+        // TODO: not used
+        ////blockLength = block.len;
         var name:String;
         var type:UInt;
         var props:AWDProperties = null;
@@ -1204,8 +1212,8 @@ class AWD2Parser extends ParserBase {
         type = _newBlockBytes.readUnsignedByte();
         num_methods = _newBlockBytes.readUnsignedByte();
 
-// Read material numerical properties
-// (1=color, 2=bitmap url, 10=alpha, 11=alpha_blending, 12=alpha_threshold, 13=repeat)
+        // Read material numerical properties
+        // (1=color, 2=bitmap url, 10=alpha, 11=alpha_blending, 12=alpha_threshold, 13=repeat)
         props = parseProperties({ "1": INT32,
         "2": BADDR,
         "10": _propsNrType,
@@ -1237,7 +1245,7 @@ class AWD2Parser extends ParserBase {
         }
         else if (type == 2) {
             var tex_addr:UInt = props.getValue(2, 0);
-            assetVO = getAssetByID(tex_addr, [AssetType.TEXTURE]);
+            assetVO = getAssetByID(tex_addr, [Asset3DType.TEXTURE]);
             if (!assetVO.enable && (tex_addr > 0))
                 _blocks[blockID].addError("Could not find the DiffsueTexture (ID = " + tex_addr + " ) for this Material");
 
@@ -1267,7 +1275,7 @@ class AWD2Parser extends ParserBase {
             trace(debugString);
     }
 
-// Block ID = 81 AWD2.1
+    // Block ID = 81 AWD2.1
 
     private function parseMaterial_v1(blockID:UInt):Void {
         var mat:MaterialBase = null;
@@ -1310,40 +1318,40 @@ class AWD2Parser extends ParserBase {
         else if (materialMode == 2)
             spezialType = 1;
         if (spezialType < 2) {
-//this is SinglePass or MultiPass
+            //this is SinglePass or MultiPass
             if (type == 1) {
-// Color material
+                // Color material
                 var color:UInt = props.getValue(1, 0xcccccc);
                 if (spezialType == 1) {
-//	MultiPassMaterial
+                    //	MultiPassMaterial
                     mat = new ColorMultiPassMaterial(color);
                     debugString += "Parsed a ColorMaterial(MultiPass): Name = '" + name + "' | ";
                 }
                 else {
-//	SinglePassMaterial
+                    //	SinglePassMaterial
                     mat = new ColorMaterial(color, props.getValue(10, 1.0));
                     cast(mat, ColorMaterial).alphaBlending = props.getValue(11, false);
                     debugString += "Parsed a ColorMaterial(SinglePass): Name = '" + name + "' | ";
                 }
             }
             else if (type == 2) {
-// texture material
+                // texture material
 
                 var tex_addr:UInt = props.getValue(2, 0);
-                assetVO = getAssetByID(tex_addr, [AssetType.TEXTURE]);
+                assetVO = getAssetByID(tex_addr, [Asset3DType.TEXTURE]);
                 if (!assetVO.enable && (tex_addr > 0))
                     _blocks[blockID].addError("Could not find the DiffsueTexture (ID = " + tex_addr + " ) for this TextureMaterial");
                 var texture:Texture2DBase = assetVO.data;
 
                 var ambientTexture:Texture2DBase = null;
                 var ambientTex_addr:UInt = props.getValue(17, 0);
-                assetVO = getAssetByID(ambientTex_addr, [AssetType.TEXTURE]);
+                assetVO = getAssetByID(ambientTex_addr, [Asset3DType.TEXTURE]);
                 if (!assetVO.enable && (ambientTex_addr != 0))
                     _blocks[blockID].addError("Could not find the AmbientTexture (ID = " + ambientTex_addr + " ) for this TextureMaterial");
                 if (assetVO.enable)
                     ambientTexture = assetVO.data;
                 if (spezialType == 1) {
-// MultiPassMaterial
+                    // MultiPassMaterial
                     mat = new TextureMultiPassMaterial(texture);
                     debugString += "Parsed a TextureMaterial(MultiPass): Name = '" + name + "' | Texture-Name = " + texture.name;
                     if (ambientTexture != null) {
@@ -1352,7 +1360,7 @@ class AWD2Parser extends ParserBase {
                     }
                 }
                 else {
-//	SinglePassMaterial
+                    //	SinglePassMaterial
                     mat = new TextureMaterial(texture);
                     debugString += "Parsed a TextureMaterial(SinglePass): Name = '" + name + "' | Texture-Name = " + texture.name;
                     if (ambientTexture != null) {
@@ -1365,7 +1373,7 @@ class AWD2Parser extends ParserBase {
 
             }
             var normalTex_addr:UInt = props.getValue(3, 0);
-            assetVO = getAssetByID(normalTex_addr, [AssetType.TEXTURE]);
+            assetVO = getAssetByID(normalTex_addr, [Asset3DType.TEXTURE]);
             if (!assetVO.enable && (normalTex_addr != 0))
                 _blocks[blockID].addError("Could not find the NormalTexture (ID = " + normalTex_addr + " ) for this TextureMaterial");
             if (assetVO.enable) {
@@ -1374,7 +1382,7 @@ class AWD2Parser extends ParserBase {
             }
 
             var specTex_addr:UInt = props.getValue(21, 0);
-            assetVO = getAssetByID(specTex_addr, [AssetType.TEXTURE]);
+            assetVO = getAssetByID(specTex_addr, [Asset3DType.TEXTURE]);
             if (!assetVO.enable && (specTex_addr != 0))
                 _blocks[blockID].addError("Could not find the SpecularTexture (ID = " + specTex_addr + " ) for this TextureMaterial");
             if (assetVO.enable) {
@@ -1382,12 +1390,12 @@ class AWD2Parser extends ParserBase {
                 debugString += " | SpecularTexture-Name = " + specTexture.name;
             }
             var lightPickerAddr:UInt = props.getValue(22, 0);
-            assetVO = getAssetByID(lightPickerAddr, [AssetType.LIGHT_PICKER]);
+            assetVO = getAssetByID(lightPickerAddr, [Asset3DType.LIGHT_PICKER]);
             if (!assetVO.enable && (lightPickerAddr != 0))
                 _blocks[blockID].addError("Could not find the LightPicker (ID = " + lightPickerAddr + " ) for this TextureMaterial");
             else {
                 cast(mat, MaterialBase).lightPicker = cast(assetVO.data, LightPickerBase);
-//debugString+=" | Lightpicker-Name = "+LightPickerBase(returnedArray[1]).name;
+                //debugString+=" | Lightpicker-Name = "+LightPickerBase(returnedArray[1]).name;
             }
 
             cast(mat, MaterialBase).smooth = props.getValue(5, true);
@@ -1449,7 +1457,7 @@ class AWD2Parser extends ParserBase {
                 {
                     case 999: //wrapper-Methods that will load a previous parsed EffektMethod returned
                         targetID = props.getValue(1, 0);
-                        assetVO = getAssetByID(targetID, [AssetType.EFFECTS_METHOD]);
+                        assetVO = getAssetByID(targetID, [Asset3DType.EFFECTS_METHOD]);
                         if (!assetVO.enable)
                             _blocks[blockID].addError("Could not find the EffectMethod (ID = " + targetID + " ) for this Material");
                         else {
@@ -1462,7 +1470,7 @@ class AWD2Parser extends ParserBase {
 
                     case 998: //wrapper-Methods that will load a previous parsed ShadowMapMethod
                         targetID = props.getValue(1, 0);
-                        assetVO = getAssetByID(targetID, [AssetType.SHADOW_MAP_METHOD]);
+                        assetVO = getAssetByID(targetID, [Asset3DType.SHADOW_MAP_METHOD]);
                         if (!assetVO.enable)
                             _blocks[blockID].addError("Could not find the ShadowMethod (ID = " + targetID + " ) for this Material");
                         else {
@@ -1475,7 +1483,7 @@ class AWD2Parser extends ParserBase {
 
                     case 1: //EnvMapAmbientMethod
                         targetID = props.getValue(1, 0);
-                        assetVO = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
+                        assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
                         if (!assetVO.enable)
                             _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this EnvMapAmbientMethodMaterial");
                         if (spezialType == 0)
@@ -1493,7 +1501,7 @@ class AWD2Parser extends ParserBase {
 
                     case 52: //GradientDiffuseMethod
                         targetID = props.getValue(1, 0);
-                        assetVO = getAssetByID(targetID, [AssetType.TEXTURE]);
+                        assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
                         if (!assetVO.enable)
                             _blocks[blockID].addError("Could not find the GradientDiffuseTexture (ID = " + targetID + " ) for this GradientDiffuseMethod");
                         if (spezialType == 0)
@@ -1511,7 +1519,7 @@ class AWD2Parser extends ParserBase {
 
                     case 54: //LightMapDiffuseMethod
                         targetID = props.getValue(1, 0);
-                        assetVO = getAssetByID(targetID, [AssetType.TEXTURE]);
+                        assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
                         if (!assetVO.enable)
                             _blocks[blockID].addError("Could not find the LightMap (ID = " + targetID + " ) for this LightMapDiffuseMethod");
                         if (spezialType == 0)
@@ -1584,11 +1592,11 @@ class AWD2Parser extends ParserBase {
                         }
                         debugString += " | FresnelSpecularMethod";
 
-//case 151://HeightMapNormalMethod - thios is not implemented for now, but might appear later
-//
+                    //case 151://HeightMapNormalMethod - thios is not implemented for now, but might appear later
+                    //
                     case 152: //SimpleWaterNormalMethod
                         targetID = props.getValue(1, 0);
-                        assetVO = getAssetByID(targetID, [AssetType.TEXTURE]);
+                        assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
                         if (!assetVO.enable)
                             _blocks[blockID].addError("Could not find the SecoundNormalMap (ID = " + targetID + " ) for this SimpleWaterNormalMethod");
                         if (spezialType == 0) {
@@ -1616,7 +1624,7 @@ class AWD2Parser extends ParserBase {
             trace(debugString);
     }
 
-//Block ID = 82
+    //Block ID = 82
 
     private function parseTexture(blockID:UInt):Void {
         var asset:Texture2DBase = null;
@@ -1626,7 +1634,7 @@ class AWD2Parser extends ParserBase {
         var data_len:Int;
         _texture_users.set(_cur_block_id + "", []);
 
-// External
+        // External
         if (type == 0) {
             data_len = _newBlockBytes.readUnsignedInt();
             var url:String;
@@ -1640,7 +1648,7 @@ class AWD2Parser extends ParserBase {
             _newBlockBytes.readBytes(data, 0, data_len);
             addDependency(_cur_block_id + "", null, false, data, true);
         }
-// Ignore for now
+        // Ignore for now
         parseProperties(null);
         _blocks[blockID].extras = parseUserAttributes();
         pauseAndRetrieveDependencies();
@@ -1651,10 +1659,10 @@ class AWD2Parser extends ParserBase {
         }
     }
 
-//Block ID = 83
+    //Block ID = 83
 
     private function parseCubeTexture(blockID:UInt):Void {
-//blockLength = block.len;
+        //blockLength = block.len;
         var data_len:UInt;
         var asset:CubeTextureBase = null;
 
@@ -1666,7 +1674,7 @@ class AWD2Parser extends ParserBase {
         for (i in 0...6) {
             _texture_users.set(_cur_block_id + "", []);
             _cubeTextures.push(null);
-// External
+            // External
             if (type == 0) {
                 data_len = _newBlockBytes.readUnsignedInt();
                 var url:String;
@@ -1682,7 +1690,7 @@ class AWD2Parser extends ParserBase {
             }
         }
 
-// Ignore for now
+        // Ignore for now
         parseProperties(null);
         _blocks[blockID].extras = parseUserAttributes();
         pauseAndRetrieveDependencies();
@@ -1693,7 +1701,7 @@ class AWD2Parser extends ParserBase {
         }
     }
 
-//Block ID = 91
+    //Block ID = 91
 
     private function parseSharedMethodBlock(blockID:UInt):Void {
         var asset:EffectMethodBase;
@@ -1707,7 +1715,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a EffectMethod: Name = " + asset.name + " Type = " + asset);
     }
 
-// this functions reads and creates a EffectMethod
+    // this functions reads and creates a EffectMethod
 
     private function parseSharedMethodList(blockID:UInt):EffectMethodBase {
 
@@ -1737,7 +1745,7 @@ class AWD2Parser extends ParserBase {
         var assetVO:AssetVO;
         switch (methodType)
         {
-// Effect Methods
+            // Effect Methods
             case 401: //ColorMatrix
                 effectMethodReturn = new ColorMatrixMethod(props.getValue(101, [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
             case 402: //ColorTransform
@@ -1748,26 +1756,26 @@ class AWD2Parser extends ParserBase {
                 cast(effectMethodReturn, ColorTransformMethod).colorTransform = newColorTransform;
             case 403: //EnvMap
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
+                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this EnvMapMethod");
                 effectMethodReturn = new EnvMapMethod(assetVO.data, props.getValue(101, 1));
                 targetID = props.getValue(2, 0);
                 if (targetID > 0) {
-                    assetVO = getAssetByID(targetID, [AssetType.TEXTURE]);
+                    assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
                     if (!assetVO.enable)
                         _blocks[blockID].addError("Could not find the Mask-texture (ID = " + targetID + " ) for this EnvMapMethod");
                     cast(effectMethodReturn, EnvMapMethod).mask = assetVO.data;
                 }
             case 404: //LightMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.TEXTURE]);
+                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the LightMap (ID = " + targetID + " ) for this LightMapMethod");
                 effectMethodReturn = new LightMapMethod(assetVO.data, blendModeDic[props.getValue(401, 10)]); //usesecondaryUV not set
             case 405: //ProjectiveTextureMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.TEXTURE_PROJECTOR]);
+                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE_PROJECTOR]);
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the TextureProjector (ID = " + targetID + " ) for this ProjectiveTextureMethod");
                 effectMethodReturn = new ProjectiveTextureMethod(assetVO.data, blendModeDic[props.getValue(401, 10)]);
@@ -1776,14 +1784,14 @@ class AWD2Parser extends ParserBase {
 
             case 407: //AlphaMaskMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.TEXTURE]);
+                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the Alpha-texture (ID = " + targetID + " ) for this AlphaMaskMethod");
                 effectMethodReturn = new AlphaMaskMethod(assetVO.data, props.getValue(701, false));
 
             case 408: //RefractionEnvMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
+                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this RefractionEnvMapMethod");
                 effectMethodReturn = new RefractionEnvMapMethod(assetVO.data, props.getValue(101, 0.1), props.getValue(102, 0.01), props.getValue(103, 0.01), props.getValue(104, 0.01));
@@ -1794,7 +1802,7 @@ class AWD2Parser extends ParserBase {
 
             case 410: //FresnelEnvMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
+                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this FresnelEnvMapMethod");
                 effectMethodReturn = new FresnelEnvMapMethod(assetVO.data, props.getValue(101, 1));
@@ -1807,7 +1815,7 @@ class AWD2Parser extends ParserBase {
         return effectMethodReturn;
     }
 
-//Block ID = 92
+    //Block ID = 92
 
     private function parseShadowMethodBlock(blockID:UInt):Void {
         var type:UInt;
@@ -1816,7 +1824,7 @@ class AWD2Parser extends ParserBase {
         var shadowLightID:UInt;
         _blocks[blockID].name = parseVarStr();
         shadowLightID = _newBlockBytes.readUnsignedInt();
-        var assetVO:AssetVO = getAssetByID(shadowLightID, [AssetType.LIGHT]);
+        var assetVO:AssetVO = getAssetByID(shadowLightID, [Asset3DType.LIGHT]);
         if (!assetVO.enable) {
             _blocks[blockID].addError("Could not find the TargetLight (ID = " + shadowLightID + " ) for this ShadowMethod - ShadowMethod not created");
             return;
@@ -1832,7 +1840,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a ShadowMapMethodMethod: Name = " + asset.name + " | Type = " + asset + " | Light-Name = " + cast(assetVO.data, LightBase));
     }
 
-// this functions reads and creates a ShadowMethodMethod
+    // this functions reads and creates a ShadowMethodMethod
 
     private function parseShadowMethodList(light:LightBase, blockID:UInt):ShadowMapMethodBase {
 
@@ -1862,7 +1870,7 @@ class AWD2Parser extends ParserBase {
         {
             case 1001: //CascadeShadowMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.SHADOW_MAP_METHOD]);
+                assetVO = getAssetByID(targetID, [Asset3DType.SHADOW_MAP_METHOD]);
                 if (!assetVO.enable) {
                     _blocks[blockID].addError("Could not find the ShadowBaseMethod (ID = " + targetID + " ) for this CascadeShadowMapMethod - ShadowMethod not created");
                     return shadowMethod;
@@ -1870,7 +1878,7 @@ class AWD2Parser extends ParserBase {
                 shadowMethod = new CascadeShadowMapMethod(assetVO.data);
             case 1002: //NearShadowMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [AssetType.SHADOW_MAP_METHOD]);
+                assetVO = getAssetByID(targetID, [Asset3DType.SHADOW_MAP_METHOD]);
                 if (!assetVO.enable) {
                     _blocks[blockID].addError("Could not find the ShadowBaseMethod (ID = " + targetID + " ) for this NearShadowMapMethod - ShadowMethod not created");
                     return shadowMethod;
@@ -1900,7 +1908,7 @@ class AWD2Parser extends ParserBase {
         return shadowMethod;
     }
 
-//Block ID 101
+    //Block ID 101
 
     private function parseSkeleton(blockID:UInt):Void {
         var name:String = parseVarStr();
@@ -1912,7 +1920,8 @@ class AWD2Parser extends ParserBase {
         while (joints_parsed < num_joints) {
             var joint:SkeletonJoint;
             var ibp:Matrix3D;
-// Ignore joint id
+            
+            // Ignore joint id
             _newBlockBytes.readUnsignedShort();
             joint = new SkeletonJoint();
             joint.parentIndex = _newBlockBytes.readUnsignedShort() - 1; // 0=null in AWD
@@ -1920,14 +1929,15 @@ class AWD2Parser extends ParserBase {
 
             ibp = parseMatrix3D();
             joint.inverseBindPose = ibp.rawData;
-// Ignore joint props/attributes for now
+            
+            // Ignore joint props/attributes for now
             parseProperties(null);
             parseUserAttributes();
             skeleton.joints.push(joint);
             joints_parsed++;
         }
 
-// Discard attributes for now
+        // Discard attributes for now
         parseUserAttributes();
         finalizeAsset(skeleton, name);
         _blocks[blockID].data = skeleton;
@@ -1935,7 +1945,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a Skeleton: Name = " + skeleton.name + " | Number of Joints = " + joints_parsed);
     }
 
-//Block ID = 102
+    //Block ID = 102
 
     private function parseSkeletonPose(blockID:UInt):Void {
         var name:String = parseVarStr();
@@ -1955,13 +1965,21 @@ class AWD2Parser extends ParserBase {
 
                 var mtx:Matrix3D = new Matrix3D(mtx_data);
                 joint_pose.orientation.fromMatrix(mtx);
+                #if html
+                joint_pose.translation.x = mtx.position.x;
+                joint_pose.translation.y = mtx.position.y;
+                joint_pose.translation.z = mtx.position.z;
+                joint_pose.translation.w = mtx.position.w;
+                #else
                 joint_pose.translation.copyFrom(mtx.position);
+                #end
 
                 pose.jointPoses[joints_parsed] = joint_pose;
             }
             joints_parsed++;
         }
-// Skip attributes for now
+        
+        // Skip attributes for now
         parseUserAttributes();
         finalizeAsset(pose, name);
         _blocks[blockID].data = pose;
@@ -1969,7 +1987,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a SkeletonPose: Name = " + pose.name + " | Number of Joints = " + joints_parsed);
     }
 
-//blockID 103
+    //blockID 103
 
     private function parseSkeletonAnimation(blockID:UInt):Void {
         var frame_dur:UInt;
@@ -1984,7 +2002,7 @@ class AWD2Parser extends ParserBase {
         while (frames_parsed < num_frames) {
             pose_addr = _newBlockBytes.readUnsignedInt();
             frame_dur = _newBlockBytes.readUnsignedShort();
-            assetVO = getAssetByID(pose_addr, [AssetType.SKELETON_POSE]);
+            assetVO = getAssetByID(pose_addr, [Asset3DType.SKELETON_POSE]);
             if (!assetVO.enable)
                 _blocks[blockID].addError("Could not find the SkeletonPose Frame # " + frames_parsed + " (ID = " + pose_addr + " ) for this SkeletonClipNode");
             else
@@ -1995,7 +2013,8 @@ class AWD2Parser extends ParserBase {
             _blocks[blockID].addError("Could not this SkeletonClipNode, because no Frames where set.");
             return;
         }
-// Ignore attributes for now
+
+        // Ignore attributes for now
         parseUserAttributes();
         finalizeAsset(clip, name);
         _blocks[blockID].data = clip;
@@ -2003,7 +2022,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a SkeletonClipNode: Name = " + clip.name + " | Number of Frames = " + clip.frames.length);
     }
 
-//Block ID = 111 /  Block ID = 112
+    //Block ID = 111 /  Block ID = 112
 
     private function parseMeshPoseAnimation(blockID:UInt, poseOnly:Bool = false):Void {
         var num_frames:UInt = 1;
@@ -2014,8 +2033,8 @@ class AWD2Parser extends ParserBase {
         var x:Float;
         var y:Float;
         var z:Float;
-        var str_len:Int;
-        var str_end:Int;
+        var str_len:UInt;
+        var str_end:UInt;
         var geometry:Geometry;
         var subGeom:CompactSubGeometry;
         var idx:Int = 0;
@@ -2029,7 +2048,7 @@ class AWD2Parser extends ParserBase {
         var thisGeo:Geometry;
         var name:String = parseVarStr();
         var geoAdress:Int = _newBlockBytes.readUnsignedInt();
-        var assetVO:AssetVO = getAssetByID(geoAdress, [AssetType.GEOMETRY]);
+        var assetVO:AssetVO = getAssetByID(geoAdress, [Asset3DType.GEOMETRY]);
         if (!assetVO.enable) {
             _blocks[blockID].addError("Could not find the target-Geometry-Object " + geoAdress + " ) for this VertexClipNode");
             return;
@@ -2100,7 +2119,7 @@ class AWD2Parser extends ParserBase {
     }
 
 
-//BlockID 113
+    //BlockID 113
 
     private function parseVertexAnimationSet(blockID:UInt):Void {
         var assetVO:AssetVO;
@@ -2114,7 +2133,7 @@ class AWD2Parser extends ParserBase {
         var vertexFrames:Vector<VertexClipNode> = new Vector<VertexClipNode>();
         while (frames_parsed < num_frames) {
             poseBlockAdress = _newBlockBytes.readUnsignedInt();
-            assetVO = getAssetByID(poseBlockAdress, [AssetType.ANIMATION_NODE]);
+            assetVO = getAssetByID(poseBlockAdress, [Asset3DType.ANIMATION_NODE]);
             if (!assetVO.enable) {
                 _blocks[blockID].addError("Could not find the AnimationClipNode Nr " + frames_parsed + " ( " + poseBlockAdress + " ) for this AnimationSet");
             }
@@ -2142,7 +2161,7 @@ class AWD2Parser extends ParserBase {
 
         }
         else if (skeletonFrames.length > 0) {
-            assetVO = getAssetByID(poseBlockAdress, [AssetType.ANIMATION_NODE]);
+            assetVO = getAssetByID(poseBlockAdress, [Asset3DType.ANIMATION_NODE]);
             var newSkeletonAnimationSet:SkeletonAnimationSet = new SkeletonAnimationSet(props.getValue(1, 4)); //props.getValue(1,4));
             var skeletFrame:SkeletonClipNode;
             for (skeletFrame in skeletonFrames)
@@ -2156,7 +2175,7 @@ class AWD2Parser extends ParserBase {
         }
     }
 
-//blockID 121
+    //blockID 121
 
     private function parseUVAnimation(blockID:UInt):Void {
         var name:String = parseVarStr();
@@ -2166,7 +2185,7 @@ class AWD2Parser extends ParserBase {
         var dummy:Sprite = new Sprite();
         var frames_parsed:UInt = 0;
         while (frames_parsed < num_frames) {
-// TODO: Replace this with some reliable way to decompose a 2d matrix
+            // TODO: Replace this with some reliable way to decompose a 2d matrix
             var mtx:Matrix = parseMatrix2D();
             mtx.scale(100, 100);
             dummy.transform.matrix = mtx;
@@ -2175,7 +2194,8 @@ class AWD2Parser extends ParserBase {
             clip.addFrame(frame, frame_dur);
             frames_parsed++;
         }
-// Ignore for now
+        
+        // Ignore for now
         parseUserAttributes();
         finalizeAsset(clip, name);
         _blocks[blockID].data = clip;
@@ -2184,7 +2204,7 @@ class AWD2Parser extends ParserBase {
     }
 
 
-//BlockID 122
+    //BlockID 122
 
     private function parseAnimatorSet(blockID:UInt):Void {
         var targetMesh:Mesh;
@@ -2211,11 +2231,11 @@ class AWD2Parser extends ParserBase {
         var targetMeshes:Vector<Mesh> = new Vector<Mesh>();
 
         for (i in 0...meshAdresses.length) {
-            assetVO = getAssetByID(meshAdresses[i], [AssetType.MESH]);
+            assetVO = getAssetByID(meshAdresses[i], [Asset3DType.MESH]);
             if (assetVO.enable)
                 targetMeshes.push(cast(assetVO.data, Mesh));
         }
-        assetVO = getAssetByID(animSetBlockAdress, [AssetType.ANIMATION_SET]);
+        assetVO = getAssetByID(animSetBlockAdress, [Asset3DType.ANIMATION_SET]);
         if (!assetVO.enable) {
             _blocks[blockID].addError("Could not find the AnimationSet ( " + animSetBlockAdress + " ) for this Animator");
             return;
@@ -2224,7 +2244,7 @@ class AWD2Parser extends ParserBase {
         var thisAnimator:AnimatorBase = null;
         if (type == 1) {
 
-            assetVO = getAssetByID(props.getValue(1, 0), [AssetType.SKELETON]);
+            assetVO = getAssetByID(props.getValue(1, 0), [Asset3DType.SKELETON]);
             if (!assetVO.enable) {
                 _blocks[blockID].addError("Could not find the Skeleton ( " + props.getValue(1, 0) + " ) for this Animator");
                 return;
@@ -2249,7 +2269,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a Animator: Name = " + name);
     }
 
-//Block ID = 253
+    //Block ID = 253
 
     private function parseCommand(blockID:UInt):Void {
         var hasBlocks:Bool = _newBlockBytes.readUnsignedByte() != 0;
@@ -2259,7 +2279,7 @@ class AWD2Parser extends ParserBase {
 
         var parentObject:ObjectContainer3D = null;
         var targetObject:ObjectContainer3D = null;
-        var assetVO:AssetVO = getAssetByID(par_id, [AssetType.CONTAINER, AssetType.LIGHT, AssetType.MESH, AssetType.ENTITY, AssetType.SEGMENT_SET]);
+        var assetVO:AssetVO = getAssetByID(par_id, [Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]);
         if (assetVO.enable)
             parentObject = cast(assetVO.data, ObjectContainer3D);
 
@@ -2270,7 +2290,7 @@ class AWD2Parser extends ParserBase {
         {
             case 1:
                 var targetID:Int = props.getValue(1, 0);
-                var targetAssetVO:AssetVO = getAssetByID(targetID, [AssetType.LIGHT, AssetType.TEXTURE_PROJECTOR]); //for no only light is requested!!!!
+                var targetAssetVO:AssetVO = getAssetByID(targetID, [Asset3DType.LIGHT, Asset3DType.TEXTURE_PROJECTOR]); //for no only light is requested!!!!
                 if (!targetAssetVO.enable && (targetID != 0)) {
                     _blocks[blockID].addError("Could not find the light (ID = " + targetID + " ( for this CommandBock!");
                     return;
@@ -2292,7 +2312,7 @@ class AWD2Parser extends ParserBase {
     }
 
 
-//blockID 254
+    //blockID 254
 
     private function parseNameSpace(blockID:UInt):Void {
         var id:UInt = _newBlockBytes.readUnsignedByte();
@@ -2301,7 +2321,7 @@ class AWD2Parser extends ParserBase {
             trace("Parsed a NameSpaceBlock: ID = " + id + " | String = " + nameSpaceString);
     }
 
-//blockID 255
+    //blockID 255
 
     private function parseMetaData(blockID:UInt):Void {
         var props:AWDProperties = parseProperties({"1": UINT32, "2": AWDSTRING, "3": AWDSTRING, "4": AWDSTRING, "5": AWDSTRING});
@@ -2315,7 +2335,7 @@ class AWD2Parser extends ParserBase {
 
     }
 
-// Helper - functions
+    // Helper - functions
 
     private function getUVForVertexAnimation(meshID:UInt):Vector<Vector<Float>> {
         if (Std.is(_blocks[meshID].data, Mesh)) {
@@ -2355,9 +2375,9 @@ class AWD2Parser extends ParserBase {
     }
 
     private function parseProperties(expected:Dynamic):AWDProperties {
-        var list_end:Int;
-        var list_len:Int;
-        var propertyCnt:Int = 0;
+        var list_end:UInt;
+        var list_len:UInt;
+        var propertyCnt:UInt = 0;
         var props:AWDProperties = new AWDProperties();
 
         list_len = _newBlockBytes.readUnsignedInt();
@@ -2394,12 +2414,12 @@ class AWD2Parser extends ParserBase {
 
     private function parseUserAttributes():Dynamic {
         var attributes:Dynamic = null;
-        var list_len:Int;
+        var list_len:UInt;
         var attibuteCnt:Int = -1;
 
         list_len = _newBlockBytes.readUnsignedInt();
         if (list_len > 0) {
-            var list_end:Int;
+            var list_end:UInt;
 
             attributes = {};
 
@@ -2411,7 +2431,7 @@ class AWD2Parser extends ParserBase {
                 var attr_len:Int;
                 var attr_val:Dynamic;
 
-// TODO: Properly tend to namespaces in attributes
+                // TODO: Properly tend to namespaces in attributes
                 ns_id = _newBlockBytes.readUnsignedByte();
                 attr_key = parseVarStr();
                 attr_type = _newBlockBytes.readUnsignedByte();
@@ -2485,8 +2505,8 @@ class AWD2Parser extends ParserBase {
     }
 
     private function getDefaultAsset(assetType:String, extraTypeInfo:String):IAsset {
-        var isTexture:Bool = (assetType == AssetType.TEXTURE);
-        var isMaterial:Bool = (assetType == AssetType.MATERIAL);
+        var isTexture:Bool = (assetType == Asset3DType.TEXTURE);
+        var isMaterial:Bool = (assetType == Asset3DType.MATERIAL);
 
         if (isTexture) {
             if (extraTypeInfo == "CubeTexture")
@@ -2512,15 +2532,16 @@ class AWD2Parser extends ParserBase {
                 if (_blocks[assetID].data != null) {
                     while (typeCnt < assetTypesToGet.length) {
                         if (cast(_blocks[assetID].data, IAsset).assetType == assetTypesToGet[typeCnt]) {
-//if the right assetType was found
-                            if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "CubeTexture")) {
+                            
+                            //if the right Asset3DType was found
+                            if ((assetTypesToGet[typeCnt] == Asset3DType.TEXTURE) && (extraTypeInfo == "CubeTexture")) {
                                 if (Std.is(_blocks[assetID].data, BitmapCubeTexture)) {
                                     assetVO.enable = true;
                                     assetVO.data = _blocks[assetID].data;
                                     return assetVO;
                                 }
                             }
-                            if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "SingleTexture")) {
+                            if ((assetTypesToGet[typeCnt] == Asset3DType.TEXTURE) && (extraTypeInfo == "SingleTexture")) {
                                 if (Std.is(_blocks[assetID].data, BitmapTexture)) {
                                     assetVO.enable = true;
                                     assetVO.data = _blocks[assetID].data;
@@ -2534,7 +2555,7 @@ class AWD2Parser extends ParserBase {
 
                             }
                         }
-                        if ((assetTypesToGet[typeCnt] == AssetType.GEOMETRY) && (cast(_blocks[assetID].data, IAsset).assetType == AssetType.MESH)) {
+                        if ((assetTypesToGet[typeCnt] == Asset3DType.GEOMETRY) && (cast(_blocks[assetID].data, IAsset).assetType == Asset3DType.MESH)) {
                             assetVO.enable = true;
                             assetVO.data = cast(_blocks[assetID].data, Mesh).geometry;
                             return assetVO;
@@ -2544,7 +2565,8 @@ class AWD2Parser extends ParserBase {
                 }
             }
         }
-// if the function has not returned anything yet, the asset is not found, or the found asset is not the right type.
+
+        // if the function has not returned anything yet, the asset is not found, or the found asset is not the right type.
         assetVO.enable = false;
         assetVO.data = getDefaultAsset(assetTypesToGet[0], extraTypeInfo);
         return assetVO;
@@ -2657,7 +2679,7 @@ class AWD2Parser extends ParserBase {
         mtx_raw[14] = readNumber(_accuracyMatrix);
         mtx_raw[15] = 1.0;
 
-//TODO: fix max exporter to remove NaN values in joint 0 inverse bind pose
+        //TODO: fix max exporter to remove NaN values in joint 0 inverse bind pose
         if (Math.isNaN(mtx_raw[0])) {
             mtx_raw[0] = 1;
             mtx_raw[1] = 0;

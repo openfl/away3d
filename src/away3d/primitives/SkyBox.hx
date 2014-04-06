@@ -18,7 +18,7 @@ import away3d.core.partition.EntityNode;
 import away3d.core.partition.SkyBoxNode;
 import away3d.entities.Entity;
 import away3d.errors.AbstractMethodError;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.materials.MaterialBase;
 import away3d.materials.SkyBoxMaterial;
 import away3d.textures.CubeTextureBase;
@@ -142,7 +142,7 @@ class SkyBox extends Entity implements IRenderable {
     }
 
     override public function get_assetType():String {
-        return AssetType.SKYBOX;
+        return Asset3DType.SKYBOX;
     }
 
 /**

@@ -8,7 +8,7 @@ package away3d.materials.methods;
 import away3d.errors.AbstractMethodError;
 import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.materials.compilation.ShaderRegisterCache;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 class EffectMethodBase extends ShadingMethodBase implements IAsset {
     public var assetType(get_assetType, never):String;
@@ -22,7 +22,7 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset {
 	 */
 
     public function get_assetType():String {
-        return AssetType.EFFECTS_METHOD;
+        return Asset3DType.EFFECTS_METHOD;
     }
 
 /**

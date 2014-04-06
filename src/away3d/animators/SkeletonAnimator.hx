@@ -46,52 +46,48 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
     private var _useCondensedIndices:Bool;
     private var _jointsPerVertex:Int;
     private var _activeSkeletonState:ISkeletonAnimationState;
-/**
+
+    /**
 	 * returns the calculated global matrices of the current skeleton pose.
 	 *
 	 * @see #globalPose
 	 */
-
     public function get_globalMatrices():Vector<Float> {
         if (_globalPropertiesDirty) updateGlobalProperties();
         return _globalMatrices;
     }
 
-/**
+    /**
 	 * returns the current skeleton pose output from the animator.
 	 *
 	 * @see away3d.animators.data.SkeletonPose
 	 */
-
     public function get_globalPose():SkeletonPose {
         if (_globalPropertiesDirty) updateGlobalProperties();
         return _globalPose;
     }
 
-/**
+    /**
 	 * Returns the skeleton object in use by the animator - this defines the number and heirarchy of joints used by the
 	 * skinned geoemtry to which skeleon animator is applied.
 	 */
-
     public function get_skeleton():Skeleton {
         return _skeleton;
     }
 
-/**
+    /**
 	 * Indicates whether the skeleton animator is disabled by default for GPU rendering, something that allows the animator to perform calculation on the GPU.
 	 * Defaults to false.
 	 */
-
     public function get_forceCPU():Bool {
         return _forceCPU;
     }
 
-/**
+    /**
 	 * Offers the option of enabling GPU accelerated animation on skeletons larger than 32 joints
 	 * by condensing the number of joint index values required per mesh. Only applicable to
 	 * skeleton animations that utilise more than one mesh object. Defaults to false.
 	 */
-
     public function get_useCondensedIndices():Bool {
         return _useCondensedIndices;
     }
@@ -101,18 +97,18 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         return value;
     }
 
-/**
+    /**
 	 * Creates a new <code>SkeletonAnimator</code> object.
 	 *
 	 * @param skeletonAnimationSet The animation data set containing the skeleton animations used by the animator.
 	 * @param skeleton The skeleton object used for calculating the resulting global matrices for transforming skinned mesh data.
 	 * @param forceCPU Optional value that only allows the animator to perform calculation on the CPU. Defaults to false.
 	 */
-
     public function new(animationSet:SkeletonAnimationSet, skeleton:Skeleton, forceCPU:Bool = false) {
         _globalPose = new SkeletonPose();
         _skeletonAnimationStates = new ObjectMap<SkinnedSubGeometry, SubGeomAnimationState>();
         super(animationSet);
+        
         _skeleton = skeleton;
         _forceCPU = forceCPU;
         _jointsPerVertex = animationSet.jointsPerVertex;
@@ -137,56 +133,61 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         }
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function clone():IAnimator {
-/* The cast to SkeletonAnimationSet should never fail, as _animationSet can only be set
+        /* The cast to SkeletonAnimationSet should never fail, as _animationSet can only be set
 		 through the constructor, which will only accept a SkeletonAnimationSet. */
         return new SkeletonAnimator( cast(_animationSet, SkeletonAnimationSet), _skeleton, _forceCPU);
     }
 
-/**
+    /**
 	 * Plays an animation state registered with the given name in the animation data set.
 	 *
 	 * @param name The data set name of the animation state to be played.
 	 * @param transition An optional transition object that determines how the animator will transition from the currently active animation state.
 	 * @param offset An option offset time (in milliseconds) that resets the state's internal clock to the absolute time of the animator plus the offset value. Required for non-looping animation states.
 	 */
-
     public function play(name:String, ?transition:IAnimationTransition = null, ?offset:Int = null):Void {
         if (_activeAnimationName == name) return;
+        
         _activeAnimationName = name;
-        if (!_animationSet.hasAnimation(name)) throw new Error("Animation root node " + name + " not found!");
+        if (!_animationSet.hasAnimation(name)) 
+            throw new Error("Animation root node " + name + " not found!");
+        
         if (transition != null && _activeNode != null) {
-//setup the transition
+            //setup the transition
             _activeNode = transition.getAnimationNode(this, _activeNode, _animationSet.getAnimation(name), _absoluteTime);
             _activeNode.addEventListener(AnimationStateEvent.TRANSITION_COMPLETE, onTransitionComplete);
-        }
-
-        else _activeNode = _animationSet.getAnimation(name);
+        } else 
+            _activeNode = _animationSet.getAnimation(name);
+        
         _activeState = getAnimationState(_activeNode);
         if (updatePosition) {
-//update straight away to reset position deltas
+            //update straight away to reset position deltas
             _activeState.update(_absoluteTime);
             _activeState.positionDelta;
         }
+        
         _activeSkeletonState = cast(_activeState, ISkeletonAnimationState) ;
         start();
-//apply a time offset if specified
+        
+        //apply a time offset if specified
         if (!Math.isNaN(offset)) reset(name, Std.int(offset));
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int, camera:Camera3D):Void {
-// do on request of globalProperties
-        if (_globalPropertiesDirty) updateGlobalProperties();
+        // do on request of globalProperties
+        if (_globalPropertiesDirty) 
+            updateGlobalProperties();
+        
         var skinnedGeom:SkinnedSubGeometry = cast((cast((renderable), SubMesh).subGeometry), SkinnedSubGeometry);
-// using condensed data
+        
+        // using condensed data
         var numCondensedJoints:Int = skinnedGeom.numCondensedJoints;
         if (_useCondensedIndices) {
             if (skinnedGeom.numCondensedJoints == 0) {
@@ -196,7 +197,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             updateCondensedMatrices(skinnedGeom.condensedIndexLookUp, numCondensedJoints);
             stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _condensedMatrices, numCondensedJoints * 3);
         }
-
         else {
             if (_animationSet.usesCPU) {
                 if (!_skeletonAnimationStates.exists(skinnedGeom))
@@ -216,21 +216,19 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         skinnedGeom.activateJointWeightsBuffer(vertexStreamOffset + 1, stage3DProxy);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function testGPUCompatibility(pass:MaterialPassBase):Void {
         if (!_useCondensedIndices && (_forceCPU || _jointsPerVertex > 4 || pass.numUsedVertexConstants + _numJoints * 3 > 128)) _animationSet.cancelGPUCompatibility();
     }
 
-/**
+    /**
 	 * Applies the calculated time delta to the active animation state node or state transition object.
 	 */
-
     override private function updateDeltaTime(dt:Int):Void {
         super.updateDeltaTime(dt);
-//invalidate pose matrices
+        //invalidate pose matrices
         _globalPropertiesDirty = true;
         var iterator = _skeletonAnimationStates.iterator();
         for (state in iterator)
@@ -246,7 +244,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         do {
             srcIndex = condensedIndexLookUp[i * 3] * 4;
             len = srcIndex + 12;
-// copy into condensed
+            // copy into condensed
             while (srcIndex < len)_condensedMatrices[j++] = _globalMatrices[srcIndex++];
         }
         while ((++i < numJoints));
@@ -254,9 +252,11 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
 
     private function updateGlobalProperties():Void {
         _globalPropertiesDirty = false;
-//get global pose
+        
+        //get global pose
         localToGlobalPose(_activeSkeletonState.getSkeletonPose(_skeleton), _globalPose, _skeleton);
-// convert pose to matrix
+
+        // convert pose to matrix
         var mtxOffset:Int = 0;
         var globalPoses:Vector<JointPose> = _globalPose.jointPoses;
         var raw:Vector<Float>;
@@ -327,7 +327,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             n31 = xz2 - yw2;
             n32 = yz2 + xw2;
             n33 = -ox - oy + oz + ow;
-// prepend inverse bind pose
+            // prepend inverse bind pose
             raw = joints[i].inverseBindPose;
             m11 = raw[0];
             m12 = raw[4];
@@ -358,12 +358,11 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         }
     }
 
-/**
+    /**
 	 * If the animation can't be performed on GPU, transform vertices manually
 	 * @param subGeom The subgeometry containing the weights and joint index data per vertex.
 	 * @param pass The material pass for which we need to transform the vertices
 	 */
-
     private function morphGeometry(state:SubGeomAnimationState, subGeom:SkinnedSubGeometry):Void {
         var vertexData:Vector<Float> = subGeom.vertexData;
         var targetData:Vector<Float> = state.animatedVertexData;
@@ -427,7 +426,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             while (k < _jointsPerVertex) {
                 weight = jointWeights[j];
                 if (weight > 0) {
-// implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
+                    // implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
                     var mtxOffset:Int = Std.int(jointIndices[j++]) << 2;
                     m11 = _globalMatrices[mtxOffset];
                     m12 = _globalMatrices[(mtxOffset + 1)];
@@ -474,12 +473,11 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
 
     }
 
-/**
+    /**
 	 * Converts a local hierarchical skeleton pose to a global pose
 	 * @param targetPose The SkeletonPose object that will contain the global pose.
 	 * @param skeleton The skeleton containing the joints, and as such, the hierarchical data to transform to global poses.
 	 */
-
     private function localToGlobalPose(sourcePose:SkeletonPose, targetPose:SkeletonPose, skeleton:Skeleton):Void {
         var globalPoses:Vector<JointPose> = targetPose.jointPoses;
         var globalJointPose:JointPose;
@@ -505,7 +503,8 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         var x3:Float;
         var y3:Float;
         var z3:Float;
-// :s
+        
+        // :s
         if (globalPoses.length != len) globalPoses.length = len;
         var i:Int = 0;
         while (i < len) {
@@ -529,9 +528,10 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             }
 
             else {
-// append parent pose
+                // append parent pose
                 parentPose = globalPoses[parentIndex];
-// rotate point
+
+                // rotate point
                 or = parentPose.orientation;
                 tr = pose.translation;
                 x2 = or.x;
@@ -545,12 +545,12 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
                 x1 = w2 * x3 + y2 * z3 - z2 * y3;
                 y1 = w2 * y3 - x2 * z3 + z2 * x3;
                 z1 = w2 * z3 + x2 * y3 - y2 * x3;
-// append parent translation
+                // append parent translation
                 tr = parentPose.translation;
                 t.x = -w1 * x2 + x1 * w2 - y1 * z2 + z1 * y2 + tr.x;
                 t.y = -w1 * y2 + x1 * z2 + y1 * w2 - z1 * x2 + tr.y;
                 t.z = -w1 * z2 - x1 * y2 + y1 * x2 + z1 * w2 + tr.z;
-// append parent orientation
+                // append parent orientation
                 x1 = or.x;
                 y1 = or.y;
                 z1 = or.z;
@@ -573,7 +573,8 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
     private function onTransitionComplete(event:AnimationStateEvent):Void {
         if (event.type == AnimationStateEvent.TRANSITION_COMPLETE) {
             event.animationNode.removeEventListener(AnimationStateEvent.TRANSITION_COMPLETE, onTransitionComplete);
-//if this is the current active state transition, revert control to the active node
+            
+            //if this is the current active state transition, revert control to the active node
             if (_activeState == event.animationState) {
                 _activeNode = _animationSet.getAnimation(_activeAnimationName);
                 _activeState = getAnimationState(_activeNode);
@@ -591,7 +592,7 @@ class SubGeomAnimationState {
 
     public function new(subGeom:CompactSubGeometry) {
         dirty = true;
-        animatedVertexData = subGeom.vertexData.concat();
+        animatedVertexData = subGeom.vertexData.slice(0, subGeom.vertexData.length);
     }
 
 }

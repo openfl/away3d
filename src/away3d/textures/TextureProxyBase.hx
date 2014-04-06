@@ -4,7 +4,7 @@ package away3d.textures;
 import flash.Vector;
 import away3d.core.managers.Stage3DProxy;
 import away3d.errors.AbstractMethodError;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 import flash.display3D.Context3D;
@@ -42,7 +42,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
     }
 
     public function get_assetType():String {
-        return AssetType.TEXTURE;
+        return Asset3DType.TEXTURE;
     }
 
     public function get_width():Int {

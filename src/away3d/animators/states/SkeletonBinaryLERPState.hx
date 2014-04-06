@@ -1,6 +1,3 @@
-/**
- *
- */
 package away3d.animators.states;
 
 import away3d.animators.data.Skeleton;
@@ -10,6 +7,7 @@ import flash.geom.Vector3D;
 import away3d.animators.nodes.SkeletonBinaryLERPNode;
 import away3d.animators.data.SkeletonPose;
 import away3d.animators.IAnimator;
+
 class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAnimationState {
     public var blendWeight(get_blendWeight, set_blendWeight):Float;
 
@@ -19,14 +17,14 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
     private var _skeletonPoseDirty:Bool;
     private var _inputA:ISkeletonAnimationState;
     private var _inputB:ISkeletonAnimationState;
-/**
+
+    /**
 	 * Defines a fractional value between 0 and 1 representing the blending ratio between inputA (0) and inputB (1),
 	 * used to produce the skeleton pose output.
 	 *
 	 * @see inputA
 	 * @see inputB
 	 */
-
     public function get_blendWeight():Float {
         return _blendWeight;
     }
@@ -48,10 +46,9 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
         _inputB = cast(animator.getAnimationState(_skeletonAnimationNode.inputB), ISkeletonAnimationState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function phase(value:Float):Void {
         _skeletonPoseDirty = true;
         _positionDeltaDirty = true;
@@ -59,10 +56,9 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
         _inputB.phase(value);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updateTime(time:Int):Void {
         _skeletonPoseDirty = true;
         _inputA.update(time);
@@ -70,19 +66,17 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
         super.updateTime(time);
     }
 
-/**
+    /**
 	 * Returns the current skeleton pose of the animation in the clip based on the internal playhead position.
 	 */
-
     public function getSkeletonPose(skeleton:Skeleton):SkeletonPose {
         if (_skeletonPoseDirty) updateSkeletonPose(skeleton);
         return _skeletonPose;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updatePositionDelta():Void {
         _positionDeltaDirty = false;
         var deltA:Vector3D = _inputA.positionDelta;
@@ -92,12 +86,11 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
         _rootDelta.z = deltA.z + _blendWeight * (deltB.z - deltA.z);
     }
 
-/**
+    /**
 	 * Updates the output skeleton pose of the node based on the blendWeight value between input nodes.
 	 *
 	 * @param skeleton The skeleton used by the animator requesting the ouput pose.
 	 */
-
     private function updateSkeletonPose(skeleton:Skeleton):Void {
         _skeletonPoseDirty = false;
         var endPose:JointPose;
@@ -110,7 +103,8 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
         var p2:Vector3D;
         var tr:Vector3D;
         var numJoints:Int = skeleton.numJoints;
-// :s
+        
+        // :s
         if (endPoses.length != numJoints) endPoses.length = numJoints;
         var i:Int = 0;
         while (i < numJoints) {
@@ -128,6 +122,5 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
             ++i;
         }
     }
-
 }
 

@@ -12,7 +12,7 @@ import away3d.containers.ObjectContainer3D;
 import away3d.core.base.Object3D;
 import away3d.core.base.ISubGeometry;
 import away3d.events.GeometryEvent;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.core.base.IMaterialOwner;
 import away3d.library.assets.IAsset;
 import flash.Vector;
@@ -62,7 +62,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     }
 
     override public function get_assetType():String {
-        return AssetType.MESH;
+        return Asset3DType.MESH;
     }
 
     private function onGeometryBoundsInvalid(event:GeometryEvent):Void {

@@ -11,6 +11,7 @@ import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.BitmapTexture;
 import flash.display.BitmapData;
+import flash.utils.ByteArray;
 
 class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
     public var numSamples(get_numSamples, set_numSamples):Int;
@@ -113,7 +114,20 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
             vec[i] = (Std.int((r * .5 + .5) * 0xff) << 16) | (Std.int((g * .5 + .5) * 0xff) << 8);
             ++i;
         }
+        #if html 
+        var ba = new ByteArray();
+        i = 0;
+        var j:Int = 0;
+        while (i++ < vec.length) {
+            ba[j++] = (vec[i]>>24) & 0xff;
+            ba[j++] = (vec[i]>>16) & 0xff;
+            ba[j++] = (vec[i]>>8) & 0xff;
+            ba[j++] = vec[i] & 0xff;
+        }
+        _grainBitmapData.setPixels(_grainBitmapData.rect, ba);
+        #else
         _grainBitmapData.setVector(_grainBitmapData.rect, vec);
+        #end
         _grainTexture = new BitmapTexture(_grainBitmapData);
     }
 

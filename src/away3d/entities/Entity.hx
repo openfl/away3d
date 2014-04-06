@@ -12,7 +12,7 @@ package away3d.entities;
 import away3d.bounds.AxisAlignedBoundingBox;
 import away3d.errors.AbstractMethodError;
 import flash.geom.Vector3D;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.core.partition.Partition3D;
 import away3d.containers.Scene3D;
 import away3d.containers.ObjectContainer3D;
@@ -225,7 +225,7 @@ class Entity extends ObjectContainer3D {
     }
 
     override public function get_assetType():String {
-        return AssetType.ENTITY;
+        return Asset3DType.ENTITY;
     }
 
 /**

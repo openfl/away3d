@@ -1,8 +1,8 @@
 /**
  * Enumaration class for precedence when resolving naming conflicts in the library.
  *
- * @see away3d.library.AssetLibrary.conflictPrecedence
- * @see away3d.library.AssetLibrary.conflictStrategy
+ * @see away3d.library.Asset3DLibrary.conflictPrecedence
+ * @see away3d.library.Asset3DLibrary.conflictStrategy
  * @see away3d.library.naming.ConflictStrategy
  */
 package away3d.library.naming;

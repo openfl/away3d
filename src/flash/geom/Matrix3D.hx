@@ -54,7 +54,7 @@ class Matrix3D
    /**
     * Creates a Matrix3D object.
     */
-   public function new ( ?v:Array<Float> )
+   public function new ( ?v:Vector<Float> )
    {
 	   
       if( v != null && v.length == 16 )

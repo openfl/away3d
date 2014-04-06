@@ -1,6 +1,3 @@
-/**
- *
- */
 package away3d.animators.states;
 
 import flash.Vector;
@@ -20,32 +17,30 @@ class AnimationClipState extends AnimationStateBase {
     private var _oldFrame:Int;
     private var _timeDir:Int;
     private var _framesDirty:Bool;
-/**
+    
+    /**
 	 * Returns a fractional value between 0 and 1 representing the blending ratio of the current playhead position
 	 * between the current frame (0) and next frame (1) of the animation.
 	 *
 	 * @see #currentFrame
 	 * @see #nextFrame
 	 */
-
     public function get_blendWeight():Float {
         if (_framesDirty) updateFrames();
         return _blendWeight;
     }
 
-/**
+    /**
 	 * Returns the current frame of animation in the clip based on the internal playhead position.
 	 */
-
     public function get_currentFrame():Int {
         if (_framesDirty) updateFrames();
         return _currentFrame;
     }
 
-/**
+    /**
 	 * Returns the next frame of animation in the clip based on the internal playhead position.
 	 */
-
     public function get_nextFrame():Int {
         if (_framesDirty) updateFrames();
         return _nextFrame;
@@ -57,10 +52,9 @@ class AnimationClipState extends AnimationStateBase {
         _animationClipNode = animationClipNode;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function update(time:Int):Void {
         if (!_animationClipNode.looping) {
             if (time > _startTime + _animationClipNode.totalDuration) time = _startTime + _animationClipNode.totalDuration
@@ -70,41 +64,38 @@ class AnimationClipState extends AnimationStateBase {
         updateTime(time);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function phase(value:Float):Void {
         var time:Int = Std.int(value * _animationClipNode.totalDuration + _startTime);
         if (_time == time - _startTime) return;
         updateTime(time);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updateTime(time:Int):Void {
         _framesDirty = true;
         _timeDir = ((time - _startTime > _time)) ? 1 : -1;
         super.updateTime(time);
     }
 
-/**
+    /**
 	 * Updates the nodes internal playhead to determine the current and next animation frame, and the blendWeight between the two.
 	 *
 	 * @see #currentFrame
 	 * @see #nextFrame
 	 * @see #blendWeight
 	 */
-
     private function updateFrames():Void {
         _framesDirty = false;
         var looping:Bool = _animationClipNode.looping;
         var totalDuration:Int = _animationClipNode.totalDuration;
         var lastFrame:Int = _animationClipNode.lastFrame;
         var time:Int = _time;
-//trace("time", time, totalDuration)
+
         if (looping && (time >= totalDuration || time < 0)) {
             time %= totalDuration;
             if (time < 0) time += totalDuration;
@@ -114,22 +105,16 @@ class AnimationClipState extends AnimationStateBase {
             _currentFrame = lastFrame;
             _nextFrame = lastFrame;
             _blendWeight = 0;
-        }
-
-        else if (!looping && time <= 0) {
+        } else if (!looping && time <= 0) {
             _currentFrame = 0;
             _nextFrame = 0;
             _blendWeight = 0;
-        }
-
-        else if (_animationClipNode.fixedFrameRate) {
+        } else if (_animationClipNode.fixedFrameRate) {
             var t:Float = time / totalDuration * lastFrame;
             _currentFrame = Std.int(t);
             _blendWeight = t - _currentFrame;
             _nextFrame = _currentFrame + 1;
-        }
-
-        else {
+        } else {
             _currentFrame = 0;
             _nextFrame = 0;
             var dur:Int = 0;
@@ -147,7 +132,6 @@ class AnimationClipState extends AnimationStateBase {
             }
             _blendWeight = (time - frameTime) / durations[_currentFrame];
         }
-
     }
 
     private function notifyPlaybackComplete():Void {

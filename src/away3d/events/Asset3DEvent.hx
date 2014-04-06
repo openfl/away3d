@@ -6,7 +6,7 @@ package away3d.events;
 import away3d.library.assets.IAsset;
 import flash.events.Event;
 
-class AssetEvent extends Event {
+class Asset3DEvent extends Event {
     public var asset(get_asset, never):IAsset;
     public var assetPrevName(get_assetPrevName, never):String;
 
@@ -56,7 +56,7 @@ class AssetEvent extends Event {
     }
 
     override public function clone():Event {
-        return new AssetEvent(type, asset, assetPrevName);
+        return new Asset3DEvent(type, asset, assetPrevName);
     }
 
 }

@@ -58,7 +58,7 @@ import away3d.core.base.Object3D;
 import away3d.core.partition.Partition3D;
 import away3d.events.Object3DEvent;
 import away3d.events.Scene3DEvent;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 import flash.events.Event;
 import flash.geom.Matrix3D;
@@ -301,7 +301,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     }
 
     public function get_assetType():String {
-        return AssetType.CONTAINER;
+        return Asset3DType.CONTAINER;
     }
 
 /**

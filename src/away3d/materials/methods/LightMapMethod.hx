@@ -17,18 +17,21 @@ class LightMapMethod extends EffectMethodBase {
     public var blendMode(get_blendMode, set_blendMode):BlendMode;
     public var texture(get_texture, set_texture):Texture2DBase;
 
-/**
+    /**
 	 * Indicates the light map should be multiplied with the calculated shading result.
 	 */
     static public var MULTIPLY:BlendMode = BlendMode.MULTIPLY;
-/**
+    
+    /**
 	 * Indicates the light map should be added into the calculated shading result.
 	 */
     static public var ADD:BlendMode = BlendMode.ADD;
+    
     private var _texture:Texture2DBase;
     private var _blendMode:BlendMode;
     private var _useSecondaryUV:Bool;
-/**
+    
+    /**
 	 * Creates a new LightMapMethod object.
 	 * @param texture The texture containing the light map.
 	 * @param blendMode The blend mode with which the light map should be applied to the lighting result.
@@ -103,11 +106,12 @@ class LightMapMethod extends EffectMethodBase {
         var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
         vo.texturesIndex = lightMapReg.index;
         code = getTex2DSampleCode(vo, temp, lightMapReg, _texture, (_useSecondaryUV) ? _sharedRegisters.secondaryUVVarying : _sharedRegisters.uvVarying);
-        switch(_blendMode) {
-            case LightMapMethod.MULTIPLY:
+        switch (_blendMode) {
+            case MULTIPLY:
                 code += "mul " + targetReg + ", " + targetReg + ", " + temp + "\n";
-            case LightMapMethod.ADD:
+            case ADD:
                 code += "add " + targetReg + ", " + targetReg + ", " + temp + "\n";
+            default:
         }
         return code;
     }

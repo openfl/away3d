@@ -3,34 +3,33 @@
  */
 package away3d.animators.nodes;
 
-
 import away3d.animators.states.SkeletonBinaryLERPState;
+
 class SkeletonBinaryLERPNode extends AnimationNodeBase {
 
-/**
+    /**
 	 * Defines input node A to use for the blended output.
 	 */
     public var inputA:AnimationNodeBase;
-/**
+    
+    /**
 	 * Defines input node B to use for the blended output.
 	 */
     public var inputB:AnimationNodeBase;
-/**
+
+    /**
 	 * Creates a new <code>SkeletonBinaryLERPNode</code> object.
 	 */
-
     public function new() {
-        _stateClass = SkeletonBinaryLERPState;
         super();
+        _stateClass = SkeletonBinaryLERPState;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function getAnimationState(animator:IAnimator):SkeletonBinaryLERPState {
         return cast(animator.getAnimationState(this), SkeletonBinaryLERPState) ;
     }
-
 }
 

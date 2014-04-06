@@ -18,7 +18,7 @@ import away3d.containers.ObjectContainer3D;
 import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 import away3d.loaders.misc.ResourceDependency;
 import away3d.loaders.parsers.utils.ParserUtil;
@@ -79,7 +79,7 @@ class Max3DSParser extends ParserBase {
             var asset:IAsset;
 
             asset = resourceDependency.assets[0];
-            if (asset.assetType == AssetType.TEXTURE) {
+            if (asset.assetType == Asset3DType.TEXTURE) {
                 var tex:TextureVO;
 
                 tex = _textures.get(resourceDependency.id);
@@ -161,7 +161,7 @@ class Max3DSParser extends ParserBase {
 
 
                     case 0x4100: // OBJ_TRIMESH
-                        _cur_obj.type = AssetType.MESH;
+                        _cur_obj.type = Asset3DType.MESH;
 
 
                     case 0x4110: // TRI_VERTEXL
@@ -474,7 +474,7 @@ class Max3DSParser extends ParserBase {
 
 
     private function constructObject(obj:ObjectVO, pivot:Vector3D = null):ObjectContainer3D {
-        if (obj.type == AssetType.MESH) {
+        if (obj.type == Asset3DType.MESH) {
             var subs:Vector<ISubGeometry> = null;
             var geom:Geometry = null;
             var mat:MaterialBase = null;

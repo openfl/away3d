@@ -1,7 +1,7 @@
 package away3d.loaders.parsers;
 
 	//import away3d.arcane;
-	import away3d.events.AssetEvent;
+	import away3d.events.Asset3DEvent;
 	import away3d.library.assets.BitmapDataAsset;
 	import away3d.textures.ATFTexture;
 	import away3d.textures.BitmapTexture;
@@ -142,7 +142,7 @@ package away3d.loaders.parsers;
 				var bmdAsset:BitmapDataAsset = new BitmapDataAsset(bmp);
 				bmdAsset.name = _fileName;
 				
-				dispatchEvent(new AssetEvent(AssetEvent.TEXTURE_SIZE_ERROR, bmdAsset));
+				dispatchEvent(new Asset3DEvent(Asset3DEvent.TEXTURE_SIZE_ERROR, bmdAsset));
 				
 				bmp = new BitmapData(8, 8, false, 0x0);
 				

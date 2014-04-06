@@ -9,7 +9,7 @@
  */
 package away3d.animators.data;
 
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import flash.Vector;
 import away3d.library.assets.NamedAssetBase;
 import away3d.library.assets.IAsset;
@@ -46,7 +46,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset {
 	 */
 
     public function get_assetType():String {
-        return AssetType.SKELETON_POSE;
+        return Asset3DType.SKELETON_POSE;
     }
 
 /**

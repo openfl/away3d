@@ -13,7 +13,7 @@ package away3d.entities;
 import away3d.cameras.lenses.PerspectiveLens;
 import away3d.containers.ObjectContainer3D;
 import away3d.events.LensEvent;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.textures.Texture2DBase;
 import flash.geom.Matrix3D;
 
@@ -71,7 +71,7 @@ class TextureProjector extends ObjectContainer3D {
     }
 
     override public function get_assetType():String {
-        return AssetType.TEXTURE_PROJECTOR;
+        return Asset3DType.TEXTURE_PROJECTOR;
     }
 
 /**

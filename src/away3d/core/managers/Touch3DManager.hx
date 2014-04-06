@@ -211,7 +211,6 @@ class Touch3DManager {
     private function onTouchEnd(event:TouchEvent):Void {
 
         var touch:TouchPoint = _touchPointFromId.get(event.touchPointID);
-
         _collidingObject = _collidingObjectFromTouchId.get(touch.id);
         if (_collidingObject != null) {
             queueDispatch(TouchEvent3D.TOUCH_END, event, _collidingObject, touch);

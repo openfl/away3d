@@ -13,7 +13,7 @@ import away3d.core.base.ISubGeometry;
 import away3d.core.base.data.UV;
 import away3d.core.base.data.Vertex;
 import away3d.entities.Mesh;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 import away3d.loaders.misc.ResourceDependency;
 import away3d.loaders.parsers.utils.ParserUtil;
@@ -132,7 +132,7 @@ class OBJParser extends ParserBase {
 
             asset = resourceDependency.assets[0];
 
-            if (asset.assetType == AssetType.TEXTURE) {
+            if (asset.assetType == Asset3DType.TEXTURE) {
                 var lm:LoadedMaterial = new LoadedMaterial();
                 lm.materialID = resourceDependency.id;
                 lm.texture = cast(asset, Texture2DBase);

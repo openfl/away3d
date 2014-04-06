@@ -107,10 +107,11 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod {
         vo.secondaryTexturesIndex = lightMapReg.index;
         code = getTex2DSampleCode(vo, temp, lightMapReg, _texture, _sharedRegisters.secondaryUVVarying);
         switch(_blendMode) {
-            case LightMapDiffuseMethod.MULTIPLY:
+            case MULTIPLY:
                 code += "mul " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
-            case LightMapDiffuseMethod.ADD:
+            case ADD:
                 code += "add " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
+            default:
         }
         code += super.getFragmentPostLightingCode(vo, regCache, targetReg);
         return code;

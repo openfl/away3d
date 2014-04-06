@@ -209,7 +209,8 @@ class Stage3DProxy extends EventDispatcher {
         _renderTarget = target;
         _renderSurfaceSelector = surfaceSelector;
         _enableDepthAndStencil = enableDepthAndStencil;
-        if (target != null) _context3D.setRenderToTexture(target, enableDepthAndStencil, _antiAlias, surfaceSelector)
+        if (target != null) 
+            _context3D.setRenderToTexture(target, enableDepthAndStencil, _antiAlias, surfaceSelector)
         else {
             _context3D.setRenderToBackBuffer();
             _context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil);

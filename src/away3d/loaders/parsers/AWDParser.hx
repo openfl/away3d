@@ -2,7 +2,7 @@ package away3d.loaders.parsers;
 
 	import away3d.library.assets.IAsset;
 	//import away3d.arcane;
-	import away3d.events.AssetEvent;
+	import away3d.events.Asset3DEvent;
 	import away3d.events.ParserEvent;
 	import away3d.loaders.misc.ResourceDependency;
 	
@@ -120,19 +120,19 @@ package away3d.loaders.parsers;
 				_parser.addEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);
 				_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 				_parser.addEventListener(ParserEvent.PARSE_ERROR, onParseError);
-				_parser.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.TEXTURE_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.CONTAINER_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.GEOMETRY_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.MATERIAL_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.MESH_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.ENTITY_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.SKELETON_COMPLETE, onAssetComplete);
-				_parser.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.ASSET_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.TEXTURE_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.CONTAINER_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.GEOMETRY_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.MATERIAL_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.MESH_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.ENTITY_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.SKELETON_COMPLETE, onAssetComplete);
+				_parser.addEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 				
 				_parser.parseAsync(_data);
 			}
@@ -165,7 +165,7 @@ package away3d.loaders.parsers;
 		 * @private
 		 * Just bubble events from concrete parser.
 		 */
-		private function onAssetComplete(ev:AssetEvent):Void
+		private function onAssetComplete(ev:Asset3DEvent):Void
 		{
 			dispatchEvent(ev.clone());
 		}
@@ -179,19 +179,19 @@ package away3d.loaders.parsers;
 			_parser.removeEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 			_parser.removeEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);
 			_parser.removeEventListener(ParserEvent.PARSE_ERROR, onParseError);
-			_parser.removeEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.TEXTURE_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.CONTAINER_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.GEOMETRY_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.MATERIAL_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.MESH_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.ENTITY_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.SKELETON_COMPLETE, onAssetComplete);
-			_parser.removeEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.ASSET_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.TEXTURE_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.CONTAINER_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.GEOMETRY_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.MATERIAL_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.MESH_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.ENTITY_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.SKELETON_COMPLETE, onAssetComplete);
+			_parser.removeEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 			
 			finishParsing();
 		}

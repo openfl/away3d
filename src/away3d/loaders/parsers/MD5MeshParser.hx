@@ -65,10 +65,9 @@ class MD5MeshParser extends ParserBase {
 
     private var _rotationQuat:Quaternion;
 
-/**
+    /**
 	 * Creates a new MD5MeshParser object.
 	 */
-
     public function new(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0) {
         super(ParserDataFormat.PLAIN_TEXT);
         _rotationQuat = new Quaternion();
@@ -82,32 +81,29 @@ class MD5MeshParser extends ParserBase {
         }
     }
 
-/**
+    /**
 	 * Indicates whether or not a given file extension is supported by the parser.
 	 * @param extension The file extension of a potential file to be parsed.
 	 * @return Whether or not the given file type is supported.
 	 */
-
     public static function supportsType(extension:String):Bool {
         extension = extension.toLowerCase();
         return extension == "md5mesh";
     }
 
-/**
+    /**
 	 * Tests whether a data block can be parsed by the parser.
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-
     public static function supportsData(data:Dynamic):Bool {
         return false;
     }
 
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function proceedParsing():Bool {
         var token:String;
 
@@ -160,9 +156,8 @@ class MD5MeshParser extends ParserBase {
                     _geometry.addSubGeometry(translateGeom(_meshData[i].vertexData, _meshData[i].weightData, _meshData[i].indices));
                 }
 
-//_geometry.animation = _animation;
-//					_mesh.animationController = _animationController;
-
+                //_geometry.animation = _animation;
+                //					_mesh.animationController = _animationController;
                 finalizeAsset(_geometry);
                 finalizeAsset(_mesh);
                 finalizeAsset(_skeleton);
@@ -181,7 +176,7 @@ class MD5MeshParser extends ParserBase {
             var meshData:MeshData = _meshData[i];
             var vertexData:Vector<VertexData> = meshData.vertexData;
             var numVerts:Int = vertexData.length;
-
+            
             for (j in 0...numVerts) {
                 var zeroWeights:Int = countZeroWeightJoints(vertexData[j], meshData.weightData);
                 var totalJoints:Int = vertexData[j].countWeight - zeroWeights;
@@ -206,10 +201,9 @@ class MD5MeshParser extends ParserBase {
         return count;
     }
 
-/**
+    /**
 	 * Parses the skeleton's joints.
 	 */
-
     private function parseJoints():Void {
         var ch:String;
         var joint:SkeletonJoint;
@@ -233,7 +227,7 @@ class MD5MeshParser extends ParserBase {
             pos = _rotationQuat.rotatePoint(pos);
             quat = parseQuaternion();
 
-// todo: check if this is correct, or maybe we want to actually store it as quats?
+            // todo: check if this is correct, or maybe we want to actually store it as quats?
             _bindPoses[i] = quat.toMatrix3D();
             _bindPoses[i].appendTranslation(pos.x, pos.y, pos.z);
             var inv:Matrix3D = _bindPoses[i].clone();
@@ -258,20 +252,18 @@ class MD5MeshParser extends ParserBase {
         } while (ch != "}");
     }
 
-/**
+    /**
 	 * Puts back the last read character into the data stream.
 	 */
-
     private function putBack():Void {
         _parseIndex--;
         _charLineIndex--;
         _reachedEOF = _parseIndex >= _textData.length;
     }
 
-/**
+    /**
 	 * Parses the mesh geometry.
 	 */
-
     private function parseMesh():Void {
         var token:String = getNextToken();
         var ch:String = null;
@@ -325,14 +317,13 @@ class MD5MeshParser extends ParserBase {
         _meshData[i].indices = indices;
     }
 
-/**
+    /**
 	 * Converts the mesh data to a SkinnedSub instance.
 	 * @param vertexData The mesh's vertices.
 	 * @param weights The joint weights per vertex.
 	 * @param indices The indices for the faces.
 	 * @return A SkinnedSubGeometry instance containing all geometrical data for the current mesh.
 	 */
-
     private function translateGeom(vertexData:Vector<VertexData>, weights:Vector<JointData>, indices:Vector<UInt>):SkinnedSubGeometry {
         var len:Int = vertexData.length;
         var v1:Int, v2:Int, v3:Int;
@@ -365,7 +356,7 @@ class MD5MeshParser extends ParserBase {
                     vertices[v2] += pos.y * weight.bias;
                     vertices[v3] += pos.z * weight.bias;
 
-// indices need to be multiplied by 3 (amount of matrix registers)
+                    // indices need to be multiplied by 3 (amount of matrix registers)
                     jointIndices[l] = weight.joint * 3;
                     jointWeights[l++] = weight.bias;
                     ++nonZeroWeights;
@@ -384,10 +375,12 @@ class MD5MeshParser extends ParserBase {
 
         subGeom.updateIndexData(indices);
         subGeom.fromVectors(vertices, uvs, null, null);
-// cause explicit updates
+        
+        // cause explicit updates
         subGeom.vertexNormalData;
         subGeom.vertexTangentData;
-// turn auto updates off because they may be animated and set explicitly
+        
+        // turn auto updates off because they may be animated and set explicitly
         subGeom.autoDeriveVertexTangents = false;
         subGeom.autoDeriveVertexNormals = false;
         subGeom.updateJointIndexData(jointIndices);
@@ -396,11 +389,10 @@ class MD5MeshParser extends ParserBase {
         return subGeom;
     }
 
-/**
+    /**
 	 * Retrieve the next triplet of vertex indices that form a face.
 	 * @param indices The index list in which to store the read data.
 	 */
-
     private function parseTri(indices:Vector<UInt>):Void {
         var index:Int = getNextInt() * 3;
         indices[index] = getNextInt();
@@ -408,11 +400,10 @@ class MD5MeshParser extends ParserBase {
         indices[index + 2] = getNextInt();
     }
 
-/**
+    /**
 	 * Reads a new joint data set for a single joint.
 	 * @param weights the target list to contain the weight data.
 	 */
-
     private function parseJoint(weights:Vector<JointData>):Void {
         var weight:JointData = new JointData();
         weight.index = getNextInt();
@@ -422,26 +413,25 @@ class MD5MeshParser extends ParserBase {
         weights[weight.index] = weight;
     }
 
-/**
+    /**
 	 * Reads the data for a single vertex.
 	 * @param vertexData The list to contain the vertex data.
 	 */
-
     private function parseVertex(vertexData:Vector<VertexData>):Void {
         var vertex:VertexData = new VertexData();
         vertex.index = getNextInt();
         parseUV(vertex);
         vertex.startWeight = getNextInt();
         vertex.countWeight = getNextInt();
-//			if (vertex.countWeight > _maxJointCount) _maxJointCount = vertex.countWeight;
+        
+        //			if (vertex.countWeight > _maxJointCount) _maxJointCount = vertex.countWeight;
         vertexData[vertex.index] = vertex;
     }
 
-/**
+    /**
 	 * Reads the next uv coordinate.
 	 * @param vertexData The vertexData to contain the UV coordinates.
 	 */
-
     private function parseUV(vertexData:VertexData):Void {
         var ch:String = getNextToken();
         if (ch != "(")
@@ -453,10 +443,9 @@ class MD5MeshParser extends ParserBase {
             sendParseError(")");
     }
 
-/**
+    /**
 	 * Gets the next token in the data stream.
 	 */
-
     private function getNextToken():String {
         var ch:String;
         var token:String = "";
@@ -479,10 +468,9 @@ class MD5MeshParser extends ParserBase {
         return token;
     }
 
-/**
+    /**
 	 * Skips all whitespace in the data stream.
 	 */
-
     private function skipWhiteSpace():Void {
         var ch:String;
 
@@ -493,20 +481,18 @@ class MD5MeshParser extends ParserBase {
         putBack();
     }
 
-/**
+    /**
 	 * Skips to the next line.
 	 */
-
     private function ignoreLine():Void {
         var ch:String = null;
         while (!_reachedEOF && ch != "\n")
             ch = getNextChar();
     }
 
-/**
+    /**
 	 * Retrieves the next single character in the data stream.
 	 */
-
     private function getNextChar():String {
         var ch:String = _textData.charAt(_parseIndex++);
 
@@ -524,10 +510,9 @@ class MD5MeshParser extends ParserBase {
     }
 
 
-/**
+    /**
 	 * Retrieves the next integer in the data stream.
 	 */
-
     private function getNextInt():Int {
         var i:Int = Std.parseInt(getNextToken());
         if (Math.isNaN(i))
@@ -535,10 +520,9 @@ class MD5MeshParser extends ParserBase {
         return i;
     }
 
-/**
+    /**
 	 * Retrieves the next floating point number in the data stream.
 	 */
-
     private function getNextNumber():Float {
         var f:Float = Std.parseFloat(getNextToken());
         if (Math.isNaN(f))
@@ -546,10 +530,9 @@ class MD5MeshParser extends ParserBase {
         return f;
     }
 
-/**
+    /**
 	 * Retrieves the next 3d vector in the data stream.
 	 */
-
     private function parseVector3D():Vector3D {
         var vec:Vector3D = new Vector3D();
         var ch:String = getNextToken();
@@ -566,10 +549,9 @@ class MD5MeshParser extends ParserBase {
         return vec;
     }
 
-/**
+    /**
 	 * Retrieves the next quaternion in the data stream.
 	 */
-
     private function parseQuaternion():Quaternion {
         var quat:Quaternion = new Quaternion();
         var ch:String = getNextToken();
@@ -580,7 +562,7 @@ class MD5MeshParser extends ParserBase {
         quat.y = -getNextNumber();
         quat.z = -getNextNumber();
 
-// quat supposed to be unit length
+        // quat supposed to be unit length
         var t:Float = 1 - quat.x * quat.x - quat.y * quat.y - quat.z * quat.z;
         quat.w = t < 0 ? 0 : -Math.sqrt(t);
 
@@ -592,20 +574,18 @@ class MD5MeshParser extends ParserBase {
         return rotQuat;
     }
 
-/**
+    /**
 	 * Parses the command line data.
 	 */
-
     private function parseCMD():Void {
-// just ignore the command line property
+        // just ignore the command line property
         parseLiteralString();
     }
 
-/**
+    /**
 	 * Retrieves the next literal string in the data stream. A literal string is a sequence of characters bounded
 	 * by double quotes.
 	 */
-
     private function parseLiteralString():String {
         skipWhiteSpace();
 
@@ -626,27 +606,24 @@ class MD5MeshParser extends ParserBase {
         return str;
     }
 
-/**
+    /**
 	 * Throws an end-of-file error when a premature end of file was encountered.
 	 */
-
     private function sendEOFError():Void {
         throw new Error("Unexpected end of file");
     }
 
-/**
+    /**
 	 * Throws an error when an unexpected token was encountered.
 	 * @param expected The token type that was actually expected.
 	 */
-
     private function sendParseError(expected:String):Void {
         throw new Error("Unexpected token at line " + (_line + 1) + ", character " + _charLineIndex + ". " + expected + " expected, but " + _textData.charAt(_parseIndex - 1) + " encountered");
     }
 
-/**
+    /**
 	 * Throws an error when an unknown keyword was encountered.
 	 */
-
     private function sendUnknownKeywordError():Void {
         throw new Error("Unknown keyword at line " + (_line + 1) + ", character " + _charLineIndex + ". ");
     }

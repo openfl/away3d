@@ -9,12 +9,12 @@ package away3d.loaders.parsers;
 		 * enable support for all bundled parsers to the file format auto-detection
 		 * feature, using any of the enableParsers() methods on loaders, e.g.:
 		 *
-		 * <code>AssetLibrary.enableParsers(Parsers.ALL_BUNDLED);</code>
+		 * <code>Asset3DLibrary.enableParsers(Parsers.ALL_BUNDLED);</code>
 		 *
 		 * Beware however that this requires all parser classes to be included in the
 		 * SWF file, which will add 50-100 kb to the file. When only a limited set of
 		 * file formats are used, SWF file size can be saved by adding the parsers
-		 * individually using AssetLibrary.enableParser()
+		 * individually using Asset3DLibrary.enableParser()
 		 *
 		 * A third way is to specify a parser for each loaded file, thereby bypassing
 		 * the auto-detection mechanisms altogether, while at the same time allowing
@@ -35,7 +35,7 @@ package away3d.loaders.parsers;
 		 * <li>Images (.jpg, .png)</li>
 		 * </ul>
 		 *
-		 * @see away3d.loading.AssetLibrary.enableParser
+		 * @see away3d.loading.Asset3DLibrary.enableParser
 		 */
 		public static var ALL_BUNDLED:Array<Dynamic> = [
 			//AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
@@ -47,7 +47,7 @@ package away3d.loaders.parsers;
 		/**
 		 * Short-hand function to enable all bundled parsers for auto-detection. In practice,
 		 * this is the same as invoking enableParsers(Parsers.ALL_BUNDLED) on any of the
-		 * loader classes SingleFileLoader, AssetLoader, AssetLibrary or Loader3D.
+		 * loader classes SingleFileLoader, AssetLoader, Asset3DLibrary or Loader3D.
 		 *
 		 * See notes about file size in the documentation for the ALL_BUNDLED constant.
 		 *

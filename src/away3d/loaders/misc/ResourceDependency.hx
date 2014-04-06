@@ -21,20 +21,20 @@
 		var _parentParser:ParserBase;
 		var _data:Dynamic;
 		var _retrieveAsRawData:Bool;
-		var _suppressAssetEvents:Bool;
+		var _suppressAsset3DEvents:Bool;
 		var _dependencies:Array<ResourceDependency>;
 		
 		/*arcane*/ public var loader:SingleFileLoader;
 		/*arcane*/ public var success:Bool;
 		
-		public function new(id:String, req:URLRequest, data:Dynamic, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAssetEvents:Bool = false)
+		public function new(id:String, req:URLRequest, data:Dynamic, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAsset3DEvents:Bool = false)
 		{
 			_id = id;
-			_req = req;
+			_req = (req==null) ? new URLRequest("") : req;
 			_parentParser = parentParser;
 			_data = data;
 			_retrieveAsRawData = retrieveAsRawData;
-			_suppressAssetEvents = suppressAssetEvents;
+			_suppressAsset3DEvents = suppressAsset3DEvents;
 			
 			_assets = new Array<IAsset>();
 			_dependencies = new Array<ResourceDependency>();
@@ -70,10 +70,10 @@
 			return _retrieveAsRawData;
 		}
 		
-		public var suppresAssetEvents(get, null) : Bool;		
-		public function get_suppresAssetEvents() : Bool
+		public var suppresAsset3DEvents(get, null) : Bool;		
+		public function get_suppresAsset3DEvents() : Bool
 		{
-			return _suppressAssetEvents;
+			return _suppressAsset3DEvents;
 		}
 		
 		/**

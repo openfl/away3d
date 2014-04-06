@@ -3,7 +3,7 @@ package away3d.library.utils;
 import flash.Vector;
 import away3d.library.assets.IAsset;
 
-class AssetLibraryIterator {
+class Asset3DLibraryIterator {
     public var currentAsset(get_currentAsset, never):IAsset;
     public var numAssets(get_numAssets, never):Int;
 

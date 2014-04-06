@@ -1,7 +1,6 @@
 package away3d.library.assets;
 
-
-import away3d.events.AssetEvent;
+import away3d.events.Asset3DEvent;
 import flash.events.EventDispatcher;
 
 class NamedAssetBase extends EventDispatcher {
@@ -23,15 +22,15 @@ class NamedAssetBase extends EventDispatcher {
         _name = name;
         _originalName = name;
         updateFullPath();
+
         super();
     }
 
-/**
+    /**
 	 * The original name used for this asset in the resource (e.g. file) in which
 	 * it was found. This may not be the same as <code>name</code>, which may
 	 * have changed due to of a name conflict.
 	 */
-
     public function get_originalName():String {
         return _originalName;
     }
@@ -55,7 +54,7 @@ class NamedAssetBase extends EventDispatcher {
         _name = val;
         if (_name == null) _name = "null";
         updateFullPath();
-        if (hasEventListener(AssetEvent.ASSET_RENAME)) dispatchEvent(new AssetEvent(AssetEvent.ASSET_RENAME, cast((this), IAsset), prev));
+        if (hasEventListener(Asset3DEvent.ASSET_RENAME)) dispatchEvent(new Asset3DEvent(Asset3DEvent.ASSET_RENAME, cast((this), IAsset), prev));
         return val;
     }
 

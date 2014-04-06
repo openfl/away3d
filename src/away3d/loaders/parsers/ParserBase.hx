@@ -2,9 +2,9 @@ package away3d.loaders.parsers;
 
 	//import away3d.arcane;
 	import away3d.errors.AbstractMethodError;
-	import away3d.events.AssetEvent;
+	import away3d.events.Asset3DEvent;
 	import away3d.events.ParserEvent;
-	import away3d.library.assets.AssetType;
+	import away3d.library.assets.Asset3DType;
 	import away3d.library.assets.IAsset;
 	import away3d.loaders.misc.ResourceDependency;
 	import away3d.loaders.parsers.utils.ParserUtil;
@@ -49,153 +49,153 @@ package away3d.loaders.parsers;
 	 * Dispatched when any asset finishes parsing. Also see specific events for each
 	 * individual asset type (meshes, materials et c.)
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="assetComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="assetComplete", type="away3d.events.Asset3DEvent")]
 		
 	
 	/**
 	 * Dispatched when a skybox asset has been costructed from a ressource.
 	 * 
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="skyboxComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="skyboxComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a camera3d asset has been costructed from a ressource.
 	 * 
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="cameraComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="cameraComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a mesh asset has been costructed from a ressource.
 	 * 
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="meshComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="meshComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a geometry asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="geometryComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="geometryComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a skeleton asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="skeletonComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="skeletonComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a skeleton pose asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="skeletonPoseComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="skeletonPoseComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a container asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="containerComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="containerComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a texture asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="textureComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="textureComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a texture projector asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="textureProjectorComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="textureProjectorComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when a material asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="materialComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="materialComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when a animator asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animatorComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animatorComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation set has been constructed from a group of animation state resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animationSetComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animationSetComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation state has been constructed from a group of animation node resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animationStateComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animationStateComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation node has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animationNodeComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animationNodeComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation state transition has been constructed from a group of animation node resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="stateTransitionComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="stateTransitionComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an light asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="lightComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="lightComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an light picker asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="lightPickerComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="lightPickerComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an effect method asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="effectMethodComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="effectMethodComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an shadow map method asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="shadowMapMethodComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="shadowMapMethodComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
@@ -416,7 +416,7 @@ package away3d.loaders.parsers;
 		
 		/**
 		 * Finalize a constructed asset. This function is executed for every asset that has been successfully constructed.
-		 * It will dispatch a <code>AssetEvent.ASSET_COMPLETE</code> and another AssetEvent, that depents on the type of asset.
+		 * It will dispatch a <code>Asset3DEvent.ASSET_COMPLETE</code> and another Asset3DEvent, that depents on the type of asset.
 		 * 
 		 * @param asset The asset to finalize
 		 * @param name The name of the asset. The name will be applied to the asset
@@ -430,69 +430,69 @@ package away3d.loaders.parsers;
 				asset.name = name;
 			
 			switch (asset.assetType) {
-				case AssetType.LIGHT_PICKER:
+				case Asset3DType.LIGHT_PICKER:
 					type_name = 'lightPicker';
-					type_event = AssetEvent.LIGHTPICKER_COMPLETE;
-				case AssetType.LIGHT:
+					type_event = Asset3DEvent.LIGHTPICKER_COMPLETE;
+				case Asset3DType.LIGHT:
 					type_name = 'light';
-					type_event = AssetEvent.LIGHT_COMPLETE;
-				case AssetType.ANIMATOR:
+					type_event = Asset3DEvent.LIGHT_COMPLETE;
+				case Asset3DType.ANIMATOR:
 					type_name = 'animator';
-					type_event = AssetEvent.ANIMATOR_COMPLETE;
-				case AssetType.ANIMATION_SET:
+					type_event = Asset3DEvent.ANIMATOR_COMPLETE;
+				case Asset3DType.ANIMATION_SET:
 					type_name = 'animationSet';
-					type_event = AssetEvent.ANIMATION_SET_COMPLETE;
-				case AssetType.ANIMATION_STATE:
+					type_event = Asset3DEvent.ANIMATION_SET_COMPLETE;
+				case Asset3DType.ANIMATION_STATE:
 					type_name = 'animationState';
-					type_event = AssetEvent.ANIMATION_STATE_COMPLETE;
-				case AssetType.ANIMATION_NODE:
+					type_event = Asset3DEvent.ANIMATION_STATE_COMPLETE;
+				case Asset3DType.ANIMATION_NODE:
 					type_name = 'animationNode';
-					type_event = AssetEvent.ANIMATION_NODE_COMPLETE;
-				case AssetType.STATE_TRANSITION:
+					type_event = Asset3DEvent.ANIMATION_NODE_COMPLETE;
+				case Asset3DType.STATE_TRANSITION:
 					type_name = 'stateTransition';
-					type_event = AssetEvent.STATE_TRANSITION_COMPLETE;
-				case AssetType.TEXTURE:
+					type_event = Asset3DEvent.STATE_TRANSITION_COMPLETE;
+				case Asset3DType.TEXTURE:
 					type_name = 'texture';
-					type_event = AssetEvent.TEXTURE_COMPLETE;
-				case AssetType.TEXTURE_PROJECTOR:
+					type_event = Asset3DEvent.TEXTURE_COMPLETE;
+				case Asset3DType.TEXTURE_PROJECTOR:
 					type_name = 'textureProjector';
-					type_event = AssetEvent.TEXTURE_PROJECTOR_COMPLETE;
-				case AssetType.CONTAINER:
+					type_event = Asset3DEvent.TEXTURE_PROJECTOR_COMPLETE;
+				case Asset3DType.CONTAINER:
 					type_name = 'container';
-					type_event = AssetEvent.CONTAINER_COMPLETE;
-				case AssetType.GEOMETRY:
+					type_event = Asset3DEvent.CONTAINER_COMPLETE;
+				case Asset3DType.GEOMETRY:
 					type_name = 'geometry';
-					type_event = AssetEvent.GEOMETRY_COMPLETE;
-				case AssetType.MATERIAL:
+					type_event = Asset3DEvent.GEOMETRY_COMPLETE;
+				case Asset3DType.MATERIAL:
 					type_name = 'material';
-					type_event = AssetEvent.MATERIAL_COMPLETE;
-				case AssetType.MESH:
+					type_event = Asset3DEvent.MATERIAL_COMPLETE;
+				case Asset3DType.MESH:
 					type_name = 'mesh';
-					type_event = AssetEvent.MESH_COMPLETE;
-				case AssetType.SKELETON:
+					type_event = Asset3DEvent.MESH_COMPLETE;
+				case Asset3DType.SKELETON:
 					type_name = 'skeleton';
-					type_event = AssetEvent.SKELETON_COMPLETE;
-				case AssetType.SKELETON_POSE:
+					type_event = Asset3DEvent.SKELETON_COMPLETE;
+				case Asset3DType.SKELETON_POSE:
 					type_name = 'skelpose';
-					type_event = AssetEvent.SKELETON_POSE_COMPLETE;
-				case AssetType.ENTITY:
+					type_event = Asset3DEvent.SKELETON_POSE_COMPLETE;
+				case Asset3DType.ENTITY:
 					type_name = 'entity';
-					type_event = AssetEvent.ENTITY_COMPLETE;
-				case AssetType.SKYBOX:
+					type_event = Asset3DEvent.ENTITY_COMPLETE;
+				case Asset3DType.SKYBOX:
 					type_name = 'skybox';
-					type_event = AssetEvent.SKYBOX_COMPLETE;
-				case AssetType.CAMERA:
+					type_event = Asset3DEvent.SKYBOX_COMPLETE;
+				case Asset3DType.CAMERA:
 					type_name = 'camera';
-					type_event = AssetEvent.CAMERA_COMPLETE;
-				case AssetType.SEGMENT_SET:
+					type_event = Asset3DEvent.CAMERA_COMPLETE;
+				case Asset3DType.SEGMENT_SET:
 					type_name = 'segmentSet';
-					type_event = AssetEvent.SEGMENT_SET_COMPLETE;
-				case AssetType.EFFECTS_METHOD:
+					type_event = Asset3DEvent.SEGMENT_SET_COMPLETE;
+				case Asset3DType.EFFECTS_METHOD:
 					type_name = 'effectsMethod';
-					type_event = AssetEvent.EFFECTMETHOD_COMPLETE;
-				case AssetType.SHADOW_MAP_METHOD:
+					type_event = Asset3DEvent.EFFECTMETHOD_COMPLETE;
+				case Asset3DType.SHADOW_MAP_METHOD:
 					type_name = 'effectsMethod';
-					type_event = AssetEvent.SHADOWMAPMETHOD_COMPLETE;
+					type_event = Asset3DEvent.SHADOWMAPMETHOD_COMPLETE;
 				default:
 					throw new Error('Unhandled asset type ' + asset.assetType + '. Report as bug!');
 			};
@@ -502,8 +502,8 @@ package away3d.loaders.parsers;
 			if (asset.name=="")
 				asset.name = type_name;
 			
-			dispatchEvent(new AssetEvent(AssetEvent.ASSET_COMPLETE, asset));
-			dispatchEvent(new AssetEvent(type_event, asset));
+			dispatchEvent(new Asset3DEvent(Asset3DEvent.ASSET_COMPLETE, asset));
+			dispatchEvent(new Asset3DEvent(type_event, asset));
 		}
 		
 		/**

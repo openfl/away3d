@@ -10,7 +10,7 @@ import away3d.core.partition.LightNode;
 import away3d.entities.Entity;
 import away3d.errors.AbstractMethodError;
 import away3d.events.LightEvent;
-import away3d.library.assets.AssetType;
+import away3d.library.assets.Asset3DType;
 import away3d.lights.shadowmaps.ShadowMapperBase;
 import flash.geom.Matrix3D;
 
@@ -204,7 +204,7 @@ class LightBase extends Entity {
 	 */
 
     override public function get_assetType():String {
-        return AssetType.LIGHT;
+        return Asset3DType.LIGHT;
     }
 
 /**

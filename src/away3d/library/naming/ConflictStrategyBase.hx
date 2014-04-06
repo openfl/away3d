@@ -9,7 +9,7 @@
  *   <li>NumSuffixConflictStrategy (ConflictStrategy.APPEND_NUM_SUFFIX)</li>
  * </ul>
  *
- * @see away3d.library.AssetLibrary.conflictStrategy
+ * @see away3d.library.Asset3DLibrary.conflictStrategy
  * @see away3d.library.naming.ConflictStrategy
  * @see away3d.library.naming.IgnoreConflictStrategy
  * @see away3d.library.naming.ErrorConflictStrategy
@@ -19,7 +19,7 @@ package away3d.library.naming;
 
 import haxe.ds.StringMap;
 import away3d.errors.AbstractMethodError;
-import away3d.events.AssetEvent;
+import away3d.events.Asset3DEvent;
 import away3d.library.assets.IAsset;
 
 class ConflictStrategyBase {
@@ -37,8 +37,8 @@ class ConflictStrategyBase {
     }
 
 /**
-	 * Create instance of this conflict strategy. Used internally by the AssetLibrary to
-	 * make sure the same strategy instance is not used in all AssetLibrary instances, which
+	 * Create instance of this conflict strategy. Used internally by the Asset3DLibrary to
+	 * make sure the same strategy instance is not used in all Asset3DLibrary instances, which
 	 * would break any state caching that happens inside the strategy class.
 	 */
 
@@ -65,7 +65,7 @@ class ConflictStrategyBase {
         assetsDictionary.set(nonConflictingName, loser);
         loser.resetAssetPath(nonConflictingName, ns, false);
 
-        loser.dispatchEvent(new AssetEvent(AssetEvent.ASSET_CONFLICT_RESOLVED, loser, loser_prev_name));
+        loser.dispatchEvent(new Asset3DEvent(Asset3DEvent.ASSET_CONFLICT_RESOLVED, loser, loser_prev_name));
     }
 
 }

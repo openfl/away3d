@@ -21,9 +21,9 @@ package away3d.loaders;
 	 * Dispatched when any asset finishes parsing. Also see specific events for each
 	 * individual asset type (meshes, materials et c.)
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="assetComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="assetComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
@@ -62,152 +62,152 @@ package away3d.loaders;
 	/**
 	 * Dispatched when a skybox asset has been costructed from a ressource.
 	 * 
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="skyboxComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="skyboxComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a camera3d asset has been costructed from a ressource.
 	 * 
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="cameraComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="cameraComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a mesh asset has been costructed from a ressource.
 	 * 
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="meshComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="meshComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a geometry asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="geometryComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="geometryComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a skeleton asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="skeletonComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="skeletonComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a skeleton pose asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="skeletonPoseComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="skeletonPoseComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a container asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="containerComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="containerComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a texture asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="textureComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="textureComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when a texture projector asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="textureProjectorComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="textureProjectorComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when a material asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="materialComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="materialComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when a animator asset has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animatorComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animatorComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation set has been constructed from a group of animation state resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animationSetComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animationSetComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation state has been constructed from a group of animation node resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animationStateComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animationStateComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation node has been constructed from a resource.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="animationNodeComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="animationNodeComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an animation state transition has been constructed from a group of animation node resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="stateTransitionComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="stateTransitionComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an light asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="lightComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="lightComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an light picker asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="lightPickerComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="lightPickerComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an effect method asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="effectMethodComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="effectMethodComplete", type="away3d.events.Asset3DEvent")]
 	
 	
 	/**
 	 * Dispatched when an shadow map method asset has been constructed from a resources.
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="shadowMapMethodComplete", type="away3d.events.AssetEvent")]
+	//[Event(name="shadowMapMethodComplete", type="away3d.events.Asset3DEvent")]
 	
 	/**
 	 * Dispatched when an image asset dimensions are not a power of 2
 	 *
-	 * @eventType away3d.events.AssetEvent
+	 * @eventType away3d.events.Asset3DEvent
 	 */
-	//[Event(name="textureSizeError", type="away3d.events.AssetEvent")]
+	//[Event(name="textureSizeError", type="away3d.events.Asset3DEvent")]
 	/**
 	 * Loader3D can load any file format that Away3D supports (or for which a third-party parser
 	 * has been plugged in) and be added directly to the scene. As assets are encountered
@@ -217,12 +217,12 @@ package away3d.loaders;
 	 * This provides a fast and easy way to load models (no need for event listeners) but is not
 	 * very versatile since many types of assets are ignored.
 	 *
-	 * Loader3D by default uses the AssetLibrary to load all assets, which means that they also
+	 * Loader3D by default uses the Asset3DLibrary to load all assets, which means that they also
 	 * ends up in the library. To circumvent this, Loader3D can be configured to not use the
-	 * AssetLibrary in which case it will use the AssetLoader directly.
+	 * Asset3DLibrary in which case it will use the AssetLoader directly.
 	 *
 	 * @see away3d.loaders.AssetLoader
-	 * @see away3d.library.AssetLibrary
+	 * @see away3d.library.Asset3DLibrary
 	 */
 	class Loader3D extends ObjectContainer3D
 	{
@@ -230,13 +230,13 @@ package away3d.loaders;
 		var _useAssetLib:Bool;
 		var _assetLibId:String;
 		
-		public function new(useAssetLibrary:Bool = true, assetLibraryId:String = null)
+		public function new(useAsset3DLibrary:Bool = true, Asset3DLibraryId:String = null)
 		{
 			super();
 			
 			_loadingSessions = new Array<AssetLoader>();
-			_useAssetLib = useAssetLibrary;
-			_assetLibId = assetLibraryId;
+			_useAssetLib = useAsset3DLibrary;
+			_assetLibId = Asset3DLibraryId;
 		}
 		
 		/**
@@ -252,8 +252,8 @@ package away3d.loaders;
 			var token:AssetLoaderToken;
 			
 			if (_useAssetLib) {
-				var lib:AssetLibraryBundle;
-				lib = AssetLibraryBundle.getInstance(_assetLibId);
+				var lib:Asset3DLibraryBundle;
+				lib = Asset3DLibraryBundle.getInstance(_assetLibId);
 				token = lib.load(req, context, ns, parser);
 			} else {
 				var loader:AssetLoader = new AssetLoader();
@@ -262,19 +262,19 @@ package away3d.loaders;
 			}
 			
 			token.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceComplete);
-			token.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.TEXTURE_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.CONTAINER_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.GEOMETRY_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.MATERIAL_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.MESH_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ENTITY_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.SKELETON_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ASSET_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.TEXTURE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.CONTAINER_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.GEOMETRY_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.MATERIAL_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.MESH_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ENTITY_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.SKELETON_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 			
 			// Error are handled separately (see documentation for addErrorHandler)
 			token._loader.addErrorHandler(onLoadError);
@@ -295,8 +295,8 @@ package away3d.loaders;
 			var token:AssetLoaderToken;
 			
 			if (_useAssetLib) {
-				var lib:AssetLibraryBundle;
-				lib = AssetLibraryBundle.getInstance(_assetLibId);
+				var lib:Asset3DLibraryBundle;
+				lib = Asset3DLibraryBundle.getInstance(_assetLibId);
 				token = lib.loadData(data, context, ns, parser);
 			} else {
 				var loader:AssetLoader = new AssetLoader();
@@ -305,19 +305,19 @@ package away3d.loaders;
 			}
 			
 			token.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceComplete);
-			token.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.TEXTURE_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.CONTAINER_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.GEOMETRY_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.MATERIAL_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.MESH_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.ENTITY_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.SKELETON_COMPLETE, onAssetComplete);
-			token.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ASSET_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.TEXTURE_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.CONTAINER_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.GEOMETRY_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.MATERIAL_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.MESH_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.ENTITY_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.SKELETON_COMPLETE, onAssetComplete);
+			token.addEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 			
 			// Error are handled separately (see documentation for addErrorHandler)
 			token._loader.addErrorHandler(onLoadError);
@@ -331,8 +331,8 @@ package away3d.loaders;
 		public function stopLoad():Void
 		{
 			if (_useAssetLib) {
-				var lib:AssetLibraryBundle;
-				lib = AssetLibraryBundle.getInstance(_assetLibId);
+				var lib:Asset3DLibraryBundle;
+				lib = Asset3DLibraryBundle.getInstance(_assetLibId);
 				lib.stopAllLoadingSessions();
 				_loadingSessions = null;
 				return;
@@ -380,41 +380,41 @@ package away3d.loaders;
 		{
 			dispatcher.removeEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceComplete);
 			dispatcher.removeEventListener(LoaderEvent.LOAD_ERROR, onLoadError);
-			dispatcher.removeEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.TEXTURE_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.CONTAINER_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.GEOMETRY_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.MATERIAL_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.MESH_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.ENTITY_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.SKELETON_COMPLETE, onAssetComplete);
-			dispatcher.removeEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.ASSET_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.ANIMATION_STATE_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.ANIMATION_NODE_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.STATE_TRANSITION_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.TEXTURE_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.CONTAINER_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.GEOMETRY_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.MATERIAL_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.MESH_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.ENTITY_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.SKELETON_COMPLETE, onAssetComplete);
+			dispatcher.removeEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 		}
 		
-		private function onAssetComplete(ev:AssetEvent):Void
+		private function onAssetComplete(ev:Asset3DEvent):Void
 		{
-			if (ev.type == AssetEvent.ASSET_COMPLETE) {
+			if (ev.type == Asset3DEvent.ASSET_COMPLETE) {
 				// TODO: not used
 				// var type : String = ev.asset.assetType;
 				var obj:ObjectContainer3D = null;
-				switch (ev.asset.assetType) {
-					case AssetType.LIGHT:
+				switch (ev.asset.Asset3DType) {
+					case Asset3DType.LIGHT:
 						obj = cast(ev.asset, LightBase);
-					case AssetType.CONTAINER:
+					case Asset3DType.CONTAINER:
 						obj = cast(ev.asset, ObjectContainer3D);
-					case AssetType.MESH:
+					case Asset3DType.MESH:
 						obj = cast(ev.asset, Mesh);
-					case AssetType.SKYBOX:
+					case Asset3DType.SKYBOX:
 						obj = cast(ev.asset, SkyBox);
-					case AssetType.TEXTURE_PROJECTOR:
+					case Asset3DType.TEXTURE_PROJECTOR:
 						obj = cast(ev.asset, TextureProjector);
-					case AssetType.CAMERA:
+					case Asset3DType.CAMERA:
 						obj = cast(ev.asset, Camera3D);
-					case AssetType.SEGMENT_SET:
+					case Asset3DType.SEGMENT_SET:
 						obj = cast(ev.asset, SegmentSet);
 				}
 				
