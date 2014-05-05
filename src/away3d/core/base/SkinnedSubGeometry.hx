@@ -19,11 +19,11 @@ class SkinnedSubGeometry extends CompactSubGeometry {
     public var numCondensedJoints(get_numCondensedJoints, never):Int;
     public var animatedData(get_animatedData, never):Vector<Float>;
     public var jointWeightsData(get_jointWeightsData, never):Vector<Float>;
-    public var jointIndexData(get_jointIndexData, never):Vector<Float>;
+    public var jointIndexData(get_jointIndexData, never):Vector<UInt>;
 
     private var _bufferFormat:Context3DVertexBufferFormat;
     private var _jointWeightsData:Vector<Float>;
-    private var _jointIndexData:Vector<Float>;
+    private var _jointIndexData:Vector<UInt>;
     private var _animatedData:Vector<Float>;
 // used for cpu fallback
     private var _jointWeightsBuffer:Vector<VertexBuffer3D>;
@@ -33,7 +33,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
     private var _jointWeightContext:Vector<Context3D>;
     private var _jointIndexContext:Vector<Context3D>;
     private var _jointsPerVertex:Int;
-    private var _condensedJointIndexData:Vector<Float>;
+    private var _condensedJointIndexData:Vector<UInt>;
     private var _condensedIndexLookUp:Vector<UInt>;
 // used for linking condensed indices to the real ones
     private var _numCondensedJoints:Int;
@@ -137,7 +137,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
             _jointIndicesInvalid[contextIndex] = true;
         }
         if (_jointIndicesInvalid[contextIndex]) {
-            _jointIndexBuffer[contextIndex].uploadFromVector(_numCondensedJoints > (0) ? _condensedJointIndexData : _jointIndexData, 0, Std.int(_jointIndexData.length / _jointsPerVertex));
+            _jointIndexBuffer[contextIndex].uploadFromVector(_numCondensedJoints > (0) ? cast _condensedJointIndexData : cast _jointIndexData, 0, Std.int(_jointIndexData.length / _jointsPerVertex));
             _jointIndicesInvalid[contextIndex] = false;
         }
         context.setVertexBufferAt(index, _jointIndexBuffer[contextIndex], 0, _bufferFormat);
@@ -189,12 +189,12 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         var oldIndex:Int;
         var newIndex:Int = 0;
         var dic:IntMap<Int> = new IntMap<Int>();
-        _condensedJointIndexData = new Vector<Float>(len, true);
+        _condensedJointIndexData = new Vector<UInt>(len, true);
         ArrayUtils.Prefill(_condensedJointIndexData,len,0);
         _condensedIndexLookUp = new Vector<UInt>();
         var i:Int = 0;
         while (i < len) {
-            oldIndex = Std.int(_jointIndexData[i]);
+            oldIndex = _jointIndexData[i];
 // if we encounter a new index, assign it a new condensed index
             if (!dic.exists(oldIndex)) {
                 dic.set(oldIndex, newIndex);
@@ -230,11 +230,11 @@ class SkinnedSubGeometry extends CompactSubGeometry {
 	 * The raw joint index data.
 	 */
 
-    private function get_jointIndexData():Vector<Float> {
+    private function get_jointIndexData():Vector<UInt> {
         return _jointIndexData;
     }
 
-    public function updateJointIndexData(value:Vector<Float>):Void {
+    public function updateJointIndexData(value:Vector<UInt>):Void {
         _jointIndexData = value;
         invalidateBuffers(_jointIndicesInvalid);
     }

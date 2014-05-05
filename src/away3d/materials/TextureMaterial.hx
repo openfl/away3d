@@ -19,7 +19,7 @@ class TextureMaterial extends SinglePassMaterialBase {
 	 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
 	 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
 	 */
-    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = false) {
+    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true) {
         super();
         this.texture = texture;
         this.smooth = smooth;

@@ -1,6 +1,3 @@
-/**
- *
- */
 package away3d.animators.states;
 
 import flash.errors.Error;
@@ -22,19 +19,18 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
     private var _skeletonPoseDirty:Bool;
     private var _currentPose:SkeletonPose;
     private var _nextPose:SkeletonPose;
-/**
+
+    /**
 	 * Returns the current skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
-
     public function get_currentPose():SkeletonPose {
         if (_framesDirty) updateFrames();
         return _currentPose;
     }
 
-/**
+    /**
 	 * Returns the next skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
-
     public function get_nextPose():SkeletonPose {
         if (_framesDirty) updateFrames();
         return _nextPose;
@@ -49,28 +45,25 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
         _frames = _skeletonClipNode.frames;
     }
 
-/**
+    /**
 	 * Returns the current skeleton pose of the animation in the clip based on the internal playhead position.
 	 */
-
     public function getSkeletonPose(skeleton:Skeleton):SkeletonPose {
         if (_skeletonPoseDirty) updateSkeletonPose(skeleton);
         return _skeletonPose;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updateTime(time:Int):Void {
         _skeletonPoseDirty = true;
         super.updateTime(time);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updateFrames():Void {
         super.updateFrames();
         _currentPose = _frames[_currentFrame];
@@ -82,12 +75,11 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
         else _nextPose = _frames[_nextFrame];
     }
 
-/**
+    /**
 	 * Updates the output skeleton pose of the node based on the internal playhead position.
 	 *
 	 * @param skeleton The skeleton used by the animator requesting the ouput pose.
 	 */
-
     private function updateSkeletonPose(skeleton:Skeleton):Void {
         _skeletonPoseDirty = false;
         if (_skeletonClipNode.totalDuration == 0) return;
@@ -102,7 +94,8 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
         var endPoses:Vector<JointPose> = _skeletonPose.jointPoses;
         var endPose:JointPose;
         var tr:Vector3D;
-// :s
+
+        // :s
         if (endPoses.length != numJoints) endPoses.length = numJoints;
         if ((numJoints != currentPose.length) || (numJoints != nextPose.length)) throw new Error("joint counts don't match!");
         var i:Int = 0;
@@ -125,10 +118,9 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
         }
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updatePositionDelta():Void {
         _positionDeltaDirty = false;
         if (_framesDirty) updateFrames();
@@ -136,12 +128,14 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
         var p2:Vector3D;
         var p3:Vector3D;
         var totalDelta:Vector3D = _skeletonClipNode.totalDelta;
-// jumping back, need to reset position
+
+        // jumping back, need to reset position
         if ((_timeDir > 0 && _nextFrame < _oldFrame) || (_timeDir < 0 && _nextFrame > _oldFrame)) {
             _rootPos.x -= totalDelta.x * _timeDir;
             _rootPos.y -= totalDelta.y * _timeDir;
             _rootPos.z -= totalDelta.z * _timeDir;
         }
+        
         var dx:Float = _rootPos.x;
         var dy:Float = _rootPos.y;
         var dz:Float = _rootPos.z;
@@ -152,12 +146,11 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
             _rootPos.x = p3.x + p1.x + _blendWeight * (p2.x - p1.x);
             _rootPos.y = p3.y + p1.y + _blendWeight * (p2.y - p1.y);
             _rootPos.z = p3.z + p1.z + _blendWeight * (p2.z - p1.z);
-        }
-
-        else {
+        } else {
             p1 = _currentPose.jointPoses[0].translation;
             p2 = _frames[_nextFrame].jointPoses[0].translation;
-//cover the instances where we wrap the pose but still want the final frame translation values
+            
+            //cover the instances where we wrap the pose but still want the final frame translation values
             _rootPos.x = p1.x + _blendWeight * (p2.x - p1.x);
             _rootPos.y = p1.y + _blendWeight * (p2.y - p1.y);
             _rootPos.z = p1.z + _blendWeight * (p2.z - p1.z);
@@ -168,6 +161,5 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
         _rootDelta.z = _rootPos.z - dz;
         _oldFrame = _nextFrame;
     }
-
 }
 

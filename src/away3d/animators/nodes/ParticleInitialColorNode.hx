@@ -1,6 +1,5 @@
 package away3d.animators.nodes;
 
-import Reflect;
 import away3d.animators.data.ParticleProperties;
 import flash.errors.Error;
 import away3d.materials.passes.MaterialPassBase;
@@ -12,18 +11,23 @@ import away3d.animators.states.ParticleInitialColorState;
 
 class ParticleInitialColorNode extends ParticleNodeBase {
 
-/** @private */
+    /** @private */
     static public var MULTIPLIER_INDEX:Int = 0;
-/** @private */
+
+    /** @private */
     static public var OFFSET_INDEX:Int = 1;
-//default values used when creating states
-/** @private */
+
+    //default values used when creating states
+    /** @private */
     public var _usesMultiplier:Bool;
-/** @private */
+
+    /** @private */
     public var _usesOffset:Bool;
-/** @private */
+
+    /** @private */
     public var _initialColor:ColorTransform;
-/**
+
+    /**
 	 * Reference for color node properties on a single particle (when in local property mode).
 	 * Expects a <code>ColorTransform</code> object representing the color transform applied to the particle.
 	 */
@@ -38,10 +42,9 @@ class ParticleInitialColorNode extends ParticleNodeBase {
         super("ParticleInitialColor", mode, ((_usesMultiplier && _usesOffset)) ? 8 : 4, ParticleAnimationSet.COLOR_PRIORITY);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String {
 
         var code:String = "";
@@ -60,24 +63,23 @@ class ParticleInitialColorNode extends ParticleNodeBase {
         return code;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):Void {
         if (_usesMultiplier) particleAnimationSet.hasColorMulNode = true;
         if (_usesOffset) particleAnimationSet.hasColorAddNode = true;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
-        var initialColor:ColorTransform = Reflect.field(param, COLOR_INITIAL_COLORTRANSFORM);
+        var initialColor:ColorTransform = param.nodes.get(COLOR_INITIAL_COLORTRANSFORM);
         if (initialColor == null) throw (new Error("there is no " + COLOR_INITIAL_COLORTRANSFORM + " in param!"));
         var i:Int = 0;
-//multiplier
+        
+        //multiplier
         if (_usesMultiplier) {
             _oneData[i++] = initialColor.redMultiplier;
             _oneData[i++] = initialColor.greenMultiplier;
@@ -91,6 +93,5 @@ class ParticleInitialColorNode extends ParticleNodeBase {
             _oneData[i++] = initialColor.alphaOffset / 255;
         }
     }
-
 }
 

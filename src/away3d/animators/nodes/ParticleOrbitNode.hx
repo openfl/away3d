@@ -11,32 +11,43 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.materials.passes.MaterialPassBase;
 import away3d.animators.states.ParticleOrbitState;
 import flash.geom.Vector3D;
+
 class ParticleOrbitNode extends ParticleNodeBase {
 
-/** @private */
+    /** @private */
     static public var ORBIT_INDEX:Int = 0;
-/** @private */
+
+    /** @private */
     static public var EULERS_INDEX:Int = 1;
-/** @private */
+
+    /** @private */
     public var _usesEulers:Bool;
-/** @private */
+
+    /** @private */
     public var _usesCycle:Bool;
-/** @private */
+
+    /** @private */
     public var _usesPhase:Bool;
-/** @private */
+
+    /** @private */
     public var _radius:Float;
-/** @private */
+
+    /** @private */
     public var _cycleDuration:Float;
-/** @private */
+
+    /** @private */
     public var _cyclePhase:Float;
-/** @private */
+
+    /** @private */
     public var _eulers:Vector3D;
-/**
+
+    /**
 	 * Reference for orbit node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the radius (x), cycle speed (y) and cycle phase (z) of the motion on the particle.
 	 */
     static public var ORBIT_VECTOR3D:String = "OrbitVector3D";
-/**
+
+    /**
 	 * Creates a new <code>ParticleOrbitNode</code> object.
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
@@ -48,7 +59,6 @@ class ParticleOrbitNode extends ParticleNodeBase {
 	 * @param    [optional] cyclePhase      Defines the phase of the orbit in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 * @param    [optional] eulers          Defines the euler rotation in degrees, applied to the orientation of the orbit when in global mode.
 	 */
-
     public function new(mode:Int, usesEulers:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, radius:Float = 100, cycleDuration:Float = 1, cyclePhase:Float = 0, eulers:Vector3D = null) {
         var len:Int = 3;
         if (usesPhase) len++;
@@ -64,10 +74,9 @@ class ParticleOrbitNode extends ParticleNodeBase {
         if (_eulers == null)_eulers = new Vector3D();
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String {
 
         var orbitRegister:ShaderRegisterElement = ((_mode == ParticlePropertiesMode.GLOBAL)) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
@@ -89,9 +98,9 @@ class ParticleOrbitNode extends ParticleNodeBase {
         if (_usesCycle) {
             code += "mul " + degree + "," + animationRegisterCache.vertexTime + "," + orbitRegister + ".y\n";
             if (_usesPhase) code += "add " + degree + "," + degree + "," + orbitRegister + ".w\n";
-        }
-
-        else code += "mul " + degree + "," + animationRegisterCache.vertexLife + "," + orbitRegister + ".y\n";
+        } else 
+            code += "mul " + degree + "," + animationRegisterCache.vertexLife + "," + orbitRegister + ".y\n";
+        
         code += "cos " + cos + "," + degree + "\n";
         code += "sin " + sin + "," + degree + "\n";
         code += "mul " + distance + ".x," + cos + "," + orbitRegister + ".x\n";
@@ -112,21 +121,19 @@ class ParticleOrbitNode extends ParticleNodeBase {
         return code;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function getAnimationState(animator:IAnimator):ParticleOrbitState {
         return cast(animator.getAnimationState(this), ParticleOrbitState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
-//Vector3D.x is radius, Vector3D.y is cycle duration, Vector3D.z is phase
-        var orbit:Vector3D = Reflect.field(param, ORBIT_VECTOR3D);
+        //Vector3D.x is radius, Vector3D.y is cycle duration, Vector3D.z is phase
+        var orbit:Vector3D = param.nodes.get(ORBIT_VECTOR3D);
         if (orbit == null) throw new Error("there is no " + ORBIT_VECTOR3D + " in param!");
         _oneData[0] = orbit.x;
         if (_usesCycle && orbit.y <= 0) throw (new Error("the cycle duration must be greater than zero"));
@@ -134,6 +141,5 @@ class ParticleOrbitNode extends ParticleNodeBase {
         _oneData[2] = orbit.x * Math.PI * 2;
         if (_usesPhase) _oneData[3] = orbit.z * Math.PI / 180;
     }
-
 }
 

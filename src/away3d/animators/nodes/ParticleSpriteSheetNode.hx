@@ -3,6 +3,7 @@
  * NB: to enable use of this node, the <code>repeat</code> property on the material has to be set to true.
  */
 package away3d.animators.nodes;
+
 import away3d.core.math.MathConsts;
 import away3d.animators.states.ParticleSpriteSheetState;
 import away3d.animators.data.ParticleProperties;
@@ -18,54 +19,62 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
     public var numRows(get_numRows, never):Float;
     public var totalFrames(get_totalFrames, never):Float;
 
-/** @private */
+    
+    /** @private */
     static public var UV_INDEX_0:Int = 0;
-/** @private */
+    
+    /** @private */
     static public var UV_INDEX_1:Int = 1;
-/** @private */
+
+    /** @private */
     public var _usesCycle:Bool;
-/** @private */
+
+    /** @private */
     public var _usesPhase:Bool;
-/** @private */
+
+    /** @private */
     public var _totalFrames:Int;
-/** @private */
+
+    /** @private */
     public var _numColumns:Int;
-/** @private */
+
+    /** @private */
     public var _numRows:Int;
-/** @private */
+
+    /** @private */
     public var _cycleDuration:Float;
-/** @private */
+
+    /** @private */
     public var _cyclePhase:Float;
-/**
+
+    /**
 	 * Reference for spritesheet node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> representing the cycleDuration (x), optional phaseTime (y).
 	 */
     static public var UV_VECTOR3D:String = "UVVector3D";
-/**
+    
+    /**
 	 * Defines the number of columns in the spritesheet, when in global mode. Defaults to 1. Read only.
 	 */
-
     public function get_numColumns():Float {
         return _numColumns;
     }
 
-/**
+    /**
 	 * Defines the number of rows in the spritesheet, when in global mode. Defaults to 1. Read only.
 	 */
-
     public function get_numRows():Float {
         return _numRows;
     }
 
-/**
+    /**
 	 * Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows. Read only.
 	 */
-
     public function get_totalFrames():Float {
         return _totalFrames;
     }
 
-/**
+    /**
 	 * Creates a new <code>ParticleSpriteSheetNode</code>
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
@@ -76,9 +85,8 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
 	 * @param    [optional] totalFrames     Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows.
 	 * @param    [optional] looping         Defines whether the spritesheet animation is set to loop indefinitely. Defaults to true.
 	 */
-
     public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:Int = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Float =0) {
-    //todo totalFrames= Math.POSITIVE_INFINITY;
+        //todo totalFrames= Math.POSITIVE_INFINITY;
 
         var len:Int = 0;
         if (usesCycle) {
@@ -96,13 +104,12 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
         _totalFrames = Std.int(Math.min(totalFrames, numColumns * numRows));
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function getAGALUVCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String {
 
-//get 2 vc
+        //get 2 vc
         var uvParamConst1:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
         var uvParamConst2:ShaderRegisterElement = ((_mode == ParticlePropertiesMode.GLOBAL)) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
         animationRegisterCache.setRegisterIndex(this, UV_INDEX_0, uvParamConst1.index);
@@ -121,7 +128,8 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
         var u:ShaderRegisterElement = new ShaderRegisterElement(animationRegisterCache.uvTarget.regName, animationRegisterCache.uvTarget.index, 0);
         var v:ShaderRegisterElement = new ShaderRegisterElement(animationRegisterCache.uvTarget.regName, animationRegisterCache.uvTarget.index, 1);
         var code:String = "";
-//scale uv
+
+        //scale uv
         code += "mul " + u + "," + u + "," + uStep + "\n";
         if (_numRows > 1) code += "mul " + v + "," + v + "," + vStep + "\n";
         if (_usesCycle) {
@@ -149,29 +157,26 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
         return code;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function getAnimationState(animator:IAnimator):ParticleSpriteSheetState {
         return cast(animator.getAnimationState(this), ParticleSpriteSheetState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):Void {
         particleAnimationSet.hasUVNode = true;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
         if (_usesCycle) {
-            var uvCycle:Vector3D = Reflect.field(param, UV_VECTOR3D);
+            var uvCycle:Vector3D = param.nodes.get(UV_VECTOR3D);
             if (uvCycle == null) throw (new Error("there is no " + UV_VECTOR3D + " in param!"));
             if (uvCycle.x <= 0) throw (new Error("the cycle duration must be greater than zero"));
             var uTotal:Float = _totalFrames / _numColumns;
@@ -180,6 +185,5 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
             if (_usesPhase) _oneData[2] = uvCycle.y;
         }
     }
-
 }
 

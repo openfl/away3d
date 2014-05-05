@@ -675,6 +675,7 @@ class MultiPassMaterialBase extends MaterialBase {
             pass.diffuseLightSources = _diffuseLightSources;
             pass.specularLightSources = _specularLightSources;
             _nonCasterLightPasses.push(pass);
+
             dirLightOffset += pass.numDirectionalLights;
             pointLightOffset += pass.numPointLights;
             probeOffset += pass.numLightProbes;

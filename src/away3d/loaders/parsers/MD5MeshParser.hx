@@ -70,6 +70,7 @@ class MD5MeshParser extends ParserBase {
 	 */
     public function new(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0) {
         super(ParserDataFormat.PLAIN_TEXT);
+        _parseIndex = 0;
         _rotationQuat = new Quaternion();
 
         _rotationQuat.fromAxisAngle(Vector3D.X_AXIS, -Math.PI * .5);
@@ -334,7 +335,7 @@ class MD5MeshParser extends ParserBase {
         var subGeom:SkinnedSubGeometry = new SkinnedSubGeometry(_maxJointCount);
         var uvs:Vector<Float> = new Vector<Float>(len * 2, true);
         var vertices:Vector<Float> = new Vector<Float>(len * 3, true);
-        var jointIndices:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
+        var jointIndices:Vector<UInt> = new Vector<UInt>(len * _maxJointCount, true);
         var jointWeights:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
         var l:Int = 0;
         var nonZeroWeights:Int = 0;

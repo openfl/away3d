@@ -3,7 +3,6 @@
  */
 package away3d.animators.nodes;
 
-
 import away3d.animators.states.ParticleScaleState;
 import away3d.animators.data.ParticleProperties;
 import flash.errors.Error;
@@ -15,26 +14,34 @@ import flash.geom.Vector3D;
 
 class ParticleScaleNode extends ParticleNodeBase {
 
-/** @private */
+    /** @private */
     static public var SCALE_INDEX:Int = 0;
-/** @private */
+    
+    /** @private */
     public var _usesCycle:Bool;
-/** @private */
+    
+    /** @private */
     public var _usesPhase:Bool;
-/** @private */
+    
+    /** @private */
     public var _minScale:Float;
-/** @private */
+    
+    /** @private */
     public var _maxScale:Float;
-/** @private */
+    
+    /** @private */
     public var _cycleDuration:Float;
-/** @private */
+    
+    /** @private */
     public var _cyclePhase:Float;
-/**
+    
+    /**
 	 * Reference for scale node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> representing the min scale (x), max scale(y), optional cycle speed (z) and phase offset (w) applied to the particle.
 	 */
     static public var SCALE_VECTOR3D:String = "ScaleVector3D";
-/**
+    
+    /**
 	 * Creates a new <code>ParticleScaleNode</code>
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
@@ -45,7 +52,6 @@ class ParticleScaleNode extends ParticleNodeBase {
 	 * @param    [optional] cycleDuration   Defines the default duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 * @param    [optional] cyclePhase      Defines the default phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-
     public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, minScale:Float = 1, maxScale:Float = 1, cycleDuration:Float = 1, cyclePhase:Float = 0) {
         var len:Int = 2;
         if (usesCycle) len++;
@@ -60,10 +66,9 @@ class ParticleScaleNode extends ParticleNodeBase {
         _cyclePhase = cyclePhase;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String {
 
         var code:String = "";
@@ -81,20 +86,18 @@ class ParticleScaleNode extends ParticleNodeBase {
         return code;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function getAnimationState(animator:IAnimator):ParticleScaleState {
         return cast(animator.getAnimationState(this), ParticleScaleState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
-        var scale:Vector3D = Reflect.field(param, SCALE_VECTOR3D);
+        var scale:Vector3D = param.nodes.get(SCALE_VECTOR3D);
         if (scale == null) throw (new Error("there is no " + SCALE_VECTOR3D + " in param!"));
         if (_usesCycle) {
             _oneData[0] = (scale.x + scale.y) / 2;
@@ -108,8 +111,6 @@ class ParticleScaleNode extends ParticleNodeBase {
             _oneData[0] = scale.x;
             _oneData[1] = scale.y - scale.x;
         }
-
     }
-
 }
 

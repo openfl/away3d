@@ -27,6 +27,5 @@ class ParticleTimeState extends ParticleStateBase {
         var particleTime:Float = _time / 1000;
         animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleTimeNode.TIME_CONSTANT_INDEX), particleTime, particleTime, particleTime, particleTime);
     }
-
 }
 

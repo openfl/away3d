@@ -196,8 +196,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             }
             updateCondensedMatrices(skinnedGeom.condensedIndexLookUp, numCondensedJoints);
             stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _condensedMatrices, numCondensedJoints * 3);
-        }
-        else {
+        } else {
             if (_animationSet.usesCPU) {
                 if (!_skeletonAnimationStates.exists(skinnedGeom))
                     _skeletonAnimationStates.set(skinnedGeom, new SubGeomAnimationState(skinnedGeom));
@@ -246,8 +245,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             len = srcIndex + 12;
             // copy into condensed
             while (srcIndex < len)_condensedMatrices[j++] = _globalMatrices[srcIndex++];
-        }
-        while ((++i < numJoints));
+        } while ((++i < numJoints));
     }
 
     private function updateGlobalProperties():Void {
@@ -341,6 +339,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             m32 = raw[6];
             m33 = raw[10];
             m34 = raw[14];
+            
             _globalMatrices[(mtxOffset)] = n11 * m11 + n12 * m21 + n13 * m31;
             _globalMatrices[(mtxOffset + 1)] = n11 * m12 + n12 * m22 + n13 * m32;
             _globalMatrices[(mtxOffset + 2)] = n11 * m13 + n12 * m23 + n13 * m33;
@@ -366,7 +365,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
     private function morphGeometry(state:SubGeomAnimationState, subGeom:SkinnedSubGeometry):Void {
         var vertexData:Vector<Float> = subGeom.vertexData;
         var targetData:Vector<Float> = state.animatedVertexData;
-        var jointIndices:Vector<Float> = subGeom.jointIndexData;
+        var jointIndices:Vector<UInt> = subGeom.jointIndexData;
         var jointWeights:Vector<Float> = subGeom.jointWeightsData;
         var index:Int = 0;
         var j:Int = 0;
@@ -405,14 +404,14 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         var m34:Float;
         while (index < len) {
             vertX = vertexData[index];
-            vertY = vertexData[(index + 1)];
-            vertZ = vertexData[(index + 2)];
-            normX = vertexData[(index + 3)];
-            normY = vertexData[(index + 4)];
-            normZ = vertexData[(index + 5)];
-            tangX = vertexData[(index + 6)];
-            tangY = vertexData[(index + 7)];
-            tangZ = vertexData[(index + 8)];
+            vertY = vertexData[index + 1];
+            vertZ = vertexData[index + 2];
+            normX = vertexData[index + 3];
+            normY = vertexData[index + 4];
+            normZ = vertexData[index + 5];
+            tangX = vertexData[index + 6];
+            tangY = vertexData[index + 7];
+            tangZ = vertexData[index + 8];
             vx = 0;
             vy = 0;
             vz = 0;
@@ -427,19 +426,19 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
                 weight = jointWeights[j];
                 if (weight > 0) {
                     // implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
-                    var mtxOffset:Int = Std.int(jointIndices[j++]) << 2;
-                    m11 = _globalMatrices[mtxOffset];
-                    m12 = _globalMatrices[(mtxOffset + 1)];
-                    m13 = _globalMatrices[(mtxOffset + 2)];
-                    m14 = _globalMatrices[(mtxOffset + 3)];
-                    m21 = _globalMatrices[(mtxOffset + 4)];
-                    m22 = _globalMatrices[(mtxOffset + 5)];
-                    m23 = _globalMatrices[(mtxOffset + 6)];
-                    m24 = _globalMatrices[(mtxOffset + 7)];
-                    m31 = _globalMatrices[(mtxOffset + 8)];
-                    m32 = _globalMatrices[(mtxOffset + 9)];
-                    m33 = _globalMatrices[(mtxOffset + 10)];
-                    m34 = _globalMatrices[(mtxOffset + 11)];
+                    var mtxOffset:Int = jointIndices[j++] << 2;
+                    m11 = _globalMatrices[mtxOffset++];
+                    m12 = _globalMatrices[mtxOffset++];
+                    m13 = _globalMatrices[mtxOffset++];
+                    m14 = _globalMatrices[mtxOffset++];
+                    m21 = _globalMatrices[mtxOffset++];
+                    m22 = _globalMatrices[mtxOffset++];
+                    m23 = _globalMatrices[mtxOffset++];
+                    m24 = _globalMatrices[mtxOffset++];
+                    m31 = _globalMatrices[mtxOffset++];
+                    m32 = _globalMatrices[mtxOffset++];
+                    m33 = _globalMatrices[mtxOffset++];
+                    m34 = _globalMatrices[mtxOffset];
                     vx += weight * (m11 * vertX + m12 * vertY + m13 * vertZ + m14);
                     vy += weight * (m21 * vertX + m22 * vertY + m23 * vertZ + m24);
                     vz += weight * (m31 * vertX + m32 * vertY + m33 * vertZ + m34);
@@ -453,22 +452,22 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
                 }
 
                 else {
-                    j += Std.int(_jointsPerVertex - k);
+                    j += _jointsPerVertex - k;
                     k = _jointsPerVertex;
                 }
 
             }
 
             targetData[index] = vx;
-            targetData[(index + 1)] = vy;
-            targetData[(index + 2)] = vz;
-            targetData[(index + 3)] = nx;
-            targetData[(index + 4)] = ny;
-            targetData[(index + 5)] = nz;
-            targetData[(index + 6)] = tx;
-            targetData[(index + 7)] = ty;
-            targetData[(index + 8)] = tz;
-            index = Std.int(index + 13);
+            targetData[index + 1] = vy;
+            targetData[index + 2] = vz;
+            targetData[index + 3] = nx;
+            targetData[index + 4] = ny;
+            targetData[index + 5] = nz;
+            targetData[index + 6] = tx;
+            targetData[index + 7] = ty;
+            targetData[index + 8] = tz;
+            index = index + 13;
         }
 
     }

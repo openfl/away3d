@@ -9,29 +9,29 @@ import flash.geom.Rectangle;
 import flash.display3D.textures.CubeTexture;
 import flash.display3D.textures.Texture;
 import flash.display3D.textures.TextureBase;
+
 class MipmapGenerator {
 
     static private var _matrix:Matrix = new Matrix();
     static private var _rect:Rectangle = new Rectangle();
-/**
+    
+    /**
 	 * Uploads a BitmapData with mip maps to a target Texture object.
 	 * @param source The source BitmapData to upload.
 	 * @param target The target Texture to upload to.
 	 * @param mipmap An optional mip map holder to avoids creating new instances for fe animated materials.
 	 * @param alpha Indicate whether or not the uploaded bitmapData is transparent.
 	 */
-
     static public function generateMipMaps(source:BitmapData, target:TextureBase, mipmap:BitmapData = null, alpha:Bool = false, side:Int = -1):Void {
         var w:Int = source.width;
         var h:Int = source.height;
         var i:Int = 0;
         var regen:Bool = mipmap != null;
-        if (mipmap == null)
-            mipmap = new BitmapData(w, h, alpha);
+
         _rect.width = w;
         _rect.height = h;
         while (w >= 1 || h >= 1) {
-            if (alpha) mipmap.fillRect(_rect, 0);
+            mipmap = new BitmapData(w, h, alpha);
             _matrix.a = _rect.width / source.width;
             _matrix.d = _rect.height / source.height;
             mipmap.draw(source, _matrix, null, null, null, true);

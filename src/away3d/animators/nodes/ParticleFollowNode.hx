@@ -112,7 +112,7 @@ class ParticleFollowNode extends ParticleNodeBase {
             code += "mov " + temp3 + "," + animationRegisterCache.vertexZeroConst + "\n";
             code += "mov " + temp3 + ".z," + animationRegisterCache.vertexOneConst + "\n";
             if (animationRegisterCache.hasBillboard) {
-                code += "m33 " + temp4 + ".xyz," + temp4 + ".xyz," + temp1 + "\n";
+                code += "Im33 " + temp4 + ".xyz," + temp4 + ".xyz," + temp1 + "\n";
                 code += "sub " + temp4 + ".xyz," + temp4 + ".xyz," + animationRegisterCache.positionTarget + ".xyz\n";
                 code += "add " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp4 + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz\n";
             }

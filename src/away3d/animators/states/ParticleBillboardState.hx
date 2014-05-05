@@ -22,10 +22,7 @@ class ParticleBillboardState extends ParticleStateBase {
 
     private var _matrix:Matrix3D;
     private var _billboardAxis:Vector3D;
-/**
-	 *
-	 */
-
+    
     public function new(animator:ParticleAnimator, particleNode:ParticleBillboardNode) {
         _matrix = new Matrix3D();
         super(animator, particleNode);
@@ -33,8 +30,8 @@ class ParticleBillboardState extends ParticleStateBase {
     }
 
     override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void {
-// TODO: not used
-
+        
+        // TODO: not used
         var comps:Vector<Vector3D>;
         if (_billboardAxis != null) {
             var pos:Vector3D = renderable.sceneTransform.position;
@@ -43,35 +40,37 @@ class ParticleBillboardState extends ParticleStateBase {
             right.normalize();
             look = _billboardAxis.crossProduct(right);
             look.normalize();
-//create a quick inverse projection matrix
+
+            //create a quick inverse projection matrix
             _matrix.copyFrom(renderable.sceneTransform);
             comps = _matrix.decompose(Orientation3D.AXIS_ANGLE);
+            
             _matrix.copyColumnFrom(0, right);
             _matrix.copyColumnFrom(1, _billboardAxis);
             _matrix.copyColumnFrom(2, look);
             _matrix.copyColumnFrom(3, pos);
             _matrix.appendRotation(-comps[1].w * MathConsts.RADIANS_TO_DEGREES, comps[1]);
-        }
-
-        else {
-//create a quick inverse projection matrix
+        } else {
+            
+            //create a quick inverse projection matrix
             _matrix.copyFrom(renderable.sceneTransform);
             _matrix.append(camera.inverseSceneTransform);
-//decompose using axis angle rotations
+            
+            //decompose using axis angle rotations
             comps = _matrix.decompose(Orientation3D.AXIS_ANGLE);
-//recreate the matrix with just the rotation data
+
+            //recreate the matrix with just the rotation data
             _matrix.identity();
             _matrix.appendRotation(-comps[1].w * MathConsts.RADIANS_TO_DEGREES, comps[1]);
         }
 
-//set a new matrix transform constant
+        //set a new matrix transform constant
         animationRegisterCache.setVertexConstFromMatrix(animationRegisterCache.getRegisterIndex(_animationNode, ParticleBillboardNode.MATRIX_INDEX), _matrix);
     }
 
-/**
+    /**
 	 * Defines the billboard axis.
 	 */
-
     public function get_billboardAxis():Vector3D {
         return _billboardAxis;
     }
@@ -81,6 +80,5 @@ class ParticleBillboardState extends ParticleStateBase {
         if (_billboardAxis != null) _billboardAxis.normalize();
         return value;
     }
-
 }
 

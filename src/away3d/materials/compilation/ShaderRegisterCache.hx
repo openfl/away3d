@@ -34,20 +34,19 @@ class ShaderRegisterCache {
     private var _numUsedTextures:Int;
     private var _numUsedVaryings:Int;
     private var _profile:String;
-/**
+
+    /**
 	 * Create a new ShaderRegisterCache object.
 	 *
 	 * @param profile The compatibility profile used by the renderer.
 	 */
-
     public function new(profile:String) {
         _profile = profile;
     }
 
-/**
+    /**
 	 * Resets all registers.
 	 */
-
     public function reset():Void {
         _fragmentTempCache = new RegisterPool("ft", 8, false);
         _vertexTempCache = new RegisterPool("vt", 8, false);
@@ -86,10 +85,9 @@ class ShaderRegisterCache {
         }
     }
 
-/**
+    /**
 	 * Disposes all resources used.
 	 */
-
     public function dispose():Void {
         _fragmentTempCache.dispose();
         _vertexTempCache.dispose();
@@ -105,128 +103,114 @@ class ShaderRegisterCache {
         _vertexOutputRegister = null;
     }
 
-/**
+    /**
 	 * Marks a fragment temporary register as used, so it cannot be retrieved. The register won't be able to be used until removeUsage
 	 * has been called usageCount times again.
 	 * @param register The register to mark as used.
 	 * @param usageCount The amount of usages to add.
 	 */
-
     public function addFragmentTempUsages(register:ShaderRegisterElement, usageCount:Int):Void {
         _fragmentTempCache.addUsage(register, usageCount);
     }
 
-/**
+    /**
 	 * Removes a usage from a fragment temporary register. When usages reach 0, the register is freed again.
 	 * @param register The register for which to remove a usage.
 	 */
-
     public function removeFragmentTempUsage(register:ShaderRegisterElement):Void {
         _fragmentTempCache.removeUsage(register);
     }
 
-/**
+    /**
 	 * Marks a vertex temporary register as used, so it cannot be retrieved. The register won't be able to be used
 	 * until removeUsage has been called usageCount times again.
 	 * @param register The register to mark as used.
 	 * @param usageCount The amount of usages to add.
 	 */
-
     public function addVertexTempUsages(register:ShaderRegisterElement, usageCount:Int):Void {
         _vertexTempCache.addUsage(register, usageCount);
     }
 
-/**
+    /**
 	 * Removes a usage from a vertex temporary register. When usages reach 0, the register is freed again.
 	 * @param register The register for which to remove a usage.
 	 */
-
     public function removeVertexTempUsage(register:ShaderRegisterElement):Void {
         _vertexTempCache.removeUsage(register);
     }
 
-/**
+    /**
 	 * Retrieve an entire fragment temporary register that's still available. The register won't be able to be used until removeUsage
 	 * has been called usageCount times again.
 	 */
-
     public function getFreeFragmentVectorTemp():ShaderRegisterElement {
         return _fragmentTempCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Retrieve a single component from a fragment temporary register that's still available.
 	 */
-
     public function getFreeFragmentSingleTemp():ShaderRegisterElement {
         return _fragmentTempCache.requestFreeRegComponent();
     }
 
-/**
+    /**
 	 * Retrieve an available varying register
 	 */
-
     public function getFreeVarying():ShaderRegisterElement {
         ++_numUsedVaryings;
         return _varyingCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Retrieve an available fragment constant register
 	 */
-
     public function getFreeFragmentConstant():ShaderRegisterElement {
         ++_numUsedFragmentConstants;
         return _fragmentConstantsCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Retrieve an available vertex constant register
 	 */
-
     public function getFreeVertexConstant():ShaderRegisterElement {
         ++_numUsedVertexConstants;
         return _vertexConstantsCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Retrieve an entire vertex temporary register that's still available.
 	 */
-
     public function getFreeVertexVectorTemp():ShaderRegisterElement {
         return _vertexTempCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Retrieve a single component from a vertex temporary register that's still available.
 	 */
-
     public function getFreeVertexSingleTemp():ShaderRegisterElement {
         return _vertexTempCache.requestFreeRegComponent();
     }
 
-/**
+    /**
 	 * Retrieve an available vertex attribute register
 	 */
-
     public function getFreeVertexAttribute():ShaderRegisterElement {
         ++_numUsedStreams;
         return _vertexAttributesCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Retrieve an available texture register
 	 */
-
     public function getFreeTextureReg():ShaderRegisterElement {
         ++_numUsedTextures;
         return _textureCache.requestFreeVectorReg();
     }
 
-/**
+    /**
 	 * Indicates the start index from which to retrieve vertex constants.
 	 */
-
     public function get_vertexConstantOffset():Int {
         return _vertexConstantOffset;
     }
@@ -236,10 +220,9 @@ class ShaderRegisterCache {
         return vertexConstantOffset;
     }
 
-/**
+    /**
 	 * Indicates the start index from which to retrieve vertex attributes.
 	 */
-
     public function get_vertexAttributesOffset():Int {
         return _vertexAttributesOffset;
     }
@@ -249,10 +232,9 @@ class ShaderRegisterCache {
         return value;
     }
 
-/**
+    /**
 	 * Indicates the start index from which to retrieve varying registers.
 	 */
-
     public function get_varyingsOffset():Int {
         return _varyingsOffset;
     }
@@ -262,10 +244,9 @@ class ShaderRegisterCache {
         return value;
     }
 
-/**
+    /**
 	 * Indicates the start index from which to retrieve fragment constants.
 	 */
-
     public function get_fragmentConstantOffset():Int {
         return _fragmentConstantOffset;
     }
@@ -275,53 +256,46 @@ class ShaderRegisterCache {
         return value;
     }
 
-/**
+    /**
 	 * The fragment output register.
 	 */
-
     public function get_fragmentOutputRegister():ShaderRegisterElement {
         return _fragmentOutputRegister;
     }
 
-/**
+    /**
 	 * The amount of used vertex constant registers.
 	 */
-
     public function get_numUsedVertexConstants():Int {
         return _numUsedVertexConstants;
     }
 
-/**
+    /**
 	 * The amount of used fragment constant registers.
 	 */
-
     public function get_numUsedFragmentConstants():Int {
         return _numUsedFragmentConstants;
     }
 
-/**
+    /**
 	 * The amount of used vertex streams.
 	 */
-
     public function get_numUsedStreams():Int {
         return _numUsedStreams;
     }
 
-/**
+    /**
 	 * The amount of used texture slots.
 	 */
-
     public function get_numUsedTextures():Int {
         return _numUsedTextures;
     }
 
-/**
+    /**
 	 * The amount of used varying registers.
 	 */
-
     public function get_numUsedVaryings():Int {
         return _numUsedVaryings;
-    }
-
+   }
 }
 

@@ -66,6 +66,7 @@ class MD5AnimParser extends ParserBase {
 
     public function new(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0) {
         super(ParserDataFormat.PLAIN_TEXT);
+        _parseIndex = 0;
         _rotationQuat = new Quaternion();
         var t1:Quaternion = new Quaternion();
         var t2:Quaternion = new Quaternion();

@@ -63,7 +63,7 @@ class Matrix3D
       }
       else
       {
-         this.rawData =Vector.ofArray([ 1., 0, 0, 0,
+         this.rawData =Vector.ofArray([ 1, 0, 0, 0,
                       0, 1, 0, 0,
                       0, 0, 1, 0,
                       0, 0, 0, 1 ]);
@@ -240,17 +240,8 @@ class Matrix3D
     */
    public function copyFrom( sourceMatrix3D: Matrix3D ) : Void
    {
-
-         // Initial Tests - OK
-
-         var l : UInt = sourceMatrix3D.rawData.length;
-
-         for ( c in 0...l )    // for ( var c : UInt = 0 ; c < l ; c ++ )
-         {
-             this.rawData[c] = sourceMatrix3D.rawData[c];
-         }
-
-      //this.rawData = sourceMatrix3D.rawData.slice( 0 );
+        // Initial Tests - OK
+        this.rawData = sourceMatrix3D.rawData.copy();
    }
    
    public function copyRawDataFrom( vector:Vector<Float>, index:UInt = 0, transpose:Bool = false ):Void
@@ -376,69 +367,104 @@ class Matrix3D
 
          // Initial Tests - OK
 
-      dest.rawData =this.rawData.copy();
+      dest.rawData =this.rawData.slice(0);
    }
    
    // TODO orientationStyle:string = "eulerAngles"
    /**
     * Returns the transformation matrix's translation, rotation, and scale settings as a Vector of three Vector3D objects.
     */
-   public function decompose():Vector<Vector3D>
+   public function decompose(?orientationStyle:Orientation3D):Vector<Vector3D>
    {
 
-         // Initial Tests - Not OK
+        if (orientationStyle==null) orientationStyle = Orientation3D.EULER_ANGLES;
+        
+        // Initial Tests - Not OK
 
-      var vec:Vector<Vector3D> =new Vector<Vector3D>();
-      var m = this.clone();
-      var mr =  (m.rawData).copy();
-      
-      var pos: Vector3D = new Vector3D( mr[12], mr[13], mr[14] );
-      mr[12] = 0;
-      mr[13] = 0;
-      mr[14] = 0;
+        var vec:Vector<Vector3D> =new Vector<Vector3D>();
+        var m = this.clone();
+        var mr = m.rawData.slice(0);
+        
+        var pos: Vector3D = new Vector3D( mr[12], mr[13], mr[14] );
+        mr[12] = 0;
+        mr[13] = 0;
+        mr[14] = 0;
 
-      var scale: Vector3D = new Vector3D();
-      
-      scale.x = Math.sqrt (mr[0] * mr[0] + mr[1] * mr[1] + mr[2] * mr[2]);
-      scale.y = Math.sqrt (mr[4] * mr[4] + mr[5] * mr[5] + mr[6] * mr[6]);
-      scale.z = Math.sqrt (mr[8] * mr[8] + mr[9] * mr[9] + mr[10] * mr[10]);
-      
-      if (mr[0] * (mr[5] * mr[10] - mr[6] * mr[9]) - mr[1] * (mr[4] * mr[10] - mr[6] * mr[8]) + mr[2] * (mr[4] * mr[9] - mr[5] * mr[8]) < 0)
-      {
-         scale.z = -scale.z;
-      }
-      
-      mr[0] /= scale.x; 
-      mr[1] /= scale.x; 
-      mr[2] /= scale.x; 
-      mr[4] /= scale.y; 
-      mr[5] /= scale.y; 
-      mr[6] /= scale.y; 
-      mr[8] /= scale.z; 
-      mr[9] /= scale.z; 
-      mr[10] /= scale.z;
-      
-      var rot = new Vector3D ();
-             rot.y = Math.asin( -mr[2]);
+        var scale: Vector3D = new Vector3D();
+        
+        scale.x = Math.sqrt (mr[0] * mr[0] + mr[1] * mr[1] + mr[2] * mr[2]);
+        scale.y = Math.sqrt (mr[4] * mr[4] + mr[5] * mr[5] + mr[6] * mr[6]);
+        scale.z = Math.sqrt (mr[8] * mr[8] + mr[9] * mr[9] + mr[10] * mr[10]);
+        
+        if (mr[0] * (mr[5] * mr[10] - mr[6] * mr[9]) - mr[1] * (mr[4] * mr[10] - mr[6] * mr[8]) + mr[2] * (mr[4] * mr[9] - mr[5] * mr[8]) < 0)
+        {
+           scale.z = -scale.z;
+        }
+        
+        mr[0] /= scale.x; 
+        mr[1] /= scale.x; 
+        mr[2] /= scale.x; 
+        mr[4] /= scale.y; 
+        mr[5] /= scale.y; 
+        mr[6] /= scale.y; 
+        mr[8] /= scale.z; 
+        mr[9] /= scale.z; 
+        mr[10] /= scale.z;
+        
+        var rot = new Vector3D ();
+        switch (orientationStyle) {
+            case Orientation3D.AXIS_ANGLE:
+                rot.w = Math.acos((mr[0] + mr[5] + mr[10] - 1) / 2);
 
-      //var cos:UInt = Math.cos(rot.y);
-      
-      if (mr[2] != 1 && mr[2] != -1)
-      {
-         rot.x = Math.atan2 (mr[6], mr[10]);
-         rot.z = Math.atan2 (mr[1], mr[0]);
-      }
-      else
-      {
-         rot.z = 0;
-         rot.x = Math.atan2 (mr[4], mr[5]);
-      } 
-      
-      vec.push(pos);
-      vec.push(rot);
-      vec.push(scale);
+                var len = Math.sqrt((mr[6] - mr[9]) * (mr[6] - mr[9]) + (mr[8] - mr[2]) * (mr[8] - mr[2]) + (mr[1] - mr[4]) * (mr[1] - mr[4]));
+                rot.x = (mr[6] - mr[9]) / len;
+                rot.y = (mr[8] - mr[2]) / len;
+                rot.z = (mr[1] - mr[4]) / len;
+            case Orientation3D.QUATERNION:
+                var tr = mr[0] + mr[5] + mr[10];
 
-      return vec;
+                if (tr > 0) {
+                    rot.w = Math.sqrt(1 + tr) / 2;
+
+                    rot.x = (mr[6] - mr[9]) / (4 * rot.w);
+                    rot.y = (mr[8] - mr[2]) / (4 * rot.w);
+                    rot.z = (mr[1] - mr[4]) / (4 * rot.w);
+                } else if ((mr[0] > mr[5]) && (mr[0] > mr[10])) {
+                    rot.x = Math.sqrt(1 + mr[0] - mr[5] - mr[10]) / 2;
+
+                    rot.w = (mr[6] - mr[9]) / (4 * rot.x);
+                    rot.y = (mr[1] + mr[4]) / (4 * rot.x);
+                    rot.z = (mr[8] + mr[2]) / (4 * rot.x);
+                } else if (mr[5] > mr[10]) {
+                    rot.y = Math.sqrt(1 + mr[5] - mr[0] - mr[10]) / 2;
+
+                    rot.x = (mr[1] + mr[4]) / (4 * rot.y);
+                    rot.w = (mr[8] - mr[2]) / (4 * rot.y);
+                    rot.z = (mr[6] + mr[9]) / (4 * rot.y);
+                } else {
+                    rot.z = Math.sqrt(1 + mr[10] - mr[0] - mr[5]) / 2;
+
+                    rot.x = (mr[8] + mr[2]) / (4 * rot.z);
+                    rot.y = (mr[6] + mr[9]) / (4 * rot.z);
+                    rot.w = (mr[1] - mr[4]) / (4 * rot.z);
+                }
+            case Orientation3D.EULER_ANGLES:
+                rot.y = Math.asin(-mr[2]);
+
+                if (mr[2] != 1 && mr[2] != -1) {
+                    rot.x = Math.atan2(mr[6], mr[10]);
+                    rot.z = Math.atan2(mr[1], mr[0]);
+                } else {
+                    rot.z = 0;
+                    rot.x = Math.atan2(mr[4], mr[5]);
+                }
+        }
+        
+        vec.push(pos);
+        vec.push(rot);
+        vec.push(scale);
+
+        return vec;
    }
    
    /**
@@ -691,7 +717,7 @@ class Matrix3D
 
          // Initial Tests - OK
 
-      var oRawData:Vector<Float> = this.rawData.copy();
+      var oRawData:Vector<Float> = this.rawData.slice(0);
       
       this.rawData[1] = oRawData[4];
       this.rawData[2] = oRawData[8];
@@ -710,32 +736,30 @@ class Matrix3D
    public static function getAxisRotation( x:Float, y:Float, z:Float, degrees:Float ):Matrix3D
    {
 
-         // internal class use by rotations which have been tested
-
+      // internal class use by rotations which have been tested
       var m:Matrix3D = new Matrix3D();
       
-      var a1:Vector3D = new Vector3D( x, y, z );
-      var rad = -degrees * ( Math.PI / 180 );
-      var c:Float = Math.cos( rad );
-      var s:Float = Math.sin( rad );
-      var t:Float = 1.0 - c;
+      var rad = degrees * (Math.PI / 180);
+      var c = Math.cos(rad);
+      var s = Math.sin(rad);
+      var t = 1 - c;
       
-      m.rawData[0] = c + a1.x * a1.x * t;
-      m.rawData[5] = c + a1.y * a1.y * t;
-      m.rawData[10] = c + a1.z * a1.z * t;
-      
-      var tmp1 = a1.x * a1.y * t;
-      var tmp2 = a1.z * s;
-      m.rawData[4] = tmp1 + tmp2;
-      m.rawData[1] = tmp1 - tmp2;
-      tmp1 = a1.x * a1.z * t;
-      tmp2 = a1.y * s;
-      m.rawData[8] = tmp1 - tmp2;
-      m.rawData[2] = tmp1 + tmp2;
-      tmp1 = a1.y * a1.z * t;
-      tmp2 = a1.x*s;
-      m.rawData[9] = tmp1 + tmp2;
-      m.rawData[6] = tmp1 - tmp2;
+      m.rawData[0] = c + x * x * t;
+      m.rawData[5] = c + y * y * t;
+      m.rawData[10] = c + z * z * t;
+
+      var tmp1 = x * y * t;
+      var tmp2 = z * s;
+      m.rawData[1] = tmp1 + tmp2;
+      m.rawData[4] = tmp1 - tmp2;
+      tmp1 = x * z * t;
+      tmp2 = y * s;
+      m.rawData[8] = tmp1 + tmp2;
+      m.rawData[2] = tmp1 - tmp2;
+      tmp1 = y * z * t;
+      tmp2 = x * s;
+      m.rawData[9] = tmp1 - tmp2;
+      m.rawData[6] = tmp1 + tmp2;
       
       return m;
    }
@@ -781,33 +805,5 @@ class Matrix3D
 
       return value;
    }
-   
-   
-   /**
-    * A flash.geom.Matrix3D equivalent of the current Matrix
-    */
-   public var flashMatrix3D(get, set) : flash.geom.Matrix3D; 
-   private function get_flashMatrix3D() : flash.geom.Matrix3D {
-      return new flash.geom.Matrix3D( [
-        rawData[0], rawData[4], rawData[8], rawData[12],
-        rawData[1], rawData[5], rawData[9], rawData[13],
-        rawData[2], rawData[6], rawData[10], rawData[14],
-        rawData[3], rawData[7], rawData[11], rawData[15]
-      ] );
-   }
-
-   private function set_flashMatrix3D(mat:flash.geom.Matrix3D) : flash.geom.Matrix3D {
-      var raw:Vector<Float> = mat.rawData;
-      this.rawData =Vector.ofArray( [
-        raw[0], raw[4], raw[8], raw[12],
-        raw[1], raw[5], raw[9], raw[13],
-        raw[2], raw[6], raw[10], raw[14],
-        raw[3], raw[7], raw[11], raw[15]
-      ]);
-      return mat;
-   }
-
-
- 
 }
 #end

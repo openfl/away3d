@@ -3,7 +3,6 @@
  */
 package away3d.animators.nodes;
 
-import Reflect;
 import away3d.animators.data.ParticleProperties;
 import flash.errors.Error;
 import away3d.animators.data.ParticlePropertiesMode;
@@ -15,44 +14,59 @@ import flash.geom.ColorTransform;
 
 class ParticleColorNode extends ParticleNodeBase {
 
-/** @private */
+    /** @private */
     static public var START_MULTIPLIER_INDEX:Int = 0;
-/** @private */
+
+    /** @private */
     static public var DELTA_MULTIPLIER_INDEX:Int = 1;
-/** @private */
+
+    /** @private */
     static public var START_OFFSET_INDEX:Int = 2;
-/** @private */
+
+    /** @private */
     static public var DELTA_OFFSET_INDEX:Int = 3;
-/** @private */
+
+    /** @private */
     static public var CYCLE_INDEX:Int = 4;
-//default values used when creating states
-/** @private */
+
+    //default values used when creating states
+    /** @private */
     public var _usesMultiplier:Bool;
-/** @private */
+
+    /** @private */
     public var _usesOffset:Bool;
-/** @private */
+
+    /** @private */
     public var _usesCycle:Bool;
-/** @private */
+
+    /** @private */
     public var _usesPhase:Bool;
-/** @private */
+
+    /** @private */
     public var _startColor:ColorTransform;
-/** @private */
+
+    /** @private */
     public var _endColor:ColorTransform;
-/** @private */
+
+    /** @private */
     public var _cycleDuration:Float;
-/** @private */
+
+    /** @private */
     public var _cyclePhase:Float;
-/**
+
+    /**
 	 * Reference for color node properties on a single particle (when in local property mode).
 	 * Expects a <code>ColorTransform</code> object representing the start color transform applied to the particle.
 	 */
     static public var COLOR_START_COLORTRANSFORM:String = "ColorStartColorTransform";
-/**
+    
+    /**
 	 * Reference for color node properties on a single particle (when in local property mode).
 	 * Expects a <code>ColorTransform</code> object representing the end color transform applied to the particle.
 	 */
     static public var COLOR_END_COLORTRANSFORM:String = "ColorEndColorTransform";
-/**
+
+    /**
 	 * Creates a new <code>ParticleColorNode</code>
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
@@ -65,7 +79,6 @@ class ParticleColorNode extends ParticleNodeBase {
 	 * @param    [optional] cycleDuration   Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 * @param    [optional] cyclePhase      Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-
     public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, startColor:ColorTransform = null, endColor:ColorTransform = null, cycleDuration:Float = 1, cyclePhase:Float = 0) {
         _stateClass = ParticleColorState;
         _usesMultiplier = usesMultiplier;
@@ -81,10 +94,9 @@ class ParticleColorNode extends ParticleNodeBase {
         super("ParticleColor", mode, ((_usesMultiplier && _usesOffset)) ? 16 : 8, ParticleAnimationSet.COLOR_PRIORITY);
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String {
 
         var code:String = "";
@@ -122,35 +134,32 @@ class ParticleColorNode extends ParticleNodeBase {
         return code;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function getAnimationState(animator:IAnimator):ParticleColorState {
         return cast(animator.getAnimationState(this), ParticleColorState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):Void {
         if (_usesMultiplier) particleAnimationSet.hasColorMulNode = true;
         if (_usesOffset) particleAnimationSet.hasColorAddNode = true;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
-        var startColor:ColorTransform = Reflect.field(param, COLOR_START_COLORTRANSFORM);
+        var startColor:ColorTransform = param.nodes.get(COLOR_START_COLORTRANSFORM);
         if (startColor == null) throw (new Error("there is no " + COLOR_START_COLORTRANSFORM + " in param!"));
-        var endColor:ColorTransform = Reflect.field(param, COLOR_END_COLORTRANSFORM);
+        var endColor:ColorTransform = param.nodes.get(COLOR_END_COLORTRANSFORM);
         if (endColor == null) throw (new Error("there is no " + COLOR_END_COLORTRANSFORM + " in param!"));
         var i:Int = 0;
         if (!_usesCycle) {
-//multiplier
+            //multiplier
             if (_usesMultiplier) {
                 _oneData[i++] = startColor.redMultiplier;
                 _oneData[i++] = startColor.greenMultiplier;
@@ -171,10 +180,8 @@ class ParticleColorNode extends ParticleNodeBase {
                 _oneData[i++] = (endColor.blueOffset - startColor.blueOffset) / 255;
                 _oneData[i++] = (endColor.alphaOffset - startColor.alphaOffset) / 255;
             }
-        }
-
-        else {
-//multiplier
+        } else {
+            //multiplier
             if (_usesMultiplier) {
                 _oneData[i++] = (startColor.redMultiplier + endColor.redMultiplier) / 2;
                 _oneData[i++] = (startColor.greenMultiplier + endColor.greenMultiplier) / 2;
@@ -198,6 +205,5 @@ class ParticleColorNode extends ParticleNodeBase {
         }
 
     }
-
 }
 

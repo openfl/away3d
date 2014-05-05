@@ -6,7 +6,7 @@ package away3d.animators.states;
 
 import flash.Vector;
 import away3d.animators.data.ParticleAnimationData;
-import haxe.ds.WeakMap;
+import haxe.ds.ObjectMap;
 import flash.geom.Vector3D;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
@@ -21,12 +21,12 @@ class ParticleStateBase extends AnimationStateBase {
 
     private var _particleNode:ParticleNodeBase;
     private var _dynamicProperties:Vector<Vector3D>;
-    private var _dynamicPropertiesDirty:WeakMap<AnimationSubGeometry, Bool>;
+    private var _dynamicPropertiesDirty:ObjectMap<AnimationSubGeometry, Bool>;
     private var _needUpdateTime:Bool;
 
     public function new(animator:ParticleAnimator, particleNode:ParticleNodeBase, needUpdateTime:Bool = false) {
         _dynamicProperties = new Vector<Vector3D>();
-        _dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry, Bool>();
+        _dynamicPropertiesDirty = new ObjectMap<AnimationSubGeometry, Bool>();
         super(animator, particleNode);
         _particleNode = particleNode;
         _needUpdateTime = needUpdateTime;

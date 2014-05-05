@@ -3,8 +3,6 @@
  */
 package away3d.animators.nodes;
 
-
-import Reflect;
 import away3d.animators.states.ParticleRotationalVelocityState;
 import away3d.animators.data.ParticleProperties;
 import flash.errors.Error;
@@ -16,21 +14,23 @@ import flash.geom.Vector3D;
 
 class ParticleRotationalVelocityNode extends ParticleNodeBase {
 
-/** @private */
+    /** @private */
     static public var ROTATIONALVELOCITY_INDEX:Int = 0;
-/** @private */
+
+    /** @private */
     public var _rotationalVelocity:Vector3D;
-/**
+
+    /**
 	 * Reference for rotational velocity node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the rotational velocity around an axis of the particle.
 	 */
     static public var ROTATIONALVELOCITY_VECTOR3D:String = "RotationalVelocityVector3D";
-/**
+    
+    /**
 	 * Creates a new <code>ParticleRotationalVelocityNode</code>
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 */
-
     public function new(mode:Int, rotationalVelocity:Vector3D = null) {
         _stateClass = ParticleRotationalVelocityState;
         super("ParticleRotationalVelocity", mode, 4);
@@ -38,10 +38,9 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase {
         if (_rotationalVelocity == null) _rotationalVelocity = new Vector3D();
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String {
 
         var rotationRegister:ShaderRegisterElement = ((_mode == ParticlePropertiesMode.GLOBAL)) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
@@ -69,14 +68,16 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase {
         code += "mul " + Rtemp + ".xyz," + sin + "," + nrmVel + ".xyz\n";
         code += "mul " + R_rev + ".xyz," + sin + "," + nrmVel + ".xyz\n";
         code += "neg " + R_rev + ".xyz," + R_rev + ".xyz\n";
-//nrmVel and xAxis are used as temp register
+
+        //nrmVel and xAxis are used as temp register
         code += "crs " + nrmVel + ".xyz," + Rtemp + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz\n";
         code += "mul " + xAxis + ".xyz," + cos + "," + animationRegisterCache.scaleAndRotateTarget + ".xyz\n";
         code += "add " + nrmVel + ".xyz," + nrmVel + ".xyz," + xAxis + ".xyz\n";
         code += "dp3 " + xAxis + ".w," + Rtemp + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz\n";
         code += "neg " + nrmVel + ".w," + xAxis + ".w\n";
         code += "crs " + Rtemp + ".xyz," + nrmVel + ".xyz," + R_rev + ".xyz\n";
-//use cos as R_rev.w
+
+        //use cos as R_rev.w
         code += "mul " + xAxis + ".xyzw," + nrmVel + ".xyzw," + cos + "\n";
         code += "add " + Rtemp + ".xyz," + Rtemp + ".xyz," + xAxis + ".xyz\n";
         code += "mul " + xAxis + ".xyz," + nrmVel + ".w," + R_rev + ".xyz\n";
@@ -107,21 +108,20 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase {
         return code;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     public function getAnimationState(animator:IAnimator):ParticleRotationalVelocityState {
         return cast(animator.getAnimationState(this), ParticleRotationalVelocityState) ;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
-//(Vector3d.x,Vector3d.y,Vector3d.z) is rotation axis,Vector3d.w is cycle duration
-        var rotate:Vector3D = Reflect.field(param, ROTATIONALVELOCITY_VECTOR3D);
+
+        //(Vector3d.x,Vector3d.y,Vector3d.z) is rotation axis,Vector3d.w is cycle duration
+        var rotate:Vector3D = param.nodes.get(ROTATIONALVELOCITY_VECTOR3D);
         if (rotate == null) throw (new Error("there is no " + ROTATIONALVELOCITY_VECTOR3D + " in param!"));
         if (rotate.length <= 0) rotate.z = 1
         else rotate.normalize();
@@ -131,6 +131,5 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase {
         if (rotate.w <= 0) throw (new Error("the cycle duration must greater than zero"));
         _oneData[3] = Math.PI / rotate.w;
     }
-
 }
 
