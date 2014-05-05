@@ -1,10 +1,8 @@
-/**
- *
- */
 package away3d.animators.states;
 
 import away3d.animators.nodes.AnimationNodeBase;
 import flash.geom.Vector3D;
+
 class AnimationStateBase implements IAnimationState {
     public var positionDelta(get_positionDelta, never):Vector3D;
 
@@ -24,6 +22,7 @@ class AnimationStateBase implements IAnimationState {
     }
 
     function new(animator:IAnimator, animationNode:AnimationNodeBase) {
+        _time = _startTime = 0;
         _rootDelta = new Vector3D();
         _positionDeltaDirty = true;
         _animator = animator;

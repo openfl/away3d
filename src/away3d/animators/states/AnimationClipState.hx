@@ -48,6 +48,7 @@ class AnimationClipState extends AnimationStateBase {
 
     function new(animator:IAnimator, animationClipNode:AnimationClipNodeBase) {
         _framesDirty = true;
+        _blendWeight = 0;
         super(animator, animationClipNode);
         _animationClipNode = animationClipNode;
     }

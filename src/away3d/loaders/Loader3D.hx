@@ -401,7 +401,7 @@ package away3d.loaders;
 				// TODO: not used
 				// var type : String = ev.asset.assetType;
 				var obj:ObjectContainer3D = null;
-				switch (ev.asset.Asset3DType) {
+				switch (ev.asset.assetType) {
 					case Asset3DType.LIGHT:
 						obj = cast(ev.asset, LightBase);
 					case Asset3DType.CONTAINER:

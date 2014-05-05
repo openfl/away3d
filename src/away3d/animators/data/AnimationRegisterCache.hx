@@ -9,13 +9,13 @@ import away3d.animators.nodes.AnimationNodeBase;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 import flash.geom.Matrix3D;
-import haxe.ds.WeakMap;
+import haxe.ds.ObjectMap;
 
 class AnimationRegisterCache extends ShaderRegisterCache {
     public var numVertexConstant(get_numVertexConstant, never):Int;
     public var numFragmentConstant(get_numFragmentConstant, never):Int;
 
-//vertex
+    //vertex
     public var positionAttribute:ShaderRegisterElement;
     public var uvAttribute:ShaderRegisterElement;
     public var positionTarget:ShaderRegisterElement;
@@ -29,34 +29,42 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public var uvTarget:ShaderRegisterElement;
     public var colorAddTarget:ShaderRegisterElement;
     public var colorMulTarget:ShaderRegisterElement;
-//vary
+    
+    //vary
     public var colorAddVary:ShaderRegisterElement;
     public var colorMulVary:ShaderRegisterElement;
-//fragment
+    
+    //fragment
     public var uvVar:ShaderRegisterElement;
-//these are targets only need to rotate ( normal and tangent )
+
+    //these are targets only need to rotate ( normal and tangent )
     public var rotationRegisters:Vector<ShaderRegisterElement>;
     public var needFragmentAnimation:Bool;
     public var needUVAnimation:Bool;
     public var sourceRegisters:Vector<String>;
     public var targetRegisters:Vector<String>;
-    private var indexDictionary:WeakMap<AnimationNodeBase, Vector<Int>>;
-//set true if has an node which will change UV
+    private var indexDictionary:ObjectMap<AnimationNodeBase, Vector<Int>>;
+
+    //set true if has an node which will change UV
     public var hasUVNode:Bool;
-//set if the other nodes need to access the velocity
+
+    //set if the other nodes need to access the velocity
     public var needVelocity:Bool;
-//set if has a billboard node.
+
+    //set if has a billboard node.
     public var hasBillboard:Bool;
-//set if has an node which will apply color multiple operation
+
+    //set if has an node which will apply color multiple operation
     public var hasColorMulNode:Bool;
-//set if has an node which will apply color add operation
+
+    //set if has an node which will apply color add operation
     public var hasColorAddNode:Bool;
 
     public function new(profile:String) {
-        indexDictionary = new WeakMap<AnimationNodeBase, Vector<Int>>();
+        super(profile);
+        indexDictionary = new ObjectMap<AnimationNodeBase, Vector<Int>>();
         vertexConstantData = new Vector<Float>();
         fragmentConstantData = new Vector<Float>();
-        super(profile);
     }
 
     override public function reset():Void {
@@ -72,13 +80,15 @@ class AnimationRegisterCache extends ShaderRegisterCache {
             i++;
         }
         scaleAndRotateTarget = new ShaderRegisterElement(scaleAndRotateTarget.regName, scaleAndRotateTarget.index);
-//only use xyz, w is used as vertexLife
-//allot const register
+        
+        //only use xyz, w is used as vertexLife
+        //allot const register
         vertexZeroConst = getFreeVertexConstant();
         vertexZeroConst = new ShaderRegisterElement(vertexZeroConst.regName, vertexZeroConst.index, 0);
         vertexOneConst = new ShaderRegisterElement(vertexZeroConst.regName, vertexZeroConst.index, 1);
         vertexTwoConst = new ShaderRegisterElement(vertexZeroConst.regName, vertexZeroConst.index, 2);
-//allot temp register
+
+        //allot temp register
         positionTarget = getFreeVertexVectorTemp();
         addVertexTempUsages(positionTarget, 1);
         positionTarget = new ShaderRegisterElement(positionTarget.regName, positionTarget.index);
@@ -102,21 +112,21 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public function setUVSourceAndTarget(UVAttribute:String, UVVaring:String):Void {
         uvVar = getRegisterFromString(UVVaring);
         uvAttribute = getRegisterFromString(UVAttribute);
-//uv action is processed after normal actions,so use offsetTarget as uvTarget
+        
+        //uv action is processed after normal actions,so use offsetTarget as uvTarget
         uvTarget = new ShaderRegisterElement(positionTarget.regName, positionTarget.index);
     }
 
     public function setRegisterIndex(node:AnimationNodeBase, parameterIndex:Int, registerIndex:Int):Void {
-//8 should be enough for any node.
-        if (!indexDictionary.exists(node))
-            indexDictionary.set(node,  ArrayUtils.Prefill(new Vector<Int>(8, true),8,0));
-
-        var t:Vector<Int> = indexDictionary.get(node);
-        t[parameterIndex] = registerIndex;
+        
+        //8 should be enough for any node.
+        var aNode = indexDictionary.exists(node) ? indexDictionary.get( node ) : ArrayUtils.Prefill(new Vector<Int>(8, true),8,0);
+        aNode[parameterIndex] = registerIndex;
+        indexDictionary.set( node, aNode );
     }
 
     public function getRegisterIndex(node:AnimationNodeBase, parameterIndex:Int):Int {
-        return indexDictionary.get(node)[parameterIndex];
+        return indexDictionary.get( node )[parameterIndex];
     }
 
     public function getInitCode():String {
@@ -167,15 +177,18 @@ class AnimationRegisterCache extends ShaderRegisterCache {
         if (needFragmentAnimation && (hasColorAddNode || hasColorMulNode)) {
             var colorTarget:ShaderRegisterElement = getRegisterFromString(shadedTarget);
             addFragmentTempUsages(colorTarget, 1);
-            if (hasColorMulNode) code += "mul " + colorTarget + "," + colorTarget + "," + colorMulVary + "\n";
-            if (hasColorAddNode) code += "add " + colorTarget + "," + colorTarget + "," + colorAddVary + "\n";
+            if (hasColorMulNode) 
+                code += "mul " + colorTarget + "," + colorTarget + "," + colorMulVary + "\n";
+            if (hasColorAddNode) 
+                code += "add " + colorTarget + "," + colorTarget + "," + colorAddVary + "\n";
         }
         return code;
     }
 
     private function getRegisterFromString(code:String):ShaderRegisterElement {
-        var temp:Array<String> = ~/(\d+)/.split(code);
-        return new ShaderRegisterElement(temp[0], Std.parseInt(temp[1]));
+        var er = ~/([a-z]+)([\d]+)/;
+        er.match(code);
+        return new ShaderRegisterElement(er.matched(1), Std.parseInt(er.matched(2)));
     }
 
     public var vertexConstantData:Vector<Float>;
@@ -204,7 +217,7 @@ class AnimationRegisterCache extends ShaderRegisterCache {
         vertexConstantData[_index++] = y;
         vertexConstantData[_index++] = z;
         vertexConstantData[_index] = w;
-    }
+     }
 
     public function setVertexConstFromVector(index:Int, data:Vector<Float>):Void {
         var _index:Int = (index - _vertexConstantOffset) * 4;
@@ -243,6 +256,5 @@ class AnimationRegisterCache extends ShaderRegisterCache {
         fragmentConstantData[_index++] = z;
         fragmentConstantData[_index] = w;
     }
-
 }
 

@@ -59,23 +59,23 @@ typedef Location = Int;
 
 class Context3D 
 {
-   public var driverInfo(default, null):String; // TODO
-   public var enableErrorChecking:Bool; // TODO   ( use GL.getError() and GL.validateProgram(program) )
+    public var driverInfo(default, null):String; // TODO
+    public var enableErrorChecking:Bool; // TODO   ( use GL.getError() and GL.validateProgram(program) )
 
-   private var currentProgram : Program3D;
-   private var ogl:OpenGLView;
+    private var currentProgram : Program3D;
+    private var ogl:OpenGLView;
 
-   // to mimic Stage3d behavior of keeping blending across frames:
-   private var blendDestinationFactor:Int;
-   private var blendEnabled:Bool;
-   private var blendSourceFactor:Int;
+    // to mimic Stage3d behavior of keeping blending across frames:
+    private var blendDestinationFactor:Int;
+    private var blendEnabled:Bool;
+    private var blendSourceFactor:Int;
 
-   private var stencilCompareMode:Int;
-   private var stencilRef:Int;
-   private var stencilReadMask:Int;
+    private var stencilCompareMode:Int;
+    private var stencilRef:Int;
+    private var stencilReadMask:Int;
 
-   // to mimic Stage3d behavior of not allowing calls to drawTriangles between present and clear
-   private var drawing:Bool;
+    // to mimic Stage3d behavior of not allowing calls to drawTriangles between present and clear
+    private var drawing:Bool;
 
     private var disposed : Bool;
 
@@ -89,6 +89,7 @@ class Context3D
 	private var renderbuffer : GLRenderbuffer;
     private var depthbuffer : GLRenderbuffer;
     private var stencilbuffer : GLRenderbuffer;
+    private var defaultFrameBuffer : GLFramebuffer;
 
     private var samplerParameters :Array<SamplerState>; //TODO : use Tupple3
 	private var scrollRect:Rectangle;
@@ -154,6 +155,9 @@ class Context3D
         ogl.scrollRect = new Rectangle(0, 0, width, height);
         scrollRect = ogl.scrollRect.clone();
         GL.viewport(Std.int(scrollRect.x),Std.int(scrollRect.y),Std.int(scrollRect.width),Std.int(scrollRect.height));
+        #if ios
+        defaultFrameBuffer = new GLFramebuffer(GL.version, 1); //TODO: GL.getParameter(GL.FRAMEBUFFER_BINDING));
+        #end
     }
 
     public function createCubeTexture(size:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool, streamingLevels:Int = 0):CubeTexture 
@@ -398,41 +402,38 @@ class Context3D
     }
 
     public function setRenderToBackBuffer ():Void {
-        GL.bindFramebuffer(GL.FRAMEBUFFER, null);
-        GL.bindRenderbuffer(GL.RENDERBUFFER, null);
-        if (scrollRect!=null) 
-            GL.viewport(Std.int(scrollRect.x),Std.int(scrollRect.y),Std.int(scrollRect.width),Std.int(scrollRect.height));
+        GL.bindFramebuffer(GL.FRAMEBUFFER, defaultFrameBuffer );
     }
 
     // TODO : currently does not work (framebufferStatus always return zero)
     public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {		 
         
-        if (framebuffer == null) {
-
+        if (framebuffer == null) 
             framebuffer = GL.createFramebuffer();
-            GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);
-
-            GL.bindTexture(GL.TEXTURE_2D, texture.glTexture);
-            GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, texture.width, texture.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, null);
-
-            if (renderbuffer == null) renderbuffer = GL.createRenderbuffer();
-            GL.bindRenderbuffer(GL.RENDERBUFFER, renderbuffer);
-            GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, texture.width, texture.height);
-
-            if (enableDepthAndStencil) {
-                GL.enable(GL.DEPTH_TEST);
-                GL.enable(GL.STENCIL_TEST);
-            }
-
-            GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
-            GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, renderbuffer);
-
-            GL.bindTexture(GL.TEXTURE_2D, null);
-            GL.bindRenderbuffer(GL.RENDERBUFFER, null);
-            GL.bindFramebuffer(GL.FRAMEBUFFER, null);
-        }
 
         GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);
+
+        if (renderbuffer == null) 
+            renderbuffer = GL.createRenderbuffer();
+
+        GL.bindRenderbuffer(GL.RENDERBUFFER, renderbuffer);
+        #if ios
+        GL.renderbufferStorage(GL.RENDERBUFFER, 0x88F0, texture.width, texture.height);
+        #else
+        GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_STENCIL, texture.width, texture.height);
+        #end
+
+        GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, texture.glTexture, 0);
+
+        if (enableDepthAndStencil) {
+            GL.enable(GL.DEPTH_TEST);
+            GL.enable(GL.STENCIL_TEST);
+
+            GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_STENCIL_ATTACHMENT, GL.RENDERBUFFER, renderbuffer);
+        }
+
+        GL.bindTexture(GL.TEXTURE_2D, texture.glTexture);
+        GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, texture.width, texture.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, null);
 
         GL.viewport(0, 0, texture.width, texture.height); 
     }
@@ -656,7 +657,7 @@ class Context3D
         } else {
             GL.disable(GL.BLEND);
         }
-    }
+    }    
 }
 
 #end

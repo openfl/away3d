@@ -57,6 +57,8 @@ class AGLSLShaderUtils{
 			}
         }
 
+		trace("--- AGAL ---\n" + shaderSource);
+
 		var shaderSourceString : String =aglsl.compile(shaderType, shaderSource);
 		var shader = GL.createShader (glType);
 		GL.shaderSource (shader, shaderSourceString);

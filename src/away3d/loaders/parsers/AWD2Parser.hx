@@ -633,7 +633,7 @@ class AWD2Parser extends ParserBase {
         while (subs_parsed < num_subs) {
             var i:UInt;
             var sm_len:UInt, sm_end:UInt;
-            var w_indices:Vector<Float> = null;
+            var w_indices:Vector<UInt> = null;
             var weights:Vector<Float> = null;
 
             sm_len = _newBlockBytes.readUnsignedInt();
@@ -695,7 +695,7 @@ class AWD2Parser extends ParserBase {
                     }
                 }
                 else if (str_type == 6) {
-                    w_indices = new Vector<Float>();
+                    w_indices = new Vector<UInt>();
                     while (_newBlockBytes.position < str_end) {
                         w_indices[idx++] = _newBlockBytes.readUnsignedShort() * 3; // TODO: Respect stream field type
                     }

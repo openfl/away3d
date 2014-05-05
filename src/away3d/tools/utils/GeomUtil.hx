@@ -14,7 +14,7 @@ class GeomUtil {
 	 * Build a list of sub-geometries from raw data vectors, splitting them up in
 	 * such a way that they won't exceed buffer length limits.
 	 */
-    static public function fromVectors(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<Float>, triangleOffset:Int = 0):Vector<ISubGeometry> {
+    static public function fromVectors(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int = 0):Vector<ISubGeometry> {
         var LIMIT_VERTS:Int = 3 * 0xffff;
         var LIMIT_INDICES:Int = 15 * 0xffff;
         var subs:Vector<ISubGeometry> = new Vector<ISubGeometry>();
@@ -34,7 +34,7 @@ class GeomUtil {
             var splitNormals:Vector<Float> = ((normals != null)) ? new Vector<Float>() : null;
             var splitTangents:Vector<Float> = ((tangents != null)) ? new Vector<Float>() : null;
             var splitWeights:Vector<Float> = ((weights != null)) ? new Vector<Float>() : null;
-            var splitJointIndices:Vector<Float> = ((jointIndices != null)) ? new Vector<Float>() : null;
+            var splitJointIndices:Vector<UInt> = ((jointIndices != null)) ? new Vector<UInt>() : null;
             var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length / 3), true);
             ArrayUtils.Prefill(mappings,Std.int(verts.length / 3),0);
             i = mappings.length;
@@ -65,7 +65,7 @@ class GeomUtil {
                     splitNormals = ((normals != null)) ? new Vector<Float>() : null;
                     splitTangents = ((tangents != null)) ? new Vector<Float>() : null;
                     splitWeights = ((weights != null)) ? new Vector<Float>() : null;
-                    splitJointIndices = ((jointIndices != null)) ? new Vector<Float>() : null;
+                    splitJointIndices = ((jointIndices != null)) ? new Vector<UInt>() : null;
                     splitIndex = 0;
                     j = mappings.length;
                     while (j-- > 0)mappings[j] = -1;
@@ -141,7 +141,7 @@ class GeomUtil {
 	 * Build a sub-geometry from data vectors.
 	 */
 
-    static public function constructSubGeometry(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<Float>, triangleOffset:Int):CompactSubGeometry {
+    static public function constructSubGeometry(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int):CompactSubGeometry {
         var sub:CompactSubGeometry;
         if (weights != null && jointIndices != null) {
 // If there were weights and joint indices defined, this

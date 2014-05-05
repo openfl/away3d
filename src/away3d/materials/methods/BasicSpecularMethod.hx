@@ -194,6 +194,7 @@ class BasicSpecularMethod extends LightingMethodBase {
         if (vo.useLightFallOff) code += "mul " + t + ".w, " + t + ".w, " + lightDirReg + ".w\n";
         if (_modulateMethod != null) code += _modulateMethod(vo, t, regCache, _sharedRegisters);
         code += "mul " + t + ".xyz, " + lightColReg + ", " + t + ".w\n";
+        
         if (!_isFirstLight) {
             code += "add " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + t + "\n";
             regCache.removeFragmentTempUsage(t);

@@ -98,6 +98,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     private function uploadData(contextIndex:Int):Void {
+        //trace("_numVertices"+_numVertices+"  _vertexData:"+_vertexData);
         _activeBuffer.uploadFromVector(_vertexData, 0, _numVertices);
         _vertexDataInvalid[contextIndex] = _activeDataInvalid = false;
     }

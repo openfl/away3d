@@ -82,7 +82,8 @@ class LightBase extends Entity {
         }
 
         else {
-            _shadowMapper.dispose();
+            if (_shadowMapper != null)
+                _shadowMapper.dispose();
             _shadowMapper = null;
         }
 

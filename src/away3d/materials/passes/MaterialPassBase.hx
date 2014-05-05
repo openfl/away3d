@@ -50,8 +50,9 @@ class MaterialPassBase extends EventDispatcher {
 	public var _program3Ds:Vector<Program3D>;
 	public var _program3Dids:Vector<Int>;
 	private var _context3Ds:Vector<Context3D>;
-// agal props. these NEED to be set by subclasses!
-// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
+	
+	// agal props. these NEED to be set by subclasses!
+	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
 	private var _numUsedStreams:Int;
 	private var _numUsedTextures:Int;
 	private var _numUsedVertexConstants:Int;
@@ -87,6 +88,7 @@ class MaterialPassBase extends EventDispatcher {
 	private var _UVTarget:String;
 	private var _UVSource:String;
 	private var _writeDepth:Bool;
+	
 	public var animationRegisterCache:AnimationRegisterCache;
 	
 	/**
@@ -97,7 +99,6 @@ class MaterialPassBase extends EventDispatcher {
 	public function new(renderToTexture:Bool = false)
 	{
 		super();
-
  
 		_program3Ds = new Vector<Program3D>(8);
 		ArrayUtils.Prefill(_program3Ds, 8); 
@@ -106,7 +107,7 @@ class MaterialPassBase extends EventDispatcher {
 		ArrayUtils.Prefill(_context3Ds, 8);
 		_smooth = true;
 		_repeat = false;
-		_mipmap = false;
+		_mipmap = true;
 		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 		
 		_blendFactorSource = Context3DBlendFactor.ONE;
@@ -521,7 +522,6 @@ class MaterialPassBase extends EventDispatcher {
 		}
 		
 		vertexCode = animatorCode + UVAnimatorCode + vertexCode;
-		
 		var fragmentCode:String = getFragmentCode(fragmentAnimatorCode);
 		if (Debug.active) {
 			trace("Compiling AGAL Code:");

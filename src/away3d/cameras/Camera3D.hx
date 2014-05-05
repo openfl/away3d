@@ -42,11 +42,13 @@ class Camera3D extends Entity {
         _viewProjectionDirty = true;
         _frustumPlanesDirty = true;
         super();
-//setup default lens
+
+        //setup default lens
         _lens = lens;
         if (_lens == null)_lens = new PerspectiveLens();
         _lens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
-//setup default frustum planes
+
+        //setup default frustum planes
         _frustumPlanes = new Vector<Plane3D>(6, true);
         var i:Int = 0;
         while (i < 6) {
@@ -70,10 +72,9 @@ class Camera3D extends Entity {
         dispatchEvent(event);
     }
 
-/**
+    /**
 	 *
 	 */
-
     public function get_frustumPlanes():Vector<Plane3D> {
         if (_frustumPlanesDirty) updateFrustum();  
         return _frustumPlanes;
@@ -83,7 +84,7 @@ class Camera3D extends Entity {
         var a:Float;
         var b:Float;
         var c:Float;
-//var d : Number;
+        //var d : Number;
         var c11:Float;
         var c12:Float;
         var c13:Float;
@@ -120,7 +121,8 @@ class Camera3D extends Entity {
         c42 = raw[(7)];
         c43 = raw[(11)];
         c44 = raw[(15)];
-// left plane
+        
+        // left plane
         p = _frustumPlanes[0];
         a = c41 + c11;
         b = c42 + c12;
@@ -130,7 +132,8 @@ class Camera3D extends Entity {
         p.b = b * invLen;
         p.c = c * invLen;
         p.d = -(c44 + c14) * invLen;
-// right plane
+        
+        // right plane
         p = _frustumPlanes[1];
         a = c41 - c11;
         b = c42 - c12;
@@ -140,7 +143,8 @@ class Camera3D extends Entity {
         p.b = b * invLen;
         p.c = c * invLen;
         p.d = (c14 - c44) * invLen;
-// bottom
+
+        // bottom
         p = _frustumPlanes[2];
         a = c41 + c21;
         b = c42 + c22;
@@ -150,7 +154,8 @@ class Camera3D extends Entity {
         p.b = b * invLen;
         p.c = c * invLen;
         p.d = -(c44 + c24) * invLen;
-// top
+
+        // top
         p = _frustumPlanes[3];
         a = c41 - c21;
         b = c42 - c22;
@@ -160,7 +165,8 @@ class Camera3D extends Entity {
         p.b = b * invLen;
         p.c = c * invLen;
         p.d = (c24 - c44) * invLen;
-// near
+
+        // near
         p = _frustumPlanes[4];
         a = c31;
         b = c32;
@@ -170,7 +176,8 @@ class Camera3D extends Entity {
         p.b = b * invLen;
         p.c = c * invLen;
         p.d = -c34 * invLen;
-// far
+        
+        // far
         p = _frustumPlanes[5];
         a = c41 - c31;
         b = c42 - c32;
@@ -185,37 +192,33 @@ class Camera3D extends Entity {
         _frustumPlanesDirty = false;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function invalidateSceneTransform():Void {
         super.invalidateSceneTransform();
         _viewProjectionDirty = true;
         _frustumPlanesDirty = true;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function updateBounds():Void {
         _bounds.nullify();
         _boundsInvalid = false;
     }
 
-/**
+    /**
 	 * @inheritDoc
 	 */
-
     override private function createEntityPartitionNode():EntityNode {
         return new CameraNode(this);
     }
 
-/**
+    /**
 	 * The lens used by the camera to perform the projection;
 	 */
-
     public function get_lens():LensBase {
         return _lens;
     }
@@ -230,10 +233,9 @@ class Camera3D extends Entity {
         return value;
     }
 
-/**
+    /**
 	 * The view projection matrix of the camera.
 	 */
-
     public function get_viewProjection():Matrix3D {
         if (_viewProjectionDirty) {
             _viewProjection.copyFrom(inverseSceneTransform);
@@ -243,7 +245,7 @@ class Camera3D extends Entity {
         return _viewProjection;
     }
 
-/**
+    /**
 	 * Calculates the scene position of the given normalized coordinates in screen space.
 	 *
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
@@ -251,12 +253,11 @@ class Camera3D extends Entity {
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
 	 * @return The scene position of the given screen coordinates.
 	 */
-
     public function unproject(nX:Float, nY:Float, sZ:Float):Vector3D {
         return sceneTransform.transformVector(lens.unproject(nX, nY, sZ));
     }
 
-/**
+    /**
 	 * Calculates the ray in scene space from the camera to the given normalized coordinates in screen space.
 	 *
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
@@ -264,21 +265,18 @@ class Camera3D extends Entity {
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
 	 * @return The ray from the camera to the scene space position of the given screen coordinates.
 	 */
-
     public function getRay(nX:Float, nY:Float, sZ:Float):Vector3D {
         return sceneTransform.deltaTransformVector(lens.unproject(nX, nY, sZ));
     }
 
-/**
+    /**
 	 * Calculates the normalised position in screen space of the given scene position.
 	 *
 	 * @param point3d the position vector of the scene coordinates to be projected.
 	 * @return The normalised screen position of the given scene coordinates.
 	 */
-
     public function project(point3d:Vector3D):Vector3D {
         return lens.project(inverseSceneTransform.transformVector(point3d));
     }
-
 }
 

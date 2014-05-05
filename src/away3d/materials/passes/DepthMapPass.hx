@@ -114,8 +114,6 @@
 			var wrap:String = _repeat? "wrap" : "clamp";
 			var filter:String;
 			
-			// TODO: Disable mipmaps for now
-			_mipmap = false;
 			if (_smooth)
 				filter = _mipmap? "linear,miplinear" : "linear";
 			else

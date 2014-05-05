@@ -120,7 +120,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
         _distancePass.addEventListener(Event.CHANGE, onDistancePassChange);
         
         // Default to considering pre-multiplied textures while blending
-        alphaPremultiplied = true;
+        alphaPremultiplied = false;
         _uniqueId = MATERIAL_ID_COUNT++;
 		_depthPassId = 0;
         _numPasses = 0;

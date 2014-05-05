@@ -56,7 +56,12 @@ class Asset3DEvent extends Event {
     }
 
     override public function clone():Event {
-        return new Asset3DEvent(type, asset, assetPrevName);
+        var a = new Asset3DEvent(type, asset, assetPrevName);
+        #if html 
+        a.target = this.target;
+        a.currentTarget = this.currentTarget;
+        #end
+        return a;
     }
 
 }

@@ -45,11 +45,10 @@ package away3d.materials.passes;
 		 */
 		public function new(material:MaterialBase)
 		{
+			super(material);
 			_includeCasters = true;
 			_inverseSceneMatrix = new Vector<Float>();
 			_maxLights = 3;
-
-			super(material);
 		}
 
 		/**
