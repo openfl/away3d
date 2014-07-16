@@ -1,7 +1,3 @@
-/****
-* 
-****/
-
 package openfl.display;
 
 #if display

@@ -134,7 +134,6 @@ class Max3DSParser extends ParserBase {
                 len = _byteData.readUnsignedInt();
                 end = _byteData.position + (len - 6);
 
-                trace("CODE: 0x"+StringTools.hex(cid, 4));
                 switch (cid)
                 {
                     case 0x4D4D, 0x3D3D, 0xB000: // MAIN3DS, EDIT3DS, KEYF3DS
@@ -196,8 +195,7 @@ class Max3DSParser extends ParserBase {
                         _byteData.position += (len - 6);
 
                 }
-                trace(" - Done processing");
-
+                
                 // Pause parsing if there were any dependencies found during this
                 // iteration (i.e. if there are any dependencies that need to be
                 // retrieved at this time.)
@@ -373,7 +371,8 @@ class Max3DSParser extends ParserBase {
     private function parseSmoothingGroups():Void {
         var len:Int = Std.int(_cur_obj.indices.length / 3);
         var i:Int = 0;
-        trace("IN SMOOTHING GROUP: arr.len="+_cur_obj.smoothingGroups.length+" i="+i+" len="+len);
+        
+        //trace("IN SMOOTHING GROUP: arr.len="+_cur_obj.smoothingGroups.length+" i="+i+" len="+len);
         while (i < len) {
             _cur_obj.smoothingGroups[i] = _byteData.readUnsignedInt();
             i++;

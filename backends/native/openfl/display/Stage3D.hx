@@ -1,7 +1,3 @@
-/****
-* 
-****/
-
 package openfl.display;
 
 import openfl.display3D.Context3D;

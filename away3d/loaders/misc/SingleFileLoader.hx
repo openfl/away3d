@@ -458,7 +458,7 @@ package away3d.loaders.misc;
 			// all plugged in parsers inspect the actual data.
 			if (_parser==null)
 				_parser = getParserFromData(data);
-			
+
 			if (_parser!=null) {
 				_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 				_parser.addEventListener(ParserEvent.PARSE_ERROR, onParseError);

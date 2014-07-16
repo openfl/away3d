@@ -116,6 +116,7 @@ package away3d.loaders.parsers;
 				else
 					_parser = new AWD1Parser();
 				_parser.materialMode = materialMode;
+
 				// Listen for events that need to be bubbled
 				_parser.addEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);
 				_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);

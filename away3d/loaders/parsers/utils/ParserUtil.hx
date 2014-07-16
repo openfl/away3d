@@ -15,9 +15,10 @@ package away3d.loaders.parsers.utils;
 		 */
 		public static function toByteArray(data:Dynamic):ByteArray
 		{
-			if (Std.is(data, Class))
+			if (Std.is(data, Class)) {
 				//data = new data();
 				data = Type.createInstance(data,[]);
+			}
 			
 			if (Std.is(data, ByteArray))
 				return data;
@@ -37,14 +38,14 @@ package away3d.loaders.parsers.utils;
 		public static function toString(data:Dynamic, length:UInt = 0):String
 		{
 			var ba:ByteArray;
-			
+
 			if (length==0) length = 0xffffffff;
 			
 			if (Std.is(data, String)) {
 				var dS:String = cast data;
 				return dS.substr(0, Std.int(Math.min(length, dS.length)));
 			}
-				
+					
 			ba = toByteArray(data);
 			if (ba!=null) {
 				ba.position = 0;

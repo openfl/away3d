@@ -72,7 +72,7 @@ class AWD1Parser extends ParserBase {
         var ba:ByteArray;
         var str1:String;
         var str2:String;
-
+            
         ba = ParserUtil.toByteArray(data);
         var readLength:Int = 100;
         if (ba.length < 100)
@@ -82,11 +82,11 @@ class AWD1Parser extends ParserBase {
             ba.position = 0;
             str1 = ba.readUTFBytes(2);
             str2 = ba.readUTFBytes(readLength);
-        }
-        else {
+        } else {
             str1 = Std.is(data, String) ? cast(data, String).substr(0, 5) : null;
             str2 = Std.is(data, String) ? cast(data, String).substr(0, readLength) : null;
         }
+
         if ((str1 == '//') && (str2.indexOf("#v:") != -1))
             return true;
 
