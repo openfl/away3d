@@ -1,0 +1,13 @@
+{
+	"name": "away3d",
+	"url": "http://away3d.com",
+	"license": "Apache 2.0",
+	"tags": [ "away3d", "3d", "engine", "openfl", "cross", "cpp", "flash", "game", "js", "web", "ios", "android" ],
+	"description": "Away3D is an open source, real time 3D engine for the Flash Platform and has been ported to OpenFL 2.x/Haxe",
+	"version": "1.0.0-alpha",
+	"releasenote": "Initial alpha release",
+	"contributors": [ "greg209" ],
+	"dependencies": {
+		"openfl": "2.0.1"
+	}
+}
