@@ -25,7 +25,7 @@ import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.geom.Rectangle;
 
-using OpenFLStage3D;
+using openfl.display3D.OpenFLStage3D;
 
 class Stage3DProxy extends EventDispatcher {
     public var profile(get_profile, never):String;

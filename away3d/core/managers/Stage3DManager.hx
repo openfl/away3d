@@ -12,7 +12,7 @@ import openfl.display.Stage;
 import away3d.utils.ArrayUtils;
 import haxe.ds.ObjectMap;
 
-using OpenFLStage3D;
+using openfl.display3D.OpenFLStage3D;
 
 class Stage3DManager {
     public var hasFreeStage3DProxy(get_hasFreeStage3DProxy, never):Bool;
