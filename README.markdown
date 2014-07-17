@@ -1,7 +1,5 @@
 #Away3D for OpenFL
 
-### *** CURRENTLY THIS BUILD IS VERY EXPERIMENTAL ***
-
 ##Introduction
 Away3D for OpenFl is a port of the Flash Away3D engine, enabling targetting Flash, Neko, HTML5 and native CPP builds for OSX, Windows, iOS, Android, etc. 
 
