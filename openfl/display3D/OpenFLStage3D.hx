@@ -5,7 +5,6 @@ import openfl.display.Stage3D;
 import openfl.errors.Error;
 import openfl.events.ErrorEvent;
 import openfl.events.Event;
-import openfl.Vector;
 import openfl.display3D.Context3D;
 #if !flash
 import openfl.display3D.AGLSLContext3D;
@@ -15,7 +14,7 @@ import openfl.display.OpenGLView;
 class OpenFLStage3D {   
 
     #if !flash
-    static private var stage3Ds:Vector<Stage3D> = []; 
+    static private var stage3Ds:Array<Stage3D> = []; 
     #end
     
     static public function requestAGLSLContext3D(stage3D : Stage3D,?context3DRenderMode:String =  "auto"):Void 
