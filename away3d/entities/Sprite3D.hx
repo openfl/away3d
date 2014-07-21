@@ -24,6 +24,7 @@ import openfl.display3D.IndexBuffer3D;
 import openfl.geom.Matrix;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class Sprite3D extends Entity implements IRenderable {
     public var width(get_width, set_width):Float;
@@ -45,9 +46,9 @@ class Sprite3D extends Entity implements IRenderable {
     public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
     public var vertexTangentOffset(get_vertexTangentOffset, never):Int;
 
-// TODO: Replace with CompactSubGeometry
+    // TODO: Replace with CompactSubGeometry
     static private var _geometry:SubGeometry;
-//private static var _pickingSubMesh:SubGeometry;
+    //private static var _pickingSubMesh:SubGeometry;
     private var _material:MaterialBase;
     private var _spriteMatrix:Matrix3D;
     private var _animator:IAnimator;
@@ -78,7 +79,7 @@ class Sprite3D extends Entity implements IRenderable {
     override public function set_pickingCollider(value:IPickingCollider):IPickingCollider {
         super.pickingCollider = value;
         if (value != null) {
-// bounds collider is the only null value
+            // bounds collider is the only null value
             _pickingSubMesh = new SubMesh(_geometry, null);
             _pickingTransform = new Matrix3D();
         }
@@ -249,7 +250,7 @@ class Sprite3D extends Entity implements IRenderable {
     }
 
     public function getRenderSceneTransform(camera:Camera3D):Matrix3D {
-        var comps:Array<Vector3D> = camera.sceneTransform.decompose();
+        var comps:Vector<Vector3D> = camera.sceneTransform.decompose();
         var scale:Vector3D = comps[2];
         comps[0] = scenePosition;
         scale.x = _width * _scaleX;
