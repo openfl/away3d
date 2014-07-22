@@ -6,7 +6,7 @@
 	"description": "Away3D is an open source, real time 3D engine for the Flash Platform and has been ported to OpenFL 2.x/Haxe",
 	"version": "1.0.1-alpha",
 	"releasenote": "Initial alpha release",
-	"contributors": [ "greg209" ],
+	"contributors": [ "Greg209" ],
 	"dependencies": {
 		"openfl": "2.0.1"
 	}
