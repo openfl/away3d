@@ -5,6 +5,7 @@ import openfl.gl.GLRenderbuffer;
 import openfl.utils.Float32Array;
 import openfl.display3D.textures.CubeTexture;
 import openfl.display3D.textures.Texture;
+import openfl.display3D.textures.RectangleTexture;
 import openfl.display3D.textures.TextureBase;
 import openfl.display.BitmapData;
 import openfl.display.OpenGLView;
@@ -150,6 +151,13 @@ class Context3D
     public function createTexture(width:Int, height:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool, streamingLevels:Int = 0):openfl.display3D.textures.Texture 
     {
         var texture = new openfl.display3D.textures.Texture (GL.createTexture (), optimizeForRenderToTexture,width, height);     // TODO use format, optimizeForRenderToTexture and  streamingLevels?
+        texturesCreated.push(texture);
+        return texture;
+    }
+
+    public function createRectangleTexture(width:Int, height:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool):openfl.display3D.textures.RectangleTexture 
+    {
+        var texture = new openfl.display3D.textures.RectangleTexture(GL.createTexture(), optimizeForRenderToTexture, width, height);     // TODO use format, optimizeForRenderToTexture and  streamingLevels?
         texturesCreated.push(texture);
         return texture;
     }
@@ -447,6 +455,21 @@ class Context3D
                 case Context3DMipFilter.MIPNONE:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR); 
             } 
+        } else if (Std.is (texture, openfl.display3D.textures.RectangleTexture)) {
+            
+            GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.RectangleTexture).glTexture);
+            GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+            GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+            
+            switch(filter){
+                case Context3DTextureFilter.LINEAR:
+                    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+
+                case Context3DTextureFilter.NEAREST:
+                    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+            }
+
+            GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
         } else if (Std.is (texture, openfl.display3D.textures.CubeTexture)) {
             GL.bindTexture(GL.TEXTURE_CUBE_MAP, cast(texture, openfl.display3D.textures.CubeTexture).glTexture);
 
@@ -544,6 +567,10 @@ class Context3D
             GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.Texture).glTexture);
             GL.uniform1i(location, textureIndex);  
 
+        } else if ( Std.is(texture, RectangleTexture) ) {
+            GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.RectangleTexture).glTexture);
+            GL.uniform1i(location, textureIndex);
+            
         } else if ( Std.is(texture, CubeTexture) ) {        
             GL.bindTexture( GL.TEXTURE_CUBE_MAP, cast(texture, openfl.display3D.textures.CubeTexture).glTexture );
             GL.uniform1i( location, textureIndex ); 
