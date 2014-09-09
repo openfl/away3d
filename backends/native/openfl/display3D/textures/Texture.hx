@@ -32,11 +32,11 @@ class Texture extends TextureBase
 	}
 
 	public function uploadFromBitmapData (bitmapData:BitmapData, miplevel:Int = 0):Void {
-        #if html5
-        var p = bitmapData.getPixels(new openfl.geom.Rectangle(0, 0, bitmapData.width, bitmapData.height));
-        #else
+        //#if html5
+        //var p = bitmapData.getPixels(new openfl.geom.Rectangle(0, 0, bitmapData.width, bitmapData.height));
+        //#else
         var p = bitmapData.getRGBAPixels();
-        #end
+        //#end
 		width = bitmapData.width;
         height = bitmapData.height;
         uploadFromByteArray(p, 0, miplevel);
@@ -55,18 +55,18 @@ class Texture extends TextureBase
 		 
 		}  
         var source : UInt8Array;
-        #if html5
-        source = new UInt8Array(data.length);
-        data.position = byteArrayOffset;
-        var i:Int = 0;
-        while (data.position < data.length) {
-            source[i] = data.readUnsignedByte();
-            i++;
-        }
-        #else
+        //#if html5
+        //source = new UInt8Array(data.length);
+        //data.position = byteArrayOffset;
+        //var i:Int = 0;
+        //while (data.position < data.length) {
+        //    source[i] = data.readUnsignedByte();
+        //    i++;
+        //}
+        //#else
         //TODO byteArrayOffset ?
         source = new UInt8Array(data);
-        #end
+        //#end
         GL.texImage2D( GL.TEXTURE_2D, miplevel, GL.RGBA, width, height, 0, GL.RGBA, GL.UNSIGNED_BYTE, source );
         GL.bindTexture (GL.TEXTURE_2D, null);
 	}
