@@ -516,7 +516,7 @@ class Context3D
     	}
 
     	GL.enable(GL.SCISSOR_TEST);
-        GL.scissor(Std.int(rectangle.x), Std.int(rectangle.y), Std.int(rectangle.width), Std.int(rectangle.height));
+        GL.scissor(Std.int(rectangle.x), Std.int(scrollRect.height - rectangle.y - rectangle.height), Std.int(rectangle.width), Std.int(rectangle.height));
     }
 
     public function setStencilActions(?triangleFace:Int, ?compareMode:Int, ?actionOnBothPass:Int, ?actionOnDepthFail:Int, ?actionOnDepthPassStencilFail:Int):Void 
