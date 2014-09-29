@@ -446,11 +446,17 @@ class Context3D
 
             //TODO CHECK the mipmap filters
             switch(mipfilter){
-                case Context3DMipFilter.MIPLINEAR:
+                 case Context3DMipFilter.MIPLINEAR:
+                    GL.generateMipmap(GL.TEXTURE_2D);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
+                    //GL.texParameterf(GL_TEXTURE_2D, GL.TEXTURE_MAX_ANISOTROPY_EXT, 8.0);
+                    GL.texParameterf(GL.TEXTURE_2D, 0x84FE, 8.0);
 
                 case Context3DMipFilter.MIPNEAREST:
+                    GL.generateMipmap(GL.TEXTURE_2D);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST_MIPMAP_NEAREST);
+                    //GL.texParameterf(GL_TEXTURE_2D, GL.TEXTURE_MAX_ANISOTROPY_EXT, 8.0);
+                    GL.texParameterf(GL.TEXTURE_2D, 0x84FE, 8.0);
 
                 case Context3DMipFilter.MIPNONE:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR); 

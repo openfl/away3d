@@ -8,6 +8,7 @@ import openfl.display.BitmapData;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.textures.TextureBase;
+import openfl.display3D.textures.CubeTexture;
 
 class RenderCubeTexture extends CubeTextureBase {
 
@@ -26,11 +27,12 @@ class RenderCubeTexture extends CubeTextureBase {
     }
 
     override private function uploadContent(texture:TextureBase):Void {
-// fake data, to complete texture for sampling
+        // fake data, to complete texture for sampling
         var bmd:BitmapData = new BitmapData(_width, _height, false, 0);
         var i:Int = 0;
         while (i < 6) {
-            MipmapGenerator.generateMipMaps(bmd, texture, null, false, i);
+            //MipmapGenerator.generateMipMaps(bmd, texture, null, false, i);
+            cast((texture), CubeTexture).uploadFromBitmapData(bmd, i, 0);
             ++i;
         }
         bmd.dispose();
