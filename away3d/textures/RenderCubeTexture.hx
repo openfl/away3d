@@ -31,8 +31,11 @@ class RenderCubeTexture extends CubeTextureBase {
         var bmd:BitmapData = new BitmapData(_width, _height, false, 0);
         var i:Int = 0;
         while (i < 6) {
-            //MipmapGenerator.generateMipMaps(bmd, texture, null, false, i);
+            #if (flash || html5)
+            MipmapGenerator.generateMipMaps(bmd, texture, null, false, i);
+            #else
             cast((texture), CubeTexture).uploadFromBitmapData(bmd, i, 0);
+            #end
             ++i;
         }
         bmd.dispose();
