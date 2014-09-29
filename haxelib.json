@@ -5,7 +5,7 @@
 	"tags": [ "away3d", "3d", "engine", "openfl", "cross", "cpp", "flash", "game", "js", "web", "ios", "android" ],
 	"description": "Away3D is an open source, real time 3D engine for the Flash Platform and has been ported to OpenFL 2.x/Haxe",
 	"version": "1.0.3-alpha",
-	"releasenote": "Merged pull request and fix for native mipmapping",
+	"releasenote": "Fixes for mouse interaction",
 	"contributors": [ "Greg209" ],
 	"dependencies": {
 		"openfl": "2.0.1"
