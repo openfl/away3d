@@ -298,9 +298,9 @@ class BasicDiffuseMethod extends LightingMethodBase {
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
         if (_useTexture) {
-            //#if !flash 
-            //stage3DProxy._context3D.setSamplerStateAt(vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, vo.useSmoothTextures ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST, vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE);
-            //#end
+            #if !flash 
+            stage3DProxy._context3D.setSamplerStateAt(vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, vo.useSmoothTextures ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST, vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE);
+            #end
             stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
             if (_alphaThreshold > 0) vo.fragmentData[vo.fragmentConstantsIndex] = _alphaThreshold;
         } else {
