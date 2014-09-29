@@ -247,24 +247,33 @@ class Entity extends ObjectContainer3D {
 	 * Gets a concrete EntityPartition3DNode subclass that is associated with this Entity instance
 	 */
     public function getEntityPartitionNode():EntityNode {
-        if (_partitionNode == null) _partitionNode = createEntityPartitionNode();
+        if (_partitionNode == null) 
+            _partitionNode = createEntityPartitionNode();
+        
         return _partitionNode;
     }
 
     public function isIntersectingRay(rayPosition:Vector3D, rayDirection:Vector3D):Bool {
-// convert ray to entity space
+        // convert ray to entity space
         var localRayPosition:Vector3D = inverseSceneTransform.transformVector(rayPosition);
         var localRayDirection:Vector3D = inverseSceneTransform.deltaTransformVector(rayDirection);
-// check for ray-bounds collision
-        if (pickingCollisionVO.localNormal == null)pickingCollisionVO.localNormal = new Vector3D();
+
+        // check for ray-bounds collision
+        if (pickingCollisionVO.localNormal == null)
+            pickingCollisionVO.localNormal = new Vector3D();
+        
         var rayEntryDistance:Float = bounds.rayIntersection(localRayPosition, localRayDirection, pickingCollisionVO.localNormal);
-        if (rayEntryDistance < 0) return false;
+        
+        if (rayEntryDistance < 0)
+            return false;
+       
         pickingCollisionVO.rayEntryDistance = rayEntryDistance;
         pickingCollisionVO.localRayPosition = localRayPosition;
         pickingCollisionVO.localRayDirection = localRayDirection;
         pickingCollisionVO.rayPosition = rayPosition;
         pickingCollisionVO.rayDirection = rayDirection;
         pickingCollisionVO.rayOriginIsInsideBounds = rayEntryDistance == 0;
+        
         return true;
     }
 
@@ -285,8 +294,8 @@ class Entity extends ObjectContainer3D {
 	 */
 
     private function getDefaultBoundingVolume():BoundingVolumeBase {
-// point lights should be using sphere bounds
-// directional lights should be using null bounds
+        // point lights should be using sphere bounds
+        // directional lights should be using null bounds
         return new AxisAlignedBoundingBox();
     }
 

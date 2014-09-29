@@ -22,11 +22,12 @@ class NodeBase {
     var numEntities(get_numEntities, never):Int;
 
     public var _parent:NodeBase;
-    private var _childNodes:Array<NodeBase>;
-    private var _numChildNodes:Int;
-    private var _debugPrimitive:WireframePrimitiveBase;
-    private var _numEntities:Int;
     public var _collectionMark:Int;
+    var _childNodes:Array<NodeBase>;
+    var _numChildNodes:Int;
+    var _debugPrimitive:WireframePrimitiveBase;
+    var _numEntities:Int;
+
     /**
 	 * Creates a new NodeBase object.
 	 */
@@ -77,7 +78,8 @@ class NodeBase {
         _numEntities += node._numEntities;
         _childNodes[_numChildNodes++] = node;
         node.showDebugBounds = _debugPrimitive != null;
-// update numEntities in the tree
+        
+        // update numEntities in the tree
         var numEntities:Int = node._numEntities;
         node = this;
         do {
@@ -92,14 +94,15 @@ class NodeBase {
 	 */
 
     private function removeNode(node:NodeBase):Void {
-// a bit faster than splice(i, 1), works only if order is not important
-// override item to be removed with the last in the list, then remove that last one
-// Also, the "real partition nodes" of the tree will always remain unmoved, first in the list, so if there's
-// an order dependency for them, it's still okay
+        // a bit faster than splice(i, 1), works only if order is not important
+        // override item to be removed with the last in the list, then remove that last one
+        // Also, the "real partition nodes" of the tree will always remain unmoved, first in the list, so if there's
+        // an order dependency for them, it's still okay
         var index:Int = _childNodes.indexOf(node);
         _childNodes[index] = _childNodes[--_numChildNodes];
         _childNodes.pop();
-// update numEntities in the tree
+
+        // update numEntities in the tree
         var numEntities:Int = node._numEntities;
         node = this;
         do {

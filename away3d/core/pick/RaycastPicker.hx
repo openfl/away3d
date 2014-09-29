@@ -20,13 +20,15 @@ class RaycastPicker implements IPicker {
     public var onlyMouseEnabled(get_onlyMouseEnabled, set_onlyMouseEnabled):Bool;
 
     // TODO: add option of finding best hit?
-    private var _findClosestCollision:Bool;
-    private var _raycastCollector:RaycastCollector;
-    private var _ignoredEntities:Array<Dynamic>;
-    private var _onlyMouseEnabled:Bool;
-    private var _entities:Array<Entity>;
-    private var _numEntities:Int;
-    private var _hasCollisions:Bool;
+    var _findClosestCollision:Bool;
+    var _raycastCollector:RaycastCollector;
+    var _ignoredEntities:Array<Entity>;
+    var _onlyMouseEnabled:Bool;
+    
+    var _entities:Array<Entity>;
+    var _numEntities:Int;
+    var _hasCollisions:Bool;
+    
     /**
 	 * @inheritDoc
 	 */
@@ -47,8 +49,9 @@ class RaycastPicker implements IPicker {
 	 */
     public function new(findClosestCollision:Bool) {
         _raycastCollector = new RaycastCollector();
-        _ignoredEntities = new Array<Dynamic>();
+        _ignoredEntities = new Array<Entity>();
         _onlyMouseEnabled = true;
+        
         _findClosestCollision = findClosestCollision;
         _entities = new Array<Entity>();
     }
@@ -57,29 +60,41 @@ class RaycastPicker implements IPicker {
 	 * @inheritDoc
 	 */
     public function getViewCollision(x:Float, y:Float, view:View3D):PickingCollisionVO {
-//cast ray through the collection of entities on the view
+        //cast ray through the collection of entities on the view
         var collector:EntityCollector = view.entityCollector;
-//var i:uint;
-        if (collector.numMouseEnableds == 0) return null;
+
+        //var i:uint;
+        if (collector.numMouseEnableds == 0) 
+            return null;
+        
         var rayPosition:Vector3D = view.unproject(x, y, 0);
         var rayDirection:Vector3D = view.unproject(x, y, 1);
-        rayDirection = rayDirection.subtract(rayPosition);
-// Perform ray-bounds collision checks.
+        rayDirection.x = rayDirection.x - rayPosition.x;
+        rayDirection.y = rayDirection.y - rayPosition.y;
+        rayDirection.z = rayDirection.z - rayPosition.z;
+
+        // Perform ray-bounds collision checks.
         _numEntities = 0;
         var node:EntityListItem = collector.entityHead;
         var entity:Entity;
+        
         while (node != null) {
             entity = node.entity;
+            
             if (isIgnored(entity)) {
                 node = node.next;
                 continue;
             }
-            if (entity.isVisible && entity.isIntersectingRay(rayPosition, rayDirection)) _entities[_numEntities++] = entity;
+            if (entity.isVisible && entity.isIntersectingRay(rayPosition, rayDirection)) 
+                _entities[_numEntities++] = entity;
+            
             node = node.next;
         }
 
-//early out if no collisions detected
-        if (_numEntities == 0) return null;
+        //early out if no collisions detected
+        if (_numEntities == 0) 
+            return null;
+        
         return getPickingCollisionVO();
     }
 
@@ -87,28 +102,35 @@ class RaycastPicker implements IPicker {
 	 * @inheritDoc
 	 */
     public function getSceneCollision(position:Vector3D, direction:Vector3D, scene:Scene3D):PickingCollisionVO {
-//clear collector
+        //clear collector
         _raycastCollector.clear();
-//setup ray vectors
+        
+        //setup ray vectors
         _raycastCollector.rayPosition = position;
         _raycastCollector.rayDirection = direction;
-// collect entities to test
+
+        // collect entities to test
         scene.traversePartitions(_raycastCollector);
+        
         _numEntities = 0;
         var node:EntityListItem = _raycastCollector.entityHead;
         var entity:Entity;
+        
         while (node != null) {
             entity = node.entity;
             if (isIgnored(entity)) {
                 node = node.next;
                 continue;
             }
+            
             _entities[_numEntities++] = entity;
+        
             node = node.next;
         }
 
-//early out if no collisions detected
+        //early out if no collisions detected
         if (_numEntities == 0) return null;
+        
         return getPickingCollisionVO();
     }
 
@@ -117,21 +139,25 @@ class RaycastPicker implements IPicker {
         _numEntities = 0;
         var entity:Entity;
         for (entity in entities) {
-            if (entity.isIntersectingRay(position, direction)) _entities[_numEntities++] = entity;
+            if (entity.isIntersectingRay(position, direction)) 
+                _entities[_numEntities++] = entity;
         }
 
         return getPickingCollisionVO();
     }
 
-    public function setIgnoreList(entities:Array<Dynamic>):Void {
+    public function setIgnoreList(entities:Array<Entity>):Void {
         _ignoredEntities = entities;
     }
 
     private function isIgnored(entity:Entity):Bool {
-        if (_onlyMouseEnabled && (!entity._ancestorsAllowMouseEnabled || !entity.mouseEnabled)) return true;
+        if (_onlyMouseEnabled && (!entity._ancestorsAllowMouseEnabled || !entity.mouseEnabled))
+            return true;
+        
         var ignoredEntity:Entity;
         for (ignoredEntity in _ignoredEntities) {
-            if (ignoredEntity == entity) return true;
+            if (ignoredEntity == entity)
+                return true;
         }
 
         return false;
@@ -144,23 +170,26 @@ class RaycastPicker implements IPicker {
     private function getPickingCollisionVO():PickingCollisionVO {
         // trim before sorting
         away3d.utils.ArrayUtils.reSize( _entities, _numEntities);
+        
         // Sort entities from closest to furthest.
         // _entities =
         _entities.sort(sortOnNearT);
+        
         // ---------------------------------------------------------------------
         // Evaluate triangle collisions when needed.
         // Replaces collision data provided by bounds collider with more precise data.
         // ---------------------------------------------------------------------
-        
         var shortestCollisionDistance:Float = Math.POSITIVE_INFINITY;
         var bestCollisionVO:PickingCollisionVO = null;
         var pickingCollisionVO:PickingCollisionVO;
         var entity:Entity;
         var i:Int;
-        i = 0;
-        while (i < _numEntities) {
+        
+        for (i in 0..._numEntities) {
             entity = _entities[i];
+            
             pickingCollisionVO = entity._pickingCollisionVO;
+            
             if (entity.pickingCollider != null) {
                 // If a collision exists, update the collision data and stop all checks.
                 if ((bestCollisionVO == null || pickingCollisionVO.rayEntryDistance < bestCollisionVO.rayEntryDistance) && entity.collidesBefore(shortestCollisionDistance, _findClosestCollision)) {
@@ -171,26 +200,26 @@ class RaycastPicker implements IPicker {
                         return pickingCollisionVO;
                     }
                 }
-            }
-
-            else if (bestCollisionVO == null || pickingCollisionVO.rayEntryDistance < bestCollisionVO.rayEntryDistance) {
-// A bounds collision with no triangle collider stops all checks.
-// Note: a bounds collision with a ray origin inside its bounds is ONLY ever used
-// to enable the detection of a corresponsding triangle collision.
-// Therefore, bounds collisions with a ray origin inside its bounds can be ignored
-// if it has been established that there is NO triangle collider to test
+            } else if (bestCollisionVO == null || pickingCollisionVO.rayEntryDistance < bestCollisionVO.rayEntryDistance) {
+                // A bounds collision with no triangle collider stops all checks.
+                // Note: a bounds collision with a ray origin inside its bounds is ONLY ever used
+                // to enable the detection of a corresponsding triangle collision.
+                // Therefore, bounds collisions with a ray origin inside its bounds can be ignored
+                // if it has been established that there is NO triangle collider to test
                 if (!pickingCollisionVO.rayOriginIsInsideBounds) {
                     updateLocalPosition(pickingCollisionVO);
                     return pickingCollisionVO;
                 }
             }
-            ++i;
         }
+        
         return bestCollisionVO;
     }
 
     private function updateLocalPosition(pickingCollisionVO:PickingCollisionVO):Void {
-        if (pickingCollisionVO.localPosition == null) pickingCollisionVO.localPosition = new Vector3D();
+        if (pickingCollisionVO.localPosition == null)
+            pickingCollisionVO.localPosition = new Vector3D();
+        
         var collisionPos:Vector3D = pickingCollisionVO.localPosition ;
         var rayDir:Vector3D = pickingCollisionVO.localRayDirection;
         var rayPos:Vector3D = pickingCollisionVO.localRayPosition;

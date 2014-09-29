@@ -1,19 +1,20 @@
 /**
- * Pure AS3 picking collider for entity objects. Used with the <code>RaycastPicker</code> picking object.
+ * Picking collider for entity objects. Used with the <code>RaycastPicker</code> picking object.
  *
  * @see away3d.entities.Entity#pickingCollider
  * @see away3d.core.pick.RaycastPicker
  */
 package away3d.core.pick;
 
-
 import away3d.core.base.SubMesh;
 import openfl.geom.Vector3D;
-class AS3PickingCollider extends PickingColliderBase implements IPickingCollider {
+
+class PickingCollider extends PickingColliderBase implements IPickingCollider {
 
     private var _findClosestCollision:Bool;
+    
     /**
-	 * Creates a new <code>AS3PickingCollider</code> object.
+	 * Creates a new <code>PickingCollider</code> object.
 	 *
 	 * @param findClosestCollision Determines whether the picking collider searches for the closest collision along the ray. Defaults to false.
 	 */
@@ -79,12 +80,14 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
         var numIndices:Int = indexData.length;
         var index:Int = 0;
         while (index < numIndices) {
-// sweep all triangles
-// evaluate triangle indices
+
+            // sweep all triangles
+            // evaluate triangle indices
             i0 = vertexOffset + indexData[index] * vertexStride;
             i1 = vertexOffset + indexData[(index + 1)] * vertexStride;
             i2 = vertexOffset + indexData[(index + 2)] * vertexStride;
-// evaluate triangle vertices
+            
+            // evaluate triangle vertices
             p0x = vertexData[i0];
             p0y = vertexData[(i0 + 1)];
             p0z = vertexData[(i0 + 2)];
@@ -94,38 +97,47 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
             p2x = vertexData[i2];
             p2y = vertexData[(i2 + 1)];
             p2z = vertexData[(i2 + 2)];
-// evaluate sides and triangle normal
+            
+            // evaluate sides and triangle normal
+            // s0 = p1 - p0
             s0x = p1x - p0x;
-// s0 = p1 - p0
             s0y = p1y - p0y;
             s0z = p1z - p0z;
+
+            // s1 = p2 - p0
             s1x = p2x - p0x;
-// s1 = p2 - p0
             s1y = p2y - p0y;
             s1z = p2z - p0z;
+            
+            // n = s0 x s1
             nx = s0y * s1z - s0z * s1y;
-// n = s0 x s1
             ny = s0z * s1x - s0x * s1z;
             nz = s0x * s1y - s0y * s1x;
+            
+            // normalize n
             nl = 1 / Math.sqrt(nx * nx + ny * ny + nz * nz);
-// normalize n
             nx *= nl;
             ny *= nl;
             nz *= nl;
-// -- plane intersection test --
+
+            // -- plane intersection test --
             nDotV = nx * rayDirection.x + ny * rayDirection.y + nz * rayDirection.z;
-// rayDirection . normal
+
+            // rayDirection . normal
             if ((!bothSides && nDotV < 0.0) || (bothSides && nDotV != 0.0)) {
-// an intersection must exist
-// find collision t
+
+                // an intersection must exist
+                // find collision t
                 D = -(nx * p0x + ny * p0y + nz * p0z);
                 disToPlane = -(nx * rayPosition.x + ny * rayPosition.y + nz * rayPosition.z + D);
                 t = disToPlane / nDotV;
-// find collision point
+
+                // find collision point
                 cx = rayPosition.x + t * rayDirection.x;
                 cy = rayPosition.y + t * rayDirection.y;
                 cz = rayPosition.z + t * rayDirection.z;
-// collision point inside triangle? ( using barycentric coordinates )
+
+                // collision point inside triangle? ( using barycentric coordinates )
                 Q1Q2 = s0x * s1x + s0y * s1y + s0z * s1z;
                 Q1Q1 = s0x * s0x + s0y * s0y + s0z * s0z;
                 Q2Q2 = s1x * s1x + s1y * s1y + s1z * s1z;
@@ -149,7 +161,8 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
                 ;
                 u = 1 - v - w;
                 if (!(u < 0) && t > 0 && t < shortestCollisionDistance) {
-// all tests passed
+
+                    // all tests passed
                     shortestCollisionDistance = t;
                     collisionTriangleIndex = Std.int(index / 3);
                     pickingCollisionVO.rayEntryDistance = t;
@@ -158,13 +171,16 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
                     pickingCollisionVO.uv = getCollisionUV(indexData, uvData, index, v, w, u, uvOffset, uvStride);
                     pickingCollisionVO.index = index;
                     pickingCollisionVO.subGeometryIndex = getMeshSubMeshIndex(subMesh);
-// if not looking for best hit, first found will do...
+                    
+                    // if not looking for best hit, first found will do...
                     if (!_findClosestCollision) return true;
                 }
             }
             index += 3;
         }
+        
         if (collisionTriangleIndex >= 0) return true;
+        
         return false;
     }
 }

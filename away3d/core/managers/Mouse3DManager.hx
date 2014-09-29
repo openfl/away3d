@@ -24,32 +24,32 @@ class Mouse3DManager {
     public var forceMouseMove(get_forceMouseMove, set_forceMouseMove):Bool;
     public var mousePicker(get_mousePicker, set_mousePicker):IPicker;
 
-    static private var _view3Ds:ObjectMap<View3D, Int>;
-    static private var _view3DLookup:Array<View3D>;
-    static private var _viewCount:Int = 0;
-    private var _activeView:View3D;
-    private var _updateDirty:Bool;
-    private var _nullVector:Vector3D;
-    static private var _collidingObject:PickingCollisionVO;
-    static private var _previousCollidingObject:PickingCollisionVO;
-    static private var _collidingViewObjects:Array<PickingCollisionVO>;
-    static private var _queuedEvents:Array<MouseEvent3D> = new Array<MouseEvent3D>();
-    private var _mouseMoveEvent:MouseEvent;
-    static private var _mouseUp:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_UP);
-    static private var _mouseClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.CLICK);
-    static private var _mouseOut:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OUT);
-    static private var _mouseDown:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_DOWN);
-    static private var _mouseMove:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_MOVE);
-    static private var _mouseOver:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OVER);
-    static private var _mouseWheel:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_WHEEL);
-    static private var _mouseDoubleClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.DOUBLE_CLICK);
-    private var _forceMouseMove:Bool;
-    private var _mousePicker:IPicker;
-    private var _childDepth:Int;
-    static private var _previousCollidingView:Int = -1;
-    static private var _collidingView:Int = -1;
-    private var _collidingDownObject:PickingCollisionVO;
-    private var _collidingUpObject:PickingCollisionVO;
+    static var _view3Ds:ObjectMap<View3D, Int>;
+    static var _view3DLookup:Array<View3D>;
+    static var _viewCount:Int = 0;
+    var _activeView:View3D;
+    var _updateDirty:Bool;
+    var _nullVector:Vector3D;
+    static var _collidingObject:PickingCollisionVO;
+    static var _previousCollidingObject:PickingCollisionVO;
+    static var _collidingViewObjects:Array<PickingCollisionVO>;
+    static var _queuedEvents:Array<MouseEvent3D> = new Array<MouseEvent3D>();
+    var _mouseMoveEvent:MouseEvent;
+    static var _mouseUp:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_UP);
+    static var _mouseClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.CLICK);
+    static var _mouseOut:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OUT);
+    static var _mouseDown:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_DOWN);
+    static var _mouseMove:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_MOVE);
+    static var _mouseOver:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OVER);
+    static var _mouseWheel:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_WHEEL);
+    static var _mouseDoubleClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.DOUBLE_CLICK);
+    var _forceMouseMove:Bool;
+    var _mousePicker:IPicker;
+    var _childDepth:Int;
+    static var _previousCollidingView:Int = -1;
+    static var _collidingView:Int = -1;
+    var _collidingDownObject:PickingCollisionVO;
+    var _collidingUpObject:PickingCollisionVO;
 
     /**
 	 * Creates a new <code>Mouse3DManager</code> object.
@@ -60,6 +60,7 @@ class Mouse3DManager {
         _mouseMoveEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
         _mousePicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
         _childDepth = 0;
+        
         if (_view3Ds == null) {
             _view3Ds = new ObjectMap<View3D, Int>();
             _view3DLookup = new Array<View3D>();
@@ -71,28 +72,24 @@ class Mouse3DManager {
     // ---------------------------------------------------------------------
     public function updateCollider(view:View3D):Void {
         _previousCollidingView = _collidingView;
+        
         if (view != null) {
             // Clear the current colliding objects for multiple views if backBuffer just cleared
-            if (view.stage3DProxy.bufferClear) _collidingViewObjects = ArrayUtils.Prefill( new Array<PickingCollisionVO>(), _viewCount);
+            if (view.stage3DProxy.bufferClear)
+                _collidingViewObjects = ArrayUtils.Prefill( new Array<PickingCollisionVO>(), _viewCount);
+            
             if (!view.shareContext) {
                 if (view == _activeView && (_forceMouseMove || _updateDirty)) {
                     // If forceMouseMove is off, and no 2D mouse events dirtied the update, don't update either.
                     _collidingObject = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
                 }
-            }
-
-            else {
-				//why
-				//todo
-				 
+            } else {
                 if (view.parent.getBounds(null).contains(view.mouseX + view.x, view.mouseY + view.y)) {
                     if (_collidingViewObjects == null) 
                         _collidingViewObjects = ArrayUtils.Prefill( new Array<PickingCollisionVO>(), _viewCount);
                     _collidingObject = _collidingViewObjects[_view3Ds.get(view)] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
                 }
-				 
             }
-
         }
     }
 

@@ -67,9 +67,6 @@ class ArrayUtils {
 					arr.pop();
 					c--;
 				}			
-				for (i in 0...arr.length) {
-					arr[i] = defaultValue;
-				}
         	case Right(arr):
 				var c = arr.length;		
 				while (c < count) {
@@ -80,9 +77,6 @@ class ArrayUtils {
 					arr.pop();
 					c--;
 				}			
-				for (i in 0...arr.length) {
-					arr[i] = defaultValue;
-				}
 		}
 	}
 

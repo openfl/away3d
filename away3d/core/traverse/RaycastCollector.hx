@@ -14,8 +14,8 @@ import away3d.lights.LightBase;
 import openfl.geom.Vector3D;
 
 class RaycastCollector extends EntityCollector {
-    public var rayPosition(get_rayPosition, set_rayPosition):Vector3D;
-    public var rayDirection(get_rayDirection, set_rayDirection):Vector3D;
+    public var rayPosition(get, set):Vector3D;
+    public var rayDirection(get, set):Vector3D;
 
     private var _rayPosition:Vector3D;
     private var _rayDirection:Vector3D;
@@ -25,6 +25,7 @@ class RaycastCollector extends EntityCollector {
     public function new() {
         _rayPosition = new Vector3D();
         _rayDirection = new Vector3D();
+
         super();
     }
 
