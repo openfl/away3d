@@ -1,4 +1,5 @@
 /**
+/**
  * MaterialBase forms an abstract base class for any material.
  * A material consists of several passes, each of which constitutes at least one render call. Several passes could
  * be used for special effects (render lighting for many lights in several passes, render an outline in a separate
@@ -39,6 +40,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     public var smooth(get_smooth, set_smooth):Bool;
     public var depthCompareMode(get_depthCompareMode, set_depthCompareMode):Context3DCompareMode;
     public var repeat(get_repeat, set_repeat):Bool;
+    public var maxAnisotropy(get_maxAnisotropy, set_maxAnisotropy):Float;
     public var bothSides(get_bothSides, set_bothSides):Bool;
     public var blendMode(get_blendMode, set_blendMode):BlendMode;
     public var alphaPremultiplied(get_alphaPremultiplied, set_alphaPremultiplied):Bool;
@@ -97,6 +99,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     private var _mipmap:Bool;
     private var _smooth:Bool;
     private var _repeat:Bool;
+    private var _maxAnisotropy:Float;
     private var _depthPass:DepthMapPass;
     private var _distancePass:DistanceMapPass;
     private var _lightPicker:LightPickerBase;
@@ -110,6 +113,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
         _blendMode = BlendMode.NORMAL;
         _mipmap = true;
         _smooth = true;
+        _maxAnisotropy = 1;
         _depthCompareMode = Context3DCompareMode.LESS_EQUAL;
         _owners = new Array<IMaterialOwner>();
         _passes = new Array<MaterialPassBase>();
@@ -220,6 +224,23 @@ class MaterialBase extends NamedAssetBase implements IAsset {
             ++i;
         }
         return value;
+    }
+
+    /**
+     * Indicates the number of Anisotropic filtering samples to take for mipmapping
+     */
+    public function get_maxAnisotropy():Float {
+        return _maxAnisotropy;
+    }
+
+    public function set_maxAnisotropy(value:Float):Float {
+        _maxAnisotropy = value;
+        var i:Int = 0;
+        while (i < _numPasses) {
+            _passes[i].maxAnisotropy = maxAnisotropy;
+            ++i;
+        }
+        return maxAnisotropy;
     }
 
     /**
@@ -594,6 +615,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
         pass.mipmap = _mipmap;
         pass.smooth = _smooth;
         pass.repeat = _repeat;
+        pass.maxAnisotropy = _maxAnisotropy;
         pass.lightPicker = _lightPicker;
         pass.bothSides = _bothSides;
         pass.addEventListener(Event.CHANGE, onPassChange);

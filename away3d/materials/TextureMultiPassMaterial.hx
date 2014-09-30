@@ -5,7 +5,6 @@ package away3d.materials;
 
 import away3d.textures.Texture2DBase;
 
-
 class TextureMultiPassMaterial extends MultiPassMaterialBase {
     public var animateUVs(get_animateUVs, set_animateUVs):Bool;
     public var texture(get_texture, set_texture):Texture2DBase;
@@ -19,13 +18,15 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
 	 * @param smooth Indicates whether the texture should be filtered when sampled. Defaults to true.
 	 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
 	 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
-	 */
-    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true) {
+	 * @param maxAnisotropy Indicates the number of samples to use if Anisotropic mipmap filtering is applied
+     */
+    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true, maxAnisotropy:Float = 1) {
         super();
         this.texture = texture;
         this.smooth = smooth;
         this.repeat = repeat;
         this.mipmap = mipmap;
+        this.maxAnisotropy = maxAnisotropy;
     }
 
     /**

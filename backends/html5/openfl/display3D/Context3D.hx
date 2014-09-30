@@ -60,6 +60,7 @@ class Context3D
 
     private var samplerParameters :Array<SamplerState>; //TODO : use Tupple3
 	private var scrollRect:Rectangle;
+
 	public static var MAX_SAMPLERS:Int = 8;
    
     public function new() 
@@ -74,7 +75,8 @@ class Context3D
 			this.samplerParameters[ i ] = new SamplerState(); 
 			this.samplerParameters[ i ].wrap = Context3DWrapMode.REPEAT;
 			this.samplerParameters[ i ].filter = Context3DTextureFilter.LINEAR;
-			this.samplerParameters[ i ].mipfilter =Context3DMipFilter.MIPNONE;
+			this.samplerParameters[ i ].mipfilter = Context3DMipFilter.MIPNONE;
+            this.samplerParameters[ i ].maxAnisotropy = 1;
 		}
 
         var stage = Lib.current.stage;
@@ -413,7 +415,7 @@ class Context3D
         GL.viewport(0, 0, texture.width, texture.height); 
     }
 
-    public function setSamplerStateAt(sampler:Int, wrap:Context3DWrapMode, filter:Context3DTextureFilter, mipfilter:Context3DMipFilter):Void
+    public function setSamplerStateAt(sampler:Int, wrap:Context3DWrapMode, filter:Context3DTextureFilter, mipfilter:Context3DMipFilter, maxAnisotropy:Float = 1 ):Void
     {
         //TODO for flash < 11.6 : patch the AGAL (using specific opcodes) and rebuild the program? 
 
@@ -421,12 +423,13 @@ class Context3D
     		this.samplerParameters[ sampler ].wrap = wrap;
     		this.samplerParameters[ sampler ].filter = filter;
     		this.samplerParameters[ sampler ].mipfilter = mipfilter;
+            this.samplerParameters[ sampler ].maxAnisotropy = maxAnisotropy;
     	} else {
     		throw "Sampler is out of bounds.";
     	}
     }
 
-    private function setTextureParameters(texture : TextureBase, wrap : Context3DWrapMode, filter : Context3DTextureFilter, mipfilter : Context3DMipFilter):Void{
+    private function setTextureParameters(texture : TextureBase, wrap : Context3DWrapMode, filter : Context3DTextureFilter, mipfilter : Context3DMipFilter, maxAnisotropy:Float = 1 ):Void{
         
         if (Std.is (texture, openfl.display3D.textures.Texture)) {
 
@@ -450,10 +453,36 @@ class Context3D
             //TODO CHECK the mipmap filters
             switch(mipfilter){
                 case Context3DMipFilter.MIPLINEAR:
+                    GL.generateMipmap(GL.TEXTURE_2D);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
 
+                    var ext = GL.getExtension("EXT_texture_filter_anisotropic") || GL.getExtension("MOZ_EXT_texture_filter_anisotropic") || GL.getExtension("WEBKIT_EXT_texture_filter_anisotropic");
+                    if (ext!=null) {
+                        // I found that setting the filtering to a higher level then querying the texParameter
+                        // returns the maximum capability for the device (as far as I can tell)
+                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, maxAnisotropy);
+                        var actualMaxAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, 0x84FE);
+                        
+                        // Currently hard coded 0x84FE as the GL.TEXTURE_MAX_ANISOTROPY_EXT enum
+                        // GL.texParameterf(GL_TEXTURE_2D, GL.TEXTURE_MAX_ANISOTROPY_EXT, 8.0);
+                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, (actualMaxAnisotropy < maxAnisotropy) ? actualMaxAnisotropy : maxAnisotropy );
+                    }
+
                 case Context3DMipFilter.MIPNEAREST:
+                    GL.generateMipmap(GL.TEXTURE_2D);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST_MIPMAP_NEAREST);
+
+                    var ext = GL.getExtension("EXT_texture_filter_anisotropic") || GL.getExtension("MOZ_EXT_texture_filter_anisotropic") || GL.getExtension("WEBKIT_EXT_texture_filter_anisotropic");
+                    if (ext!=null) {
+                        // I found that setting the filtering to a higher level then querying the texParameter
+                        // returns the maximum capability for the device (as far as I can tell)
+                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, maxAnisotropy);
+                        var actualMaxAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, 0x84FE);
+                        
+                        // Currently hard coded 0x84FE as the GL.TEXTURE_MAX_ANISOTROPY_EXT enum
+                        // GL.texParameterf(GL_TEXTURE_2D, GL.TEXTURE_MAX_ANISOTROPY_EXT, 8.0);
+                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, (actualMaxAnisotropy < maxAnisotropy) ? actualMaxAnisotropy : maxAnisotropy );
+                    }
 
                 case Context3DMipFilter.MIPNONE:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR); 
@@ -580,9 +609,9 @@ class Context3D
 
         var parameters:SamplerState= samplerParameters[textureIndex];
         if (parameters != null) {
-            setTextureParameters(texture, parameters.wrap, parameters.filter, parameters.mipfilter);
+            setTextureParameters(texture, parameters.wrap, parameters.filter, parameters.mipfilter, parameters.maxAnisotropy);
         } else {
-            setTextureParameters(texture, Context3DWrapMode.REPEAT, Context3DTextureFilter.NEAREST, Context3DMipFilter.MIPNONE);
+            setTextureParameters(texture, Context3DWrapMode.REPEAT, Context3DTextureFilter.NEAREST, Context3DMipFilter.MIPNONE, 1);
         }
     }
 

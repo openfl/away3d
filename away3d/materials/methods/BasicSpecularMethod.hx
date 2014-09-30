@@ -177,15 +177,15 @@ class BasicSpecularMethod extends LightingMethodBase {
 
         var viewDirReg:ShaderRegisterElement = _sharedRegisters.viewDirFragment;
         var normalReg:ShaderRegisterElement = _sharedRegisters.normalFragment;
-// blinn-phong half vector model
+        // blinn-phong half vector model
         code += "add " + t + ", " + lightDirReg + ", " + viewDirReg + "\n" + "nrm " + t + ".xyz, " + t + "\n" + "dp3 " + t + ".w, " + normalReg + ", " + t + "\n" + "sat " + t + ".w, " + t + ".w\n";
         if (_useTexture) {
-// apply gloss modulation from texture
+            // apply gloss modulation from texture
             code += "mul " + _specularTexData + ".w, " + _specularTexData + ".y, " + _specularDataRegister + ".w\n" + "pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
         }
 
         else code += "pow " + t + ".w, " + t + ".w, " + _specularDataRegister + ".w\n";
-// attenuate
+        // attenuate
         if (vo.useLightFallOff) code += "mul " + t + ".w, " + t + ".w, " + lightDirReg + ".w\n";
         if (_modulateMethod != null) code += _modulateMethod(vo, t, regCache, _sharedRegisters);
         code += "mul " + t + ".xyz, " + lightColReg + ", " + t + ".w\n";
@@ -204,7 +204,7 @@ class BasicSpecularMethod extends LightingMethodBase {
     override public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String {
         var code:String = "";
         var t:ShaderRegisterElement;
-// write in temporary if not first light, so we can add to total diffuse colour
+        // write in temporary if not first light, so we can add to total diffuse colour
         if (_isFirstLight) t = _totalLightColorReg
         else {
             t = regCache.getFreeFragmentVectorTemp();
@@ -231,7 +231,7 @@ class BasicSpecularMethod extends LightingMethodBase {
         if (vo.numLights == 0) return code;
         if (_shadowRegister != null) code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _shadowRegister + ".w\n";
         if (_useTexture) {
-// apply strength modulation from texture
+            // apply strength modulation from texture
             code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _specularTexData + ".x\n";
             regCache.removeFragmentTempUsage(_specularTexData);
         }
@@ -244,11 +244,11 @@ class BasicSpecularMethod extends LightingMethodBase {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-//var context : Context3D = stage3DProxy._context3D;
+        //var context : Context3D = stage3DProxy._context3D;
         if (vo.numLights == 0) return;
         if (_useTexture) {
             #if !flash 
-            stage3DProxy._context3D.setSamplerStateAt(vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, vo.useSmoothTextures ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST, vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE);
+            stage3DProxy._context3D.setSamplerStateAt(vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, vo.useSmoothTextures ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST, vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE, vo.maxAnisotropy );
             #end
             stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
         }

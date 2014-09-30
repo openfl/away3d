@@ -23,6 +23,7 @@ class MethodVO {
     public var useMipmapping:Bool;
     public var useSmoothTextures:Bool;
     public var repeatTextures:Bool;
+    public var maxAnisotropy:Float;
     // internal stuff for the material to know before assembling code
     public var needsProjection:Bool;
     public var needsView:Bool;
@@ -50,6 +51,7 @@ class MethodVO {
         vertexConstantsIndex = -1;
         fragmentConstantsIndex = -1;
         useMipmapping = true;
+        maxAnisotropy = 1;
         useSmoothTextures = true;
         repeatTextures = false;
         needsProjection = false;

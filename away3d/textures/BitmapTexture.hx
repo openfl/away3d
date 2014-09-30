@@ -40,7 +40,7 @@ class BitmapTexture extends Texture2DBase {
     }
 
     override private function uploadContent(texture:TextureBase):Void { 
-        #if (flash || html5)
+        #if flash
         if (_generateMipmaps) MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true)
         else cast((texture), Texture).uploadFromBitmapData(_bitmapData, 0);
         #else

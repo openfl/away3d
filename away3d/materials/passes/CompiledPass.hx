@@ -209,7 +209,7 @@ class CompiledPass extends MaterialPassBase {
         _compiler.methodSetup = _methodSetup;
         _compiler.diffuseLightSources = _diffuseLightSources;
         _compiler.specularLightSources = _specularLightSources;
-        _compiler.setTextureSampling(_smooth, _repeat, _mipmap);
+        _compiler.setTextureSampling(_smooth, _repeat, _mipmap, _maxAnisotropy);
         _compiler.setConstantDataBuffers(_vertexConstantData, _fragmentConstantData);
         _compiler.animateUVs = _animateUVs;
         _compiler.alphaPremultiplied = _alphaPremultiplied && _enableBlending;
@@ -299,6 +299,15 @@ class CompiledPass extends MaterialPassBase {
     override public function set_mipmap(value:Bool):Bool {
         if (_mipmap == value) return value;
         super.mipmap = value;
+        return value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    override public function set_maxAnisotropy(value:Float):Float {
+        if (_maxAnisotropy == value) return value;
+        super.maxAnisotropy = value;
         return value;
     }
 

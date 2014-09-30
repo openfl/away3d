@@ -31,6 +31,7 @@ class MaterialPassBase extends EventDispatcher {
 	public var mipmap(get_mipmap, set_mipmap):Bool;
 	public var smooth(get_smooth, set_smooth):Bool;
 	public var repeat(get_repeat, set_repeat):Bool;
+	public var maxAnisotropy(get_maxAnisotropy, set_maxAnisotropy):Float;
 	public var bothSides(get_bothSides, set_bothSides):Bool;
 	public var depthCompareMode(get_depthCompareMode, set_depthCompareMode):Context3DCompareMode;
 	public var animationSet(get_animationSet, set_animationSet):IAnimationSet;
@@ -60,6 +61,7 @@ class MaterialPassBase extends EventDispatcher {
 	private var _smooth:Bool;
 	private var _repeat:Bool;
 	private var _mipmap:Bool;
+	private var _maxAnisotropy:Float;
 	private var _depthCompareMode:Context3DCompareMode;
 	private var _blendFactorSource:Context3DBlendFactor;
 	private var _blendFactorDest:Context3DBlendFactor;
@@ -105,6 +107,7 @@ class MaterialPassBase extends EventDispatcher {
 		_smooth = true;
 		_repeat = false;
 		_mipmap = true;
+		_maxAnisotropy = 1;
 		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 		
 		_blendFactorSource = Context3DBlendFactor.ONE;
@@ -168,6 +171,21 @@ class MaterialPassBase extends EventDispatcher {
 		return _mipmap;
 	}
 	
+    /**
+     * Indicates the number of Anisotropic filtering samples to take for mipmapping
+     */
+    public function get_maxAnisotropy():Float {
+        return _maxAnisotropy;
+    }
+
+    public function set_maxAnisotropy(value:Float):Float {
+        if (_maxAnisotropy == value)
+        	return _maxAnisotropy;
+        _maxAnisotropy = value;
+        invalidateShaderProgram();
+        return maxAnisotropy;
+    }
+
 	/**
 	 * Defines whether smoothing should be applied to any used textures.
 	 */ 
