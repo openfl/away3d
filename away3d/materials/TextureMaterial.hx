@@ -6,6 +6,7 @@ package away3d.materials;
 import openfl.display.BlendMode;
 import openfl.geom.ColorTransform;
 import away3d.textures.Texture2DBase;
+import away3d.textures.Anisotropy;
 
 class TextureMaterial extends SinglePassMaterialBase {
     public var animateUVs(get_animateUVs, set_animateUVs):Bool;
@@ -19,15 +20,15 @@ class TextureMaterial extends SinglePassMaterialBase {
 	 * @param smooth Indicates whether the texture should be filtered when sampled. Defaults to true.
 	 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
 	 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
-	 * @param maxAnisotropy Indicates the number of samples to use if Anisotropic mipmap filtering is applied
+	 * @param anisotropy Indicates the number of samples to use if Anisotropic mipmap filtering is applied
      */
-    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true, maxAnisotropy:Float = 1) {
+    public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true, anisotropy:Anisotropy = null ) {
         super();
         this.texture = texture;
         this.smooth = smooth;
         this.repeat = repeat;
         this.mipmap = mipmap;
-        this.maxAnisotropy = maxAnisotropy;
+        this.anisotropy = (anisotropy == null ? Anisotropy.ANISOTROPIC2X : anisotropy);
     }
 
     /**

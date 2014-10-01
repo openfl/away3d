@@ -6,7 +6,6 @@ package away3d.materials.methods;
 
 import away3d.events.ShadingMethodEvent;
 import away3d.events.ShadingMethodEvent;
-import openfl.display3D.Context3DTextureFormat;
 import away3d.textures.TextureProxyBase;
 import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.cameras.Camera3D;
@@ -16,6 +15,10 @@ import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.library.assets.NamedAssetBase;
 import away3d.materials.compilation.ShaderRegisterData;
 import away3d.materials.passes.MaterialPassBase;
+import away3d.textures.Anisotropy;
+
+import openfl.display3D.Context3DTextureFormat;
+import openfl.display3D.Context3DTextureFilter;
 
 class ShadingMethodBase extends NamedAssetBase {
     public var sharedRegisters(get_sharedRegisters, set_sharedRegisters):ShaderRegisterData;
@@ -202,6 +205,26 @@ class ShadingMethodBase extends NamedAssetBase {
 	 * Copies the state from a ShadingMethodBase object into the current object.
 	 */
     public function copyFrom(method:ShadingMethodBase):Void {
+    }
+
+    /*
+     * Set the smoothing dependent on smooth property and anisotropy property from the VO
+     */
+    private function getSmoothingFilter(smooth:Bool, anisotropy:Anisotropy) {
+        #if flash
+        return smooth ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST;
+        #else
+        if (smooth) {
+            switch (anisotropy) {
+                case Anisotropy.ANISOTROPIC2X : return Context3DTextureFilter.ANISOTROPIC2X;
+                case Anisotropy.ANISOTROPIC4X : return Context3DTextureFilter.ANISOTROPIC4X;
+                case Anisotropy.ANISOTROPIC8X : return Context3DTextureFilter.ANISOTROPIC8X;
+                case Anisotropy.ANISOTROPIC16X : return Context3DTextureFilter.ANISOTROPIC16X;
+                case Anisotropy.NONE : return Context3DTextureFilter.LINEAR;
+            }
+        } else
+            return Context3DTextureFilter.NEAREST;
+        #end
     }
 }
 

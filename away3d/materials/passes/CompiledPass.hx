@@ -21,6 +21,7 @@ import away3d.materials.methods.MethodVOSet;
 import away3d.materials.methods.ShaderMethodSetup;
 import away3d.materials.methods.ShadowMapMethodBase;
 import away3d.textures.Texture2DBase;
+import away3d.textures.Anisotropy;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DProgramType;
 import openfl.geom.Matrix;
@@ -209,7 +210,7 @@ class CompiledPass extends MaterialPassBase {
         _compiler.methodSetup = _methodSetup;
         _compiler.diffuseLightSources = _diffuseLightSources;
         _compiler.specularLightSources = _specularLightSources;
-        _compiler.setTextureSampling(_smooth, _repeat, _mipmap, _maxAnisotropy);
+        _compiler.setTextureSampling(_smooth, _repeat, _mipmap, _anisotropy);
         _compiler.setConstantDataBuffers(_vertexConstantData, _fragmentConstantData);
         _compiler.animateUVs = _animateUVs;
         _compiler.alphaPremultiplied = _alphaPremultiplied && _enableBlending;
@@ -305,9 +306,9 @@ class CompiledPass extends MaterialPassBase {
     /**
      * @inheritDoc
      */
-    override public function set_maxAnisotropy(value:Float):Float {
-        if (_maxAnisotropy == value) return value;
-        super.maxAnisotropy = value;
+    override public function set_anisotropy(value:Anisotropy):Anisotropy {
+        if (_anisotropy == value) return value;
+        super.anisotropy = value;
         return value;
     }
 

@@ -26,6 +26,9 @@ typedef Location = Int;
 
 class Context3D 
 {
+    public static var TEXTURE_MAX_ANISOTROPY_EXT : UInt = 0x84FE;
+    public static var MAX_TEXTURE_MAX_ANISOTROPY_EXT : UInt = 0x84FF;
+
     public var driverInfo(default, null):String; // TODO
     public var enableErrorChecking:Bool; // TODO   ( use GL.getError() and GL.validateProgram(program) )
 
@@ -53,15 +56,19 @@ class Context3D
     private var texturesCreated : Array<TextureBase>;
 
     private var framebuffer : GLFramebuffer;
-	private var renderbuffer : GLRenderbuffer;
+    private var renderbuffer : GLRenderbuffer;
     private var depthbuffer : GLRenderbuffer;
     private var stencilbuffer : GLRenderbuffer;
     private var defaultFrameBuffer : GLFramebuffer;
 
     private var samplerParameters :Array<SamplerState>; //TODO : use Tupple3
-	private var scrollRect:Rectangle;
+    private var scrollRect:Rectangle;
 
-	public static var MAX_SAMPLERS:Int = 8;
+    private static var anisotropySupportTested:Bool = false;
+    private static var supportsAnisotropy:Bool = false;
+    private static var maxSupportedAnisotropy:UInt = 256;
+
+    public static var MAX_SAMPLERS:Int = 8;
    
     public function new() 
     {
@@ -71,13 +78,12 @@ class Context3D
         programsCreated = new Array();
         texturesCreated = new Array(); 
         samplerParameters = new Array<SamplerState>();
-		for (  i in 0...MAX_SAMPLERS) {
-			this.samplerParameters[ i ] = new SamplerState(); 
-			this.samplerParameters[ i ].wrap = Context3DWrapMode.REPEAT;
-			this.samplerParameters[ i ].filter = Context3DTextureFilter.LINEAR;
-			this.samplerParameters[ i ].mipfilter =Context3DMipFilter.MIPNONE;
-            this.samplerParameters[ i ].maxAnisotropy = 1;
-		}
+        for (  i in 0...MAX_SAMPLERS) {
+            this.samplerParameters[ i ] = new SamplerState(); 
+            this.samplerParameters[ i ].wrap = Context3DWrapMode.REPEAT;
+            this.samplerParameters[ i ].filter = Context3DTextureFilter.LINEAR;
+            this.samplerParameters[ i ].mipfilter =Context3DMipFilter.MIPNONE;
+        }
 
         var stage = Lib.current.stage;
 
@@ -88,11 +94,11 @@ class Context3D
         ogl.height = stage.stageHeight;
         
         //todo html something 
-		//#if html5
-		//stage.addChild(ogl);
-		//#else
-		stage.addChildAt(ogl, 0);
-		//#end      
+        //#if html5
+        //stage.addChild(ogl);
+        //#else
+        stage.addChildAt(ogl, 0);
+        //#end      
     }
 
     public function clear(red:Float = 0, green:Float = 0, blue:Float = 0, alpha:Float = 1, depth:Float = 1, stencil:Int = 0, mask:Int = Context3DClearMask.ALL):Void 
@@ -152,7 +158,7 @@ class Context3D
 
     public function createTexture(width:Int, height:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool, streamingLevels:Int = 0):openfl.display3D.textures.Texture 
     {
-        var texture = new openfl.display3D.textures.Texture (GL.createTexture (), optimizeForRenderToTexture,width, height);     // TODO use format, optimizeForRenderToTexture and  streamingLevels?
+        var texture = new openfl.display3D.textures.Texture(GL.createTexture(), optimizeForRenderToTexture, width, height);     // TODO use format, optimizeForRenderToTexture and  streamingLevels?
         texturesCreated.push(texture);
         return texture;
     }
@@ -205,12 +211,12 @@ class Context3D
             GL.deleteFramebuffer(framebuffer);
             framebuffer = null;
         }
-		
+        
         if(renderbuffer != null){
             GL.deleteRenderbuffer(renderbuffer);
             renderbuffer = null;
         }
-		
+        
         disposed = true;
     }
 
@@ -379,7 +385,7 @@ class Context3D
     }
 
     // TODO : currently does not work (framebufferStatus always return zero)
-    public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {		 
+    public function setRenderToTexture (texture:TextureBase, enableDepthAndStencil:Bool = false, antiAlias:Int = 0, surfaceSelector:Int = 0):Void {      
         
         if (framebuffer == null) 
             framebuffer = GL.createFramebuffer();
@@ -411,26 +417,33 @@ class Context3D
         GL.viewport(0, 0, texture.width, texture.height); 
     }
 
-    public function setSamplerStateAt(sampler:Int, wrap:Context3DWrapMode, filter:Context3DTextureFilter, mipfilter:Context3DMipFilter, maxAnisotropy:Float = 1 ):Void
+    public function setSamplerStateAt(sampler:Int, wrap:Context3DWrapMode, filter:Context3DTextureFilter, mipfilter:Context3DMipFilter ):Void
     {
         //TODO for flash < 11.6 : patch the AGAL (using specific opcodes) and rebuild the program? 
 
-    	if (0 <= sampler && sampler <  MAX_SAMPLERS) {
-    		this.samplerParameters[ sampler ].wrap = wrap;
-    		this.samplerParameters[ sampler ].filter = filter;
+        if (0 <= sampler && sampler <  MAX_SAMPLERS) {
+            this.samplerParameters[ sampler ].wrap = wrap;
+            this.samplerParameters[ sampler ].filter = filter;
             this.samplerParameters[ sampler ].mipfilter = mipfilter;
-    		this.samplerParameters[ sampler ].maxAnisotropy = maxAnisotropy;
-    	} else {
-    		throw "Sampler is out of bounds.";
-    	}
+        } else {
+            throw "Sampler is out of bounds.";
+        }
     }
 
-    private function setTextureParameters(texture : TextureBase, wrap : Context3DWrapMode, filter : Context3DTextureFilter, mipfilter : Context3DMipFilter, maxAnisotropy:Float = 1 ):Void{
+    private function setTextureParameters(texture : TextureBase, wrap : Context3DWrapMode, filter : Context3DTextureFilter, mipfilter : Context3DMipFilter ):Void{
+
+        if ( !anisotropySupportTested ) {
+            supportsAnisotropy = (GL.getSupportedExtensions().indexOf("GL_EXT_texture_filter_anisotropic")!=-1);
+            anisotropySupportTested = true;
+
+            GL.texParameterf(GL.TEXTURE_2D, 0x84FE, maxSupportedAnisotropy);
+            maxSupportedAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, 0x84FE);
+        }
 
         if (Std.is (texture, openfl.display3D.textures.Texture)) {
 
             GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.Texture).glTexture);
-            switch(wrap){
+            switch ( wrap ) {
                 case Context3DWrapMode.CLAMP:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
@@ -439,61 +452,81 @@ class Context3D
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.REPEAT);
             }
 
-            switch(filter){
+            // Currently using TEXTURE_MAX_ANISOTROPY_EXT instead of GL.TEXTURE_MAX_ANISOTROPY_EXT
+            // until it is implemented.
+            switch ( filter ) {
                 case Context3DTextureFilter.LINEAR:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, 1 );
 
                 case Context3DTextureFilter.NEAREST:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, 1 );
+
+                case Context3DTextureFilter.ANISOTROPIC2X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 2) ? maxSupportedAnisotropy : 2 );
+                 
+                case Context3DTextureFilter.ANISOTROPIC4X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 4) ? maxSupportedAnisotropy : 4 );
+
+                case Context3DTextureFilter.ANISOTROPIC8X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 8) ? maxSupportedAnisotropy : 8 );
+
+                case Context3DTextureFilter.ANISOTROPIC16X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 16) ? maxSupportedAnisotropy : 16 );
             }
 
-            //TODO CHECK the mipmap filters
-            switch(mipfilter){
-                 case Context3DMipFilter.MIPLINEAR:
+            switch ( mipfilter ) {
+                case Context3DMipFilter.MIPLINEAR:
                     GL.generateMipmap(GL.TEXTURE_2D);
-                    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
-
-                    if (GL.getSupportedExtensions().indexOf("GL_EXT_texture_filter_anisotropic")!=-1) {
-                        // I found that setting the filtering to a higher level then querying the texParameter
-                        // returns the maximum capability for the device (as far as I can tell)
-                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, maxAnisotropy);
-                        var actualMaxAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, 0x84FE);
-                        
-                        // Currently hard coded 0x84FE as the GL.TEXTURE_MAX_ANISOTROPY_EXT enum
-                        // GL.texParameterf(GL_TEXTURE_2D, GL.TEXTURE_MAX_ANISOTROPY_EXT, 8.0);
-                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, (actualMaxAnisotropy < maxAnisotropy) ? actualMaxAnisotropy : maxAnisotropy );
-                    }      
+                    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR); 
     
                 case Context3DMipFilter.MIPNEAREST:
                     GL.generateMipmap(GL.TEXTURE_2D);
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST_MIPMAP_NEAREST);
 
-                    if (GL.getSupportedExtensions().indexOf("GL_EXT_texture_filter_anisotropic")!=-1) {
-                        // I found that setting the filtering to a higher level then querying the texParameter
-                        // returns the maximum capability for the device (as far as I can tell)
-                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, maxAnisotropy);
-                        var actualMaxAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, 0x84FE);
-                        
-                        // Currently hard coded 0x84FE as the GL.TEXTURE_MAX_ANISOTROPY_EXT enum
-                        // GL.texParameterf(GL_TEXTURE_2D, GL.TEXTURE_MAX_ANISOTROPY_EXT, 8.0);
-                        GL.texParameterf(GL.TEXTURE_2D, 0x84FE, (actualMaxAnisotropy < maxAnisotropy) ? actualMaxAnisotropy : maxAnisotropy );
-                    }
-
                 case Context3DMipFilter.MIPNONE:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR); 
             } 
-        } else if (Std.is (texture, openfl.display3D.textures.RectangleTexture)) {
+
+        } else if ( Std.is (texture, openfl.display3D.textures.RectangleTexture) ) {
             
             GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.RectangleTexture).glTexture);
             GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
             GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
             
-            switch(filter){
+            switch ( filter ) {
                 case Context3DTextureFilter.LINEAR:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, 1 );
 
                 case Context3DTextureFilter.NEAREST:
                     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, 1 );
+
+                case Context3DTextureFilter.ANISOTROPIC2X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 2) ? maxSupportedAnisotropy : 2 );
+                 
+                case Context3DTextureFilter.ANISOTROPIC4X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 4) ? maxSupportedAnisotropy : 4 );
+
+                case Context3DTextureFilter.ANISOTROPIC8X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 8) ? maxSupportedAnisotropy : 8 );
+
+                case Context3DTextureFilter.ANISOTROPIC16X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 16) ? maxSupportedAnisotropy : 16 );
             }
 
             GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
@@ -509,16 +542,35 @@ class Context3D
                     GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_WRAP_T, GL.REPEAT);
             }
 
-            switch(filter){
+            switch ( filter ) {
                 case Context3DTextureFilter.LINEAR:
                     GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_CUBE_MAP, TEXTURE_MAX_ANISOTROPY_EXT, 1 );
 
                 case Context3DTextureFilter.NEAREST:
                     GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_CUBE_MAP, TEXTURE_MAX_ANISOTROPY_EXT, 1 );
+
+                case Context3DTextureFilter.ANISOTROPIC2X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_CUBE_MAP, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 2) ? maxSupportedAnisotropy : 2 );
+                 
+                case Context3DTextureFilter.ANISOTROPIC4X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_CUBE_MAP, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 4) ? maxSupportedAnisotropy : 4 );
+
+                case Context3DTextureFilter.ANISOTROPIC8X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_CUBE_MAP, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 8) ? maxSupportedAnisotropy : 8 );
+
+                case Context3DTextureFilter.ANISOTROPIC16X:
+                    if (supportsAnisotropy)
+                        GL.texParameterf(GL.TEXTURE_CUBE_MAP, TEXTURE_MAX_ANISOTROPY_EXT, (maxSupportedAnisotropy < 16) ? maxSupportedAnisotropy : 16 );
             }
 
-            //TODO CHECK the mipmap filters
-            switch(mipfilter){
+            switch ( mipfilter ) {
                 case Context3DMipFilter.MIPLINEAR:
                     GL.texParameteri(GL.TEXTURE_CUBE_MAP, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
 
@@ -537,12 +589,12 @@ class Context3D
     public function setScissorRectangle(rectangle:Rectangle):Void 
     {
         // TODO test it
-    	if (rectangle == null) {
-    		GL.disable(GL.SCISSOR_TEST);
-    		return;
-    	}
+        if (rectangle == null) {
+            GL.disable(GL.SCISSOR_TEST);
+            return;
+        }
 
-    	GL.enable(GL.SCISSOR_TEST);
+        GL.enable(GL.SCISSOR_TEST);
         GL.scissor(Std.int(rectangle.x), Std.int(scrollRect.height - rectangle.y - rectangle.height), Std.int(rectangle.width), Std.int(rectangle.height));
     }
 
@@ -593,11 +645,9 @@ class Context3D
         if ( Std.is (texture, openfl.display3D.textures.Texture) ) {
             GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.Texture).glTexture);
             GL.uniform1i(location, textureIndex);  
-
         } else if ( Std.is(texture, RectangleTexture) ) {
             GL.bindTexture(GL.TEXTURE_2D, cast(texture, openfl.display3D.textures.RectangleTexture).glTexture);
-            GL.uniform1i(location, textureIndex);
-            
+            GL.uniform1i(location, textureIndex);            
         } else if ( Std.is(texture, CubeTexture) ) {        
             GL.bindTexture( GL.TEXTURE_CUBE_MAP, cast(texture, openfl.display3D.textures.CubeTexture).glTexture );
             GL.uniform1i( location, textureIndex ); 
@@ -607,9 +657,9 @@ class Context3D
 
         var parameters:SamplerState= samplerParameters[textureIndex];
         if (parameters != null) {
-            setTextureParameters(texture, parameters.wrap, parameters.filter, parameters.mipfilter, parameters.maxAnisotropy);
+            setTextureParameters(texture, parameters.wrap, parameters.filter, parameters.mipfilter);
         } else {
-            setTextureParameters(texture, Context3DWrapMode.REPEAT, Context3DTextureFilter.NEAREST, Context3DMipFilter.MIPNONE, 1);
+            setTextureParameters(texture, Context3DWrapMode.REPEAT, Context3DTextureFilter.NEAREST, Context3DMipFilter.MIPNONE);
         }
     }
 

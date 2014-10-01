@@ -1,0 +1,9 @@
+package away3d.textures;
+
+enum Anisotropy {
+	NONE;
+	ANISOTROPIC2X;
+	ANISOTROPIC4X;
+	ANISOTROPIC8X;
+	ANISOTROPIC16X;
+}

@@ -5,6 +5,7 @@
 package away3d.materials.methods;
 
 import openfl.Vector;
+import away3d.textures.Anisotropy;
 
 class MethodVO {
 
@@ -23,7 +24,7 @@ class MethodVO {
     public var useMipmapping:Bool;
     public var useSmoothTextures:Bool;
     public var repeatTextures:Bool;
-    public var maxAnisotropy:Float;
+    public var anisotropy:Anisotropy;
     // internal stuff for the material to know before assembling code
     public var needsProjection:Bool;
     public var needsView:Bool;
@@ -51,7 +52,7 @@ class MethodVO {
         vertexConstantsIndex = -1;
         fragmentConstantsIndex = -1;
         useMipmapping = true;
-        maxAnisotropy = 1;
+        anisotropy = Anisotropy.ANISOTROPIC2X;
         useSmoothTextures = true;
         repeatTextures = false;
         needsProjection = false;

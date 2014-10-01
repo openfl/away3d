@@ -27,6 +27,7 @@ import away3d.materials.lightpickers.LightPickerBase;
 import away3d.materials.passes.DepthMapPass;
 import away3d.materials.passes.DistanceMapPass;
 import away3d.materials.passes.MaterialPassBase;
+import away3d.textures.Anisotropy;
 import openfl.display.BlendMode;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
@@ -40,7 +41,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     public var smooth(get_smooth, set_smooth):Bool;
     public var depthCompareMode(get_depthCompareMode, set_depthCompareMode):Context3DCompareMode;
     public var repeat(get_repeat, set_repeat):Bool;
-    public var maxAnisotropy(get_maxAnisotropy, set_maxAnisotropy):Float;
+    public var anisotropy(get_anisotropy, set_anisotropy):Anisotropy;
     public var bothSides(get_bothSides, set_bothSides):Bool;
     public var blendMode(get_blendMode, set_blendMode):BlendMode;
     public var alphaPremultiplied(get_alphaPremultiplied, set_alphaPremultiplied):Bool;
@@ -99,7 +100,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     private var _mipmap:Bool;
     private var _smooth:Bool;
     private var _repeat:Bool;
-    private var _maxAnisotropy:Float;
+    private var _anisotropy:Anisotropy;
     private var _depthPass:DepthMapPass;
     private var _distancePass:DistanceMapPass;
     private var _lightPicker:LightPickerBase;
@@ -113,7 +114,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
         _blendMode = BlendMode.NORMAL;
         _mipmap = true;
         _smooth = true;
-        _maxAnisotropy = 1;
+        _anisotropy = Anisotropy.ANISOTROPIC2X;
         _depthCompareMode = Context3DCompareMode.LESS_EQUAL;
         _owners = new Array<IMaterialOwner>();
         _passes = new Array<MaterialPassBase>();
@@ -229,18 +230,18 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
      * Indicates the number of Anisotropic filtering samples to take for mipmapping
      */
-    public function get_maxAnisotropy():Float {
-        return _maxAnisotropy;
+    public function get_anisotropy():Anisotropy {
+        return _anisotropy;
     }
 
-    public function set_maxAnisotropy(value:Float):Float {
-        _maxAnisotropy = value;
+    public function set_anisotropy(value:Anisotropy):Anisotropy {
+        _anisotropy = value;
         var i:Int = 0;
         while (i < _numPasses) {
-            _passes[i].maxAnisotropy = maxAnisotropy;
+            _passes[i].anisotropy = _anisotropy;
             ++i;
         }
-        return maxAnisotropy;
+        return _anisotropy;
     }
 
     /**
@@ -615,7 +616,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
         pass.mipmap = _mipmap;
         pass.smooth = _smooth;
         pass.repeat = _repeat;
-        pass.maxAnisotropy = _maxAnisotropy;
+        pass.anisotropy = _anisotropy;
         pass.lightPicker = _lightPicker;
         pass.bothSides = _bothSides;
         pass.addEventListener(Event.CHANGE, onPassChange);

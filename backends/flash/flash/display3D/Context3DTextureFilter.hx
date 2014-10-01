@@ -1,8 +1,4 @@
-/****
-* 
-****/
-
-package openfl.display3D;
+package flash.display3D;
 
 enum Context3DTextureFilter {
     ANISOTROPIC2X;
