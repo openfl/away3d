@@ -436,8 +436,8 @@ class Context3D
             supportsAnisotropy = (GL.getSupportedExtensions().indexOf("GL_EXT_texture_filter_anisotropic")!=-1);
             anisotropySupportTested = true;
 
-            GL.texParameterf(GL.TEXTURE_2D, 0x84FE, maxSupportedAnisotropy);
-            maxSupportedAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, 0x84FE);
+            GL.texParameterf(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, maxSupportedAnisotropy);
+            maxSupportedAnisotropy = GL.getTexParameter(GL.TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT);
         }
 
         if (Std.is (texture, openfl.display3D.textures.Texture)) {
