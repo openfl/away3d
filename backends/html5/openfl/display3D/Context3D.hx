@@ -17,6 +17,7 @@ import openfl.gl.GLFramebuffer;
 import openfl.gl.GLProgram;
 import openfl.utils.ByteArray;
 import openfl.Lib;
+import openfl.utils.Float32Array;
 
 #if html5
 typedef Location = openfl.gl.GLUniformLocation;
@@ -361,7 +362,7 @@ class Context3D
     public function setGLSLProgramConstantsFromMatrix(locationName : String, matrix:Matrix3D, transposedMatrix:Bool = false):Void 
     {
         var location = GL.getUniformLocation(currentProgram.glProgram, locationName);
-        GL.uniformMatrix3D(location, !transposedMatrix, matrix);
+        GL.uniformMatrix4fv(location, !transposedMatrix, new Float32Array( matrix.rawData) );
     }
 
     public function setGLSLProgramConstantsFromVector4(locationName : String, data:Array<Float>, startIndex : Int = 0):Void 

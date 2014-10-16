@@ -234,7 +234,7 @@ class ShaderPicker implements IPicker {
         var fragmentCode:String;
         _objectProgram3D = _context.createProgram();
         vertexCode = "m44 vt0, va0, vc0			\n" + "mul vt1.xy, vt0.w, vc4.zw	\n" + "add vt0.xy, vt0.xy, vt1.xy	\n" + "mul vt0.xy, vt0.xy, vc4.xy	\n" + "mov op, vt0	\n";
-        fragmentCode = "mov oc, fc0";
+        fragmentCode = "mov oc, fc0\n";
         // write identifier
 
         _objectProgram3D.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode));
@@ -250,7 +250,7 @@ class ShaderPicker implements IPicker {
 
         // todo: add animation code
         vertexCode = "add vt0, va0, vc5 			\n" + "mul vt0, vt0, vc6 			\n" + "mov v0, vt0				\n" + "m44 vt0, va0, vc0			\n" + "mul vt1.xy, vt0.w, vc4.zw	\n" + "add vt0.xy, vt0.xy, vt1.xy	\n" + "mul vt0.xy, vt0.xy, vc4.xy	\n" + "mov op, vt0	\n";
-        fragmentCode = "mov oc, v0";
+        fragmentCode = "mov oc, v0\n";
 
         // write identifier
         _triangleProgram3D.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode));
