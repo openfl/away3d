@@ -8,6 +8,7 @@ import away3d.core.base.SubGeometry;
 import away3d.entities.Mesh;
 import away3d.materials.MaterialBase;
 import openfl.display.BitmapData;
+import openfl.Vector;
 
 class Elevation extends Mesh {
     public var minElevation(get_minElevation, set_minElevation):Int;
@@ -262,8 +263,8 @@ class Elevation extends Mesh {
         }
 
         else {
-            vertices = new Array<Float>(numVerts * 3, true);
-            indices = new Array<UInt>(_segmentsH * _segmentsW * 6, true);
+            vertices = new Vector<Float>(numVerts * 3, true);
+            indices = new Vector<UInt>(_segmentsH * _segmentsW * 6, true);
         }
 
         numVerts = 0;
@@ -308,7 +309,7 @@ class Elevation extends Mesh {
         var uvs:Array<Float> = new Array<Float>();
         var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * 2;
         if (_subGeometry.UVData != null && numUvs == _subGeometry.UVData.length) uvs = _subGeometry.UVData
-        else uvs = new Array<Float>(numUvs, true);
+        else uvs = new Vector<Float>(numUvs, true);
         numUvs = 0;
         var yi:Int = 0;
         while (yi <= _segmentsH) {
