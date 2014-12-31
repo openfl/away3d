@@ -8,6 +8,6 @@
 	"releasenote": "Addition of GPU mipmap generation for native & HTML5 targets and support for anisotropic filtering. Other build fixes.",
 	"contributors": [ "Greg209" ],
 	"dependencies": {
-		"openfl": "2.0.1"
+		"openfl": "2.1.8"
 	}
 }
