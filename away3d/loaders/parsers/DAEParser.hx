@@ -2396,7 +2396,7 @@ class DAESkin extends DAEElement {
         var source:DAESource;
         var i:Int, j:Int, k:Int;
 
-        if (element.hasNode.resolve("vcount") || element.hasNode.resolve("v"))
+        if ( ( !element.hasNode.resolve("vcount") ) || ( !element.hasNode.resolve("v") ) )
             throw new Error("Can't parse vertex weights");
 
         var vcount:Array<Int> = readIntArray(element.node.resolve("vcount"));
@@ -2405,8 +2405,9 @@ class DAESkin extends DAEElement {
         var index:Int = 0;
         this.maxBones = 0;
 
-        for (item in list.iterator())
+        for (item in list.iterator()) {
             inputs.push(new DAEInput(item));
+		}
 
         for (i in 0...vcount.length) {
             var numBones:Int = vcount[i];
@@ -2490,7 +2491,7 @@ class DAESampler extends DAEElement {
             _inputs.push(new DAEInput(item));
     }
 
-    public function create(sources:Dynamic):Void {
+    public function create(sources:Map<String, DAESource>):Void {
         var input:DAEInput;
         var source:DAESource;
         var j:Int;
@@ -2502,7 +2503,7 @@ class DAESampler extends DAEElement {
 
         for (i in 0..._inputs.length) {
             input = _inputs[i];
-            source = sources.field(input.source);
+            source = sources.get(input.source);
 
             switch (input.semantic)
             {
@@ -2638,7 +2639,7 @@ class DAEChannel extends DAEElement {
 class DAEAnimation extends DAEElement {
     public var samplers:Array<DAESampler>;
     public var channels:Array<DAEChannel>;
-    public var sources:StringMap<DAESource>;
+    public var sources:Map<String, DAESource>;
 
     public function new(element:Fast = null) {
         super(element);
@@ -2648,7 +2649,7 @@ class DAEAnimation extends DAEElement {
         super.deserialize(element);
         this.samplers = new Array<DAESampler>();
         this.channels = new Array<DAEChannel>();
-        this.sources = new StringMap();
+        this.sources = new Map<String, DAESource>();
         traverseChildren(element);
         setupChannels(this.sources);
     }
