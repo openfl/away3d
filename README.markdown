@@ -48,9 +48,7 @@ A typical project.xml file would look as follows. Each example in the away3d-exa
 	
 	
 ##Dependencies
-Requires OpenFL 2.0.1 
-
-__NOTE: Currently the GitHub master of OpenFL is required as it contains classes which are not in the released version.__
+Requires OpenFL 2.1.8
     
 ##License
 
