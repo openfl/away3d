@@ -171,7 +171,8 @@ package away3d.materials.passes;
 		 */
 		override private function updateLights():Void
 		{
-						super.updateLights();
+			super.updateLights();
+			
 			if (_lightPicker!=null && !_ignoreLights) {
 				_numPointLights = _lightPicker.numPointLights;
 				_numDirectionalLights = _lightPicker.numDirectionalLights;

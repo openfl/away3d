@@ -3,7 +3,6 @@
  */
 package away3d.loaders.parsers;
 
-
 import openfl.errors.Error;
 import haxe.ds.StringMap;
 import away3d.debug.Debug;
@@ -30,11 +29,12 @@ import away3d.materials.MaterialBase;
 import away3d.materials.methods.BasicSpecularMethod;
 import away3d.textures.Texture2DBase;
 import haxe.ds.StringMap.StringMap;
-
+import openfl.Vector;
 
 /**
  * OBJParser provides a parser for the OBJ data type.
  */
+
 class OBJParser extends ParserBase {
     private var _textData:String;
     private var _startedParsing:Bool;
@@ -66,6 +66,7 @@ class OBJParser extends ParserBase {
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
+
     public function new(scale:Float = 1) {
         super(ParserDataFormat.PLAIN_TEXT);
         _scale = scale;
@@ -75,6 +76,7 @@ class OBJParser extends ParserBase {
 	 * Scaling factor applied directly to vertices data
 	 * @param value The scaling factor.
 	 */
+
     public var scale(null, set):Float;
 
     private function set_scale(value:Float):Float {
@@ -86,6 +88,7 @@ class OBJParser extends ParserBase {
 	 * @param extension The file extension of a potential file to be parsed.
 	 * @return Whether or not the given file type is supported.
 	 */
+
     public static function supportsType(extension:String):Bool {
         extension = extension.toLowerCase();
         return extension == "obj";
@@ -96,6 +99,7 @@ class OBJParser extends ParserBase {
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
+
     public static function supportsData(data:Dynamic):Bool {
         var content:String = ParserUtil.toString(data);
         var hasV:Bool = false;
@@ -140,9 +144,9 @@ class OBJParser extends ParserBase {
         }
     }
 
-/**
-	* @inheritDoc
-	*/
+    /**
+	 * @inheritDoc
+	 */
 
     override public function resolveDependencyFailure(resourceDependency:ResourceDependency):Void {
         var lm:LoadedMaterial = null;
@@ -160,9 +164,9 @@ class OBJParser extends ParserBase {
             applyMaterial(lm);
     }
 
-/**
-	* @inheritDoc
-	*/
+    /**
+	 * @inheritDoc
+	 */
 
     override private function proceedParsing():Bool {
         var line:String;
@@ -171,8 +175,9 @@ class OBJParser extends ParserBase {
 
         if (!_startedParsing) {
             _textData = getTextData();
-// Merge linebreaks that are immediately preceeded by
-// the "escape" backward slash into single lines.
+            
+            // Merge linebreaks that are immediately preceeded by
+            // the "escape" backward slash into single lines.
             var reg:EReg = ~/\\[\r\n]+\s*/gm;
             _textData = reg.replace(_textData, ' ');
         }
@@ -208,9 +213,9 @@ class OBJParser extends ParserBase {
             _oldIndex = _charIndex + 1;
             parseLine(trunk);
 
-// If whatever was parsed on this line resulted in the
-// parsing being paused to retrieve dependencies, break
-// here and do not continue parsing until un-paused.
+            // If whatever was parsed on this line resulted in the
+            // parsing being paused to retrieve dependencies, break
+            // here and do not continue parsing until un-paused.
             if (parsingPaused)
                 return ParserBase.MORE_TO_PARSE;
         }
@@ -229,9 +234,9 @@ class OBJParser extends ParserBase {
         return ParserBase.MORE_TO_PARSE;
     }
 
-/**
-	* Parses a single line in the OBJ file.
-	*/
+    /**
+	 * Parses a single line in the OBJ file.
+	 */
 
     private function parseLine(trunk:Array<String>):Void {
         switch (trunk[0])
@@ -264,9 +269,9 @@ class OBJParser extends ParserBase {
         }
     }
 
-/**
-	* Converts the parsed data into an a3d scenegraph structure
-	*/
+    /**
+	 * Converts the parsed data into an a3d scenegraph structure
+	 */
 
     private function translate():Void {
         for (objIndex in 0..._objects.length) {
@@ -292,26 +297,26 @@ class OBJParser extends ParserBase {
                 if (geometry.subGeometries.length == 0)
                     continue;
 
-// Finalize and force type-based name
+                // Finalize and force type-based name
                 finalizeAsset(geometry, "");
                 if (materialMode < 2)
                     bmMaterial = new TextureMaterial(DefaultMaterialManager.getDefaultTexture());
                 else
                     bmMaterial = new TextureMultiPassMaterial(DefaultMaterialManager.getDefaultTexture());
-//bmMaterial = new TextureMaterial(DefaultMaterialManager.getDefaultTexture());
+                //bmMaterial = new TextureMaterial(DefaultMaterialManager.getDefaultTexture());
                 mesh = new Mesh(geometry, bmMaterial);
 
                 if (_objects[objIndex].name != null) {
-// this is a full independent object ('o' tag in OBJ file)
+                    // this is a full independent object ('o' tag in OBJ file)
                     mesh.name = _objects[objIndex].name;
                 }
                 else if (groups[g].name != null) {
-// this is a group so the sub groups contain the actual mesh object names ('g' tag in OBJ file)
+                    // this is a group so the sub groups contain the actual mesh object names ('g' tag in OBJ file)
                     mesh.name = groups[g].name;
                 }
                 else {
-// No name stored. Use empty string which will force it
-// to be overridden by finalizeAsset() to type default.
+                    // No name stored. Use empty string which will force it
+                    // to be overridden by finalizeAsset() to type default.
                     mesh.name = "";
                 }
 
@@ -346,12 +351,12 @@ class OBJParser extends ParserBase {
         var face:FaceData;
         var numFaces:UInt = faces.length;
         var numVerts:UInt;
-        var subs:Array<ISubGeometry>;
+        var subs:Vector<ISubGeometry>;
 
-        var vertices:Array<Float> = new Array<Float>();
-        var uvs:Array<Float> = new Array<Float>();
-        var normals:Array<Float> = new Array<Float>();
-        var indices:Array<UInt> = new Array<UInt>();
+        var vertices:Vector<Float> = new Vector<Float>();
+        var uvs:Vector<Float> = new Vector<Float>();
+        var normals:Vector<Float> = new Vector<Float>();
+        var indices:Vector<UInt> = new Vector<UInt>();
 
         _realIndices = new StringMap<Int>();
         _vertexIndex = 0;
@@ -373,7 +378,7 @@ class OBJParser extends ParserBase {
         }
     }
 
-    private function translateVertexData(face:FaceData, vertexIndex:Int, vertices:Array<Float>, uvs:Array<Float>, indices:Array<UInt>, normals:Array<Float>):Void {
+    private function translateVertexData(face:FaceData, vertexIndex:Int, vertices:Vector<Float>, uvs:Vector<Float>, indices:Vector<UInt>, normals:Vector<Float>):Void {
         var index:Int;
         var vertex:Vertex;
         var vertexNormal:Vertex;
@@ -480,7 +485,7 @@ class OBJParser extends ParserBase {
 	 */
 
     private function parseVertex(trunk:Array<String>):Void {
-//for the very rare cases of other delimiters/charcodes seen in some obj files
+        //for the very rare cases of other delimiters/charcodes seen in some obj files
         if (trunk.length > 4) {
             var nTrunk:Array<Float> = [];
             var val:Float;
@@ -570,9 +575,9 @@ class OBJParser extends ParserBase {
         _currentMaterialGroup.faces.push(face);
     }
 
-/**
-	* This is a hack around negative face coords
-	*/
+    /**
+	 * This is a hack around negative face coords
+	 */
 
     private function parseIndex(index:Int, length:Int):Int {
         if (index < 0)
@@ -762,22 +767,22 @@ class OBJParser extends ParserBase {
                 break;
         }
 
-//Reconstruct URL/filename
+        //Reconstruct URL/filename
         while (i < trunk.length) {
             url += trunk[i];
             url += " ";
             i++;
         }
 
-//Remove the extraneous space and/or newline from the right side
+        //Remove the extraneous space and/or newline from the right side
         url = ~/\s+$/.replace(url, "");
 
         return url;
     }
 
     private function loadMtl(mtlurl:String):Void {
-// Add raw-data dependency to queue and load dependencies now,
-// which will pause the parsing in the meantime.
+        // Add raw-data dependency to queue and load dependencies now,
+        // which will pause the parsing in the meantime.
         addDependency('mtl', new URLRequest(mtlurl), true);
         pauseAndRetrieveDependencies();
     }
@@ -802,7 +807,7 @@ class OBJParser extends ParserBase {
                 }
                 else if (lm.texture != null) {
                     if (materialMode < 2) {
-// if materialMode is 0 or 1, we create a SinglePass
+                        // if materialMode is 0 or 1, we create a SinglePass
                         mat = cast(mesh.material, TextureMaterial);
                         cast(mat, TextureMaterial).texture = lm.texture;
                         cast(mat, TextureMaterial).ambientColor = lm.ambientColor;
@@ -810,10 +815,10 @@ class OBJParser extends ParserBase {
                         cast(mat, TextureMaterial).repeat = true;
 
                         if (lm.specularMethod != null) {
-// By setting the specularMethod property to null before assigning
-// the actual method instance, we avoid having the properties of
-// the new method being overridden with the settings from the old
-// one, which is default behavior of the setter.
+                            // By setting the specularMethod property to null before assigning
+                            // the actual method instance, we avoid having the properties of
+                            // the new method being overridden with the settings from the old
+                            // one, which is default behavior of the setter.
                             cast(mat, TextureMaterial).specularMethod = null;
                             cast(mat, TextureMaterial).specularMethod = lm.specularMethod;
                         }
@@ -831,17 +836,17 @@ class OBJParser extends ParserBase {
                         }
                     }
                     else {
-//if materialMode==2 this is a MultiPassTexture
+                        //if materialMode==2 this is a MultiPassTexture
                         mat = cast(mesh.material, TextureMultiPassMaterial);
                         cast(mat, TextureMultiPassMaterial).texture = lm.texture;
                         cast(mat, TextureMultiPassMaterial).ambientColor = lm.ambientColor;
                         cast(mat, TextureMultiPassMaterial).repeat = true;
 
                         if (lm.specularMethod != null) {
-// By setting the specularMethod property to null before assigning
-// the actual method instance, we avoid having the properties of
-// the new method being overridden with the settings from the old
-// one, which is default behavior of the setter.
+                            // By setting the specularMethod property to null before assigning
+                            // the actual method instance, we avoid having the properties of
+                            // the new method being overridden with the settings from the old
+                            // one, which is default behavior of the setter.
                             cast(mat, TextureMultiPassMaterial).specularMethod = null;
                             cast(mat, TextureMultiPassMaterial).specularMethod = lm.specularMethod;
                         }
@@ -934,16 +939,16 @@ class LoadedMaterial {
 }
 
 class FaceData {
-    public var vertexIndices:Array<UInt>;
-    public var uvIndices:Array<UInt>;
-    public var normalIndices:Array<UInt>;
-    public var indexIds:Array<String>; // used for real index lookups
+    public var vertexIndices:Vector<UInt>;
+    public var uvIndices:Vector<UInt>;
+    public var normalIndices:Vector<UInt>;
+    public var indexIds:Vector<String>; // used for real index lookups
 
     public function new() {
-        vertexIndices = new Array<UInt>();
-        uvIndices = new Array<UInt>();
-        normalIndices = new Array<UInt>();
-        indexIds = new Array<String>();
+        vertexIndices = new Vector<UInt>();
+        uvIndices = new Vector<UInt>();
+        normalIndices = new Vector<UInt>();
+        indexIds = new Vector<String>();
     }
 }
 

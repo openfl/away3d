@@ -17,12 +17,13 @@ import openfl.errors.Error;
 import away3d.animators.transitions.IAnimationTransition;
 import away3d.animators.states.IVertexAnimationState;
 import away3d.core.base.Geometry;
+import openfl.Vector;
 
 class VertexAnimator extends AnimatorBase implements IAnimator {
 
     private var _vertexAnimationSet:VertexAnimationSet;
-    private var _poses:Array<Geometry>;
-    private var _weights:Array<Float>;
+    private var _poses:Vector<Geometry>;
+    private var _weights:Vector<Float>;
     private var _numPoses:Int;
     private var _blendMode:String;
     private var _activeVertexState:IVertexAnimationState;
@@ -33,8 +34,8 @@ class VertexAnimator extends AnimatorBase implements IAnimator {
 	 * @param vertexAnimationSet The animation data set containing the vertex animations used by the animator.
 	 */
     public function new(vertexAnimationSet:VertexAnimationSet) {
-        _poses = new Array<Geometry>();
-        _weights = [1, 0, 0, 0];
+        _poses = new Vector<Geometry>();
+        _weights = Vector.ofArray( [1.0, 0.0, 0.0, 0.0] );
         
         super(vertexAnimationSet);
         

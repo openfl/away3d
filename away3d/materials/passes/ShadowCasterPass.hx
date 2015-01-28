@@ -32,7 +32,7 @@ class ShadowCasterPass extends CompiledPass {
 	 * @param material The material to which this pass belongs.
 	 */
     public function new(material:MaterialBase) {
-        _inverseSceneMatrix = new Array<Float>();
+        _inverseSceneMatrix = new Vector<Float>();
         super(material);
     }
 

@@ -50,7 +50,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function isInFrustum(planes:Array<Plane3D>, numPlanes:Int):Bool {
+    override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
 		 
         var i:Int = 0;
         while (i < numPlanes) {

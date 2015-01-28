@@ -77,7 +77,7 @@ class SerializerBase {
 	 * @param name name of value being serialized
 	 * @param value value being serialized
 	 */
-    public function writeTransform(name:String, value:Array<Float>):Void {
+    public function writeTransform(name:String, value:Vector<Float>):Void {
         throw new AbstractMethodError();
     }
 

@@ -25,7 +25,7 @@ import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.geom.Rectangle;
 
-using openfl.display3D.OpenFLStage3D;
+//using openfl.display3D.OpenFLStage3D;
 
 class Stage3DProxy extends EventDispatcher {
     public var profile(get_profile, never):String;
@@ -100,16 +100,16 @@ class Stage3DProxy extends EventDispatcher {
         if (_exitFrame == null) _exitFrame = new Event(Event.EXIT_FRAME);
         dispatchEvent(_exitFrame);
     }
-	#end
+    #end
     
     /**
-	 * Creates a Stage3DProxy object. This method should not be called directly. Creation of Stage3DProxy objects should
-	 * be handled by Stage3DManager.
-	 * @param stage3DIndex The index of the Stage3D to be proxied.
-	 * @param stage3D The Stage3D to be proxied.
-	 * @param stage3DManager
-	 * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
-	 */
+     * Creates a Stage3DProxy object. This method should not be called directly. Creation of Stage3DProxy objects should
+     * be handled by Stage3DManager.
+     * @param stage3DIndex The index of the Stage3D to be proxied.
+     * @param stage3D The Stage3D to be proxied.
+     * @param stage3DManager
+     * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
+     */
     public function new(stage3DIndex:Int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Bool = false, profile:String = "baseline") {
         _stage3DIndex = -1;
         _stage3DIndex = stage3DIndex;
@@ -139,8 +139,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * Disposes the Stage3DProxy object, freeing the Context3D attached to the Stage3D.
-	 */
+     * Disposes the Stage3DProxy object, freeing the Context3D attached to the Stage3D.
+     */
     public function dispose():Void {
         _stage3DManager.removeStage3DProxy(this);
         _stage3D.removeEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate);
@@ -155,11 +155,23 @@ class Stage3DProxy extends EventDispatcher {
      */
     public function setRenderCallback(func : Event -> Void) : Void {
         if (_context3D != null) {
-            if (_callbackMethod != null)
-                OpenFLStage3D.removeRenderCallback( _context3D, func);
+            if (_callbackMethod != null) {
+//                OpenFLStage3D.removeRenderCallback( _context3D, func);
+                #if flash
+                flash.Lib.current.removeEventListener(flash.events.Event.ENTER_FRAME, func);
+                #elseif (cpp || neko || js)
+                _context3D.removeRenderMethod(func);
+                #end
+            }
 
-            if (func != null)
-                OpenFLStage3D.setRenderCallback( _context3D, func);
+            if (func != null) {
+//                OpenFLStage3D.setRenderCallback( _context3D, func);
+                #if flash
+                flash.Lib.current.addEventListener(flash.events.Event.ENTER_FRAME, func);
+                #elseif (cpp || neko || js)
+                _context3D.setRenderMethod(func);                
+                #end
+            }
         }
 
         _callbackMethod = func;
@@ -167,12 +179,12 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * Configures the back buffer associated with the Stage3D object.
-	 * @param backBufferWidth The width of the backbuffer.
-	 * @param backBufferHeight The height of the backbuffer.
-	 * @param antiAlias The amount of anti-aliasing to use.
-	 * @param enableDepthAndStencil Indicates whether the back buffer contains a depth and stencil buffer.
-	 */
+     * Configures the back buffer associated with the Stage3D object.
+     * @param backBufferWidth The width of the backbuffer.
+     * @param backBufferHeight The height of the backbuffer.
+     * @param antiAlias The amount of anti-aliasing to use.
+     * @param enableDepthAndStencil Indicates whether the back buffer contains a depth and stencil buffer.
+     */
     public function configureBackBuffer(backBufferWidth:Int, backBufferHeight:Int, antiAlias:Int, enableDepthAndStencil:Bool):Void {
         var oldWidth:Int = _backBufferWidth;
         var oldHeight:Int = _backBufferHeight;
@@ -182,12 +194,12 @@ class Stage3DProxy extends EventDispatcher {
         _antiAlias = antiAlias;
         _enableDepthAndStencil = enableDepthAndStencil;
         if (_context3D != null) _context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
-	 
+     
     }
 
     /*
-	 * Indicates whether the depth and stencil buffer is used
-	 */
+     * Indicates whether the depth and stencil buffer is used
+     */
     public function get_enableDepthAndStencil():Bool {
         return _enableDepthAndStencil;
     }
@@ -220,8 +232,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /*
-	 * Clear and reset the back buffer when using a shared context
-	 */
+     * Clear and reset the back buffer when using a shared context
+     */
     public function clear():Void {
         if (_context3D == null) return;
         if (_backBufferDirty) {
@@ -233,8 +245,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /*
-	 * Display the back rendering buffer
-	 */
+     * Display the back rendering buffer
+     */
     public function present():Void {
         if (_context3D == null) return;
         _context3D.present();
@@ -243,39 +255,39 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event. Special case for enterframe and exitframe events - will switch Stage3DProxy into automatic render mode.
-	 * You can register event listeners on all nodes in the display list for a specific type of event, phase, and priority.
-	 *
-	 * @param type The type of event.
-	 * @param listener The listener function that processes the event.
-	 * @param useCapture Determines whether the listener works in the capture phase or the target and bubbling phases. If useCapture is set to true, the listener processes the event only during the capture phase and not in the target or bubbling phase. If useCapture is false, the listener processes the event only during the target or bubbling phase. To listen for the event in all three phases, call addEventListener twice, once with useCapture set to true, then again with useCapture set to false.
-	 * @param priority The priority level of the event listener. The priority is designated by a signed 32-bit integer. The higher the number, the higher the priority. All listeners with priority n are processed before listeners of priority n-1. If two or more listeners share the same priority, they are processed in the order in which they were added. The default priority is 0.
-	 * @param useWeakReference Determines whether the reference to the listener is strong or weak. A strong reference (the default) prevents your listener from being garbage-collected. A weak reference does not.
-	 */
+     * Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event. Special case for enterframe and exitframe events - will switch Stage3DProxy into automatic render mode.
+     * You can register event listeners on all nodes in the display list for a specific type of event, phase, and priority.
+     *
+     * @param type The type of event.
+     * @param listener The listener function that processes the event.
+     * @param useCapture Determines whether the listener works in the capture phase or the target and bubbling phases. If useCapture is set to true, the listener processes the event only during the capture phase and not in the target or bubbling phase. If useCapture is false, the listener processes the event only during the target or bubbling phase. To listen for the event in all three phases, call addEventListener twice, once with useCapture set to true, then again with useCapture set to false.
+     * @param priority The priority level of the event listener. The priority is designated by a signed 32-bit integer. The higher the number, the higher the priority. All listeners with priority n are processed before listeners of priority n-1. If two or more listeners share the same priority, they are processed in the order in which they were added. The default priority is 0.
+     * @param useWeakReference Determines whether the reference to the listener is strong or weak. A strong reference (the default) prevents your listener from being garbage-collected. A weak reference does not.
+     */
     #if flash
     override public function addEventListener(type:String, listener:Dynamic -> Void, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void {
         super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-	
+    
         if ((type == Event.ENTER_FRAME || type == Event.EXIT_FRAME) && !_frameEventDriver.hasEventListener(Event.ENTER_FRAME)) _frameEventDriver.addEventListener(Event.ENTER_FRAME, onEnterFrame, useCapture, priority, useWeakReference);
-		
+        
     }
 
     /**
-	 * Removes a listener from the EventDispatcher object. Special case for enterframe and exitframe events - will switch Stage3DProxy out of automatic render mode.
-	 * If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
-	 *
-	 * @param type The type of event.
-	 * @param listener The listener object to remove.
-	 * @param useCapture Specifies whether the listener was registered for the capture phase or the target and bubbling phases. If the listener was registered for both the capture phase and the target and bubbling phases, two calls to removeEventListener() are required to remove both, one call with useCapture() set to true, and another call with useCapture() set to false.
-	 */
+     * Removes a listener from the EventDispatcher object. Special case for enterframe and exitframe events - will switch Stage3DProxy out of automatic render mode.
+     * If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+     *
+     * @param type The type of event.
+     * @param listener The listener object to remove.
+     * @param useCapture Specifies whether the listener was registered for the capture phase or the target and bubbling phases. If the listener was registered for both the capture phase and the target and bubbling phases, two calls to removeEventListener() are required to remove both, one call with useCapture() set to true, and another call with useCapture() set to false.
+     */
     override public function removeEventListener(type:String, listener:Dynamic -> Void, useCapture:Bool = false):Void {
         super.removeEventListener(type, listener, useCapture);
         // Remove the main rendering listener if no EnterFrame listeners remain
-	 
+     
         if (!hasEventListener(Event.ENTER_FRAME) && !hasEventListener(Event.EXIT_FRAME) && _frameEventDriver.hasEventListener(Event.ENTER_FRAME)) _frameEventDriver.removeEventListener(Event.ENTER_FRAME, onEnterFrame, useCapture);
-    	 
-	}
-	#end
+         
+    }
+    #end
 
     public function get_scissorRect():Rectangle {
         return _scissorRect;
@@ -288,45 +300,45 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The index of the Stage3D which is managed by this instance of Stage3DProxy.
-	 */
+     * The index of the Stage3D which is managed by this instance of Stage3DProxy.
+     */
     public function get_stage3DIndex():Int {
         return _stage3DIndex;
     }
 
     /**
-	 * The base Stage3D object associated with this proxy.
-	 */
+     * The base Stage3D object associated with this proxy.
+     */
     public function get_stage3D():Stage3D {
         return _stage3D;
     }
 
     /**
-	 * The Context3D object associated with the given Stage3D object.
-	 */
+     * The Context3D object associated with the given Stage3D object.
+     */
     public function get_context3D():Context3D {
         return _context3D;
     }
 
     /**
-	 * The driver information as reported by the Context3D object (if any)
-	 */
+     * The driver information as reported by the Context3D object (if any)
+     */
     public function get_driverInfo():String {
         return (_context3D != null) ? _context3D.driverInfo : null;
     }
 
     /**
-	 * Indicates whether the Stage3D managed by this proxy is running in software mode.
-	 * Remember to wait for the CONTEXT3D_CREATED event before checking this property,
-	 * as only then will it be guaranteed to be accurate.
-	 */
+     * Indicates whether the Stage3D managed by this proxy is running in software mode.
+     * Remember to wait for the CONTEXT3D_CREATED event before checking this property,
+     * as only then will it be guaranteed to be accurate.
+     */
     public function get_usesSoftwareRendering():Bool {
         return _usesSoftwareRendering;
     }
 
     /**
-	 * The x position of the Stage3D.
-	 */
+     * The x position of the Stage3D.
+     */
     public function get_x():Float {
         return _stage3D.x;
     }
@@ -339,8 +351,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The y position of the Stage3D.
-	 */
+     * The y position of the Stage3D.
+     */
     public function get_y():Float {
         return _stage3D.y;
     }
@@ -353,8 +365,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The width of the Stage3D.
-	 */
+     * The width of the Stage3D.
+     */
     public function get_width():Int {
         return _backBufferWidth;
     }
@@ -368,8 +380,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The height of the Stage3D.
-	 */
+     * The height of the Stage3D.
+     */
     public function get_height():Int {
         return _backBufferHeight;
     }
@@ -383,8 +395,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The antiAliasing of the Stage3D.
-	 */
+     * The antiAliasing of the Stage3D.
+     */
     public function get_antiAlias():Int {
         return _antiAlias;
     }
@@ -396,16 +408,16 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * A viewPort rectangle equivalent of the Stage3D size and position.
-	 */
+     * A viewPort rectangle equivalent of the Stage3D size and position.
+     */
     public function get_viewPort():Rectangle {
         _viewportDirty = false;
         return _viewPort;
     }
 
     /**
-	 * The background color of the Stage3D.
-	 */
+     * The background color of the Stage3D.
+     */
     public function get_color():Int {
         return _color;
     }
@@ -416,8 +428,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The visibility of the Stage3D.
-	 */
+     * The visibility of the Stage3D.
+     */
     public function get_visible():Bool {
         return _stage3D.visible;
     }
@@ -428,8 +440,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The freshly cleared state of the backbuffer before any rendering
-	 */
+     * The freshly cleared state of the backbuffer before any rendering
+     */
     public function get_bufferClear():Bool {
         return _bufferClear;
     }
@@ -440,8 +452,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /*
-	 * Access to fire mouseevents across multiple layered view3D instances
-	 */
+     * Access to fire mouseevents across multiple layered view3D instances
+     */
     public function get_mouse3DManager():Mouse3DManager {
         return _mouse3DManager;
     }
@@ -461,8 +473,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * Frees the Context3D associated with this Stage3DProxy.
-	 */
+     * Frees the Context3D associated with this Stage3DProxy.
+     */
     private function freeContext3D():Void {
         if (_context3D != null) {
             _context3D.dispose();
@@ -472,9 +484,9 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /*
-	 * Called whenever the Context3D is retrieved or lost.
-	 * @param event The event dispatched.
-	 */
+     * Called whenever the Context3D is retrieved or lost.
+     * @param event The event dispatched.
+     */
     private function onContext3DUpdate(event:Event):Void {
 
         if (_stage3D.context3D != null) {
@@ -483,7 +495,7 @@ class Stage3DProxy extends EventDispatcher {
             _context3D.enableErrorChecking = Debug.active;
             #if flash
             _usesSoftwareRendering = (_context3D.driverInfo.indexOf("Software") == 0);
-			#end
+            #end
             
             // Only configure back buffer if width and height have been set,
             // which they may not have been if View3D.render() has yet to be
@@ -503,8 +515,8 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * Requests a Context3D object to attach to the managed Stage3D.
-	 */
+     * Requests a Context3D object to attach to the managed Stage3D.
+     */
     private function requestContext(forceSoftware:Bool = false, profile:String = "baseline"):Void {
         // If forcing software, we can be certain that the
         // returned Context3D will be running software mode.
@@ -513,9 +525,10 @@ class Stage3DProxy extends EventDispatcher {
         if (!_usesSoftwareRendering)
             _usesSoftwareRendering = forceSoftware;
         _profile = profile;
+
         // ugly stuff for backward compatibility
         var renderMode:Context3DRenderMode = (forceSoftware) ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-        _stage3D.requestAGLSLContext3D(Std.string(renderMode));
+        _stage3D.requestContext3D(Std.string(renderMode));
 
 
         _contextRequested = true;
@@ -523,16 +536,16 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     /**
-	 * The Enter_Frame handler for processing the proxy.ENTER_FRAME and proxy.EXIT_FRAME event handlers.
-	 * Typically the proxy.ENTER_FRAME listener would render the layers for this Stage3D instance.
-	 */
+     * The Enter_Frame handler for processing the proxy.ENTER_FRAME and proxy.EXIT_FRAME event handlers.
+     * Typically the proxy.ENTER_FRAME listener would render the layers for this Stage3D instance.
+     */
     private function onEnterFrame(event:Event):Void {
         if (_context3D == null) return;
         clear();
         
         //notify the enterframe listeners
         notifyEnterFrame();
-    	
+        
         // Call the present() to render the frame
         present();
         //notify the exitframe listeners

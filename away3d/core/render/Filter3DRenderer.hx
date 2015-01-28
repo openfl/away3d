@@ -15,12 +15,14 @@ import away3d.core.managers.Stage3DProxy;
 import away3d.core.managers.RTTBufferManager;
 import openfl.display3D.textures.Texture;
 import away3d.filters.tasks.Filter3DTaskBase;
+import openfl.Vector;
+
 class Filter3DRenderer {
     public var requireDepthRender(get_requireDepthRender, never):Bool;
-    public var filters(get_filters, set_filters):Array<Dynamic>;
+    public var filters(get_filters, set_filters):Vector<Dynamic>;
 
-    private var _filters:Array<Dynamic>;
-    private var _tasks:Array<Filter3DTaskBase>;
+    private var _filters:Vector<Dynamic>;
+    private var _tasks:Vector<Filter3DTaskBase>;
     private var _filterTasksInvalid:Bool;
     private var _mainInputTexture:Texture;
     private var _requireDepthRender:Bool;
@@ -48,11 +50,11 @@ class Filter3DRenderer {
         return _mainInputTexture;
     }
 
-    public function get_filters():Array<Dynamic> {
+    public function get_filters():Vector<Dynamic> {
         return _filters;
     }
 
-    public function set_filters(value:Array<Dynamic>):Array<Dynamic> {
+    public function set_filters(value:Vector<Dynamic>):Vector<Dynamic> {
         _filters = value;
         _filterTasksInvalid = true;
         _requireDepthRender = false;
@@ -74,7 +76,7 @@ class Filter3DRenderer {
             _tasks = null;
             return ;
         }
-        _tasks = new Array<Filter3DTaskBase>();
+        _tasks = new Vector<Filter3DTaskBase>();
         len = _filters.length - 1;
         var filter:Filter3DBase;
         var i:Int = 0;

@@ -43,15 +43,15 @@ class AC3DParser extends ParserBase {
     private var _textData:String;
     private var _startedParsing:Bool;
     private var _activeContainer:ObjectContainer3D;
-    private var _meshList:Array<Mesh>;
-    private var _trunk:Array<String>;
-    private var _containersList:Array<ObjectContainer3D>;
+    private var _meshList:Vector<Mesh>;
+    private var _trunk:Vector<String>;
+    private var _containersList:Vector<ObjectContainer3D>;
     private var _tmpcontainerpos:Vector3D;
     private var _tmpos:Vector3D;
     private var _kidsCount:Int = 0;
     private var _activeMesh:Mesh;
-    private var _vertices:Array<Vertex>;
-    private var _uvs:Array<Dynamic>;
+    private var _vertices:Vector<Vertex>;
+    private var _uvs:Vector<Dynamic>;
     private var _parsesV:Bool;
     private var _isQuad:Bool;
     private var _quadCount:Int;
@@ -59,7 +59,7 @@ class AC3DParser extends ParserBase {
     private var _charIndex:Int;
     private var _oldIndex:Int;
     private var _stringLen:Int;
-    private var _materialList:Array<MaterialBase>;
+    private var _materialList:Vector<MaterialBase>;
 
     private var _groupCount:Int;
 
@@ -148,7 +148,7 @@ class AC3DParser extends ParserBase {
             _materialList = [];
             _startedParsing = true;
 
-            _meshList = new Array<Mesh>();
+            _meshList = new Vector<Mesh>();
             _stringLen = _textData.length;
             _charIndex = _textData.indexOf(CR, 0);
             _oldIndex = _charIndex;
@@ -244,7 +244,7 @@ class AC3DParser extends ParserBase {
                         _activeMesh = new Mesh(geometry, null);
                         if (_vertices != null)
                             cleanUpBuffers();
-                        _vertices = new Array<Vertex>();
+                        _vertices = new Vector<Vertex>();
                         _uvs = [];
                         _activeMesh.name = "m_" + _meshList.length;
                         _meshList[_meshList.length] = _activeMesh;
@@ -397,11 +397,11 @@ class AC3DParser extends ParserBase {
         var uv1:UV;
         var uv2:UV;
 
-        var vertices:Array<Float> = new Array<Float>();
-        var indices:Array<UInt> = new Array<UInt>();
-        var uvs:Array<Float> = new Array<Float>();
+        var vertices:Vector<Float> = new Vector<Float>();
+        var indices:Vector<UInt> = new Vector<UInt>();
+        var uvs:Vector<Float> = new Vector<Float>();
 
-        var subGeomsData:Array<Dynamic> = [vertices, indices, uvs];
+        var subGeomsData:Vector<Dynamic> = [vertices, indices, uvs];
 //var j:uint;
         var dic:StringMap<Int> = new StringMap<Int>();
         var ref:String;
@@ -409,9 +409,9 @@ class AC3DParser extends ParserBase {
         var i:Int = 0;
         while (i < _uvs.length) {
             if (indices.length + 3 > LIMIT) {
-                vertices = new Array<Float>();
-                indices = new Array<UInt>();
-                uvs = new Array<Float>();
+                vertices = new Vector<Float>();
+                indices = new Vector<UInt>();
+                uvs = new Vector<Float>();
                 subGeomsData.push(vertices);
                 subGeomsData.push(indices);
                 subGeomsData.push(uvs);
@@ -542,7 +542,7 @@ class AC3DParser extends ParserBase {
     }
 
     private function parseMaterialLine(materialString:String):MaterialBase {
-        var trunk:Array<String> = materialString.split(" ");
+        var trunk:Vector<String> = materialString.split(" ");
 
 
         var color:UInt = 0x000000;

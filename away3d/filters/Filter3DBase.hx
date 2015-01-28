@@ -4,20 +4,21 @@ import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import away3d.filters.tasks.Filter3DTaskBase;
 import openfl.display3D.textures.Texture;
+import openfl.Vector;
 
 class Filter3DBase {
     public var requireDepthRender(get_requireDepthRender, never):Bool;
-    public var tasks(get_tasks, never):Array<Filter3DTaskBase>;
+    public var tasks(get_tasks, never):Vector<Filter3DTaskBase>;
     public var textureWidth(get_textureWidth, set_textureWidth):Int;
     public var textureHeight(get_textureHeight, set_textureHeight):Int;
 
-    private var _tasks:Array<Filter3DTaskBase>;
+    private var _tasks:Vector<Filter3DTaskBase>;
     private var _requireDepthRender:Bool;
     private var _textureWidth:Int;
     private var _textureHeight:Int;
 
     public function new() {
-        _tasks = new Array<Filter3DTaskBase>();
+        _tasks = new Vector<Filter3DTaskBase>();
     }
 
     public function get_requireDepthRender():Bool {
@@ -30,7 +31,7 @@ class Filter3DBase {
             _requireDepthRender = filter.requireDepthRender;
     }
 
-    public function get_tasks():Array<Filter3DTaskBase> {
+    public function get_tasks():Vector<Filter3DTaskBase> {
         return _tasks;
     }
 

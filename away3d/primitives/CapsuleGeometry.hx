@@ -5,6 +5,7 @@ package away3d.primitives;
 
 import away3d.utils.ArrayUtils;
 import away3d.core.base.CompactSubGeometry;
+import openfl.Vector;
 
 class CapsuleGeometry extends PrimitiveBase {
     public var radius(get_radius, set_radius):Float;
@@ -39,8 +40,8 @@ class CapsuleGeometry extends PrimitiveBase {
 	 * @inheritDoc
 	 */
     override private function buildGeometry(target:CompactSubGeometry):Void {
-        var data:Array<Float>;
-        var indices:Array<UInt>;
+        var data:Vector<Float>;
+        var indices:Vector<UInt>;
         var i:Int = 0;
         var j:Int = 0;
         var triIndex:Int = 0;
@@ -57,13 +58,13 @@ class CapsuleGeometry extends PrimitiveBase {
             data = target.vertexData;
             indices = target.indexData ;
             if (indices == null) {
-                indices = ArrayUtils.Prefill( new Array<UInt>(),(_segmentsH - 1) * _segmentsW * 6,0 );
+                indices = ArrayUtils.Prefill( new Vector<UInt>(),(_segmentsH - 1) * _segmentsW * 6,0 );
             }
         }
 
         else {
-            data = ArrayUtils.Prefill( new Array<Float>(),numVerts * stride,0);
-            indices = ArrayUtils.Prefill( new Array<UInt>(),(_segmentsH - 1) * _segmentsW * 6,0);
+            data = ArrayUtils.Prefill( new Vector<Float>(),numVerts * stride,0);
+            indices = ArrayUtils.Prefill( new Vector<UInt>(),(_segmentsH - 1) * _segmentsW * 6,0);
             invalidateUVs();
         }
 
@@ -168,13 +169,13 @@ class CapsuleGeometry extends PrimitiveBase {
         var i:Int;
         var j:Int;
         var index:Int;
-        var data:Array<Float>;
+        var data:Vector<Float>;
         var stride:Int = target.UVStride;
         var UVlen:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
         var skip:Int = stride - 2;
         if (target.UVData != null && UVlen == target.UVData.length) data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Array<Float>(), UVlen, 0 );
+            data = ArrayUtils.Prefill( new Vector<Float>(), UVlen, 0 );
             invalidateGeometry();
         }
 

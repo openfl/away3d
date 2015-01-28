@@ -84,10 +84,10 @@ class SphereMaker {
         var vectorVertLength:Float;
         var vectorNormal:Vector3D;
         var vectordifference:Float;
-        var vd:Array<Float> = subGeom.vertexData;
+        var vd:Vector<Float> = subGeom.vertexData;
         var vStride:Int = subGeom.vertexStride;
         var vOffs:Int = subGeom.vertexOffset;
-        var nd:Array<Float> = subGeom.vertexNormalData;
+        var nd:Vector<Float> = subGeom.vertexNormalData;
         var nStride:Int = subGeom.vertexNormalStride;
         var nOffs:Int = subGeom.vertexNormalOffset;
         len = subGeom.numVertices;

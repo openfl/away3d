@@ -11,9 +11,9 @@ import away3d.textures.Texture2DBase;
 class SpriteSheetMaterial extends TextureMaterial {
 
     //private var currentID:uint = 0;
-    private var _diffuses:Array<Texture2DBase>;
-    private var _normals:Array<Texture2DBase>;
-    private var _speculars:Array<Texture2DBase>;
+    private var _diffuses:Vector<Texture2DBase>;
+    private var _normals:Vector<Texture2DBase>;
+    private var _speculars:Vector<Texture2DBase>;
     private var _TBDiffuse:Texture2DBase;
     private var _TBNormal:Texture2DBase;
     private var _TBSpecular:Texture2DBase;
@@ -30,7 +30,7 @@ class SpriteSheetMaterial extends TextureMaterial {
 	 * @param repeat        Boolean : Material repeat. Default is false.
 	 * @param mipmap        Boolean : Material mipmap. Set it to false if the animation graphics have thin lines or text information in them. Default is true.
 	 */
-    public function new(diffuses:Array<Texture2DBase>, normals:Array<Texture2DBase> = null, speculars:Array<Texture2DBase> = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true) {
+    public function new(diffuses:Vector<Texture2DBase>, normals:Vector<Texture2DBase> = null, speculars:Vector<Texture2DBase> = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true) {
         _diffuses = diffuses;
         _normals = normals;
         _speculars = speculars;

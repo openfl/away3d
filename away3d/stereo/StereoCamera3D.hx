@@ -76,7 +76,6 @@ class StereoCamera3D extends Camera3D {
 
     public function set_stereoFocus(value:Float):Float {
         _focus = value;
-//			trace('focus:', _focus);
         invalidateStereoCams();
         return value;
     }

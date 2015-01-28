@@ -9,6 +9,7 @@ import away3d.utils.ArrayUtils;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.textures.TextureBase;
+import openfl.Vector;
 
 class TextureProxyBase extends NamedAssetBase implements IAsset {
     public var hasMipMaps(get_hasMipMaps, never):Bool;
@@ -19,16 +20,16 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
 
     private var _format:Context3DTextureFormat;
     private var _hasMipmaps:Bool;
-    private var _textures:Array<TextureBase>;
-    private var _dirty:Array<Context3D>;
+    private var _textures:Vector<TextureBase>;
+    private var _dirty:Vector<Context3D>;
     private var _width:Int;
     private var _height:Int;
 
     public function new() {
         _format = Context3DTextureFormat.BGRA;
         _hasMipmaps = true;
-        _textures = ArrayUtils.Prefill( new Array<TextureBase>(), 8 );
-        _dirty = ArrayUtils.Prefill( new Array<Context3D>(), 8 );
+        _textures = ArrayUtils.Prefill( new Vector<TextureBase>(), 8 );
+        _dirty = ArrayUtils.Prefill( new Vector<Context3D>(), 8 );
         super();
     }
 

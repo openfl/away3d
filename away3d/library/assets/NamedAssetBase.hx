@@ -2,6 +2,7 @@ package away3d.library.assets;
 
 import away3d.events.Asset3DEvent;
 import openfl.events.EventDispatcher;
+import openfl.Vector;
 
 class NamedAssetBase extends EventDispatcher {
     public var originalName(get_originalName, never):String;

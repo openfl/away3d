@@ -15,14 +15,15 @@ import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.textures.Texture;
 import openfl.geom.Matrix3D;
 import haxe.ds.ObjectMap;
+import openfl.Vector;
 
 class SingleObjectDepthPass extends MaterialPassBase {
 
-    private var _textures:Array<ObjectMap<IRenderable, Texture>>;
+    private var _textures:Vector<ObjectMap<IRenderable, Texture>>;
     private var _projections:ObjectMap<IRenderable, Matrix3D>;
     private var _textureSize:Int;
-    private var _polyOffset:Array<Float>;
-    private var _enc:Array<Float>;
+    private var _polyOffset:Vector<Float>;
+    private var _enc:Vector<Float>;
     private var _projectionTexturesInvalid:Bool;
     /**
 	 * Creates a new SingleObjectDepthPass object.
@@ -71,7 +72,7 @@ class SingleObjectDepthPass extends MaterialPassBase {
             _textures = null;
         }
 
-        _textures = new Array<ObjectMap<IRenderable, Texture>>();
+        _textures = new Vector<ObjectMap<IRenderable, Texture>>();
         _projections = new ObjectMap<IRenderable, Matrix3D>();
         _projectionTexturesInvalid = false;
     }
@@ -129,7 +130,7 @@ class SingleObjectDepthPass extends MaterialPassBase {
         var context:Context3D = stage3DProxy.context3D;
         var len:Int;
         var light:LightBase;
-        var lights:Array<LightBase> = _lightPicker.allPickedLights;
+        var lights:Vector<LightBase> = _lightPicker.allPickedLights;
 
         if (_textures[contextIndex] == null)
             _textures[contextIndex] = new ObjectMap<IRenderable, Texture>();

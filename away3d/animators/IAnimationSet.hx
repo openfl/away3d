@@ -9,6 +9,7 @@ package away3d.animators;
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.passes.MaterialPassBase;
 import away3d.animators.nodes.AnimationNodeBase;
+import openfl.Vector;
 
 interface IAnimationSet {
     var usesCPU(get_usesCPU, never):Bool;
@@ -60,7 +61,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>, profile:String):String;
+    function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String;
 	
 	/**
 	 * Generates the AGAL Fragment code for the animation, tailored to the material pass's requirements.

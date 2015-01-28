@@ -16,6 +16,7 @@ import openfl.events.EventDispatcher;
 import openfl.events.IEventDispatcher;
 import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
+import openfl.Vector;
 
 class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher {
     
@@ -185,7 +186,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 
     private function updateProjectionPartition(matrix:Matrix3D, splitRatio:Float, texOffsetX:Float, texOffsetY:Float):Void {
         
-        var raw:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         var xN:Float;
         var yN:Float;
         var zN:Float;

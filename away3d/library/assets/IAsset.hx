@@ -1,6 +1,7 @@
 package away3d.library.assets;
 
 import openfl.events.IEventDispatcher;
+import openfl.Vector;
 
 interface IAsset extends IEventDispatcher {
     var name(get_name, set_name):String;

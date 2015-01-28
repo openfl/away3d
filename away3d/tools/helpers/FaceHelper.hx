@@ -35,14 +35,14 @@ class FaceHelper {
 
         if (mesh.geometry.subGeometries.length - 1 < subGeomIndice) throw new Error("no subGeometry at index provided:" + subGeomIndice);
         subGeom = cast((mesh.geometry.subGeometries[subGeomIndice]), SubGeometry);
-        var vertices:Array<Float> = subGeom.vertexData;
-        if (vertices == null)vertices = new Array<Float>();
-        var normals:Array<Float> = subGeom.vertexNormalData;
-        if (normals == null)normals = new Array<Float>();
-        var tangents:Array<Float> = subGeom.vertexTangentData;
-        if (tangents == null)tangents = new Array<Float>();
-        var indices:Array<UInt>;
-        var uvs:Array<Float>;
+        var vertices:Vector<Float> = subGeom.vertexData;
+        if (vertices == null)vertices = new Vector<Float>();
+        var normals:Vector<Float> = subGeom.vertexNormalData;
+        if (normals == null)normals = new Vector<Float>();
+        var tangents:Vector<Float> = subGeom.vertexTangentData;
+        if (tangents == null)tangents = new Vector<Float>();
+        var indices:Vector<UInt>;
+        var uvs:Vector<Float>;
         var lengthVertices:Int = vertices.length;
         _n = getFaceNormal(v0, v1, v2, _n);
         _t = getFaceTangent(v0, v1, v2, uv0.v, uv1.v, uv2.v, 1, _t);
@@ -58,9 +58,9 @@ class FaceHelper {
 
         else {
             indices = subGeom.indexData;
-            if (indices == null)indices = new Array<UInt>();
+            if (indices == null)indices = new Vector<UInt>();
             uvs = subGeom.UVData;
-            if (uvs == null)uvs = new Array<Float>();
+            if (uvs == null)uvs = new Vector<Float>();
             vertices.fixed = indices.fixed = uvs.fixed = false;
             var ind:Int = Std.int(lengthVertices / 3);
             var nind:Int = indices.length;
@@ -116,12 +116,12 @@ class FaceHelper {
     static public function removeFace(mesh:Mesh, index:Int, subGeomIndice:Int):Void {
         var pointer:Int = index * 3;
         var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-        var indices:Array<UInt> = subGeom.indexData.concat();
+        var indices:Vector<UInt> = subGeom.indexData.concat();
         if (pointer > indices.length - 3) throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
-        var vertices:Array<Float> = subGeom.vertexData.concat();
-        var normals:Array<Float> = subGeom.vertexNormalData.concat();
-        var tangents:Array<Float> = subGeom.vertexTangentData.concat();
-        var uvs:Array<Float> = subGeom.UVData.concat();
+        var vertices:Vector<Float> = subGeom.vertexData.concat();
+        var normals:Vector<Float> = subGeom.vertexNormalData.concat();
+        var tangents:Vector<Float> = subGeom.vertexTangentData.concat();
+        var uvs:Vector<Float> = subGeom.UVData.concat();
         var pointerEnd:Int = pointer + 2;
         var oInd:Int = 0;
         var oVInd:Int = 0;
@@ -130,11 +130,11 @@ class FaceHelper {
         var uvInd:Int = 0;
         var vInd:Int = 0;
         var i:Int = 0;
-        var nvertices:Array<Float> = new Array<Float>();
-        var nnormals:Array<Float> = new Array<Float>();
-        var ntangents:Array<Float> = new Array<Float>();
-        var nindices:Array<UInt> = new Array<UInt>();
-        var nuvs:Array<Float> = new Array<Float>();
+        var nvertices:Vector<Float> = new Vector<Float>();
+        var nnormals:Vector<Float> = new Vector<Float>();
+        var ntangents:Vector<Float> = new Vector<Float>();
+        var nindices:Vector<UInt> = new Vector<UInt>();
+        var nuvs:Vector<Float> = new Vector<Float>();
 //Check for shared vectors
         if (vertices.length / 3 != indices.length) {
             var sharedIndice:Int;
@@ -221,7 +221,7 @@ class FaceHelper {
 	 * @param subGeomIndices        A vector with a series of uints indices representing the subgeometries of the faces to be removed.
 	 */
 
-    static public function removeFaces(mesh:Mesh, indices:Array<UInt>, subGeomIndices:Array<UInt>):Void {
+    static public function removeFaces(mesh:Mesh, indices:Vector<UInt>, subGeomIndices:Vector<UInt>):Void {
         var i:Int = 0;
         while (i < indices.length) {
             removeFace(mesh, indices[i], subGeomIndices[i]);
@@ -240,7 +240,7 @@ class FaceHelper {
 	 * @param uv2s    A vector with a series of UV Objects representing the uv2 of a face.
 	 */
 
-    static public function addFaces(mesh:Mesh, v0s:Array<Vertex>, v1s:Array<Vertex>, v2s:Array<Vertex>, uv0s:Array<UV>, uv1s:Array<UV>, uv2s:Array<UV>, subGeomIndices:Array<UInt>):Void {
+    static public function addFaces(mesh:Mesh, v0s:Vector<Vertex>, v1s:Vector<Vertex>, v2s:Vector<Vertex>, uv0s:Vector<UV>, uv1s:Vector<UV>, uv2s:Vector<UV>, subGeomIndices:Vector<UInt>):Void {
         var i:Int = 0;
         while (i < v0s.length) {
             addFace(mesh, v0s[i], v1s[i], v2s[i], uv0s[i], uv1s[i], uv2s[i], subGeomIndices[i]);
@@ -260,16 +260,16 @@ class FaceHelper {
     static public function splitFace(mesh:Mesh, indice:Int, subGeomIndice:Int, side:Int = 0):Void {
         var pointer:Int = indice * 3;
         var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-        var indices:Array<UInt> = subGeom.indexData.concat();
+        var indices:Vector<UInt> = subGeom.indexData.concat();
         if (pointer > indices.length - 3) throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
-        var vertices:Array<Float> = subGeom.vertexData.concat();
+        var vertices:Vector<Float> = subGeom.vertexData.concat();
         if (indices.length + 3 > LIMIT || vertices.length + 9 > LIMIT) {
             trace("splitFace cannot take place, not enough room in target subGeometry");
             return;
         }
-        var uvs:Array<Float> = subGeom.UVData.concat();
-        var normals:Array<Float> = subGeom.vertexNormalData.concat();
-        var tangents:Array<Float> = subGeom.vertexTangentData.concat();
+        var uvs:Vector<Float> = subGeom.UVData.concat();
+        var normals:Vector<Float> = subGeom.vertexNormalData.concat();
+        var tangents:Vector<Float> = subGeom.vertexTangentData.concat();
         var pointerverts:Int = indices[pointer] * 3;
         var v0:Vertex = new Vertex(vertices[pointerverts], vertices[pointerverts + 1], vertices[pointerverts + 2]);
         var n0:Vertex = new Vertex(normals[pointerverts], normals[pointerverts + 1], normals[pointerverts + 2]);
@@ -360,16 +360,16 @@ class FaceHelper {
     static public function triFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
         var pointer:Int = indice * 3;
         var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-        var indices:Array<UInt> = subGeom.indexData.concat();
+        var indices:Vector<UInt> = subGeom.indexData.concat();
         if (pointer > indices.length - 3) throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
-        var vertices:Array<Float> = subGeom.vertexData.concat();
+        var vertices:Vector<Float> = subGeom.vertexData.concat();
         if (indices.length + 6 > LIMIT || vertices.length + 18 > LIMIT) {
             trace("triFace cannot take place, not enough room in target subGeometry");
             return;
         }
-        var uvs:Array<Float> = subGeom.UVData.concat();
-        var normals:Array<Float> = subGeom.vertexNormalData.concat();
-        var tangents:Array<Float> = subGeom.vertexTangentData.concat();
+        var uvs:Vector<Float> = subGeom.UVData.concat();
+        var normals:Vector<Float> = subGeom.vertexNormalData.concat();
+        var tangents:Vector<Float> = subGeom.vertexTangentData.concat();
         var pointerverts:Int = indices[pointer] * 3;
         var v0:Vertex = new Vertex(vertices[pointerverts], vertices[pointerverts + 1], vertices[pointerverts + 2]);
         var n0:Vertex = new Vertex(normals[pointerverts], normals[pointerverts + 1], normals[pointerverts + 2]);
@@ -424,16 +424,16 @@ class FaceHelper {
     static public function quarterFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
         var pointer:Int = indice * 3;
         var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-        var indices:Array<UInt> = subGeom.indexData.concat();
+        var indices:Vector<UInt> = subGeom.indexData.concat();
         if (pointer > indices.length - 3) throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
-        var vertices:Array<Float> = subGeom.vertexData.concat();
+        var vertices:Vector<Float> = subGeom.vertexData.concat();
         if (indices.length + 9 > LIMIT || vertices.length + 27 > LIMIT) {
             trace("quarterFace cannot take place, not enough room in target subGeometry");
             return;
         }
-        var uvs:Array<Float> = subGeom.UVData.concat();
-        var normals:Array<Float> = subGeom.vertexNormalData.concat();
-        var tangents:Array<Float> = subGeom.vertexTangentData.concat();
+        var uvs:Vector<Float> = subGeom.UVData.concat();
+        var normals:Vector<Float> = subGeom.vertexNormalData.concat();
+        var tangents:Vector<Float> = subGeom.vertexTangentData.concat();
         var pointerverts:Int = indices[pointer] * 3;
         var v0:Vertex = new Vertex(vertices[pointerverts], vertices[pointerverts + 1], vertices[pointerverts + 2]);
         var n0:Vertex = new Vertex(normals[pointerverts], normals[pointerverts + 1], normals[pointerverts + 2]);
@@ -583,9 +583,9 @@ class FaceHelper {
     }
 
     static private function applyMethod(methodID:Int, mesh:Mesh, value:Float = 0):Void {
-        var subGeoms:Array<ISubGeometry> = mesh.geometry.subGeometries;
+        var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
         if (Std.is(subGeoms[0], CompactSubGeometry)) throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
-        var indices:Array<UInt>;
+        var indices:Vector<UInt>;
         var faceIndex:Int;
         var j:Int;
         var i:Int = 0;
@@ -611,7 +611,7 @@ class FaceHelper {
         }
     }
 
-    static private function updateSubGeometryData(subGeometry:SubGeometry, vertices:Array<Float>, indices:Array<UInt>, uvs:Array<Float>, normals:Array<Float> = null, tangents:Array<Float> = null):Void {
+    static private function updateSubGeometryData(subGeometry:SubGeometry, vertices:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float> = null, tangents:Vector<Float> = null):Void {
         subGeometry.updateVertexData(vertices);
         subGeometry.updateIndexData(indices);
         if (normals != null) subGeometry.updateVertexNormalData(normals);
@@ -620,13 +620,13 @@ class FaceHelper {
     }
 
     static private function getSubGeometry(mesh:Mesh, subGeomIndice:Int):SubGeometry {
-        var subGeoms:Array<ISubGeometry> = mesh.geometry.subGeometries;
+        var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
         if (Std.is(subGeoms[0], CompactSubGeometry)) throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
         if (subGeomIndice > subGeoms.length - 1) throw new Error("ERROR >> subGeomIndice is out of range!");
         return cast((subGeoms[subGeomIndice]), SubGeometry);
     }
 
-    static private function getUsedIndice(vertices:Array<Float>, x:Float, y:Float, z:Float):Int {
+    static private function getUsedIndice(vertices:Vector<Float>, x:Float, y:Float, z:Float):Int {
         var i:Int = 0;
         while (i < vertices.length) {
             if (vertices[i] == x && vertices[i + 1] == y && vertices[i + 1] == z) return Std.int(i / 3);

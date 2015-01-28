@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
 
-	<include path="backends/flash/include.xml" if="flash" unless="custom-backend" />
-	<include path="backends/native/include.xml" if="native" unless="custom-backend" />
-	<include path="backends/html5/include.xml" if="html5" unless="custom-backend" />
-
 	<sample path="${haxelib:away3d-examples}" if="create"/>
 
 </extension>

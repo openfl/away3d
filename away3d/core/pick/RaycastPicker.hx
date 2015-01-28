@@ -15,6 +15,7 @@ import away3d.core.traverse.EntityCollector;
 import away3d.core.traverse.RaycastCollector;
 import away3d.entities.Entity;
 import away3d.utils.ArrayUtils;
+import openfl.Vector;
 
 class RaycastPicker implements IPicker {
     public var onlyMouseEnabled(get_onlyMouseEnabled, set_onlyMouseEnabled):Bool;

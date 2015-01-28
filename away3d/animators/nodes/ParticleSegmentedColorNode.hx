@@ -30,9 +30,9 @@ class ParticleSegmentedColorNode extends ParticleNodeBase {
     /** @private */
     public var _numSegmentPoint:Int;
     /** @private */
-    public var _segmentPoints:Array<ColorSegmentPoint>;
+    public var _segmentPoints:Vector<ColorSegmentPoint>;
 
-    public function new(usesMultiplier:Bool, usesOffset:Bool, numSegmentPoint:Int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Array<ColorSegmentPoint>) {
+    public function new(usesMultiplier:Bool, usesOffset:Bool, numSegmentPoint:Int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector<ColorSegmentPoint>) {
         _stateClass = ParticleSegmentedColorState;
 
         //because of the stage3d register limitation, it only support the global mode
@@ -81,11 +81,11 @@ class ParticleSegmentedColorNode extends ParticleNodeBase {
             animationRegisterCache.setRegisterIndex(this, TIME_DATA_INDEX, lifeTimeRegister.index);
             var i:Int;
             var startMulValue:ShaderRegisterElement = null;
-            var deltaMulValues:Array<ShaderRegisterElement> = null;
+            var deltaMulValues:Vector<ShaderRegisterElement> = null;
             if (_usesMultiplier) {
                 startMulValue = animationRegisterCache.getFreeVertexConstant();
                 animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMulValue.index);
-                deltaMulValues = new Array<ShaderRegisterElement>();
+                deltaMulValues = new Vector<ShaderRegisterElement>();
                 i = 0;
                 while (i < _numSegmentPoint + 1) {
                     deltaMulValues.push(animationRegisterCache.getFreeVertexConstant());
@@ -93,11 +93,11 @@ class ParticleSegmentedColorNode extends ParticleNodeBase {
                 }
             }
             var startOffsetValue:ShaderRegisterElement = null;
-            var deltaOffsetValues:Array<ShaderRegisterElement> = null;
+            var deltaOffsetValues:Vector<ShaderRegisterElement> = null;
             if (_usesOffset) {
                 startOffsetValue = animationRegisterCache.getFreeVertexConstant();
                 animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
-                deltaOffsetValues = new Array<ShaderRegisterElement>();
+                deltaOffsetValues = new Vector<ShaderRegisterElement>();
                 i = 0;
                 while (i < _numSegmentPoint + 1) {
                     deltaOffsetValues.push(animationRegisterCache.getFreeVertexConstant());

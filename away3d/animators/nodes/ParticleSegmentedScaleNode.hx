@@ -18,7 +18,7 @@ class ParticleSegmentedScaleNode extends ParticleNodeBase {
     /** @private */
     public var _numSegmentPoint:Int;
     /** @private */
-    public var _segmentScales:Array<Vector3D>;
+    public var _segmentScales:Vector<Vector3D>;
     
     /**
 	 *
@@ -27,7 +27,7 @@ class ParticleSegmentedScaleNode extends ParticleNodeBase {
 	 * @param	endScale
 	 * @param	segmentScales Vector.<Vector3D>. the x,y,z present the scaleX,scaleY,scaleX, and w present the life
 	 */
-    public function new(numSegmentPoint:Int, startScale:Vector3D, endScale:Vector3D, segmentScales:Array<Vector3D>) {
+    public function new(numSegmentPoint:Int, startScale:Vector3D, endScale:Vector3D, segmentScales:Vector<Vector3D>) {
         _stateClass = ParticleSegmentedScaleState;
         
         //because of the stage3d register limitation, it only support the global mode
@@ -56,10 +56,10 @@ class ParticleSegmentedScaleNode extends ParticleNodeBase {
         animationRegisterCache.removeVertexTempUsage(tempScale);
         var i:Int;
         var startValue:ShaderRegisterElement;
-        var deltaValues:Array<ShaderRegisterElement>;
+        var deltaValues:Vector<ShaderRegisterElement>;
         startValue = animationRegisterCache.getFreeVertexConstant();
         animationRegisterCache.setRegisterIndex(this, START_INDEX, startValue.index);
-        deltaValues = new Array<ShaderRegisterElement>();
+        deltaValues = new Vector<ShaderRegisterElement>();
         i = 0;
         while (i < _numSegmentPoint + 1) {
             deltaValues.push(animationRegisterCache.getFreeVertexConstant());

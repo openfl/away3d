@@ -4,8 +4,8 @@
  */
 package away3d.materials.compilation;
 
-
 import away3d.utils.ArrayUtils;
+
 class SuperShaderCompiler extends ShaderCompiler {
 
     public var _pointLightRegisters:Array<ShaderRegisterElement>;

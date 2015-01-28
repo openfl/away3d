@@ -14,7 +14,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
     public var nextPose(get_nextPose, never):SkeletonPose;
 
     private var _rootPos:Vector3D;
-    private var _frames:Array<SkeletonPose>;
+    private var _frames:Vector<SkeletonPose>;
     private var _skeletonClipNode:SkeletonClipNode;
     private var _skeletonPose:SkeletonPose;
     private var _skeletonPoseDirty:Bool;

@@ -15,7 +15,7 @@ import away3d.tools.utils.GeomUtil;
 import away3d.core.base.ISubGeometry;
 import away3d.core.base.SubMesh;
 import openfl.display3D.Context3DClearMask;
-import openfl.display3D.shaders.AGLSLShaderUtils;
+import openfl.display3D._shaders.AGLSLShaderUtils;
 import openfl.display3D.Context3DTriangleFace;
 import away3d.core.data.RenderableListItem;
 import openfl.geom.Matrix3D;
@@ -48,10 +48,10 @@ class ShaderPicker implements IPicker {
     private var _objectProgram3D:Program3D;
     private var _triangleProgram3D:Program3D;
     private var _bitmapData:BitmapData;
-    private var _viewportData:Array<Float>;
-    private var _boundOffsetScale:Array<Float>;
-    private var _id:Array<Float>;
-    private var _interactives:Array<IRenderable>;
+    private var _viewportData:Vector<Float>;
+    private var _boundOffsetScale:Vector<Float>;
+    private var _id:Vector<Float>;
+    private var _interactives:Vector<IRenderable>;
     private var _interactiveId:Int;
     private var _hitColor:Int;
     private var _projX:Float;
@@ -85,17 +85,17 @@ class ShaderPicker implements IPicker {
 	 */
     public function new() {
         _onlyMouseEnabled = true;
-        _interactives = new Array<IRenderable>();
+        _interactives = new Vector<IRenderable>();
         _localHitPosition = new Vector3D();
         _hitUV = new Point();
         _localHitNormal = new Vector3D();
         _rayPos = new Vector3D();
         _rayDir = new Vector3D();
-        _id = ArrayUtils.Prefill( new Array<Float>(), 4, 0 );
-        _viewportData = ArrayUtils.Prefill( new Array<Float>(), 4, 0 );
+        _id = ArrayUtils.Prefill( new Vector<Float>(), 4, 0 );
+        _viewportData = ArrayUtils.Prefill( new Vector<Float>(), 4, 0 );
         
         // first 2 contain scale, last 2 translation
-        _boundOffsetScale = ArrayUtils.Prefill( new Array<Float>(), 8, 0 );
+        _boundOffsetScale = ArrayUtils.Prefill( new Vector<Float>(), 8, 0 );
         
         // first 2 contain scale, last 2 translation
         _boundOffsetScale[3] = 0;
@@ -309,8 +309,8 @@ class ShaderPicker implements IPicker {
 	 */
     private function getPreciseDetails(camera:Camera3D):Void {
         var subGeom:ISubGeometry = cast((_hitRenderable), SubMesh).subGeometry;
-        var indices:Array<UInt> = subGeom.indexData;
-        var vertices:Array<Float> = subGeom.vertexData;
+        var indices:Vector<UInt> = subGeom.indexData;
+        var vertices:Vector<Float> = subGeom.vertexData;
         var len:Int = indices.length;
         var x1:Float;
         var y1:Float;
@@ -344,8 +344,8 @@ class ShaderPicker implements IPicker {
         var s:Float;
         var t:Float;
         var invDenom:Float;
-        var uvs:Array<Float> = subGeom.UVData;
-        var normals:Array<Float> = subGeom.faceNormals;
+        var uvs:Vector<Float> = subGeom.UVData;
+        var normals:Vector<Float> = subGeom.faceNormals;
         var x:Float = _localHitPosition.x;
         var y:Float = _localHitPosition.y;
         var z:Float = _localHitPosition.z;

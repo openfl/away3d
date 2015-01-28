@@ -6,6 +6,7 @@ package away3d.core.partition;
 import away3d.core.base.SubMesh;
 import away3d.core.traverse.PartitionTraverser;
 import away3d.entities.Mesh;
+import openfl.Vector;
 
 class MeshNode extends EntityNode {
     public var mesh(get_mesh, never):Mesh;
@@ -18,7 +19,7 @@ class MeshNode extends EntityNode {
     public function new(mesh:Mesh) {
         super(mesh);
         _mesh = mesh;
-// also keep a stronger typed reference
+        // also keep a stronger typed reference
     }
 
     /**
@@ -35,7 +36,7 @@ class MeshNode extends EntityNode {
 		
         if (traverser.enterNode(this)) {
             super.acceptTraverser(traverser);
-            var subs:Array<SubMesh> = _mesh.subMeshes;
+            var subs:Vector<SubMesh> = _mesh.subMeshes;
             var i:Int = 0;
             var len:Int = subs.length;
 		

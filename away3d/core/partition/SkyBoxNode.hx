@@ -6,6 +6,7 @@ package away3d.core.partition;
 import away3d.core.math.Plane3D;
 import away3d.core.traverse.PartitionTraverser;
 import away3d.primitives.SkyBox;
+import openfl.Vector;
 
 class SkyBoxNode extends EntityNode {
 
@@ -29,7 +30,7 @@ class SkyBoxNode extends EntityNode {
         }
     }
 
-    override public function isInFrustum(planes:Array<Plane3D>, numPlanes:Int):Bool {
+    override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
 
         return true;
     }

@@ -104,8 +104,8 @@ class ParticleFollowState extends ParticleStateBase {
     }
 
     private function processPosition(currentTime:Float, deltaTime:Float, animationSubGeometry:AnimationSubGeometry):Void {
-        var data:Array<ParticleAnimationData> = animationSubGeometry.animationParticles;
-        var vertexData:Array<Float> = animationSubGeometry.vertexData;
+        var data:Vector<ParticleAnimationData> = animationSubGeometry.animationParticles;
+        var vertexData:Vector<Float> = animationSubGeometry.vertexData;
         var changed:Bool = false;
         var len:Int = data.length;
         var interpolatedPos:Vector3D = null;
@@ -144,8 +144,8 @@ class ParticleFollowState extends ParticleStateBase {
     }
 
     private function precessRotation(currentTime:Float, deltaTime:Float, animationSubGeometry:AnimationSubGeometry):Void {
-        var data:Array<ParticleAnimationData> = animationSubGeometry.animationParticles;
-        var vertexData:Array<Float> = animationSubGeometry.vertexData;
+        var data:Vector<ParticleAnimationData> = animationSubGeometry.animationParticles;
+        var vertexData:Vector<Float> = animationSubGeometry.vertexData;
         var changed:Bool = false;
         var len:Int = data.length;
         var interpolatedRotation:Vector3D = null;
@@ -184,8 +184,8 @@ class ParticleFollowState extends ParticleStateBase {
     }
 
     private function processPositionAndRotation(currentTime:Float, deltaTime:Float, animationSubGeometry:AnimationSubGeometry):Void {
-        var data:Array<ParticleAnimationData> = animationSubGeometry.animationParticles;
-        var vertexData:Array<Float> = animationSubGeometry.vertexData;
+        var data:Vector<ParticleAnimationData> = animationSubGeometry.animationParticles;
+        var vertexData:Vector<Float> = animationSubGeometry.vertexData;
         var changed:Bool = false;
         var len:Int = data.length;
         var interpolatedPos:Vector3D = null;

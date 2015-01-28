@@ -6,7 +6,6 @@
  */
 package away3d.materials.methods;
 
-
 import away3d.core.base.IRenderable;
 import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
@@ -19,13 +18,15 @@ import away3d.lights.shadowmaps.CascadeShadowMapper;
 import openfl.errors.Error;
 import openfl.events.Event;
 import away3d.events.ShadingMethodEvent;
+import openfl.Vector;
+
 class CascadeShadowMapMethod extends ShadowMapMethodBase {
     public var baseMethod(get_baseMethod, set_baseMethod):SimpleShadowMapMethodBase;
 
     private var _baseMethod:SimpleShadowMapMethodBase;
     private var _cascadeShadowMapper:CascadeShadowMapper;
-    private var _depthMapCoordVaryings:Array<ShaderRegisterElement>;
-    private var _cascadeProjections:Array<ShaderRegisterElement>;
+    private var _depthMapCoordVaryings:Vector<ShaderRegisterElement>;
+    private var _cascadeProjections:Vector<ShaderRegisterElement>;
     /**
 	 * Creates a new CascadeShadowMapMethod object.
 	 *
@@ -84,8 +85,8 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
 	 * @inheritDoc
 	 */
     override public function initConstants(vo:MethodVO):Void {
-        var fragmentData:Array<Float> = vo.fragmentData;
-        var vertexData:Array<Float> = vo.vertexData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
+        var vertexData:Vector<Float> = vo.vertexData;
         var index:Int = vo.fragmentConstantsIndex;
         fragmentData[index] = 1.0;
         fragmentData[index + 1] = 1 / 255.0;
@@ -130,8 +131,8 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
 	 */
  
     private function initProjectionsRegs(regCache:ShaderRegisterCache):Void {
-        _cascadeProjections = ArrayUtils.Prefill(new Array<ShaderRegisterElement>(), _cascadeShadowMapper.numCascades);
-        _depthMapCoordVaryings =ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), _cascadeShadowMapper.numCascades);
+        _cascadeProjections = ArrayUtils.Prefill(new Vector<ShaderRegisterElement>(), _cascadeShadowMapper.numCascades);
+        _depthMapCoordVaryings =ArrayUtils.Prefill( new Vector<ShaderRegisterElement>(), _cascadeShadowMapper.numCascades);
         var i:Int = 0;
         while (i < _cascadeShadowMapper.numCascades) {
             _depthMapCoordVaryings[i] = regCache.getFreeVarying();
@@ -152,7 +153,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
         var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
         var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
         var planeDistanceReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-        var planeDistances:Array<String> = [planeDistanceReg + ".x", planeDistanceReg + ".y", planeDistanceReg + ".z", planeDistanceReg + ".w"];
+        var planeDistances:Vector<String> = [planeDistanceReg + ".x", planeDistanceReg + ".y", planeDistanceReg + ".z", planeDistanceReg + ".w"];
         var code:String;
         vo.fragmentConstantsIndex = decReg.index * 4;
         vo.texturesIndex = depthMapRegister.index;
@@ -186,7 +187,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
         stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
-        var vertexData:Array<Float> = vo.vertexData;
+        var vertexData:Vector<Float> = vo.vertexData;
         var vertexIndex:Int = vo.vertexConstantsIndex;
         vo.vertexData[vo.vertexConstantsIndex + 3] = -1 / (_cascadeShadowMapper.depth * _epsilon);
         var numCascades:Int = _cascadeShadowMapper.numCascades;
@@ -197,10 +198,10 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
             vertexIndex += 16;
             ++k;
         }
-        var fragmentData:Array<Float> = vo.fragmentData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
         var fragmentIndex:Int = vo.fragmentConstantsIndex;
         fragmentData[(fragmentIndex + 5)] = 1 - _alpha;
-        var nearPlaneDistances:Array<Float> = _cascadeShadowMapper.nearPlaneDistances;
+        var nearPlaneDistances:Vector<Float> = _cascadeShadowMapper.nearPlaneDistances;
         fragmentIndex += 8;
         var i:Int = 0;
         while (i < numCascades) {

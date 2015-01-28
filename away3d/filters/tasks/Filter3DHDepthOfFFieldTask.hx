@@ -15,7 +15,7 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase {
 
     static private var MAX_AUTO_SAMPLES:Int = 10;
     private var _maxBlur:Int;
-    private var _data:Array<Float>;
+    private var _data:Vector<Float>;
     private var _focusDistance:Float;
     private var _range:Float;
     private var _stepSize:Int;

@@ -23,14 +23,14 @@ import away3d.library.assets.Asset3DType;
 import away3d.utils.ArrayUtils;
 
 class Camera3D extends Entity {
-    public var frustumPlanes(get_frustumPlanes, never):Array<Plane3D>;
+    public var frustumPlanes(get_frustumPlanes, never):Vector<Plane3D>;
     public var lens(get_lens, set_lens):LensBase;
     public var viewProjection(get_viewProjection, never):Matrix3D;
 
     private var _viewProjection:Matrix3D;
     private var _viewProjectionDirty:Bool;
     private var _lens:LensBase;
-    private var _frustumPlanes:Array<Plane3D>;
+    private var _frustumPlanes:Vector<Plane3D>;
     private var _frustumPlanesDirty:Bool;
 
     /**
@@ -51,7 +51,8 @@ class Camera3D extends Entity {
         _lens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
 
         //setup default frustum planes
-        _frustumPlanes = ArrayUtils.Prefill( new Array<Plane3D>(), 6);
+        _frustumPlanes = ArrayUtils.Prefill( new Vector<Plane3D>(), 6);
+        
         var i:Int = 0;
         while (i < 6) {
             _frustumPlanes[i] = new Plane3D();
@@ -77,7 +78,7 @@ class Camera3D extends Entity {
     /**
 	 *
 	 */
-    public function get_frustumPlanes():Array<Plane3D> {
+    public function get_frustumPlanes():Vector<Plane3D> {
         if (_frustumPlanesDirty) updateFrustum();  
         return _frustumPlanes;
     }

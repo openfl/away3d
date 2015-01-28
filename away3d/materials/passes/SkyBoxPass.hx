@@ -17,12 +17,13 @@ import openfl.geom.Vector3D;
 import openfl.display3D.Context3DWrapMode;
 import openfl.display3D.Context3DTextureFilter;
 import openfl.display3D.Context3DMipFilter;
+import openfl.Vector;
 
 class SkyBoxPass extends MaterialPassBase {
     public var cubeTexture(get_cubeTexture, set_cubeTexture):CubeTextureBase;
 
     private var _cubeTexture:CubeTextureBase;
-    private var _vertexData:Array<Float>;
+    private var _vertexData:Vector<Float>;
 
     /**
 	 * Creates a new SkyBoxPass object.
@@ -31,7 +32,7 @@ class SkyBoxPass extends MaterialPassBase {
         super();
         mipmap = false;
         _numUsedTextures = 1;
-        _vertexData = [0, 0, 0, 0, 1, 1, 1, 1];
+        _vertexData = [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0];
     }
 
     /**

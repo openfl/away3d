@@ -22,10 +22,11 @@ import away3d.lights.LightProbe;
 import away3d.lights.PointLight;
 import away3d.materials.MaterialBase;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class EntityCollector extends PartitionTraverser {
     public var camera(get_camera, set_camera):Camera3D;
-    public var cullPlanes(get_cullPlanes, set_cullPlanes):Array<Plane3D>;
+    public var cullPlanes(get_cullPlanes, set_cullPlanes):Vector<Plane3D>;
     public var numMouseEnableds(get_numMouseEnableds, never):Int;
     public var skyBox(get_skyBox, never):IRenderable;
     public var opaqueRenderableHead(get_opaqueRenderableHead, set_opaqueRenderableHead):RenderableListItem;
@@ -56,8 +57,8 @@ class EntityCollector extends PartitionTraverser {
     private var _numPointLights:Int;
     private var _numLightProbes:Int;
     private var _cameraForward:Vector3D;
-    private var _customCullPlanes:Array<Plane3D>;
-    private var _cullPlanes:Array<Plane3D>;
+    private var _customCullPlanes:Vector<Plane3D>;
+    private var _cullPlanes:Vector<Plane3D>;
     private var _numCullPlanes:Int;
 
     /**
@@ -102,11 +103,11 @@ class EntityCollector extends PartitionTraverser {
         return value;
     }
 
-    public function get_cullPlanes():Array<Plane3D> {
+    public function get_cullPlanes():Vector<Plane3D> {
         return _customCullPlanes;
     }
 
-    public function set_cullPlanes(value:Array<Plane3D>):Array<Plane3D> {
+    public function set_cullPlanes(value:Vector<Plane3D>):Vector<Plane3D> {
         _customCullPlanes = value;
         return value;
     }

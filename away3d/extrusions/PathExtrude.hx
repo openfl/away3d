@@ -23,10 +23,10 @@ class PathExtrude extends Mesh {
     public var centerMesh(get_centerMesh, set_centerMesh):Bool;
     public var distributeU(get_distributeU, set_distributeU):Bool;
     public var path(get_path, set_path):IPath;
-    public var profile(get_profile, set_profile):Array<Vector3D>;
-    public var scales(get_scales, set_scales):Array<Vector3D>;
-    public var rotations(get_rotations, set_rotations):Array<Vector3D>;
-    public var materials(get_materials, set_materials):Array<MaterialBase>;
+    public var profile(get_profile, set_profile):Vector<Vector3D>;
+    public var scales(get_scales, set_scales):Vector<Vector3D>;
+    public var rotations(get_rotations, set_rotations):Vector<Vector3D>;
+    public var materials(get_materials, set_materials):Vector<MaterialBase>;
     public var subdivision(get_subdivision, set_subdivision):Int;
     public var coverAll(get_coverAll, set_coverAll):Bool;
     public var distribute(get_distribute, set_distribute):Bool;
@@ -39,21 +39,21 @@ class PathExtrude extends Mesh {
     public var alignToPath(never, set_alignToPath):Bool;
     public var smoothScale(get_smoothScale, set_smoothScale):Bool;
     public var keepExtremes(get_keepExtremes, set_keepExtremes):Bool;
-    public var startProfile(get_startProfile, never):Array<Vector3D>;
-    public var endProfile(get_endProfile, never):Array<Vector3D>;
+    public var startProfile(get_startProfile, never):Vector<Vector3D>;
+    public var endProfile(get_endProfile, never):Vector<Vector3D>;
 
-    private var _varr:Array<Vertex>;
-    private var _doubles:Array<Vertex>;
+    private var _varr:Vector<Vertex>;
+    private var _doubles:Vector<Vertex>;
     private var _upAxis:Vector3D;
     private var _trans:Matrix3D;
     private var LIMIT:Int;
     private var MAXRAD:Float;
     private var _path:IPath;
-    private var _profile:Array<Vector3D>;
+    private var _profile:Vector<Vector3D>;
     private var _centerMesh:Bool;
-    private var _scales:Array<Vector3D>;
-    private var _rotations:Array<Vector3D>;
-    private var _materials:Array<MaterialBase>;
+    private var _scales:Vector<Vector3D>;
+    private var _rotations:Vector<Vector3D>;
+    private var _materials:Vector<MaterialBase>;
     private var _activeMaterial:MaterialBase;
     private var _subdivision:Int;
     private var _coverAll:Bool;
@@ -70,15 +70,15 @@ class PathExtrude extends Mesh {
     private var _segv:Float;
     private var _geomDirty:Bool;
     private var _subGeometry:SubGeometry;
-    private var _MaterialsSubGeometries:Array<SubGeometryList>;
+    private var _MaterialsSubGeometries:Vector<SubGeometryList>;
     private var _uva:UV;
     private var _uvb:UV;
     private var _uvc:UV;
     private var _uvd:UV;
-    private var _uvs:Array<Float>;
-    private var _vertices:Array<Float>;
-    private var _indices:Array<UInt>;
-    private var _normals:Array<Float>;
+    private var _uvs:Vector<Float>;
+    private var _vertices:Vector<Float>;
+    private var _indices:Vector<UInt>;
+    private var _normals:Vector<Float>;
     private var _normalTmp:Vector3D;
     private var _normal0:Vector3D;
     private var _normal1:Vector3D;
@@ -86,9 +86,9 @@ class PathExtrude extends Mesh {
     private var _keepExtremes:Bool;
     private var _distribute:Bool;
     private var _distributeU:Bool;
-    private var _distributedU:Array<Float>;
-    private var _startPoints:Array<Vector3D>;
-    private var _endPoints:Array<Vector3D>;
+    private var _distributedU:Vector<Float>;
+    private var _startPoints:Vector<Vector3D>;
+    private var _endPoints:Vector<Vector3D>;
     /**
 	 * Creates a new <code>PathExtrude</code>
 	 *
@@ -113,15 +113,15 @@ class PathExtrude extends Mesh {
 	 * @param    keepExtremes        [optional]    Boolean. If the the first and last profile coordinates must be kept accessible, in order to feed classes such as DelaunayMesh. Default is false;
 	 */
 
-    function new(material:MaterialBase = null, path:IPath = null, profile:Array<Vector3D> = null, subdivision:Int = 2, coverAll:Bool = true, coverSegment:Bool = false, alignToPath:Bool = true, centerMesh:Bool = false, mapFit:Bool = false, flip:Bool = false, closePath:Bool = false, materials:Array<MaterialBase> = null, scales:Array<Vector3D> = null, smoothScale:Bool = true, rotations:Array<Vector3D> = null, smoothSurface:Bool = true, distribute:Bool = false, distributeU:Bool = true, keepExtremes:Bool = false) {
-        _doubles = new Array<Vertex>();
+    function new(material:MaterialBase = null, path:IPath = null, profile:Vector<Vector3D> = null, subdivision:Int = 2, coverAll:Bool = true, coverSegment:Bool = false, alignToPath:Bool = true, centerMesh:Bool = false, mapFit:Bool = false, flip:Bool = false, closePath:Bool = false, materials:Vector<MaterialBase> = null, scales:Vector<Vector3D> = null, smoothScale:Bool = true, rotations:Vector<Vector3D> = null, smoothSurface:Bool = true, distribute:Bool = false, distributeU:Bool = true, keepExtremes:Bool = false) {
+        _doubles = new Vector<Vertex>();
         _upAxis = new Vector3D(0, 1, 0);
         _trans = new Matrix3D();
         LIMIT = 196605;
         MAXRAD = 1.2;
         _matIndex = 0;
         _geomDirty = true;
-        _MaterialsSubGeometries = new Array<SubGeometryList>();
+        _MaterialsSubGeometries = new Vector<SubGeometryList>();
 
         var geom:Geometry = new Geometry();
         _subGeometry = new SubGeometry();
@@ -137,7 +137,7 @@ class PathExtrude extends Mesh {
         _mapFit = mapFit;
         _flip = flip;
         _closePath = closePath;
-        _materials = ((materials != null)) ? materials : new Array<MaterialBase>();
+        _materials = ((materials != null)) ? materials : new Vector<MaterialBase>();
         _scales = scales;
         _smoothScale = smoothScale;
         _rotations = rotations;
@@ -174,7 +174,7 @@ class PathExtrude extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subMeshes():Array<SubMesh> {
+    override public function get_subMeshes():Vector<SubMesh> {
         if (_geomDirty) buildExtrude();
         return super.subMeshes;
     }
@@ -235,11 +235,11 @@ class PathExtrude extends Mesh {
     /**
 	 * Defines a Vector.&lt;Vector3D&gt; of Vector3D objects representing the profile information to be projected along the Path object. Required.
 	 */
-    public function get_profile():Array<Vector3D> {
+    public function get_profile():Vector<Vector3D> {
         return _profile;
     }
 
-    public function set_profile(val:Array<Vector3D>):Array<Vector3D> {
+    public function set_profile(val:Vector<Vector3D>):Vector<Vector3D> {
         _profile = val;
         if (_profile != null) _isClosedProfile = (_profile[0].x == _profile[_profile.length - 1].x && _profile[0].y == _profile[_profile.length - 1].y && _profile[0].z == _profile[_profile.length - 1].z);
         _geomDirty = true;
@@ -249,11 +249,11 @@ class PathExtrude extends Mesh {
     /**
 	 * An optional Vector.&lt;Vector3D&gt; of <code>Vector3D</code> objects that defines a series of scales to be set on each PathSegment.
 	 */
-    public function get_scales():Array<Vector3D> {
+    public function get_scales():Vector<Vector3D> {
         return _scales;
     }
 
-    public function set_scales(val:Array<Vector3D>):Array<Vector3D> {
+    public function set_scales(val:Vector<Vector3D>):Vector<Vector3D> {
         _scales = val;
         _geomDirty = true;
         return val;
@@ -262,11 +262,11 @@ class PathExtrude extends Mesh {
     /**
 	 * An optional Vector.&lt;Vector3D&gt; of <code>Vector3D</code> objects that defines a series of rotations to be set on each PathSegment.
 	 */
-    public function get_rotations():Array<Vector3D> {
+    public function get_rotations():Vector<Vector3D> {
         return _rotations;
     }
 
-    public function set_rotations(val:Array<Vector3D>):Array<Vector3D> {
+    public function set_rotations(val:Vector<Vector3D>):Vector<Vector3D> {
         _rotations = val;
         _geomDirty = true;
         return val;
@@ -275,11 +275,11 @@ class PathExtrude extends Mesh {
     /**
 	 * An optional Vector.&lt;MaterialBase&gt;. It defines a series of materials to be set on each PathSegment if coverAll is set to false.
 	 */
-    public function get_materials():Array<MaterialBase> {
+    public function get_materials():Vector<MaterialBase> {
         return _materials;
     }
 
-    public function set_materials(val:Array<MaterialBase>):Array<MaterialBase> {
+    public function set_materials(val:Vector<MaterialBase>):Vector<MaterialBase> {
         if (val == null) return val;
         _materials = val;
         _geomDirty = true;
@@ -451,7 +451,7 @@ class PathExtrude extends Mesh {
 	 * returns a vector of vector3d's representing the transformed profile coordinates at the start of the extrude shape
 	 * null if "keepExtremes" is false or if the extrusion has not been builded yet.
 	 */
-    public function get_startProfile():Array<Vector3D> {
+    public function get_startProfile():Vector<Vector3D> {
         if (_path == null || _startPoints == null) return null;
         return _startPoints;
     }
@@ -460,7 +460,7 @@ class PathExtrude extends Mesh {
 	 * returns a vector of vector3d's representing the transformed profile coordinates at the end of the extrude shape
 	 * null if "keepExtremes" is false or if the extrusion has not been builded yet.
 	 */
-    public function get_endProfile():Array<Vector3D> {
+    public function get_endProfile():Vector<Vector3D> {
         if (_path == null || _endPoints == null) return null;
         return _endPoints;
     }
@@ -475,7 +475,7 @@ class PathExtrude extends Mesh {
             xAxis.normalize();
             yAxis = xAxis.crossProduct(zAxis);
             yAxis.normalize();
-            var rawData:Array<Float> = _trans.rawData;
+            var rawData:Vector<Float> = _trans.rawData;
             rawData[0] = xAxis.x;
             rawData[1] = xAxis.y;
             rawData[2] = xAxis.z;
@@ -489,12 +489,12 @@ class PathExtrude extends Mesh {
         }
     }
 
-    private function generate(points:Array<Vector<Vector3D>>, offsetV:Int = 0, closedata:Bool = false):Void {
+    private function generate(points:Vector<Vector<Vector3D>>, offsetV:Int = 0, closedata:Bool = false):Void {
         var uvlength:Int = (points.length - 1) + offsetV;
         var offset:Int;
         var i:Int = 0;
         while (i < points.length - 1) {
-            _varr = new Array<Vertex>();
+            _varr = new Vector<Vertex>();
             offset = ((closedata)) ? i + uvlength : i;
             extrudePoints(points[i], points[i + 1], (1 / uvlength) * offset, uvlength, offset / (_subdivision - 1));
             if (i == 0 && _isClosedProfile) _doubles = _varr.concat();
@@ -503,7 +503,7 @@ class PathExtrude extends Mesh {
         _varr = _doubles = null;
     }
 
-    private function extrudePoints(points1:Array<Vector3D>, points2:Array<Vector3D>, vscale:Float, indexv:Int, indexp:Float):Void {
+    private function extrudePoints(points1:Vector<Vector3D>, points2:Vector<Vector3D>, vscale:Float, indexv:Int, indexp:Float):Void {
         var i:Int;
         var j:Int;
         var stepx:Float;
@@ -646,20 +646,20 @@ class PathExtrude extends Mesh {
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();
             _subGeometry = sglist.subGeometry;
-            sglist.uvs = _uvs = new Array<Float>();
-            sglist.vertices = _vertices = new Array<Float>();
-            if (_smoothSurface) sglist.normals = _normals = new Array<Float>();
-            sglist.indices = _indices = new Array<UInt>();
+            sglist.uvs = _uvs = new Vector<Float>();
+            sglist.vertices = _vertices = new Vector<Float>();
+            if (_smoothSurface) sglist.normals = _normals = new Vector<Float>();
+            sglist.indices = _indices = new Vector<UInt>();
             sglist.material = this.material;
             if (sglist.material.name == null) sglist.material.name = "baseMaterial";
             _matIndex = _materials.length;
         }
 
         else {
-            _uvs = new Array<Float>();
-            _vertices = new Array<Float>();
-            _indices = new Array<UInt>();
-            if (_smoothSurface) _normals = new Array<Float>()
+            _uvs = new Vector<Float>();
+            _vertices = new Vector<Float>();
+            _indices = new Vector<UInt>();
+            if (_smoothSurface) _normals = new Vector<Float>()
             else _subGeometry.autoDeriveVertexNormals = true;
             _subGeometry.autoDeriveVertexTangents = true;
         }
@@ -680,11 +680,11 @@ class PathExtrude extends Mesh {
             sglist = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();
-            sglist.uvs = new Array<Float>();
-            sglist.vertices = new Array<Float>();
-            sglist.indices = new Array<UInt>();
+            sglist.uvs = new Vector<Float>();
+            sglist.vertices = new Vector<Float>();
+            sglist.indices = new Vector<UInt>();
             sglist.material = mat;
-            if (_smoothSurface) sglist.normals = new Array<Float>();
+            if (_smoothSurface) sglist.normals = new Vector<Float>();
         }
         return sglist;
     }
@@ -707,10 +707,10 @@ class PathExtrude extends Mesh {
 
     private function addFace(v0:Vertex, v1:Vertex, v2:Vertex, uv0:UV, uv1:UV, uv2:UV, mat:MaterialBase):Void {
         var subGeom:SubGeometry;
-        var uvs:Array<Float>;
-        var vertices:Array<Float>;
-        var normals:Array<Float>;
-        var indices:Array<UInt>;
+        var uvs:Vector<Float>;
+        var vertices:Vector<Float>;
+        var normals:Vector<Float>;
+        var indices:Vector<UInt>;
         var sglist:SubGeometryList;
         var startMat:Bool = false;
         if (_activeMaterial != mat && _materials != null && _materials.length > 0) {
@@ -745,18 +745,18 @@ class PathExtrude extends Mesh {
             if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 1) {
                 sglist = getSubGeometryListFromMaterial(mat);
                 sglist.subGeometry = _subGeometry = subGeom;
-                sglist.uvs = _uvs = uvs = new Array<Float>();
-                sglist.vertices = _vertices = vertices = new Array<Float>();
-                sglist.indices = _indices = indices = new Array<UInt>();
-                if (_smoothSurface) sglist.normals = _normals = normals = new Array<Float>();
+                sglist.uvs = _uvs = uvs = new Vector<Float>();
+                sglist.vertices = _vertices = vertices = new Vector<Float>();
+                sglist.indices = _indices = indices = new Vector<UInt>();
+                if (_smoothSurface) sglist.normals = _normals = normals = new Vector<Float>();
             }
 
             else {
                 _subGeometry = subGeom;
-                uvs = _uvs = new Array<Float>();
-                vertices = _vertices = new Array<Float>();
-                indices = _indices = new Array<UInt>();
-                normals = _normals = new Array<Float>();
+                uvs = _uvs = new Vector<Float>();
+                vertices = _vertices = new Vector<Float>();
+                indices = _indices = new Vector<UInt>();
+                normals = _normals = new Vector<Float>();
             }
 
         }
@@ -896,10 +896,10 @@ class PathExtrude extends Mesh {
         indices.push(ind2);
     }
 
-    private function distributeVectors():Array<Vector<Vector3D>> {
-        var segs:Array<Vector<Vector3D>> = _path.getPointsOnCurvePerSegment(_subdivision);
-        var nSegs:Array<Vector<Vector3D>> = new Array<Vector<Vector3D>>();
-        var seg:Array<Vector3D>;
+    private function distributeVectors():Vector<Vector<Vector3D>> {
+        var segs:Vector<Vector<Vector3D>> = _path.getPointsOnCurvePerSegment(_subdivision);
+        var nSegs:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
+        var seg:Vector<Vector3D>;
         var j:Int = 0;
         var estLength:Float = 0;
         var vCount:Int = 0;
@@ -930,7 +930,7 @@ class PathExtrude extends Mesh {
             ps = _path.getSegmentAt(i);
             ignore = false;
             t = diff;
-            seg = new Array<Vector3D>();
+            seg = new Vector<Vector3D>();
             while (t < 1) {
                 if (segs.length == 0) {
                     v = segs[i][0];
@@ -976,7 +976,7 @@ class PathExtrude extends Mesh {
         _distributedU = Vector.ofArray(cast [0]);
         var tdist:Float = 0;
         var dist:Float = 0;
-        var tmpDists:Array<Float> = new Array<Float>();
+        var tmpDists:Vector<Float> = new Vector<Float>();
         var i:Int = 0;
         while (i < _profile.length - 1) {
             tmpDists[i] = Vector3D.distance(_profile[i], _profile[i + 1]);
@@ -997,35 +997,35 @@ class PathExtrude extends Mesh {
         _geomDirty = false;
         initHolders();
         _maxIndProfile = _profile.length * 9;
-        var vSegPts:Array<Vector<Vector3D>> = null;
+        var vSegPts:Vector<Vector<Vector3D>> = null;
         if (_distribute) vSegPts = distributeVectors()
         else vSegPts = _path.getPointsOnCurvePerSegment(_subdivision);
         if (_distributeU) generateUlist();
-        var vPtsList:Array<Vector3D> = new Array<Vector3D>();
-        var vSegResults:Array<Vector<Vector3D>> = new Array<Vector<Vector3D>>();
-        var atmp:Array<Vector3D> = null;
+        var vPtsList:Vector<Vector3D> = new Vector<Vector3D>();
+        var vSegResults:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
+        var atmp:Vector<Vector3D> = null;
         var tmppt:Vector3D = new Vector3D(0, 0, 0);
         var i:Int = 0;
         var j:Int = 0;
         var k:Int = 0;
         var nextpt:Vector3D = null;
         if (_coverSegment) _segv = 1 / (_subdivision - 1);
-        var lastP:Array<Vector3D> = null;
-        if (_closePath) lastP = new Array<Vector3D>();
+        var lastP:Vector<Vector3D> = null;
+        if (_closePath) lastP = new Vector<Vector3D>();
         var rescale:Bool = (_scales != null);
         var lastscale:Vector3D = null;
         if (rescale) lastscale = ((_scales[0] == null)) ? new Vector3D(1, 1, 1) : _scales[0];
         var rotate:Bool = (_rotations != null);
         var lastrotate:Vector3D = null;
         var nextrotate:Vector3D = null;
-        var rotation:Array<Vector3D> = null ;
+        var rotation:Vector<Vector3D> = null ;
         var tweenrot:Vector3D = null;
         var nextscale:Vector3D = null;
-        var vScales:Array<Vector3D> = null;
+        var vScales:Vector<Vector3D> = null;
         if (rotate && _rotations.length > 0) {
             lastrotate = _rotations[0];
 
-            rotation = new Array<Vector3D>();
+            rotation = new Vector<Vector3D>();
 
         }
         if (_smoothScale && rescale) {
@@ -1052,9 +1052,9 @@ class PathExtrude extends Mesh {
             }
             j = 0;
             while (j < vSegPts[i].length) {
-                atmp = new Array<Vector3D>();
+                atmp = new Vector<Vector3D>();
                 atmp = atmp.concat(_profile);
-                vPtsList = new Array<Vector3D>();
+                vPtsList = new Vector<Vector3D>();
                 if (rotate) tweenrot = rotation[j];
                 if (_alignToPath) {
                     _trans = new Matrix3D();
@@ -1125,11 +1125,11 @@ class PathExtrude extends Mesh {
             var stepx:Float;
             var stepy:Float;
             var stepz:Float;
-            var c:Array<Vector3D>;
-            var c2:Array<Vector<Vector3D>> = new Array<Vector<Vector3D>>();
+            var c:Vector<Vector3D>;
+            var c2:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
             i = 1;
             while (i < _subdivision + 1) {
-                c = new Array<Vector3D>();
+                c = new Vector<Vector3D>();
                 j = 0;
                 while (j < lastP.length) {
                     stepx = (vSegResults[0][j].x - lastP[j].x) / _subdivision;
@@ -1147,8 +1147,8 @@ class PathExtrude extends Mesh {
             c2 = null;
         }
         if (_keepExtremes) {
-            _startPoints = new Array<Vector3D>();
-            _endPoints = new Array<Vector3D>();
+            _startPoints = new Vector<Vector3D>();
+            _endPoints = new Vector<Vector3D>();
             var offsetEnd:Int = vSegResults.length - 1;
             i = 0;
             while (i < tmploop) {

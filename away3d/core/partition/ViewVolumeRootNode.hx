@@ -9,12 +9,12 @@ class ViewVolumeRootNode extends NodeBase {
     public var dynamicGrid(get_dynamicGrid, set_dynamicGrid):DynamicGrid;
 
 // todo: provide a better data structure to find the containing view volume faster
-    private var _viewVolumes:Array<ViewVolume>;
+    private var _viewVolumes:Vector<ViewVolume>;
     private var _activeVolume:ViewVolume;
     private var _dynamicGrid:DynamicGrid;
 
     public function new() {
-        _viewVolumes = new Array<ViewVolume>();
+        _viewVolumes = new Vector<ViewVolume>();
         super();
 
     }

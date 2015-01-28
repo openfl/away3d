@@ -22,7 +22,7 @@ import away3d.tools.helpers.MeshHelper;
 import openfl.geom.Vector3D;
 
 class DelaunayMesh extends Mesh {
-    public var vectors(get_vectors, set_vectors):Array<Vector3D>;
+    public var vectors(get_vectors, set_vectors):Vector<Vector3D>;
     public var smoothSurface(get_smoothSurface, set_smoothSurface):Bool;
     public var plane(get_plane, set_plane):String;
     public var flip(get_flip, set_flip):Bool;
@@ -35,14 +35,14 @@ class DelaunayMesh extends Mesh {
     private var EPS:Float;
     private var MAXRAD:Float;
     private var _circle:Vector3D;
-    private var _vectors:Array<Vector3D>;
+    private var _vectors:Vector<Vector3D>;
     private var _subGeometry:SubGeometry;
     private var _sortProp:String;
     private var _loopProp:String;
-    private var _uvs:Array<Float>;
-    private var _vertices:Array<Float>;
-    private var _indices:Array<UInt>;
-    private var _normals:Array<Float>;
+    private var _uvs:Vector<Float>;
+    private var _vertices:Vector<Float>;
+    private var _indices:Vector<UInt>;
+    private var _normals:Vector<Float>;
     private var _geomDirty:Bool;
     private var _centerMesh:Bool;
     private var _plane:String;
@@ -65,7 +65,7 @@ class DelaunayMesh extends Mesh {
 	 *@param	flip					[optional] Boolean. If the faces need to be inverted. Default is false.
 	 *@param	smoothSurface	[optional] Boolean. If the surface finished needs to smooth or flat. Default is true, a smooth finish.
 	 */
-    public function new(material:MaterialBase, vectors:Array<Vector3D>, plane:String = PLANE_XZ, centerMesh:Bool = false, flip:Bool = false, smoothSurface:Bool = true) {
+    public function new(material:MaterialBase, vectors:Vector<Vector3D>, plane:String = PLANE_XZ, centerMesh:Bool = false, flip:Bool = false, smoothSurface:Bool = true) {
         LIMIT = 196605;
         EPS = .0001;
         MAXRAD = 1.2;
@@ -84,11 +84,11 @@ class DelaunayMesh extends Mesh {
     /**
 	 * The "cloud" of vector3d's to compose the mesh
 	 */
-    public function get_vectors():Array<Vector3D> {
+    public function get_vectors():Vector<Vector3D> {
         return _vectors;
     }
 
-    public function set_vectors(val:Array<Vector3D>):Array<Vector3D> {
+    public function set_vectors(val:Vector<Vector3D>):Vector<Vector3D> {
         if (_vectors.length < 3) return val;
         _vectors = val;
         invalidateGeometry();
@@ -169,12 +169,12 @@ class DelaunayMesh extends Mesh {
         _axis0Max = Math.NEGATIVE_INFINITY;
         _axis1Min = Math.POSITIVE_INFINITY;
         _axis1Max = Math.NEGATIVE_INFINITY;
-        _uvs = new Array<Float>();
-        _vertices = new Array<Float>();
-        _indices = new Array<UInt>();
+        _uvs = new Vector<Float>();
+        _vertices = new Vector<Float>();
+        _indices = new Vector<UInt>();
         _circle = new Vector3D();
         if (_smoothSurface) {
-            _normals = new Array<Float>();
+            _normals = new Vector<Float>();
             _normal0 = new Vector3D(0.0, 0.0, 0.0);
             _normal1 = new Vector3D(0.0, 0.0, 0.0);
             _normal2 = new Vector3D(0.0, 0.0, 0.0);
@@ -188,10 +188,10 @@ class DelaunayMesh extends Mesh {
 
     private function addFace(v0:Vector3D, v1:Vector3D, v2:Vector3D, uv0:UV, uv1:UV, uv2:UV):Void {
         var subGeom:SubGeometry = _subGeometry;
-        var uvs:Array<Float> = _uvs;
-        var vertices:Array<Float> = _vertices;
-        var indices:Array<UInt> = _indices;
-        var normals:Array<Float >= null;
+        var uvs:Vector<Float> = _uvs;
+        var vertices:Vector<Float> = _vertices;
+        var indices:Vector<UInt> = _indices;
+        var normals:Vector<Float >= null;
         if (_smoothSurface)
             normals = _normals;
         if (vertices.length + 9 > LIMIT) {
@@ -202,13 +202,13 @@ class DelaunayMesh extends Mesh {
             this.geometry.addSubGeometry(subGeom);
             subGeom = _subGeometry = new SubGeometry();
             subGeom.autoDeriveVertexTangents = true;
-            uvs = _uvs = new Array<Float>();
-            vertices = _vertices = new Array<Float>();
-            indices = _indices = new Array<UInt>();
+            uvs = _uvs = new Vector<Float>();
+            vertices = _vertices = new Vector<Float>();
+            indices = _indices = new Vector<UInt>();
             if (!_smoothSurface) subGeom.autoDeriveVertexNormals = true
             else {
                 subGeom.autoDeriveVertexNormals = false;
-                normals = _normals = new Array<Float>();
+                normals = _normals = new Vector<Float>();
             }
 
             subGeom.autoDeriveVertexTangents = true;
@@ -355,22 +355,22 @@ class DelaunayMesh extends Mesh {
         var v2:Vector3D;
         var limit:Int = _vectors.length;
         if (limit > 3) {
-            var nVectors:Array<Vector3D> = new Array<Vector3D>();
+            var nVectors:Vector<Vector3D> = new Vector<Vector3D>();
 
             nVectors = _vectors.concat();
             nVectors.sort(sortFunction);
             var i:Int;
             var j:Int;
             var k:Int;
-            var v:Array<Tri> = new Array<Tri>();
+            var v:Vector<Tri> = new Vector<Tri>();
             var nv:Int = nVectors.length;
             i = 0;
             while (i < (nv * 3)) {
                 v[i] = new Tri();
                 ++i;
             }
-            var bList:Array<Bool> = new Array<Bool>();
-            var edges:Array<Dynamic> = [];
+            var bList:Vector<Bool> = new Vector<Bool>();
+            var edges:Vector<Dynamic> = [];
             var nEdge:Int = 0;
             var maxTris:Int = 4 * nv;
             var maxEdges:Int = nv * 2;
@@ -676,7 +676,7 @@ class DelaunayMesh extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subMeshes():Array<SubMesh> {
+    override public function get_subMeshes():Vector<SubMesh> {
         if (_geomDirty) buildExtrude();
         return super.subMeshes;
     }

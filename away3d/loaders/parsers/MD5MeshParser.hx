@@ -18,6 +18,7 @@ import away3d.entities.Mesh;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 /**
  * AWDParser provides a parser for the md5mesh data type, providing the geometry of the md5 format.
@@ -70,6 +71,8 @@ class MD5MeshParser extends ParserBase {
     public function new(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0) {
         super(ParserDataFormat.PLAIN_TEXT);
         _parseIndex = 0;
+        _charLineIndex = 0;
+        _line = 0;
         _rotationQuat = new Quaternion();
 
         _rotationQuat.fromAxisAngle(Vector3D.X_AXIS, -Math.PI * .5);
@@ -331,10 +334,10 @@ class MD5MeshParser extends ParserBase {
         var bindPose:Matrix3D;
         var pos:Vector3D;
         var subGeom:SkinnedSubGeometry = new SkinnedSubGeometry(_maxJointCount);
-        var uvs:Array<Float> = new Array<Float>();
-        var vertices:Array<Float> = new Array<Float>();
-        var jointIndices:Array<UInt> = new Array<UInt>();
-        var jointWeights:Array<Float> = new Array<Float>();
+        var uvs:Vector<Float> = new Vector<Float>(len*2);
+        var vertices:Vector<Float> = new Vector<Float>(len*3);
+        var jointIndices:Vector<UInt> = new Vector<UInt>(len*_maxJointCount);
+        var jointWeights:Vector<Float> = new Vector<Float>(len*_maxJointCount);
         var l:Int = 0;
         var nonZeroWeights:Int = 0;
 
@@ -499,8 +502,9 @@ class MD5MeshParser extends ParserBase {
             ++_line;
             _charLineIndex = 0;
         }
-        else if (ch != "\r")
+        else if (ch != "\r") {
             ++_charLineIndex;
+        }
 
         if (_parseIndex >= _textData.length)
             _reachedEOF = true;

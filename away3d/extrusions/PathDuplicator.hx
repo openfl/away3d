@@ -15,17 +15,17 @@ class PathDuplicator {
     public var repeat(get_repeat, set_repeat):Int;
     public var alignToPath(get_alignToPath, set_alignToPath):Bool;
     public var randomRotationY(get_randomRotationY, set_randomRotationY):Bool;
-    public var clones(get_clones, never):Array<Mesh>;
+    public var clones(get_clones, never):Vector<Mesh>;
     public var path(get_path, set_path):IPath;
-    public var meshes(get_meshes, set_meshes):Array<Mesh>;
+    public var meshes(get_meshes, set_meshes):Vector<Mesh>;
     public var segmentSpread(get_segmentSpread, set_segmentSpread):Bool;
 
     private var _transform:Matrix3D;
     private var _upAxis:Vector3D;
     private var _path:IPath;
     private var _scene:Scene3D;
-    private var _meshes:Array<Mesh>;
-    private var _clones:Array<Mesh>;
+    private var _meshes:Vector<Mesh>;
+    private var _clones:Vector<Mesh>;
     private var _repeat:Int;
     private var _alignToPath:Bool;
     private var _randomRotationY:Bool;
@@ -48,7 +48,7 @@ class PathDuplicator {
 	 *
 	 */
 
-    function new(path:IPath = null, meshes:Array<Mesh> = null, scene:Scene3D = null, repeat:Int = 1, alignToPath:Bool = true, segmentSpread:Bool = true, container:ObjectContainer3D = null, randomRotationY:Bool = false) {
+    function new(path:IPath = null, meshes:Vector<Mesh> = null, scene:Scene3D = null, repeat:Int = 1, alignToPath:Bool = true, segmentSpread:Bool = true, container:ObjectContainer3D = null, randomRotationY:Bool = false) {
         _upAxis = new Vector3D(0, 1, 0);
         _segmentSpread = false;
         _path = path;
@@ -125,7 +125,7 @@ class PathDuplicator {
 	 * returns a vector with all meshes cloned since last time build method was called. Returns null if build hasn't be called yet.
 	 * Another option to retreive the generated meshes is to pass an ObjectContainer3D to the class
 	 */
-    public function get_clones():Array<Mesh> {
+    public function get_clones():Vector<Mesh> {
         return _clones;
     }
 
@@ -147,12 +147,12 @@ class PathDuplicator {
 	 *
 	 * @param    ms    A Vector.<Mesh>. One or more meshes to repeat along the path. Required for this class.
 	 */
-    public function set_meshes(ms:Array<Mesh>):Array<Mesh> {
+    public function set_meshes(ms:Vector<Mesh>):Vector<Mesh> {
         _meshes = ms;
         return ms;
     }
 
-    public function get_meshes():Array<Mesh> {
+    public function get_meshes():Vector<Mesh> {
         return _meshes;
     }
 
@@ -197,8 +197,8 @@ class PathDuplicator {
         if (_scene == null && _container == null) throw new Error("PathDuplicator error: Missing Scene3D or ObjectContainer3D.");
         _mIndex = _meshes.length - 1;
         _count = 0;
-        _clones = new Array<Mesh>();
-        var segments:Array<Vector<Vector3D>> = _path.getPointsOnCurvePerSegment(_repeat);
+        _clones = new Vector<Mesh>();
+        var segments:Vector<Vector<Vector3D>> = _path.getPointsOnCurvePerSegment(_repeat);
         var tmppt:Vector3D = new Vector3D();
         var i:Int;
         var j:Int;
@@ -254,7 +254,7 @@ class PathDuplicator {
             xAxis.normalize();
             yAxis = xAxis.crossProduct(zAxis);
             yAxis.normalize();
-            var rawData:Array<Float> = _transform.rawData;
+            var rawData:Vector<Float> = _transform.rawData;
             rawData[0] = xAxis.x;
             rawData[1] = xAxis.y;
             rawData[2] = xAxis.z;

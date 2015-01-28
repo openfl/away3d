@@ -20,16 +20,17 @@ import away3d.core.base.Geometry;
 import away3d.materials.MaterialBase;
 import away3d.materials.utils.DefaultMaterialManager;
 import away3d.animators.IAnimator;
+import openfl.Vector;
 
 class Mesh extends Entity implements IMaterialOwner implements IAsset {
     public var castsShadows(get_castsShadows, set_castsShadows):Bool;
     public var animator(get_animator, set_animator):IAnimator;
     public var geometry(get_geometry, set_geometry):Geometry;
     public var material(get_material, set_material):MaterialBase;
-    public var subMeshes(get_subMeshes, never):Array<SubMesh>;
+    public var subMeshes(get_subMeshes, never):Vector<SubMesh>;
     public var shareAnimationGeometry(get_shareAnimationGeometry, set_shareAnimationGeometry):Bool;
 
-    public var _subMeshes:Array<SubMesh>;
+    public var _subMeshes:Vector<SubMesh>;
     private var _geometry:Geometry;
     private var _material:MaterialBase;
     private var _animator:IAnimator;
@@ -46,7 +47,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
         _castsShadows = true;
         _shareAnimationGeometry = true;
         super();
-        _subMeshes = new Array<SubMesh>();
+        _subMeshes = new Vector<SubMesh>();
         this.geometry = geometry;
         if (this.geometry == null) this.geometry = new Geometry();
 
@@ -138,7 +139,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
             _geometry.addEventListener(GeometryEvent.BOUNDS_INVALID, onGeometryBoundsInvalid);
             _geometry.addEventListener(GeometryEvent.SUB_GEOMETRY_ADDED, onSubGeometryAdded);
             _geometry.addEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED, onSubGeometryRemoved);
-            var subGeoms:Array<ISubGeometry> = _geometry.subGeometries;
+            var subGeoms:Vector<ISubGeometry> = _geometry.subGeometries;
             i = 0;
             while (i < subGeoms.length) {
                 addSubMesh(subGeoms[i]);
@@ -172,7 +173,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
 	 * The SubMeshes out of which the Mesh consists. Every SubMesh can be assigned a material to override the Mesh's
 	 * material.
 	 */
-    public function get_subMeshes():Array<SubMesh> {
+    public function get_subMeshes():Vector<SubMesh> {
         // Since this getter is invoked every iteration of the render loop, and
         // the geometry construct could affect the sub-meshes, the geometry is
         // validated here to give it a chance to rebuild.

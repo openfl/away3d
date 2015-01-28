@@ -33,11 +33,11 @@ class Align {
 	 * @param     condition    Can be POSITIVE ('+') or NEGATIVE ('-'), Default is POSITIVE ('+')
 	 */
 
-    static public function alignMeshes(meshes:Array<Mesh>, axis:String, condition:String = POSITIVE):Void {
+    static public function alignMeshes(meshes:Vector<Mesh>, axis:String, condition:String = POSITIVE):Void {
         checkAxis(axis);
         checkCondition(condition);
         var base:Float;
-        var bounds:Array<MeshBound> = getMeshesBounds(meshes);
+        var bounds:Vector<MeshBound> = getMeshesBounds(meshes);
         var i:Int = 0;
         var prop:String = getProp();
         var mb:MeshBound;
@@ -76,7 +76,7 @@ class Align {
 	 * Place one or more meshes at y 0 using their min bounds
 	 */
 
-    static public function alignToFloor(meshes:Array<Mesh>):Void {
+    static public function alignToFloor(meshes:Vector<Mesh>):Void {
         if (meshes.length == 0) return;
         var i:Int = 0;
         while (i < meshes.length) {
@@ -100,7 +100,7 @@ class Align {
 	 * @param     condition    [optional]. String. Can be '+", "-", "av" or "", Default is "", aligns to given axis at 0.
 	 */
 
-    static public function align(aObjs:Array<Dynamic>, axis:String, condition:String = ""):Void {
+    static public function align(aObjs:Vector<Dynamic>, axis:String, condition:String = ""):Void {
         checkAxis(axis);
         checkCondition(condition);
         var base:Float = 0;
@@ -128,7 +128,7 @@ class Align {
 	 * @param     axis            String. Represent the axis to align on.
 	 */
 
-    static public function distribute(aObjs:Array<Dynamic>, axis:String):Void {
+    static public function distribute(aObjs:Vector<Dynamic>, axis:String):Void {
         checkAxis(axis);
         var max:Float = getMax(aObjs, _axis);
         var min:Float = getMin(aObjs, _axis);
@@ -156,7 +156,7 @@ class Align {
 
     static private function checkCondition(condition:String):Void {
         condition = condition.toLowerCase();
-        var aConds:Array<Dynamic> = [POSITIVE, NEGATIVE, "", AVERAGE];
+        var aConds:Vector<Dynamic> = [POSITIVE, NEGATIVE, "", AVERAGE];
         var i:Int = 0;
         while (i < aConds.length) {
             if (aConds[i] == condition) {
@@ -168,7 +168,7 @@ class Align {
         throw new Error("Invalid condition: possible string value are '+', '-', 'av' or '' ");
     }
 
-    static private function getMin(a:Array<Dynamic>, prop:String):Float {
+    static private function getMin(a:Vector<Dynamic>, prop:String):Float {
         var min:Float = Math.POSITIVE_INFINITY;
         var i:Int = 0;
         while (i < a.length) {
@@ -178,7 +178,7 @@ class Align {
         return min;
     }
 
-    static private function getMax(a:Array<Dynamic>, prop:String):Float {
+    static private function getMax(a:Vector<Dynamic>, prop:String):Float {
         var max:Float = Math.NEGATIVE_INFINITY;
         var i:Int = 0;
         while (i < a.length) {
@@ -188,7 +188,7 @@ class Align {
         return max;
     }
 
-    static private function getAverage(a:Array<Dynamic>, prop:String):Float {
+    static private function getAverage(a:Vector<Dynamic>, prop:String):Float {
         var av:Float = 0;
         var loop:Int = a.length;
         var i:Int = 0;
@@ -199,8 +199,8 @@ class Align {
         return av / loop;
     }
 
-    static private function getMeshesBounds(meshes:Array<Mesh>):Array<MeshBound> {
-        var mbs:Array<MeshBound> = new Array<MeshBound>();
+    static private function getMeshesBounds(meshes:Vector<Mesh>):Vector<MeshBound> {
+        var mbs:Vector<MeshBound> = new Vector<MeshBound>();
         var mb:MeshBound;
         var i:Int = 0;
         while (i < meshes.length) {
@@ -232,7 +232,7 @@ class Align {
         return prop;
     }
 
-    static private function getMinBounds(bounds:Array<MeshBound>):Float {
+    static private function getMinBounds(bounds:Vector<MeshBound>):Float {
         var min:Float = Math.POSITIVE_INFINITY;
         var mb:MeshBound;
         var i:Int = 0;
@@ -251,7 +251,7 @@ class Align {
         return min;
     }
 
-    static private function getMaxBounds(bounds:Array<MeshBound>):Float {
+    static private function getMaxBounds(bounds:Vector<MeshBound>):Float {
         var max:Float = Math.NEGATIVE_INFINITY;
         var mb:MeshBound;
         var i:Int = 0;

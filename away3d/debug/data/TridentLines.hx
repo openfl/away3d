@@ -6,13 +6,13 @@ import openfl.geom.Vector3D;
 
 class TridentLines extends SegmentSet {
 
-    public function new(vectors:Array<Vector<Vector3D>>, colors:Array<UInt>) {
+    public function new(vectors:Vector<Vector<Vector3D>>, colors:Vector<UInt>) {
         super();
         build(vectors, colors);
     }
 
-    private function build(vectors:Array<Vector<Vector3D>>, colors:Array<UInt>):Void {
-        var letter:Array<Vector3D>;
+    private function build(vectors:Vector<Vector<Vector3D>>, colors:Vector<UInt>):Void {
+        var letter:Vector<Vector3D>;
         var v0:Vector3D;
         var v1:Vector3D;
         var color:Int;

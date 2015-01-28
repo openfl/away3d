@@ -17,7 +17,7 @@ class MeshDebugger {
     public var lengthNormals(get_lengthNormals, set_lengthNormals):Float;
     public var lengthTangents(get_lengthTangents, set_lengthTangents):Float;
 
-    private var _meshesData:Array<MeshDebugData>;
+    private var _meshesData:Vector<MeshDebugData>;
     private var _colorNormals:Int;
     private var _colorVertexNormals:Int;
     private var _colorTangents:Int;
@@ -27,7 +27,7 @@ class MeshDebugger {
     private var _dirty:Bool;
 
     public function new() {
-        _meshesData = new Array<MeshDebugData>();
+        _meshesData = new Vector<MeshDebugData>();
         _colorNormals = 0xFF3399;
         _colorVertexNormals = 0x66CCFF;
         _colorTangents = 0xFFCC00;

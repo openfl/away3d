@@ -21,7 +21,7 @@ class SpriteSheetAnimationSet extends AnimationSetBase implements IAnimationSet 
     /**
 	 * @inheritDoc
 	 */
-    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>, profile:String):String {
+    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String {
         _agalCode = "mov " + targetRegisters[0] + ", " + sourceRegisters[0] + "\n";
         return "";
     }

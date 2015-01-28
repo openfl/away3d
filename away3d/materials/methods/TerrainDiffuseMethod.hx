@@ -17,16 +17,16 @@ import openfl.Vector;
 class TerrainDiffuseMethod extends BasicDiffuseMethod {
 
     private var _blendingTexture:Texture2DBase;
-    private var _splats:Array<Texture2DBase>;
+    private var _splats:Vector<Texture2DBase>;
     private var _numSplattingLayers:Int;
-    private var _tileData:Array<Dynamic>;
+    private var _tileData:Vector<Dynamic>;
     /**
 	 * Creates a new TerrainDiffuseMethod.
 	 * @param splatTextures An array of Texture2DProxyBase containing the detailed textures to be tiled.
 	 * @param blendingTexture The texture containing the blending data. The red, green, and blue channels contain the blending values for each of the textures in splatTextures, respectively.
 	 * @param tileData The amount of times each splat texture needs to be tiled. The first entry in the array applies to the base texture, the others to the splats. If omitted, the default value of 50 is assumed for each.
 	 */
-    public function new(splatTextures:Array<Dynamic>, blendingTexture:Texture2DBase, tileData:Array<Dynamic>) {
+    public function new(splatTextures:Vector<Dynamic>, blendingTexture:Texture2DBase, tileData:Vector<Dynamic>) {
         super();
         _splats = Vector.ofArray(cast splatTextures);
         _tileData = tileData;
@@ -83,7 +83,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod {
         code += getTex2DSampleCode(vo, blendValues, blendTexReg, _blendingTexture, uvReg, "clamp");
         var splatTexReg:ShaderRegisterElement;
         vo.fragmentConstantsIndex = scaleRegister.index * 4;
-        var comps:Array<String> = Vector.ofArray(cast [".x", ".y", ".z", ".w"]);
+        var comps:Vector<String> = Vector.ofArray(cast [".x", ".y", ".z", ".w"]);
         var i:Int = 0;
         while (i < _numSplattingLayers) {
             var scaleRegName:String = i < (3) ? scaleRegister + comps[i + 1] : scaleRegister2 + comps[i - 3];

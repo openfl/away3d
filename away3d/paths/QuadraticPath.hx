@@ -29,7 +29,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath {
 	 *
 	 * @param	 aVectors		[optional] An array of a series of Vector3D's organized in the following fashion. [a,b,c,a,b,c etc...] a = pEnd, b=pControl (control point), c = v2
 	 */
-    public function new(data:Array<Vector3D> = null) {
+    public function new(data:Vector<Vector3D> = null) {
         super(3, data);
     }
 
@@ -38,7 +38,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath {
         return _smoothed;
     }
 
-    override private function createSegmentFromArrayEntry(data:Array<Vector3D>, offset:UInt):IPathSegment {
+    override private function createSegmentFromArrayEntry(data:Vector<Vector3D>, offset:UInt):IPathSegment {
         return new QuadraticPathSegment(data[offset], data[offset + 1], data[offset + 2]);
     }
 
@@ -85,7 +85,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath {
         var z:Float;
         var seg0:Vector3D = null;
         var seg1:Vector3D = null;
-        var tmp:Array<Vector3D> = new Array<Vector3D>();
+        var tmp:Vector<Vector3D> = new Vector<Vector3D>();
 
         var seg:QuadraticPathSegment = cast(_segments[0], QuadraticPathSegment);
         var segnext:QuadraticPathSegment = cast(_segments[_segments.length - 1], QuadraticPathSegment);
@@ -121,7 +121,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath {
         tmp.push(new Vector3D((seg0.x + seg1.x) * .5, (seg0.y + seg1.y) * .5, (seg0.z + seg1.z) * .5));
         tmp.push(endseg);
 
-        _segments = new Array<IPathSegment>();
+        _segments = new Vector<IPathSegment>();
         var i:Int = 0;
         while (i < tmp.length) {
             _segments.push(new QuadraticPathSegment(tmp[i], tmp[i + 1], tmp[i + 2]));
@@ -149,8 +149,8 @@ class QuadraticPath extends SegmentedPathBase implements IPath {
         }
     }
 
-    public function continuousCurve(points:Array<Vector3D>, closed:Bool = false):Void {
-        var aVectors:Array<Vector3D> = new Array<Vector3D>();
+    public function continuousCurve(points:Vector<Vector3D>, closed:Bool = false):Void {
+        var aVectors:Vector<Vector3D> = new Vector<Vector3D>();
         var X:Float;
         var Y:Float;
         var Z:Float;
@@ -190,7 +190,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath {
             aVectors.push(aVectors[0]);
         }
 
-        _segments = new Array<IPathSegment>();
+        _segments = new Vector<IPathSegment>();
 
         var k:Int = 0;
         while (k < aVectors.length) {

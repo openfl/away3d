@@ -13,7 +13,7 @@ import away3d.tools.helpers.MeshHelper;
 import openfl.geom.Vector3D;
 
 class SkinExtrude extends Mesh {
-    public var profiles(get_profiles, set_profiles):Array<Vector<Vector3D>>;
+    public var profiles(get_profiles, set_profiles):Vector<Vector<Vector3D>>;
     public var coverAll(get_coverAll, set_coverAll):Bool;
     public var closeShape(get_closeShape, set_closeShape):Bool;
     public var flip(get_flip, set_flip):Bool;
@@ -21,7 +21,7 @@ class SkinExtrude extends Mesh {
     public var subdivision(get_subdivision, set_subdivision):Float;
 
     private var LIMIT:Int;
-    private var _tmpVectors:Array<Float>;
+    private var _tmpVectors:Vector<Float>;
     private var _subGeometry:SubGeometry;
     private var _indice:Int;
     private var _uva:UV;
@@ -32,11 +32,11 @@ class SkinExtrude extends Mesh {
     private var _vb:Vertex;
     private var _vc:Vertex;
     private var _vd:Vertex;
-    private var _uvs:Array<Float>;
-    private var _vertices:Array<Float>;
-    private var _indices:Array<UInt>;
+    private var _uvs:Vector<Float>;
+    private var _vertices:Vector<Float>;
+    private var _indices:Vector<UInt>;
     private var _geomDirty:Bool;
-    private var _profiles:Array<Vector<Vector3D>>;
+    private var _profiles:Vector<Vector<Vector3D>>;
     private var _subdivision:Float;
     private var _centerMesh:Bool;
     private var _closeShape:Bool;
@@ -52,7 +52,7 @@ class SkinExtrude extends Mesh {
 	 *@param	coverAll			[optional] Boolean. If the mapping is stretched over the entire mesh or from vector to vector. Default is false.
 	 *@param	flip				[optional] Boolean. If the faces need to be inverted. Default is false.
 	 */
-    public function new(material:MaterialBase, profiles:Array<Vector<Vector3D>>, subdivision:Int = 1, centerMesh:Bool = false, closeShape:Bool = false, coverAll:Bool = false, flip:Bool = false) {
+    public function new(material:MaterialBase, profiles:Vector<Vector<Vector3D>>, subdivision:Int = 1, centerMesh:Bool = false, closeShape:Bool = false, coverAll:Bool = false, flip:Bool = false) {
         LIMIT = 196605;
         _geomDirty = true;
         var geom:Geometry = new Geometry();
@@ -70,11 +70,11 @@ class SkinExtrude extends Mesh {
     /**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
-    public function get_profiles():Array<Vector<Vector3D>> {
+    public function get_profiles():Vector<Vector<Vector3D>> {
         return _profiles;
     }
 
-    public function set_profiles(val:Array<Vector<Vector3D>>):Array<Vector<Vector3D>> {
+    public function set_profiles(val:Vector<Vector<Vector3D>>):Vector<Vector<Vector3D>> {
         _profiles = val;
         invalidateGeometry();
         return val;
@@ -167,12 +167,12 @@ class SkinExtrude extends Mesh {
         var uvlength:Int = ((_closeShape)) ? _profiles.length : _profiles.length - 1;
         var i:Int = 0;
         while (i < _profiles.length - 1) {
-            _tmpVectors = new Array<Float>();
+            _tmpVectors = new Vector<Float>();
             extrude(_profiles[i], _profiles[i + 1], (1 / uvlength) * i, uvlength);
             ++i;
         }
         if (_closeShape) {
-            _tmpVectors = new Array<Float>();
+            _tmpVectors = new Vector<Float>();
             extrude(_profiles[_profiles.length - 1], _profiles[0], (1 / uvlength) * i, uvlength);
         }
         _subGeometry.updateVertexData(_vertices);
@@ -184,7 +184,7 @@ class SkinExtrude extends Mesh {
         _indices = null;
     }
 
-    private function extrude(vectsA:Array<Vector3D>, vectsB:Array<Vector3D>, vscale:Float, indexv:Int):Void {
+    private function extrude(vectsA:Vector<Vector3D>, vectsB:Vector<Vector3D>, vscale:Float, indexv:Int):Void {
         var i:Int;
         var j:Int;
         var k:Int;
@@ -250,9 +250,9 @@ class SkinExtrude extends Mesh {
                     this.geometry.addSubGeometry(_subGeometry);
                     _subGeometry.autoDeriveVertexNormals = true;
                     _subGeometry.autoDeriveVertexTangents = true;
-                    _uvs = new Array<Float>();
-                    _vertices = new Array<Float>();
-                    _indices = new Array<UInt>();
+                    _uvs = new Vector<Float>();
+                    _vertices = new Vector<Float>();
+                    _indices = new Vector<UInt>();
                     _indice = 0;
                 }
                 if (_flip) {
@@ -344,9 +344,9 @@ class SkinExtrude extends Mesh {
         _vb = new Vertex(0, 0, 0);
         _vc = new Vertex(0, 0, 0);
         _vd = new Vertex(0, 0, 0);
-        _uvs = new Array<Float>();
-        _vertices = new Array<Float>();
-        _indices = new Array<UInt>();
+        _uvs = new Vector<Float>();
+        _vertices = new Vector<Float>();
+        _indices = new Vector<UInt>();
         _subGeometry.autoDeriveVertexNormals = true;
         _subGeometry.autoDeriveVertexTangents = true;
     }
@@ -370,7 +370,7 @@ class SkinExtrude extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subMeshes():Array<SubMesh> {
+    override public function get_subMeshes():Vector<SubMesh> {
         if (_geomDirty) buildExtrude();
         return super.subMeshes;
     }

@@ -46,10 +46,10 @@ class WireframeCylinder extends WireframePrimitiveBase {
         var x:Float;
         var y:Float;
         var z:Float;
-        var lastLayer:Array<Vector<Vector3D>> = new Array<Vector<Vector3D>>(_segmentsH + 1, true);
+        var lastLayer:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>(_segmentsH + 1, true);
         j = 0;
         while (j <= _segmentsH) {
-            lastLayer[j] = new Array<Vector3D>(_segmentsW + 1, true);
+            lastLayer[j] = new Vector<Vector3D>(_segmentsW + 1, true);
             radius = _topRadius - ((j / _segmentsH) * (_topRadius - _bottomRadius));
             z = -(_height / 2) + (j / _segmentsH * _height);
             var previousV:Vector3D = null;

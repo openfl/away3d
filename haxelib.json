@@ -4,10 +4,10 @@
 	"license": "MIT",
 	"tags": [ "away3d", "3d", "engine", "openfl", "cross", "cpp", "flash", "game", "js", "web", "ios", "android" ],
 	"description": "Away3D is an open source, real time 3D engine for the Flash Platform and has been ported to OpenFL 2.x/Haxe",
-	"version": "1.0.4-alpha",
-	"releasenote": "Addition of GPU mipmap generation for native & HTML5 targets and support for anisotropic filtering. Other build fixes.",
+	"version": "1.1",
+	"releasenote": "Reworked to utilise the migrated Stage3D in the core OpenFL library and compatibility updates. Includes minor bug fixes.",
 	"contributors": [ "Greg209" ],
 	"dependencies": {
-		"openfl": "2.1.8"
+		"openfl": "2.2.4"
 	}
 }

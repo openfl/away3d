@@ -38,7 +38,7 @@ class ViewVolume extends NodeBase {
     private var _numCellsX:Int;
     private var _numCellsY:Int;
     private var _numCellsZ:Int;
-    private var _cells:Array<ViewCell>;
+    private var _cells:Vector<ViewCell>;
     private var _minX:Float;
     private var _minY:Float;
     private var _minZ:Float;
@@ -46,7 +46,7 @@ class ViewVolume extends NodeBase {
     private var _maxY:Float;
     private var _maxZ:Float;
     public var _active:Bool;
-    static private var _entityWorldBounds:Array<Float>;
+    static private var _entityWorldBounds:Vector<Float>;
     /**
 	 * Creates a new ViewVolume with given dimensions. A ViewVolume is a region where the camera or a shadow casting light could reside in.
 	 *
@@ -83,14 +83,14 @@ class ViewVolume extends NodeBase {
             if (!_active) return;
             var entryPoint:Vector3D = traverser.entryPoint;
             var cell:ViewCell = getCellContaining(entryPoint);
-            var visibleStatics:Array<EntityNode> = cell.visibleStatics;
+            var visibleStatics:Vector<EntityNode> = cell.visibleStatics;
             var numVisibles:Int = visibleStatics.length;
             var i:Int = 0;
             while (i < numVisibles) {
                 visibleStatics[i].acceptTraverser(traverser);
                 ++i;
             }
-            var visibleDynamics:Array<InvertedOctreeNode> = cell.visibleDynamics;
+            var visibleDynamics:Vector<InvertedOctreeNode> = cell.visibleDynamics;
             if (visibleDynamics != null) {
                 numVisibles = visibleDynamics.length;
                 i = 0;
@@ -106,7 +106,7 @@ class ViewVolume extends NodeBase {
         if (!entity.staticNode) throw new Error("Entity being added as a visible static object must have static set to true");
         var index:Int = getCellIndex(indexX, indexY, indexZ);
         if (_cells[index].visibleStatics == null)
-            _cells[index].visibleStatics = new Array<EntityNode>();
+            _cells[index].visibleStatics = new Vector<EntityNode>();
         _cells[index].visibleStatics.push(entity.getEntityPartitionNode());
         updateNumEntities(_numEntities + 1);
     }
@@ -114,14 +114,14 @@ class ViewVolume extends NodeBase {
     public function addVisibleDynamicCell(cell:InvertedOctreeNode, indexX:Int = 0, indexY:Int = 0, indexZ:Int = 0):Void {
         var index:Int = getCellIndex(indexX, indexY, indexZ);
         if (_cells[index].visibleDynamics == null)
-            _cells[index].visibleDynamics = new Array<InvertedOctreeNode>();
+            _cells[index].visibleDynamics = new Vector<InvertedOctreeNode>();
         _cells[index].visibleDynamics.push(cell);
         updateNumEntities(_numEntities + 1);
     }
 
     public function removeVisibleStatic(entity:Entity, indexX:Int = 0, indexY:Int = 0, indexZ:Int = 0):Void {
         var index:Int = getCellIndex(indexX, indexY, indexZ);
-        var statics:Array<EntityNode> = _cells[index].visibleStatics;
+        var statics:Vector<EntityNode> = _cells[index].visibleStatics;
         if (statics == null) return;
         index = statics.indexOf(entity.getEntityPartitionNode());
         if (index >= 0) statics.splice(index, 1);
@@ -130,7 +130,7 @@ class ViewVolume extends NodeBase {
 
     public function removeVisibleDynamicCell(cell:InvertedOctreeNode, indexX:Int = 0, indexY:Int = 0, indexZ:Int = 0):Void {
         var index:Int = getCellIndex(indexX, indexY, indexZ);
-        var dynamics:Array<InvertedOctreeNode> = _cells[index].visibleDynamics;
+        var dynamics:Vector<InvertedOctreeNode> = _cells[index].visibleDynamics;
         if (dynamics == null) return;
         index = dynamics.indexOf(cell);
         if (index >= 0) dynamics.splice(index, 1);
@@ -145,7 +145,7 @@ class ViewVolume extends NodeBase {
             _numCellsZ = Math.ceil(_depth / _cellSize);
         }
 
-        _cells = new Array<ViewCell>(_numCellsX * _numCellsY * _numCellsZ);
+        _cells = new Vector<ViewCell>(_numCellsX * _numCellsY * _numCellsZ);
         ArrayUtils.Prefill(_cells,_numCellsX * _numCellsY * _numCellsZ,null);
         if (_cellSize == -1) _cells[0] = new ViewCell();
     }
@@ -294,11 +294,11 @@ class ViewVolume extends NodeBase {
 
     private function addStaticsForRegion(scene:Scene3D, minBounds:Vector3D, maxBounds:Vector3D, cell:ViewCell):Void {
         var iterator:SceneIterator = new SceneIterator(scene);
-        if (cell.visibleStatics == null)cell.visibleStatics = new Array<EntityNode>();
-        var visibleStatics:Array<EntityNode> = cell.visibleStatics ;
+        if (cell.visibleStatics == null)cell.visibleStatics = new Vector<EntityNode>();
+        var visibleStatics:Vector<EntityNode> = cell.visibleStatics ;
         var object:ObjectContainer3D;
         var numAdded:Int = 0;
-        _entityWorldBounds = new Array<Float>();
+        _entityWorldBounds = new Vector<Float>();
         object = iterator.next();
         while (object != null) {
             var entity:Entity = cast(object, Entity) ;
@@ -317,9 +317,9 @@ class ViewVolume extends NodeBase {
     }
 
     private function addDynamicsForRegion(dynamicGrid:DynamicGrid, minBounds:Vector3D, maxBounds:Vector3D, cell:ViewCell):Void {
-        var cells:Array<InvertedOctreeNode> = dynamicGrid.getCellsIntersecting(minBounds, maxBounds);
+        var cells:Vector<InvertedOctreeNode> = dynamicGrid.getCellsIntersecting(minBounds, maxBounds);
         if (cell.visibleDynamics == null)
-            cell.visibleDynamics = new Array<InvertedOctreeNode>();
+            cell.visibleDynamics = new Vector<InvertedOctreeNode>();
         cell.visibleDynamics = cell.visibleDynamics.concat(cells);
         updateNumEntities(_numEntities + cells.length);
     }
@@ -359,8 +359,8 @@ class ViewVolume extends NodeBase {
 
 class ViewCell {
 
-    public var visibleStatics:Array<EntityNode>;
-    public var visibleDynamics:Array<InvertedOctreeNode>;
+    public var visibleStatics:Vector<EntityNode>;
+    public var visibleDynamics:Vector<InvertedOctreeNode>;
 
     public function new() {}
 }

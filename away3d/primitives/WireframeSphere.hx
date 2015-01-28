@@ -4,6 +4,7 @@
 package away3d.primitives;
 
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class WireframeSphere extends WireframePrimitiveBase {
 
@@ -29,7 +30,7 @@ class WireframeSphere extends WireframePrimitiveBase {
 	 * @inheritDoc
 	 */
     override private function buildGeometry():Void {
-        var vertices:Array<Float> = new Array<Float>();
+        var vertices:Vector<Float> = new Vector<Float>();
         var v0:Vector3D = new Vector3D();
         var v1:Vector3D = new Vector3D();
         var i:Int = 0;

@@ -12,15 +12,15 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class ColorMatrixMethod extends EffectMethodBase {
-    public var colorMatrix(get_colorMatrix, set_colorMatrix):Array<Dynamic>;
+    public var colorMatrix(get_colorMatrix, set_colorMatrix):Vector<Dynamic>;
 
-    private var _matrix:Array<Dynamic>;
+    private var _matrix:Vector<Dynamic>;
     /**
 	 * Creates a new ColorTransformMethod.
 	 *
 	 * @param matrix An array of 20 items for 4 x 5 color transform.
 	 */
-    public function new(matrix:Array<Dynamic>) {
+    public function new(matrix:Vector<Dynamic>) {
         super();
         if (matrix.length != 20) throw new Error("Matrix length must be 20!");
         _matrix = matrix;
@@ -29,11 +29,11 @@ class ColorMatrixMethod extends EffectMethodBase {
     /**
 	 * The 4 x 5 matrix to transform the color of the material.
 	 */
-    public function get_colorMatrix():Array<Dynamic> {
+    public function get_colorMatrix():Vector<Dynamic> {
         return _matrix;
     }
 
-    public function set_colorMatrix(value:Array<Dynamic>):Array<Dynamic> {
+    public function set_colorMatrix(value:Vector<Dynamic>):Vector<Dynamic> {
         _matrix = value;
         return value;
     }
@@ -57,7 +57,7 @@ class ColorMatrixMethod extends EffectMethodBase {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        var matrix:Array<Dynamic> = _matrix;
+        var matrix:Vector<Dynamic> = _matrix;
         var index:Int = vo.fragmentConstantsIndex;
         var data:Vector<Float> = vo.fragmentData;
         // r

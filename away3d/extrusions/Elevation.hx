@@ -244,8 +244,8 @@ class Elevation extends Mesh {
     }
 
     private function buildGeometry():Void {
-        var vertices:Array<Float>;
-        var indices:Array<UInt>;
+        var vertices:Vector<Float>;
+        var indices:Vector<UInt>;
         var x:Float = 0;
         var z:Float = 0;
         var numInds:Int = 0;
@@ -306,7 +306,7 @@ class Elevation extends Mesh {
 	 */
 
     private function buildUVs():Void {
-        var uvs:Array<Float> = new Array<Float>();
+        var uvs:Vector<Float> = new Vector<Float>();
         var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * 2;
         if (_subGeometry.UVData != null && numUvs == _subGeometry.UVData.length) uvs = _subGeometry.UVData
         else uvs = new Vector<Float>(numUvs, true);

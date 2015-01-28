@@ -104,8 +104,8 @@ class StaticLightPicker extends LightPickerBase {
 	 */
 
     private function onCastShadowChange(event:LightEvent):Void {
-// TODO: Assign to special caster collections, just append it to the lights in SinglePass
-// But keep seperated in multipass
+        // TODO: Assign to special caster collections, just append it to the lights in SinglePass
+        // But keep seperated in multipass
         var light:LightBase = cast((event.target), LightBase);
         if (Std.is(light, PointLight)) updatePointCasting(cast(light, PointLight))
         else if (Std.is(light, DirectionalLight)) updateDirectionalCasting(cast(light, DirectionalLight));
@@ -155,7 +155,6 @@ class StaticLightPicker extends LightPickerBase {
 			 
 			_pointLights.push(light);
 		}
-
     }
 }
 

@@ -5,22 +5,22 @@ import away3d.errors.AbstractMethodError;
 import openfl.geom.Vector3D;
 
 class SegmentedPathBase implements IPath {
-    public var pointData(never, set_pointData):Array<Vector3D>;
+    public var pointData(never, set_pointData):Vector<Vector3D>;
     public var numSegments(get_numSegments, never):Int;
-    public var segments(get_segments, never):Array<IPathSegment>;
+    public var segments(get_segments, never):Vector<IPathSegment>;
 
     private var _pointsPerSegment:Int;
-    private var _segments:Array<IPathSegment>;
+    private var _segments:Vector<IPathSegment>;
 
-    public function new(pointsPerSegment:Int, data:Array<Vector3D> = null) {
+    public function new(pointsPerSegment:Int, data:Vector<Vector3D> = null) {
         _pointsPerSegment = pointsPerSegment;
         if (data != null) pointData = data;
     }
 
-    public function set_pointData(data:Array<Vector3D>):Array<Vector3D> {
+    public function set_pointData(data:Vector<Vector3D>):Vector<Vector3D> {
         if (data.length < _pointsPerSegment) throw new Error("Path Vector.<Vector3D> must contain at least " + _pointsPerSegment + " Vector3D's");
         if (data.length % _pointsPerSegment != 0) throw new Error("Path Vector.<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
-        _segments = new Array<IPathSegment>();
+        _segments = new Vector<IPathSegment>();
         var i:Int = 0;
         var len:Int = data.length;
         while (i < len) {
@@ -32,7 +32,7 @@ class SegmentedPathBase implements IPath {
 
 // factory method
 
-    private function createSegmentFromArrayEntry(data:Array<Vector3D>, offset:Int):IPathSegment {
+    private function createSegmentFromArrayEntry(data:Vector<Vector3D>, offset:Int):IPathSegment {
         throw new AbstractMethodError();
         return null;
     }
@@ -49,7 +49,7 @@ class SegmentedPathBase implements IPath {
 	 *
 	 * @return    a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
 	 */
-    public function get_segments():Array<IPathSegment> {
+    public function get_segments():Vector<IPathSegment> {
         return _segments;
     }
 
@@ -113,8 +113,8 @@ class SegmentedPathBase implements IPath {
         return _segments[segment].getPointOnSegment(t, target);
     }
 
-    public function getPointsOnCurvePerSegment(subdivision:Int):Array<Vector<Vector3D>> {
-        var points:Array<Vector<Vector3D>> = new Array<Vector<Vector3D>>();
+    public function getPointsOnCurvePerSegment(subdivision:Int):Vector<Vector<Vector3D>> {
+        var points:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
         var i:Int = 0;
         var len:Int = _segments.length;
         while (i < len) {
@@ -124,8 +124,8 @@ class SegmentedPathBase implements IPath {
         return points;
     }
 
-    private function getSegmentPoints(segment:IPathSegment, n:Int, last:Bool):Array<Vector3D> {
-        var points:Array<Vector3D> = new Array<Vector3D>();
+    private function getSegmentPoints(segment:IPathSegment, n:Int, last:Bool):Vector<Vector3D> {
+        var points:Vector<Vector3D> = new Vector<Vector3D>();
         var i:Int = 0;
         while (i < n + (((last)) ? 1 : 0)) {
             points[i] = segment.getPointOnSegment(i / n);

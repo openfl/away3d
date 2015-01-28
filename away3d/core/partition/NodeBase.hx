@@ -10,11 +10,11 @@
 package away3d.core.partition;
 
 import away3d.core.math.Plane3D;
-import openfl.geom.Vector3D;
-
 import away3d.core.traverse.PartitionTraverser;
 import away3d.entities.Entity;
 import away3d.primitives.WireframePrimitiveBase;
+import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class NodeBase {
     public var showDebugBounds(get_showDebugBounds, set_showDebugBounds):Bool;
@@ -23,7 +23,7 @@ class NodeBase {
 
     public var _parent:NodeBase;
     public var _collectionMark:Int;
-    var _childNodes:Array<NodeBase>;
+    var _childNodes:Vector<NodeBase>;
     var _numChildNodes:Int;
     var _debugPrimitive:WireframePrimitiveBase;
     var _numEntities:Int;
@@ -32,7 +32,7 @@ class NodeBase {
 	 * Creates a new NodeBase object.
 	 */
     public function new() {
-        _childNodes = new Array<NodeBase>();
+        _childNodes = new Vector<NodeBase>();
 		_numEntities = 0;
 		_collectionMark = 0;
 		_numChildNodes= 0;
@@ -117,7 +117,7 @@ class NodeBase {
 	 *
 	 * @return Whether or not the node is at least partly inside the view frustum.
 	 */
-    public function isInFrustum(planes:Array<Plane3D>, numPlanes:Int):Bool {
+    public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
 
         return true;
     }

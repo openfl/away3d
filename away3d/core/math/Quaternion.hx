@@ -307,7 +307,7 @@ class Quaternion {
 	 * @param target The Vector.&lt;Number&gt; to contain the raw matrix data.
 	 * @param exclude4thRow If true, the last row will be omitted, and a 4x3 matrix will be generated instead of a 4x4.
 	 */
-    public function toRawData(target:Array<Float>, exclude4thRow:Bool = false):Void {
+    public function toRawData(target:Vector<Float>, exclude4thRow:Bool = false):Void {
         var xy2:Float = 2.0 * x * y;
         var xz2:Float = 2.0 * x * z;
         var xw2:Float = 2.0 * x * w;

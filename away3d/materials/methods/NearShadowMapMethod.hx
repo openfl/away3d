@@ -150,14 +150,14 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase {
 	 * @inheritDoc
 	 */
     override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
-// todo: move this to activate (needs camera)
+		// todo: move this to activate (needs camera)
         var near:Float = camera.lens.near;
         var d:Float = camera.lens.far - near;
         var maxDistance:Float = _nearShadowMapper.coverageRatio;
         var minDistance:Float = maxDistance * (1 - _fadeRatio);
         maxDistance = near + maxDistance * d;
         minDistance = near + minDistance * d;
-        var fragmentData:Array<Float> = vo.fragmentData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
         var index:Int = vo.secondaryFragmentConstantsIndex;
         fragmentData[index] = minDistance;
         fragmentData[index + 1] = 1 / (maxDistance - minDistance);

@@ -30,7 +30,7 @@ class Vector3DUtils {
     static public function matrix2euler(m1:Matrix3D):Vector3D {
         var m2:Matrix3D = new Matrix3D();
         var result:Vector3D = new Vector3D();
-        var raw:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         m1.copyRawDataTo(raw);
 // Extract the first angle, rotationX
         result.x = -Math.atan2(raw[(6)], raw[(10)]);
@@ -124,7 +124,7 @@ class Vector3DUtils {
 
     static public function matrix2scale(m:Matrix3D):Vector3D {
         var result:Vector3D = new Vector3D();
-        var raw:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         m.copyRawDataTo(raw);
         result.x = Math.sqrt(raw[(0)] * raw[(0)] + raw[(1)] * raw[(1)] + raw[(2)] * raw[(2)]);
         result.y = Math.sqrt(raw[(4)] * raw[(4)] + raw[(5)] * raw[(5)] + raw[(6)] * raw[(6)]);
@@ -165,8 +165,8 @@ class Vector3DUtils {
         return aPoint;
     }
 
-    static public function subdivide(startVal:Vector3D, endVal:Vector3D, numSegments:Int):Array<Vector3D> {
-        var points:Array<Vector3D> = new Array<Vector3D>();
+    static public function subdivide(startVal:Vector3D, endVal:Vector3D, numSegments:Int):Vector<Vector3D> {
+        var points:Vector<Vector3D> = new Vector<Vector3D>();
         var numPoints:Int = 0;
         var stepx:Float = (endVal.x - startVal.x) / numSegments;
         var stepy:Float = (endVal.y - startVal.y) / numSegments;

@@ -11,7 +11,7 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
 
     static private var MAX_AUTO_SAMPLES:Int = 15;
     private var _amount:Int;
-    private var _data:Array<Float>;
+    private var _data:Vector<Float>;
     private var _stepSize:Int;
     private var _realStepSize:Float;
     /**

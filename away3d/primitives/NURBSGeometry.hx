@@ -10,27 +10,27 @@ import away3d.primitives.data.NURBSVertex;
 import openfl.geom.Vector3D;
 
 class NURBSGeometry extends PrimitiveBase {
-    public var controlNet(get_controlNet, set_controlNet):Array<NURBSVertex>;
+    public var controlNet(get_controlNet, set_controlNet):Vector<NURBSVertex>;
     public var uOrder(get_uOrder, set_uOrder):Int;
     public var vOrder(get_vOrder, set_vOrder):Int;
     public var uControlPoints(get_uControlPoints, set_uControlPoints):Int;
     public var vControlPoints(get_vControlPoints, set_vControlPoints):Int;
-    public var uKnot(get_uKnot, set_uKnot):Array<Float>;
-    public var vKnot(get_vKnot, set_vKnot):Array<Float>;
+    public var uKnot(get_uKnot, set_uKnot):Vector<Float>;
+    public var vKnot(get_vKnot, set_vKnot):Vector<Float>;
     public var uSegments(get_uSegments, set_uSegments):Int;
     public var vSegments(get_vSegments, set_vSegments):Int;
 
-    private var _controlNet:Array<NURBSVertex>;
+    private var _controlNet:Vector<NURBSVertex>;
     private var _uOrder:Int;
     private var _vOrder:Int;
     private var _numVContolPoints:Int;
     private var _numUContolPoints:Int;
     private var _uSegments:Int;
     private var _vSegments:Int;
-    private var _uKnotSequence:Array<Float>;
-    private var _vKnotSequence:Array<Float>;
-    private var _mbasis:Array<Float>;
-    private var _nbasis:Array<Float>;
+    private var _uKnotSequence:Vector<Float>;
+    private var _vKnotSequence:Vector<Float>;
+    private var _mbasis:Vector<Float>;
+    private var _nbasis:Vector<Float>;
     private var _nplusc:Int;
     private var _mplusc:Int;
     private var _uRange:Float;
@@ -46,11 +46,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the control point net to describe the NURBS surface
 	 */
-    public function get_controlNet():Array<NURBSVertex> {
+    public function get_controlNet():Vector<NURBSVertex> {
         return _controlNet;
     }
 
-    public function set_controlNet(value:Array<NURBSVertex>):Array<NURBSVertex> {
+    public function set_controlNet(value:Vector<NURBSVertex>):Vector<NURBSVertex> {
         if (_controlNet == value) return value;
         _controlNet = value;
         invalidateGeometry();
@@ -122,11 +122,11 @@ class NURBSGeometry extends PrimitiveBase {
 	 * Defines the knot sequence in the U direction that determines where and how the control points
 	 * affect the NURBS curve.
 	 */
-    public function get_uKnot():Array<Float> {
+    public function get_uKnot():Vector<Float> {
         return _uKnotSequence;
     }
 
-    public function set_uKnot(value:Array<Float>):Array<Float> {
+    public function set_uKnot(value:Vector<Float>):Vector<Float> {
         if (_uKnotSequence == value) return value;
         _uKnotSequence = value;
         _autoGenKnotSeq = ((_uKnotSequence == null || _uKnotSequence.length == 0) || (_vKnotSequence == null || _vKnotSequence.length == 0));
@@ -139,11 +139,11 @@ class NURBSGeometry extends PrimitiveBase {
 	 * Defines the knot sequence in the V direction that determines where and how the control points
 	 * affect the NURBS curve.
 	 */
-    public function get_vKnot():Array<Float> {
+    public function get_vKnot():Vector<Float> {
         return _vKnotSequence;
     }
 
-    public function set_vKnot(value:Array<Float>):Array<Float> {
+    public function set_vKnot(value:Vector<Float>):Vector<Float> {
         if (_vKnotSequence == value) return value;
         _vKnotSequence = value;
         _autoGenKnotSeq = ((_uKnotSequence == null || _uKnotSequence.length == 0) || (_vKnotSequence == null || _vKnotSequence.length == 0));
@@ -192,9 +192,9 @@ class NURBSGeometry extends PrimitiveBase {
 	 * @param init Init object for the mesh
 	 *
 	 */
-    public function new(cNet:Array<NURBSVertex>, uCtrlPnts:Int, vCtrlPnts:Int, uOrder:Int = 4, vOrder:Int = 4, uSegments:Int = 10, vSegments:Int = 10, uKnot:Array<Float> = null, vKnot:Array<Float> = null) {
-        _mbasis = new Array<Float>();
-        _nbasis = new Array<Float>();
+    public function new(cNet:Vector<NURBSVertex>, uCtrlPnts:Int, vCtrlPnts:Int, uOrder:Int = 4, vOrder:Int = 4, uSegments:Int = 10, vSegments:Int = 10, uKnot:Vector<Float> = null, vKnot:Vector<Float> = null) {
+        _mbasis = new Vector<Float>();
+        _nbasis = new Vector<Float>();
         _autoGenKnotSeq = false;
         _tmpPM = new Vector3D();
         _tmpP1 = new Vector3D();
@@ -316,10 +316,10 @@ class NURBSGeometry extends PrimitiveBase {
 
     /** @private */
 
-    private function knot(n:Int, c:Int):Array<Float> {
+    private function knot(n:Int, c:Int):Vector<Float> {
         var nplusc:Int = n + c;
         var nplus2:Int = n + 2;
-        var x:Array<Float> = new Array<Float>(36);
+        var x:Vector<Float> = new Vector<Float>(36);
         ArrayUtils.Prefill(x,36,0);
         x[1] = 0;
         var i:Int = 2;
@@ -333,13 +333,13 @@ class NURBSGeometry extends PrimitiveBase {
 
     /** @private */
 
-    private function basis(nurbOrder:Int, t:Float, numPoints:Int, knot:Array<Float>):Array<Float> {
+    private function basis(nurbOrder:Int, t:Float, numPoints:Int, knot:Vector<Float>):Vector<Float> {
         var nPlusO:Int;
         var i:Int;
         var k:Int;
         var d:Float;
         var e:Float;
-        var temp:Array<Float> = new Array<Float>(36);
+        var temp:Vector<Float> = new Vector<Float>(36);
         ArrayUtils.Prefill(temp,36,0);
         nPlusO = numPoints + nurbOrder;
 // calculate the first order basis functions n[i][1]
@@ -372,7 +372,7 @@ class NURBSGeometry extends PrimitiveBase {
 	 *
 	 */
     override private function buildGeometry(target:CompactSubGeometry):Void {
-        var data:Array<Float>;
+        var data:Vector<Float>;
         var stride:Int = target.vertexStride;
         _nplusc = _numUContolPoints + _uOrder;
         _mplusc = _numVContolPoints + _vOrder;
@@ -388,7 +388,7 @@ class NURBSGeometry extends PrimitiveBase {
         var i:Int;
 //var icount:int = 0;
         var j:Int;
-        var indices:Array<UInt>;
+        var indices:Vector<UInt>;
         var numIndices:Int = target.vertexOffset;
         if (numVertices == target.numVertices) {
             data = target.vertexData;
@@ -396,9 +396,9 @@ class NURBSGeometry extends PrimitiveBase {
         }
 
         else {
-            data = new Array<Float>(numVertices * stride, true);
+            data = new Vector<Float>(numVertices * stride, true);
             numIndices = (_uSegments) * (_vSegments) * 6;
-            indices = new Array<UInt>(numIndices, true);
+            indices = new Vector<UInt>(numIndices, true);
             ArrayUtils.Prefill(data,numVertices * stride,0);
             ArrayUtils.Prefill(indices,numIndices,0);
             invalidateUVs();
@@ -463,7 +463,7 @@ class NURBSGeometry extends PrimitiveBase {
 	 */
     override private function buildUVs(target:CompactSubGeometry):Void {
 // Define presets
-        var data:Array<Float>;
+        var data:Vector<Float>;
         var stride:Int = target.UVStride;
         var numVertices:Int = (_uSegments + 1) * (_vSegments + 1);
         var uvLen:Int = numVertices * stride;
@@ -471,7 +471,7 @@ class NURBSGeometry extends PrimitiveBase {
         var j:Int;
         if (target.UVData != null && uvLen == target.UVData.length) data = target.UVData
         else {
-            data = new Array<Float>(uvLen, true);
+            data = new Vector<Float>(uvLen, true);
             ArrayUtils.Prefill(data,uvLen,0);
             invalidateGeometry();
         }
@@ -500,7 +500,7 @@ class NURBSGeometry extends PrimitiveBase {
     public function refreshNURBS():Void {
         var nV:Vector3D = new Vector3D();
         var subGeom:CompactSubGeometry = cast((subGeometries[0]), CompactSubGeometry);
-        var data:Array<Float> = subGeom.vertexData;
+        var data:Vector<Float> = subGeom.vertexData;
         var len:Int = data.length;
         var vertexStride:Int = subGeom.vertexStride;
         var uvIndex:Int = subGeom.UVOffset;

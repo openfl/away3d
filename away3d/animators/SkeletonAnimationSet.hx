@@ -9,6 +9,7 @@ package away3d.animators;
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.passes.MaterialPassBase;
 import openfl.display3D.Context3D;
+import openfl.Vector;
 
 class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
     public var jointsPerVertex(get_jointsPerVertex, never):Int;
@@ -36,15 +37,15 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * @inheritDoc
 	 */
-    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>, profile:String):String {
+    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String {
         var len:Int = sourceRegisters.length;
         var indexOffset0:Int = pass.numUsedVertexConstants;
         var indexOffset1:Int = indexOffset0 + 1;
         var indexOffset2:Int = indexOffset0 + 2;
         var indexStream:String = "va" + pass.numUsedStreams;
         var weightStream:String = "va" + (pass.numUsedStreams + 1);
-        var indices:Array<Dynamic> = [indexStream + ".x", indexStream + ".y", indexStream + ".z", indexStream + ".w"];
-        var weights:Array<Dynamic> = [weightStream + ".x", weightStream + ".y", weightStream + ".z", weightStream + ".w"];
+        var indices:Vector<Dynamic> = [indexStream + ".x", indexStream + ".y", indexStream + ".z", indexStream + ".w"];
+        var weights:Vector<Dynamic> = [weightStream + ".x", weightStream + ".y", weightStream + ".z", weightStream + ".w"];
         var temp1:String = findTempReg(targetRegisters);
         var temp2:String = findTempReg(targetRegisters, temp1);
         var dot:String = "dp4";

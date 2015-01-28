@@ -43,7 +43,7 @@ class BoundingVolumeBase {
     /**
 	 * Returns a vector of values representing the concatenated cartesian triplet of the 8 axial extremities of the bounding volume.
 	 */
-    public function get_aabbPoints():Array<Float> {
+    public function get_aabbPoints():Vector<Float> {
         if (_aabbPointsDirty) updateAABBPoints();
         return _aabbPoints;
     }
@@ -66,7 +66,7 @@ class BoundingVolumeBase {
 	 * Creates a new <code>BoundingVolumeBase</code> object
 	 */
     public function new() {
-        _aabbPoints = new Array<Float>();
+        _aabbPoints = new Vector<Float>();
         _aabbPointsDirty = true;
         _min = new Vector3D();
         _max = new Vector3D();
@@ -95,7 +95,7 @@ class BoundingVolumeBase {
 	 *
 	 * @param vertices A Vector.&lt;Number&gt; of vertex data to be bounded.
 	 */
-    public function fromVertices(vertices:Array<Float>):Void {
+    public function fromVertices(vertices:Vector<Float>):Void {
         var i:Int = 0;
         var len:Int = vertices.length;
         var minX:Float;
@@ -133,7 +133,7 @@ class BoundingVolumeBase {
 	 * @param geometry The Geometry object to be bounded.
 	 */
     public function fromGeometry(geometry:Geometry):Void { 
-        var subGeoms:Array<ISubGeometry> = geometry.subGeometries;
+        var subGeoms:Vector<ISubGeometry> = geometry.subGeometries;
         var numSubGeoms:Int = subGeoms.length;
         var minX:Float;
         var minY:Float;
@@ -147,7 +147,7 @@ class BoundingVolumeBase {
             maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
             while (j < numSubGeoms) {
                 var subGeom:ISubGeometry = subGeoms[j++];
-                var vertices:Array<Float> = subGeom.vertexData;
+                var vertices:Vector<Float> = subGeom.vertexData;
                 var vertexDataLen:Int = vertices.length;
                 var i:Int = subGeom.vertexOffset;
                 var stride:Int = subGeom.vertexStride;
@@ -210,7 +210,7 @@ class BoundingVolumeBase {
 	 * @param mvpMatrix The model view projection matrix for the object to which this bounding box belongs.
 	 * @return True if the bounding box is at least partially inside the frustum
 	 */
-    public function isInFrustum(planes:Array<Plane3D>, numPlanes:Int):Bool {
+    public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
         throw new AbstractMethodError();
         return false;
     }

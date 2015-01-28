@@ -16,13 +16,14 @@ import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Context3DTextureFormat;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class DistanceMapPass extends MaterialPassBase {
     public var alphaThreshold(get_alphaThreshold, set_alphaThreshold):Float;
     public var alphaMask(get_alphaMask, set_alphaMask):Texture2DBase;
 
-    private var _fragmentData:Array<Float>;
-    private var _vertexData:Array<Float>;
+    private var _fragmentData:Vector<Float>;
+    private var _vertexData:Vector<Float>;
     private var _alphaThreshold:Float;
     private var _alphaMask:Texture2DBase;
 
@@ -32,8 +33,7 @@ class DistanceMapPass extends MaterialPassBase {
     public function new() {
         super();
         _fragmentData = [ 1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
-        _vertexData = ArrayUtils.Prefill( new Array<Float>(), 4, 0 );
-        _vertexData[3] = 1;
+        _vertexData = [ 0.0, 0.0, 0.0, 1.0 ];
         _numUsedVertexConstants = 9;
     }
 

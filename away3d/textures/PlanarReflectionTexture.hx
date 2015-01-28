@@ -179,7 +179,7 @@ class PlanarReflectionTexture extends RenderTexture {
 
     private function transformPlane(plane:Plane3D, matrix:Matrix3D):Plane3D {
 // actually transposed inverseSceneTransform is used, but since sceneTransform is already the inverse of the inverse
-        var rawData:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var rawData:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         var a:Float = plane.a;
         var b:Float = plane.b;
         var c:Float = plane.c;

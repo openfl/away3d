@@ -31,7 +31,7 @@ class SkeletonUtils {
         var diffPose:JointPose;
         var mtx:Matrix3D = new Matrix3D();
         var tempMtx:Matrix3D = new Matrix3D();
-        var vec:Array<Vector3D>;
+        var vec:Vector<Vector3D>;
         var i:Int = 0;
         while (i < numJoints) {
             srcPose = source.jointPoses[i];

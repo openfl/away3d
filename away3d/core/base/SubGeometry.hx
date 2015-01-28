@@ -20,53 +20,56 @@ import openfl.Vector;
 
 class SubGeometry extends SubGeometryBase implements ISubGeometry {
     public var numVertices(get_numVertices, never):Int;
-    public var secondaryUVData(get_secondaryUVData, never):Array<Float>;
+    public var secondaryUVData(get_secondaryUVData, never):Vector<Float>;
     public var secondaryUVStride(get_secondaryUVStride, never):Int;
     public var secondaryUVOffset(get_secondaryUVOffset, never):Int;
 
     // raw data:
-    private var _uvs:Array<Float>;
-    private var _secondaryUvs:Array<Float>;
-    private var _vertexNormals:Array<Float>;
-    private var _vertexTangents:Array<Float>;
-    private var _verticesInvalid:Array<Bool>;
-    private var _uvsInvalid:Array<Bool>;
-    private var _secondaryUvsInvalid:Array<Bool>;
-    private var _normalsInvalid:Array<Bool>;
-    private var _tangentsInvalid:Array<Bool>;
+    private var _uvs:Vector<Float>;
+    private var _secondaryUvs:Vector<Float>;
+    private var _vertexNormals:Vector<Float>;
+    private var _vertexTangents:Vector<Float>;
+    private var _verticesInvalid:Vector<Bool>;
+    private var _uvsInvalid:Vector<Bool>;
+    private var _secondaryUvsInvalid:Vector<Bool>;
+    private var _normalsInvalid:Vector<Bool>;
+    private var _tangentsInvalid:Vector<Bool>;
     // buffers:
-    private var _vertexBuffer:Array<VertexBuffer3D>;
-    private var _uvBuffer:Array<VertexBuffer3D>;
-    private var _secondaryUvBuffer:Array<VertexBuffer3D>;
-    private var _vertexNormalBuffer:Array<VertexBuffer3D>;
-    private var _vertexTangentBuffer:Array<VertexBuffer3D>;
+    private var _vertexBuffer:Vector<VertexBuffer3D>;
+    private var _uvBuffer:Vector<VertexBuffer3D>;
+    private var _secondaryUvBuffer:Vector<VertexBuffer3D>;
+    private var _vertexNormalBuffer:Vector<VertexBuffer3D>;
+    private var _vertexTangentBuffer:Vector<VertexBuffer3D>;
     // buffer dirty flags, per context:
-    private var _vertexBufferContext:Array<Context3D>;
-    private var _uvBufferContext:Array<Context3D>;
-    private var _secondaryUvBufferContext:Array<Context3D>;
-    private var _vertexNormalBufferContext:Array<Context3D>;
-    private var _vertexTangentBufferContext:Array<Context3D>;
+    private var _vertexBufferContext:Vector<Context3D>;
+    private var _uvBufferContext:Vector<Context3D>;
+    private var _secondaryUvBufferContext:Vector<Context3D>;
+    private var _vertexNormalBufferContext:Vector<Context3D>;
+    private var _vertexTangentBufferContext:Vector<Context3D>;
     private var _numVertices:Int;
     /**
 	 * Creates a new SubGeometry object.
 	 */
     public function new() {
         super();
-        _verticesInvalid = ArrayUtils.Prefill( new Array<Bool>(), 8);
-        _uvsInvalid = ArrayUtils.Prefill( new Array<Bool>(), 8);
-        _secondaryUvsInvalid = ArrayUtils.Prefill( new Array<Bool>(), 8);
-        _normalsInvalid = ArrayUtils.Prefill( new Array<Bool>(), 8);
-        _tangentsInvalid = ArrayUtils.Prefill( new Array<Bool>(), 8);
-        _vertexBuffer = new Array<VertexBuffer3D>();
-        _uvBuffer = new Array<VertexBuffer3D>();
-        _secondaryUvBuffer = new Array<VertexBuffer3D>();
-        _vertexNormalBuffer = new Array<VertexBuffer3D>();
-        _vertexTangentBuffer = new Array<VertexBuffer3D>();
-        _vertexBufferContext = new Array<Context3D>();
-        _uvBufferContext = new Array<Context3D>();
-        _secondaryUvBufferContext = new Array<Context3D>();
-        _vertexNormalBufferContext = new Array<Context3D>();
-        _vertexTangentBufferContext = new Array<Context3D>();
+
+        _verticesInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
+        _uvsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
+        _secondaryUvsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
+        _normalsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
+        _tangentsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
+        
+        _vertexBuffer = new Vector<VertexBuffer3D>(8);
+        _uvBuffer = new Vector<VertexBuffer3D>(8);
+        _secondaryUvBuffer = new Vector<VertexBuffer3D>(8);
+        _vertexNormalBuffer = new Vector<VertexBuffer3D>(8);
+        _vertexTangentBuffer = new Vector<VertexBuffer3D>(8);
+        
+        _vertexBufferContext = new Vector<Context3D>(8);
+        _uvBufferContext = new Vector<Context3D>(8);
+        _secondaryUvBufferContext = new Vector<Context3D>(8);
+        _vertexNormalBufferContext = new Vector<Context3D>(8);
+        _vertexTangentBufferContext = new Vector<Context3D>(8);
     }
 
     /**
@@ -252,11 +255,11 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     /**
 	 * The raw vertex position data.
 	 */
-    override public function get_vertexData():Array<Float> {
+    override public function get_vertexData():Vector<Float> {
         return _vertexData;
     }
 
-    override public function get_vertexPositionData():Array<Float> {
+    override public function get_vertexPositionData():Vector<Float> {
         return _vertexData;
     }
 
@@ -264,13 +267,16 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * Updates the vertex data of the SubGeometry.
 	 * @param vertices The new vertex data to upload.
 	 */
-    public function updateVertexData(vertices:Array<Float>):Void {
+    public function updateVertexData(vertices:Vector<Float>):Void {
         if (_autoDeriveVertexNormals) _vertexNormalsDirty = true;
         if (_autoDeriveVertexTangents) _vertexTangentsDirty = true;
+        
         _faceNormalsDirty = true;
         _vertexData = vertices;
+        
         var numVertices:Int = Std.int(vertices.length / 3);
         if (numVertices != _numVertices) disposeAllVertexBuffers();
+        
         _numVertices = numVertices;
         invalidateBuffers(_verticesInvalid);
         invalidateBounds();
@@ -279,12 +285,12 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     /**
 	 * The raw texture coordinate data.
 	 */
-    override public function get_UVData():Array<Float> {
+    override public function get_UVData():Vector<Float> {
         if (_uvsDirty && _autoGenerateUVs) _uvs = updateDummyUVs(_uvs);
         return _uvs;
     }
 
-    public function get_secondaryUVData():Array<Float> {
+    public function get_secondaryUVData():Vector<Float> {
         return _secondaryUvs;
     }
 
@@ -292,7 +298,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * Updates the uv coordinates of the SubGeometry.
 	 * @param uvs The uv coordinates to upload.
 	 */
-    public function updateUVData(uvs:Array<Float>):Void {
+    public function updateUVData(uvs:Vector<Float>):Void {
         // normals don't get dirty from this
         if (_autoDeriveVertexTangents) _vertexTangentsDirty = true;
         _faceTangentsDirty = true;
@@ -300,7 +306,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_uvsInvalid);
     }
 
-    public function updateSecondaryUVData(uvs:Array<Float>):Void {
+    public function updateSecondaryUVData(uvs:Vector<Float>):Void {
         _secondaryUvs = uvs;
         invalidateBuffers(_secondaryUvsInvalid);
     }
@@ -308,7 +314,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     /**
 	 * The raw vertex normal data.
 	 */
-    override public function get_vertexNormalData():Array<Float> {
+    override public function get_vertexNormalData():Vector<Float> {
         if (_autoDeriveVertexNormals && _vertexNormalsDirty) _vertexNormals = updateVertexNormals(_vertexNormals);
         return _vertexNormals;
     }
@@ -318,7 +324,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * autoDeriveVertexNormals will be set to false and vertex normals will no longer be calculated automatically.
 	 * @param vertexNormals The vertex normals to upload.
 	 */
-    public function updateVertexNormalData(vertexNormals:Array<Float>):Void {
+    public function updateVertexNormalData(vertexNormals:Vector<Float>):Void {
         _vertexNormalsDirty = false;
         _autoDeriveVertexNormals = (vertexNormals == null);
         _vertexNormals = vertexNormals;
@@ -330,7 +336,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 *
 	 * @private
 	 */
-    override public function get_vertexTangentData():Array<Float> {
+    override public function get_vertexTangentData():Vector<Float> {
         if (_autoDeriveVertexTangents && _vertexTangentsDirty) _vertexTangents = updateVertexTangents(_vertexTangents);
         return _vertexTangents;
     }
@@ -340,32 +346,32 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * autoDeriveVertexTangents will be set to false and vertex tangents will no longer be calculated automatically.
 	 * @param vertexTangents The vertex tangents to upload.
 	 */
-    public function updateVertexTangentData(vertexTangents:Array<Float>):Void {
+    public function updateVertexTangentData(vertexTangents:Vector<Float>):Void {
         _vertexTangentsDirty = false;
         _autoDeriveVertexTangents = (vertexTangents == null);
         _vertexTangents = vertexTangents;
         invalidateBuffers(_tangentsInvalid);
     }
 
-    public function fromVectors(vertices:Array<Float>, uvs:Array<Float>, normals:Array<Float>, tangents:Array<Float>):Void {
+    public function fromVectors(vertices:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>):Void {
         updateVertexData(vertices);
         updateUVData(uvs);
         updateVertexNormalData(normals);
         updateVertexTangentData(tangents);
     }
 
-    override private function updateVertexNormals(target:Array<Float>):Array<Float> {
+    override private function updateVertexNormals(target:Vector<Float>):Vector<Float> {
         invalidateBuffers(_normalsInvalid);
         return super.updateVertexNormals(target);
     }
 
-    override private function updateVertexTangents(target:Array<Float>):Array<Float> {
+    override private function updateVertexTangents(target:Vector<Float>):Vector<Float> {
         if (_vertexNormalsDirty) _vertexNormals = updateVertexNormals(_vertexNormals);
         invalidateBuffers(_tangentsInvalid);
         return super.updateVertexTangents(target);
     }
 
-    override private function updateDummyUVs(target:Array<Float>):Array<Float> {
+    override private function updateDummyUVs(target:Vector<Float>):Vector<Float> {
         invalidateBuffers(_uvsInvalid);
         return super.updateDummyUVs(target);
     }

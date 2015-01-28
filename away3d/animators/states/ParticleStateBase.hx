@@ -3,7 +3,6 @@
  */
 package away3d.animators.states;
 
-
 import away3d.animators.data.ParticleAnimationData;
 import haxe.ds.ObjectMap;
 import openfl.geom.Vector3D;
@@ -14,17 +13,18 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.animators.data.AnimationSubGeometry;
 import away3d.animators.nodes.ParticleNodeBase;
 import away3d.animators.ParticleAnimator;
+import openfl.Vector;
 
 class ParticleStateBase extends AnimationStateBase {
     public var needUpdateTime(get_needUpdateTime, never):Bool;
 
     private var _particleNode:ParticleNodeBase;
-    private var _dynamicProperties:Array<Vector3D>;
+    private var _dynamicProperties:Vector<Vector3D>;
     private var _dynamicPropertiesDirty:ObjectMap<AnimationSubGeometry, Bool>;
     private var _needUpdateTime:Bool;
 
     public function new(animator:ParticleAnimator, particleNode:ParticleNodeBase, needUpdateTime:Bool = false) {
-        _dynamicProperties = new Array<Vector3D>();
+        _dynamicProperties = new Vector<Vector3D>();
         _dynamicPropertiesDirty = new ObjectMap<AnimationSubGeometry, Bool>();
         super(animator, particleNode);
         _particleNode = particleNode;
@@ -40,8 +40,8 @@ class ParticleStateBase extends AnimationStateBase {
 
     private function updateDynamicProperties(animationSubGeometry:AnimationSubGeometry):Void {
         _dynamicPropertiesDirty.set(animationSubGeometry, true);
-        var animationParticles:Array<ParticleAnimationData> = animationSubGeometry.animationParticles;
-        var vertexData:Array<Float> = animationSubGeometry.vertexData;
+        var animationParticles:Vector<ParticleAnimationData> = animationSubGeometry.animationParticles;
+        var vertexData:Vector<Float> = animationSubGeometry.vertexData;
         var totalLenOfOneVertex:Int = animationSubGeometry.totalLenOfOneVertex;
         var dataLength:Int = _particleNode.dataLength;
         var dataOffset:Int = _particleNode.dataOffset;

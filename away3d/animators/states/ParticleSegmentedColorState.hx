@@ -15,7 +15,7 @@ class ParticleSegmentedColorState extends ParticleStateBase {
     public var startColor(get_startColor, set_startColor):ColorTransform;
     public var endColor(get_endColor, set_endColor):ColorTransform;
     public var numSegmentPoint(get_numSegmentPoint, never):Int;
-    public var segmentPoints(get_segmentPoints, set_segmentPoints):Array<ColorSegmentPoint>;
+    public var segmentPoints(get_segmentPoints, set_segmentPoints):Vector<ColorSegmentPoint>;
     public var usesMultiplier(get_usesMultiplier, never):Bool;
     public var usesOffset(get_usesOffset, never):Bool;
 
@@ -23,11 +23,11 @@ class ParticleSegmentedColorState extends ParticleStateBase {
     private var _usesOffset:Bool;
     private var _startColor:ColorTransform;
     private var _endColor:ColorTransform;
-    private var _segmentPoints:Array<ColorSegmentPoint>;
+    private var _segmentPoints:Vector<ColorSegmentPoint>;
     private var _numSegmentPoint:Int;
-    private var _timeLifeData:Array<Float>;
-    private var _multiplierData:Array<Float>;
-    private var _offsetData:Array<Float>;
+    private var _timeLifeData:Vector<Float>;
+    private var _multiplierData:Vector<Float>;
+    private var _offsetData:Vector<Float>;
     /**
 	 * Defines the start color transform of the state, when in global mode.
 	 */
@@ -64,11 +64,11 @@ class ParticleSegmentedColorState extends ParticleStateBase {
     /**
 	 * Defines the key points of color
 	 */
-    public function get_segmentPoints():Array<ColorSegmentPoint> {
+    public function get_segmentPoints():Vector<ColorSegmentPoint> {
         return _segmentPoints;
     }
 
-    public function set_segmentPoints(value:Array<ColorSegmentPoint>):Array<ColorSegmentPoint> {
+    public function set_segmentPoints(value:Vector<ColorSegmentPoint>):Vector<ColorSegmentPoint> {
         _segmentPoints = value;
         updateColorData();
         return value;
@@ -102,9 +102,9 @@ class ParticleSegmentedColorState extends ParticleStateBase {
     }
 
     private function updateColorData():Void {
-        _timeLifeData = new Array<Float>();
-        _multiplierData = new Array<Float>();
-        _offsetData = new Array<Float>();
+        _timeLifeData = new Vector<Float>();
+        _multiplierData = new Vector<Float>();
+        _offsetData = new Vector<Float>();
         var i:Int;
         i = 0;
         while (i < _numSegmentPoint) {

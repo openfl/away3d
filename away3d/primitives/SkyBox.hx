@@ -24,6 +24,7 @@ import away3d.textures.CubeTextureBase;
 import openfl.display3D.IndexBuffer3D;
 import openfl.geom.Matrix;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 class SkyBox extends Entity implements IRenderable {
     public var animator(get_animator, never):IAnimator;
@@ -32,13 +33,13 @@ class SkyBox extends Entity implements IRenderable {
     public var material(get_material, set_material):MaterialBase;
     public var castsShadows(get_castsShadows, never):Bool;
     public var uvTransform(get_uvTransform, never):Matrix;
-    public var vertexData(get_vertexData, never):Array<Float>;
-    public var indexData(get_indexData, never):Array<UInt>;
-    public var UVData(get_UVData, never):Array<Float>;
+    public var vertexData(get_vertexData, never):Vector<Float>;
+    public var indexData(get_indexData, never):Vector<UInt>;
+    public var UVData(get_UVData, never):Vector<Float>;
     public var numVertices(get_numVertices, never):Int;
     public var vertexStride(get_vertexStride, never):Int;
-    public var vertexNormalData(get_vertexNormalData, never):Array<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Array<Float>;
+    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
+    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
     public var vertexOffset(get_vertexOffset, never):Int;
     public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
     public var vertexTangentOffset(get_vertexTangentOffset, never):Int;
@@ -161,8 +162,8 @@ class SkyBox extends Entity implements IRenderable {
 	 */
     private function buildGeometry(target:SubGeometry):Void {
 
-        var vertices:Array<Float> = [ -1, 1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1 ];
-        var indices:Array<UInt> = [0, 1, 2, 2, 3, 0, 6, 5, 4, 4, 7, 6, 2, 6, 7, 7, 3, 2, 4, 5, 1, 1, 0, 4, 4, 0, 3, 3, 7, 4, 2, 1, 5, 5, 6, 2];
+        var vertices:Vector<Float> = [ -1.0, 1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1 ];
+        var indices:Vector<UInt> = Vector.ofArray( [ 0, 1, 2, 2, 3, 0, 6, 5, 4, 4, 7, 6, 2, 6, 7, 7, 3, 2, 4, 5, 1, 1, 0, 4, 4, 0, 3, 3, 7, 4, 2, 1, 5, 5, 6, 2 ] );
         target.updateVertexData(vertices);
         target.updateIndexData(indices);
     }
@@ -175,15 +176,15 @@ class SkyBox extends Entity implements IRenderable {
         return _uvTransform;
     }
 
-    public function get_vertexData():Array<Float> {
+    public function get_vertexData():Vector<Float> {
         return _geometry.vertexData;
     }
 
-    public function get_indexData():Array<UInt> {
+    public function get_indexData():Vector<UInt> {
         return _geometry.indexData;
     }
 
-    public function get_UVData():Array<Float> {
+    public function get_UVData():Vector<Float> {
         return _geometry.UVData;
     }
 
@@ -195,11 +196,11 @@ class SkyBox extends Entity implements IRenderable {
         return _geometry.vertexStride;
     }
 
-    public function get_vertexNormalData():Array<Float> {
+    public function get_vertexNormalData():Vector<Float> {
         return _geometry.vertexNormalData;
     }
 
-    public function get_vertexTangentData():Array<Float> {
+    public function get_vertexTangentData():Vector<Float> {
         return _geometry.vertexTangentData;
     }
 

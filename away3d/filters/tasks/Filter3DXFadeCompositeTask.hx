@@ -13,7 +13,7 @@ class Filter3DXFadeCompositeTask extends Filter3DTaskBase {
     public var overlayTexture(get_overlayTexture, set_overlayTexture):TextureBase;
     public var amount(get_amount, set_amount):Float;
 
-    private var _data:Array<Float>;
+    private var _data:Vector<Float>;
     private var _overlayTexture:TextureBase;
 
     public function new(amount:Float) {

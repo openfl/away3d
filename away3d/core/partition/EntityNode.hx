@@ -13,6 +13,7 @@ import away3d.core.math.Plane3D;
 import away3d.core.traverse.PartitionTraverser;
 import away3d.entities.Entity;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class EntityNode extends NodeBase {
     public var entity(get_entity, never):Entity;
@@ -55,7 +56,7 @@ class EntityNode extends NodeBase {
         _parent = null;
     }
 
-    override public function isInFrustum(planes:Array<Plane3D>, numPlanes:Int):Bool {
+    override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
         if (!_entity.isVisible) {
 		 
 			return false;

@@ -12,12 +12,13 @@ import away3d.entities.SegmentSet;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DProgramType;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 class SegmentPass extends MaterialPassBase {
 
-    static private var ONE_VECTOR:Array<Float> = [ 1, 1, 1, 1 ];
-    static private var FRONT_VECTOR:Array<Float> = [ 0, 0, -1, 0 ];
-    private var _constants:Array<Float>;
+    static private var ONE_VECTOR:Vector<Float> = Vector.ofArray( [ 1.0, 1.0, 1.0, 1.0 ] );
+    static private var FRONT_VECTOR:Vector<Float> = Vector.ofArray( [ 0.0, 0.0, -1.0, 0.0 ] );
+    private var _constants:Vector<Float>;
     private var _calcMatrix:Matrix3D;
     private var _thickness:Float;
 
@@ -27,7 +28,7 @@ class SegmentPass extends MaterialPassBase {
 	 * @param thickness the thickness of the segments to be drawn.
 	 */
     public function new(thickness:Float) {
-        _constants = ArrayUtils.Prefill( new Array<Float>(), 4, 0 );
+        _constants = ArrayUtils.Prefill( new Vector<Float>(), 4, 0 );
         _calcMatrix = new Matrix3D();
         _thickness = thickness;
         _constants[1] = 1 / 255;

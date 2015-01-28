@@ -19,6 +19,7 @@ import away3d.core.base.CompactSubGeometry;
 import away3d.animators.VertexAnimationSet;
 import openfl.utils.ByteArray;
 import haxe.ds.StringMap;
+import openfl.Vector;
 
 
 /**
@@ -56,15 +57,15 @@ class MD2Parser extends ParserBase {
     //private var _offsetGlCmds : Int;
     private var _offsetEnd:Int;
 
-    private var _uvIndices:Array<Float>;
-    private var _indices:Array<UInt>;
-    private var _vertIndices:Array<Float>;
+    private var _uvIndices:Vector<Float>;
+    private var _indices:Vector<UInt>;
+    private var _vertIndices:Vector<Float>;
 
     // the current subgeom being built
     private var _animationSet:VertexAnimationSet;
     private var _firstSubGeom:CompactSubGeometry;
-    private var _uvs:Array<Float>;
-    private var _finalUV:Array<Float>;
+    private var _uvs:Vector<Float>;
+    private var _finalUV:Vector<Float>;
 
     private var _materialNames:Array<String>;
     private var _textureType:String;
@@ -293,7 +294,7 @@ class MD2Parser extends ParserBase {
     private function parseUV():Void {
         var j:Int = 0;
 
-        _uvs = new Array<Float>();
+        _uvs = new Vector<Float>( _numST*2 );
         _byteData.position = _offsetST;
         for (i in 0..._numST) {
             _uvs[j++] = _byteData.readShort() / _skinWidth;
@@ -309,9 +310,9 @@ class MD2Parser extends ParserBase {
     private function parseFaces():Void {
         var a:Int, b:Int, c:Int, ta:Int, tb:Int, tc:Int;
 
-        _vertIndices = new Array<Float>();
-        _uvIndices = new Array<Float>();
-        _indices = new Array<UInt>();
+        _vertIndices = new Vector<Float>();
+        _uvIndices = new Vector<Float>();
+        _indices = new Vector<UInt>();
 
         _byteData.position = _offsetTris;
 
@@ -332,7 +333,7 @@ class MD2Parser extends ParserBase {
         }
 
         var len:Int = _uvIndices.length;
-        _finalUV = new Array<Float>();
+        _finalUV = new Vector<Float>( len*2 );
 
         for (i in 0...len) {
             var t:Int = Std.int(_uvIndices[i]);
@@ -388,8 +389,8 @@ class MD2Parser extends ParserBase {
         var geometry:Geometry;
         var subGeom:CompactSubGeometry;
         var vertLen:UInt = _vertIndices.length;
-        var fvertices:Array<Float>;
-        var tvertices:Array<Float>;
+        var fvertices:Vector<Float>;
+        var tvertices:Vector<Float>;
         var k:Int;
 
         //var ch : uint;
@@ -405,8 +406,8 @@ class MD2Parser extends ParserBase {
             }
             geometry = new Geometry();
             geometry.addSubGeometry(subGeom);
-            tvertices = new Array<Float>();
-            fvertices = new Array<Float>();
+            tvertices = new Vector<Float>();
+            fvertices = new Vector<Float>( vertLen*3 );
 
             sx = _byteData.readFloat();
             sy = _byteData.readFloat();

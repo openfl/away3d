@@ -19,17 +19,18 @@ import away3d.core.base.IRenderable;
 import away3d.cameras.Camera3D;
 import away3d.animators.data.AnimationRegisterCache;
 import away3d.core.base.SubMesh;
-import openfl.errors.Error;
 import away3d.animators.data.ParticlePropertiesMode;
 import away3d.animators.nodes.ParticleNodeBase;
 import away3d.animators.states.ParticleStateBase;
+import openfl.errors.Error;
+import openfl.Vector;
 
 class ParticleAnimator extends AnimatorBase implements IAnimator {
 
     public var _particleAnimationSet:ParticleAnimationSet;
-    private var _animationParticleStates:Array<ParticleStateBase>;
-    private var _animatorParticleStates:Array<ParticleStateBase>;
-    private var _timeParticleStates:Array<ParticleStateBase>;
+    private var _animationParticleStates:Vector<ParticleStateBase>;
+    private var _animatorParticleStates:Vector<ParticleStateBase>;
+    private var _timeParticleStates:Vector<ParticleStateBase>;
     private var _totalLenOfOneVertex:Int;
     private var _animatorSubGeometries:ObjectMap<ISubGeometry, AnimationSubGeometry>;
 
@@ -39,9 +40,9 @@ class ParticleAnimator extends AnimatorBase implements IAnimator {
 	 * @param particleAnimationSet The animation data set containing the particle animations used by the animator.
 	 */
     public function new(particleAnimationSet:ParticleAnimationSet) {
-        _animationParticleStates = new Array<ParticleStateBase>();
-        _animatorParticleStates = new Array<ParticleStateBase>();
-        _timeParticleStates = new Array<ParticleStateBase>();
+        _animationParticleStates = new Vector<ParticleStateBase>();
+        _animatorParticleStates = new Vector<ParticleStateBase>();
+        _timeParticleStates = new Vector<ParticleStateBase>();
         _totalLenOfOneVertex = 0;
         _animatorSubGeometries = new ObjectMap<ISubGeometry, AnimationSubGeometry>();
         

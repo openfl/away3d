@@ -9,6 +9,7 @@ import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.errors.AbstractMethodError;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 class PrimitiveBase extends Geometry {
 
@@ -32,7 +33,7 @@ class PrimitiveBase extends Geometry {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subGeometries():Array<ISubGeometry> {
+    override public function get_subGeometries():Vector<ISubGeometry> {
         if (_geomDirty) updateGeometry();
         if (_uvDirty) updateUVs();
         return super.subGeometries;

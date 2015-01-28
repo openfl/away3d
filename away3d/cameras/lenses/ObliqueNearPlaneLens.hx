@@ -19,7 +19,7 @@ class ObliqueNearPlaneLens extends LensBase {
         super();
     }
 
-    override public function get_frustumCorners():Array<Float> {
+    override public function get_frustumCorners():Vector<Float> {
         return _baseLens.frustumCorners;
     }
 

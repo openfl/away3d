@@ -28,7 +28,7 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
     override public function initConstants(vo:MethodVO):Void {
         super.initConstants(vo);
         
-        var fragmentData:Array<Float> = vo.fragmentData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
         var index:Int = vo.fragmentConstantsIndex;
         fragmentData[index + 8] = .5;
         

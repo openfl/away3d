@@ -17,15 +17,15 @@ class SubGeometryBase {
     public var autoDeriveVertexNormals(get_autoDeriveVertexNormals, set_autoDeriveVertexNormals):Bool;
     public var useFaceWeights(get_useFaceWeights, set_useFaceWeights):Bool;
     public var numTriangles(get_numTriangles, never):Int;
-    public var indexData(get_indexData, never):Array<UInt>;
+    public var indexData(get_indexData, never):Vector<UInt>;
     public var autoDeriveVertexTangents(get_autoDeriveVertexTangents, set_autoDeriveVertexTangents):Bool;
-    public var faceNormals(get_faceNormals, never):Array<Float>;
+    public var faceNormals(get_faceNormals, never):Vector<Float>;
     public var UVStride(get_UVStride, never):Int;
-    public var vertexData(get_vertexData, never):Array<Float>;
-    public var vertexPositionData(get_vertexPositionData, never):Array<Float>;
-    public var vertexNormalData(get_vertexNormalData, never):Array<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Array<Float>;
-    public var UVData(get_UVData, never):Array<Float>;
+    public var vertexData(get_vertexData, never):Vector<Float>;
+    public var vertexPositionData(get_vertexPositionData, never):Vector<Float>;
+    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
+    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
+    public var UVData(get_UVData, never):Vector<Float>;
     public var vertexStride(get_vertexStride, never):Int;
     public var vertexNormalStride(get_vertexNormalStride, never):Int;
     public var vertexTangentStride(get_vertexTangentStride, never):Int;
@@ -38,15 +38,15 @@ class SubGeometryBase {
     public var scaleV(get_scaleV, never):Float;
 
     private var _parentGeometry:Geometry;
-    private var _vertexData:Array<Float>;
+    private var _vertexData:Vector<Float>;
     private var _faceNormalsDirty:Bool;
     private var _faceTangentsDirty:Bool;
-    private var _faceTangents:Array<Float>;
-    private var _indices:Array<UInt>;
-    private var _indexBuffer:Array<IndexBuffer3D>;
+    private var _faceTangents:Vector<Float>;
+    private var _indices:Vector<UInt>;
+    private var _indexBuffer:Vector<IndexBuffer3D>;
     private var _numIndices:Int;
-    private var _indexBufferContext:Array<Context3D>;
-    private var _indicesInvalid:Array<Bool>;
+    private var _indexBufferContext:Vector<Context3D>;
+    private var _indicesInvalid:Vector<Bool>;
     private var _numTriangles:Int;
     private var _autoDeriveVertexNormals:Bool;
     private var _autoDeriveVertexTangents:Bool;
@@ -54,8 +54,8 @@ class SubGeometryBase {
     private var _useFaceWeights:Bool;
     private var _vertexNormalsDirty:Bool;
     private var _vertexTangentsDirty:Bool;
-    private var _faceNormals:Array<Float>;
-    private var _faceWeights:Array<Float>;
+    private var _faceNormals:Vector<Float>;
+    private var _faceWeights:Vector<Float>;
     private var _scaleU:Float;
     private var _scaleV:Float;
     private var _uvsDirty:Bool;
@@ -63,9 +63,9 @@ class SubGeometryBase {
     public function new() {
         _faceNormalsDirty = true;
         _faceTangentsDirty = true;
-        _indexBuffer = ArrayUtils.Prefill( new Array<IndexBuffer3D>(), 8 );
-        _indexBufferContext = ArrayUtils.Prefill( new Array<Context3D>(), 8 );
-        _indicesInvalid = ArrayUtils.Prefill( new Array<Bool>(), 8 );
+        _indexBuffer = ArrayUtils.Prefill( new Vector<IndexBuffer3D>(), 8 );
+        _indexBufferContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8 );
+        _indicesInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8 );
         _autoDeriveVertexNormals = true;
         _autoDeriveVertexTangents = true;
         _autoGenerateUVs = false;
@@ -177,15 +177,15 @@ class SubGeometryBase {
         var cx:Float;
         var cy:Float;
         var cz:Float;
-        var vertices:Array<Float> = _vertexData;
-        var uvs:Array<Float> = UVData;
+        var vertices:Vector<Float> = _vertexData;
+        var uvs:Vector<Float> = UVData;
         var posStride:Int = vertexStride;
         var posOffset:Int = vertexOffset;
         var texStride:Int = UVStride;
         var texOffset:Int = UVOffset;
 
         if (_faceTangents == null)
-            _faceTangents = ArrayUtils.Prefill(new Array<Float>(), _indices.length);
+            _faceTangents = ArrayUtils.Prefill(new Vector<Float>(), _indices.length);
 		
         while (i < len) {
             index1 = _indices[i];
@@ -249,15 +249,15 @@ class SubGeometryBase {
         var cy:Float;
         var cz:Float;
         var d:Float;
-        var vertices:Array<Float> = _vertexData;
+        var vertices:Vector<Float> = _vertexData;
         var posStride:Int = vertexStride;
         var posOffset:Int = vertexOffset;
 
         if (_faceNormals == null)
-            _faceNormals = ArrayUtils.Prefill( new Array<Float>(), len);
+            _faceNormals = ArrayUtils.Prefill( new Vector<Float>(), len, 0);
 
         if (_faceWeights == null)
-            _faceWeights = ArrayUtils.Prefill( new Array<Float>(), Std.int(len / 3));
+            _faceWeights = ArrayUtils.Prefill( new Vector<Float>(), Std.int(len / 3), 0);
 		 
         while (i < len) {
             index = posOffset + _indices[i++] * posStride;
@@ -301,7 +301,7 @@ class SubGeometryBase {
     /**
 	 * Updates the vertex normals based on the geometry.
 	 */
-    private function updateVertexNormals(target:Array<Float>):Array<Float> {
+    private function updateVertexNormals(target:Vector<Float>):Vector<Float> {
         if (_faceNormalsDirty) updateFaceNormals();
         var v1:Int;
         var f1:Int = 0;
@@ -312,7 +312,7 @@ class SubGeometryBase {
         var normalOffset:Int = vertexNormalOffset;
 
         if (target == null)
-            target = ArrayUtils.Prefill( new Array<Float>(), lenV, 0 );
+            target = ArrayUtils.Prefill( new Vector<Float>(), lenV, 0 );
 
         v1 = normalOffset;
         while (v1 < lenV) {
@@ -365,7 +365,7 @@ class SubGeometryBase {
     /**
 	 * Updates the vertex tangents based on the geometry.
 	 */
-    private function updateVertexTangents(target:Array<Float>):Array<Float> {
+    private function updateVertexTangents(target:Vector<Float>):Vector<Float> {
         if (_faceTangentsDirty) updateFaceTangents();
         var i:Int = 0;
         var lenV:Int = _vertexData.length;
@@ -373,7 +373,7 @@ class SubGeometryBase {
         var tangentOffset:Int = vertexTangentOffset;
         
         if (target == null)
-            target = ArrayUtils.Prefill(new Array<Float>(), lenV);
+            target = ArrayUtils.Prefill(new Vector<Float>(), lenV, 0);
 
         i = tangentOffset;
         while (i < lenV) {
@@ -441,7 +441,7 @@ class SubGeometryBase {
 	 *
 	 * @private
 	 */
-    public function get_indexData():Array<UInt> {
+    public function get_indexData():Vector<UInt> {
         return _indices;
     }
 
@@ -450,7 +450,7 @@ class SubGeometryBase {
 	 * Updates the face indices of the SubGeometry.
 	 * @param indices The face indices to upload.
 	 */
-    public function updateIndexData(indices:Array<UInt>):Void {
+    public function updateIndexData(indices:Vector<UInt>):Void {
         _indices = indices;
         _numIndices = indices.length;
         var numTriangles:Int = Std.int(_numIndices / 3);
@@ -466,7 +466,7 @@ class SubGeometryBase {
 	 * Disposes all buffers in a given vector.
 	 * @param buffers The vector of buffers to dispose.
 	 */
-    private function disposeIndexBuffers(buffers:Array<IndexBuffer3D>):Void {
+    private function disposeIndexBuffers(buffers:Vector<IndexBuffer3D>):Void {
         var i:Int = 0;
         while (i < 8) {
             if (buffers[i] != null) {
@@ -481,7 +481,7 @@ class SubGeometryBase {
 	 * Disposes all buffers in a given vector.
 	 * @param buffers The vector of buffers to dispose.
 	 */
-    private function disposeVertexBuffers(buffers:Array<VertexBuffer3D>):Void {
+    private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void {
         var i:Int = 0;
         while (i < 8) {
             if (buffers[i] != null) {
@@ -511,7 +511,7 @@ class SubGeometryBase {
 	 *
 	 * @private
 	 */
-    public function get_faceNormals():Array<Float> {
+    public function get_faceNormals():Vector<Float> {
         if (_faceNormalsDirty) updateFaceNormals();
         return _faceNormals;
     }
@@ -520,7 +520,7 @@ class SubGeometryBase {
 	 * Invalidates all buffers in a vector, causing them the update when they are first requested.
 	 * @param buffers The vector of buffers to invalidate.
 	 */
-    private function invalidateBuffers(invalid:Array<Bool>):Void {
+    private function invalidateBuffers(invalid:Vector<Bool>):Void {
         var i:Int = 0;
         while (i < 8) {
             invalid[i] = true;
@@ -533,27 +533,27 @@ class SubGeometryBase {
         return 0;
     }
 
-    public function get_vertexData():Array<Float> {
+    public function get_vertexData():Vector<Float> {
         throw new AbstractMethodError();
         return null;
     }
 
-    public function get_vertexPositionData():Array<Float> {
+    public function get_vertexPositionData():Vector<Float> {
         throw new AbstractMethodError();
         return null;
     }
 
-    public function get_vertexNormalData():Array<Float> {
+    public function get_vertexNormalData():Vector<Float> {
         throw new AbstractMethodError();
         return null;
     }
 
-    public function get_vertexTangentData():Array<Float> {
+    public function get_vertexTangentData():Vector<Float> {
         throw new AbstractMethodError();
         return null;
     }
 
-    public function get_UVData():Array<Float> {
+    public function get_UVData():Vector<Float> {
         throw new AbstractMethodError();
         return null;
     }
@@ -627,7 +627,7 @@ class SubGeometryBase {
     public function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void {
         var offset:Int = UVOffset;
         var stride:Int = UVStride;
-        var uvs:Array<Float> = UVData;
+        var uvs:Vector<Float> = UVData;
         var len:Int = uvs.length;
         var ratioU:Float = scaleU / _scaleU;
         var ratioV:Float = scaleV / _scaleV;
@@ -646,7 +646,7 @@ class SubGeometryBase {
 	 * @param scale The amount by which to scale.
 	 */
     public function scale(scale:Float):Void {
-        var vertices:Array<Float> = UVData;
+        var vertices:Vector<Float> = UVData;
         var len:Int = vertices.length;
         var offset:Int = vertexOffset;
         var stride:Int = vertexStride;
@@ -660,9 +660,9 @@ class SubGeometryBase {
     }
 
     public function applyTransformation(transform:Matrix3D):Void {
-        var vertices:Array<Float> = _vertexData;
-        var normals:Array<Float> = vertexNormalData;
-        var tangents:Array<Float> = vertexTangentData;
+        var vertices:Vector<Float> = _vertexData;
+        var normals:Vector<Float> = vertexNormalData;
+        var tangents:Vector<Float> = vertexTangentData;
         var posStride:Int = vertexStride;
         var normalStride:Int = vertexNormalStride;
         var tangentStride:Int = vertexTangentStride;
@@ -731,15 +731,15 @@ class SubGeometryBase {
         }
     }
 
-    private function updateDummyUVs(target:Array<Float>):Array<Float> {
+    private function updateDummyUVs(target:Vector<Float>):Vector<Float> {
         _uvsDirty = false;
         var idx:Int;
         var uvIdx:Int;
         var stride:Int = UVStride;
         var skip:Int = stride - 2;
         var len:Int = Std.int(_vertexData.length / vertexStride * stride);
-        if (target == null) target = new Array<Float>();
-        ArrayUtils.reSize( target, len);
+        if (target == null) target = new Vector<Float>();
+        ArrayUtils.reSize( target, len, 0);
         idx = UVOffset;
         uvIdx = 0;
         while (idx < len) {

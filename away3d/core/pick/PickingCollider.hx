@@ -8,6 +8,7 @@ package away3d.core.pick;
 
 import away3d.core.base.SubMesh;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class PickingCollider extends PickingColliderBase implements IPickingCollider {
 
@@ -68,9 +69,9 @@ class PickingCollider extends PickingColliderBase implements IPickingCollider {
         var Q2Q2:Float;
         var RQ1:Float;
         var RQ2:Float;
-        var indexData:Array<UInt> = subMesh.indexData;
-        var vertexData:Array<Float> = subMesh.vertexData;
-        var uvData:Array<Float> = subMesh.UVData;
+        var indexData:Vector<UInt> = subMesh.indexData;
+        var vertexData:Vector<Float> = subMesh.vertexData;
+        var uvData:Vector<Float> = subMesh.UVData;
         var collisionTriangleIndex:Int = -1;
         var bothSides:Bool = (subMesh.material != null && subMesh.material.bothSides);
         var vertexStride:Int = subMesh.vertexStride;

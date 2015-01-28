@@ -94,7 +94,7 @@ class TraceSerializer extends SerializerBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function writeTransform(name:String, value:Array<Float>):Void {
+    override public function writeTransform(name:String, value:Vector<Float>):Void {
         var outputString:String = _indentString();
         outputString += name;
         if (value != null) {

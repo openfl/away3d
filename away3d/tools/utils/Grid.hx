@@ -40,7 +40,7 @@ class Grid {
 	 *  Snaps to grid a given Vector.&lt;Number&gt; of vertices
 	 * @param     vertices        Vector.&lt;Number&gt;. The vertices vector
 	 */
-    public function snapVertices(vertices:Array<Float>):Array<Float> {
+    public function snapVertices(vertices:Vector<Float>):Vector<Float> {
         var i:Int = 0;
         while (i < vertices.length) {
             vertices[i] -= vertices[i] % _unit;
@@ -105,9 +105,9 @@ class Grid {
 
     private function snap(mesh:Mesh):Void {
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
         var numSubGeoms:Int = geometries.length;
-        var vertices:Array<Float>;
+        var vertices:Vector<Float>;
         var j:Int;
         var i:Int = 0;
         var vecLength:Int;

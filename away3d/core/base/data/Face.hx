@@ -5,6 +5,7 @@ package away3d.core.base.data;
 
 import openfl.geom.Point;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class Face {
     public var faceIndex(get_faceIndex, set_faceIndex):Int;
@@ -18,24 +19,24 @@ class Face {
     public var uv2u(get_uv2u, never):Float;
     public var uv2v(get_uv2v, never):Float;
     public var v0Index(get_v0Index, set_v0Index):Int;
-    public var v0(get_v0, never):Array<Float>;
+    public var v0(get_v0, never):Vector<Float>;
     public var v0x(get_v0x, never):Float;
     public var v0y(get_v0y, never):Float;
     public var v0z(get_v0z, never):Float;
     public var v1Index(get_v1Index, set_v1Index):Int;
-    public var v1(get_v1, never):Array<Float>;
+    public var v1(get_v1, never):Vector<Float>;
     public var v1x(get_v1x, never):Float;
     public var v1y(get_v1y, never):Float;
     public var v1z(get_v1z, never):Float;
     public var v2Index(get_v2Index, set_v2Index):Int;
-    public var v2(get_v2, never):Array<Float>;
+    public var v2(get_v2, never):Vector<Float>;
     public var v2x(get_v2x, never):Float;
     public var v2y(get_v2y, never):Float;
     public var v2z(get_v2z, never):Float;
 
     static private var _calcPoint:Point;
-    private var _vertices:Array<Float>;
-    private var _uvs:Array<Float>;
+    private var _vertices:Vector<Float>;
+    private var _uvs:Vector<Float>;
     private var _faceIndex:Int;
     private var _v0Index:Int;
     private var _v1Index:Int;
@@ -49,14 +50,14 @@ class Face {
 	 * @param    vertices        [optional] 9 entries long Vector.&lt;Number&gt; representing the x, y and z of v0, v1, and v2 of a face
 	 * @param    uvs            [optional] 6 entries long Vector.&lt;Number&gt; representing the u and v of uv0, uv1, and uv2 of a face
 	 */
-    public function new(vertices:Array<Float> = null, uvs:Array<Float> = null) {
+    public function new(vertices:Vector<Float> = null, uvs:Vector<Float> = null) {
         _vertices = vertices ;
-        if (_vertices == null)_vertices = Vector.ofArray(cast [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+        if (_vertices == null) _vertices = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
         _uvs = uvs;
-        if (_uvs == null)_uvs = Vector.ofArray(cast [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+        if (_uvs == null) _uvs = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
     }
 
-//uvs
+    //uvs
     /**
 	 * To set uv values for either uv0, uv1 or uv2.
 	 * @param    index        The id of the uv (0, 1 or 2)
@@ -243,8 +244,8 @@ class Face {
     /**
 	 * @return Returns a Vector.<Number> representing the v0 stored in the Face value object
 	 */
-    public function get_v0():Array<Float> {
-        return Vector.ofArray(cast [_vertices[0], _vertices[1], _vertices[2]]);
+    public function get_v0():Vector<Float> {
+        return Vector.ofArray( [ _vertices[0], _vertices[1], _vertices[2] ] );
     }
 
     /**
@@ -288,8 +289,8 @@ class Face {
     /**
 	 * @return Returns a Vector.<Number> representing the v1 stored in the Face value object
 	 */
-    public function get_v1():Array<Float> {
-        return Vector.ofArray(cast [_vertices[3], _vertices[4], _vertices[5]]);
+    public function get_v1():Vector<Float> {
+        return Vector.ofArray( [ _vertices[3], _vertices[4], _vertices[5] ] );
     }
 
     /**
@@ -333,8 +334,8 @@ class Face {
     /**
 	 * @return Returns a Vector.<Number> representing the v2 stored in the Face value object
 	 */
-    public function get_v2():Array<Float> {
-        return Vector.ofArray(cast [_vertices[6], _vertices[7], _vertices[8]]);
+    public function get_v2():Vector<Float> {
+        return Vector.ofArray( [ _vertices[6], _vertices[7], _vertices[8] ] );
     }
 
     /**
@@ -362,8 +363,8 @@ class Face {
 	 * returns a new Face value Object
 	 */
     public function clone():Face {
-        var nVertices:Array<Float> = Vector.ofArray(cast [_vertices[0], _vertices[1], _vertices[2], _vertices[3], _vertices[4], _vertices[5], _vertices[6], _vertices[7], _vertices[8]]);
-        var nUvs:Array<Float> = Vector.ofArray(cast [_uvs[0], _uvs[1], _uvs[2], _uvs[3], _uvs[4], _uvs[5]]);
+        var nVertices:Vector<Float> = [ _vertices[0], _vertices[1], _vertices[2], _vertices[3], _vertices[4], _vertices[5], _vertices[6], _vertices[7], _vertices[8] ];
+        var nUvs:Vector<Float> = [ _uvs[0], _uvs[1], _uvs[2], _uvs[3], _uvs[4], _uvs[5] ];
         return new Face(nVertices, nUvs);
     }
 

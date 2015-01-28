@@ -118,6 +118,8 @@ import away3d.materials.TextureMultiPassMaterial;
 import away3d.materials.utils.DefaultMaterialManager;
 import away3d.textures.Texture2DBase;
 
+import openfl.Vector;
+
 using Reflect;
 
 typedef AssetVO = {
@@ -135,10 +137,10 @@ class AWD2Parser extends ParserBase {
     private var _byteData:ByteArray;
     private var _startedParsing:Bool;
     private var _cur_block_id:UInt;
-    private var _blocks:Array<AWDBlock>;
+    private var _blocks:Vector<AWDBlock>;
     private var _newBlockBytes:ByteArray;
 
-    private var _version:Array<Int>;
+    private var _version:Vector<Int>;
     private var _compression:UInt;
 
     private var _accuracyOnBlocks:Bool;
@@ -153,7 +155,7 @@ class AWD2Parser extends ParserBase {
 
     private var _streaming:Bool;
 
-    private var _texture_users:StringMap<Array<Int>>;
+    private var _texture_users:StringMap<Vector<Int>>;
 
     private var _parsed_header:Bool;
     private var _body:ByteArray;
@@ -161,7 +163,7 @@ class AWD2Parser extends ParserBase {
     private var _defaultTexture:BitmapTexture;
     private var _defaultCubeTexture:BitmapCubeTexture;
     private var _defaultBitmapMaterial:TextureMaterial;
-    private var _cubeTextures:Array<BitmapData>;
+    private var _cubeTextures:Vector<BitmapData>;
 
     public static inline var COMPRESSIONMODE_LZMA:String = "lzma";
 
@@ -193,8 +195,8 @@ class AWD2Parser extends ParserBase {
     public static inline var MTX4x3:UInt = 46;
     public static inline var MTX4x4:UInt = 47;
 
-    private var blendModeDic:Array<BlendMode>;
-    private var _depthSizeDic:Array<UInt>;
+    private var blendModeDic:Vector<BlendMode>;
+    private var _depthSizeDic:Vector<UInt>;
 
     /**
 	 * Creates a new AWDParser object.
@@ -204,13 +206,13 @@ class AWD2Parser extends ParserBase {
     public function new() {
         super(ParserDataFormat.BINARY);
 
-        _blocks = new Array<AWDBlock>();
+        _blocks = new Vector<AWDBlock>();
         _blocks[0] = new AWDBlock();
         _blocks[0].data = null; // Zero address means null in AWD
 
-        _texture_users = new StringMap<Array<Int>>();
+        _texture_users = new StringMap<Vector<Int>>();
 
-        blendModeDic = new Array<BlendMode>(); // used to translate ints to blendMode-strings
+        blendModeDic = new Vector<BlendMode>(); // used to translate ints to blendMode-strings
         blendModeDic.push(BlendMode.NORMAL);
         blendModeDic.push(BlendMode.ADD);
         blendModeDic.push(BlendMode.ALPHA);
@@ -226,7 +228,7 @@ class AWD2Parser extends ParserBase {
         blendModeDic.push(BlendMode.SCREEN);
         //blendModeDic.push(BlendMode.SHADER);
 
-        _depthSizeDic = new Array<UInt>(); // used to translate ints to depthSize-values
+        _depthSizeDic = new Vector<UInt>(); // used to translate ints to depthSize-values
         _depthSizeDic.push(256);
         _depthSizeDic.push(512);
         _depthSizeDic.push(2048);
@@ -253,7 +255,7 @@ class AWD2Parser extends ParserBase {
         // if the Bitmap is awaited by a CubeTexture, we need to check if its the last Bitmap of the CubeTexture,
         // so we know if we have to finalize the Asset (CubeTexture) or not.
         if (resourceDependency.assets.length == 1) {
-            var isCubeTextureArray:Array<String> = resourceDependency.id.split("#");
+            var isCubeTextureArray:Vector<String> = resourceDependency.id.split("#");
             var ressourceID:String = isCubeTextureArray[0];
             var asset:TextureProxyBase;
             var thisBitmapTexture:Texture2DBase;
@@ -629,15 +631,15 @@ class AWD2Parser extends ParserBase {
         var props:AWDProperties = parseProperties({ "1":_geoNrType, "2":_geoNrType });
         var geoScaleU:Float = props.getValue(1, 1);
         var geoScaleV:Float = props.getValue(2, 1);
-        var sub_geoms:Array<ISubGeometry> = new Array<ISubGeometry>();
+        var sub_geoms:Vector<ISubGeometry> = new Vector<ISubGeometry>();
         
         // Loop through sub meshes
         var subs_parsed:Int = 0;
         while (subs_parsed < num_subs) {
             var i:UInt;
             var sm_len:UInt, sm_end:UInt;
-            var w_indices:Array<UInt> = null;
-            var weights:Array<Float> = null;
+            var w_indices:Vector<UInt> = null;
+            var weights:Vector<Float> = null;
 
             sm_len = _newBlockBytes.readUnsignedInt();
             sm_end = _newBlockBytes.position + sm_len;
@@ -645,10 +647,10 @@ class AWD2Parser extends ParserBase {
             // Ignore for now
             var subProps:AWDProperties = parseProperties({ "1":_geoNrType, "2":_geoNrType });
 
-            var verts:Array<Float> = null;
-            var indices:Array<UInt> = null;
-            var uvs:Array<Float> = null;
-            var normals:Array<Float> = null;
+            var verts:Vector<Float> = null;
+            var indices:Vector<UInt> = null;
+            var uvs:Vector<Float> = null;
+            var normals:Vector<Float> = null;
 
             // Loop through data streams
             while (_newBlockBytes.position < sm_end) {
@@ -665,7 +667,7 @@ class AWD2Parser extends ParserBase {
                 var x:Float, y:Float, z:Float;
 
                 if (str_type == 1) {
-                    verts = new Array<Float>();
+                    verts = new Vector<Float>();
                     while (_newBlockBytes.position < str_end) {
                         
                         // TODO: Respect stream field type
@@ -679,32 +681,32 @@ class AWD2Parser extends ParserBase {
                     }
                 }
                 else if (str_type == 2) {
-                    indices = new Array<UInt>();
+                    indices = new Vector<UInt>();
                     while (_newBlockBytes.position < str_end) {
                         // TODO: Respect stream field type
                         indices[idx++] = _newBlockBytes.readUnsignedShort();
                     }
                 }
                 else if (str_type == 3) {
-                    uvs = new Array<Float>();
+                    uvs = new Vector<Float>();
                     while (_newBlockBytes.position < str_end) {
                         uvs[idx++] = readNumber(_accuracyGeo);
                     }
                 }
                 else if (str_type == 4) {
-                    normals = new Array<Float>();
+                    normals = new Vector<Float>();
                     while (_newBlockBytes.position < str_end) {
                         normals[idx++] = readNumber(_accuracyGeo);
                     }
                 }
                 else if (str_type == 6) {
-                    w_indices = new Array<UInt>();
+                    w_indices = new Vector<UInt>();
                     while (_newBlockBytes.position < str_end) {
                         w_indices[idx++] = _newBlockBytes.readUnsignedShort() * 3; // TODO: Respect stream field type
                     }
                 }
                 else if (str_type == 7) {
-                    weights = new Array<Float>();
+                    weights = new Vector<Float>();
                     while (_newBlockBytes.position < str_end) {
                         weights[idx++] = readNumber(_accuracyGeo);
                     }
@@ -774,7 +776,7 @@ class AWD2Parser extends ParserBase {
         "703": BOOL,
         "704": BOOL});
 
-        var primitveTypes:Array<String> = ["Unsupported Type-ID", "PlaneGeometry", "CubeGeometry", "SphereGeometry", "CylinderGeometry", "ConeGeometry", "CapsuleGeometry", "TorusGeometry"];
+        var primitveTypes:Vector<String> = ["Unsupported Type-ID", "PlaneGeometry", "CubeGeometry", "SphereGeometry", "CylinderGeometry", "ConeGeometry", "CapsuleGeometry", "TorusGeometry"];
         switch (primType)
         {
             // to do, not all properties are set on all primitives
@@ -888,9 +890,9 @@ class AWD2Parser extends ParserBase {
         }
 
         _blocks[blockID].geoID = data_id;
-        var materials:Array<MaterialBase> = new Array<MaterialBase>();
+        var materials:Vector<MaterialBase> = new Vector<MaterialBase>();
         num_materials = _newBlockBytes.readUnsignedShort();
-        var materialNames:Array<String> = [];
+        var materialNames:Vector<String> = [];
         materials_parsed = 0;
         var materialAssetVO:AssetVO;
         while (materials_parsed < num_materials) {
@@ -999,8 +1001,8 @@ class AWD2Parser extends ParserBase {
         "23": _matrixNrType});
         var shadowMapperType:UInt = props.getValue(9, 0);
         var parentName:String = "Root (TopLevel)";
-        var lightTypes:Array<String> = ["Unsupported LightType", "PointLight", "DirectionalLight"];
-        var shadowMapperTypes:Array<String> = ["No ShadowMapper", "DirectionalShadowMapper", "NearDirectionalShadowMapper", "CascadeShadowMapper", "CubeMapShadowMapper"];
+        var lightTypes:Vector<String> = ["Unsupported LightType", "PointLight", "DirectionalLight"];
+        var shadowMapperTypes:Vector<String> = ["No ShadowMapper", "DirectionalShadowMapper", "NearDirectionalShadowMapper", "CascadeShadowMapper", "CubeMapShadowMapper"];
         if (lightType == 1) {
             light = new PointLight();
             cast(light, PointLight).radius = props.getValue(1, 90000);
@@ -1165,11 +1167,11 @@ class AWD2Parser extends ParserBase {
     private function parseLightPicker(blockID:UInt):Void {
         var name:String = parseVarStr();
         var numLights:UInt = _newBlockBytes.readUnsignedShort();
-        var lightsArray:Array<LightBase> = [];
+        var lightsArray:Vector<LightBase> = [];
         var k:Int = 0;
         var lightID:Int = 0;
         var lightAssetVO:AssetVO;
-        var lightsArrayNames:Array<String> = [];
+        var lightsArrayNames:Vector<String> = [];
         for (k in 0...numLights) {
             lightID = _newBlockBytes.readUnsignedInt();
             lightAssetVO = getAssetByID(lightID, [Asset3DType.LIGHT]);
@@ -1657,7 +1659,7 @@ class AWD2Parser extends ParserBase {
         pauseAndRetrieveDependencies();
         _blocks[blockID].data = asset;
         if (_debug) {
-            var textureStylesNames:Array<String> = ["external", "embed"];
+            var textureStylesNames:Vector<String> = ["external", "embed"];
             trace("Start parsing a " + textureStylesNames[type] + " Bitmap for Texture");
         }
     }
@@ -1699,7 +1701,7 @@ class AWD2Parser extends ParserBase {
         pauseAndRetrieveDependencies();
         _blocks[blockID].data = asset;
         if (_debug) {
-            var textureStylesNames:Array<String> = ["external", "embed"];
+            var textureStylesNames:Vector<String> = ["external", "embed"];
             trace("Start parsing 6 " + textureStylesNames[type] + " Bitmaps for CubeTexture");
         }
     }
@@ -1964,7 +1966,7 @@ class AWD2Parser extends ParserBase {
             joint_pose = new JointPose();
             has_transform = _newBlockBytes.readUnsignedByte();
             if (has_transform == 1) {
-                var mtx_data:Array<Float> = parseMatrix43RawData();
+                var mtx_data:Vector<Float> = parseMatrix43RawData();
 
                 var mtx:Matrix3D = new Matrix3D(mtx_data);
                 joint_pose.orientation.fromMatrix(mtx);
@@ -2042,11 +2044,11 @@ class AWD2Parser extends ParserBase {
         var subGeom:CompactSubGeometry;
         var idx:Int = 0;
         var clip:VertexClipNode = new VertexClipNode();
-        var indices:Array<UInt>;
-        var verts:Array<Float>;
+        var indices:Vector<UInt>;
+        var verts:Vector<Float>;
         var num_Streams:Int = 0;
         var streamsParsed:Int = 0;
-        var streamtypes:Array<Int> = new Array<Int>();
+        var streamtypes:Vector<Int> = new Vector<Int>();
         var props:AWDProperties;
         var thisGeo:Geometry;
         var name:String = parseVarStr();
@@ -2056,7 +2058,7 @@ class AWD2Parser extends ParserBase {
             _blocks[blockID].addError("Could not find the target-Geometry-Object " + geoAdress + " ) for this VertexClipNode");
             return;
         }
-        var uvs:Array<Array<Float>> = getUVForVertexAnimation(geoAdress);
+        var uvs:Vector<Vector<Float>> = getUVForVertexAnimation(geoAdress);
         if (!poseOnly)
             num_frames = _newBlockBytes.readUnsignedShort();
 
@@ -2084,7 +2086,7 @@ class AWD2Parser extends ParserBase {
                 while (streamsParsed < num_Streams) {
                     if (streamtypes[streamsParsed] == 1) {
                         indices = assetVO.data.subGeometries[subMeshParsed].indexData;
-                        verts = new Array<Float>();
+                        verts = new Vector<Float>();
                         idx = 0;
                         while (_newBlockBytes.position < str_end) {
                             x = readNumber(_accuracyGeo);
@@ -2132,8 +2134,8 @@ class AWD2Parser extends ParserBase {
         var num_frames:UInt = _newBlockBytes.readUnsignedShort();
         var props:AWDProperties = parseProperties({"1": UINT16});
         var frames_parsed:UInt = 0;
-        var skeletonFrames:Array<SkeletonClipNode> = new Array<SkeletonClipNode>();
-        var vertexFrames:Array<VertexClipNode> = new Array<VertexClipNode>();
+        var skeletonFrames:Vector<SkeletonClipNode> = new Vector<SkeletonClipNode>();
+        var vertexFrames:Vector<VertexClipNode> = new Vector<VertexClipNode>();
         while (frames_parsed < num_frames) {
             poseBlockAdress = _newBlockBytes.readUnsignedInt();
             assetVO = getAssetByID(poseBlockAdress, [Asset3DType.ANIMATION_NODE]);
@@ -2221,7 +2223,7 @@ class AWD2Parser extends ParserBase {
 
         animSetBlockAdress = _newBlockBytes.readUnsignedInt();
         var targetMeshLength:UInt = _newBlockBytes.readUnsignedShort();
-        var meshAdresses:Array<UInt> = new Array<UInt>();
+        var meshAdresses:Vector<UInt> = new Vector<UInt>();
         for (i in 0...targetMeshLength)
             meshAdresses.push(_newBlockBytes.readUnsignedInt());
 
@@ -2231,7 +2233,7 @@ class AWD2Parser extends ParserBase {
         parseUserAttributes();
 
         var assetVO:AssetVO;
-        var targetMeshes:Array<Mesh> = new Array<Mesh>();
+        var targetMeshes:Vector<Mesh> = new Vector<Mesh>();
 
         for (i in 0...meshAdresses.length) {
             assetVO = getAssetByID(meshAdresses[i], [Asset3DType.MESH]);
@@ -2340,7 +2342,7 @@ class AWD2Parser extends ParserBase {
 
     // Helper - functions
 
-    private function getUVForVertexAnimation(meshID:UInt):Array<Array<Float>> {
+    private function getUVForVertexAnimation(meshID:UInt):Vector<Vector<Float>> {
         if (Std.is(_blocks[meshID].data, Mesh)) {
             meshID = _blocks[meshID].geoID;
         }
@@ -2349,15 +2351,15 @@ class AWD2Parser extends ParserBase {
         }
         var geometry:Geometry = cast(_blocks[meshID].data, Geometry);
         var geoCnt:Int = 0;
-        var ud:Array<Float>;
+        var ud:Vector<Float>;
         var uStride:UInt;
         var uOffs:UInt;
         var numPoints:UInt;
         var i:Int;
-        var newUvs:Array<Float>;
-        _blocks[meshID].uvsForVertexAnimation = new Array<Array<Float>>();
+        var newUvs:Vector<Float>;
+        _blocks[meshID].uvsForVertexAnimation = new Vector<Vector<Float>>();
         while (geoCnt < geometry.subGeometries.length) {
-            newUvs = new Array<Float>();
+            newUvs = new Vector<Float>();
             numPoints = geometry.subGeometries[geoCnt].numVertices;
             ud = geometry.subGeometries[geoCnt].UVData;
             uStride = geometry.subGeometries[geoCnt].UVStride;
@@ -2525,7 +2527,7 @@ class AWD2Parser extends ParserBase {
     }
 
     private function getAssetByID(assetID:UInt,
-                                  assetTypesToGet:Array<String>,
+                                  assetTypesToGet:Vector<String>,
                                   extraTypeInfo:String = "SingleTexture"):AssetVO {
         var assetVO:AssetVO = { enable:false, data:null };
 
@@ -2614,7 +2616,7 @@ class AWD2Parser extends ParserBase {
         }
 
         if (elem_len < len) {
-            var list:Array<Dynamic>;
+            var list:Vector<Dynamic>;
             var num_read:UInt;
             var num_elems:UInt;
 
@@ -2638,7 +2640,7 @@ class AWD2Parser extends ParserBase {
 
     private function parseMatrix2D():Matrix {
         var mtx:Matrix;
-        var mtx_raw:Array<Float> = parseMatrix32RawData();
+        var mtx_raw:Vector<Float> = parseMatrix32RawData();
 
         mtx = new Matrix(mtx_raw[0], mtx_raw[1], mtx_raw[2], mtx_raw[3], mtx_raw[4], mtx_raw[5]);
         return mtx;
@@ -2648,8 +2650,8 @@ class AWD2Parser extends ParserBase {
         return new Matrix3D(parseMatrix43RawData());
     }
 
-    private function parseMatrix32RawData():Array<Float> {
-        var mtx_raw:Array<Float> = new Array<Float>();
+    private function parseMatrix32RawData():Vector<Float> {
+        var mtx_raw:Vector<Float> = new Vector<Float>();
         for (i in 0...6)
             mtx_raw[i] = _newBlockBytes.readFloat();
 
@@ -2662,8 +2664,8 @@ class AWD2Parser extends ParserBase {
         return _newBlockBytes.readFloat();
     }
 
-    private function parseMatrix43RawData():Array<Float> {
-        var mtx_raw:Array<Float> = new Array<Float>();
+    private function parseMatrix43RawData():Vector<Float> {
+        var mtx_raw:Vector<Float> = new Vector<Float>();
 
         mtx_raw[0] = readNumber(_accuracyMatrix);
         mtx_raw[1] = readNumber(_accuracyMatrix);
@@ -2711,15 +2713,15 @@ class AWDBlock {
     public var geoID:UInt;
     public var extras:Dynamic;
     public var bytes:ByteArray;
-    public var errorMessages:Array<String>;
-    public var uvsForVertexAnimation:Array<Array<Float>>;
+    public var errorMessages:Vector<String>;
+    public var uvsForVertexAnimation:Vector<Vector<Float>>;
 
     public function new() {
     }
 
     public function addError(errorMsg:String):Void {
         if (errorMessages == null)
-            errorMessages = new Array<String>();
+            errorMessages = new Vector<String>();
         errorMessages.push(errorMsg);
     }
 }

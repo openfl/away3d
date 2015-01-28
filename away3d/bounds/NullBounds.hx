@@ -13,6 +13,7 @@ import away3d.core.math.MathConsts;
 import away3d.primitives.WireframePrimitiveBase;
 import away3d.core.math.Plane3D;
 import away3d.core.math.PlaneClassification;
+import openfl.Vector;
 
 class NullBounds extends BoundingVolumeBase {
 
@@ -38,7 +39,7 @@ class NullBounds extends BoundingVolumeBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function isInFrustum(planes:Array<Plane3D>, numPlanes:Int):Bool {
+    override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
 
         return _alwaysIn;
     }

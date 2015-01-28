@@ -16,7 +16,7 @@ class Asset3DLibraryIterator {
     }
 
     public function get_currentAsset():IAsset {
-// Return current, or null if no current
+        // Return current, or null if no current
         return ((_idx < _filtered.length)) ? _filtered[_idx] : null;
     }
 
@@ -46,7 +46,7 @@ class Asset3DLibraryIterator {
             idx = 0;
             _filtered = new Array<IAsset>();
             for (asset in _assets) {
-// Skip this assets if filtering on type and this is wrong type
+                // Skip this assets if filtering on type and this is wrong type
                 if (assetTypeFilter != null && asset.assetType != assetTypeFilter) continue;
                 if (namespaceFilter != null && asset.assetNamespace != namespaceFilter) continue;
                 if (filterFunc != null && filterFunc(asset) == null) continue;

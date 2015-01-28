@@ -18,13 +18,13 @@ class PathAnimator extends EventDispatcher {
     public var orientation(get_orientation, never):Vector3D;
     public var target(get_target, set_target):Object3D;
     public var lookAtObject(get_lookAtObject, set_lookAtObject):Object3D;
-    public var rotations(never, set_rotations):Array<Vector3D>;
+    public var rotations(never, set_rotations):Vector<Vector3D>;
     public var index(get_index, set_index):Int;
 
     private var _path:IPath;
     private var _time:Float;
     private var _index:Int;
-    private var _rotations:Array<Vector3D>;
+    private var _rotations:Vector<Vector3D>;
     private var _alignToPath:Bool;
     private var _target:Object3D;
     private var _lookAtTarget:Object3D;
@@ -52,7 +52,7 @@ class PathAnimator extends EventDispatcher {
 	 * @param                 [optional] lookAtTarget        An Object3D that the target will constantly look at during animation.
 	 * @param                 [optional] rotations           A Vector.&lt;Vector3D&gt; to define rotations per pathsegments. If PathExtrude is used to simulate the "road", use the very same rotations vector.
 	 */
-    public function new(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Bool = true, lookAtTarget:Object3D = null, rotations:Array<Vector3D> = null) {
+    public function new(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Bool = true, lookAtTarget:Object3D = null, rotations:Vector<Vector3D> = null) {
         _index = 0;
         _position = new Vector3D();
         _lastSegment = 0;
@@ -283,7 +283,7 @@ class PathAnimator extends EventDispatcher {
     /**
 	 * sets an optional Vector.&lt;Vector3D&gt; of rotations. if the object3d is animated along a PathExtrude object, use the very same vector to follow the "curves".
 	 */
-    public function set_rotations(value:Array<Vector3D>):Array<Vector3D> {
+    public function set_rotations(value:Vector<Vector3D>):Vector<Vector3D> {
         _rotations = value;
         if (_rotations != null && _rot == null) {
             _rot = new Vector3D();

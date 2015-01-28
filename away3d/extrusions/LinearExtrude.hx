@@ -44,9 +44,9 @@ class LinearExtrude extends Mesh {
     inline static public var Z_AXIS:String = "z";
     private var LIMIT:Int;
     private var EPS:Float;
-    private var _varr:Array<Vertex>;
-    private var _varr2:Array<Vertex>;
-    private var _uvarr:Array<UV>;
+    private var _varr:Vector<Vertex>;
+    private var _varr2:Vector<Vertex>;
+    private var _uvarr:Vector<UV>;
     private var _subdivision:Int;
     private var _coverAll:Bool;
     private var _flip:Bool;
@@ -61,7 +61,7 @@ class LinearExtrude extends Mesh {
     private var _ignoreSides:String;
     private var _geomDirty:Bool;
     private var _subGeometry:SubGeometry;
-    private var _MaterialsSubGeometries:Array<SubGeometryList>;
+    private var _MaterialsSubGeometries:Vector<SubGeometryList>;
     private var _uva:UV;
     private var _uvb:UV;
     private var _uvc:UV;
@@ -72,10 +72,10 @@ class LinearExtrude extends Mesh {
 // private var _vc:Vertex;
 // private var _vd:Vertex;
     private var _maxIndProfile:Int;
-    private var _uvs:Array<Float>;
-    private var _vertices:Array<Float>;
-    private var _indices:Array<UInt>;
-    private var _aVectors:Array<Vector3D>;
+    private var _uvs:Vector<Float>;
+    private var _vertices:Vector<Float>;
+    private var _indices:Vector<UInt>;
+    private var _aVectors:Vector<Vector3D>;
     private var _baseMax:Float;
     private var _baseMin:Float;
     /**
@@ -96,7 +96,7 @@ class LinearExtrude extends Mesh {
 	 * @param        ignoreSides                [optional] String. To prevent the generation of sides if thickness is set higher than 0. To avoid the bottom ignoreSides = "bottom", avoiding both top and bottom: ignoreSides = "bottom, top". Strings options: bottom, top, left, right, front and back. Default is "".
 	 * @param        flip                            [optional] Boolean. If the faces must be reversed depending on Vector3D's orientation. Default is false.
 	 */
-    public function new(material:MaterialBase = null, vectors:Array<Vector3D> = null, axis:String = LinearExtrude.Y_AXIS, offset:Float = 10, subdivision:Int = 3, coverAll:Bool = false, thickness:Float = 0, thicknessSubdivision:Int = 3, materials:MultipleMaterials = null, centerMesh:Bool = false, closePath:Bool = false, ignoreSides:String = "", flip:Bool = false) {
+    public function new(material:MaterialBase = null, vectors:Vector<Vector3D> = null, axis:String = LinearExtrude.Y_AXIS, offset:Float = 10, subdivision:Int = 3, coverAll:Bool = false, thickness:Float = 0, thicknessSubdivision:Int = 3, materials:MultipleMaterials = null, centerMesh:Bool = false, closePath:Bool = false, ignoreSides:String = "", flip:Bool = false) {
         LIMIT = 196605;
         EPS = .0001;
         _geomDirty = true;
@@ -307,18 +307,18 @@ class LinearExtrude extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subMeshes():Array<SubMesh> {
+    override public function get_subMeshes():Vector<SubMesh> {
         if (_geomDirty) buildExtrude();
         return super.subMeshes;
     }
 
     private function addFace(v0:Vertex, v1:Vertex, v2:Vertex, uv0:UV, uv1:UV, uv2:UV, mat:MaterialBase, invertU:Bool = false):Void {
         var subGeom:SubGeometry;
-        var uvs:Array<Float>;
-        var vertices:Array<Float>;
+        var uvs:Vector<Float>;
+        var vertices:Vector<Float>;
 // TODO: not used
 // var normals:Vector.<Number>;
-        var indices:Array<UInt>;
+        var indices:Vector<UInt>;
         var sglist:SubGeometryList;
         if (_activeMaterial != mat && _materials != null) {
             sglist = getSubGeometryListFromMaterial(mat);
@@ -347,16 +347,16 @@ class LinearExtrude extends Mesh {
             if (_MaterialsSubGeometries != null && _MaterialsSubGeometries.length > 1) {
                 sglist = getSubGeometryListFromMaterial(mat);
                 sglist.subGeometry = _subGeometry = subGeom;
-                sglist.uvs = _uvs = uvs = new Array<Float>();
-                sglist.vertices = _vertices = vertices = new Array<Float>();
-                sglist.indices = _indices = indices = new Array<UInt>();
+                sglist.uvs = _uvs = uvs = new Vector<Float>();
+                sglist.vertices = _vertices = vertices = new Vector<Float>();
+                sglist.indices = _indices = indices = new Vector<UInt>();
             }
 
             else {
                 _subGeometry = subGeom;
-                uvs = _uvs = new Array<Float>();
-                vertices = _vertices = new Array<Float>();
-                indices = _indices = new Array<UInt>();
+                uvs = _uvs = new Vector<Float>();
+                vertices = _vertices = new Vector<Float>();
+                indices = _indices = new Vector<UInt>();
             }
 
         }
@@ -476,14 +476,14 @@ class LinearExtrude extends Mesh {
                 }
 
         }
-        var aLines:Array<Dynamic>;
+        var aLines:Vector<Dynamic>;
         var prop1:String = "";
         var prop2:String = "";
         var prop3:String = "";
         var vector:Vertex = new Vertex();
         var renderSide:RenderSide = null;
         if (_thickness != 0) {
-            var aListsides:Array<Dynamic> = ["top", "bottom", "right", "left", "front", "back"];
+            var aListsides:Vector<Dynamic> = ["top", "bottom", "right", "left", "front", "back"];
             renderSide = new RenderSide();
             i = 0;
             while (i < aListsides.length) {
@@ -713,7 +713,7 @@ class LinearExtrude extends Mesh {
         }
     }
 
-    private function addThicknessSubdivision(points1:Array<Dynamic>, points2:Array<Dynamic>, u1:Float, u2:Float, mat:MaterialBase):Void {
+    private function addThicknessSubdivision(points1:Vector<Dynamic>, points2:Vector<Dynamic>, u1:Float, u2:Float, mat:MaterialBase):Void {
         var i:Int;
         var j:Int;
         var stepx:Float;
@@ -726,7 +726,7 @@ class LinearExtrude extends Mesh {
         var index:Int = 0;
         var v1:Float = 0;
         var v2:Float = 0;
-        var tmp:Array<Dynamic> = [];
+        var tmp:Vector<Dynamic> = [];
         i = 0;
         while (i < points1.length) {
             stepx = (points2[i].x - points1[i].x) / _thicknessSubdivision;
@@ -785,9 +785,9 @@ class LinearExtrude extends Mesh {
         }
     }
 
-    private function buildThicknessPoints(prop1:String, prop2:String):Array<Dynamic> {
-        var anchors:Array<Dynamic> = [];
-        var lines:Array<Dynamic> = [];
+    private function buildThicknessPoints(prop1:String, prop2:String):Vector<Dynamic> {
+        var anchors:Vector<Dynamic> = [];
+        var lines:Vector<Dynamic> = [];
         var i:Int = 0;
         while (i < _aVectors.length - 1) {
             if (Reflect.field(_aVectors[i], prop1) == 0 && Reflect.field(_aVectors[i], prop2) == 0) Reflect.setField(_aVectors[i], prop1, EPS);
@@ -825,7 +825,7 @@ class LinearExtrude extends Mesh {
         return lines;
     }
 
-    private function definelines(index:Int, point1:FourPoints, point2:FourPoints = null, lines:Array<Dynamic> = null):FourPoints {
+    private function definelines(index:Int, point1:FourPoints, point2:FourPoints = null, lines:Vector<Dynamic> = null):FourPoints {
         var tmppt:FourPoints;
         var fourPoints:FourPoints = new FourPoints();
         if (point2 == null) {
@@ -920,21 +920,21 @@ class LinearExtrude extends Mesh {
             _uvc = new UV(0, 0);
             _uvd = new UV(0, 0);
         }
-        _varr = new Array<Vertex>();
-        _varr2 = new Array<Vertex>();
-        _uvarr = new Array<UV>();
-        _uvs = new Array<Float>();
-        _vertices = new Array<Float>();
-        _indices = new Array<UInt>();
+        _varr = new Vector<Vertex>();
+        _varr2 = new Vector<Vertex>();
+        _uvarr = new Vector<UV>();
+        _uvs = new Vector<Float>();
+        _vertices = new Vector<Float>();
+        _indices = new Vector<UInt>();
         if (_materials != null) {
-            _MaterialsSubGeometries = new Array<SubGeometryList>();
+            _MaterialsSubGeometries = new Vector<SubGeometryList>();
             var sglist:SubGeometryList = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();
             _subGeometry = sglist.subGeometry;
-            sglist.uvs = _uvs = new Array<Float>();
-            sglist.vertices = _vertices = new Array<Float>();
-            sglist.indices = _indices = new Array<UInt>();
+            sglist.uvs = _uvs = new Vector<Float>();
+            sglist.vertices = _vertices = new Vector<Float>();
+            sglist.indices = _indices = new Vector<UInt>();
             sglist.material = this.material;
             if (sglist.material.name == null) sglist.material.name = "baseMaterial";
         }
@@ -960,9 +960,9 @@ class LinearExtrude extends Mesh {
             sglist = new SubGeometryList();
             _MaterialsSubGeometries.push(sglist);
             sglist.subGeometry = new SubGeometry();
-            sglist.uvs = new Array<Float>();
-            sglist.vertices = new Array<Float>();
-            sglist.indices = new Array<UInt>();
+            sglist.uvs = new Vector<Float>();
+            sglist.vertices = new Vector<Float>();
+            sglist.indices = new Vector<UInt>();
             sglist.material = mat;
         }
         return sglist;

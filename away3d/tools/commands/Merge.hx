@@ -9,6 +9,7 @@ import away3d.core.base.Geometry;
 import away3d.containers.ObjectContainer3D;
 import away3d.entities.Mesh;
 import away3d.materials.MaterialBase;
+import openfl.Vector;
 
 class Merge {
     public var disposeSources(get_disposeSources, set_disposeSources):Bool;
@@ -153,7 +154,7 @@ class Merge {
         while (i < _geomVOs.length) {
             var s:Int;
             var data:GeometryVO;
-            var subs:Array<ISubGeometry>;
+            var subs:Vector<ISubGeometry>;
             data = _geomVOs[i];
             subs = GeomUtil.fromVectors(data.vertices, data.indices, data.uvs, data.normals, null, null, null);
             s = 0;
@@ -184,7 +185,7 @@ class Merge {
     private function collect(mesh:Mesh, dispose:Bool):Void {
         if (mesh.geometry != null) {
             var subIdx:Int;
-            var subGeometries:Array<ISubGeometry> = mesh.geometry.subGeometries;
+            var subGeometries:Vector<ISubGeometry> = mesh.geometry.subGeometries;
             var calc:Int;
             subIdx = 0;
             while (subIdx < subGeometries.length) {
@@ -197,17 +198,17 @@ class Merge {
                 var indexOffset:Int;
                 var subGeom:ISubGeometry;
                 var vo:GeometryVO;
-                var vertices:Array<Float>;
-                var normals:Array<Float>;
+                var vertices:Vector<Float>;
+                var normals:Vector<Float>;
                 var vStride:Int;
                 var nStride:Int;
                 var uStride:Int;
                 var vOffs:Int;
                 var nOffs:Int;
                 var uOffs:Int;
-                var vd:Array<Float>;
-                var nd:Array<Float>;
-                var ud:Array<Float>;
+                var vd:Vector<Float>;
+                var nd:Vector<Float>;
+                var ud:Vector<Float>;
                 subGeom = subGeometries[subIdx];
                 vd = subGeom.vertexData;
                 vStride = subGeom.vertexStride;
@@ -228,8 +229,8 @@ class Merge {
                 // Vertices and normals are copied to temporary vectors, to be transformed
                 // before concatenated onto those of the data. This is unnecessary if no
                 // transformation will be performed, i.e. for object space merging.
-                vertices = ((_objectSpace)) ? vo.vertices : new Array<Float>();
-                normals = ((_objectSpace)) ? vo.normals : new Array<Float>();
+                vertices = ((_objectSpace)) ? vo.vertices : new Vector<Float>();
+                normals = ((_objectSpace)) ? vo.normals : new Vector<Float>();
 
                 // Copy over vertex attributes
                 vIdx = vertices.length;
@@ -312,10 +313,10 @@ class Merge {
         
         if (data == null) {
             data = new GeometryVO();
-            data.vertices = new Array<Float>();
-            data.normals = new Array<Float>();
-            data.uvs = new Array<Float>();
-            data.indices = new Array<UInt>();
+            data.vertices = new Vector<Float>();
+            data.normals = new Vector<Float>();
+            data.uvs = new Vector<Float>();
+            data.indices = new Vector<UInt>();
             data.material = material;
             _geomVOs.push(data);
         }
@@ -337,10 +338,10 @@ class Merge {
 
 class GeometryVO {
 
-    public var uvs:Array<Float>;
-    public var vertices:Array<Float>;
-    public var normals:Array<Float>;
-    public var indices:Array<UInt>;
+    public var uvs:Vector<Float>;
+    public var vertices:Vector<Float>;
+    public var normals:Vector<Float>;
+    public var indices:Vector<UInt>;
     public var material:MaterialBase;
 
     public function new() {

@@ -48,13 +48,13 @@ class DXFParser extends ParserBase {
 
     private var _meshesDic:StringMap<Mesh>;
 
-    private var _vertices:Array<Float>;
-    private var _uvs:Array<Float>;
-    private var _indices:Array<UInt>;
+    private var _vertices:Vector<Float>;
+    private var _uvs:Vector<Float>;
+    private var _indices:Vector<UInt>;
     private var _subGeometry:CompactSubGeometry;
 
-    private var _polyLines:Array<Vector3D>;
-    private var _polyLinesIndices:Array<Int>;
+    private var _polyLines:Vector<Vector3D>;
+    private var _polyLinesIndices:Vector<Int>;
 
 //private var _charIndex:uint;
     private var _oldIndex:UInt;
@@ -68,7 +68,7 @@ class DXFParser extends ParserBase {
     private var _segmentSet:SegmentSet;
     private var _segCount:Int;
 
-    private static var _colorTable:Array<Int> = [0x000000, 0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFFFFFF, 0x414141, 0x808080, 0xFF0000, 0xFFAAAA, 0xBD0000, 0xBD7E7E, 0x810000, 0x815656,
+    private static var _colorTable:Vector<Int> = [0x000000, 0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFFFFFF, 0x414141, 0x808080, 0xFF0000, 0xFFAAAA, 0xBD0000, 0xBD7E7E, 0x810000, 0x815656,
     0x680000, 0x684545, 0x4F0000, 0x4F3535, 0xFF3F00, 0xFFBFAA, 0xBD2E00, 0xBD8D7E, 0x811F00, 0x816056, 0x681900, 0x684E45, 0x4F1300, 0x4F3B35, 0xFF7F00, 0xFFD4AA, 0xBD5E00, 0xBD9D7E, 0x814000,
     0x816B56, 0x683400, 0x685645, 0x4F2700, 0x4F4235, 0xFFBF00, 0xFFEAAA, 0xBD8D00, 0xBDAD7E, 0x816000, 0x817656, 0x684E00, 0x685F45, 0x4F3B00, 0x4F4935, 0xFFFF00, 0xFFFFAA, 0xBDBD00, 0xBDBD7E,
     0x818100, 0x818156, 0x686800, 0x686845, 0x4F4F00, 0x4F4F35, 0xBFFF00, 0xEAFFAA, 0x8DBD00, 0xADBD7E, 0x608100, 0x768156, 0x4E6800, 0x5F6845, 0x3B4F00, 0x494F35, 0x7FFF00, 0xD4FFAA, 0x5EBD00,
@@ -358,8 +358,8 @@ class DXFParser extends ParserBase {
                         if (tag == "70") {
 //The polyline is a polyface mesh.
                             if (lineVal == 64) {
-                                _polyLines = new Array<Vector3D>();
-                                _polyLinesIndices = new Array<Int>();
+                                _polyLines = new Vector<Vector3D>();
+                                _polyLinesIndices = new Vector<Int>();
                                 _meshName = "polyline";
                             }
                             else {
@@ -571,9 +571,9 @@ class DXFParser extends ParserBase {
         _subGeometry.autoDeriveVertexTangents = true;
         geom.addSubGeometry(_subGeometry);
 
-        _vertices = new Array<Float>();
-        _uvs = new Array<Float>();
-        _indices = new Array<UInt>();
+        _vertices = new Vector<Float>();
+        _uvs = new Vector<Float>();
+        _indices = new Vector<UInt>();
     }
 
     private function finalizeLine():Void {

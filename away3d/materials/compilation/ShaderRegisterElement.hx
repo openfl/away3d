@@ -3,6 +3,8 @@
  */
 package away3d.materials.compilation;
 
+import openfl.Vector;
+
 class ShaderRegisterElement {
     public var regName(get_regName, never):String;
     public var index(get_index, never):Int;

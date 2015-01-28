@@ -83,7 +83,7 @@ class Mirror {
 	 * @param additionalOffset if MIN_BOUND or MAX_BOUND is selected as offset, this additional offset can be added.
 	 */
     public function getMirroredCloneContainer(ctr:ObjectContainer3D, axis:Int, offset:String = CENTER, additionalOffset:Float = 0):ObjectContainer3D {
-        var meshes:Array<Mesh> = new Array<Mesh>();
+        var meshes:Vector<Mesh> = new Vector<Mesh>();
         _axis = axis;
         _offset = offset;
         _additionalOffset = additionalOffset;
@@ -134,7 +134,7 @@ class Mirror {
         _additionalOffset = additionalOffset;
 // Collect ctr (if it's a mesh) and all it's
 // mesh children to a flat list.
-        var meshes:Array<Mesh> = new Array<Mesh>();
+        var meshes:Vector<Mesh> = new Vector<Mesh>();
         if (Std.is(ctr, Mesh)) meshes.push(cast((ctr), Mesh));
         collectMeshChildren(ctr, meshes);
         len = meshes.length;
@@ -161,26 +161,26 @@ class Mirror {
     private function applyToSubGeom(subGeom:ISubGeometry, geometry:Geometry, keepOld:Bool):Void {
         var i:Int = 0;
         var len:Int;
-        var indices:Array<UInt>;
-        var vertices:Array<Float>;
-        var normals:Array<Float>;
-        var uvs:Array<Float>;
-        var newSubGeoms:Array<ISubGeometry>;
+        var indices:Vector<UInt>;
+        var vertices:Vector<Float>;
+        var normals:Vector<Float>;
+        var uvs:Vector<Float>;
+        var newSubGeoms:Vector<ISubGeometry>;
         var vIdx:Int;
         var nIdx:Int;
         var uIdx:Int;
-        var vd:Array<Float>;
-        var nd:Array<Float>;
-        var ud:Array<Float>;
+        var vd:Vector<Float>;
+        var nd:Vector<Float>;
+        var ud:Vector<Float>;
         var vStride:Int;
         var nStride:Int;
         var uStride:Int;
         var vOffs:Int;
         var nOffs:Int;
         var uOffs:Int;
-        vertices = new Array<Float>();
-        normals = new Array<Float>();
-        uvs = new Array<Float>();
+        vertices = new Vector<Float>();
+        normals = new Vector<Float>();
+        uvs = new Vector<Float>();
         if (keepOld) {
             indices = subGeom.indexData.concat();
             vd = subGeom.vertexData.concat();
@@ -219,8 +219,8 @@ class Mirror {
         var indexOffset:Int = 0;
         if (_duplicate) {
 //var indexOffset : uint;
-            var flippedVertices:Array<Float> = new Array<Float>();
-            var flippedNormals:Array<Float> = new Array<Float>();
+            var flippedVertices:Vector<Float> = new Vector<Float>();
+            var flippedNormals:Vector<Float> = new Vector<Float>();
             _fullTransform.transformVectors(vertices, flippedVertices);
             _scaleTransform.transformVectors(normals, flippedNormals);
 // Copy vertex attributes
@@ -264,7 +264,7 @@ class Mirror {
 
         else {
             len = indices.length;
-            var oldindicies:Array<UInt> = indices.concat();
+            var oldindicies:Vector<UInt> = indices.concat();
             if (_flipWinding) {
                 i = 0;
                 while (i < len) {
@@ -342,7 +342,7 @@ class Mirror {
         _flipWinding = !((sx * sy * sz) > 0);
     }
 
-    private function collectMeshChildren(ctr:ObjectContainer3D, meshes:Array<Mesh>):Void {
+    private function collectMeshChildren(ctr:ObjectContainer3D, meshes:Vector<Mesh>):Void {
         var i:Int = 0;
         while (i < ctr.numChildren) {
             var child:ObjectContainer3D = ctr.getChildAt(i);

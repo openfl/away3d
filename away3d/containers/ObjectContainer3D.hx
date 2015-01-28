@@ -1,55 +1,4 @@
-/**
- * Dispatched when the scene transform matrix of the 3d object changes.
- *
- * @eventType away3d.events.Object3DEvent
- * @see    #sceneTransform
- */
-//[Event(name="scenetransformChanged", type="away3d.events.Object3DEvent")]
-/**
- * Dispatched when the parent scene of the 3d object changes.
- *
- * @eventType away3d.events.Object3DEvent
- * @see    #scene
- */
-//[Event(name="sceneChanged", type="away3d.events.Object3DEvent")]
-/**
- * Dispatched when a user moves the cursor while it is over the 3d object.
- *
- * @eventType away3d.events.MouseEvent3D
- */
-//[Event(name="mouseMove3d", type="away3d.events.MouseEvent3D")]
-/**
- * Dispatched when a user presses the left hand mouse button while the cursor is over the 3d object.
- *
- * @eventType away3d.events.MouseEvent3D
- */
-//[Event(name="mouseDown3d", type="away3d.events.MouseEvent3D")]
-/**
- * Dispatched when a user releases the left hand mouse button while the cursor is over the 3d object.
- *
- * @eventType away3d.events.MouseEvent3D
- */
-//[Event(name="mouseUp3d", type="away3d.events.MouseEvent3D")]
-/**
- * Dispatched when a user moves the cursor over the 3d object.
- *
- * @eventType away3d.events.MouseEvent3D
- */
-//[Event(name="mouseOver3d", type="away3d.events.MouseEvent3D")]
-/**
- * Dispatched when a user moves the cursor away from the 3d object.
- *
- * @eventType away3d.events.MouseEvent3D
- */
-//[Event(name="mouseOut3d", type="away3d.events.MouseEvent3D")]
-/**
- * ObjectContainer3D is the most basic scene graph node. It can contain other ObjectContainer3Ds.
- *
- * ObjectContainer3D can have its own scene partition assigned. However, when assigned to a different scene,
- * it will loose any partition information, since partitions are tied to a scene.
- */
 package away3d.containers;
-
 
 import openfl.errors.Error;
 import away3d.core.math.MathConsts;
@@ -62,6 +11,7 @@ import away3d.library.assets.IAsset;
 import openfl.events.Event;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D; 
+import openfl.Vector;
 
 class ObjectContainer3D extends Object3D implements IAsset {
     public var ignoreTransform(get_ignoreTransform, set_ignoreTransform):Bool;
@@ -101,7 +51,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     private var _mouseEnabled:Bool;
     private var _sceneTransformChanged:Object3DEvent;
     private var _scenechanged:Object3DEvent;
-    private var _children:Array<ObjectContainer3D>;
+    private var _children:Vector<ObjectContainer3D>;
     private var _mouseChildren:Bool;
     private var _oldScene:Scene3D;
     private var _inverseSceneTransform:Matrix3D;
@@ -483,7 +433,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
     public function new() {
         _sceneTransform = new Matrix3D();
         _sceneTransformDirty = true;
-        _children = new Array<ObjectContainer3D>();
+        _children = new Vector<ObjectContainer3D>();
         _mouseChildren = true;
         _inverseSceneTransform = new Matrix3D();
         _inverseSceneTransformDirty = true;
@@ -523,7 +473,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
 	 *
 	 * @param    ...childarray        An array of 3d objects to be added
 	 */
-    public function addChildren(childarray:Array<ObjectContainer3D>):Void {
+    public function addChildren(childarray:Vector<ObjectContainer3D>):Void {
         for (child in childarray)addChild(child);
     }
 

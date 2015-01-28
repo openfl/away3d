@@ -19,6 +19,7 @@ import openfl.display.Stage;
 import openfl.events.MouseEvent;
 import openfl.geom.Vector3D;
 import haxe.ds.ObjectMap;
+import openfl.Vector;
 
 class Mouse3DManager {
     public var forceMouseMove(get_forceMouseMove, set_forceMouseMove):Bool;
@@ -27,14 +28,10 @@ class Mouse3DManager {
     static var _view3Ds:ObjectMap<View3D, Int>;
     static var _view3DLookup:Array<View3D>;
     static var _viewCount:Int = 0;
-    var _activeView:View3D;
-    var _updateDirty:Bool;
-    var _nullVector:Vector3D;
     static var _collidingObject:PickingCollisionVO;
     static var _previousCollidingObject:PickingCollisionVO;
     static var _collidingViewObjects:Array<PickingCollisionVO>;
     static var _queuedEvents:Array<MouseEvent3D> = new Array<MouseEvent3D>();
-    var _mouseMoveEvent:MouseEvent;
     static var _mouseUp:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_UP);
     static var _mouseClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.CLICK);
     static var _mouseOut:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OUT);
@@ -43,11 +40,17 @@ class Mouse3DManager {
     static var _mouseOver:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OVER);
     static var _mouseWheel:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_WHEEL);
     static var _mouseDoubleClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.DOUBLE_CLICK);
+
+    static var _previousCollidingView:Int = -1;
+    static var _collidingView:Int = -1;
+
+    var _activeView:View3D;
+    var _updateDirty:Bool;
+    var _nullVector:Vector3D;
+    var _mouseMoveEvent:MouseEvent;
     var _forceMouseMove:Bool;
     var _mousePicker:IPicker;
     var _childDepth:Int;
-    static var _previousCollidingView:Int = -1;
-    static var _collidingView:Int = -1;
     var _collidingDownObject:PickingCollisionVO;
     var _collidingUpObject:PickingCollisionVO;
 

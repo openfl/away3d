@@ -36,12 +36,12 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
     public var forceCPU(get_forceCPU, never):Bool;
     public var useCondensedIndices(get_useCondensedIndices, set_useCondensedIndices):Bool;
 
-    private var _globalMatrices:Array<Float>;
+    private var _globalMatrices:Vector<Float>;
     private var _globalPose:SkeletonPose;
     private var _globalPropertiesDirty:Bool;
     private var _numJoints:Int;
     private var _skeletonAnimationStates:ObjectMap<SkinnedSubGeometry, SubGeomAnimationState>;
-    private var _condensedMatrices:Array<Float>;
+    private var _condensedMatrices:Vector<Float>;
     private var _skeleton:Skeleton;
     private var _forceCPU:Bool;
     private var _useCondensedIndices:Bool;
@@ -53,7 +53,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
 	 *
 	 * @see #globalPose
 	 */
-    public function get_globalMatrices():Array<Float> {
+    public function get_globalMatrices():Vector<Float> {
         if (_globalPropertiesDirty) updateGlobalProperties();
         return _globalMatrices;
     }
@@ -114,7 +114,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         _forceCPU = forceCPU;
         _jointsPerVertex = animationSet.jointsPerVertex;
         _numJoints = _skeleton.numJoints;
-        _globalMatrices = new Array<Float>();
+        _globalMatrices = new Vector<Float>();
         var j:Int = 0;
         var i:Int = 0;
         while (i < _numJoints) {
@@ -175,7 +175,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         start();
         
         //apply a time offset if specified
-        if (!Math.isNaN(offset)) reset(name, Std.int(offset));
+        if (offset!=null && !Math.isNaN(offset)) reset(name, Std.int(offset));
     }
 
     /**
@@ -235,12 +235,12 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
             state.dirty = true;
     }
 
-    private function updateCondensedMatrices(condensedIndexLookUp:Array<UInt>, numJoints:Int):Void {
+    private function updateCondensedMatrices(condensedIndexLookUp:Vector<UInt>, numJoints:Int):Void {
         var i:Int = 0;
         var j:Int = 0;
         var len:Int;
         var srcIndex:Int;
-        _condensedMatrices = new Array<Float>();
+        _condensedMatrices = new Vector<Float>();
         do {
             srcIndex = condensedIndexLookUp[i * 3] * 4;
             len = srcIndex + 12;
@@ -258,7 +258,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         // convert pose to matrix
         var mtxOffset:Int = 0;
         var globalPoses:Vector<JointPose> = _globalPose.jointPoses;
-        var raw:Array<Float>;
+        var raw:Vector<Float>;
         var ox:Float;
         var oy:Float;
         var oz:Float;
@@ -290,7 +290,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
         var m32:Float;
         var m33:Float;
         var m34:Float;
-        var joints:Array<SkeletonJoint> = _skeleton.joints;
+        var joints:Vector<SkeletonJoint> = _skeleton.joints;
         var pose:JointPose;
         var quat:Quaternion;
         var vec:Vector3D;
@@ -364,10 +364,10 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
 	 * @param pass The material pass for which we need to transform the vertices
 	 */
     private function morphGeometry(state:SubGeomAnimationState, subGeom:SkinnedSubGeometry):Void {
-        var vertexData:Array<Float> = subGeom.vertexData;
-        var targetData:Array<Float> = state.animatedVertexData;
-        var jointIndices:Array<UInt> = subGeom.jointIndexData;
-        var jointWeights:Array<Float> = subGeom.jointWeightsData;
+        var vertexData:Vector<Float> = subGeom.vertexData;
+        var targetData:Vector<Float> = state.animatedVertexData;
+        var jointIndices:Vector<UInt> = subGeom.jointIndexData;
+        var jointWeights:Vector<Float> = subGeom.jointWeightsData;
         var index:Int = 0;
         var j:Int = 0;
         var k:Int = 0;
@@ -588,7 +588,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator {
 
 class SubGeomAnimationState {
 
-    public var animatedVertexData:Array<Float>;
+    public var animatedVertexData:Vector<Float>;
     public var dirty:Bool;
 
     public function new(subGeom:CompactSubGeometry) {

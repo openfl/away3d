@@ -126,9 +126,9 @@ class Weld {
         var nOffs:Int;
         var uOffs:Int;
         var sn:Int;
-        var vd:Array<Float>;
-        var nd:Array<Float>;
-        var ud:Array<Float>;
+        var vd:Vector<Float>;
+        var nd:Vector<Float>;
+        var ud:Vector<Float>;
         var sharedNormalsDic:StringMap<Int> = new StringMap<Int>();
         var outnormal:Vector3D = new Vector3D();
         vd = subGeom.vertexData;
@@ -140,18 +140,18 @@ class Weld {
         ud = subGeom.UVData;
         uStride = subGeom.UVStride;
         uOffs = subGeom.UVOffset;
-        var sharedNormalIndices:Array<Int> = new Array<Int>();
-        var outVertices:Array<Float> = new Array<Float>();
-        var outNormals:Array<Float> = new Array<Float>();
-        var outUvs:Array<Float> = new Array<Float>();
-        var inIndices:Array<UInt> = subGeom.indexData;
-        var outIndices:Array<UInt> = new Array<UInt>();
-        var oldTargetNormals:Array<Vector3D> = new Array<Vector3D>();
-        var sharedPointNormals:Array<Vector<Vector3D>> = new Array<Vector<Vector3D>>();
+        var sharedNormalIndices:Vector<Int> = new Vector<Int>();
+        var outVertices:Vector<Float> = new Vector<Float>();
+        var outNormals:Vector<Float> = new Vector<Float>();
+        var outUvs:Vector<Float> = new Vector<Float>();
+        var inIndices:Vector<UInt> = subGeom.indexData;
+        var outIndices:Vector<UInt> = new Vector<UInt>();
+        var oldTargetNormals:Vector<Vector3D> = new Vector<Vector3D>();
+        var sharedPointNormals:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
         var usedVertices:StringMap<Int> = new StringMap<Int>();
         var searchString:String = "";
         var inLen:Int = inIndices.length;
-        var faceNormals:Array<Float> = subGeom.faceNormals;
+        var faceNormals:Vector<Float> = subGeom.faceNormals;
         var faceIdx:Int = 0;
         var faceIdxCnt:Int = 3;
         var targetNormal:Vector3D = null;
@@ -251,7 +251,7 @@ class Weld {
                     maxNormalIdx = outIndex;
                 }
                 oldTargetNormals[outIndex] = targetNormal;
-                sharedPointNormals[outIndex] = new Array<Vector3D>();
+                sharedPointNormals[outIndex] = new Vector<Vector3D>();
                 sharedPointNormals[outIndex][0] = targetNormal;
                 usedVertices.set(searchStringFinal, outIndex);
                 sharedNormalIndices[outIndex] = sharedNormalIndex;
@@ -271,7 +271,7 @@ class Weld {
         if (_normalThreshold > 0 && _smoothNormals) {
             var sharedPointsfinalDic:StringMap<Int> = new StringMap<Int>();
 //stores all Normal-vectors that have already been calculated
-            var sharedPointsfinalVectors:Array<Vector3D> = new Array<Vector3D>();
+            var sharedPointsfinalVectors:Vector<Vector3D> = new Vector<Vector3D>();
             var foundVector:Int;
             var curIdx:Int;
             inLen = Std.int(outVertices.length / 3);

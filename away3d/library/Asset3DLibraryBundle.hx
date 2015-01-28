@@ -1,157 +1,4 @@
-/**
- * Dispatched when any asset finishes parsing. Also see specific events for each
- * individual asset type (meshes, materials et c.)
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="assetComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a full resource (including dependencies) finishes loading.
- *
- * @eventType away3d.events.LoaderEvent
- */
-//[Event(name="resourceComplete", type="away3d.events.LoaderEvent")]
-/**
- * Dispatched when a single dependency (which may be the main file of a resource)
- * finishes loading.
- *
- * @eventType away3d.events.LoaderEvent
- */
-//[Event(name="dependencyComplete", type="away3d.events.LoaderEvent")]
-/**
- * Dispatched when an error occurs during loading. I
- *
- * @eventType away3d.events.LoaderEvent
- */
-//[Event(name="loadError", type="away3d.events.LoaderEvent")]
-/**
- * Dispatched when an error occurs during parsing.
- *
- * @eventType away3d.events.ParserEvent
- */
-//[Event(name="parseError", type="away3d.events.ParserEvent")]
-/**
- * Dispatched when a skybox asset has been costructed from a ressource.
- * 
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="skyboxComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a camera3d asset has been costructed from a ressource.
- * 
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="cameraComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a mesh asset has been costructed from a ressource.
- * 
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="meshComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a geometry asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="geometryComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a skeleton asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="skeletonComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a skeleton pose asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="skeletonPoseComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a container asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="containerComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a texture asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="textureComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a texture projector asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="textureProjectorComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a material asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="materialComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when a animator asset has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="animatorComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an animation set has been constructed from a group of animation state resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="animationSetComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an animation state has been constructed from a group of animation node resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="animationStateComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an animation node has been constructed from a resource.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="animationNodeComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an animation state transition has been constructed from a group of animation node resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="stateTransitionComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an light asset has been constructed from a resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="lightComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an light picker asset has been constructed from a resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="lightPickerComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an effect method asset has been constructed from a resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="effectMethodComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Dispatched when an shadow map method asset has been constructed from a resources.
- *
- * @eventType away3d.events.Asset3DEvent
- */
-//[Event(name="shadowMapMethodComplete", type="away3d.events.Asset3DEvent")]
-/**
- * Asset3DLibraryBundle enforces a multiton pattern and is not intended to be instanced directly.
- * Its purpose is to create a container for 3D data management, both before and after parsing.
- * If you are interested in creating multiple library bundles, please use the <code>getInstance()</code> method.
- */
-// singleton enforcer
 package away3d.library;
-
 
 import haxe.ds.StringMap;
 import openfl.errors.Error;
@@ -172,7 +19,7 @@ import away3d.loaders.misc.SingleFileLoader;
 import away3d.loaders.parsers.ParserBase;
 import openfl.events.EventDispatcher;
 import openfl.net.URLRequest;
-
+import openfl.Vector;
 
 /**
  * Asset3DLibraryBundle enforces a multiton pattern and is not intended to be instanced directly.
@@ -206,12 +53,12 @@ class Asset3DLibraryBundle extends EventDispatcher {
 	*/
     public var conflictPrecedence(get, set):String;
 
-    private var _loadingSessions:Array<AssetLoader>;
+    private var _loadingSessions:Vector<AssetLoader>;
 
     private var _strategy:ConflictStrategyBase;
     private var _strategyPreference:String;
 
-    private var _assets:Array<IAsset>;
+    private var _assets:Vector<IAsset>;
     private var _assetDictionary:StringMap<StringMap<IAsset>>;
     private var _assetDictDirty:Bool;
 
@@ -223,9 +70,9 @@ class Asset3DLibraryBundle extends EventDispatcher {
     public function new() {
         super();
 
-        _assets = new Array<IAsset>();
+        _assets = new Vector<IAsset>();
         _assetDictionary = new StringMap<StringMap<IAsset>>();
-        _loadingSessions = new Array<AssetLoader>();
+        _loadingSessions = new Vector<AssetLoader>();
 
         conflictStrategy = ConflictStrategy.IGNORE.create();
         conflictPrecedence = ConflictPrecedence.FAVOR_NEW;
@@ -260,7 +107,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
     /**
 	 *
 	 */
-    public function enableParsers(parserClasses:Array<Class<ParserBase>>):Void {
+    public function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void {
         SingleFileLoader.enableParsers(parserClasses);
     }
 
@@ -452,7 +299,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
     public function removeNamespaceAssets(ns:String = null, dispose:Bool = true):Void {
         var idx:Int = 0;
         var asset:IAsset;
-        var old_assets:Array<IAsset>;
+        var old_assets:Vector<IAsset>;
 
         // Empty the assets vector after having stored a copy of it.
         // The copy will be filled with all assets which weren't removed.
@@ -515,7 +362,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
         var loader:AssetLoader = new AssetLoader();
         
         if (_loadingSessions == null)
-            _loadingSessions = new Array<AssetLoader>();
+            _loadingSessions = new Vector<AssetLoader>();
         
         _loadingSessions.push(loader);
         loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
@@ -544,7 +391,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
 
     public function stopAllLoadingSessions():Void {
         if (_loadingSessions == null)
-            _loadingSessions = new Array<AssetLoader>();
+            _loadingSessions = new Vector<AssetLoader>();
         var length:Int = _loadingSessions.length;
         for (i in 0...length) {
             killLoadingSession(_loadingSessions[i]);
@@ -564,7 +411,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
         var loader:AssetLoader = new AssetLoader();
         
         if (_loadingSessions == null)
-            _loadingSessions = new Array<AssetLoader>();
+            _loadingSessions = new Vector<AssetLoader>();
         
         _loadingSessions.push(loader);
         loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);

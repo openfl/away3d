@@ -42,18 +42,18 @@ class MD5AnimParser extends ParserBase {
 
     private var _parseIndex:Int;
     private var _reachedEOF:Bool;
-    private var _line:Int;
-    private var _charLineIndex:Int;
+    private var _line:Int = 0;
+    private var _charLineIndex:Int = 0;
     private var _version:Int;
     private var _frameRate:Int;
     private var _numFrames:Int;
     private var _numJoints:Int;
     private var _numAnimatedComponents:Int;
 
-    private var _hierarchy:Array<HierarchyData>;
-    private var _bounds:Array<BoundsData>;
-    private var _frameData:Array<FrameData>;
-    private var _baseFrameData:Array<BaseFrameData>;
+    private var _hierarchy:Vector<HierarchyData>;
+    private var _bounds:Vector<BoundsData>;
+    private var _frameData:Vector<FrameData>;
+    private var _baseFrameData:Vector<BaseFrameData>;
 
     private var _rotationQuat:Quaternion;
     private var _clip:SkeletonClipNode;
@@ -132,13 +132,13 @@ class MD5AnimParser extends ParserBase {
 
                 case NUM_FRAMES_TOKEN:
                     _numFrames = getNextInt();
-                    _bounds = new Array<BoundsData>();
-                    _frameData = new Array<FrameData>();
+                    _bounds = new Vector<BoundsData>();
+                    _frameData = new Vector<FrameData>();
 
                 case NUM_JOINTS_TOKEN:
                     _numJoints = getNextInt();
-                    _hierarchy = new Array<HierarchyData>();
-                    _baseFrameData = new Array<BaseFrameData>();
+                    _hierarchy = new Vector<HierarchyData>();
+                    _baseFrameData = new Vector<BaseFrameData>();
 
                 case FRAME_RATE_TOKEN:
                     _frameRate = getNextInt();
@@ -195,7 +195,7 @@ class MD5AnimParser extends ParserBase {
         var j:Int;
         var translate:Vector3D = new Vector3D();
         var orientation:Quaternion = new Quaternion();
-        var components:Array<Float> = frameData.components;
+        var components:Vector<Float> = frameData.components;
         var skelPose:SkeletonPose = new SkeletonPose();
         var jointPoses:Vector<JointPose> = skelPose.jointPoses;
 
@@ -377,7 +377,7 @@ class MD5AnimParser extends ParserBase {
             if (_reachedEOF)
                 sendEOFError();
             data = new FrameData();
-            data.components = new Array<Float>();
+            data.components = new Vector<Float>();
 
             for (i in 0..._numAnimatedComponents) {
                 data.components[i] = getNextNumber();
@@ -626,7 +626,7 @@ class BaseFrameData {
 
 class FrameData {
     public var index:Int;
-    public var components:Array<Float>;
+    public var components:Vector<Float>;
 
     public function new() {
     }

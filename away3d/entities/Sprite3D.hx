@@ -35,13 +35,13 @@ class Sprite3D extends Entity implements IRenderable {
     public var animator(get_animator, never):IAnimator;
     public var castsShadows(get_castsShadows, never):Bool;
     public var uvTransform(get_uvTransform, never):Matrix;
-    public var vertexData(get_vertexData, never):Array<Float>;
-    public var indexData(get_indexData, never):Array<UInt>;
-    public var UVData(get_UVData, never):Array<Float>;
+    public var vertexData(get_vertexData, never):Vector<Float>;
+    public var indexData(get_indexData, never):Vector<UInt>;
+    public var UVData(get_UVData, never):Vector<Float>;
     public var numVertices(get_numVertices, never):Int;
     public var vertexStride(get_vertexStride, never):Int;
-    public var vertexNormalData(get_vertexNormalData, never):Array<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Array<Float>;
+    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
+    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
     public var vertexOffset(get_vertexOffset, never):Int;
     public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
     public var vertexTangentOffset(get_vertexTangentOffset, never):Int;
@@ -68,11 +68,11 @@ class Sprite3D extends Entity implements IRenderable {
         _spriteMatrix = new Matrix3D();
         if (_geometry == null) {
             _geometry = new SubGeometry();
-            _geometry.updateVertexData( [-.5, .5, .0, .5, .5, .0, .5, -.5, .0, -.5, -.5, .0]);
-            _geometry.updateUVData([ .0, .0, 1.0, .0, 1.0, 1.0, .0, 1.0]);
-            _geometry.updateIndexData([ 0, 1, 2, 0, 2, 3]);
-            _geometry.updateVertexTangentData([ 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0]);
-            _geometry.updateVertexNormalData([ .0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0]);
+            _geometry.updateVertexData( Vector.ofArray( [-.5, .5, .0, .5, .5, .0, .5, -.5, .0, -.5, -.5, .0] ) );
+            _geometry.updateUVData( Vector.ofArray( [ .0, .0, 1.0, .0, 1.0, 1.0, .0, 1.0] ) );
+            _geometry.updateIndexData(Vector.ofArray( [ 0, 1, 2, 0, 2, 3] ) );
+            _geometry.updateVertexTangentData( Vector.ofArray( [ 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0] ) );
+            _geometry.updateVertexNormalData( Vector.ofArray( [ .0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0] ) );
         }
     }
 
@@ -185,15 +185,15 @@ class Sprite3D extends Entity implements IRenderable {
         return null;
     }
 
-    public function get_vertexData():Array<Float> {
+    public function get_vertexData():Vector<Float> {
         return _geometry.vertexData;
     }
 
-    public function get_indexData():Array<UInt> {
+    public function get_indexData():Vector<UInt> {
         return _geometry.indexData;
     }
 
-    public function get_UVData():Array<Float> {
+    public function get_UVData():Vector<Float> {
         return _geometry.UVData;
     }
 
@@ -205,11 +205,11 @@ class Sprite3D extends Entity implements IRenderable {
         return _geometry.vertexStride;
     }
 
-    public function get_vertexNormalData():Array<Float> {
+    public function get_vertexNormalData():Vector<Float> {
         return _geometry.vertexNormalData;
     }
 
-    public function get_vertexTangentData():Array<Float> {
+    public function get_vertexTangentData():Vector<Float> {
         return _geometry.vertexTangentData;
     }
 
@@ -229,7 +229,7 @@ class Sprite3D extends Entity implements IRenderable {
 
         var viewTransform:Matrix3D = _camera.inverseSceneTransform.clone();
         viewTransform.transpose();
-        var rawViewTransform:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var rawViewTransform:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         viewTransform.copyRawDataTo(rawViewTransform);
         rawViewTransform[3] = 0;
         rawViewTransform[7] = 0;

@@ -66,7 +66,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
 	 */
     override public function initConstants(vo:MethodVO):Void {
         super.initConstants(vo);
-        var fragmentData:Array<Float> = vo.fragmentData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
         var index:Int = vo.fragmentConstantsIndex;
         fragmentData[index + 8] = 1 / _numSamples;
     }
@@ -89,7 +89,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
 
     private function initGrainTexture():Void {
         _grainBitmapData = new BitmapData(64, 64, false);
-        var vec:Array<UInt> = new Array<UInt>();
+        var vec:Vector<UInt> = new Vector<UInt>();
         var len:Int = 4096;
         var step:Float = 1 / (_depthMapSize * _range);
         var r:Float;

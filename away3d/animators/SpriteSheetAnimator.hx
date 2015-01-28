@@ -32,7 +32,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator {
     private var _activeSpriteSheetState:ISpriteSheetAnimationState;
     private var _spriteSheetAnimationSet:SpriteSheetAnimationSet;
     private var _frame:SpriteSheetAnimationFrame;
-    private var _vectorFrame:Array<Float>;
+    private var _vectorFrame:Vector<Float>;
     private var _fps:Int;
     private var _ms:Int;
     private var _lastTime:Int;
@@ -50,7 +50,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator {
         _ms = 100;
         super(spriteSheetAnimationSet);
         _spriteSheetAnimationSet = spriteSheetAnimationSet;
-        _vectorFrame = new Array<Float>();
+        _vectorFrame = new Vector<Float>();
     }
 
 /* Set the playrate of the animation in frames per second (not depending on player fps)*/

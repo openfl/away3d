@@ -33,8 +33,8 @@ class SpriteSheetHelper {
 	 *
 	 * @return Vector.&lt;Texture2DBase&gt;    The generated Texture2DBase vector for the SpriteSheetMaterial.
 	 */
-    public function generateFromMovieClip(sourceMC:MovieClip, cols:Int, rows:Int, width:Int, height:Int, transparent:Bool = false, backgroundColor:Int = 0):Array<Texture2DBase> {
-        var spriteSheets:Array<Texture2DBase> = new Array<Texture2DBase>();
+    public function generateFromMovieClip(sourceMC:MovieClip, cols:Int, rows:Int, width:Int, height:Int, transparent:Bool = false, backgroundColor:Int = 0):Vector<Texture2DBase> {
+        var spriteSheets:Vector<Texture2DBase> = new Vector<Texture2DBase>();
         var framesCount:Int = sourceMC.totalFrames;
         var i:Int = framesCount;
         var w:Int = width;

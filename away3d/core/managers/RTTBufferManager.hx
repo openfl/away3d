@@ -162,8 +162,8 @@ class RTTBufferManager extends EventDispatcher {
 
     private function updateRTTBuffers():Void {
         var context:Context3D = _stage3DProxy.context3D;
-        var textureVerts:Array<Float>;
-        var screenVerts:Array<Float>;
+        var textureVerts:Vector<Float>;
+        var screenVerts:Vector<Float>;
         var x:Float;
         var y:Float;
         if (_renderToTextureVertexBuffer == null)
@@ -172,8 +172,8 @@ class RTTBufferManager extends EventDispatcher {
             _renderToScreenVertexBuffer = context.createVertexBuffer(4, 5);
         if (_indexBuffer == null) {
             _indexBuffer = context.createIndexBuffer(6);
-            var tmp_data:Array<UInt>= [2, 1, 0, 3, 2, 0];
-            _indexBuffer.uploadFromVector(Vector.ofArray(tmp_data), 0, 6);
+            var tmp_data:Vector<UInt>= Vector.ofArray([2, 1, 0, 3, 2, 0]);
+            _indexBuffer.uploadFromVector(tmp_data, 0, 6);
         }
         _textureRatioX = x = Math.min(_viewWidth / _textureWidth, 1);
         _textureRatioY = y = Math.min(_viewHeight / _textureHeight, 1);
@@ -183,8 +183,8 @@ class RTTBufferManager extends EventDispatcher {
         var v2:Float = (1 - y) * .5;
 
         // last element contains indices for data per vertex that can be passed to the vertex shader if necessary (ie: frustum corners for deferred rendering)
-        textureVerts = [ -x, -y, u1, v1, 0, x, -y, u2, v1, 1, x, y, u2, v2, 2, -x, y, u1, v2, 3 ];
-        screenVerts = [ -1, -1, u1, v1, 0, 1, -1, u2, v1, 1, 1, 1, u2, v2, 2, -1, 1, u1, v2, 3 ];
+        textureVerts = Vector.ofArray( [ -x, -y, u1, v1, 0, x, -y, u2, v1, 1, x, y, u2, v2, 2, -x, y, u1, v2, 3 ] );
+        screenVerts = Vector.ofArray([ -1, -1, u1, v1, 0, 1, -1, u2, v1, 1, 1, 1, u2, v2, 2, -1, 1, u1, v2, 3 ] );
         _renderToTextureVertexBuffer.uploadFromVector(textureVerts, 0, 4);
         _renderToScreenVertexBuffer.uploadFromVector(screenVerts, 0, 4);
         _buffersInvalid = false;

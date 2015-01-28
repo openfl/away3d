@@ -11,23 +11,24 @@ import away3d.textures.RenderCubeTexture;
 import away3d.textures.TextureProxyBase;
 import openfl.display3D.textures.TextureBase;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class CubeMapShadowMapper extends ShadowMapperBase {
 
-    private var _depthCameras:Array<Camera3D>;
-    private var _lenses:Array<PerspectiveLens>;
-    private var _needsRender:Array<Bool>;
+    private var _depthCameras:Vector<Camera3D>;
+    private var _lenses:Vector<PerspectiveLens>;
+    private var _needsRender:Vector<Bool>;
 
     public function new() {
         super();
         _depthMapSize = 512;
-        _needsRender = ArrayUtils.Prefill( new Array<Bool>(), 6, false );
+        _needsRender = ArrayUtils.Prefill( new Vector<Bool>(), 6, false );
         initCameras();
     }
 
     private function initCameras():Void {
-        _depthCameras = new Array<Camera3D>();
-        _lenses = new Array<PerspectiveLens>();
+        _depthCameras = new Vector<Camera3D>();
+        _lenses = new Vector<PerspectiveLens>();
         
         // posX, negX, posY, negY, posZ, negZ
         addCamera(0, 90, 0);

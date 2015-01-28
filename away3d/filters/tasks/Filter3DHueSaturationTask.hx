@@ -11,7 +11,7 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
     public var b(get_b, set_b):Float;
     public var g(get_g, set_g):Float;
 
-    private var _rgbData:Array<Float>;
+    private var _rgbData:Vector<Float>;
     private var _saturation:Float;
     private var _r:Float;
     private var _b:Float;

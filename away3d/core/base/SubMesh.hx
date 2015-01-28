@@ -18,6 +18,7 @@ import away3d.materials.MaterialBase;
 import openfl.display3D.IndexBuffer3D;
 import openfl.geom.Matrix;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 class SubMesh implements IRenderable {
     public var shaderPickingDetails(get_shaderPickingDetails, never):Bool;
@@ -37,16 +38,16 @@ class SubMesh implements IRenderable {
     public var castsShadows(get_castsShadows, never):Bool;
     public var parentMesh(get_parentMesh, set_parentMesh):Mesh;
     public var uvTransform(get_uvTransform, never):Matrix;
-    public var vertexData(get_vertexData, never):Array<Float>;
-    public var indexData(get_indexData, never):Array<UInt>;
-    public var UVData(get_UVData, never):Array<Float>;
+    public var vertexData(get_vertexData, never):Vector<Float>;
+    public var indexData(get_indexData, never):Vector<UInt>;
+    public var UVData(get_UVData, never):Vector<Float>;
     public var bounds(get_bounds, never):BoundingVolumeBase;
     public var visible(get_visible, never):Bool;
     public var numVertices(get_numVertices, never):Int;
     public var vertexStride(get_vertexStride, never):Int;
     public var UVStride(get_UVStride, never):Int;
-    public var vertexNormalData(get_vertexNormalData, never):Array<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Array<Float>;
+    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
+    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
     public var UVOffset(get_UVOffset, never):Int;
     public var vertexOffset(get_vertexOffset, never):Int;
     public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
@@ -291,15 +292,15 @@ class SubMesh implements IRenderable {
         material = null;
     }
 
-    public function get_vertexData():Array<Float> {
+    public function get_vertexData():Vector<Float> {
         return _subGeometry.vertexData;
     }
 
-    public function get_indexData():Array<UInt> {
+    public function get_indexData():Vector<UInt> {
         return _subGeometry.indexData;
     }
 
-    public function get_UVData():Array<Float> {
+    public function get_UVData():Vector<Float> {
         return _subGeometry.UVData;
     }
 
@@ -324,11 +325,11 @@ class SubMesh implements IRenderable {
         return _subGeometry.UVStride;
     }
 
-    public function get_vertexNormalData():Array<Float> {
+    public function get_vertexNormalData():Vector<Float> {
         return _subGeometry.vertexNormalData;
     }
 
-    public function get_vertexTangentData():Array<Float> {
+    public function get_vertexTangentData():Vector<Float> {
         return _subGeometry.vertexTangentData;
     }
 

@@ -6,6 +6,7 @@ package away3d.primitives;
 
 import away3d.utils.ArrayUtils;
 import away3d.core.base.CompactSubGeometry;
+import openfl.Vector;
 
 class CylinderGeometry extends PrimitiveBase {
     public var topRadius(get_topRadius, set_topRadius):Float;
@@ -26,8 +27,8 @@ class CylinderGeometry extends PrimitiveBase {
     private var _bottomClosed:Bool;
     private var _surfaceClosed:Bool;
     private var _yUp:Bool;
-    private var _rawData:Array<Float>;
-    private var _rawIndices:Array<UInt>;
+    private var _rawData:Vector<Float>;
+    private var _rawIndices:Vector<UInt>;
     private var _nextVertexIndex:Int;
     private var _currentIndex:Int;
     private var _currentTriangleIndex:Int;
@@ -106,14 +107,14 @@ class CylinderGeometry extends PrimitiveBase {
             _rawData = target.vertexData;
             _rawIndices = target.indexData;
             if (_rawIndices == null){
-                _rawIndices = ArrayUtils.Prefill( new Array<UInt>(),numTriangles * 3,0);
+                _rawIndices = ArrayUtils.Prefill( new Vector<UInt>(),numTriangles * 3,0);
             }
         }
 
         else {
             var numVertComponents:Int = _numVertices * _stride;
-            _rawData = ArrayUtils.Prefill( new Array<Float>(), numVertComponents, 0 );
-            _rawIndices = ArrayUtils.Prefill( new Array<UInt>(), numTriangles * 3, 0 );
+            _rawData = ArrayUtils.Prefill( new Vector<Float>(), numVertComponents, 0 );
+            _rawIndices = ArrayUtils.Prefill( new Vector<UInt>(), numTriangles * 3, 0 );
         }
 
         // evaluate revolution steps
@@ -291,13 +292,13 @@ class CylinderGeometry extends PrimitiveBase {
         var revolutionAngle:Float;
         var stride:Int = target.UVStride;
         var skip:Int = stride - 2;
-        var UVData:Array<Float>;
+        var UVData:Vector<Float>;
         // evaluate num uvs
         var numUvs:Int = _numVertices * stride;
         // need to initialize raw array or can be reused?
         if (target.UVData != null && numUvs == target.UVData.length) UVData = target.UVData
         else {
-            UVData = ArrayUtils.Prefill( new Array<Float>(), numUvs, 0 );
+            UVData = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0 );
             invalidateGeometry();
         }
 

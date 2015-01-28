@@ -13,14 +13,14 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
     private var _skeletonAnimationNode:SkeletonNaryLERPNode;
     private var _skeletonPose:SkeletonPose;
     private var _skeletonPoseDirty:Bool;
-    private var _blendWeights:Array<Float>;
-    private var _inputs:Array<ISkeletonAnimationState>;
+    private var _blendWeights:Vector<Float>;
+    private var _inputs:Vector<ISkeletonAnimationState>;
 
     function new(animator:IAnimator, skeletonAnimationNode:SkeletonNaryLERPNode) {
         _skeletonPose = new SkeletonPose();
         _skeletonPoseDirty = true;
-        _blendWeights = new Array<Float>();
-        _inputs = new Array<ISkeletonAnimationState>();
+        _blendWeights = new Vector<Float>();
+        _inputs = new Vector<ISkeletonAnimationState>();
         
         super(animator, skeletonAnimationNode);
         

@@ -7,6 +7,7 @@ import away3d.tools.utils.TextureUtils;
 import away3d.utils.ArrayUtils;
 import openfl.display.BitmapData;
 import openfl.display3D.textures.TextureBase;
+import openfl.Vector;
 
 class BitmapCubeTexture extends CubeTextureBase {
     public var positiveX(get_positiveX, set_positiveX):BitmapData;
@@ -16,13 +17,13 @@ class BitmapCubeTexture extends CubeTextureBase {
     public var positiveZ(get_positiveZ, set_positiveZ):BitmapData;
     public var negativeZ(get_negativeZ, set_negativeZ):BitmapData;
 
-    private var _bitmapDatas:Array<BitmapData>;
+    private var _bitmapDatas:Vector<BitmapData>;
     //private var _useAlpha : Boolean;
 
     public function new(posX:BitmapData, negX:BitmapData, posY:BitmapData, negY:BitmapData, posZ:BitmapData, negZ:BitmapData) {
         super();
         
-        _bitmapDatas = ArrayUtils.Prefill(new Array<BitmapData>(), 6);
+        _bitmapDatas = ArrayUtils.Prefill(new Vector<BitmapData>(), 6);
         testSize(_bitmapDatas[0] = posX);
         testSize(_bitmapDatas[1] = negX);
         testSize(_bitmapDatas[2] = posY);

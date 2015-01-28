@@ -13,11 +13,11 @@ class CubicPath extends SegmentedPathBase implements IPath {
 	 * Creates a new CubicPath instance.
 	 * @param data See <code>pointData</code>
 	 */
-    public function new(data:Array<Vector3D> = null) {
+    public function new(data:Vector<Vector3D> = null) {
         super(4, data);
     }
 
-    override private function createSegmentFromArrayEntry(data:Array<Vector3D>, offset:Int):IPathSegment {
+    override private function createSegmentFromArrayEntry(data:Vector<Vector3D>, offset:Int):IPathSegment {
         return new CubicPathSegment(data[offset], data[offset + 1], data[offset + 2], data[offset + 3]);
     }
 

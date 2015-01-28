@@ -1,6 +1,5 @@
 package away3d.library.utils;
 
-
 class IDUtil {
     /**
 	 *  @private

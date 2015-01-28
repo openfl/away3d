@@ -14,19 +14,20 @@ class ATFData {
     public var height:Int;
     public var numTextures:Int;
     public var data:ByteArray;
-/** Create a new instance by parsing the given byte array. */
-
+    
+    /** Create a new instance by parsing the given byte array. */
     public function new(data:ByteArray) {
         var sign:String = data.readUTFBytes(3);
         if (sign != "ATF") throw new Error("ATF parsing error, unknown format " + sign);
-        if (data[6] == 255) data.position = 12
+        //if (data[6] == 255) data.position = 12
         else data.position = 6;
-// old file version
+        
+        // old file version
         var tdata:Int = data.readUnsignedByte();
         var _type:Int = tdata >> 7;
-// UB[1]
+        // UB[1]
         var _format:Int = tdata & 0x7f;
-// UB[7]
+        // UB[7]
         switch(_format) {
             case 0, 1:
                 format = Context3DTextureFormat.BGRA;
@@ -35,8 +36,8 @@ class ATFData {
             case 4, 5:
                 format = Context3DTextureFormat.COMPRESSED_ALPHA;
 
-// explicit string to stay compatible
-// with older versions
+                // explicit string to stay compatible
+                // with older versions
                 throw new Error("Invalid ATF format");
             default:
                 throw new Error("Invalid ATF format");

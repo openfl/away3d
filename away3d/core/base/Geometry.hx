@@ -17,12 +17,13 @@ import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 class Geometry extends NamedAssetBase implements IAsset {
     public var assetType(get_assetType, never):String;
-    public var subGeometries(get_subGeometries, never):Array<ISubGeometry>;
+    public var subGeometries(get_subGeometries, never):Vector<ISubGeometry>;
 
-    private var _subGeometries:Array<ISubGeometry>;
+    private var _subGeometries:Vector<ISubGeometry>;
 
     public function get_assetType():String {
         return Asset3DType.GEOMETRY;
@@ -31,7 +32,7 @@ class Geometry extends NamedAssetBase implements IAsset {
     /**
 	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
 	 */
-    public function get_subGeometries():Array<ISubGeometry> {
+    public function get_subGeometries():Vector<ISubGeometry> {
         return _subGeometries;
     }
 
@@ -41,7 +42,7 @@ class Geometry extends NamedAssetBase implements IAsset {
     public function new() {
 
         super();
-        _subGeometries = new Array<ISubGeometry>();
+        _subGeometries = new Vector<ISubGeometry>();
     }
 
     public function applyTransformation(transform:Matrix3D):Void {
@@ -138,7 +139,7 @@ class Geometry extends NamedAssetBase implements IAsset {
     public function convertToSeparateBuffers():Void {
         var subGeom:ISubGeometry;
         var numSubGeoms:Int = _subGeometries.length;
-        var _removableCompactSubGeometries:Array<ISubGeometry> = new Array<ISubGeometry>();
+        var _removableCompactSubGeometries:Vector<ISubGeometry> = new Vector<ISubGeometry>();
         var i:Int = 0;
         while (i < numSubGeoms) {
             subGeom = _subGeometries[i];

@@ -28,7 +28,7 @@ class ParticleSpriteSheetState extends ParticleStateBase {
     private var _numRows:Int;
     private var _cycleDuration:Float;
     private var _cyclePhase:Float;
-    private var _spriteSheetData:Array<Float>;
+    private var _spriteSheetData:Vector<Float>;
     /**
 	 * Defines the cycle phase, when in global mode. Defaults to zero.
 	 */
@@ -84,7 +84,7 @@ class ParticleSpriteSheetState extends ParticleStateBase {
     }
 
     private function updateSpriteSheetData():Void {
-        _spriteSheetData = new Array<Float>(8, true);
+        _spriteSheetData = new Vector<Float>(8, true);
         ArrayUtils.Prefill(_spriteSheetData,8,0);
         var uTotal:Float = _totalFrames / _numColumns;
         _spriteSheetData[0] = uTotal;

@@ -104,9 +104,9 @@ class MeshHelper {
     public static function applyRotations(mesh:Mesh):Void {
         var i:UInt, j:UInt, len:UInt, vStride:UInt, vOffs:UInt, nStride:UInt, nOffs:UInt;
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
-        var vertices:Array<Float>;
-        var normals:Array<Float>;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
+        var vertices:Vector<Float>;
+        var normals:Vector<Float>;
         var numSubGeoms:UInt = geometries.length;
         var subGeom:ISubGeometry;
         var t:Matrix3D = mesh.transform.clone();
@@ -197,8 +197,8 @@ class MeshHelper {
 
         var i:UInt, j:UInt, len:UInt, vStride:UInt, vOffs:UInt;
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
-        var vertices:Array<Float>;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
+        var vertices:Vector<Float>;
         var numSubGeoms:Int = geometries.length;
         var subGeom:ISubGeometry;
 
@@ -259,8 +259,8 @@ class MeshHelper {
     public static function applyPosition(mesh:Mesh, dx:Float, dy:Float, dz:Float):Void {
         var i:UInt, j:UInt, len:UInt, vStride:UInt, vOffs:UInt;
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
-        var vertices:Array<Float>;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
+        var vertices:Vector<Float>;
         var numSubGeoms:UInt = geometries.length;
         var subGeom:ISubGeometry;
 
@@ -328,12 +328,12 @@ class MeshHelper {
     public static function invertFaces(mesh:Mesh, invertU:Bool = false):Void {
         var i:UInt, j:UInt, len:UInt, tStride:UInt, tOffs:UInt, nStride:UInt, nOffs:UInt, uStride:UInt, uOffs:UInt;
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
-        var indices:Array<UInt>;
-        var indicesC:Array<UInt>;
-        var normals:Array<Float>;
-        var tangents:Array<Float>;
-        var uvs:Array<Float>;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
+        var indices:Vector<UInt>;
+        var indicesC:Vector<UInt>;
+        var normals:Vector<Float>;
+        var tangents:Vector<Float>;
+        var uvs:Vector<Float>;
         var numSubGeoms:UInt = geometries.length;
         var subGeom:ISubGeometry;
 
@@ -403,9 +403,9 @@ class MeshHelper {
 	 *
 	 * @ returns Mesh
 	 */
-    public static function build(vertices:Array<Float>,
-                                 indices:Array<UInt>,
-                                 uvs:Array<Float> = null,
+    public static function build(vertices:Vector<Float>,
+                                 indices:Vector<UInt>,
+                                 uvs:Vector<Float> = null,
                                  name:String = "",
                                  material:MaterialBase = null,
                                  shareVertices:Bool = true,
@@ -414,7 +414,7 @@ class MeshHelper {
         var geometry:Geometry;
         var m:Mesh;
         if (useCompactSubGeometry) {
-            var subGeoms:Array<ISubGeometry> = GeomUtil.fromVectors(vertices, indices, uvs, null, null, null, null);
+            var subGeoms:Vector<ISubGeometry> = GeomUtil.fromVectors(vertices, indices, uvs, null, null, null, null);
             geometry = new Geometry();
 
             for (i in 0...subGeoms.length) {
@@ -443,11 +443,11 @@ class MeshHelper {
             if (name != "")
                 m.name = name;
 
-            var nvertices:Array<Float> = new Array<Float>();
-            var nuvs:Array<Float> = new Array<Float>();
-            var nindices:Array<UInt> = new Array<UInt>();
+            var nvertices:Vector<Float> = new Vector<Float>();
+            var nuvs:Vector<Float> = new Vector<Float>();
+            var nindices:Vector<UInt> = new Vector<UInt>();
 
-            var defaultUVS:Array<Float> = Vector.ofArray([0, 1, .5, 0, 1, 1, .5, 0]);
+            var defaultUVS:Vector<Float> = Vector.ofArray([0, 1, .5, 0, 1, 1, .5, 0]);
             var uvid:UInt = 0;
 
             var uv:UV = null;
@@ -487,9 +487,9 @@ class MeshHelper {
 
                     uvid = 0;
 
-                    nvertices = new Array<Float>();
-                    nindices = new Array<UInt>();
-                    nuvs = new Array<Float>();
+                    nvertices = new Vector<Float>();
+                    nindices = new Vector<UInt>();
+                    nuvs = new Vector<Float>();
                 }
 
                 vind = Std.int(nvertices.length / 3);
@@ -541,9 +541,9 @@ class MeshHelper {
 	 *
 	 * @ returns Vector..&lt;Mesh&gt;
 	 */
-    public static function splitMesh(mesh:Mesh, disposeSource:Bool = false):Array<Mesh> {
-        var meshes:Array<Mesh> = new Array<Mesh>();
-        var geometries:Array<ISubGeometry> = mesh.geometry.subGeometries;
+    public static function splitMesh(mesh:Mesh, disposeSource:Bool = false):Vector<Mesh> {
+        var meshes:Vector<Mesh> = new Vector<Mesh>();
+        var geometries:Vector<ISubGeometry> = mesh.geometry.subGeometries;
         var numSubGeoms:UInt = geometries.length;
 
         if (numSubGeoms == 1) {
@@ -554,11 +554,11 @@ class MeshHelper {
         if (Std.is(geometries[0], CompactSubGeometry))
             return splitMeshCsg(mesh, disposeSource);
 
-        var vertices:Array<Float>;
-        var indices:Array<UInt>;
-        var uvs:Array<Float>;
-        var normals:Array<Float>;
-        var tangents:Array<Float>;
+        var vertices:Vector<Float>;
+        var indices:Vector<UInt>;
+        var uvs:Vector<Float>;
+        var normals:Vector<Float>;
+        var tangents:Vector<Float>;
         var subGeom:ISubGeometry = null;
 
         var nGeom:Geometry = null;
@@ -581,7 +581,7 @@ class MeshHelper {
             }
             catch (e:Error) {
                 subGeom.autoDeriveVertexNormals = true;
-                normals = new Array<Float>();
+                normals = new Vector<Float>();
                 j = 0;
                 while (j < vertices.length)
                     normals[j++] = 0.0;
@@ -593,7 +593,7 @@ class MeshHelper {
             }
             catch (e:Error) {
                 subGeom.autoDeriveVertexTangents = true;
-                tangents = new Array<Float>();
+                tangents = new Vector<Float>();
                 j = 0;
                 while (j < vertices.length)
                     tangents[j++] = 0.0;
@@ -626,9 +626,9 @@ class MeshHelper {
         return meshes;
     }
 
-    private static function splitMeshCsg(mesh:Mesh, disposeSource:Bool = false):Array<Mesh> {
-        var meshes:Array<Mesh> = new Array<Mesh>();
-        var geometries:Array<ISubGeometry> = mesh.geometry.subGeometries;
+    private static function splitMeshCsg(mesh:Mesh, disposeSource:Bool = false):Vector<Mesh> {
+        var meshes:Vector<Mesh> = new Vector<Mesh>();
+        var geometries:Vector<ISubGeometry> = mesh.geometry.subGeometries;
         var numSubGeoms:UInt = geometries.length;
 
         if (numSubGeoms == 1) {
@@ -636,8 +636,8 @@ class MeshHelper {
             return meshes;
         }
 
-//var vertices:Array<Float>;
-//var indices:Array<UInt>;
+//var vertices:Vector<Float>;
+//var indices:Vector<UInt>;
         var subGeom:ISubGeometry = null;
 
         var nGeom:Geometry = null;

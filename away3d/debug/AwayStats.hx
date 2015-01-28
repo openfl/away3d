@@ -35,7 +35,6 @@
  */
 package away3d.debug;
 
-
 import away3d.core.math.MathConsts;
 import openfl.Lib;
 import away3d.containers.View3D;

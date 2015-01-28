@@ -29,8 +29,8 @@ class CubeReflectionTexture extends RenderCubeTexture {
     private var _mockBitmapData:BitmapData;
     private var _renderer:RendererBase;
     private var _entityCollector:EntityCollector;
-    private var _cameras:Array<Camera3D>;
-    private var _lenses:Array<PerspectiveLens>;
+    private var _cameras:Vector<Camera3D>;
+    private var _lenses:Vector<PerspectiveLens>;
     private var _nearPlaneDistance:Float;
     private var _farPlaneDistance:Float;
     private var _position:Vector3D;
@@ -158,8 +158,8 @@ class CubeReflectionTexture extends RenderCubeTexture {
     }
 
     private function initCameras():Void {
-        _cameras = new Array<Camera3D>();
-        _lenses = new Array<PerspectiveLens>();
+        _cameras = new Vector<Camera3D>();
+        _lenses = new Vector<PerspectiveLens>();
 // posX, negX, posY, negY, posZ, negZ
         addCamera(0, 90, 0);
         addCamera(0, -90, 0);

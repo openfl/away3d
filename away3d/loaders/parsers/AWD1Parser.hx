@@ -26,15 +26,15 @@ class AWD1Parser extends ParserBase {
 
     private var _textData:String;
     private var _startedParsing:Bool;
-    private var _objs:Array<Dynamic>;
-    private var _geos:Array<Dynamic>;
-    private var _oList:Array<Dynamic>;
-    private var _aC:Array<Dynamic>;
-    private var _dline:Array<String>;
+    private var _objs:Vector<Dynamic>;
+    private var _geos:Vector<Dynamic>;
+    private var _oList:Vector<Dynamic>;
+    private var _aC:Vector<Dynamic>;
+    private var _dline:Vector<String>;
     private var _container:ObjectContainer3D;
-    private var _meshList:Array<Mesh>;
+    private var _meshList:Vector<Mesh>;
     private var _inited:Bool;
-    private var _uvs:Array<Dynamic>;
+    private var _uvs:Vector<Dynamic>;
     private var _charIndex:Int;
     private var _oldIndex:Int;
     private var _stringLength:Int;
@@ -139,7 +139,7 @@ class AWD1Parser extends ParserBase {
 
         if (!_inited) {
             _inited = true;
-            _meshList = new Array<Mesh>();
+            _meshList = new Vector<Mesh>();
             _stringLength = _textData.length;
             _charIndex = _textData.indexOf(creturn, 0);
             _oldIndex = _charIndex;
@@ -339,15 +339,15 @@ class AWD1Parser extends ParserBase {
 
     private function parseFacesToMesh(geo:Dynamic, mesh:Mesh):Void {
         var j:Int;
-        var av:Array<String>;
-        var au:Array<String>;
+        var av:Vector<String>;
+        var au:Vector<String>;
 
-        var aRef:Array<String>;
-        var mRef:Array<String>;
+        var aRef:Vector<String>;
+        var mRef:Vector<String>;
 
-        var vertices:Array<Float> = new Array<Float>();
-        var indices:Array<UInt> = new Array<UInt>();
-        var uvs:Array<Float> = new Array<Float>();
+        var vertices:Vector<Float> = new Vector<Float>();
+        var indices:Vector<UInt> = new Vector<UInt>();
+        var uvs:Vector<Float> = new Vector<Float>();
         var index:Int = 0;
         var vindex:Int = 0;
         var uindex:Int = 0;
@@ -367,9 +367,9 @@ class AWD1Parser extends ParserBase {
                 sub_geom.fromVectors(vertices, uvs, null, null);
                 geom.addSubGeometry(sub_geom);
 
-                vertices = new Array<Float>();
-                indices = new Array<UInt>();
-                uvs = new Array<Float>();
+                vertices = new Vector<Float>();
+                indices = new Vector<UInt>();
+                uvs = new Vector<Float>();
                 vindex = index = uindex = 0;
             }
 

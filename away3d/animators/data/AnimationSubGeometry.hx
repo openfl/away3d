@@ -9,29 +9,30 @@ import away3d.core.managers.Stage3DProxy;
 import away3d.core.math.MathConsts;
 import openfl.display3D.Context3D;
 import openfl.display3D.VertexBuffer3D;
+import openfl.Vector;
 
 class AnimationSubGeometry {
-    public var vertexData(get_vertexData, never):Array<Float>;
+    public var vertexData(get_vertexData, never):Vector<Float>;
     public var numVertices(get_numVertices, never):Int;
     public var totalLenOfOneVertex(get_totalLenOfOneVertex, never):Int;
 
-    private var _vertexData:Array<Float>;
-    private var _vertexBuffer:Array<VertexBuffer3D>;
-    private var _bufferContext:Array<Context3D>;
-    private var _bufferDirty:Array<Bool>;
+    private var _vertexData:Vector<Float>;
+    private var _vertexBuffer:Vector<VertexBuffer3D>;
+    private var _bufferContext:Vector<Context3D>;
+    private var _bufferDirty:Vector<Bool>;
     private var _numVertices:Int;
     private var _totalLenOfOneVertex:Int;
     public var numProcessedVertices:Int;
     public var previousTime:Float;
-    public var animationParticles:Array<ParticleAnimationData>;
+    public var animationParticles:Vector<ParticleAnimationData>;
 
     public function new() {
-        _vertexBuffer = ArrayUtils.Prefill( new Array<VertexBuffer3D>(), 8 );
-        _bufferContext = ArrayUtils.Prefill( new Array<Context3D>(), 8 );
-        _bufferDirty = ArrayUtils.Prefill( new Array<Bool>(), 8 );
+        _vertexBuffer = ArrayUtils.Prefill( new Vector<VertexBuffer3D>(), 8 );
+        _bufferContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8 );
+        _bufferDirty = ArrayUtils.Prefill( new Vector<Bool>(), 8 );
         numProcessedVertices = 0;
         previousTime = Math.NEGATIVE_INFINITY;
-        animationParticles = new Array<ParticleAnimationData>();
+        animationParticles = new Vector<ParticleAnimationData>();
         var i:Int = 0;
         while (i < 8) {
             _bufferDirty[i] = true;
@@ -42,7 +43,7 @@ class AnimationSubGeometry {
     public function createVertexData(numVertices:Int, totalLenOfOneVertex:Int):Void {
         _numVertices = numVertices;
         _totalLenOfOneVertex = totalLenOfOneVertex;
-        _vertexData = ArrayUtils.Prefill( new Array<Float>(), numVertices * totalLenOfOneVertex, 0 );
+        _vertexData = ArrayUtils.Prefill( new Vector<Float>(), numVertices * totalLenOfOneVertex, 0 );
     }
 
     public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:Context3DVertexBufferFormat):Void {
@@ -77,7 +78,7 @@ class AnimationSubGeometry {
         }
     }
 
-    public function get_vertexData():Array<Float> {
+    public function get_vertexData():Vector<Float> {
         return _vertexData;
     }
 

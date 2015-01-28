@@ -1,6 +1,6 @@
 package away3d.core.render;
 
-import openfl.display3D.shaders.AGLSLShaderUtils;
+import openfl.display3D._shaders.AGLSLShaderUtils;
 import openfl.Vector;
 import away3d.core.managers.Stage3DProxy;
 import away3d.textures.Texture2DBase;
@@ -97,7 +97,8 @@ class BackgroundImageRenderer {
         _vertexBuffer = context.createVertexBuffer(4, 4);
         _program3d = context.createProgram();
         _indexBuffer = context.createIndexBuffer(6);
-        _indexBuffer.uploadFromVector(Vector.ofArray(cast [ 2, 1, 0, 3, 2, 0 ]), 0, 6);
+        var inds:Vector<UInt> = Vector.ofArray(cast [ 2, 1, 0, 3, 2, 0 ]);
+        _indexBuffer.uploadFromVector(inds, 0, 6);
         _program3d.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, getVertexCode()), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, getFragmentCode()));
         var w:Float = 2;
         var h:Float = 2;
@@ -109,7 +110,8 @@ class BackgroundImageRenderer {
             w = 2 / (_stage3DProxy.viewPort.width / _stage3DProxy.scissorRect.width);
             h = 2 / (_stage3DProxy.viewPort.height / _stage3DProxy.scissorRect.height);
         }
-        _vertexBuffer.uploadFromVector([ x, y - h, 0, 1, x + w, y - h, 1, 1, x + w, y, 1, 0, x, y, 0, 0 ], 0, 4);
+        var verts:Vector<Float> = Vector.ofArray( [ x, y - h, 0, 1, x + w, y - h, 1, 1, x + w, y, 1, 0, x, y, 0, 0 ] );
+        _vertexBuffer.uploadFromVector(verts, 0, 4);
     }
 
     public function get_texture():Texture2DBase {

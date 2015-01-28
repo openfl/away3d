@@ -26,18 +26,18 @@ class UVAnimator extends AnimatorBase implements IAnimator {
     public var autoRotation(get_autoRotation, set_autoRotation):Bool;
     public var rotationIncrease(get_rotationIncrease, set_rotationIncrease):Float;
     public var autoTranslate(get_autoTranslate, set_autoTranslate):Bool;
-    public var translateIncrease(get_translateIncrease, never):Array<Float>;
+    public var translateIncrease(get_translateIncrease, never):Vector<Float>;
 
     private var _uvAnimationSet:UVAnimationSet;
     private var _deltaFrame:UVAnimationFrame;
     private var _activeUVState:IUVAnimationState;
     private var _uvTransform:Matrix;
-    private var _matrix2d:Array<Float>;
-    private var _translate:Array<Float>;
+    private var _matrix2d:Vector<Float>;
+    private var _translate:Vector<Float>;
     private var _autoRotation:Bool;
     private var _rotationIncrease:Float;
     private var _autoTranslate:Bool;
-    private var _translateIncrease:Array<Float>;
+    private var _translateIncrease:Vector<Float>;
 
     /**
 	 * Creates a new <code>UVAnimator</code> object.
@@ -101,7 +101,7 @@ class UVAnimator extends AnimatorBase implements IAnimator {
         _translateIncrease[1] = v;
     }
 
-    public function get_translateIncrease():Array<Float> {
+    public function get_translateIncrease():Vector<Float> {
         return _translateIncrease;
     }
 

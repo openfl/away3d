@@ -4,7 +4,7 @@ import openfl.geom.Vector3D;
 
 interface IPath {
     var numSegments(get_numSegments, never):Int;
-    var segments(get_segments, never):Array<IPathSegment>;
+    var segments(get_segments, never):Vector<IPathSegment>;
 
     /**
 	 * The number of <code>CubicPathSegment</code> instances in the path.
@@ -13,7 +13,7 @@ interface IPath {
     /**
 	 * The <code>IPathSegment</code> instances which make up this path.
 	 */
-    function get_segments():Array<IPathSegment>;
+    function get_segments():Vector<IPathSegment>;
     /**
 	 * Returns the <code>CubicPathSegment</code> at the specified index
 	 * @param index The index of the segment
@@ -40,7 +40,7 @@ interface IPath {
 	 *
 	 * @param numSegments The amount of segments to split the sampling in. The amount of points returned is numSegments + 1
 	 */
-    function getPointsOnCurvePerSegment(numSegments:Int):Array<Vector<Vector3D>>;
+    function getPointsOnCurvePerSegment(numSegments:Int):Vector<Vector<Vector3D>>;
     /**
 	 * Gets a point on the curve
 	 * @param t The phase for which to get the point. A number between 0 and 1.

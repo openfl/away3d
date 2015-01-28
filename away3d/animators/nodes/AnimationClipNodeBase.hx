@@ -3,9 +3,7 @@
  */
 package away3d.animators.nodes;
 
-
 import openfl.geom.Vector3D;
-
 
 class AnimationClipNodeBase extends AnimationNodeBase {
     public var looping(get_looping, set_looping):Bool;

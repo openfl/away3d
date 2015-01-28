@@ -105,7 +105,7 @@ class Projector {
             _offsetD = ((minY > 0)) ? -minY : Math.abs(minY);
         }
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
         if (_orientation == SPHERICAL) {
             if (_center == null) _center = new Vector3D();
             _width = maxX - minX;
@@ -120,14 +120,14 @@ class Projector {
         else remapLinear(geometries, mesh.scenePosition);
     }
 
-    static private function remapLinear(geometries:Array<ISubGeometry>, position:Vector3D):Void {
+    static private function remapLinear(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
         var numSubGeoms:Int = geometries.length;
         var sub_geom:ISubGeometry;
-        var vertices:Array<Float>;
+        var vertices:Vector<Float>;
         var vertexOffset:Int;
         var vertexStride:Int;
-        var indices:Array<UInt>;
-        var uvs:Array<Float>;
+        var indices:Vector<UInt>;
+        var uvs:Vector<Float>;
         var uvOffset:Int;
         var uvStride:Int;
         var i:Int = 0;
@@ -222,14 +222,14 @@ class Projector {
         }
     }
 
-    static private function remapCylindrical(geometries:Array<ISubGeometry>, position:Vector3D):Void {
+    static private function remapCylindrical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
         var numSubGeoms:Int = geometries.length;
         var sub_geom:ISubGeometry;
-        var vertices:Array<Float>;
+        var vertices:Vector<Float>;
         var vertexOffset:Int;
         var vertexStride:Int;
-        var indices:Array<UInt>;
-        var uvs:Array<Float>;
+        var indices:Vector<UInt>;
+        var uvs:Vector<Float>;
         var uvOffset:Int;
         var uvStride:Int;
         var i:Int = 0;
@@ -287,15 +287,15 @@ class Projector {
         }
     }
 
-    static private function remapSpherical(geometries:Array<ISubGeometry>, position:Vector3D):Void {
+    static private function remapSpherical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
 
         var numSubGeoms:Int = geometries.length;
         var sub_geom:ISubGeometry;
-        var vertices:Array<Float>;
+        var vertices:Vector<Float>;
         var vertexOffset:Int;
         var vertexStride:Int;
-        var indices:Array<UInt>;
-        var uvs:Array<Float>;
+        var indices:Vector<UInt>;
+        var uvs:Vector<Float>;
         var uvOffset:Int;
         var uvStride:Int;
         var i:Int = 0;

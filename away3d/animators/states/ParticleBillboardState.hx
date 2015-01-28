@@ -14,11 +14,7 @@ import away3d.core.managers.Stage3DProxy;
 import away3d.core.math.MathConsts;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
-#if !flash
 import openfl.geom.Orientation3D;
-#else
-import flash.geom.Orientation3D;
-#end
 
 class ParticleBillboardState extends ParticleStateBase {
     public var billboardAxis(get_billboardAxis, set_billboardAxis):Vector3D;

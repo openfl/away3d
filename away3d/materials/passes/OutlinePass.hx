@@ -23,6 +23,7 @@ import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Context3DTriangleFace;
 import openfl.geom.Matrix3D;
 import haxe.ds.ObjectMap;
+import openfl.Vector;
 
 class OutlinePass extends MaterialPassBase {
     public var showInnerLines(get_showInnerLines, set_showInnerLines):Bool;
@@ -30,8 +31,8 @@ class OutlinePass extends MaterialPassBase {
     public var outlineSize(get_outlineSize, set_outlineSize):Float;
 
     private var _outlineColor:Int;
-    private var _colorData:Array<Float>;
-    private var _offsetData:Array<Float>;
+    private var _colorData:Vector<Float>;
+    private var _offsetData:Vector<Float>;
     private var _showInnerLines:Bool;
     private var _outlineMeshes:ObjectMap<IRenderable, Mesh>;
     private var _dedicatedMeshes:Bool;
@@ -45,9 +46,9 @@ class OutlinePass extends MaterialPassBase {
     public function new(outlineColor:Int = 0x000000, outlineSize:Float = 20, showInnerLines:Bool = true, dedicatedMeshes:Bool = false) {
         super();
         mipmap = false;
-        _colorData = ArrayUtils.Prefill(new Array<Float>(),4,0);
+        _colorData = ArrayUtils.Prefill(new Vector<Float>(),4,0);
         _colorData[3] = 1;
-        _offsetData = ArrayUtils.Prefill(new Array<Float>(),4,0);
+        _offsetData = ArrayUtils.Prefill(new Vector<Float>(),4,0);
         this.outlineColor = outlineColor;
         this.outlineSize = outlineSize;
         _defaultCulling = Context3DTriangleFace.FRONT;
@@ -145,7 +146,7 @@ class OutlinePass extends MaterialPassBase {
 	 */
     override public function getVertexCode():String {
         var code:String;
-// offset
+        // offset
         code = "mul vt7, vt1, vc5.x\n" + "add vt7, vt7, vt0\n" + "mov vt7.w, vt0.w\n" + // project and scale to viewport
 
         "m44 op, vt7, vc0		\n";
@@ -165,7 +166,7 @@ class OutlinePass extends MaterialPassBase {
     override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
         var context:Context3D = stage3DProxy._context3D;
         super.activate(stage3DProxy, camera);
-// do not write depth if not drawing inner lines (will cause the overdraw to hide inner lines)
+        // do not write depth if not drawing inner lines (will cause the overdraw to hide inner lines)
         if (!_showInnerLines) context.setDepthTest(false, Context3DCompareMode.LESS);
         context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _colorData, 1);
         context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, _offsetData, 1);
@@ -220,10 +221,10 @@ class OutlinePass extends MaterialPassBase {
         var mesh:Mesh = new Mesh(new Geometry(), null);
         var dest:SubGeometry = new SubGeometry();
         var indexLookUp:StringMap<Int> = new StringMap<Int>();
-        var srcIndices:Array<UInt> = source.indexData;
-        var srcVertices:Array<Float> = source.vertexData;
-        var dstIndices:Array<UInt> = new Array<UInt>();
-        var dstVertices:Array<Float> = new Array<Float>();
+        var srcIndices:Vector<UInt> = source.indexData;
+        var srcVertices:Vector<Float> = source.vertexData;
+        var dstIndices:Vector<UInt> = new Vector<UInt>();
+        var dstVertices:Vector<Float> = new Vector<Float>();
         var index:Int;
         var x:Float, y:Float, z:Float;
         var key:String;

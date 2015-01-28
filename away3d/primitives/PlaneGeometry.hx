@@ -6,6 +6,8 @@ package away3d.primitives;
 
 import away3d.core.base.CompactSubGeometry;
 import away3d.utils.ArrayUtils;
+import openfl.Vector;
+
 class PlaneGeometry extends PrimitiveBase {
     public var segmentsW(get_segmentsW, set_segmentsW):Int;
     public var segmentsH(get_segmentsH, set_segmentsH):Int;
@@ -124,8 +126,8 @@ class PlaneGeometry extends PrimitiveBase {
 	 * @inheritDoc
 	 */
     override private function buildGeometry(target:CompactSubGeometry):Void {
-        var data:Array<Float>;
-        var indices:Array<UInt>;
+        var data:Vector<Float>;
+        var indices:Vector<UInt>;
         var x:Float;
         var y:Float;
         var numIndices:Int;
@@ -141,13 +143,13 @@ class PlaneGeometry extends PrimitiveBase {
             data = target.vertexData;
             indices = target.indexData ;
             if (indices == null) {
-                indices = ArrayUtils.Prefill( new Array<UInt>(), numIndices, 0 );
+                indices = ArrayUtils.Prefill( new Vector<UInt>(), numIndices, 0 );
             }
         }
 
         else {
-            data = ArrayUtils.Prefill( new Array<Float>(), numVertices * stride, 0 );
-            indices = ArrayUtils.Prefill( new Array<UInt>(), numIndices, 0 );
+            data = ArrayUtils.Prefill( new Vector<Float>(), numVertices * stride, 0 );
+            indices = ArrayUtils.Prefill( new Vector<UInt>(), numIndices, 0 );
             invalidateUVs();
         }
 
@@ -185,7 +187,8 @@ class PlaneGeometry extends PrimitiveBase {
                 data[index++] = 0;
                 data[index++] = 0;
                 index += skip;
-// add vertex with same position, but with inverted normal & tangent
+                
+                // add vertex with same position, but with inverted normal & tangent
                 if (_doubleSided) {
                     var i:Int = 0;
                     while (i < 3) {
@@ -237,7 +240,7 @@ class PlaneGeometry extends PrimitiveBase {
 	 * @inheritDoc
 	 */
     override private function buildUVs(target:CompactSubGeometry):Void {
-        var data:Array<Float>;
+        var data:Vector<Float>;
         var stride:Int = target.UVStride;
         var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
         var skip:Int = stride - 2;
@@ -245,7 +248,7 @@ class PlaneGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) 
             data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Array<Float>(), numUvs);
+            data = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0);
             invalidateGeometry();
         }
 

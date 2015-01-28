@@ -4,6 +4,7 @@ import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 import away3d.animators.nodes.AnimationNodeBase;
 import away3d.animators.states.AnimationStateBase;
@@ -34,7 +35,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
     private var _time:Int;
     private var _playbackSpeed:Float;
     private var _animationSet:IAnimationSet;
-    private var _owners:Array<Mesh>;
+    private var _owners:Vector<Mesh>;
     private var _activeNode:AnimationNodeBase;
     private var _activeState:IAnimationState;
     private var _activeAnimationName:String;
@@ -152,7 +153,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
         Lib.current.stage.addChild(_broadcaster);
         _autoUpdate = true;
         _playbackSpeed = 1;
-        _owners = new Array<Mesh>();
+        _owners = new Vector<Mesh>();
         _absoluteTime = _time = 0;
         _animationStates = new Map<AnimationNodeBase, AnimationStateBase>();
         updatePosition = true;

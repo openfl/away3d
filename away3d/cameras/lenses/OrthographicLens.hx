@@ -6,6 +6,7 @@ package away3d.cameras.lenses;
 
 import away3d.core.math.Matrix3DUtils;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class OrthographicLens extends LensBase {
     public var projectionHeight(get_projectionHeight, set_projectionHeight):Float;
@@ -64,7 +65,7 @@ class OrthographicLens extends LensBase {
 	 * @inheritDoc
 	 */
     override private function updateMatrix():Void {
-        var raw:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         _yMax = _projectionHeight * .5;
         _xMax = _yMax * _aspectRatio;
         var left:Float;
@@ -72,7 +73,7 @@ class OrthographicLens extends LensBase {
         var top:Float;
         var bottom:Float;
         if (_scissorRect.x == 0 && _scissorRect.y == 0 && _scissorRect.width == _viewPort.width && _scissorRect.height == _viewPort.height) {
-// assume symmetric frustum
+            // assume symmetric frustum
             left = -_xMax;
             right = _xMax;
             top = -_yMax;
@@ -83,9 +84,7 @@ class OrthographicLens extends LensBase {
             raw[(14)] = _near / (_near - _far);
             raw[(1)] = raw[(2)] = raw[(3)] = raw[(4)] = raw[(6)] = raw[(7)] = raw[(8)] = raw[(9)] = raw[(11)] = raw[(12)] = raw[(13)] = 0;
             raw[(15)] = 1;
-        }
-
-        else {
+        } else {
             var xWidth:Float = _xMax * (_viewPort.width / _scissorRect.width);
             var yHgt:Float = _yMax * (_viewPort.height / _scissorRect.height);
             var center:Float = _xMax * (_scissorRect.x * 2 - _viewPort.width) / _scissorRect.width + _xMax;

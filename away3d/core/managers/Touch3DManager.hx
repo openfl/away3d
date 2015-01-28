@@ -10,6 +10,7 @@ import away3d.events.TouchEvent3D;
 import openfl.events.TouchEvent;
 import openfl.geom.Vector3D;
 import haxe.ds.IntMap;
+import openfl.Vector;
 
 class Touch3DManager {
     public var forceTouchMove(get_forceTouchMove, set_forceTouchMove):Bool;
@@ -24,8 +25,8 @@ class Touch3DManager {
     private var _previousCollidingObject:PickingCollisionVO;
     private static var _collidingObjectFromTouchId:IntMap<PickingCollisionVO> = new IntMap<PickingCollisionVO>();
     private static var _previousCollidingObjectFromTouchId:IntMap<PickingCollisionVO> = new IntMap<PickingCollisionVO>();
-    static private var _queuedEvents:Array<TouchEvent3D> = new Array<TouchEvent3D>();
-    private var _touchPoints:Array<TouchPoint>;
+    static private var _queuedEvents:Vector<TouchEvent3D> = new Vector<TouchEvent3D>();
+    private var _touchPoints:Vector<TouchPoint>;
     private var _touchPointFromId:IntMap<TouchPoint>;
     private var _touchMoveEvent:TouchEvent;
     private var _forceTouchMove:Bool;
@@ -38,7 +39,7 @@ class Touch3DManager {
         _touchMoveEvent = new TouchEvent(TouchEvent.TOUCH_MOVE);
         _touchPicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
 
-        _touchPoints = new Array<TouchPoint>();
+        _touchPoints = new Vector<TouchPoint>();
         _touchPointFromId = new IntMap<TouchPoint>();
     }
 

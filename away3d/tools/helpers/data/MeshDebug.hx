@@ -30,10 +30,10 @@ class MeshDebug extends SegmentSet {
 
     public function displayNormals(mesh:Mesh, color:Int = 0xFF3399, length:Float = 30):Void {
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
         var numSubGeoms:Int = geometries.length;
-        var vertices:Array<Float>;
-        var indices:Array<UInt>;
+        var vertices:Vector<Float>;
+        var indices:Vector<UInt>;
         var index:Int;
         var j:Int;
         var v0:Vector3D = new Vector3D();
@@ -93,11 +93,11 @@ class MeshDebug extends SegmentSet {
 
     private function build(mesh:Mesh, type:Int, color:Int = 0x66CCFF, length:Float = 30):Void {
         var geometry:Geometry = mesh.geometry;
-        var geometries:Array<ISubGeometry> = geometry.subGeometries;
+        var geometries:Vector<ISubGeometry> = geometry.subGeometries;
         var numSubGeoms:Int = geometries.length;
-        var vertices:Array<Float>;
-        var vectorTarget:Array<Float>;
-        var indices:Array<UInt>;
+        var vertices:Vector<Float>;
+        var vectorTarget:Vector<Float>;
+        var indices:Vector<UInt>;
         var index:Int;
         var j:Int;
         var v0:Vector3D = new Vector3D();

@@ -1,6 +1,6 @@
 package away3d.stereo;
 
-import openfl.display3D.shaders.AGLSLShaderUtils;
+import openfl.display3D._shaders.AGLSLShaderUtils;
 import away3d.core.managers.RTTBufferManager;
 import away3d.core.managers.Stage3DProxy;
 import away3d.stereo.methods.InterleavedStereoRenderMethod;

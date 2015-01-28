@@ -9,6 +9,7 @@ import away3d.animators.data.VertexAnimationMode;
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.passes.MaterialPassBase;
 import openfl.display3D.Context3D;
+import openfl.Vector;
 
 class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
     public var numPoses(get_numPoses, never):Int;
@@ -66,7 +67,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * @inheritDoc
 	 */
-    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>, profile:String):String {
+    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String {
         if (_blendMode == VertexAnimationMode.ABSOLUTE) return getAbsoluteAGALCode(pass, sourceRegisters, targetRegisters);
         else return getAdditiveAGALCode(pass, sourceRegisters, targetRegisters);
     }
@@ -113,11 +114,11 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * Generates the vertex AGAL code for absolute blending.
 	 */
-    private function getAbsoluteAGALCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>):String {
+    private function getAbsoluteAGALCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>):String {
         var code:String = "";
         var temp1:String = findTempReg(targetRegisters);
         var temp2:String = findTempReg(targetRegisters, temp1);
-        var regs:Array<Dynamic> = ["x", "y", "z", "w"];
+        var regs:Array<String> = ["x", "y", "z", "w"];
         var len:Int = sourceRegisters.length;
         var constantReg:String = "vc" + pass.numUsedVertexConstants;
 
@@ -155,7 +156,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * Generates the vertex AGAL code for additive blending.
 	 */
-    private function getAdditiveAGALCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>):String {
+    private function getAdditiveAGALCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>):String {
         var code:String = "";
         var len:Int = sourceRegisters.length;
         var regs:Array<Dynamic> = ["x", "y", "z", "w"];

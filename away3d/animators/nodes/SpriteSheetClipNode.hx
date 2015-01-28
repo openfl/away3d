@@ -7,14 +7,14 @@ import away3d.animators.states.SpriteSheetAnimationState;
 import away3d.animators.data.SpriteSheetAnimationFrame;
 
 class SpriteSheetClipNode extends AnimationClipNodeBase {
-    public var frames(get_frames, never):Array<SpriteSheetAnimationFrame>;
+    public var frames(get_frames, never):Vector<SpriteSheetAnimationFrame>;
 
-    private var _frames:Array<SpriteSheetAnimationFrame>;
+    private var _frames:Vector<SpriteSheetAnimationFrame>;
     /**
 	 * Creates a new <code>SpriteSheetClipNode</code> object.
 	 */
     public function new() {
-        _frames = new Array<SpriteSheetAnimationFrame>();
+        _frames = new Vector<SpriteSheetAnimationFrame>();
         _stateClass = SpriteSheetAnimationState;
         super();
     }
@@ -22,7 +22,7 @@ class SpriteSheetClipNode extends AnimationClipNodeBase {
     /**
 	 * Returns a vector of SpriteSheetAnimationFrame representing the uv values of each animation frame in the clip.
 	 */
-    public function get_frames():Array<SpriteSheetAnimationFrame> {
+    public function get_frames():Vector<SpriteSheetAnimationFrame> {
         return _frames;
     }
 

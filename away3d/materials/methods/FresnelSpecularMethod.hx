@@ -3,7 +3,6 @@
  */
 package away3d.materials.methods;
 
-
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterData;
@@ -18,7 +17,8 @@ class FresnelSpecularMethod extends CompositeSpecularMethod {
     private var _incidentLight:Bool;
     private var _fresnelPower:Float;
     private var _normalReflectance:Float;
-// default value for skin
+    // default value for skin
+    
     /**
 	 * Creates a new FresnelSpecularMethod object.
 	 * @param basedOnSurface Defines whether the fresnel effect should be based on the view angle on the surface (if true), or on the angle between the light and the view.
@@ -27,7 +27,8 @@ class FresnelSpecularMethod extends CompositeSpecularMethod {
     public function new(basedOnSurface:Bool = true, baseSpecularMethod:BasicSpecularMethod = null) {
         _fresnelPower = 5;
         _normalReflectance = .028;
-// may want to offer diff speculars
+        
+        // may want to offer diff speculars
         super(modulateSpecular, baseSpecularMethod);
         _incidentLight = !basedOnSurface;
     }

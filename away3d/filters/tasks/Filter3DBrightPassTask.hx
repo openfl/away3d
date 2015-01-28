@@ -8,7 +8,7 @@ import openfl.display3D.textures.Texture;
 class Filter3DBrightPassTask extends Filter3DTaskBase {
     public var threshold(get_threshold, set_threshold):Float;
 
-    private var _brightPassData:Array<Float>;
+    private var _brightPassData:Vector<Float>;
     private var _threshold:Float;
 
     public function new(threshold:Float = .75) {

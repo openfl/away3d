@@ -3,7 +3,7 @@
  */
 package away3d.core.render;
 
-import openfl.display3D.shaders.AGLSLShaderUtils;
+import openfl.display3D._shaders.AGLSLShaderUtils;
 import away3d.core.base.IRenderable;
 import away3d.core.data.RenderableListItem;
 import away3d.core.math.Matrix3DUtils;

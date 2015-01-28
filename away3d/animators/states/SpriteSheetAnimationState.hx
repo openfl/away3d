@@ -10,7 +10,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
     public var currentFrameNumber(get_currentFrameNumber, set_currentFrameNumber):Int;
     public var totalFrames(get_totalFrames, never):Int;
 
-    private var _frames:Array<SpriteSheetAnimationFrame>;
+    private var _frames:Vector<SpriteSheetAnimationFrame>;
     private var _clipNode:SpriteSheetClipNode;
     private var _currentFrameID:Int;
     private var _reverse:Bool;

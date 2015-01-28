@@ -13,7 +13,7 @@ class SceneIterator {
     private var _scene:Scene3D;
     private var _node:ObjectContainer3D;
     private var _traverseState:Int;
-    private var _childIndexStack:Array<Int>;
+    private var _childIndexStack:Vector<Int>;
     private var _stackPos:Int;
 
     public function new(scene:Scene3D) {
@@ -22,7 +22,7 @@ class SceneIterator {
     }
 
     public function reset():Void {
-        _childIndexStack = new Array<Int>();
+        _childIndexStack = new Vector<Int>();
         _node = _scene._sceneGraphRoot;
         _childIndex = 0;
         _stackPos = 0;

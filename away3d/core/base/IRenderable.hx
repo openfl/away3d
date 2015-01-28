@@ -9,6 +9,7 @@ import away3d.entities.Entity;
 import openfl.display3D.IndexBuffer3D;
 import openfl.geom.Matrix;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 interface IRenderable extends IMaterialOwner {
     var sceneTransform(get_sceneTransform, never):Matrix3D;
@@ -21,11 +22,11 @@ interface IRenderable extends IMaterialOwner {
     var numVertices(get_numVertices, never):Int;
     var numTriangles(get_numTriangles, never):Int;
     var vertexStride(get_vertexStride, never):Int;
-    var vertexData(get_vertexData, never):Array<Float>;
-    var vertexNormalData(get_vertexNormalData, never):Array<Float>;
-    var vertexTangentData(get_vertexTangentData, never):Array<Float>;
-    var indexData(get_indexData, never):Array<UInt>;
-    var UVData(get_UVData, never):Array<Float>;
+    var vertexData(get_vertexData, never):Vector<Float>;
+    var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
+    var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
+    var indexData(get_indexData, never):Vector<UInt>;
+    var UVData(get_UVData, never):Vector<Float>;
 
 	/**
 	 * The transformation matrix that transforms from model to world space.
@@ -127,26 +128,26 @@ interface IRenderable extends IMaterialOwner {
 	/**
 	 * Retrieves the object's vertices as a Number array.
 	 */
-    function get_vertexData():Array<Float>;
+    function get_vertexData():Vector<Float>;
 
 	/**
 	 * Retrieves the object's normals as a Number array.
 	 */
-    function get_vertexNormalData():Array<Float>;
+    function get_vertexNormalData():Vector<Float>;
 
 	/**
 	 * Retrieves the object's tangents as a Number array.
 	 */
-    function get_vertexTangentData():Array<Float>;
+    function get_vertexTangentData():Vector<Float>;
 
 	/**
 	 * Retrieves the object's indices as a int array.
 	 */
-    function get_indexData():Array<UInt>;
+    function get_indexData():Vector<UInt>;
 
 	/**
 	 * Retrieves the object's uvs as a Number array.
 	 */
-    function get_UVData():Array<Float>;
+    function get_UVData():Vector<Float>;
 }
 

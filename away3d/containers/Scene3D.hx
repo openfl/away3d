@@ -15,18 +15,19 @@ import away3d.core.traverse.PartitionTraverser;
 import away3d.entities.Entity;
 import away3d.events.Scene3DEvent;
 import openfl.events.EventDispatcher;
+import openfl.Vector;
 
 class Scene3D extends EventDispatcher {
     public var partition(get_partition, set_partition):Partition3D;
     public var numChildren(get_numChildren, never):Int;
 
     public var _sceneGraphRoot:ObjectContainer3D;
-    private var _partitions:Array<Partition3D>;
+    private var _partitions:Vector<Partition3D>;
     /**
 	 * Creates a new Scene3D object.
 	 */
     public function new() {
-        _partitions = new Array<Partition3D>();
+        _partitions = new Vector<Partition3D>();
         _sceneGraphRoot = new ObjectContainer3D();
         _sceneGraphRoot.scene = this;
         _sceneGraphRoot._isRoot = true;

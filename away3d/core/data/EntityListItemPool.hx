@@ -1,15 +1,17 @@
 package away3d.core.data;
 
+import openfl.Vector;
+
 class EntityListItemPool {
 
-    private var _pool:Array<EntityListItem>;
+    private var _pool:Vector<EntityListItem>;
     private var _index:Int;
     private var _poolSize:Int;
 
     public function new() {
 		_index = 0;
 		_poolSize = 0;
-        _pool = new Array<EntityListItem>();
+        _pool = new Vector<EntityListItem>();
     }
 
     public function getItem():EntityListItem {

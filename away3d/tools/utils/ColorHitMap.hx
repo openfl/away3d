@@ -12,7 +12,7 @@ class ColorHitMap extends EventDispatcher {
     public var bitmapData(get_bitmapData, set_bitmapData):BitmapData;
 
     private var _colorMap:BitmapData;
-    private var _colorObjects:Array<ColorObject>;
+    private var _colorObjects:Vector<ColorObject>;
     private var _scaleX:Float;
     private var _scaleY:Float;
     private var _offsetX:Float;
@@ -93,7 +93,7 @@ class ColorHitMap extends EventDispatcher {
 	 */
     public function addColorEvent(color:Int, eventID:String, listener:Dynamic -> Void):Void {
 
-        if (_colorObjects == null) _colorObjects = new Array<ColorObject>();
+        if (_colorObjects == null) _colorObjects = new Vector<ColorObject>();
         var colorObject:ColorObject = new ColorObject();
         colorObject.color = color;
         colorObject.eventID = eventID;

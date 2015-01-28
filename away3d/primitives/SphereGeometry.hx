@@ -3,9 +3,9 @@
  */
 package away3d.primitives;
 
-
 import away3d.utils.ArrayUtils;
 import away3d.core.base.CompactSubGeometry;
+import openfl.Vector;
 
 class SphereGeometry extends PrimitiveBase {
     public var radius(get_radius, set_radius):Float;
@@ -37,8 +37,8 @@ class SphereGeometry extends PrimitiveBase {
 	 * @inheritDoc
 	 */
     override private function buildGeometry(target:CompactSubGeometry):Void {
-        var vertices:Array<Float>;
-        var indices:Array<UInt>;
+        var vertices:Vector<Float>;
+        var indices:Vector<UInt>;
         var i:Int = 0;
         var j:Int = 0;
         var triIndex:Int = 0;
@@ -49,10 +49,10 @@ class SphereGeometry extends PrimitiveBase {
             vertices = target.vertexData;
             indices = target.indexData ;
             if (indices == null)
-                indices = ArrayUtils.Prefill( new Array<UInt>(), (_segmentsH - 1) * _segmentsW * 6, 0 );
+                indices = ArrayUtils.Prefill( new Vector<UInt>(), (_segmentsH - 1) * _segmentsW * 6, 0 );
         } else {
-            vertices = ArrayUtils.Prefill( new Array<Float>(), numVerts * stride, 0 );
-            indices = ArrayUtils.Prefill( new Array<UInt>(), (_segmentsH - 1) * _segmentsW * 6, 0 );
+            vertices = ArrayUtils.Prefill( new Vector<Float>(), numVerts * stride, 0 );
+            indices = ArrayUtils.Prefill( new Vector<UInt>(), (_segmentsH - 1) * _segmentsW * 6, 0 );
             
             invalidateGeometry();
         }
@@ -155,12 +155,12 @@ class SphereGeometry extends PrimitiveBase {
         var j:Int;
         var stride:Int = target.UVStride;
         var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
-        var data:Array<Float>;
+        var data:Vector<Float>;
         var skip:Int = stride - 2;
         if (target.UVData != null && numUvs == target.UVData.length) 
             data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Array<Float>(), numUvs, 0 );
+            data = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0 );
             invalidateGeometry();
         }
 

@@ -14,13 +14,13 @@ class ParticleSegmentedScaleState extends ParticleStateBase {
     public var startScale(get_startScale, set_startScale):Vector3D;
     public var endScale(get_endScale, set_endScale):Vector3D;
     public var numSegmentPoint(get_numSegmentPoint, never):Int;
-    public var segmentPoints(get_segmentPoints, set_segmentPoints):Array<Vector3D>;
+    public var segmentPoints(get_segmentPoints, set_segmentPoints):Vector<Vector3D>;
 
     private var _startScale:Vector3D;
     private var _endScale:Vector3D;
-    private var _segmentPoints:Array<Vector3D>;
+    private var _segmentPoints:Vector<Vector3D>;
     private var _numSegmentPoint:Int;
-    private var _scaleData:Array<Float>;
+    private var _scaleData:Vector<Float>;
     /**
 	 * Defines the start scale of the state, when in global mode.
 	 */
@@ -57,11 +57,11 @@ class ParticleSegmentedScaleState extends ParticleStateBase {
     /**
 	 * Defines the key points of Scale
 	 */
-    public function get_segmentPoints():Array<Vector3D> {
+    public function get_segmentPoints():Vector<Vector3D> {
         return _segmentPoints;
     }
 
-    public function set_segmentPoints(value:Array<Vector3D>):Array<Vector3D> {
+    public function set_segmentPoints(value:Vector<Vector3D>):Vector<Vector3D> {
         _segmentPoints = value;
         updateScaleData();
         return value;
@@ -81,8 +81,8 @@ class ParticleSegmentedScaleState extends ParticleStateBase {
     }
 
     private function updateScaleData():Void {
-        var _timeLifeData:Array<Float> = new Array<Float>();
-        _scaleData = new Array<Float>();
+        var _timeLifeData:Vector<Float> = new Vector<Float>();
+        _scaleData = new Vector<Float>();
         var i:Int;
         i = 0;
         while (i < _numSegmentPoint) {

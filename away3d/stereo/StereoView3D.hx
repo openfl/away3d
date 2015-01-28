@@ -54,18 +54,20 @@ class StereoView3D extends View3D {
 
     override public function render():Void {
         if (_stereoEnabled) {
-// reset or update render settings
+            // reset or update render settings
             if (_backBufferInvalid) updateBackBuffer();
             if (!_parentIsStage) updateGlobalPos();
+            
             updateTime();
+            
             renderWithCamera(_stereoCam.leftCamera, _stereoRenderer.getLeftInputTexture(_stage3DProxy), true);
-            renderWithCamera(_stereoCam.rightCamera, _stereoRenderer.getRightInputTexture(_stage3DProxy), false);
+            renderWithCamera(_stereoCam.rightCamera, _stereoRenderer.getRightInputTexture(_stage3DProxy), false);  
             _stereoRenderer.render(_stage3DProxy);
+            
             if (!_shareContext) _stage3DProxy._context3D.present();
+            
             _mouse3DManager.fireMouseEvents();
-        }
-
-        else {
+        } else {
             _camera = _stereoCam;
             super.render();
         }
@@ -78,12 +80,15 @@ class StereoView3D extends View3D {
         _camera.lens.aspectRatio = _aspectRatio;
         _entityCollector.camera = _camera;
         updateViewSizeData();
-// Always use RTT for stereo rendering
+
+        // Always use RTT for stereo rendering
         _renderer.textureRatioX = _rttBufferManager.textureRatioX;
         _renderer.textureRatioY = _rttBufferManager.textureRatioY;
-// collect stuff to render
+
+        // collect stuff to render
         _scene.traversePartitions(_entityCollector);
-// update picking
+
+        // update picking
         if (doMouse) _mouse3DManager.updateCollider(this);
         if (_requireDepthRender) renderDepthPrepass(_entityCollector);
         if (_filter3DRenderer != null && _stage3DProxy._context3D != null) {
@@ -98,7 +103,7 @@ class StereoView3D extends View3D {
             else _renderer.render(_entityCollector, texture, _rttBufferManager.renderToTextureRect);
         }
 
-// clean up data for this render
+        // clean up data for this render
         _entityCollector.cleanUp();
     }
 }

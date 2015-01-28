@@ -5,10 +5,10 @@ import away3d.core.base.SubGeometry;
 class SubGeometryList {
 
     public var id:Int;
-    public var uvs:Array<Float>;
-    public var vertices:Array<Float>;
-    public var normals:Array<Float>;
-    public var indices:Array<UInt>;
+    public var uvs:Vector<Float>;
+    public var vertices:Vector<Float>;
+    public var normals:Vector<Float>;
+    public var indices:Vector<UInt>;
     public var subGeometry:SubGeometry;
     public var material:MaterialBase;
 

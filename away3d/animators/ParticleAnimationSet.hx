@@ -5,7 +5,6 @@
  */
 package away3d.animators;
 
-
 import away3d.animators.data.ParticleAnimationData;
 import away3d.animators.data.ParticleProperties;
 import away3d.core.base.data.ParticleData;
@@ -25,6 +24,7 @@ import away3d.animators.nodes.ParticleTimeNode;
 import haxe.ds.ObjectMap;
 import away3d.animators.nodes.ParticleNodeBase;
 import openfl.errors.Error;
+import openfl.Vector;
 
 class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
     public var particleNodes(get_particleNodes, never):Array<ParticleNodeBase>;
@@ -156,7 +156,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * @inheritDoc
      */
-    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Array<String>, targetRegisters:Array<String>, profile:String):String {
+    public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String {
         
         //grab animationRegisterCache from the materialpassbase or create a new one if the first time
         animationRegisterCache = (pass.animationRegisterCache != null ? pass.animationRegisterCache : pass.animationRegisterCache = new AnimationRegisterCache(profile));
@@ -304,7 +304,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
         var counterForOneData:Int;
         var oneData:Array<Float>;
         var numVertices:Int;
-        var vertexData:Array<Float>;
+        var vertexData:Vector<Float>;
         var vertexLength:Int;
         var startingOffset:Int;
         var vertexOffset:Int;

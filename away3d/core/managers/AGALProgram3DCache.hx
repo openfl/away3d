@@ -2,7 +2,7 @@ package away3d.core.managers;
 
 
 import haxe.ds.StringMap;
-import openfl.display3D.shaders.AGLSLShaderUtils;
+import openfl.display3D._shaders.AGLSLShaderUtils;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Program3D;
 import openfl.errors.Error;

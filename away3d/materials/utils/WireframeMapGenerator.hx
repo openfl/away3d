@@ -63,15 +63,15 @@ class WireframeMapGenerator {
     static private function drawLines(lineColor:Int, lineThickness:Float, bitmapData:BitmapData, subGeom:ISubGeometry):Void {
         var sprite:Sprite = new Sprite();
         var g:Graphics = sprite.graphics;
-        var uvs:Array<Float> = subGeom.UVData;
+        var uvs:Vector<Float> = subGeom.UVData;
         var i:Int = 0;
         var len:Int = uvs.length;
         var w:Float = bitmapData.width;
         var h:Float = bitmapData.height;
-        var texSpaceUV:Array<Float> = new Array<Float>(len, true);
+        var texSpaceUV:Vector<Float> = new Vector<Float>(len, true);
         ArrayUtils.Prefill(texSpaceUV,len,0);
-        var indices:Array<UInt> = subGeom.indexData;
-        var indexClone:Array<Int>;
+        var indices:Vector<UInt> = subGeom.indexData;
+        var indexClone:Vector<Int>;
         do {
             texSpaceUV[i] = uvs[i] * w;
             ++i;
@@ -79,7 +79,7 @@ class WireframeMapGenerator {
         }
         while ((++i < len));
         len = indices.length;
-        indexClone = new Array<Int>(len, true);
+        indexClone = new Vector<Int>(len, true);
 		ArrayUtils.Prefill(indexClone,len,0);
         i = 0;
 // awesome, just to convert from uint to int vector -_-

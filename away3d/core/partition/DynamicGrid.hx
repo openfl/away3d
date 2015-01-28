@@ -19,7 +19,7 @@ class DynamicGrid {
     private var _minX:Float;
     private var _minY:Float;
     private var _minZ:Float;
-    private var _leaves:Array<InvertedOctreeNode>;
+    private var _leaves:Vector<InvertedOctreeNode>;
     private var _numCellsX:Int;
     private var _numCellsY:Int;
     private var _numCellsZ:Int;
@@ -58,10 +58,10 @@ class DynamicGrid {
         return _leaves[x + (y + z * _numCellsY) * _numCellsX];
     }
 
-    private function createLevel(numCellsX:Int, numCellsY:Int, numCellsZ:Int, cellWidth:Float, cellHeight:Float, cellDepth:Float):Array<InvertedOctreeNode> {
-        var nodes:Array<InvertedOctreeNode> = new Array<InvertedOctreeNode>(numCellsX * numCellsY * numCellsZ);
+    private function createLevel(numCellsX:Int, numCellsY:Int, numCellsZ:Int, cellWidth:Float, cellHeight:Float, cellDepth:Float):Vector<InvertedOctreeNode> {
+        var nodes:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>(numCellsX * numCellsY * numCellsZ);
         ArrayUtils.Prefill(nodes,numCellsX * numCellsY * numCellsZ,null);
-        var parents:Array<InvertedOctreeNode> = null;
+        var parents:Vector<InvertedOctreeNode> = null;
         var node:InvertedOctreeNode;
         var i:Int = 0;
         var minX:Float;
@@ -161,8 +161,8 @@ class DynamicGrid {
         return value;
     }
 
-    public function getCellsIntersecting(minBounds:Vector3D, maxBounds:Vector3D):Array<InvertedOctreeNode> {
-        var cells:Array<InvertedOctreeNode> = new Array<InvertedOctreeNode>();
+    public function getCellsIntersecting(minBounds:Vector3D, maxBounds:Vector3D):Vector<InvertedOctreeNode> {
+        var cells:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>();
         var minIndexX:Int = Std.int((minBounds.x - _minX) / _cellWidth);
         var maxIndexX:Int = Std.int((maxBounds.x - _minX) / _cellWidth);
         var minIndexY:Int = Std.int((minBounds.y - _minY) / _cellHeight);

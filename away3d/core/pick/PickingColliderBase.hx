@@ -8,6 +8,7 @@ import openfl.geom.Vector3D;
 import away3d.tools.utils.GeomUtil;
 import away3d.core.base.SubGeometry;
 import away3d.core.base.SubMesh;
+import openfl.Vector;
 
 class PickingColliderBase {
 
@@ -17,7 +18,7 @@ class PickingColliderBase {
     public function new() {
     }
 
-    private function getCollisionNormal(indexData:Array<UInt>, vertexData:Array<Float>, triangleIndex:Int):Vector3D {
+    private function getCollisionNormal(indexData:Vector<UInt>, vertexData:Vector<Float>, triangleIndex:Int):Vector3D {
         var normal:Vector3D = new Vector3D();
         var i0:Int = indexData[triangleIndex] * 3;
         var i1:Int = indexData[triangleIndex + 1] * 3;
@@ -32,7 +33,7 @@ class PickingColliderBase {
         return normal;
     }
 
-    private function getCollisionUV(indexData:Array<UInt>, uvData:Array<Float>, triangleIndex:Int, v:Float, w:Float, u:Float, uvOffset:Int, uvStride:Int):Point {
+    private function getCollisionUV(indexData:Vector<UInt>, uvData:Vector<Float>, triangleIndex:Int, v:Float, w:Float, u:Float, uvOffset:Int, uvStride:Int):Point {
         var uv:Point = new Point();
         var uIndex:Int = indexData[triangleIndex] * uvStride + uvOffset;
         var uv0:Vector3D = new Vector3D(uvData[uIndex], uvData[uIndex + 1]);

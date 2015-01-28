@@ -11,21 +11,22 @@ import haxe.ds.StringMap;
 import away3d.animators.nodes.AnimationNodeBase;
 import away3d.library.assets.NamedAssetBase;
 import away3d.library.assets.IAsset;
+import openfl.Vector;
 
 class AnimationSetBase extends NamedAssetBase implements IAsset {
     public var usesCPU(get_usesCPU, never):Bool;
     public var assetType(get_assetType, never):String;
-    public var animations(get_animations, never):Array<AnimationNodeBase>;
-    public var animationNames(get_animationNames, never):Array<String>;
+    public var animations(get_animations, never):Vector<AnimationNodeBase>;
+    public var animationNames(get_animationNames, never):Vector<String>;
 
     private var _usesCPU:Bool;
-    private var _animations:Array<AnimationNodeBase>;
-    private var _animationNames:Array<String>;
+    private var _animations:Vector<AnimationNodeBase>;
+    private var _animationNames:Vector<String>;
     private var _animationDictionary:StringMap<AnimationNodeBase>;
 
     public function new() {
-        _animations = new Array<AnimationNodeBase>();
-        _animationNames = new Array<String>();
+        _animations = new Vector<AnimationNodeBase>();
+        _animationNames = new Vector<String>();
         _animationDictionary = new StringMap<AnimationNodeBase>();
         super();
     }
@@ -37,7 +38,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
 	 * @param excludeAnother An additional register that's not free.
 	 * @return A temporary register that can be used.
 	 */
-    private function findTempReg(exclude:Array<String>, excludeAnother:String = null):String {
+    private function findTempReg(exclude:Vector<String>, excludeAnother:String = null):String {
         var i:Int = 0;
         var reg:String;
         while (true) {
@@ -83,14 +84,14 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
     /**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
-    public function get_animations():Array<AnimationNodeBase> {
+    public function get_animations():Vector<AnimationNodeBase> {
         return _animations;
     }
 
     /**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
-    public function get_animationNames():Array<String> {
+    public function get_animationNames():Vector<String> {
         return _animationNames;
     }
 

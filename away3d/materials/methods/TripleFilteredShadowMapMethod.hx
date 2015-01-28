@@ -22,7 +22,7 @@ class TripleFilteredShadowMapMethod extends SimpleShadowMapMethodBase {
 
     override public function initConstants(vo:MethodVO):Void {
         super.initConstants(vo);
-        var fragmentData:Array<Float> = vo.fragmentData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
         var index:Int = vo.fragmentConstantsIndex;
         fragmentData[index + 8] = 1 / 3;
         fragmentData[index + 9] = castingLight.shadowMapper.depthMapSize;

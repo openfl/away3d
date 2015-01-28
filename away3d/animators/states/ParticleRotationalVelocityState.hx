@@ -39,11 +39,11 @@ class ParticleRotationalVelocityState extends ParticleStateBase {
     /**
 	 *
 	 */
-    public function getRotationalVelocities():Array<Vector3D> {
+    public function getRotationalVelocities():Vector<Vector3D> {
         return _dynamicProperties;
     }
 
-    public function setRotationalVelocities(value:Array<Vector3D>):Void {
+    public function setRotationalVelocities(value:Vector<Vector3D>):Void {
         _dynamicProperties = value;
         _dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry, Bool>();
     }

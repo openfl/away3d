@@ -111,7 +111,7 @@ class PerspectiveOffCenterLens extends LensBase {
 	 * @inheritDoc
 	 */
     override private function updateMatrix():Void {
-        var raw:Array<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+        var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
         _minLengthX = _near * _tanMinX;
         _maxLengthX = _near * _tanMaxX;
         _minLengthY = _near * _tanMinY;
@@ -122,21 +122,22 @@ class PerspectiveOffCenterLens extends LensBase {
         var right:Float;
         var top:Float;
         var bottom:Float;
-// assume scissored frustum
+
+        // assume scissored frustum
         var center:Float = -_minLengthX * (_scissorRect.x + _scissorRect.width * minLengthFracX) / (_scissorRect.width * minLengthFracX);
         var middle:Float = _minLengthY * (_scissorRect.y + _scissorRect.height * minLengthFracY) / (_scissorRect.height * minLengthFracY);
         left = center - (_maxLengthX - _minLengthX) * (_viewPort.width / _scissorRect.width);
         right = center;
         top = middle;
         bottom = middle + (_maxLengthY - _minLengthY) * (_viewPort.height / _scissorRect.height);
-        raw[(0)] = 2 * _near / (right - left);
-        raw[(5)] = 2 * _near / (bottom - top);
-        raw[(8)] = (right + left) / (right - left);
-        raw[(9)] = (bottom + top) / (bottom - top);
-        raw[(10)] = (_far + _near) / (_far - _near);
-        raw[(11)] = 1;
-        raw[(1)] = raw[(2)] = raw[(3)] = raw[(4)] = raw[(6)] = raw[(7)] = raw[(12)] = raw[(13)] = raw[(15)] = 0;
-        raw[(14)] = -2 * _far * _near / (_far - _near);
+        raw[0] = 2 * _near / (right - left);
+        raw[5] = 2 * _near / (bottom - top);
+        raw[8] = (right + left) / (right - left);
+        raw[9] = (bottom + top) / (bottom - top);
+        raw[10] = (_far + _near) / (_far - _near);
+        raw[11] = 1;
+        raw[1] = raw[(2)] = raw[(3)] = raw[(4)] = raw[(6)] = raw[(7)] = raw[(12)] = raw[(13)] = raw[(15)] = 0;
+        raw[14] = -2 * _far * _near / (_far - _near);
         _matrix.copyRawDataFrom(raw);
         _minLengthX = _far * _tanMinX;
         _maxLengthX = _far * _tanMaxX;
