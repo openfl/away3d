@@ -57,13 +57,8 @@ A typical project.xml file would look as follows. Each example in the away3d-exa
 	
 	
 ##Dependencies
-<<<<<<< HEAD
-Requires OpenFL 2.1.8
-    
-=======
 Requires OpenFL 2.2.4
 
->>>>>>> d88756b... Update to 1.1: Stage3D implementaion now migrated to OpenFL core library. Changes to support migration
 ##License
 
 Copyright 2014 The Away3D Team
