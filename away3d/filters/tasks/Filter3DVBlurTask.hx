@@ -4,6 +4,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
+import openfl.Vector;
 
 class Filter3DVBlurTask extends Filter3DTaskBase {
     public var amount(get_amount, set_amount):Int;
@@ -23,7 +24,7 @@ class Filter3DVBlurTask extends Filter3DTaskBase {
         _stepSize = 1;
         super();
         _amount = amount;
-        _data = Vector.ofArray(cast [0, 0, 0, 1]);
+        _data = [ 0.0, 0.0, 0.0, 1.0 ];
         this.stepSize = stepSize;
     }
 

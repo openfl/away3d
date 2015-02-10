@@ -24,7 +24,9 @@ class ParticleBillboardState extends ParticleStateBase {
     
     public function new(animator:ParticleAnimator, particleNode:ParticleBillboardNode) {
         _matrix = new Matrix3D();
+        
         super(animator, particleNode);
+        
         billboardAxis = particleNode._billboardAxis;
     }
 
@@ -36,7 +38,8 @@ class ParticleBillboardState extends ParticleStateBase {
             var pos:Vector3D = renderable.sceneTransform.position;
             var look:Vector3D = camera.sceneTransform.position.subtract(pos);
             var right:Vector3D = look.crossProduct(_billboardAxis);
-            right.normalize();
+            
+            ight.normalize();
             look = _billboardAxis.crossProduct(right);
             look.normalize();
 
@@ -76,7 +79,10 @@ class ParticleBillboardState extends ParticleStateBase {
 
     public function set_billboardAxis(value:Vector3D):Vector3D {
         _billboardAxis = (value != null) ? value.clone() : null;
-        if (_billboardAxis != null) _billboardAxis.normalize();
+        
+        if (_billboardAxis != null) 
+            _billboardAxis.normalize();
+        
         return value;
     }
 }

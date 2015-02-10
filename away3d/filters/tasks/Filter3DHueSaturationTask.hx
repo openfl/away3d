@@ -4,12 +4,13 @@ import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
+import openfl.Vector;
 
 class Filter3DHueSaturationTask extends Filter3DTaskBase {
-    public var saturation(get_saturation, set_saturation):Float;
-    public var r(get_r, set_r):Float;
-    public var b(get_b, set_b):Float;
-    public var g(get_g, set_g):Float;
+    public var saturation(get, set):Float;
+    public var r(get, set):Float;
+    public var b(get, set):Float;
+    public var g(get, set):Float;
 
     private var _rgbData:Vector<Float>;
     private var _saturation:Float;
@@ -18,11 +19,14 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
     private var _g:Float;
 
     public function new() {
+        
         _saturation = 0.6;
         _r = 1;
         _b = 1;
         _g = 1;
+
         super();
+        
         updateConstants();
     }
 
@@ -33,7 +37,9 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
     public function set_saturation(value:Float):Float {
         if (_saturation == value) return value;
         _saturation = value;
+        
         updateConstants();
+        
         return value;
     }
 
@@ -44,7 +50,9 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
     public function set_r(value:Float):Float {
         if (_r == value) return value;
         _r = value;
+        
         updateConstants();
+        
         return value;
     }
 
@@ -55,7 +63,9 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
     public function set_b(value:Float):Float {
         if (_b == value) return value;
         _b = value;
+        
         updateConstants();
+        
         return value;
     }
 
@@ -66,12 +76,14 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
     public function set_g(value:Float):Float {
         if (_g == value) return value;
         _g = value;
+        
         updateConstants();
+        
         return value;
     }
 
     override public function getFragmentCode():String {
-/**
+        /**
 		 * Some reference so I don't go crazy
 		 *
 		 * ft0-7 : Fragment temp
@@ -88,18 +100,20 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
 		 * ft1 - Intensity*Saturation
 		 *
 		 */
-//_____________________________________________________________________
-//	Texture
-//_____________________________________________________________________
-        return "tex ft0, v0, fs0 <2d,linear,clamp>	\n" + //_____________________________________________________________________
+        
+        //_____________________________________________________________________
+        //	Texture
+        //_____________________________________________________________________
+        return "tex ft0, v0, fs0 <2d,linear,clamp>	\n" + 
 
-//	Color Multiplier
-//_____________________________________________________________________
+        //_____________________________________________________________________
+        //	Color Multiplier
+        //_____________________________________________________________________
         "mul ft0.xyz, ft0.xyz, fc2.xyz  \n" + // brightness
 
-//_____________________________________________________________________
-//	Intensity * Saturation
-//_____________________________________________________________________
+        //_____________________________________________________________________
+        //	Intensity * Saturation
+        //_____________________________________________________________________
         "mul ft1, ft0.x, fc0.x          \n" + // 0.3 * red
 
         "mul ft2, ft0.y, fc0.y          \n" + // 0.59 * green
@@ -112,23 +126,23 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
 
         "mul ft1, ft1, fc1.x            \n" + // multiply intensity and saturation
 
-//_____________________________________________________________________
-//	RGB Value
-//_____________________________________________________________________
+        //_____________________________________________________________________
+        //	RGB Value
+        //_____________________________________________________________________
         "mul ft0.xyz, ft0.xyz, fc1.y    \n" + // rgb * (1-saturation)
 
         "add ft0.xyz, ft0.xyz, ft1      \n" + // rgb + intensity
 
-// output the color
+        // output the color
         "mov oc, ft0			        \n";
     }
 
     override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void {
-        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _rgbData, 2);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _rgbData, 3);
     }
 
     private function updateConstants():Void {
-        _rgbData = Vector.ofArray(cast [0.3, 0.59, 0.11, 0, 1 - _saturation, _saturation, 0, 0, r, g, b, 0]);
+        _rgbData = Vector.ofArray( [ 0.3, 0.59, 0.11, 0, 1 - _saturation, _saturation, 0, 0, r, g, b, 0 ] );
     }
 }
 

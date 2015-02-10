@@ -156,19 +156,17 @@ class Stage3DProxy extends EventDispatcher {
     public function setRenderCallback(func : Event -> Void) : Void {
         if (_context3D != null) {
             if (_callbackMethod != null) {
-//                OpenFLStage3D.removeRenderCallback( _context3D, func);
                 #if flash
                 flash.Lib.current.removeEventListener(flash.events.Event.ENTER_FRAME, func);
-                #elseif (cpp || neko || js)
+                #else
                 _context3D.removeRenderMethod(func);
                 #end
             }
 
             if (func != null) {
-//                OpenFLStage3D.setRenderCallback( _context3D, func);
                 #if flash
                 flash.Lib.current.addEventListener(flash.events.Event.ENTER_FRAME, func);
-                #elseif (cpp || neko || js)
+                #else
                 _context3D.setRenderMethod(func);                
                 #end
             }
@@ -188,12 +186,18 @@ class Stage3DProxy extends EventDispatcher {
     public function configureBackBuffer(backBufferWidth:Int, backBufferHeight:Int, antiAlias:Int, enableDepthAndStencil:Bool):Void {
         var oldWidth:Int = _backBufferWidth;
         var oldHeight:Int = _backBufferHeight;
+        
         _viewPort.width = _backBufferWidth = backBufferWidth;
         _viewPort.height = _backBufferHeight = backBufferHeight;
-        if (oldWidth != _backBufferWidth || oldHeight != _backBufferHeight) notifyViewportUpdated();
+        
+        if (oldWidth != _backBufferWidth || oldHeight != _backBufferHeight) 
+            notifyViewportUpdated();
+        
         _antiAlias = antiAlias;
         _enableDepthAndStencil = enableDepthAndStencil;
-        if (_context3D != null) _context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
+        
+        if (_context3D != null)
+            _context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
      
     }
 
@@ -219,10 +223,13 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     public function setRenderTarget(target:TextureBase, enableDepthAndStencil:Bool = false, surfaceSelector:Int = 0):Void {
-        if (_renderTarget == target && surfaceSelector == _renderSurfaceSelector && _enableDepthAndStencil == enableDepthAndStencil) return;
+        if (_renderTarget == target && surfaceSelector == _renderSurfaceSelector && _enableDepthAndStencil == enableDepthAndStencil) 
+            return;
+        
         _renderTarget = target;
         _renderSurfaceSelector = surfaceSelector;
         _enableDepthAndStencil = enableDepthAndStencil;
+        
         if (target != null) 
             _context3D.setRenderToTexture(target, enableDepthAndStencil, _antiAlias, surfaceSelector)
         else {

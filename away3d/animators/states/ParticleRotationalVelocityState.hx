@@ -4,7 +4,7 @@
 package away3d.animators.states;
 
 import openfl.errors.Error;
-import haxe.ds.WeakMap;
+import haxe.ds.ObjectMap;
 import away3d.animators.data.ParticlePropertiesMode;
 
 import away3d.cameras.Camera3D;
@@ -45,13 +45,15 @@ class ParticleRotationalVelocityState extends ParticleStateBase {
 
     public function setRotationalVelocities(value:Vector<Vector3D>):Void {
         _dynamicProperties = value;
-        _dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry, Bool>();
+        _dynamicPropertiesDirty = new ObjectMap<AnimationSubGeometry, Bool>();
     }
 
     public function new(animator:ParticleAnimator, particleRotationNode:ParticleRotationalVelocityNode) {
         super(animator, particleRotationNode);
+        
         _particleRotationalVelocityNode = particleRotationNode;
         _rotationalVelocity = _particleRotationalVelocityNode._rotationalVelocity;
+        
         updateRotationalVelocityData();
     }
 

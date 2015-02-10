@@ -20,15 +20,21 @@ class BloomFilter3D extends Filter3DBase {
 
     public function new(blurX:Int = 15, blurY:Int = 15, threshold:Float = .75, exposure:Float = 2, quality:Int = 3) {
         super();
+        
         _brightPassTask = new Filter3DBrightPassTask(threshold);
         _hBlurTask = new Filter3DHBlurTask(blurX);
         _vBlurTask = new Filter3DVBlurTask(blurY);
         _compositeTask = new Filter3DBloomCompositeTask(exposure);
-        if (quality > 4) quality = 4
-        else if (quality < 0) quality = 0;
+        
+        if (quality > 4) 
+            quality = 4
+        else if (quality < 0) 
+            quality = 0;
+        
         _hBlurTask.textureScale = (4 - quality);
         _vBlurTask.textureScale = (4 - quality);
-// composite's main input texture is from vBlur, so needs to be scaled down
+        
+        // composite's main input texture is from vBlur, so needs to be scaled down
         _compositeTask.textureScale = (4 - quality);
         addTask(_brightPassTask);
         addTask(_hBlurTask);
@@ -40,8 +46,10 @@ class BloomFilter3D extends Filter3DBase {
         _brightPassTask.target = _hBlurTask.getMainInputTexture(stage3DProxy);
         _hBlurTask.target = _vBlurTask.getMainInputTexture(stage3DProxy);
         _vBlurTask.target = _compositeTask.getMainInputTexture(stage3DProxy);
-// use bright pass's input as composite's input
+        
+        // use bright pass's input as composite's input
         _compositeTask.overlayTexture = _brightPassTask.getMainInputTexture(stage3DProxy);
+        
         super.setRenderTargets(mainTarget, stage3DProxy);
     }
 

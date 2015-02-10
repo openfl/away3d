@@ -86,11 +86,14 @@ class ParticleColorNode extends ParticleNodeBase {
         _usesCycle = usesCycle;
         _usesPhase = usesPhase;
         _startColor = startColor ;
+        
         if (_startColor == null)_startColor = new ColorTransform();
         _endColor = endColor;
+        
         if (_endColor == null)_endColor = new ColorTransform();
         _cycleDuration = cycleDuration;
         _cyclePhase = cyclePhase;
+        
         super("ParticleColor", mode, ((_usesMultiplier && _usesOffset)) ? 16 : 8, ParticleAnimationSet.COLOR_PRIORITY);
     }
 
@@ -101,14 +104,17 @@ class ParticleColorNode extends ParticleNodeBase {
 
         var code:String = "";
         if (animationRegisterCache.needFragmentAnimation) {
+            
             var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
+            var sin:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
             if (_usesCycle) {
                 var cycleConst:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
                 animationRegisterCache.setRegisterIndex(this, CYCLE_INDEX, cycleConst.index);
                 animationRegisterCache.addVertexTempUsages(temp, 1);
-                var sin:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
+                
                 animationRegisterCache.removeVertexTempUsage(temp);
                 code += "mul " + sin + "," + animationRegisterCache.vertexTime + "," + cycleConst + ".x\n";
+                
                 if (_usesPhase) code += "add " + sin + "," + sin + "," + cycleConst + ".y\n";
                 code += "sin " + sin + "," + sin + "\n";
             }
@@ -117,7 +123,8 @@ class ParticleColorNode extends ParticleNodeBase {
                 var deltaMultiplierValue:ShaderRegisterElement = ((_mode == ParticlePropertiesMode.GLOBAL)) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
                 animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMultiplierValue.index);
                 animationRegisterCache.setRegisterIndex(this, DELTA_MULTIPLIER_INDEX, deltaMultiplierValue.index);
-                code += "mul " + temp + "," + deltaMultiplierValue + "," + ((_usesCycle) ? "sin " : animationRegisterCache.vertexLife.toString()) + "\n";
+                
+                code += "mul " + temp + "," + deltaMultiplierValue + "," + ((_usesCycle) ? sin : animationRegisterCache.vertexLife.toString()) + "\n";
                 code += "add " + temp + "," + temp + "," + startMultiplierValue + "\n";
                 code += "mul " + animationRegisterCache.colorMulTarget + "," + temp + "," + animationRegisterCache.colorMulTarget + "\n";
             }
@@ -126,7 +133,8 @@ class ParticleColorNode extends ParticleNodeBase {
                 var deltaOffsetValue:ShaderRegisterElement = ((_mode == ParticlePropertiesMode.LOCAL_STATIC)) ? animationRegisterCache.getFreeVertexAttribute() : animationRegisterCache.getFreeVertexConstant();
                 animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
                 animationRegisterCache.setRegisterIndex(this, DELTA_OFFSET_INDEX, deltaOffsetValue.index);
-                code += "mul " + temp + "," + deltaOffsetValue + "," + ((_usesCycle) ? "sin " : animationRegisterCache.vertexLife.toString()) + "\n";
+                
+                code += "mul " + temp + "," + deltaOffsetValue + "," + ((_usesCycle) ? sin : animationRegisterCache.vertexLife.toString()) + "\n";
                 code += "add " + temp + "," + temp + "," + startOffsetValue + "\n";
                 code += "add " + animationRegisterCache.colorAddTarget + "," + temp + "," + animationRegisterCache.colorAddTarget + "\n";
             }
@@ -154,9 +162,13 @@ class ParticleColorNode extends ParticleNodeBase {
 	 */
     override public function generatePropertyOfOneParticle(param:ParticleProperties):Void {
         var startColor:ColorTransform = param.nodes.get(COLOR_START_COLORTRANSFORM);
-        if (startColor == null) throw (new Error("there is no " + COLOR_START_COLORTRANSFORM + " in param!"));
+        if (startColor == null) 
+            throw (new Error("there is no " + COLOR_START_COLORTRANSFORM + " in param!"));
+        
         var endColor:ColorTransform = param.nodes.get(COLOR_END_COLORTRANSFORM);
-        if (endColor == null) throw (new Error("there is no " + COLOR_END_COLORTRANSFORM + " in param!"));
+        if (endColor == null) 
+            throw (new Error("there is no " + COLOR_END_COLORTRANSFORM + " in param!"));
+        
         var i:Int = 0;
         if (!_usesCycle) {
             //multiplier
@@ -170,6 +182,7 @@ class ParticleColorNode extends ParticleNodeBase {
                 _oneData[i++] = endColor.blueMultiplier - startColor.blueMultiplier;
                 _oneData[i++] = endColor.alphaMultiplier - startColor.alphaMultiplier;
             }
+            
             if (_usesOffset) {
                 _oneData[i++] = startColor.redOffset / 255;
                 _oneData[i++] = startColor.greenOffset / 255;
@@ -192,6 +205,7 @@ class ParticleColorNode extends ParticleNodeBase {
                 _oneData[i++] = (startColor.blueMultiplier - endColor.blueMultiplier) / 2;
                 _oneData[i++] = (startColor.alphaMultiplier - endColor.alphaMultiplier) / 2;
             }
+            
             if (_usesOffset) {
                 _oneData[i++] = (startColor.redOffset + endColor.redOffset) / (255 * 2);
                 _oneData[i++] = (startColor.greenOffset + endColor.greenOffset) / (255 * 2);

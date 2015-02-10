@@ -4,6 +4,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
+import openfl.Vector;
 
 class Filter3DBrightPassTask extends Filter3DTaskBase {
     public var threshold(get_threshold, set_threshold):Float;

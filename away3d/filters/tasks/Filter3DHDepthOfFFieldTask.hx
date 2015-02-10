@@ -6,6 +6,7 @@ import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
+import openfl.Vector;
 
 class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase {
     public var stepSize(get_stepSize, set_stepSize):Int;
@@ -29,7 +30,7 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase {
         _range = 1000;
         super(true);
         _maxBlur = maxBlur;
-        _data = Vector.ofArray(cast [0, 0, 0, _focusDistance, 0, 0, 0, 0, _range, 0, 0, 0, 1.0, 1 / 255.0, 1 / 65025.0, 1 / 16581375.0]);
+        _data = [ 0.0, 0.0, 0.0, _focusDistance, 0.0, 0.0, 0.0, 0.0, _range, 0.0, 0.0, 0.0, 1.0, 1.0 / 255.0, 1 / 65025.0, 1 / 16581375.0 ];
         this.stepSize = stepSize;
     }
 

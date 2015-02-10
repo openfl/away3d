@@ -20,6 +20,7 @@ class BlurFilter3D extends Filter3DBase {
 	 */
     public function new(blurX:Int = 3, blurY:Int = 3, stepSize:Int = -1) {
         super();
+        
         addTask(_hBlurTask = new Filter3DHBlurTask(blurX, stepSize));
         addTask(_vBlurTask = new Filter3DVBlurTask(blurY, stepSize));
     }

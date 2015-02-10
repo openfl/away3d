@@ -32,6 +32,7 @@ import away3d.core.traverse.EntityCollector;
 import away3d.events.CameraEvent;
 import away3d.events.Object3DEvent;
 import away3d.events.Stage3DEvent;
+import away3d.filters.Filter3DBase;
 import away3d.textures.Texture2DBase;
 
 import openfl.Lib;
@@ -313,13 +314,13 @@ class View3D extends Sprite
         addChild(_hitField);
     }
     
-    public var filters3d(get, set) : Array<Dynamic>;
-    public function get_filters3d() : Array<Dynamic>
+    public var filters3d(get, set) : Array<Filter3DBase>;
+    public function get_filters3d() : Array<Filter3DBase>
     {
         return _filter3DRenderer!=null ? _filter3DRenderer.filters : null;
     }
     
-    public function set_filters3d(value:Array<Dynamic>) : Array<Dynamic>
+    public function set_filters3d(value:Array<Filter3DBase>) : Array<Filter3DBase>
     {
         if (value!=null && value.length == 0)
             value = null;

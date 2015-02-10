@@ -27,7 +27,9 @@ class StereoCamera3D extends Camera3D {
         _leftCamDirty = true;
         _rightCamDirty = true;
         _focusPointDirty = true;
+        
         super(lens);
+        
         _leftCam = new Camera3D(lens);
         _rightCam = new Camera3D(lens);
         _offset = 0;
@@ -38,19 +40,27 @@ class StereoCamera3D extends Camera3D {
     override public function set_lens(value:LensBase):LensBase {
         _leftCam.lens = value;
         _rightCam.lens = value;
+        
         super.lens = value;
+        
         return value;
     }
 
     public function get_leftCamera():Camera3D {
         if (_leftCamDirty) {
             var tf:Matrix3D;
-            if (_focusPointDirty) updateFocusPoint();
+            
+            if (_focusPointDirty)
+                updateFocusPoint();
+            
             tf = _leftCam.transform;
             tf.copyFrom(transform);
             tf.prependTranslation(-_offset, 0, 0);
             _leftCam.transform = tf;
-            if (!_focusInfinity) _leftCam.lookAt(_focusPoint);
+            
+            if (!_focusInfinity) 
+                _leftCam.lookAt(_focusPoint);
+            
             _leftCamDirty = false;
         }
         return _leftCam;
@@ -59,12 +69,18 @@ class StereoCamera3D extends Camera3D {
     public function get_rightCamera():Camera3D {
         if (_rightCamDirty) {
             var tf:Matrix3D;
-            if (_focusPointDirty) updateFocusPoint();
+            
+            if (_focusPointDirty)
+                updateFocusPoint();
+            
             tf = _rightCam.transform;
             tf.copyFrom(transform);
             tf.prependTranslation(_offset, 0, 0);
             _rightCam.transform = tf;
-            if (!_focusInfinity) _rightCam.lookAt(_focusPoint);
+            
+            if (!_focusInfinity) 
+                _rightCam.lookAt(_focusPoint);
+            
             _rightCamDirty = false;
         }
         return _rightCam;
@@ -91,7 +107,8 @@ class StereoCamera3D extends Camera3D {
     }
 
     private function updateFocusPoint():Void {
-        if (_focus == Math.POSITIVE_INFINITY) _focusInfinity = true
+        if (_focus == Math.POSITIVE_INFINITY) 
+            _focusInfinity = true
         else {
             _focusPoint.x = 0;
             _focusPoint.y = 0;
@@ -105,6 +122,7 @@ class StereoCamera3D extends Camera3D {
 
     override private function invalidateTransform():Void {
         super.invalidateTransform();
+        
         invalidateStereoCams();
     }
 

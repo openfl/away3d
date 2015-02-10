@@ -7,6 +7,7 @@ import openfl.display3D.Context3D;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
 import openfl.display3D.textures.TextureBase;
+import openfl.Vector;
 
 class Filter3DBloomCompositeTask extends Filter3DTaskBase {
     public var overlayTexture(get_overlayTexture, set_overlayTexture):TextureBase;
@@ -18,8 +19,10 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase {
 
     public function new(exposure:Float) {
         super();
-        _data = Vector.ofArray(cast [0.299, 0.587, 0.114, 1]);
-// luminance projection, 1
+        
+        _data = [ 0.299, 0.587, 0.114, 1.0 ];
+        
+        // luminance projection, 1
         this.exposure = exposure;
     }
 

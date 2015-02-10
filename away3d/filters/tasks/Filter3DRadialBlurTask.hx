@@ -6,6 +6,7 @@ import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
+import openfl.Vector;
 
 class Filter3DRadialBlurTask extends Filter3DTaskBase {
     public var intensity(get_intensity, set_intensity):Float;

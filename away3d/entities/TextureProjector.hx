@@ -39,8 +39,10 @@ class TextureProjector extends ObjectContainer3D {
         _lens.addEventListener(LensEvent.MATRIX_CHANGED, onInvalidateLensMatrix, false, 0, true);
         _texture = texture;
         _lens.aspectRatio = texture.width / texture.height;
-        rotationX = -90;
+
         super();
+
+        rotationX = -90;
     }
 
     /**

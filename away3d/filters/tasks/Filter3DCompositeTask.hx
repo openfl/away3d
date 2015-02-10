@@ -13,13 +13,13 @@ class Filter3DCompositeTask extends Filter3DTaskBase {
     public var overlayTexture(get_overlayTexture, set_overlayTexture):TextureBase;
     public var exposure(get_exposure, set_exposure):Float;
 
-    private var _data:Vector<Float>;
+    private var _data:Array<Float>;
     private var _overlayTexture:TextureBase;
     private var _blendMode:String;
 
     public function new(blendMode:String, exposure:Float = 1) {
         super();
-        _data = Vector.ofArray(cast [exposure, 0, 0, 0]);
+        _data = [ exposure, 0.0, 0.0, 0.0 ];
         _blendMode = blendMode;
     }
 

@@ -19,10 +19,10 @@ import openfl.Vector;
 
 class Filter3DRenderer {
     public var requireDepthRender(get_requireDepthRender, never):Bool;
-    public var filters(get_filters, set_filters):Vector<Dynamic>;
+    public var filters(get_filters, set_filters):Array<Filter3DBase>;
 
-    private var _filters:Vector<Dynamic>;
-    private var _tasks:Vector<Filter3DTaskBase>;
+    private var _filters:Array<Filter3DBase>;
+    private var _tasks:Array<Filter3DTaskBase>;
     private var _filterTasksInvalid:Bool;
     private var _mainInputTexture:Texture;
     private var _requireDepthRender:Bool;
@@ -50,11 +50,11 @@ class Filter3DRenderer {
         return _mainInputTexture;
     }
 
-    public function get_filters():Vector<Dynamic> {
+    public function get_filters():Array<Filter3DBase> {
         return _filters;
     }
 
-    public function set_filters(value:Vector<Dynamic>):Vector<Dynamic> {
+    public function set_filters(value:Array<Filter3DBase>):Array<Filter3DBase> {
         _filters = value;
         _filterTasksInvalid = true;
         _requireDepthRender = false;
@@ -62,7 +62,7 @@ class Filter3DRenderer {
         var i:Int = 0;
         while (i < _filters.length) {
             if (!_requireDepthRender)
-                _requireDepthRender = cast((_filters[i].requireDepthRender != null), Bool);
+                _requireDepthRender = _filters[i].requireDepthRender;
             ++i;
         }
         _filterSizesInvalid = true;
@@ -76,14 +76,14 @@ class Filter3DRenderer {
             _tasks = null;
             return ;
         }
-        _tasks = new Vector<Filter3DTaskBase>();
+        _tasks = new Array<Filter3DTaskBase>();
         len = _filters.length - 1;
         var filter:Filter3DBase;
         var i:Int = 0;
         while (i <= len) {
-// make sure all internal tasks are linked together
+            // make sure all internal tasks are linked together
             filter = _filters[i];
-            filter.setRenderTargets(i == (len) ? null : cast((_filters[i + 1]), Filter3DBase).getMainInputTexture(stage3DProxy), stage3DProxy);
+            filter.setRenderTargets(i == (len) ? null : _filters[i + 1].getMainInputTexture(stage3DProxy), stage3DProxy);
             _tasks = _tasks.concat(filter.tasks);
             ++i;
         }
@@ -116,17 +116,22 @@ class Filter3DRenderer {
             task = _tasks[i];
             stage3DProxy.setRenderTarget(task.target);
 			context.setProgram(task.getProgram3D(stage3DProxy));
+            
             if (task.target == null) {
                 stage3DProxy.scissorRect = null;
                 vertexBuffer = _rttManager.renderToScreenVertexBuffer;
                 context.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
                 context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
             }
+            
             context.setTextureAt(0, task.getMainInputTexture(stage3DProxy));            
             context.clear(0.0, 0.0, 0.0, 0.0);
+            
             task.activate(stage3DProxy, camera3D, depthTexture);
+            
             context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
             context.drawTriangles(indexBuffer, 0, 2);
+            
             task.deactivate(stage3DProxy);
             ++i;
         }

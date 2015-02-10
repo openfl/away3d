@@ -36,11 +36,13 @@ class ProjectiveTextureMethod extends EffectMethodBase {
 	 *
 	 * @see away3d.entities.TextureProjector
 	 */
-    public function new(projector:TextureProjector, mode:BlendMode) {
+    public function new(projector:TextureProjector, mode:BlendMode = null) {
         _projMatrix = new Matrix3D();
+        
         super();
+        
         _projector = projector;
-        _mode = mode;
+        _mode = mode == null ? BlendMode.MULTIPLY : mode;
     }
 
     /**
@@ -103,8 +105,11 @@ class ProjectiveTextureMethod extends EffectMethodBase {
         regCache.getFreeVertexConstant();
         regCache.getFreeVertexConstant();
         regCache.getFreeVertexVectorTemp();
+        
         vo.vertexConstantsIndex = projReg.index * 4;
+        
         _uvVarying = regCache.getFreeVarying();
+        
         return "m44 " + _uvVarying + ", vt0, " + projReg + "\n";
     }
 
@@ -116,17 +121,26 @@ class ProjectiveTextureMethod extends EffectMethodBase {
         var mapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
         var col:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
         var toTexReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
+        
         vo.fragmentConstantsIndex = toTexReg.index * 4;
         vo.texturesIndex = mapRegister.index;
-        code += "div " + col + ", " + _uvVarying + ", " + _uvVarying + ".w						\n" + "mul " + col + ".xy, " + col + ".xy, " + toTexReg + ".xy	\n" + "add " + col + ".xy, " + col + ".xy, " + toTexReg + ".xx	\n";
+        
+        code += "div " + col + ", " + _uvVarying + ", " + _uvVarying + ".w	\n" + 
+                "mul " + col + ".xy, " + col + ".xy, " + toTexReg + ".xy	\n" + 
+                "add " + col + ".xy, " + col + ".xy, " + toTexReg + ".xx	\n";
         code += getTex2DSampleCode(vo, col, mapRegister, _projector.texture, col, "clamp");
-        if (_mode == MULTIPLY) code += "mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n"
-        else if (_mode == ADD) code += "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n"
+        
+        if (_mode == MULTIPLY) 
+            code += "mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n"
+        else if (_mode == ADD) 
+            code += "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n"
         else if (_mode == MIX) {
-            code += "sub " + col + ".xyz, " + col + ".xyz, " + targetReg + ".xyz				\n" + "mul " + col + ".xyz, " + col + ".xyz, " + col + ".w						\n" + "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
-        }
+            code += "sub " + col + ".xyz, " + col + ".xyz, " + targetReg + ".xyz				\n" + 
+                    "mul " + col + ".xyz, " + col + ".xyz, " + col + ".w						\n" + 
+                    "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
+        } else 
+            throw new Error("Unknown mode \"" + _mode + "\"");
 
-        else throw new Error("Unknown mode \"" + _mode + "\"");
         return code;
     }
 
