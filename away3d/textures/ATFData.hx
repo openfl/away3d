@@ -14,14 +14,15 @@ class ATFData {
     public var height:Int;
     public var numTextures:Int;
     public var data:ByteArray;
-    
+
     /** Create a new instance by parsing the given byte array. */
     public function new(data:ByteArray) {
         var sign:String = data.readUTFBytes(3);
         if (sign != "ATF") throw new Error("ATF parsing error, unknown format " + sign);
         //if (data[6] == 255) data.position = 12
-        else data.position = 6;
-        
+
+        if (data[6] == 255) data.position = 12; // new file version
+        else  data.position =  6; // old file version 
         // old file version
         var tdata:Int = data.readUnsignedByte();
         var _type:Int = tdata >> 7;
@@ -56,4 +57,3 @@ class ATFData {
         this.data = data;
     }
 }
-
