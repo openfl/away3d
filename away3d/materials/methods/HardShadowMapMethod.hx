@@ -24,16 +24,20 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase {
     override private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
         var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
         var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-// needs to be reserved anyway. DO NOT REMOVE
+        
+        // needs to be reserved anyway. DO NOT REMOVE
         var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-// TODO not used
-
+        
+        // TODO not used
         var depthCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
         var code:String = "";
         vo.fragmentConstantsIndex = decReg.index * 4;
         vo.texturesIndex = depthMapRegister.index;
-        code += "tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" + "dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" + "slt " + targetReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n";
-// 0 if in shadow
+        code += "tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" + 
+                "dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "                               \n" + 
+                "slt " + targetReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z               \n";
+        
+        // 0 if in shadow
         return code;
     }
 
@@ -47,14 +51,20 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase {
         var posReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
         var depthSampleCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
         regCache.addFragmentTempUsages(depthSampleCol, 1);
+        
         var lightDir:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
         var code:String = "";
         vo.fragmentConstantsIndex = decReg.index * 4;
         vo.texturesIndex = depthMapRegister.index;
-        code += "sub " + lightDir + ", " + _sharedRegisters.globalPositionVarying + ", " + posReg + "\n" + "dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz\n" + "mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w\n" + "nrm " + lightDir + ".xyz, " + lightDir + ".xyz\n" + "tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" + "dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "\n" + "add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x\n" + // offset by epsilon
-
-        "slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z\n";
-// 0 if in shadow
+        code += "sub " + lightDir + ", " + _sharedRegisters.globalPositionVarying + ", " + posReg + "   \n" + 
+                "dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz                     \n" + 
+                "mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w                           \n" + 
+                "nrm " + lightDir + ".xyz, " + lightDir + ".xyz                                         \n" + 
+                "tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" + 
+                "dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "                   \n" + 
+                "add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x                          \n" + // offset by epsilon
+                "slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z                 \n";
+        // 0 if in shadow
         regCache.removeFragmentTempUsage(depthSampleCol);
         return code;
     }
@@ -64,8 +74,10 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase {
 	 */
     override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement, targetRegister:ShaderRegisterElement):String {
         var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
-        return "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" + "dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" + "slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z\n";
-// 0 if in shadow
+        return  "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>   \n" + 
+                "dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "                               \n" + 
+                "slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z                \n";
+        // 0 if in shadow
     }
 
     /**

@@ -235,7 +235,8 @@ class BasicDiffuseMethod extends LightingMethodBase {
         var code:String = "";
         var albedo:ShaderRegisterElement;
         var cutOffReg:ShaderRegisterElement;
-// incorporate input from ambient
+
+        // incorporate input from ambient
         if (vo.numLights > 0) {
             if (_shadowRegister != null) code += applyShadow(vo, regCache);
             albedo = regCache.getFreeFragmentVectorTemp();
