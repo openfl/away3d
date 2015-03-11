@@ -470,7 +470,7 @@ class SubGeometryBase {
         var i:Int = 0;
         while (i < 8) {
             if (buffers[i] != null) {
-                buffers[i].dispose();
+                Stage3DProxy.disposeIndexBuffer(buffers[i]);
                 buffers[i] = null;
             }
             ++i;
@@ -485,7 +485,7 @@ class SubGeometryBase {
         var i:Int = 0;
         while (i < 8) {
             if (buffers[i] != null) {
-                buffers[i].dispose();
+                Stage3DProxy.disposeVertexBuffer(buffers[i]);
                 buffers[i] = null;
             }
             ++i;

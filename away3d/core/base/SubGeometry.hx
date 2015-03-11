@@ -379,28 +379,27 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     private function disposeForStage3D(stage3DProxy:Stage3DProxy):Void {
         var index:Int = stage3DProxy._stage3DIndex;
         if (_vertexBuffer[index] != null) {
-            _vertexBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexBuffer[index]);
             _vertexBuffer[index] = null;
         }
         if (_uvBuffer[index] != null) {
-            _uvBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_uvBuffer[index]);
             _uvBuffer[index] = null;
         }
         if (_secondaryUvBuffer[index] != null) {
-            _secondaryUvBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_secondaryUvBuffer[index]);
             _secondaryUvBuffer[index] = null;
         }
         if (_vertexNormalBuffer[index] != null) {
-            _vertexNormalBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexNormalBuffer[index]);
             _vertexNormalBuffer[index] = null;
         }
         if (_vertexTangentBuffer[index] != null) {
-            _vertexTangentBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexTangentBuffer[index]);
             _vertexTangentBuffer[index] = null;
         }
         if (_indexBuffer[index] != null) {
-            _indexBuffer[index].dispose();
-            _indexBuffer[index] = null;
+            Stage3DProxy.disposeIndexBuffer(_indexBuffer[index]);
         }
     }
 

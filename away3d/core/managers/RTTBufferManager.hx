@@ -152,9 +152,9 @@ class RTTBufferManager extends EventDispatcher {
     public function dispose():Void {
         _instances.remove(_stage3DProxy);
         if (_indexBuffer != null) {
-            _indexBuffer.dispose();
-            _renderToScreenVertexBuffer.dispose();
-            _renderToTextureVertexBuffer.dispose();
+            Stage3DProxy.disposeIndexBuffer(_indexBuffer);
+            Stage3DProxy.disposeVertexBuffer(_renderToScreenVertexBuffer);
+            Stage3DProxy.disposeVertexBuffer(_renderToTextureVertexBuffer);
             _renderToScreenVertexBuffer = null;
             _renderToTextureVertexBuffer = null;
             _indexBuffer = null;

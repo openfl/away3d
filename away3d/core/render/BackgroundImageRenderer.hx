@@ -40,11 +40,11 @@ class BackgroundImageRenderer {
 
     private function removeBuffers():Void {
         if (_vertexBuffer != null) {
-            _vertexBuffer.dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexBuffer);
             _vertexBuffer = null;
             _program3d.dispose();
             _program3d = null;
-            _indexBuffer.dispose();
+            Stage3DProxy.disposeIndexBuffer(_indexBuffer);
             _indexBuffer = null;
         }
     }

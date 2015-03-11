@@ -205,9 +205,9 @@ class SegmentSet extends Entity implements IRenderable {
             subSet.vertices = null;
             subSet.indices = null;
             if (subSet.vertexBuffer != null)
-                subSet.vertexBuffer.dispose();
+                Stage3DProxy.disposeVertexBuffer(subSet.vertexBuffer);
             if (subSet.indexBuffer != null)
-                subSet.indexBuffer.dispose();
+                Stage3DProxy.disposeIndexBuffer(subSet.indexBuffer);
             subSet = null;
         }
 
@@ -587,8 +587,8 @@ class SubSet {
 
     public function dispose():Void {
         vertices = null;
-        if (vertexBuffer != null) vertexBuffer.dispose();
-        if (indexBuffer != null) indexBuffer.dispose();
+        if (vertexBuffer != null) Stage3DProxy.disposeVertexBuffer(vertexBuffer);
+        if (indexBuffer != null) Stage3DProxy.disposeIndexBuffer(indexBuffer);
     }
 
 

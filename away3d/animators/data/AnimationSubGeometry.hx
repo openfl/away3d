@@ -65,7 +65,7 @@ class AnimationSubGeometry {
     public function dispose():Void {
         while (_vertexBuffer.length > 0) {
             var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop();
-            if (vertexBuffer != null) vertexBuffer.dispose();
+            if (vertexBuffer != null) Stage3DProxy.disposeVertexBuffer(vertexBuffer);
         }
 
     }
