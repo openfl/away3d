@@ -72,7 +72,7 @@ class BackgroundImageRenderer {
     }
 
     public function render():Void {
-		//todo 
+		//todo
 		/*
         var context:Context3D = _stage3DProxy.context3D;
         if (context != _context) {
@@ -81,7 +81,7 @@ class BackgroundImageRenderer {
         }
         if (context == null) return;
         if (_vertexBuffer == null) initBuffers(context);
-		
+
         context.setProgram(_program3d);
         context.setTextureAt(0, _texture.getTextureForStage3D(_stage3DProxy));
         context.setVertexBufferAt(0, _vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
@@ -94,9 +94,9 @@ class BackgroundImageRenderer {
     }
 
     private function initBuffers(context:Context3D):Void {
-        _vertexBuffer = context.createVertexBuffer(4, 4);
+        _vertexBuffer = _stage3DProxy.createVertexBuffer(4, 4);
         _program3d = context.createProgram();
-        _indexBuffer = context.createIndexBuffer(6);
+        _indexBuffer = _stage3DProxy.createIndexBuffer(6);
         var inds:Vector<UInt> = Vector.ofArray(cast [ 2, 1, 0, 3, 2, 0 ]);
         _indexBuffer.uploadFromVector(inds, 0, 6);
         _program3d.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, getVertexCode()), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, getFragmentCode()));
@@ -123,4 +123,3 @@ class BackgroundImageRenderer {
         return value;
     }
 }
-

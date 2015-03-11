@@ -51,7 +51,7 @@ class AnimationSubGeometry {
         var context:Context3D = stage3DProxy.context3D;
         var buffer:VertexBuffer3D = _vertexBuffer[contextIndex];
         if (buffer == null || _bufferContext[contextIndex] != context) {
-            buffer = _vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
+            buffer = _vertexBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
             _bufferContext[contextIndex] = context;
             _bufferDirty[contextIndex] = true;
         }
@@ -90,4 +90,3 @@ class AnimationSubGeometry {
         return _totalLenOfOneVertex;
     }
 }
-

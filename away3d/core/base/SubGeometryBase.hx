@@ -137,7 +137,7 @@ class SubGeometryBase {
         var contextIndex:Int = stage3DProxy._stage3DIndex;
         var context:Context3D = stage3DProxy._context3D;
         if (_indexBuffer[contextIndex] == null || _indexBufferContext[contextIndex] != context) {
-            _indexBuffer[contextIndex] = context.createIndexBuffer(_numIndices);
+            _indexBuffer[contextIndex] = stage3DProxy.createIndexBuffer(_numIndices);
             _indexBufferContext[contextIndex] = context;
             _indicesInvalid[contextIndex] = true;
         }
@@ -186,7 +186,7 @@ class SubGeometryBase {
 
         if (_faceTangents == null)
             _faceTangents = ArrayUtils.Prefill(new Vector<Float>(), _indices.length);
-		
+
         while (i < len) {
             index1 = _indices[i];
             index2 = _indices[i + 1];
@@ -258,7 +258,7 @@ class SubGeometryBase {
 
         if (_faceWeights == null)
             _faceWeights = ArrayUtils.Prefill( new Vector<Float>(), Std.int(len / 3), 0);
-		 
+
         while (i < len) {
             index = posOffset + _indices[i++] * posStride;
             x1 = vertices[index];
@@ -282,7 +282,7 @@ class SubGeometryBase {
             cy = dx1 * dz2 - dz1 * dx2;
             cz = dy1 * dx2 - dx1 * dy2;
             d = Math.sqrt(cx * cx + cy * cy + cz * cz);
-            
+
             // length of cross product = 2*triangle area
             if (_useFaceWeights) {
                 var w:Float = d * 10000;
@@ -371,7 +371,7 @@ class SubGeometryBase {
         var lenV:Int = _vertexData.length;
         var tangentStride:Int = vertexTangentStride;
         var tangentOffset:Int = vertexTangentOffset;
-        
+
         if (target == null)
             target = ArrayUtils.Prefill(new Vector<Float>(), lenV, 0);
 
@@ -689,7 +689,7 @@ class SubGeometryBase {
         while (i < len) {
             i1 = vi0 + 1;
             i2 = vi0 + 2;
-            
+
             // bake position
             vector.x = vertices[vi0];
             vector.y = vertices[i1];
@@ -699,7 +699,7 @@ class SubGeometryBase {
             vertices[i1] = vector.y;
             vertices[i2] = vector.z;
             vi0 += posStride;
-            
+
             // bake normal
             if (bakeNormals) {
                 i1 = ni0 + 1;
@@ -752,4 +752,3 @@ class SubGeometryBase {
         return target;
     }
 }
-

@@ -98,7 +98,7 @@ class SegmentSet extends Entity implements IRenderable {
         subSet.numVertices = Std.int(subSet.vertices.length / 11);
         subSet.numIndices = subSet.indices.length;
         subSet.lineCount++;
-        
+
         var segRef:SegRef = new SegRef();
         segRef.index = index;
         segRef.subSetIndex = subSetIndex;
@@ -326,7 +326,7 @@ class SegmentSet extends Entity implements IRenderable {
 
     public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D {
         if (_activeSubSet.indexContext3D != stage3DProxy.context3D || _activeSubSet.indexBufferDirty) {
-            _activeSubSet.indexBuffer = stage3DProxy._context3D.createIndexBuffer(_activeSubSet.numIndices);
+            _activeSubSet.indexBuffer = stage3DProxy.createIndexBuffer(_activeSubSet.numIndices);
             _activeSubSet.indexBuffer.uploadFromVector(_activeSubSet.indices, 0, _activeSubSet.numIndices);
             _activeSubSet.indexBufferDirty = false;
             _activeSubSet.indexContext3D = stage3DProxy.context3D;
@@ -339,7 +339,7 @@ class SegmentSet extends Entity implements IRenderable {
         _activeSubSet = subSet;
         _numIndices = subSet.numIndices;
         if (subSet.vertexContext3D != stage3DProxy.context3D || subSet.vertexBufferDirty) {
-            subSet.vertexBuffer = stage3DProxy._context3D.createVertexBuffer(subSet.numVertices, 11);
+            subSet.vertexBuffer = stage3DProxy.createVertexBuffer(subSet.numVertices, 11);
             subSet.vertexBuffer.uploadFromVector(subSet.vertices, 0, subSet.numVertices);
             subSet.vertexBufferDirty = false;
             subSet.vertexContext3D = stage3DProxy.context3D;
@@ -593,4 +593,3 @@ class SubSet {
 
 
 }
-

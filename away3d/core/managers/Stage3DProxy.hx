@@ -20,10 +20,13 @@ import openfl.display3D.Context3D;
 import openfl.display3D.Context3DClearMask;
 import openfl.display3D.Context3DRenderMode;
 import openfl.display3D.Program3D;
+import openfl.display3D.VertexBuffer3D;
+import openfl.display3D.IndexBuffer3D;
 import openfl.display3D.textures.TextureBase;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.geom.Rectangle;
+import openfl.Vector;
 
 //using openfl.display3D.OpenFLStage3D;
 
@@ -49,7 +52,7 @@ class Stage3DProxy extends EventDispatcher {
     public var bufferClear(get_bufferClear, set_bufferClear):Bool;
     public var mouse3DManager(get_mouse3DManager, set_mouse3DManager):Mouse3DManager;
     public var touch3DManager(get_touch3DManager, set_touch3DManager):Touch3DManager;
-    static private var _frameEventDriver:Shape = new Shape();  
+    static private var _frameEventDriver:Shape = new Shape();
     public var _context3D:Context3D;
     public var _stage3DIndex:Int;
     private var _usesSoftwareRendering:Bool;
@@ -101,7 +104,7 @@ class Stage3DProxy extends EventDispatcher {
         dispatchEvent(_exitFrame);
     }
     #end
-    
+
     /**
      * Creates a Stage3DProxy object. This method should not be called directly. Creation of Stage3DProxy objects should
      * be handled by Stage3DManager.
@@ -120,15 +123,15 @@ class Stage3DProxy extends EventDispatcher {
         _stage3DManager = stage3DManager;
         _viewPort = new Rectangle();
         _enableDepthAndStencil = true;
-        
+
         super();
-        
+
         // whatever happens, be sure this has highest priority
         _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
 
         this.forceSoftware = forceSoftware;
         this._profile = profile;
-        
+
         requestContext(forceSoftware, _profile);
     }
 
@@ -167,7 +170,7 @@ class Stage3DProxy extends EventDispatcher {
                 #if flash
                 flash.Lib.current.addEventListener(flash.events.Event.ENTER_FRAME, func);
                 #else
-                _context3D.setRenderMethod(func);                
+                _context3D.setRenderMethod(func);
                 #end
             }
         }
@@ -186,19 +189,19 @@ class Stage3DProxy extends EventDispatcher {
     public function configureBackBuffer(backBufferWidth:Int, backBufferHeight:Int, antiAlias:Int, enableDepthAndStencil:Bool):Void {
         var oldWidth:Int = _backBufferWidth;
         var oldHeight:Int = _backBufferHeight;
-        
+
         _viewPort.width = _backBufferWidth = backBufferWidth;
         _viewPort.height = _backBufferHeight = backBufferHeight;
-        
-        if (oldWidth != _backBufferWidth || oldHeight != _backBufferHeight) 
+
+        if (oldWidth != _backBufferWidth || oldHeight != _backBufferHeight)
             notifyViewportUpdated();
-        
+
         _antiAlias = antiAlias;
         _enableDepthAndStencil = enableDepthAndStencil;
-        
+
         if (_context3D != null)
             _context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
-     
+
     }
 
     /*
@@ -223,14 +226,14 @@ class Stage3DProxy extends EventDispatcher {
     }
 
     public function setRenderTarget(target:TextureBase, enableDepthAndStencil:Bool = false, surfaceSelector:Int = 0):Void {
-        if (_renderTarget == target && surfaceSelector == _renderSurfaceSelector && _enableDepthAndStencil == enableDepthAndStencil) 
+        if (_renderTarget == target && surfaceSelector == _renderSurfaceSelector && _enableDepthAndStencil == enableDepthAndStencil)
             return;
-        
+
         _renderTarget = target;
         _renderSurfaceSelector = surfaceSelector;
         _enableDepthAndStencil = enableDepthAndStencil;
-        
-        if (target != null) 
+
+        if (target != null)
             _context3D.setRenderToTexture(target, enableDepthAndStencil, _antiAlias, surfaceSelector)
         else {
             _context3D.setRenderToBackBuffer();
@@ -274,9 +277,9 @@ class Stage3DProxy extends EventDispatcher {
     #if flash
     override public function addEventListener(type:String, listener:Dynamic -> Void, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void {
         super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-    
+
         if ((type == Event.ENTER_FRAME || type == Event.EXIT_FRAME) && !_frameEventDriver.hasEventListener(Event.ENTER_FRAME)) _frameEventDriver.addEventListener(Event.ENTER_FRAME, onEnterFrame, useCapture, priority, useWeakReference);
-        
+
     }
 
     /**
@@ -290,9 +293,9 @@ class Stage3DProxy extends EventDispatcher {
     override public function removeEventListener(type:String, listener:Dynamic -> Void, useCapture:Bool = false):Void {
         super.removeEventListener(type, listener, useCapture);
         // Remove the main rendering listener if no EnterFrame listeners remain
-     
+
         if (!hasEventListener(Event.ENTER_FRAME) && !hasEventListener(Event.EXIT_FRAME) && _frameEventDriver.hasEventListener(Event.ENTER_FRAME)) _frameEventDriver.removeEventListener(Event.ENTER_FRAME, onEnterFrame, useCapture);
-         
+
     }
     #end
 
@@ -503,7 +506,7 @@ class Stage3DProxy extends EventDispatcher {
             #if flash
             _usesSoftwareRendering = (_context3D.driverInfo.indexOf("Software") == 0);
             #end
-            
+
             // Only configure back buffer if width and height have been set,
             // which they may not have been if View3D.render() has yet to be
             // invoked for the first time.
@@ -514,7 +517,7 @@ class Stage3DProxy extends EventDispatcher {
             }
 
             setRenderCallback(_callbackMethod);
-            
+
             dispatchEvent(new Stage3DEvent((hadContext) ? Stage3DEvent.CONTEXT3D_RECREATED : Stage3DEvent.CONTEXT3D_CREATED));
         }
 
@@ -549,14 +552,14 @@ class Stage3DProxy extends EventDispatcher {
     private function onEnterFrame(event:Event):Void {
         if (_context3D == null) return;
         clear();
-        
+
         //notify the enterframe listeners
         notifyEnterFrame();
-        
+
         // Call the present() to render the frame
         present();
         //notify the exitframe listeners
-        
+
         #if flash
         notifyExitFrame();
         #end
@@ -576,5 +579,55 @@ class Stage3DProxy extends EventDispatcher {
         if (_context3D == null) return;
         _context3D.clear(0, 0, 0, 1, 1, 0, Context3DClearMask.DEPTH);
     }
-}
 
+
+
+    /*
+    Moving all creation methods here, so we can trace the usages of vertexbuffers or indexbuffers.
+    Flash will throw the ERROR, when the vertexbuffer creation reached 4096..
+    */
+    private static var _vbCount : UInt = 0;
+    private static var _ibCount : UInt = 0;
+
+    private static var _vbUploadCount : UInt = 0;
+    private static var _ibUploadCount : UInt = 0;
+
+    private static var _bmpUploadCount : UInt = 0;
+    private static var _atfUploadCount : UInt = 0;
+
+    public function createVertexBuffer(numVertices:Int, data32PerVertex:Int) : VertexBuffer3D
+    {
+        _vbCount++;
+        return _context3D.createVertexBuffer(numVertices, data32PerVertex);
+    }
+
+    public static function disposeVertexBuffer(vb : VertexBuffer3D) : Void
+    {
+        vb.dispose();
+        _vbCount--;
+    }
+
+    public function createIndexBuffer(numIndices:Int) : IndexBuffer3D
+    {
+        _ibCount++;
+        return _context3D.createIndexBuffer(numIndices);
+    }
+
+    public static function disposeIndexBuffer(ib : IndexBuffer3D) : Void
+    {
+        ib.dispose();
+        _ibCount--;
+    }
+
+    public static function uploadVertexBufferFromVector(vb : VertexBuffer3D, data:Vector<Float>, startVertex:Int, numVertices:Int) : Void
+    {
+        vb.uploadFromVector(data, startVertex, numVertices);
+        _vbUploadCount++;
+    }
+
+    public static function uploadIndexBufferFromVector(ib : IndexBuffer3D, data:Vector<UInt>, startOffset:Int, count:Int) : Void
+    {
+        ib.uploadFromVector(data, startOffset, count);
+        _ibUploadCount++;
+    }
+}

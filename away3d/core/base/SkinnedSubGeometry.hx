@@ -53,7 +53,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         _jointIndexContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8);
 
         super();
-        
+
         _jointsPerVertex = jointsPerVertex;
         _bufferFormat = getVertexBufferFormat(_jointsPerVertex);
     }
@@ -110,7 +110,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         var contextIndex:Int = stage3DProxy._stage3DIndex;
         var context:Context3D = stage3DProxy._context3D;
         if (_jointWeightContext[contextIndex] != context || _jointWeightsBuffer[contextIndex] == null) {
-            _jointWeightsBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
+            _jointWeightsBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, _jointsPerVertex);
             _jointWeightContext[contextIndex] = context;
             _jointWeightsInvalid[contextIndex] = true;
         }
@@ -130,7 +130,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         var contextIndex:Int = stage3DProxy._stage3DIndex;
         var context:Context3D = stage3DProxy._context3D;
         if (_jointIndexContext[contextIndex] != context || _jointIndexBuffer[contextIndex] == null) {
-            _jointIndexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
+            _jointIndexBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, _jointsPerVertex);
             _jointIndexContext[contextIndex] = context;
             _jointIndicesInvalid[contextIndex] = true;
         }
@@ -189,7 +189,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         var i:Int = 0;
         while (i < len) {
             oldIndex = _jointIndexData[i];
-            
+
             // if we encounter a new index, assign it a new condensed index
             if (!dic.exists(oldIndex)) {
                 dic.set(oldIndex, newIndex);
@@ -232,4 +232,3 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         invalidateBuffers(_jointIndicesInvalid);
     }
 }
-
