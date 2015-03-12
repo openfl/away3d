@@ -58,13 +58,13 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         _secondaryUvsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
         _normalsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
         _tangentsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
-        
+
         _vertexBuffer = new Vector<VertexBuffer3D>(8);
         _uvBuffer = new Vector<VertexBuffer3D>(8);
         _secondaryUvBuffer = new Vector<VertexBuffer3D>(8);
         _vertexNormalBuffer = new Vector<VertexBuffer3D>(8);
         _vertexTangentBuffer = new Vector<VertexBuffer3D>(8);
-        
+
         _vertexBufferContext = new Vector<Context3D>(8);
         _uvBufferContext = new Vector<Context3D>(8);
         _secondaryUvBufferContext = new Vector<Context3D>(8);
@@ -86,7 +86,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         var contextIndex:Int = stage3DProxy._stage3DIndex;
         var context:Context3D = stage3DProxy._context3D;
         if (_vertexBuffer[contextIndex] == null || _vertexBufferContext[contextIndex] != context) {
-            _vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
+            _vertexBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 3);
             _vertexBufferContext[contextIndex] = context;
             _verticesInvalid[contextIndex] = true;
         }
@@ -105,7 +105,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         var context:Context3D = stage3DProxy._context3D;
         if (_autoGenerateUVs && _uvsDirty) _uvs = updateDummyUVs(_uvs);
         if (_uvBuffer[contextIndex] == null || _uvBufferContext[contextIndex] != context) {
-            _uvBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 2);
+            _uvBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 2);
             _uvBufferContext[contextIndex] = context;
             _uvsInvalid[contextIndex] = true;
         }
@@ -123,7 +123,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         var contextIndex:Int = stage3DProxy._stage3DIndex;
         var context:Context3D = stage3DProxy._context3D;
         if (_secondaryUvBuffer[contextIndex] == null || _secondaryUvBufferContext[contextIndex] != context) {
-            _secondaryUvBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 2);
+            _secondaryUvBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 2);
             _secondaryUvBufferContext[contextIndex] = context;
             _secondaryUvsInvalid[contextIndex] = true;
         }
@@ -144,7 +144,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         var context:Context3D = stage3DProxy._context3D;
         if (_autoDeriveVertexNormals && _vertexNormalsDirty) _vertexNormals = updateVertexNormals(_vertexNormals);
         if (_vertexNormalBuffer[contextIndex] == null || _vertexNormalBufferContext[contextIndex] != context) {
-            _vertexNormalBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
+            _vertexNormalBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 3);
             _vertexNormalBufferContext[contextIndex] = context;
             _normalsInvalid[contextIndex] = true;
         }
@@ -165,7 +165,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         var context:Context3D = stage3DProxy._context3D;
         if (_vertexTangentsDirty) _vertexTangents = updateVertexTangents(_vertexTangents);
         if (_vertexTangentBuffer[contextIndex] == null || _vertexTangentBufferContext[contextIndex] != context) {
-            _vertexTangentBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
+            _vertexTangentBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 3);
             _vertexTangentBufferContext[contextIndex] = context;
             _tangentsInvalid[contextIndex] = true;
         }
@@ -192,16 +192,16 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         clone.updateVertexData(_vertexData.copy());
         clone.updateUVData(_uvs.copy());
         clone.updateIndexData(_indices.copy());
-        
-        if (_secondaryUvs != null) 
+
+        if (_secondaryUvs != null)
             clone.updateSecondaryUVData(_secondaryUvs.copy());
-        
-        if (!_autoDeriveVertexNormals) 
+
+        if (!_autoDeriveVertexNormals)
             clone.updateVertexNormalData(_vertexNormals.copy());
-        
-        if (!_autoDeriveVertexTangents) 
+
+        if (!_autoDeriveVertexTangents)
             clone.updateVertexTangentData(_vertexTangents.copy());
-        
+
         return clone;
     }
 
@@ -270,13 +270,13 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     public function updateVertexData(vertices:Vector<Float>):Void {
         if (_autoDeriveVertexNormals) _vertexNormalsDirty = true;
         if (_autoDeriveVertexTangents) _vertexTangentsDirty = true;
-        
+
         _faceNormalsDirty = true;
         _vertexData = vertices;
-        
+
         var numVertices:Int = Std.int(vertices.length / 3);
         if (numVertices != _numVertices) disposeAllVertexBuffers();
-        
+
         _numVertices = numVertices;
         invalidateBuffers(_verticesInvalid);
         invalidateBounds();
@@ -379,28 +379,27 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     private function disposeForStage3D(stage3DProxy:Stage3DProxy):Void {
         var index:Int = stage3DProxy._stage3DIndex;
         if (_vertexBuffer[index] != null) {
-            _vertexBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexBuffer[index]);
             _vertexBuffer[index] = null;
         }
         if (_uvBuffer[index] != null) {
-            _uvBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_uvBuffer[index]);
             _uvBuffer[index] = null;
         }
         if (_secondaryUvBuffer[index] != null) {
-            _secondaryUvBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_secondaryUvBuffer[index]);
             _secondaryUvBuffer[index] = null;
         }
         if (_vertexNormalBuffer[index] != null) {
-            _vertexNormalBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexNormalBuffer[index]);
             _vertexNormalBuffer[index] = null;
         }
         if (_vertexTangentBuffer[index] != null) {
-            _vertexTangentBuffer[index].dispose();
+            Stage3DProxy.disposeVertexBuffer(_vertexTangentBuffer[index]);
             _vertexTangentBuffer[index] = null;
         }
         if (_indexBuffer[index] != null) {
-            _indexBuffer[index].dispose();
-            _indexBuffer[index] = null;
+            Stage3DProxy.disposeIndexBuffer(_indexBuffer[index]);
         }
     }
 
@@ -448,4 +447,3 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
         return cast((clone()), SubGeometry);
     }
 }
-

@@ -23,7 +23,7 @@ class RTTBufferManager extends EventDispatcher {
     public var renderToTextureRect(get_renderToTextureRect, never):Rectangle;
     public var textureWidth(get_textureWidth, never):Int;
     public var textureHeight(get_textureHeight, never):Int;
-    
+
     private static var _instances:ObjectMap<Stage3DProxy, RTTBufferManager>;
     private var _renderToTextureVertexBuffer:VertexBuffer3D;
     private var _renderToScreenVertexBuffer:VertexBuffer3D;
@@ -44,7 +44,7 @@ class RTTBufferManager extends EventDispatcher {
         _textureWidth = -1;
         _textureHeight = -1;
         _buffersInvalid = true;
-        
+
         if (se == null) throw new Error("No cheating the multiton!");
         _renderToTextureRect = new Rectangle();
         _stage3DProxy = stage3DProxy;
@@ -81,7 +81,7 @@ class RTTBufferManager extends EventDispatcher {
         _viewWidth = value;
         _buffersInvalid = true;
         _textureWidth = TextureUtils.getBestPowerOf2(_viewWidth);
-        
+
         if (_textureWidth > _viewWidth) {
             _renderToTextureRect.x = Std.int((_textureWidth - _viewWidth) * .5);
             _renderToTextureRect.width = _viewWidth;
@@ -89,7 +89,7 @@ class RTTBufferManager extends EventDispatcher {
             _renderToTextureRect.x = 0;
             _renderToTextureRect.width = _textureWidth;
         }
-        
+
         dispatchEvent(new Event(Event.RESIZE));
         return value;
     }
@@ -103,7 +103,7 @@ class RTTBufferManager extends EventDispatcher {
         _viewHeight = value;
         _buffersInvalid = true;
         _textureHeight = TextureUtils.getBestPowerOf2(_viewHeight);
-        
+
         if (_textureHeight > _viewHeight) {
             _renderToTextureRect.y = Std.int((_textureHeight - _viewHeight) * .5);
             _renderToTextureRect.height = _viewHeight;
@@ -111,7 +111,7 @@ class RTTBufferManager extends EventDispatcher {
             _renderToTextureRect.y = 0;
             _renderToTextureRect.height = _textureHeight;
         }
-               
+
         dispatchEvent(new Event(Event.RESIZE));
         return value;
     }
@@ -135,9 +135,9 @@ class RTTBufferManager extends EventDispatcher {
     }
 
     public function get_renderToTextureRect():Rectangle {
-        if (_buffersInvalid) 
+        if (_buffersInvalid)
             updateRTTBuffers();
-            
+
         return _renderToTextureRect;
     }
 
@@ -152,9 +152,9 @@ class RTTBufferManager extends EventDispatcher {
     public function dispose():Void {
         _instances.remove(_stage3DProxy);
         if (_indexBuffer != null) {
-            _indexBuffer.dispose();
-            _renderToScreenVertexBuffer.dispose();
-            _renderToTextureVertexBuffer.dispose();
+            Stage3DProxy.disposeIndexBuffer(_indexBuffer);
+            Stage3DProxy.disposeVertexBuffer(_renderToScreenVertexBuffer);
+            Stage3DProxy.disposeVertexBuffer(_renderToTextureVertexBuffer);
             _renderToScreenVertexBuffer = null;
             _renderToTextureVertexBuffer = null;
             _indexBuffer = null;
@@ -169,22 +169,22 @@ class RTTBufferManager extends EventDispatcher {
         var context:Context3D = _stage3DProxy.context3D;
         var textureVerts:Vector<Float>;
         var screenVerts:Vector<Float>;
-        
+
         var x:Float;
         var y:Float;
-        
+
         if (_renderToTextureVertexBuffer == null)
-            _renderToTextureVertexBuffer = context.createVertexBuffer(4, 5);
-        
+            _renderToTextureVertexBuffer = _stage3DProxy.createVertexBuffer(4, 5);
+
         if (_renderToScreenVertexBuffer == null)
-            _renderToScreenVertexBuffer = context.createVertexBuffer(4, 5);
-        
+            _renderToScreenVertexBuffer = _stage3DProxy.createVertexBuffer(4, 5);
+
         if (_indexBuffer == null) {
-            _indexBuffer = context.createIndexBuffer(6);
+            _indexBuffer = _stage3DProxy.createIndexBuffer(6);
             var tmp_data:Vector<UInt>= Vector.ofArray([2, 1, 0, 3, 2, 0]);
             _indexBuffer.uploadFromVector(tmp_data, 0, 6);
         }
-        
+
         #if flash
         _textureRatioX = x = Math.min(_viewWidth / _textureWidth, 1);
         _textureRatioY = y = Math.min(_viewHeight / _textureHeight, 1);
@@ -197,7 +197,7 @@ class RTTBufferManager extends EventDispatcher {
         // last element contains indices for data per vertex that can be passed to the vertex shader if necessary (ie: frustum corners for deferred rendering)
         textureVerts = Vector.ofArray( [ -x, -y, u1, v1, 0,   x, -y, u2, v1, 1,   x, y, u2, v2, 2,   -x, y, u1, v2, 3 ] );
         screenVerts = Vector.ofArray([ -1, -1, u1, v1, 0,   1, -1, u2, v1, 1,   1, 1, u2, v2, 2,   -1, 1, u1, v2, 3 ] );
-        #else 
+        #else
         _textureRatioX = x = Math.min(_viewWidth / _textureWidth, 1);
         _textureRatioY = y = Math.min(_viewHeight / _textureHeight, 1);
 
@@ -210,10 +210,10 @@ class RTTBufferManager extends EventDispatcher {
         textureVerts = Vector.ofArray( [ -x, -y, u1, v1, 0,   x, -y, u2, v1, 1,   x, y, u2, v2, 2,   -x, y, u1, v2, 3 ] );
         screenVerts = Vector.ofArray([ -1, -1, u1, v1, 0,   1, -1, u2, v1, 1,   1, 1, u2, v2, 2,   -1, 1, u1, v2, 3 ] );
         #end
-                
+
         _renderToTextureVertexBuffer.uploadFromVector(textureVerts, 0, 4);
         _renderToScreenVertexBuffer.uploadFromVector(screenVerts, 0, 4);
-        
+
         _buffersInvalid = false;
     }
 }
@@ -222,4 +222,3 @@ class SingletonEnforcer {
 
     public function new() {}
 }
-

@@ -51,7 +51,7 @@ class AnimationSubGeometry {
         var context:Context3D = stage3DProxy.context3D;
         var buffer:VertexBuffer3D = _vertexBuffer[contextIndex];
         if (buffer == null || _bufferContext[contextIndex] != context) {
-            buffer = _vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
+            buffer = _vertexBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
             _bufferContext[contextIndex] = context;
             _bufferDirty[contextIndex] = true;
         }
@@ -65,7 +65,7 @@ class AnimationSubGeometry {
     public function dispose():Void {
         while (_vertexBuffer.length > 0) {
             var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop();
-            if (vertexBuffer != null) vertexBuffer.dispose();
+            if (vertexBuffer != null) Stage3DProxy.disposeVertexBuffer(vertexBuffer);
         }
 
     }
@@ -90,4 +90,3 @@ class AnimationSubGeometry {
         return _totalLenOfOneVertex;
     }
 }
-
