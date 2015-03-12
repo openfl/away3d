@@ -339,6 +339,7 @@ class SegmentSet extends Entity implements IRenderable {
         _activeSubSet = subSet;
         _numIndices = subSet.numIndices;
         if (subSet.vertexContext3D != stage3DProxy.context3D || subSet.vertexBufferDirty) {
+            if(subSet.vertexBuffer != null) Stage3DProxy.disposeVertexBuffer(subSet.vertexBuffer);
             subSet.vertexBuffer = stage3DProxy.createVertexBuffer(subSet.numVertices, 11);
             subSet.vertexBuffer.uploadFromVector(subSet.vertices, 0, subSet.numVertices);
             subSet.vertexBufferDirty = false;

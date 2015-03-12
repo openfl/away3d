@@ -52,6 +52,7 @@ import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 import openfl.utils.Timer;
 import openfl.geom.Matrix;
+import away3d.core.managers.Stage3DProxy;
 
 class AwayStats extends Sprite {
     public var max_ram(get_max_ram, never):Float;
@@ -93,6 +94,7 @@ class AwayStats extends Sprite {
     private var _afps_tf:TextField;
     private var _ram_tf:TextField;
     private var _poly_tf:TextField;
+    private var _vb_ib_tf:TextField;
     private var _swhw_tf:TextField;
     private var _drag_dx:Float;
     private var _drag_dy:Float;
@@ -110,6 +112,7 @@ class AwayStats extends Sprite {
     static private var _UPPER_Y:Float = -1;
     static private var _MID_Y:Float = 9;
     static private var _LOWER_Y:Float = 19;
+    static private var _LOWEST_Y:Float = 29;
     static private var _DIAG_HEIGHT:Int = _MAX_HEIGHT - 50;
     static private var _BOTTOM_BAR_HEIGHT:Int = 31;
     static private var _POLY_COL:Int = 0xffcc00;
@@ -358,6 +361,7 @@ class AwayStats extends Sprite {
         var markers:Shape;
         var ram_label_tf:TextField;
         var poly_label_tf:TextField;
+        var vb_ib_label_tf:TextField;
         var swhw_label_tf:TextField;
         _btm_bar = new Sprite();
         _btm_bar.graphics.beginFill(0, 0.2);
@@ -417,13 +421,32 @@ class AwayStats extends Sprite {
         _poly_tf.mouseEnabled = false;
         _btm_bar.addChild(_poly_tf);
 
+        // VB IB COUNT: Keep the both counts BELOW 4096
+        vb_ib_label_tf = new TextField();
+        vb_ib_label_tf.defaultTextFormat = _label_format;
+        vb_ib_label_tf.autoSize = TextFieldAutoSize.LEFT;
+        vb_ib_label_tf.text = "VB | IB:";
+        vb_ib_label_tf.x = 10;
+        vb_ib_label_tf.y = _LOWER_Y;
+        vb_ib_label_tf.selectable = false;
+        vb_ib_label_tf.mouseEnabled = false;
+        _btm_bar.addChild(vb_ib_label_tf);
+        _vb_ib_tf = new TextField();
+        _vb_ib_tf.defaultTextFormat = _data_format;
+        _vb_ib_tf.autoSize = TextFieldAutoSize.LEFT;
+        _vb_ib_tf.x = vb_ib_label_tf.x + 31;
+        _vb_ib_tf.y = vb_ib_label_tf.y;
+        _vb_ib_tf.selectable = false;
+        _vb_ib_tf.mouseEnabled = false;
+        _btm_bar.addChild(_vb_ib_tf);
+
         // SOFTWARE RENDERER WARNING
         swhw_label_tf = new TextField();
         swhw_label_tf.defaultTextFormat = _label_format;
         swhw_label_tf.autoSize = TextFieldAutoSize.LEFT;
         swhw_label_tf.text = "DRIV:";
         swhw_label_tf.x = 10;
-        swhw_label_tf.y = _LOWER_Y;
+        swhw_label_tf.y = vb_ib_label_tf.y + 10;
         swhw_label_tf.selectable = false;
         swhw_label_tf.mouseEnabled = false;
         _btm_bar.addChild(swhw_label_tf);
@@ -534,7 +557,7 @@ class AwayStats extends Sprite {
         _afps_tf.text = Std.string(Math.round(_avg_fps));
         _ram_tf.text = _getRamString(_ram) + (" / " + _getRamString(_max_ram));
         // Move entire diagram
-	
+
         //_dia_bmp.scroll(1, 0);
 		_dia_bmp.draw( _dia_bmp , new Matrix(1, 0, 0, 1, -1, 0));
 
@@ -543,12 +566,14 @@ class AwayStats extends Sprite {
         if (_views.length > 0) {
             //_poly_tf.text = _rfaces.toString().concat(' / ', _tfaces); // TODO: Total faces not yet available in 4.x
             _poly_tf.text = _rfaces + "";
-            
+
             // Plot rendered faces
             dia_y = _dia_bmp.height - Math.floor(_rfaces / _tfaces * _dia_bmp.height);
             _dia_bmp.setPixel32(1, dia_y, _POLY_COL + 0xff000000);
-        } else 
+        } else
             _poly_tf.text = "n/a (no view)";
+
+        _vb_ib_tf.text = Stage3DProxy.getVertexBufferCount() + " | " + Stage3DProxy.getIndexBufferCount();
 
         // Show software (SW) or hardware (HW)
         // if (!_showing_driv_info) {
@@ -556,7 +581,7 @@ class AwayStats extends Sprite {
         //         var di:String = _views[0].renderer.stage3DProxy.context3D.driverInfo;
         //         _swhw_tf.text = di.substr(0, di.indexOf(" "));
         //         _showing_driv_info = true;
-        //     } else 
+        //     } else
         //         _swhw_tf.text = "n/a (no view)";
         // }
         dia_y = _dia_bmp.height - Math.floor(_fps / stage.frameRate * _dia_bmp.height);
@@ -572,9 +597,9 @@ class AwayStats extends Sprite {
             _afps_bar.x = Math.min(1, _avg_fps / stage.frameRate) * _WIDTH;
             _lfps_bar.x = Math.min(1, _min_fps / stage.frameRate) * _WIDTH;
             _hfps_bar.x = Math.min(1, _max_fps / stage.frameRate) * _WIDTH;
-        } else if (_updates % 5 == 0) 
+        } else if (_updates % 5 == 0)
             _redrawMemGraph();
-        
+
         _mem_graph.x = _updates % 5;
         _updates++;
     }
@@ -653,20 +678,20 @@ class AwayStats extends Sprite {
     }
 
     private function _endDrag():Void {
-        if (this.x < -_WIDTH) 
+        if (this.x < -_WIDTH)
             this.x = -(_WIDTH - 20)
-        else if (this.x > stage.stageWidth) 
+        else if (this.x > stage.stageWidth)
             this.x = stage.stageWidth - 20;
-       
-        if (this.y < 0) 
+
+        if (this.y < 0)
             this.y = 0
-        else if (this.y > stage.stageHeight) 
+        else if (this.y > stage.stageHeight)
             this.y = stage.stageHeight - 15;
-        
+
         this.x = Math.round(this.x);
         this.y = Math.round(this.y);
         _dragging = false;
-        
+
         stage.removeEventListener(Event.MOUSE_LEAVE, _onMouseUpOrLeave);
         stage.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUpOrLeave);
         stage.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
@@ -687,22 +712,22 @@ class AwayStats extends Sprite {
         _ram = System.totalMemory;
         if (_ram > _max_ram)
             _max_ram = _ram;
-        
+
         if (_updates % 5 == 0) {
             _mem_points.unshift(_ram / 1024);
             _mem_points.pop();
         }
         _tfaces = _rfaces = 0;
-        
+
         // Update polycount if views are available
         if (_views.length > 0) {
             var i:Int;
-            
+
             // Sum up poly counts across all registered views
             i = 0;
             while (i < _views.length) {
                 _rfaces += _views[i].renderedFacesCount;
-                
+
                 //_tfaces += 0;// TODO: total faces
                 i++;
             }
@@ -718,9 +743,9 @@ class AwayStats extends Sprite {
         _fps_sum += _fps;
 
         // Update min/max fps
-        if (_fps > _max_fps) 
+        if (_fps > _max_fps)
             _max_fps = _fps
-        else if (_fps != 0 && _fps < _min_fps) 
+        else if (_fps != 0 && _fps < _min_fps)
             _min_fps = _fps;
 
         if (_mean_data != null) {
@@ -789,4 +814,3 @@ class AwayStats extends Sprite {
         _endDrag();
     }
 }
-

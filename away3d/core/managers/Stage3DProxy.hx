@@ -589,6 +589,14 @@ class Stage3DProxy extends EventDispatcher {
     private static var _vbCount : UInt = 0;
     private static var _ibCount : UInt = 0;
 
+    public static function getVertexBufferCount() : UInt{
+        return _vbCount;
+    }
+
+    public static function getIndexBufferCount() : UInt{
+        return _ibCount;
+    }
+
     private static var _vbUploadCount : UInt = 0;
     private static var _ibUploadCount : UInt = 0;
 
