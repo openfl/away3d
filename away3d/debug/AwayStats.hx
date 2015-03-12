@@ -50,7 +50,7 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
-import openfl.utils.Timer;
+import haxe.Timer;
 import openfl.geom.Matrix;
 import away3d.core.managers.Stage3DProxy;
 
@@ -58,23 +58,23 @@ class AwayStats extends Sprite {
     public var max_ram(get_max_ram, never):Float;
     public var ram(get_ram, never):Float;
     public var avg_fps(get_avg_fps, never):Float;
-    public var max_fps(get_max_fps, never):Int;
-    public var fps(get_fps, never):Int;
+    public var max_fps(get_max_fps, never):Float;
+    public var fps(get_fps, never):Float;
     static public var instance(get_instance, never):AwayStats;
 
     private var _views:Array<View3D>;
     private var _timer:Timer;
-    private var _last_frame_timestamp:Float;
-    private var _fps:Int;
+    private var _last_frame__timestamp:Float;
+    private var _fps:Float;
     private var _ram:Float;
     private var _max_ram:Float;
     private var _min_fps:Float;
     private var _avg_fps:Float;
-    private var _max_fps:Int;
+    private var _max_fps:Float;
     private var _tfaces:Int;
     private var _rfaces:Int;
     private var _num_frames:Int;
-    private var _fps_sum:Int;
+    private var _fps_sum:Float;
     private var _top_bar:Sprite;
     private var _btm_bar:Sprite;
     private var _btm_bar_hit:Sprite;
@@ -95,7 +95,6 @@ class AwayStats extends Sprite {
     private var _ram_tf:TextField;
     private var _poly_tf:TextField;
     private var _vb_ib_tf:TextField;
-    private var _swhw_tf:TextField;
     private var _drag_dx:Float;
     private var _drag_dy:Float;
     private var _dragging:Bool;
@@ -105,7 +104,9 @@ class AwayStats extends Sprite {
     private var _enable_mod_fr:Bool;
     private var _transparent:Bool;
     private var _minimized:Bool;
-    private var _showing_driv_info:Bool;
+    private var _currentFPS:Float;
+    private var _cacheCount:Int;
+    private var _times:Array <Float>;
     static private var _WIDTH:Int = 125;
     static private var _MAX_HEIGHT:Int = 85;
     static private var _MIN_HEIGHT:Int = 51;
@@ -171,7 +172,7 @@ class AwayStats extends Sprite {
         _max_ram = 0;
         _tfaces = 0;
         _rfaces = 0;
-        _last_frame_timestamp = 0;
+        _last_frame__timestamp = 0;
         _init();
     }
 
@@ -187,11 +188,11 @@ class AwayStats extends Sprite {
         return _avg_fps;
     }
 
-    public function get_max_fps():Int {
+    public function get_max_fps():Float {
         return _max_fps;
     }
 
-    public function get_fps():Int {
+    public function get_fps():Float {
         return _fps;
     }
 
@@ -242,8 +243,11 @@ class AwayStats extends Sprite {
     }
 
     private function _initMisc():Void {
-        _timer = new Timer(200, 0);
-        _timer.addEventListener("timer", _onTimer);
+        _currentFPS = 0;
+        _cacheCount = 0;
+        _times = [];
+        _timer = new Timer(200);
+        _timer.run = _onTimer;
         _label_format = new TextFormat("_sans", 9, 0xffffff, false);
         _data_format = new TextFormat("_sans", 9, 0xffffff, false);
         if (_mean_data_length > 0) {
@@ -362,7 +366,7 @@ class AwayStats extends Sprite {
         var ram_label_tf:TextField;
         var poly_label_tf:TextField;
         var vb_ib_label_tf:TextField;
-        var swhw_label_tf:TextField;
+        
         _btm_bar = new Sprite();
         _btm_bar.graphics.beginFill(0, 0.2);
         _btm_bar.graphics.drawRect(0, 0, _WIDTH, _BOTTOM_BAR_HEIGHT);
@@ -396,7 +400,7 @@ class AwayStats extends Sprite {
         _ram_tf = new TextField();
         _ram_tf.defaultTextFormat = _data_format;
         _ram_tf.autoSize = TextFieldAutoSize.LEFT;
-        _ram_tf.x = ram_label_tf.x + 31;
+        _ram_tf.x = ram_label_tf.x + 40;
         _ram_tf.y = ram_label_tf.y;
         _ram_tf.selectable = false;
         _ram_tf.mouseEnabled = false;
@@ -415,7 +419,7 @@ class AwayStats extends Sprite {
         _poly_tf = new TextField();
         _poly_tf.defaultTextFormat = _data_format;
         _poly_tf.autoSize = TextFieldAutoSize.LEFT;
-        _poly_tf.x = poly_label_tf.x + 31;
+        _poly_tf.x = poly_label_tf.x + 40;
         _poly_tf.y = poly_label_tf.y;
         _poly_tf.selectable = false;
         _poly_tf.mouseEnabled = false;
@@ -425,7 +429,7 @@ class AwayStats extends Sprite {
         vb_ib_label_tf = new TextField();
         vb_ib_label_tf.defaultTextFormat = _label_format;
         vb_ib_label_tf.autoSize = TextFieldAutoSize.LEFT;
-        vb_ib_label_tf.text = "VB | IB:";
+        vb_ib_label_tf.text = "VB/IB:";
         vb_ib_label_tf.x = 10;
         vb_ib_label_tf.y = _LOWER_Y;
         vb_ib_label_tf.selectable = false;
@@ -434,30 +438,11 @@ class AwayStats extends Sprite {
         _vb_ib_tf = new TextField();
         _vb_ib_tf.defaultTextFormat = _data_format;
         _vb_ib_tf.autoSize = TextFieldAutoSize.LEFT;
-        _vb_ib_tf.x = vb_ib_label_tf.x + 31;
+        _vb_ib_tf.x = vb_ib_label_tf.x + 40;
         _vb_ib_tf.y = vb_ib_label_tf.y;
         _vb_ib_tf.selectable = false;
         _vb_ib_tf.mouseEnabled = false;
         _btm_bar.addChild(_vb_ib_tf);
-
-        // SOFTWARE RENDERER WARNING
-        swhw_label_tf = new TextField();
-        swhw_label_tf.defaultTextFormat = _label_format;
-        swhw_label_tf.autoSize = TextFieldAutoSize.LEFT;
-        swhw_label_tf.text = "DRIV:";
-        swhw_label_tf.x = 10;
-        swhw_label_tf.y = vb_ib_label_tf.y + 10;
-        swhw_label_tf.selectable = false;
-        swhw_label_tf.mouseEnabled = false;
-        _btm_bar.addChild(swhw_label_tf);
-        _swhw_tf = new TextField();
-        _swhw_tf.defaultTextFormat = _data_format;
-        _swhw_tf.autoSize = TextFieldAutoSize.LEFT;
-        _swhw_tf.x = swhw_label_tf.x + 31;
-        _swhw_tf.y = swhw_label_tf.y;
-        _swhw_tf.selectable = false;
-        _swhw_tf.mouseEnabled = false;
-        _btm_bar.addChild(_swhw_tf);
     }
 
     private function _initDiagrams():Void {
@@ -556,11 +541,10 @@ class AwayStats extends Sprite {
         _fps_tf.text = Std.string(_fps) + ("/" + Std.string(stage.frameRate));
         _afps_tf.text = Std.string(Math.round(_avg_fps));
         _ram_tf.text = _getRamString(_ram) + (" / " + _getRamString(_max_ram));
+        
         // Move entire diagram
-
-        //_dia_bmp.scroll(1, 0);
-		_dia_bmp.draw( _dia_bmp , new Matrix(1, 0, 0, 1, -1, 0));
-
+        _dia_bmp.scroll(1, 0);
+		
         // Only redraw polycount if there is a  view available
         // or they won't have been calculated properly
         if (_views.length > 0) {
@@ -573,17 +557,8 @@ class AwayStats extends Sprite {
         } else
             _poly_tf.text = "n/a (no view)";
 
-        _vb_ib_tf.text = Stage3DProxy.getVertexBufferCount() + " | " + Stage3DProxy.getIndexBufferCount();
+        _vb_ib_tf.text = Stage3DProxy.getVertexBufferCount() + " / " + Stage3DProxy.getIndexBufferCount();
 
-        // Show software (SW) or hardware (HW)
-        // if (!_showing_driv_info) {
-        //     if (_views != null && _views.length > 0 && _views[0].renderer.stage3DProxy != null && _views[0].renderer.stage3DProxy.context3D != null) {
-        //         var di:String = _views[0].renderer.stage3DProxy.context3D.driverInfo;
-        //         _swhw_tf.text = di.substr(0, di.indexOf(" "));
-        //         _showing_driv_info = true;
-        //     } else
-        //         _swhw_tf.text = "n/a (no view)";
-        // }
         dia_y = _dia_bmp.height - Math.floor(_fps / stage.frameRate * _dia_bmp.height);
         _dia_bmp.setPixel32(1, dia_y, 0xffffffff);
 
@@ -698,16 +673,17 @@ class AwayStats extends Sprite {
     }
 
     private function _onAddedToStage(ev:Event):Void {
-        _timer.start();
+        _timer = new Timer(200);
+        _timer.run = _onTimer;
         addEventListener(Event.ENTER_FRAME, _onEnterFrame);
     }
 
     private function _onRemovedFromStage(ev:Event):Void {
         _timer.stop();
-        removeEventListener(Event.ENTER_FRAME, _onTimer);
+        removeEventListener(Event.ENTER_FRAME, _onEnterFrame);
     }
 
-    private function _onTimer(ev:Event):Void {
+    private function _onTimer():Void {
         // Store current and max RAM
         _ram = System.totalMemory;
         if (_ram > _max_ram)
@@ -736,10 +712,25 @@ class AwayStats extends Sprite {
     }
 
     private function _onEnterFrame(ev:Event):Void {
-        var time:Float = Lib.getTimer() - _last_frame_timestamp;
-
-        // Calculate current FPS
-        _fps = Math.floor(1000 / time);
+        var currentTime = Timer.stamp ();
+        _times.push (currentTime);
+        
+        while (_times[0] < currentTime - 1) {
+            
+            _times.shift ();
+            
+        }
+        
+        var _currentCount = _times.length;
+        _currentFPS = Math.round ((_currentCount + _cacheCount) / 2);
+        
+        if (_currentCount != _cacheCount /*&& visible*/) {
+            
+            _fps = _currentFPS;
+            
+        }
+        
+        _cacheCount = _currentCount;
         _fps_sum += _fps;
 
         // Update min/max fps
@@ -761,7 +752,7 @@ class AwayStats extends Sprite {
             _num_frames++;
             _avg_fps = _fps_sum / _num_frames;
         }
-        _last_frame_timestamp = Lib.getTimer();
+        _last_frame__timestamp = Lib.getTimer();
     }
 
     private function _onDiagramClick(ev:MouseEvent):Void {
