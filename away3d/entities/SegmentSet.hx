@@ -98,6 +98,7 @@ class SegmentSet extends Entity implements IRenderable {
         subSet.numVertices = Std.int(subSet.vertices.length / 11);
         subSet.numIndices = subSet.indices.length;
         subSet.lineCount++;
+		subSet.indexBufferDirty=true;
 
         var segRef:SegRef = new SegRef();
         segRef.index = index;
