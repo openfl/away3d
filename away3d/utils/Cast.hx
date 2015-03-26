@@ -47,8 +47,7 @@ class Cast {
     }
 
     static public function tryColor(data:Dynamic):Int {
-        if (Std.is(data, UInt)) return cast(data, UInt);
-        if (Std.is(data, Int)) return cast(data, UInt);
+        if (Std.is(data, Int)) return data;
         if (Std.is(data, String)) {
             if (data == "random") return Std.int(Math.random() * 0x1000000);
             if (_colorNames == null) {
@@ -196,9 +195,11 @@ class Cast {
                 _colorNames.set("transparent", 0xFF000000);
             }
 
+            var dataString:String = data;
             if (_colorNames.exists(data))
                 return _colorNames.get(data);
-            if ((( cast(data, String) ).length == 6) && isHex(data)) return Std.parseInt("0x" + data);
+            if ((dataString.length == 6) && isHex(data))
+                return Std.parseInt("0x" + dataString);
         }
         return 0xFFFFFF;
     }
