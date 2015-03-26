@@ -50,7 +50,7 @@ class ParticleStateBase extends AnimationStateBase {
         var startingOffset:Int;
         var vertexOffset:Int;
         var data:Vector3D;
-        var animationParticle:ParticleAnimationData;
+        var animationParticle:ParticleAnimationData = null;
 
         var numParticles:Int = _dynamicProperties.length;
         var i:Int = 0;
