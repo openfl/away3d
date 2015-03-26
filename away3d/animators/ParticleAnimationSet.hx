@@ -297,7 +297,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
         var particlesLength:Int = particles.length;
         var numParticles:Int = geometry.numParticles;
         var particleProperties:ParticleProperties = new ParticleProperties();
-        var particle:ParticleData;
+        var particle:ParticleData = null;
         var oneDataLen:Int;
         var oneDataOffset:Int;
         var counterForVertex:Int;
