@@ -97,6 +97,7 @@ class View3D extends Sprite
     var _profile:String;
     var _layeredView:Bool = false;
     var _callbackMethod:Event -> Void;
+	var _contextIndex:Int = -1;
     
     // private function viewSource(e:ContextMenuEvent):Void
     // {
@@ -154,9 +155,9 @@ class View3D extends Sprite
     //  //contextMenu = _ViewContextMenu;
     // }
     
-    public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline")
+    public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline", contextIndex:Int=-1)
     {
-        _width = 0;
+		_width = 0;
         _height = 0;
         _localPos = new Point();
         _globalPos = new Point();
@@ -185,7 +186,8 @@ class View3D extends Sprite
         _renderer = renderer!=null ? renderer : new DefaultRenderer();
         _depthRenderer = new DepthRenderer();
         _forceSoftware = forceSoftware;
-        
+        _contextIndex = contextIndex;
+		
         // todo: entity collector should be defined by renderer
         _entityCollector = _renderer.createEntityCollector();
         _entityCollector.camera = _camera;
@@ -885,7 +887,7 @@ class View3D extends Sprite
             }
         }
         
-        if (!_shareContext) {
+		if (!_shareContext) {
             stage3DProxy.present();
             
             // fire collected mouse events
@@ -1119,7 +1121,8 @@ class View3D extends Sprite
         _addedToStage = true;
         
         if (_stage3DProxy==null) {
-            _stage3DProxy = Stage3DManager.getInstance(stage).getFreeStage3DProxy(_forceSoftware, _profile);
+            if (_contextIndex == -1) _stage3DProxy = Stage3DManager.getInstance(stage).getFreeStage3DProxy(_forceSoftware, _profile);
+			else _stage3DProxy = Stage3DManager.getInstance(stage).getStage3DProxy(_contextIndex, _forceSoftware, _profile);
             _stage3DProxy.addEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
             if (_callbackMethod!=null) {
                 _stage3DProxy.setRenderCallback(_callbackMethod);
