@@ -126,13 +126,17 @@ class Stage3DProxy extends EventDispatcher {
 
         super();
 
-        // whatever happens, be sure this has highest priority
-        _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
-
         this.forceSoftware = forceSoftware;
-        this._profile = profile;
-
-        requestContext(forceSoftware, _profile);
+		this._profile = profile;
+		
+        // whatever happens, be sure this has highest priority
+		if (_stage3D.context3D == null){
+			_stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
+			requestContext(forceSoftware, _profile);
+		}
+		else {
+			onContext3DUpdate(null);
+		}
     }
 
     private var forceSoftware:Bool ;
