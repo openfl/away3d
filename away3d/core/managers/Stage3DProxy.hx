@@ -543,7 +543,7 @@ class Stage3DProxy extends EventDispatcher {
         // ugly stuff for backward compatibility
         var renderMode:Context3DRenderMode = (forceSoftware) ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
         #if flash
-            _stage3D.requestContext3D(renderMode);
+            _stage3D.requestContext3D(cast renderMode);
         #else
             _stage3D.requestContext3D(Std.string(renderMode));
         #end
