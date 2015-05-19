@@ -88,7 +88,7 @@ class EnvMapMethod extends EffectMethodBase {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         vo.fragmentData[vo.fragmentConstantsIndex] = _alpha;
         context.setTextureAt(vo.texturesIndex, _cubeTexture.getTextureForStage3D(stage3DProxy));
         if (_mask != null) context.setTextureAt(vo.texturesIndex + 1, _mask.getTextureForStage3D(stage3DProxy));

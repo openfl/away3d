@@ -166,7 +166,7 @@ class RefractionEnvMapMethod extends EffectMethodBase {
             data[index + 2] = _dispersionB + _refractionIndex;
         }
         data[index + 3] = _alpha;
-        stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _envMap.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _envMap.getTextureForStage3D(stage3DProxy));
     }
 
     /**

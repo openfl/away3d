@@ -147,7 +147,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
         data[index + 9] = (stage3DProxy.width - 1) / 63;
         data[index + 10] = (stage3DProxy.height - 1) / 63;
         data[index + 11] = 2 * _range / _depthMapSize;
-        stage3DProxy._context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
     }
 
     /**
@@ -253,7 +253,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
         data[index + 1] = (stage3DProxy.width - 1) / 63;
         data[index + 2] = (stage3DProxy.height - 1) / 63;
         data[index + 3] = 2 * _range / _depthMapSize;
-        stage3DProxy._context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
     }
 
     /**

@@ -154,7 +154,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
         data[index + 5] = _water1OffsetY;
         data[index + 6] = _water2OffsetX;
         data[index + 7] = _water2OffsetY;
-        if (_useSecondNormalMap) stage3DProxy._context3D.setTextureAt(vo.texturesIndex + 1, _texture2.getTextureForStage3D(stage3DProxy));
+        if (_useSecondNormalMap) stage3DProxy.context3D.setTextureAt(vo.texturesIndex + 1, _texture2.getTextureForStage3D(stage3DProxy));
     }
 
     /**

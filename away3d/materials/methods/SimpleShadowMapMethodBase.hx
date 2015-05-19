@@ -208,7 +208,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase {
             var f:Float = cast((_castingLight), PointLight)._fallOff;
             fragmentData[index + 11] = 1 / (2 * f * f);
         }
-        stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
     }
 
     /**

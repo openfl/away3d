@@ -429,7 +429,7 @@ class LightingPass extends CompiledPass
 	 */
 	override private function updateProbes(stage3DProxy:Stage3DProxy):Void
 	{
-		var context:Context3D = stage3DProxy._context3D;
+		var context:Context3D = stage3DProxy.context3D;
 		var probe:LightProbe;
 		var lightProbes:Array<LightProbe> = _lightPicker.lightProbes;
 		var weights:Array<Float> = _lightPicker.lightProbeWeights;

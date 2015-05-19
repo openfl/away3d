@@ -118,7 +118,7 @@ class UVAnimator extends AnimatorBase implements IAnimator {
         }
         _translate[0] = _deltaFrame.offsetU;
         _translate[1] = _deltaFrame.offsetV;
-        stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _translate);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _translate);
         _uvTransform.identity();
         if (_autoRotation) _deltaFrame.rotation += _rotationIncrease;
         if (_deltaFrame.rotation != 0) _uvTransform.rotate(_deltaFrame.rotation * MathConsts.DEGREES_TO_RADIANS);
@@ -129,7 +129,7 @@ class UVAnimator extends AnimatorBase implements IAnimator {
         _matrix2d[4] = _uvTransform.c;
         _matrix2d[5] = _uvTransform.d;
         _matrix2d[7] = _uvTransform.ty;
-        stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset + 4, _matrix2d);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset + 4, _matrix2d);
     }
 
     /**

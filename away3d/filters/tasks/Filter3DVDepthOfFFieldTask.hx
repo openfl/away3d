@@ -104,7 +104,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
     }
 
     override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D, depthTexture:Texture):Void {
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         var n:Float = camera.lens.near;
         var f:Float = camera.lens.far;
         _data[6] = f / (f - n);
@@ -114,7 +114,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
     }
 
     override public function deactivate(stage3DProxy:Stage3DProxy):Void {
-        stage3DProxy._context3D.setTextureAt(1, null);
+        stage3DProxy.context3D.setTextureAt(1, null);
     }
 
     override private function updateTextures(stage:Stage3DProxy):Void {

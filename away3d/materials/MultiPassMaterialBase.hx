@@ -547,7 +547,7 @@ class MultiPassMaterialBase extends MaterialBase {
 	 * @inheritDoc
 	 */
     override public function activatePass(index:Int, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
-        if (index == 0) stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+        if (index == 0) stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
         super.activatePass(index, stage3DProxy, camera);
     }
 
@@ -556,7 +556,7 @@ class MultiPassMaterialBase extends MaterialBase {
 	 */
     override public function deactivate(stage3DProxy:Stage3DProxy):Void {
         super.deactivate(stage3DProxy);
-        stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+        stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
     }
 
     /**

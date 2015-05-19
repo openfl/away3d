@@ -87,7 +87,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
 	 */
     public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void {
         var streamOffset:Int = pass.numUsedStreams;
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         context.setVertexBufferAt(streamOffset, null);
         context.setVertexBufferAt(streamOffset + 1, null);
     }

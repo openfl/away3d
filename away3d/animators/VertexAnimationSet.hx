@@ -85,7 +85,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
 	 */
     public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void {
         var index:Int = _streamIndices.get(pass);
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         context.setVertexBufferAt(index, null);
         if (_uploadNormals) context.setVertexBufferAt(index + 1, null);
         if (_uploadTangents) context.setVertexBufferAt(index + 2, null);

@@ -64,7 +64,7 @@ class StereoView3D extends View3D {
             renderWithCamera(_stereoCam.rightCamera, _stereoRenderer.getRightInputTexture(_stage3DProxy), false);  
             _stereoRenderer.render(_stage3DProxy);
             
-            if (!_shareContext) _stage3DProxy._context3D.present();
+            if (!_shareContext) _stage3DProxy.context3D.present();
             
             _mouse3DManager.fireMouseEvents();
         } else {
@@ -91,10 +91,10 @@ class StereoView3D extends View3D {
         // update picking
         if (doMouse) _mouse3DManager.updateCollider(this);
         if (_requireDepthRender) renderDepthPrepass(_entityCollector);
-        if (_filter3DRenderer != null && _stage3DProxy._context3D != null) {
+        if (_filter3DRenderer != null && _stage3DProxy.context3D != null) {
             _renderer.render(_entityCollector, _filter3DRenderer.getMainInputTexture(_stage3DProxy), _rttBufferManager.renderToTextureRect);
             _filter3DRenderer.render(_stage3DProxy, camera, _depthRender);
-            if (!_shareContext) _stage3DProxy._context3D.present();
+            if (!_shareContext) _stage3DProxy.context3D.present();
         }
 
         else {

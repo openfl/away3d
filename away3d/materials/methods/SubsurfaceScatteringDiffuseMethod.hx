@@ -197,7 +197,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
     override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
         var depthMap:Texture = _depthPass.getDepthMap(renderable, stage3DProxy);
         var projection:Matrix3D = _depthPass.getProjection(renderable);
-        stage3DProxy._context3D.setTextureAt(vo.secondaryTexturesIndex, depthMap);
+        stage3DProxy.context3D.setTextureAt(vo.secondaryTexturesIndex, depthMap);
         projection.copyRawDataTo(vo.vertexData, vo.secondaryVertexConstantsIndex + 4, true);
     }
 

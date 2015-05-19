@@ -68,7 +68,7 @@ class AlphaMaskMethod extends EffectMethodBase {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
     }
 
     /**

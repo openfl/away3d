@@ -87,7 +87,7 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        stage3DProxy._context3D.setTextureAt(vo.secondaryTexturesIndex, _texture.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.secondaryTexturesIndex, _texture.getTextureForStage3D(stage3DProxy));
         super.activate(vo, stage3DProxy);
     }
 

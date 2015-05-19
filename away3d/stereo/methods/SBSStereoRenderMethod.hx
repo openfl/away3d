@@ -48,7 +48,7 @@ class SBSStereoRenderMethod extends StereoRenderMethodBase {
     }
 
     override public function deactivate(stage3DProxy:Stage3DProxy):Void {
-        stage3DProxy._context3D.setTextureAt(2, null);
+        stage3DProxy.context3D.setTextureAt(2, null);
     }
 
     override public function getFragmentCode():String {

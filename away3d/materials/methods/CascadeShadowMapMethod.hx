@@ -186,7 +186,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
         var vertexData:Vector<Float> = vo.vertexData;
         var vertexIndex:Int = vo.vertexConstantsIndex;
         vo.vertexData[vo.vertexConstantsIndex + 3] = -1 / (_cascadeShadowMapper.depth * _epsilon);

@@ -164,7 +164,7 @@ class SingleObjectDepthPass extends MaterialPassBase {
     override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
         if (_projectionTexturesInvalid) updateProjectionTextures();
         super.activate(stage3DProxy, camera);
-        stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _polyOffset, 1);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _polyOffset, 1);
     }
 }
 

@@ -129,7 +129,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator {
             _vectorFrame[2] = _frame.scaleU;
             _vectorFrame[3] = _frame.scaleV;
         }
-        stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _vectorFrame);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _vectorFrame);
     }
 
     /**

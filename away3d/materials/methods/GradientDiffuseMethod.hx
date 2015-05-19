@@ -101,7 +101,7 @@ class GradientDiffuseMethod extends BasicDiffuseMethod {
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
         super.activate(vo, stage3DProxy);
-        stage3DProxy._context3D.setTextureAt(vo.secondaryTexturesIndex, _gradient.getTextureForStage3D(stage3DProxy));
+        stage3DProxy.context3D.setTextureAt(vo.secondaryTexturesIndex, _gradient.getTextureForStage3D(stage3DProxy));
     }
 }
 

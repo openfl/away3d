@@ -103,7 +103,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator {
         var i:Int;
         var len:Int = _numPoses;
         
-        stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
         
         if (_blendMode == VertexAnimationMode.ABSOLUTE) {
             i = 1;
@@ -128,7 +128,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator {
     }
 
     private function setNullPose(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int):Void {
-        stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
+        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
         
         if (_blendMode == VertexAnimationMode.ABSOLUTE) {
             var len:Int = _numPoses;

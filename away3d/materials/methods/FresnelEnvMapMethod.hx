@@ -129,7 +129,7 @@ class FresnelEnvMapMethod extends EffectMethodBase {
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
         var data:Vector<Float> = vo.fragmentData;
         var index:Int = vo.fragmentConstantsIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         data[index] = _alpha;
         data[index + 1] = _normalReflectance;
         data[index + 2] = _fresnelPower;

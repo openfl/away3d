@@ -244,7 +244,7 @@ class BasicSpecularMethod extends LightingMethodBase {
 	 * @inheritDoc
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        //var context : Context3D = stage3DProxy._context3D;
+        //var context : Context3D = stage3DProxy.context3D;
         if (vo.numLights == 0) return;
         if (_useTexture) {
             #if !flash 
