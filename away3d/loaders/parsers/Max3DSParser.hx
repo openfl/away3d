@@ -387,7 +387,7 @@ class Max3DSParser extends ParserBase {
         var count:Int;
 
         count = _byteData.readUnsignedShort();
-        _cur_obj.uvs = ArrayUtils.Prefill( new Vector<Float>(), count * 2, 0 );
+        _cur_obj.uvs = new Vector<Float>();
 
         i = 0;
         len = count * 2;
@@ -407,7 +407,7 @@ class Max3DSParser extends ParserBase {
         mat = readNulTermString();
         count = _byteData.readUnsignedShort();
 
-        faces = ArrayUtils.Prefill( new Array<Int>(), count, 0);
+        faces = new Array<Int>();
         i = 0;
         while (i < count) {
             faces[i++] = _byteData.readUnsignedShort();
@@ -496,13 +496,13 @@ class Max3DSParser extends ParserBase {
             if (_useSmoothingGroups)
                 applySmoothGroups(vertices, faces);
 
-            obj.verts = ArrayUtils.Prefill( new Vector<Float>(), vertices.length * 3, 0 );
+            obj.verts = new Vector<Float>();
             for (i in 0...vertices.length) {
                 obj.verts[i * 3] = vertices[i].x;
                 obj.verts[i * 3 + 1] = vertices[i].y;
                 obj.verts[i * 3 + 2] = vertices[i].z;
             }
-            obj.indices = ArrayUtils.Prefill( new Vector<UInt>(), faces.length * 3, 0 );
+            obj.indices = new Vector<UInt>();
             for (i in 0...faces.length) {
                 obj.indices[i * 3] = faces[i].a;
                 obj.indices[i * 3 + 1] = faces[i].b;

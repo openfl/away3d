@@ -23,6 +23,7 @@ import away3d.animators.IAnimator;
 import openfl.Vector;
 
 class Mesh extends Entity implements IMaterialOwner implements IAsset {
+    
     public var castsShadows(get_castsShadows, set_castsShadows):Bool;
     public var animator(get_animator, set_animator):IAnimator;
     public var geometry(get_geometry, set_geometry):Geometry;
@@ -30,7 +31,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     public var subMeshes(get_subMeshes, never):Vector<SubMesh>;
     public var shareAnimationGeometry(get_shareAnimationGeometry, set_shareAnimationGeometry):Bool;
 
-    public var _subMeshes:Vector<SubMesh>;
+    private var _subMeshes:Vector<SubMesh>;
     private var _geometry:Geometry;
     private var _material:MaterialBase;
     private var _animator:IAnimator;
@@ -38,22 +39,29 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     private var _shareAnimationGeometry:Bool;
 
     /**
-	 * Create a new Mesh object.
-	 *
-	 * @param geometry                    The geometry used by the mesh that provides it with its shape.
-	 * @param material    [optional]        The material with which to render the Mesh.
-	 */
+     * Create a new Mesh object.
+     *
+     * @param geometry                    The geometry used by the mesh that provides it with its shape.
+     * @param material    [optional]        The material with which to render the Mesh.
+     */
     public function new(geometry:Geometry, material:MaterialBase = null) {
+        
         _castsShadows = true;
         _shareAnimationGeometry = true;
+        
         super();
+        
         _subMeshes = new Vector<SubMesh>();
+        
         this.geometry = geometry;
-        if (this.geometry == null) this.geometry = new Geometry();
+        if (this.geometry == null)
+            this.geometry = new Geometry();
 
         //this should never happen, but if people insist on trying to create their meshes before they have geometry to fill it, it becomes necessary
         this.material = material;
-        if (this.material == null)this.material = DefaultMaterialManager.getDefaultMaterial(this);
+        
+        if (this.material == null)
+            this.material = DefaultMaterialManager.getDefaultMaterial(this);
     }
 
     public function bakeTransformations():Void {
@@ -70,8 +78,8 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     }
 
     /**
-	 * Indicates whether or not the Mesh can cast shadows. Default value is <code>true</code>.
-	 */
+     * Indicates whether or not the Mesh can cast shadows. Default value is <code>true</code>.
+     */
     public function get_castsShadows():Bool {
         return _castsShadows;
     }
@@ -82,97 +90,112 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     }
 
     /**
-	 * Defines the animator of the mesh. Act on the mesh's geometry.  Default value is <code>null</code>.
-	 */
+     * Defines the animator of the mesh. Act on the mesh's geometry.  Default value is <code>null</code>.
+     */
     public function get_animator():IAnimator {
         return _animator;
     }
 
     public function set_animator(value:IAnimator):IAnimator {
-        if (_animator != null) _animator.removeOwner(this);
+        if (_animator != null) 
+            _animator.removeOwner(this);
+        
         _animator = value;
         
         // cause material to be unregistered and registered again to work with the new animation type (if possible)
         var oldMaterial:MaterialBase = material;
         material = null;
         material = oldMaterial;
+        
         var len:Int = _subMeshes.length;
         var subMesh:SubMesh;
         
         // reassign for each SubMesh
-        var i:Int = 0;
-        while (i < len) {
+        for (i in 0...len) {
             subMesh = _subMeshes[i];
             oldMaterial = subMesh._material;
             if (oldMaterial != null) {
                 subMesh.material = null;
                 subMesh.material = oldMaterial;
             }
-            ++i;
         }
-        if (_animator != null) _animator.addOwner(this);
+
+        if (_animator != null)
+            _animator.addOwner(this);
+
         return value;
     }
 
     /**
-	 * The geometry used by the mesh that provides it with its shape.
-	 */
+     * The geometry used by the mesh that provides it with its shape.
+     */
     public function get_geometry():Geometry {
         return _geometry;
     }
 
     public function set_geometry(value:Geometry):Geometry {
         var i:Int;
+        
         if (_geometry != null) {
             _geometry.removeEventListener(GeometryEvent.BOUNDS_INVALID, onGeometryBoundsInvalid);
             _geometry.removeEventListener(GeometryEvent.SUB_GEOMETRY_ADDED, onSubGeometryAdded);
             _geometry.removeEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED, onSubGeometryRemoved);
-            i = 0;
-            while (i < _subMeshes.length) {
+            
+            for (i in 0..._subMeshes.length) {
                 _subMeshes[i].dispose();
-                ++i;
             }
-            _subMeshes = [];
+ 
+            _subMeshes = new Vector<SubMesh>();
         }
+
         _geometry = value;
+        
         if (_geometry != null) {
             _geometry.addEventListener(GeometryEvent.BOUNDS_INVALID, onGeometryBoundsInvalid);
             _geometry.addEventListener(GeometryEvent.SUB_GEOMETRY_ADDED, onSubGeometryAdded);
             _geometry.addEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED, onSubGeometryRemoved);
+            
             var subGeoms:Vector<ISubGeometry> = _geometry.subGeometries;
-            i = 0;
-            while (i < subGeoms.length) {
+            for (i in 0...subGeoms.length) {
                 addSubMesh(subGeoms[i]);
-                ++i;
             }
         }
+        
         if (_material != null) {
             // reregister material in case geometry has a different animation
             _material.removeOwner(this);
             _material.addOwner(this);
         }
+        
         return value;
     }
 
     /**
-	 * The material with which to render the Mesh.
-	 */
+     * The material with which to render the Mesh.
+     */
     public function get_material():MaterialBase {
         return _material;
     }
 
     public function set_material(value:MaterialBase):MaterialBase {
-        if (value == _material) return value;
-        if (_material != null) _material.removeOwner(this);
+        if (value == _material)
+            return value;
+
+        if (_material != null) 
+            _material.removeOwner(this);
+
         _material = value;
-        if (_material != null) _material.addOwner(this);
+
+        if (_material != null) 
+            _material.addOwner(this);
+
         return value;
     }
 
     /**
-	 * The SubMeshes out of which the Mesh consists. Every SubMesh can be assigned a material to override the Mesh's
-	 * material.
-	 */
+     * The SubMeshes out of which the Mesh consists. Every SubMesh can be assigned a material to override the Mesh's
+     * material.
+     */
     public function get_subMeshes():Vector<SubMesh> {
         // Since this getter is invoked every iteration of the render loop, and
         // the geometry construct could affect the sub-meshes, the geometry is
@@ -182,8 +205,8 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     }
 
     /**
-	 * Indicates whether or not the mesh share the same animation geometry.
-	 */
+     * Indicates whether or not the mesh share the same animation geometry.
+     */
     public function get_shareAnimationGeometry():Bool {
         return _shareAnimationGeometry;
     }
@@ -194,51 +217,52 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     }
 
     /**
-	 * Clears the animation geometry of this mesh. It will cause animation to generate a new animation geometry. Work only when shareAnimationGeometry is false.
-	 */
+     * Clears the animation geometry of this mesh. It will cause animation to generate a new animation geometry. Work only when shareAnimationGeometry is false.
+     */
     public function clearAnimationGeometry():Void {
         var len:Int = _subMeshes.length;
-        var i:Int = 0;
-        while (i < len) {
+        for (i in 0...len) {
             _subMeshes[i].animationSubGeometry = null;
-            ++i;
         }
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override public function dispose():Void {
         super.dispose();
+        
         material = null;
         geometry = null;
     }
 
     /**
-	 * Disposes mesh including the animator and children. This is a merely a convenience method.
-	 * @return
-	 */
+     * Disposes mesh including the animator and children. This is a merely a convenience method.
+     * @return
+     */
     public function disposeWithAnimatorAndChildren():Void {
         disposeWithChildren();
-        if (_animator != null) _animator.dispose();
+
+        if (_animator != null) 
+            _animator.dispose();
     }
 
     /**
-	 * Clones this Mesh instance along with all it's children, while re-using the same
-	 * material, geometry and animation set. The returned result will be a copy of this mesh,
-	 * containing copies of all of it's children.
-	 *
-	 * Properties that are re-used (i.e. not cloned) by the new copy include name,
-	 * geometry, and material. Properties that are cloned or created anew for the copy
-	 * include subMeshes, children of the mesh, and the animator.
-	 *
-	 * If you want to copy just the mesh, reusing it's geometry and material while not
-	 * cloning it's children, the simplest way is to create a new mesh manually:
-	 *
-	 * <code>
-	 * var clone : Mesh = new Mesh(original.geometry, original.material);
-	 * </code>
-	 */
+     * Clones this Mesh instance along with all it's children, while re-using the same
+     * material, geometry and animation set. The returned result will be a copy of this mesh,
+     * containing copies of all of it's children.
+     *
+     * Properties that are re-used (i.e. not cloned) by the new copy include name,
+     * geometry, and material. Properties that are cloned or created anew for the copy
+     * include subMeshes, children of the mesh, and the animator.
+     *
+     * If you want to copy just the mesh, reusing it's geometry and material while not
+     * cloning it's children, the simplest way is to create a new mesh manually:
+     *
+     * <code>
+     * var clone : Mesh = new Mesh(original.geometry, original.material);
+     * </code>
+     */
     override public function clone():Mesh {
         var clone:Mesh = new Mesh(_geometry, _material);
         clone.transform = transform;
@@ -254,52 +278,55 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
         //this is of course no proper cloning
         //maybe use this instead?: http://blog.another-d-mention.ro/programming/how-to-clone-duplicate-an-object-in-actionscript-3/
         clone.extra = this.extra;
+
         var len:Int = _subMeshes.length;
-        var i:Int = 0;
-        while (i < len) {
+        for (i in 0...len) {
             clone._subMeshes[i]._material = _subMeshes[i]._material;
-            ++i;
         }
+
         len = numChildren;
-        i = 0;
-        while (i < len) {
+
+        for (i in 0...len) {
             clone.addChild(cast((getChildAt(i).clone()), ObjectContainer3D));
-            ++i;
         }
-        if (_animator != null) clone.animator = _animator.clone();
+
+        if (_animator != null) 
+            clone.animator = _animator.clone();
+
         return clone;
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override private function updateBounds():Void {
         _bounds.fromGeometry(_geometry);
         _boundsInvalid = false;
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override private function createEntityPartitionNode():EntityNode {
         return new MeshNode(this);
     }
 
     /**
-	 * Called when a SubGeometry was added to the Geometry.
-	 */
+     * Called when a SubGeometry was added to the Geometry.
+     */
     private function onSubGeometryAdded(event:GeometryEvent):Void {
         addSubMesh(event.subGeometry);
     }
 
     /**
-	 * Called when a SubGeometry was removed from the Geometry.
-	 */
+     * Called when a SubGeometry was removed from the Geometry.
+     */
     private function onSubGeometryRemoved(event:GeometryEvent):Void {
         var subMesh:SubMesh;
         var subGeom:ISubGeometry = event.subGeometry;
         var len:Int = _subMeshes.length;
         var i:Int;
+        
         // Important! This has to be done here, and not delayed until the
         // next render loop, since this may be caused by the geometry being
         // rebuilt IN THE RENDER LOOP. Invalidating and waiting will delay
@@ -314,21 +341,27 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
             }
             ++i;
         }
+        
         --len;
+        
         while (i < len) {
             _subMeshes[i]._index = i;
             ++i;
         }
+        
+        _subMeshes.fixed = false;
     }
 
     /**
-	 * Adds a SubMesh wrapping a SubGeometry.
-	 */
+     * Adds a SubMesh wrapping a SubGeometry.
+     */
     private function addSubMesh(subGeometry:ISubGeometry):Void {
         var subMesh:SubMesh = new SubMesh(subGeometry, this, null);
         var len:Int = _subMeshes.length;
+        
         subMesh._index = len;
         _subMeshes[len] = subMesh;
+        
         invalidateBounds();
     }
 
@@ -339,19 +372,21 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     override public function collidesBefore(shortestCollisionDistance:Float, findClosest:Bool):Bool {
         _pickingCollider.setLocalRay(_pickingCollisionVO.localRayPosition, _pickingCollisionVO.localRayDirection);
         _pickingCollisionVO.renderable = null;
+        
         var len:Int = _subMeshes.length;
-        var i:Int = 0;
-        while (i < len) {
+        for (i in 0...len) {
             var subMesh:SubMesh = _subMeshes[i];
             
             //var ignoreFacesLookingAway:Boolean = _material ? !_material.bothSides : true;
             if (_pickingCollider.testSubMeshCollision(subMesh, _pickingCollisionVO, shortestCollisionDistance)) {
                 shortestCollisionDistance = _pickingCollisionVO.rayEntryDistance;
                 _pickingCollisionVO.renderable = subMesh;
-                if (!findClosest) return true;
+                
+                if (!findClosest) 
+                    return true;
             }
-            ++i;
         }
+
         return _pickingCollisionVO.renderable != null;
     }
 }
