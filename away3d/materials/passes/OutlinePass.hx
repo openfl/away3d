@@ -164,7 +164,7 @@ class OutlinePass extends MaterialPassBase {
 	 * @inheritDoc
 	 */
     override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         super.activate(stage3DProxy, camera);
         // do not write depth if not drawing inner lines (will cause the overdraw to hide inner lines)
         if (!_showInnerLines) context.setDepthTest(false, Context3DCompareMode.LESS);
@@ -177,7 +177,7 @@ class OutlinePass extends MaterialPassBase {
 	 */
     override public function deactivate(stage3DProxy:Stage3DProxy):Void {
         super.deactivate(stage3DProxy);
-        if (!_showInnerLines) stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS);
+        if (!_showInnerLines) stage3DProxy.context3D.setDepthTest(true, Context3DCompareMode.LESS);
     }
 
     /**
@@ -186,7 +186,7 @@ class OutlinePass extends MaterialPassBase {
     override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void {
         var mesh:Mesh = null;
         var dedicatedRenderable:IRenderable;
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         var matrix3D:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
         matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
         matrix3D.append(viewProjection);
@@ -198,14 +198,14 @@ class OutlinePass extends MaterialPassBase {
             context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
             dedicatedRenderable.activateVertexBuffer(0, stage3DProxy);
             dedicatedRenderable.activateVertexNormalBuffer(1, stage3DProxy);
-            context.drawTriangles(dedicatedRenderable.getIndexBuffer(stage3DProxy), 0, dedicatedRenderable.numTriangles);
+            stage3DProxy.drawTriangles(dedicatedRenderable.getIndexBuffer(stage3DProxy), 0, dedicatedRenderable.numTriangles);
         }
 
         else {
             renderable.activateVertexNormalBuffer(1, stage3DProxy);
             context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
             renderable.activateVertexBuffer(0, stage3DProxy);
-            context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+            stage3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
         }
 
     }

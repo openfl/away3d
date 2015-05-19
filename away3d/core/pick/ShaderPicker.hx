@@ -109,7 +109,7 @@ class ShaderPicker implements IPicker {
         var collector:EntityCollector = view.entityCollector;
         _stage3DProxy = view.stage3DProxy;
         if (_stage3DProxy == null) return null;
-        _context = _stage3DProxy._context3D;
+        _context = _stage3DProxy.context3D;
         _viewportData[0] = view.width;
         _viewportData[1] = view.height;
         _viewportData[2] = -(_projX = 2 * x / view.width - 1);
@@ -214,7 +214,7 @@ class ShaderPicker implements IPicker {
             _context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
             _context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _id, 1);
             renderable.activateVertexBuffer(0, _stage3DProxy);
-            _context.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+            _stage3DProxy.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
             item = item.next;
         }
 
@@ -294,7 +294,7 @@ class ShaderPicker implements IPicker {
         _context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, localViewProjection, true);
         _context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, _boundOffsetScale, 2);
         _hitRenderable.activateVertexBuffer(0, _stage3DProxy);
-        _context.drawTriangles(_hitRenderable.getIndexBuffer(_stage3DProxy), 0, _hitRenderable.numTriangles);
+        _stage3DProxy.drawTriangles(_hitRenderable.getIndexBuffer(_stage3DProxy), 0, _hitRenderable.numTriangles);
         _context.drawToBitmapData(_bitmapData);
         col = _bitmapData.getPixel(0, 0);
         _localHitPosition.x = ((col >> 16) & 0xff) * scX / 255 - offsX;

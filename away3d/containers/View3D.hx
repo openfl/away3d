@@ -828,6 +828,8 @@ class View3D extends Sprite
      */
     public function render():Void
     {
+
+        Stage3DProxy.drawTriangleCount = 0;
         
         //if context3D has Disposed by the OS,don't render at this frame
         if (!stage3DProxy.recoverFromDisposal()) {
@@ -875,7 +877,7 @@ class View3D extends Sprite
         
         _renderer.clearOnRender = !_depthPrepass;
         
-        if (_filter3DRenderer!=null && _stage3DProxy._context3D!=null) {
+        if (_filter3DRenderer!=null && _stage3DProxy.context3D!=null) {
             _renderer.render(_entityCollector, _filter3DRenderer.getMainInputTexture(_stage3DProxy), _rttBufferManager.renderToTextureRect);
             _filter3DRenderer.render(_stage3DProxy, camera, _depthRender);
         } else {
@@ -972,7 +974,7 @@ class View3D extends Sprite
     private function renderSceneDepthToTexture(entityCollector:EntityCollector):Void
     {
         if (_depthTextureInvalid || _depthRender==null)
-            initDepthTexture(_stage3DProxy._context3D);
+            initDepthTexture(_stage3DProxy.context3D);
         _depthRenderer.textureRatioX = _rttBufferManager.textureRatioX;
         _depthRenderer.textureRatioY = _rttBufferManager.textureRatioY;
         _depthRenderer.render(entityCollector, _depthRender);

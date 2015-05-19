@@ -398,7 +398,7 @@ package away3d.materials.passes;
 			var len:Int = lightProbes.length;
 			var addDiff:Bool = usesProbesForDiffuse();
 			var addSpec:Bool = (_methodSetup._specularMethod!=null && usesProbesForSpecular());
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			
 			if (!(addDiff || addSpec))
 				return;

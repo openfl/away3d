@@ -346,7 +346,7 @@ class SegmentSet extends Entity implements IRenderable {
             subSet.vertexContext3D = stage3DProxy.context3D;
         }
         var vertexBuffer:VertexBuffer3D = subSet.vertexBuffer;
-        var context3d:Context3D = stage3DProxy._context3D;
+        var context3d:Context3D = stage3DProxy.context3D;
         context3d.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
         context3d.setVertexBufferAt(1, vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
         context3d.setVertexBufferAt(2, vertexBuffer, 6, Context3DVertexBufferFormat.FLOAT_1);

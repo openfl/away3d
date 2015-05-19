@@ -67,8 +67,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (contextIndex != _contextIndex) updateActiveBuffer(contextIndex);
         if (_activeBuffer == null || _activeContext != context) createBuffer(contextIndex, context, stage3DProxy);
         if (_activeDataInvalid) uploadData(contextIndex);
@@ -77,8 +77,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
 
         if (_uvsDirty && _autoGenerateUVs) {
             _vertexData = updateDummyUVs(_vertexData);
@@ -93,8 +93,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
 
         if (contextIndex != _contextIndex) updateActiveBuffer(contextIndex);
         if (_activeBuffer == null || _activeContext != context) createBuffer(contextIndex, context, stage3DProxy);
@@ -109,8 +109,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
 
         if (contextIndex != _contextIndex) updateActiveBuffer(contextIndex);
         if (_activeBuffer == null || _activeContext != context) createBuffer(contextIndex, context, stage3DProxy);
@@ -120,8 +120,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
 
         if (contextIndex != _contextIndex) updateActiveBuffer(contextIndex);
         if (_activeBuffer == null || _activeContext != context) createBuffer(contextIndex, context, stage3DProxy);

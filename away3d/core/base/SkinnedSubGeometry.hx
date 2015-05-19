@@ -107,8 +107,8 @@ class SkinnedSubGeometry extends CompactSubGeometry {
 	 * @param stage3DProxy The Stage3DProxy to assign the stream to
 	 */
     public function activateJointWeightsBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_jointWeightContext[contextIndex] != context || _jointWeightsBuffer[contextIndex] == null) {
             _jointWeightsBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, _jointsPerVertex);
             _jointWeightContext[contextIndex] = context;
@@ -127,8 +127,8 @@ class SkinnedSubGeometry extends CompactSubGeometry {
 	 * @param stage3DProxy The Stage3DProxy to assign the stream to
 	 */
     public function activateJointIndexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_jointIndexContext[contextIndex] != context || _jointIndexBuffer[contextIndex] == null) {
             _jointIndexBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, _jointsPerVertex);
             _jointIndexContext[contextIndex] = context;

@@ -51,7 +51,7 @@ class PositionRenderer extends RendererBase {
             matrix.copyFrom(item.renderSceneTransform);
             matrix.append(viewProjection);
             _context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
-            _context.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+            _stage3DProxy.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
             item = item.next;
         }
 
@@ -63,7 +63,7 @@ class PositionRenderer extends RendererBase {
             matrix.copyFrom(item.renderSceneTransform);
             matrix.append(viewProjection);
             _context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
-            _context.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+            _stage3DProxy.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
             item = item.next;
         }
 

@@ -155,7 +155,7 @@ class SingleObjectDepthPass extends MaterialPassBase {
         context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _enc, 2);
         renderable.activateVertexBuffer(0, stage3DProxy);
         renderable.activateVertexNormalBuffer(1, stage3DProxy);
-        context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+        stage3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
     }
 
     /**

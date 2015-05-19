@@ -429,8 +429,8 @@ class MaterialPassBase extends EventDispatcher {
 	 */
 	public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var contextIndex:Int = stage3DProxy._stage3DIndex;
-		var context:Context3D = stage3DProxy._context3D;
+		var contextIndex:Int = stage3DProxy.stage3DIndex;
+		var context:Context3D = stage3DProxy.context3D;
 		
 		context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 		if (_enableBlending)
@@ -476,7 +476,7 @@ class MaterialPassBase extends EventDispatcher {
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		var index:UInt = stage3DProxy._stage3DIndex;
+		var index:UInt = stage3DProxy.stage3DIndex;
 		_previousUsedStreams[index] = _numUsedStreams;
 		_previousUsedTexs[index] = _numUsedTextures;
 		
@@ -489,7 +489,7 @@ class MaterialPassBase extends EventDispatcher {
 			stage3DProxy.scissorRect = _oldRect;
 		}
 		
-		stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
+		stage3DProxy.context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 	}
 	
 	/**

@@ -28,8 +28,8 @@ class DistanceMapPass extends MaterialPassBase {
     private var _alphaMask:Texture2DBase;
 
     /**
-	 * Creates a new DistanceMapPass object.
-	 */
+     * Creates a new DistanceMapPass object.
+     */
     public function new() {
         super();
         _fragmentData = [ 1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
@@ -38,10 +38,10 @@ class DistanceMapPass extends MaterialPassBase {
     }
 
     /**
-	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
-	 * invisible or entirely opaque, often used with textures for foliage, etc.
-	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
-	 */
+     * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
+     * invisible or entirely opaque, often used with textures for foliage, etc.
+     * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
+     */
     public function get_alphaThreshold():Float {
         return _alphaThreshold;
     }
@@ -57,9 +57,9 @@ class DistanceMapPass extends MaterialPassBase {
     }
 
     /**
-	 * A texture providing alpha data to be able to prevent semi-transparent pixels to write to the alpha mask.
-	 * Usually the diffuse texture when alphaThreshold is used.
-	 */
+     * A texture providing alpha data to be able to prevent semi-transparent pixels to write to the alpha mask.
+     * Usually the diffuse texture when alphaThreshold is used.
+     */
     public function get_alphaMask():Texture2DBase {
         return _alphaMask;
     }
@@ -70,11 +70,11 @@ class DistanceMapPass extends MaterialPassBase {
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override public function getVertexCode():String {
         var code:String;
-        code = "m44 op, vt0, vc0		\n" + "m44 vt1, vt0, vc5		\n" + "sub v0, vt1, vc9		\n";
+        code = "m44 op, vt0, vc0        \n" + "m44 vt1, vt0, vc5        \n" + "sub v0, vt1, vc9     \n";
         if (_alphaThreshold > 0) {
             code += "mov v1, va1\n";
             _numUsedTextures = 1;
@@ -90,8 +90,8 @@ class DistanceMapPass extends MaterialPassBase {
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override public function getFragmentCode(animationCode:String):String {
         // TODO: not used
         var code:String;
@@ -103,7 +103,7 @@ class DistanceMapPass extends MaterialPassBase {
             filter = (_mipmap) ? "nearest,mipnearest" : "nearest";
 
         // squared distance to view
-        code = "dp3 ft2.z, v0.xyz, v0.xyz	\n" + "mul ft0, fc0, ft2.z	\n" + "frc ft0, ft0			\n" + "mul ft1, ft0.yzww, fc1	\n";
+        code = "dp3 ft2.z, v0.xyz, v0.xyz   \n" + "mul ft0, fc0, ft2.z  \n" + "frc ft0, ft0         \n" + "mul ft1, ft0.yzww, fc1   \n";
         if (_alphaThreshold > 0) {
             var format:String;
             var _sw1_ = (_alphaMask.format);
@@ -117,15 +117,15 @@ class DistanceMapPass extends MaterialPassBase {
             }
             code += "tex ft3, v1, fs0 <2d," + filter + "," + format + wrap + ">\n" + "sub ft3.w, ft3.w, fc2.x\n" + "kil ft3.w\n";
         }
-        code += "sub oc, ft0, ft1		\n";
+        code += "sub oc, ft0, ft1       \n";
         return code;
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void {
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         var pos:Vector3D = camera.scenePosition;
         _vertexData[0] = pos.x;
         _vertexData[1] = pos.y;
@@ -144,14 +144,14 @@ class DistanceMapPass extends MaterialPassBase {
         matrix.append(viewProjection);
         context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
         renderable.activateVertexBuffer(0, stage3DProxy);
-        context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+        stage3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         super.activate(stage3DProxy, camera);
         var f:Float = camera.lens.far;
         f = 1 / (2 * f * f);

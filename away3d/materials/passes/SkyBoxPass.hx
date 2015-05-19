@@ -77,7 +77,7 @@ class SkyBoxPass extends MaterialPassBase {
 	 * @inheritDoc
 	 */
     override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void {
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         var pos:Vector3D = camera.scenePosition;
         _vertexData[0] = pos.x;
         _vertexData[1] = pos.y;
@@ -86,7 +86,7 @@ class SkyBoxPass extends MaterialPassBase {
         context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
         context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _vertexData, 2);
         renderable.activateVertexBuffer(0, stage3DProxy);
-        context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+        stage3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
     }
 
     /**
@@ -94,7 +94,7 @@ class SkyBoxPass extends MaterialPassBase {
 	 */
     override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
         super.activate(stage3DProxy, camera);
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         #if !flash 
         context.setSamplerStateAt(0, Context3DWrapMode.CLAMP, Context3DTextureFilter.LINEAR, _cubeTexture.hasMipMaps ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE);
         #end

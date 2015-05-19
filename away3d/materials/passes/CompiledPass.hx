@@ -552,7 +552,7 @@ class CompiledPass extends MaterialPassBase {
 	 */
     override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void {
         var i:Int = 0;
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         if (_uvBufferIndex >= 0) renderable.activateUVBuffer(_uvBufferIndex, stage3DProxy);
         if (_secondaryUVBufferIndex >= 0) renderable.activateSecondaryUVBuffer(_secondaryUVBufferIndex, stage3DProxy);
         if (_normalBufferIndex >= 0) renderable.activateVertexNormalBuffer(_normalBufferIndex, stage3DProxy);
@@ -618,7 +618,7 @@ class CompiledPass extends MaterialPassBase {
         context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentConstantData, _numUsedFragmentConstants);
         
         renderable.activateVertexBuffer(0, stage3DProxy);
-        context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+        stage3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
     }
 
     /**

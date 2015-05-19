@@ -83,8 +83,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * @inheritDoc
 	 */
     public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_vertexBuffer[contextIndex] == null || _vertexBufferContext[contextIndex] != context) {
             _vertexBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 3);
             _vertexBufferContext[contextIndex] = context;
@@ -101,8 +101,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * @inheritDoc
 	 */
     public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_autoGenerateUVs && _uvsDirty) _uvs = updateDummyUVs(_uvs);
         if (_uvBuffer[contextIndex] == null || _uvBufferContext[contextIndex] != context) {
             _uvBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 2);
@@ -120,8 +120,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * @inheritDoc
 	 */
     public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_secondaryUvBuffer[contextIndex] == null || _secondaryUvBufferContext[contextIndex] != context) {
             _secondaryUvBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 2);
             _secondaryUvBufferContext[contextIndex] = context;
@@ -140,8 +140,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * @return The VertexBuffer3D object that contains vertex normals.
 	 */
     public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_autoDeriveVertexNormals && _vertexNormalsDirty) _vertexNormals = updateVertexNormals(_vertexNormals);
         if (_vertexNormalBuffer[contextIndex] == null || _vertexNormalBufferContext[contextIndex] != context) {
             _vertexNormalBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 3);
@@ -161,8 +161,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * @return The VertexBuffer3D object that contains vertex tangents.
 	 */
     public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_vertexTangentsDirty) _vertexTangents = updateVertexTangents(_vertexTangents);
         if (_vertexTangentBuffer[contextIndex] == null || _vertexTangentBufferContext[contextIndex] != context) {
             _vertexTangentBuffer[contextIndex] = stage3DProxy.createVertexBuffer(_numVertices, 3);
@@ -377,7 +377,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     }
 
     private function disposeForStage3D(stage3DProxy:Stage3DProxy):Void {
-        var index:Int = stage3DProxy._stage3DIndex;
+        var index:Int = stage3DProxy.stage3DIndex;
         if (_vertexBuffer[index] != null) {
             Stage3DProxy.disposeVertexBuffer(_vertexBuffer[index]);
             _vertexBuffer[index] = null;

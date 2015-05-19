@@ -134,8 +134,8 @@ class SubGeometryBase {
 	 * @return The VertexBuffer3D object that contains triangle indices.
 	 */
     public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
-        var context:Context3D = stage3DProxy._context3D;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
+        var context:Context3D = stage3DProxy.context3D;
         if (_indexBuffer[contextIndex] == null || _indexBufferContext[contextIndex] != context) {
             _indexBuffer[contextIndex] = stage3DProxy.createIndexBuffer(_numIndices);
             _indexBufferContext[contextIndex] = context;

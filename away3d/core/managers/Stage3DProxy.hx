@@ -28,9 +28,9 @@ import openfl.events.EventDispatcher;
 import openfl.geom.Rectangle;
 import openfl.Vector;
 
-//using openfl.display3D.OpenFLStage3D;
-
 class Stage3DProxy extends EventDispatcher {
+    static private var _frameEventDriver:Shape = new Shape();
+    
     public var profile(get_profile, never):String;
     public var enableDepthAndStencil(get_enableDepthAndStencil, set_enableDepthAndStencil):Bool;
     public var renderTarget(get_renderTarget, never):TextureBase;
@@ -52,9 +52,9 @@ class Stage3DProxy extends EventDispatcher {
     public var bufferClear(get_bufferClear, set_bufferClear):Bool;
     public var mouse3DManager(get_mouse3DManager, set_mouse3DManager):Mouse3DManager;
     public var touch3DManager(get_touch3DManager, set_touch3DManager):Touch3DManager;
-    static private var _frameEventDriver:Shape = new Shape();
-    public var _context3D:Context3D;
-    public var _stage3DIndex:Int;
+    
+    private var _context3D:Context3D;
+    private var _stage3DIndex:Int;
     private var _usesSoftwareRendering:Bool;
     private var _profile:String;
     private var _stage3D:Stage3D;
@@ -65,8 +65,6 @@ class Stage3DProxy extends EventDispatcher {
     private var _antiAlias:Int;
     private var _enableDepthAndStencil:Bool;
     private var _contextRequested:Bool;
-    //private var _activeVertexBuffers : Vector.<VertexBuffer3D> = new Vector.<VertexBuffer3D>(8, true);
-    //private var _activeTextures : Vector.<TextureBase> = new Vector.<TextureBase>(8, true);
     private var _renderTarget:TextureBase;
     private var _renderSurfaceSelector:Int;
     private var _scissorRect:Rectangle;
@@ -114,9 +112,13 @@ class Stage3DProxy extends EventDispatcher {
      * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
      */
     public function new(stage3DIndex:Int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Bool = false, profile:String = "baseline") {
+        
+        vertexBufferCount = indexBufferCount = drawTriangleCount = 0;
+
         _stage3DIndex = -1;
         _stage3DIndex = stage3DIndex;
         _stage3D = stage3D;
+        trace("stage3D:"+stage3D);
         _stage3D.x = 0;
         _stage3D.y = 0;
         _stage3D.visible = true;
@@ -126,17 +128,13 @@ class Stage3DProxy extends EventDispatcher {
 
         super();
 
-        this.forceSoftware = forceSoftware;
-		this._profile = profile;
-		
         // whatever happens, be sure this has highest priority
-		if (_stage3D.context3D == null){
-			_stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
-			requestContext(forceSoftware, _profile);
-		}
-		else {
-			onContext3DUpdate(null);
-		}
+        _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
+
+        this.forceSoftware = forceSoftware;
+        this._profile = profile;
+
+        requestContext(forceSoftware, _profile);
     }
 
     private var forceSoftware:Bool ;
@@ -542,11 +540,8 @@ class Stage3DProxy extends EventDispatcher {
 
         // ugly stuff for backward compatibility
         var renderMode:Context3DRenderMode = (forceSoftware) ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-        #if flash
-            _stage3D.requestContext3D(cast renderMode);
-        #else
-            _stage3D.requestContext3D(Std.string(renderMode));
-        #end
+        _stage3D.requestContext3D(Std.string(renderMode));
+
 
         _contextRequested = true;
 
@@ -587,23 +582,15 @@ class Stage3DProxy extends EventDispatcher {
         _context3D.clear(0, 0, 0, 1, 1, 0, Context3DClearMask.DEPTH);
     }
 
-
-
     /*
     Moving all creation methods here, so we can trace the usages of vertexbuffers or indexbuffers.
     Flash will throw the ERROR, when the vertexbuffer creation reached 4096..
     */
-    private static var _vbCount : UInt = 0;
-    private static var _ibCount : UInt = 0;
 
-    public static function getVertexBufferCount() : UInt{
-        return _vbCount;
-    }
-
-    public static function getIndexBufferCount() : UInt{
-        return _ibCount;
-    }
-
+    public static var vertexBufferCount(default, default) : UInt;
+    public static var indexBufferCount(default, default) : UInt;
+    public static var drawTriangleCount(default, default) : UInt;
+    
     private static var _vbUploadCount : UInt = 0;
     private static var _ibUploadCount : UInt = 0;
 
@@ -612,28 +599,33 @@ class Stage3DProxy extends EventDispatcher {
 
     public function createVertexBuffer(numVertices:Int, data32PerVertex:Int) : VertexBuffer3D
     {
-        _vbCount++;
+        vertexBufferCount++;
         return _context3D.createVertexBuffer(numVertices, data32PerVertex);
     }
 
     public static function disposeVertexBuffer(vb : VertexBuffer3D) : Void
     {
         vb.dispose();
-        _vbCount--;
+        vertexBufferCount--;
     }
 
     public function createIndexBuffer(numIndices:Int) : IndexBuffer3D
     {
-        _ibCount++;
+        indexBufferCount++;
         return _context3D.createIndexBuffer(numIndices);
     }
 
     public static function disposeIndexBuffer(ib : IndexBuffer3D) : Void
     {
         ib.dispose();
-        _ibCount--;
+        indexBufferCount--;
     }
 
+    public function drawTriangles(indexBuffer:IndexBuffer3D, firstIndex:Int = 0, numTriangles:Int = -1) {
+        drawTriangleCount++;
+        _context3D.drawTriangles( indexBuffer, firstIndex, numTriangles );
+    }
+    
     public static function uploadVertexBufferFromVector(vb : VertexBuffer3D, data:Vector<Float>, startVertex:Int, numVertices:Int) : Void
     {
         vb.uploadFromVector(data, startVertex, numVertices);

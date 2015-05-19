@@ -130,7 +130,7 @@ class Filter3DRenderer {
             task.activate(stage3DProxy, camera3D, depthTexture);
             
             context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
-            context.drawTriangles(indexBuffer, 0, 2);
+            stage3DProxy.drawTriangles(indexBuffer, 0, 2);
             
             task.deactivate(stage3DProxy);
             ++i;

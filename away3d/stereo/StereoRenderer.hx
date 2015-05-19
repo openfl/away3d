@@ -97,7 +97,7 @@ class StereoRenderer {
         context.setTextureAt(1, _rightTexture);
 		        
         context.clear(0.0, 0.0, 0.0, 1.0);
-        context.drawTriangles(indexBuffer, 0, 2);
+        stage3DProxy.drawTriangles(indexBuffer, 0, 2);
         
         // Clean up
         _method.deactivate(stage3DProxy);

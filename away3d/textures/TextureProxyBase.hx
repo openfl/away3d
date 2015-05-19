@@ -66,15 +66,15 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
     }
 
     public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase {
-        var contextIndex:Int = stage3DProxy._stage3DIndex;
+        var contextIndex:Int = stage3DProxy.stage3DIndex;
         var tex:TextureBase = _textures[contextIndex];
-        var context:Context3D = stage3DProxy._context3D;
+        var context:Context3D = stage3DProxy.context3D;
         
         if (tex == null || _dirty[contextIndex] != context) {
             _textures[contextIndex] = tex = createTexture(context);
             _dirty[contextIndex] = context;
             uploadContent(tex);
-				
+                
         } 
         return tex;
     }
@@ -117,8 +117,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
     }
 
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     public function dispose():Void {
         var i:Int = 0;
         while (i < 8) {
