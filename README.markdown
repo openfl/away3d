@@ -54,7 +54,15 @@ A typical project.xml file would look as follows. Each example in the away3d-exa
         <android minimum-sdk-version="10" />
 
     </project>
+
+##Building Examples
+To build an example, 'cd' to the example's folder e.g. Basic_View and use the following.
+
+	openfl test <target>     - where target is html5, windows, mac, neko, ios, android, etc
 	
+NOTE: When using OpenFL 3.x and the non-html5 targets, please add the -Dlegacy option as Away3D doesn't fully support OpenFL-next for CPP targets as yet.
+
+	openfl test mac -Dlegacy
 	
 ##Dependencies
 Requires OpenFL 2.2.4
