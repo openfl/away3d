@@ -7,6 +7,8 @@ import away3d.tools.utils.TextureUtils;
 import openfl.display.BitmapData;
 import openfl.display3D.textures.Texture;
 import openfl.display3D.textures.TextureBase;
+import openfl.utils.UInt8Array;
+import openfl.utils.ByteArray;
 
 class BitmapTexture extends Texture2DBase {
 
@@ -15,10 +17,11 @@ class BitmapTexture extends Texture2DBase {
     private var _bitmapData:BitmapData;
     private var _mipMapHolder:BitmapData;
     private var _generateMipmaps:Bool;
+    private var _bitmapDataArray:UInt8Array;
 
     public function new(bitmapData:BitmapData, generateMipmaps:Bool = true) {
         super();
-        _bitmapData = bitmapData;
+        this.bitmapData = bitmapData;
         setSize(_bitmapData.width, _bitmapData.height);
         _generateMipmaps = _hasMipmaps = generateMipmaps;
     }
@@ -31,11 +34,56 @@ class BitmapTexture extends Texture2DBase {
 
     private function set_bitmapData(value:BitmapData):BitmapData {
         if (value == _bitmapData) return null;
+        
         if (!TextureUtils.isBitmapDataValid(value)) throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
+        
         invalidateContent();
         setSize(value.width, value.height);
+        
         _bitmapData = value;
-        if (_generateMipmaps) getMipMapHolder();
+        
+        #if flash
+        
+        if (_generateMipmaps)
+            getMipMapHolder();
+        
+        #elseif (lime_legacy || hybrid)
+        
+        var data = BitmapData.getRGBAPixels (_bitmapData);
+        _bitmapDataArray = new UInt8Array (data);
+
+        #elseif js
+
+        var data = ByteArray.__ofBuffer (@:privateAccess (bitmapData.__image).data.buffer);
+        _bitmapDataArray = new UInt8Array (data.length);
+        data.position = 0; //byteArrayOffset;
+        
+        var i:Int = 0;
+        
+        while (data.position < data.length) {
+            
+            _bitmapDataArray[i] = data.readUnsignedByte ();
+            i++;
+            
+        }
+        
+        #else
+
+        var data = @:privateAccess (bitmapData.__image).data.buffer;
+        _bitmapDataArray = new UInt8Array (data.length);
+        data.position = 0; //byteArrayOffset;
+        
+        var i:Int = 0;
+        
+        while (data.position < data.length) {
+            
+            _bitmapDataArray[i] = data.readUnsignedByte ();
+            i++;
+            
+        }
+
+        #end
+ 
         return value;
     }
 
@@ -44,7 +92,7 @@ class BitmapTexture extends Texture2DBase {
         if (_generateMipmaps) MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true)
         else cast((texture), Texture).uploadFromBitmapData(_bitmapData, 0);
         #else
-        cast((texture), Texture).uploadFromBitmapData(_bitmapData, 0);
+        cast((texture), Texture).uploadFromUInt8Array(_bitmapDataArray, 0);
         #end
     }
 
