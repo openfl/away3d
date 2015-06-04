@@ -5,6 +5,7 @@ package away3d.primitives;
 
 import openfl.errors.Error;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class WireframeCylinder extends WireframePrimitiveBase {
     public var topRadius(get_topRadius, set_topRadius):Float;
