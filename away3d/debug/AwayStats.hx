@@ -44,6 +44,7 @@ import openfl.display.PixelSnapping;
 import openfl.display.CapsStyle;
 import openfl.display.Graphics;
 import openfl.display.LineScaleMode;
+import openfl.display.Loader;
 import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.events.Event;
@@ -218,7 +219,7 @@ class AwayStats extends Sprite {
         initInteraction();
         
         reset();
-        
+
         addEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
         addEventListener(Event.REMOVED_FROM_STAGE, _onRemovedFromStage);
     }
@@ -286,7 +287,7 @@ class AwayStats extends Sprite {
      */
     private function initStats():Void {
         
-        _stats_panel = new Sprite();        
+        _stats_panel = new Sprite();   
         _stats_panel.graphics.beginFill(0x555555, 0.4);
         _stats_panel.graphics.drawRect(0, 0, _WIDTH, _HEIGHT);
         _stats_panel.graphics.endFill();
@@ -371,19 +372,30 @@ class AwayStats extends Sprite {
             "qN+JKNO+qn49a6XKJGcbR66CoVyttnlsuYoJbbvG5m3/ABGuVkEUmYMPAAAAAElF" + 
             "TkSuQmCC";
 
-        #if !openfl_legacy
-        var logoBmp = new Bitmap( BitmapData.fromBytes( ByteArray.fromBytes( haxe.crypto.Base64.decode( logoData ) ) ), PixelSnapping.AUTO, true );
-        #else
-        var logoBmp = new Bitmap( BitmapData.loadFromHaxeBytes( haxe.crypto.Base64.decode( logoData ) ), PixelSnapping.AUTO, true );
-        #end
-        
         _logo = new Sprite();
         _logo.mouseEnabled = true;
-        _logo.addChild( logoBmp );
         _logo.x = _logo.y = 5;
         _logo.scaleX = _logo.scaleY = 0.5;
         _stats_panel.addChild(_logo);
 
+        #if flash
+        var logoLdr:Loader = new Loader();
+        logoLdr.contentLoaderInfo.addEventListener(Event.COMPLETE, onLogoData);
+        logoLdr.loadBytes( haxe.crypto.Base64.decode( logoData ).getData() );
+        #else 
+            #if !openfl_legacy
+            var logoBmp = new Bitmap( BitmapData.fromBytes( ByteArray.fromBytes( haxe.crypto.Base64.decode( logoData ) ) ), PixelSnapping.AUTO, true );
+            #else
+            var logoBmp = new Bitmap( BitmapData.loadFromHaxeBytes( haxe.crypto.Base64.decode( logoData ) ), PixelSnapping.AUTO, true );
+            #end
+
+            _logo.addChild( logoBmp );
+        #end
+    }
+
+    private function onLogoData( e:Event ) {
+        //var logoBmp = new Bitmap( e.currentTarget.content, PixelSnapping.AUTO, true );    
+        _logo.addChild( e.currentTarget.content );
     }
 
     private function addText( label:String, txtFld:TextField, col:UInt = 0xffffff ) {
@@ -536,7 +548,6 @@ class AwayStats extends Sprite {
             }
         }
 
-        _mem_graph.graphics.clear();
         _dia_bmp.fillRect(_dia_bmp.rect, 0);
     }
 

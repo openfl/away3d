@@ -118,7 +118,6 @@ class Stage3DProxy extends EventDispatcher {
         _stage3DIndex = -1;
         _stage3DIndex = stage3DIndex;
         _stage3D = stage3D;
-        trace("stage3D:"+stage3D);
         _stage3D.x = 0;
         _stage3D.y = 0;
         _stage3D.visible = true;
@@ -540,7 +539,7 @@ class Stage3DProxy extends EventDispatcher {
 
         // ugly stuff for backward compatibility
         var renderMode:Context3DRenderMode = (forceSoftware) ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-        _stage3D.requestContext3D(Std.string(renderMode));
+        _stage3D.requestContext3D( cast renderMode );
 
 
         _contextRequested = true;
