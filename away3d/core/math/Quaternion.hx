@@ -39,10 +39,6 @@ class Quaternion {
 	 * @param w The w value of the quaternion.
 	 */
     public function new(x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 1) {
-        x = 0;
-        y = 0;
-        z = 0;
-        w = 1;
         this.x = x;
         this.y = y;
         this.z = z;
