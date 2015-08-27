@@ -54,31 +54,24 @@ class BitmapTexture extends Texture2DBase {
 
         #elseif js
 
-        var data = ByteArray.__ofBuffer (@:privateAccess (bitmapData.__image).data.buffer);
-        _bitmapDataArray = new UInt8Array (data.length);
-        data.position = 0; //byteArrayOffset;
-        
-        var i:Int = 0;
-        
-        while (data.position < data.length) {
-            
-            _bitmapDataArray[i] = data.readUnsignedByte ();
-            i++;
-            
-        }
+        var data = bitmapData.image.data.buffer;
+        _bitmapDataArray = new UInt8Array (data);
         
         #else
 
-        var data = @:privateAccess (bitmapData.__image).data.buffer;
+        // TODO: Implement BGRA directly in GL using BGRA_EXT
+
+        var data = bitmapData.image.data;
         _bitmapDataArray = new UInt8Array (data.length);
-        data.position = 0; //byteArrayOffset;
         
         var i:Int = 0;
-        
-        while (data.position < data.length) {
+        while (i < data.length) {
             
-            _bitmapDataArray[i] = data.readUnsignedByte ();
-            i++;
+            _bitmapDataArray[i] = data[i+2];
+            _bitmapDataArray[i+1] = data[i+1];
+            _bitmapDataArray[i+2] = data[i];
+            _bitmapDataArray[i+3] = data[i+3];
+            i+=4;
             
         }
 
