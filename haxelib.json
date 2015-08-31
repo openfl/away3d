@@ -8,6 +8,6 @@
 	"releasenote": "Reworked to utilise the migrated Stage3D in the core OpenFL library and compatibility updates. Includes minor bug fixes.",
 	"contributors": [ "Greg209" ],
 	"dependencies": {
-		"openfl": "2.2.4"
+		"openfl": ""
 	}
 }
