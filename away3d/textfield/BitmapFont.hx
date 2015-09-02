@@ -11,7 +11,6 @@
 package away3d.textfield;
 
 import away3d.materials.TextureMaterial;
-import js.Browser;
 import openfl.geom.Rectangle;
 import openfl.Vector;
 
@@ -70,7 +69,7 @@ class BitmapFont
 	private var mOffsetY:Float;
 
 	/** Helper objects. */
-	private static var sLines = new Vector<Array<CharLocation>>(false);
+	private static var sLines = new Vector<Array<CharLocation>>();
 	
 	/** Creates a bitmap font by parsing an Xml file and uses the specified texture. 
 	 *  If you don't pass any data, the "mini" font will be created. */
@@ -360,7 +359,8 @@ class BitmapFont
 		
 		while (!finished)
 		{
-			sLines = new Vector<Array<CharLocation>>(false);
+			sLines = new Vector<Array<CharLocation>>();
+			
 			scale = fontSize / mSize;
 			containerWidth  = width / scale;
 			containerHeight = height / scale;
