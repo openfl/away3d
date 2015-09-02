@@ -89,7 +89,7 @@ class TextField extends Mesh {
 	
 	public function HexToRGB(hex:UInt):Vector<UInt>
 	{
-		var rgb = new Vector<UInt>(false);
+		var rgb = new Vector<UInt>();
 		var r:UInt = hex >> 16 & 0xFF;
 		var g:UInt = hex >> 8 & 0xFF;
 		var b:UInt = hex & 0xFF;
