@@ -8,6 +8,7 @@ import away3d.primitives.data.Segment;
 import openfl.geom.Vector3D;
 
 class WireframePrimitiveBase extends SegmentSet {
+
     public var color(get_color, set_color):Int;
     public var thickness(get_thickness, set_thickness):Float;
 
@@ -16,11 +17,16 @@ class WireframePrimitiveBase extends SegmentSet {
     private var _thickness:Float;
 
     public function new(color:Int = 0xffffff, thickness:Float = 1) {
+        
         _geomDirty = true;
+        
         if (thickness <= 0) thickness = 1;
+        
         _color = color;
         _thickness = thickness;
+        
         mouseEnabled = mouseChildren = false;
+
         super();
     }
 
@@ -77,6 +83,7 @@ class WireframePrimitiveBase extends SegmentSet {
         var segment:Segment;
         var s:Vector3D;
         var e:Vector3D;
+        
         if ((segment = getSegment(index)) != null) {
             s = segment.start;
             e = segment.end;
@@ -87,9 +94,10 @@ class WireframePrimitiveBase extends SegmentSet {
             e.y = v1.y;
             e.z = v1.z;
             segment.updateSegment(s, e, null, _color, _color, _thickness);
-        }
-
-        else addSegment(new LineSegment(v0.clone(), v1.clone(), _color, _color, _thickness));
+        
+        } else 
+        
+            addSegment(new LineSegment(v0.clone(), v1.clone(), _color, _color, _thickness));
     }
 
     override private function updateMouseChildren():Void {

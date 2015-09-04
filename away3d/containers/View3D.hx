@@ -164,6 +164,8 @@ class View3D extends Sprite
 
         super();
 
+        mouseEnabled = mouseChildren = false;
+        
         _time = 0;
         _backgroundColor = 0x000000;
         _backgroundAlpha = 1;
@@ -828,6 +830,7 @@ class View3D extends Sprite
      */
     public function render():Void
     {
+        // stage3DProxy.context3D.clear(1,1, 0,1);
 
         Stage3DProxy.drawTriangleCount = 0;
         

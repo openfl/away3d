@@ -9,19 +9,21 @@ import away3d.utils.ArrayUtils;
 import openfl.Vector;
 
 class PlaneGeometry extends PrimitiveBase {
-    public var segmentsW(get_segmentsW, set_segmentsW):Int;
-    public var segmentsH(get_segmentsH, set_segmentsH):Int;
-    public var yUp(get_yUp, set_yUp):Bool;
-    public var doubleSided(get_doubleSided, set_doubleSided):Bool;
-    public var width(get_width, set_width):Float;
-    public var height(get_height, set_height):Float;
+    
+    public var segmentsW(get, set):Int;
+    public var segmentsH(get, set):Int;
+    public var yUp(get, set):Bool;
+    public var doubleSided(get, set):Bool;
+    public var width(get, set):Float;
+    public var height(get, set):Float;
 
-    private var _segmentsW:Int;
-    private var _segmentsH:Int;
+    private var _segmentsW:Int = 1;
+    private var _segmentsH:Int = 1;
     private var _yUp:Bool;
-    private var _width:Float;
-    private var _height:Float;
+    private var _width:Float = 100;
+    private var _height:Float = 100;
     private var _doubleSided:Bool;
+
     /**
 	 * Creates a new Plane object.
 	 * @param width The width of the plane.
@@ -33,6 +35,7 @@ class PlaneGeometry extends PrimitiveBase {
 	 */
     public function new(width:Float = 100, height:Float = 100, segmentsW:Int = 1, segmentsH:Int = 1, yUp:Bool = true, doubleSided:Bool = false) {
         super();
+        
         _segmentsW = segmentsW;
         _segmentsH = segmentsH;
         _yUp = yUp;
@@ -44,11 +47,12 @@ class PlaneGeometry extends PrimitiveBase {
     /**
 	 * The number of segments that make up the plane along the X-axis. Defaults to 1.
 	 */
-    public function get_segmentsW():Int {
+    private function get_segmentsW():Int {
         return _segmentsW;
     }
 
-    public function set_segmentsW(value:Int):Int {
+    private function set_segmentsW(value:Int):Int {
+        if (_segmentsW == value) return value;
         _segmentsW = value;
         invalidateGeometry();
         invalidateUVs();
@@ -59,11 +63,12 @@ class PlaneGeometry extends PrimitiveBase {
 	 * The number of segments that make up the plane along the Y or Z-axis, depending on whether yUp is true or
 	 * false, respectively. Defaults to 1.
 	 */
-    public function get_segmentsH():Int {
+    private function get_segmentsH():Int {
         return _segmentsH;
     }
 
-    public function set_segmentsH(value:Int):Int {
+    private function set_segmentsH(value:Int):Int {
+        if (_segmentsH == value) return value;
         _segmentsH = value;
         invalidateGeometry();
         invalidateUVs();
@@ -73,11 +78,11 @@ class PlaneGeometry extends PrimitiveBase {
     /**
 	 *  Defines whether the normal vector of the plane should point along the Y-axis (true) or Z-axis (false). Defaults to true.
 	 */
-    public function get_yUp():Bool {
+    private function get_yUp():Bool {
         return _yUp;
     }
 
-    public function set_yUp(value:Bool):Bool {
+    private function set_yUp(value:Bool):Bool {
         _yUp = value;
         invalidateGeometry();
         return value;
@@ -86,11 +91,11 @@ class PlaneGeometry extends PrimitiveBase {
     /**
 	 * Defines whether the plane will be visible from both sides, with correct vertex normals (as opposed to bothSides on Material). Defaults to false.
 	 */
-    public function get_doubleSided():Bool {
+    private function get_doubleSided():Bool {
         return _doubleSided;
     }
 
-    public function set_doubleSided(value:Bool):Bool {
+    private function set_doubleSided(value:Bool):Bool {
         _doubleSided = value;
         invalidateGeometry();
         return value;
@@ -99,11 +104,12 @@ class PlaneGeometry extends PrimitiveBase {
     /**
 	 * The width of the plane.
 	 */
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function set_width(value:Float):Float {
+    private function set_width(value:Float):Float {
+        if (_width == value) return value;
         _width = value;
         invalidateGeometry();
         return value;
@@ -112,11 +118,12 @@ class PlaneGeometry extends PrimitiveBase {
     /**
 	 * The height of the plane.
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
+        if (_height == value) return value;
         _height = value;
         invalidateGeometry();
         return value;
