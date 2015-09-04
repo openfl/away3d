@@ -21,6 +21,7 @@ import away3d.tools.utils.GeomUtil;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 import haxe.ds.StringMap.StringMap;
+import openfl.Vector;
 
 
 /**

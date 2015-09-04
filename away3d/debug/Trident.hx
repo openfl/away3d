@@ -13,6 +13,7 @@ import away3d.extrusions.LatheExtrude;
 import away3d.materials.ColorMaterial;
 import away3d.tools.commands.Merge;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class Trident extends Mesh {
 
@@ -72,7 +73,10 @@ class Trident extends Mesh {
             vectors[4] = Vector.ofArray(cast [new Vector3D(-scaleW * 1.2, length + scl4, 0), new Vector3D(0, cross, 0), new Vector3D(scaleW * 1.2, length + scl4, 0), new Vector3D(0, cross, 0), new Vector3D(0, cross, 0), new Vector3D(0, length + scl3, 0)]);
 //z
             vectors[5] = Vector.ofArray(cast [new Vector3D(0, scl1, length + scl2), new Vector3D(0, scl1, length + scl3), new Vector3D(0, -scl1, length + scl2), new Vector3D(0, -scl1, length + scl3), new Vector3D(0, -scl1, length + scl3), new Vector3D(0, scl1, length + scl2)]);
-            colors.push(0xFF0000, 0x00FF00, 0x0000FF);
+            colors.push(0xFF0000);
+			colors.push(0x00FF00);
+			colors.push(0x0000FF);
+			
         }
         this.addChild(new TridentLines(vectors, colors));
     }

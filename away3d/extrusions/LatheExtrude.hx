@@ -3,6 +3,7 @@
  */
 package away3d.extrusions;
 
+import openfl.Vector;
 import Reflect;
 import Reflect;
 import Reflect;
@@ -128,7 +129,7 @@ class LatheExtrude extends Mesh {
         var geom:Geometry = new Geometry();
         _subGeometry = new SubGeometry();
         if (material == null && materials != null && materials.front != null) material = materials.front;
-        super(geom, material);
+        
         _profile = profile;
         _axis = axis;
         _revolutions = revolutions;
@@ -143,6 +144,8 @@ class LatheExtrude extends Mesh {
         _ignoreSides = ignoreSides;
         _tweek = tweek;
         _smoothSurface = smoothSurface;
+		
+		super(geom, material);
     }
 
 /*
@@ -580,7 +583,7 @@ class LatheExtrude extends Mesh {
         i = 0;
         while (i <= lsub) {
             tmpVecs = new Vector<Vector3D>();
-            tmpVecs = vectors.concat();
+            tmpVecs = vectors.copy();
             j = 0;
             while (j < tmpVecs.length) {
                 factor = ((_revolutions - 1) / (_varr.length + 1));
