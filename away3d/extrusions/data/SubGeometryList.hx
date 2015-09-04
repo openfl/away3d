@@ -2,6 +2,7 @@ package away3d.extrusions.data;
 
 import away3d.materials.MaterialBase;
 import away3d.core.base.SubGeometry;
+import openfl.Vector;
 class SubGeometryList {
 
     public var id:Int;

@@ -3,6 +3,7 @@ package away3d.debug.data;
 import away3d.entities.SegmentSet;
 import away3d.primitives.LineSegment;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class TridentLines extends SegmentSet {
 
