@@ -23,8 +23,6 @@ import openfl.geom.Vector3D;
 import haxe.ds.StringMap.StringMap;
 import openfl.Vector;
 
-import openfl.Vector;
-
 /**
  * Helper Class for the Mesh object <code>MeshHelper</code>
  * A series of methods usually usefull for mesh manipulations
