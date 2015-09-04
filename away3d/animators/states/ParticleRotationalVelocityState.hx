@@ -16,6 +16,7 @@ import away3d.animators.nodes.ParticleRotationalVelocityNode;
 import away3d.animators.ParticleAnimator;
 import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class ParticleRotationalVelocityState extends ParticleStateBase {
     public var rotationalVelocity(get_rotationalVelocity, set_rotationalVelocity):Vector3D;

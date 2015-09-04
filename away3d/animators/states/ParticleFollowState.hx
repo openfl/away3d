@@ -16,6 +16,7 @@ import away3d.core.base.Object3D;
 import away3d.core.math.MathConsts;
 import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class ParticleFollowState extends ParticleStateBase {
     public var followTarget(get_followTarget, set_followTarget):Object3D;
@@ -28,7 +29,7 @@ class ParticleFollowState extends ParticleStateBase {
     private var _prePos:Vector3D;
     private var _preEuler:Vector3D;
     private var _smooth:Bool;
-//temporary vector3D for calculation
+    //temporary vector3D for calculation
     private var temp:Vector3D;
 
     public function new(animator:ParticleAnimator, particleFollowNode:ParticleFollowNode) {
