@@ -352,7 +352,7 @@ class Drag3D {
     }
 
     private function intersect(?x:Float, ?y:Float):Void {
-        var pMouse:Vector3D = ((Math.isNaN(x) && Math.isNaN(y))) ? _view.unproject(_view.mouseX, _view.mouseY, 1) : _view.unproject(x, y, 1);
+        var pMouse:Vector3D = ((x == null && y == null)) ? _view.unproject(_view.mouseX, _view.mouseY, 1) : _view.unproject(x, y, 1);
         var cam:Vector3D = _view.camera.position;
         var d0:Float = _np.x * cam.x + _np.y * cam.y + _np.z * cam.z - _d;
         var d1:Float = _np.x * pMouse.x + _np.y * pMouse.y + _np.z * pMouse.z - _d;
