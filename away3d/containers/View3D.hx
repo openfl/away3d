@@ -316,13 +316,13 @@ class View3D extends Sprite
         addChild(_hitField);
     }
     
-    public var filters3d(get, set) : Array<Filter3DBase>;
-    public function get_filters3d() : Array<Filter3DBase>
+    public var filters3d(get, set) : Vector<Dynamic>;
+    public function get_filters3d() : Vector<Dynamic>
     {
         return _filter3DRenderer!=null ? _filter3DRenderer.filters : null;
     }
     
-    public function set_filters3d(value:Array<Filter3DBase>) : Array<Filter3DBase>
+    public function set_filters3d(value:Vector<Dynamic>) : Vector<Dynamic>
     {
         if (value!=null && value.length == 0)
             value = null;
@@ -479,7 +479,7 @@ class View3D extends Sprite
      * Not supported. Use filters3d instead.
      */
     @:getter(filters)
-    public function get_filters() : Array<Dynamic>
+    public function get_filters() : Array<BitmapFilter>
     {
         throw new Error("filters is not supported in View3D. Use filters3d instead.");
         return null;
@@ -489,7 +489,7 @@ class View3D extends Sprite
      * Not supported. Use filters3d instead.
      */
     @:setter(filters)
-    public function set_filters(value:Array<Dynamic>) : Void
+    public function set_filters(value:Array<BitmapFilter>) : Void
     {
         throw new Error("filters is not supported in View3D. Use filters3d instead.");
     }

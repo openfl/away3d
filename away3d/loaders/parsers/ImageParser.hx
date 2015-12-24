@@ -64,7 +64,7 @@ package away3d.loaders.parsers;
 			if (Std.is(data, BitmapData))
 				return true;
 			
-			if (!(Std.is(data, ByteArray)))
+			if (!(Std.is(data, ByteArrayData)))
 				return false;
 			
 			var ba:ByteArray = cast(data, ByteArray);
