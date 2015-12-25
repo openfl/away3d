@@ -12,26 +12,27 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 interface IRenderable extends IMaterialOwner {
-    var sceneTransform(get_sceneTransform, never):Matrix3D;
-    var inverseSceneTransform(get_inverseSceneTransform, never):Matrix3D;
-    var mouseEnabled(get_mouseEnabled, never):Bool;
-    var sourceEntity(get_sourceEntity, never):Entity;
-    var castsShadows(get_castsShadows, never):Bool;
-    var uvTransform(get_uvTransform, never):Matrix;
-    var shaderPickingDetails(get_shaderPickingDetails, never):Bool;
-    var numVertices(get_numVertices, never):Int;
-    var numTriangles(get_numTriangles, never):Int;
-    var vertexStride(get_vertexStride, never):Int;
-    var vertexData(get_vertexData, never):Vector<Float>;
-    var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
-    var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
-    var indexData(get_indexData, never):Vector<UInt>;
-    var UVData(get_UVData, never):Vector<Float>;
+    var sceneTransform(get, never):Matrix3D;
+    var inverseSceneTransform(get, never):Matrix3D;
+    var mouseEnabled(get, never):Bool;
+    var sourceEntity(get, never):Entity;
+    var castsShadows(get, never):Bool;
+    var uvTransform(get, never):Matrix;
+    var uvTransform2(get, never):Matrix;
+    var shaderPickingDetails(get, never):Bool;
+    var numVertices(get, never):Int;
+    var numTriangles(get, never):Int;
+    var vertexStride(get, never):Int;
+    var vertexData(get, never):Vector<Float>;
+    var vertexNormalData(get, never):Vector<Float>;
+    var vertexTangentData(get, never):Vector<Float>;
+    var indexData(get, never):Vector<UInt>;
+    var UVData(get, never):Vector<Float>;
 
 	/**
 	 * The transformation matrix that transforms from model to world space.
 	 */
-    function get_sceneTransform():Matrix3D;
+    private function get_sceneTransform():Matrix3D;
 
 	/**
 	 * The transformation matrix that transforms from model to world space, adapted with any special operations needed to render.
@@ -43,45 +44,46 @@ interface IRenderable extends IMaterialOwner {
 	/**
 	 * The inverse scene transform object that transforms from world to model space.
 	 */
-    function get_inverseSceneTransform():Matrix3D;
+    private function get_inverseSceneTransform():Matrix3D;
 
 	/**
 	 * Indicates whether the IRenderable should trigger mouse events, and hence should be rendered for hit testing.
 	 */
-    function get_mouseEnabled():Bool;
+    private function get_mouseEnabled():Bool;
 
 	/**
 	 * The entity that that initially provided the IRenderable to the render pipeline.
 	 */
-    function get_sourceEntity():Entity;
+    private function get_sourceEntity():Entity;
 
 	/**
 	 * Indicates whether the renderable can cast shadows
 	 */
-    function get_castsShadows():Bool;
+    private function get_castsShadows():Bool;
 
 	/**
 	 * Provides a Matrix object to transform the uv coordinates, if the material supports it.
 	 * For TextureMaterial and TextureMultiPassMaterial, the animateUVs property should be set to true.
 	 */
-    function get_uvTransform():Matrix;
-    function get_shaderPickingDetails():Bool;
+    private function get_uvTransform():Matrix;
+    private function get_uvTransform2():Matrix;
+    private function get_shaderPickingDetails():Bool;
 
 	/**
 	 * The total amount of vertices in the SubGeometry.
 	 */
-    function get_numVertices():Int;
+    private function get_numVertices():Int;
 
 	/**
 	 * The amount of triangles that comprise the IRenderable geometry.
 	 */
-    function get_numTriangles():Int;
+    private function get_numTriangles():Int;
 
 	/**
 	 * The number of data elements in the buffers per vertex.
 	 * This always applies to vertices, normals and tangents.
 	 */
-    function get_vertexStride():Int;
+    private function get_vertexStride():Int;
 
 	/**
 	 * Assigns the attribute stream for vertex positions.
@@ -128,26 +130,26 @@ interface IRenderable extends IMaterialOwner {
 	/**
 	 * Retrieves the object's vertices as a Number array.
 	 */
-    function get_vertexData():Vector<Float>;
+    private function get_vertexData():Vector<Float>;
 
 	/**
 	 * Retrieves the object's normals as a Number array.
 	 */
-    function get_vertexNormalData():Vector<Float>;
+    private function get_vertexNormalData():Vector<Float>;
 
 	/**
 	 * Retrieves the object's tangents as a Number array.
 	 */
-    function get_vertexTangentData():Vector<Float>;
+    private function get_vertexTangentData():Vector<Float>;
 
 	/**
 	 * Retrieves the object's indices as a int array.
 	 */
-    function get_indexData():Vector<UInt>;
+    private function get_indexData():Vector<UInt>;
 
 	/**
 	 * Retrieves the object's uvs as a Number array.
 	 */
-    function get_UVData():Vector<Float>;
+    private function get_UVData():Vector<Float>;
 }
 
