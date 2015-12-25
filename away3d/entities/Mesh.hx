@@ -69,7 +69,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
         transform.identity();
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.MESH;
     }
 

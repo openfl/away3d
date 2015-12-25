@@ -21,8 +21,8 @@ import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.Context3DTextureFilter;
 
 class ShadingMethodBase extends NamedAssetBase {
-    public var sharedRegisters(get_sharedRegisters, set_sharedRegisters):ShaderRegisterData;
-    public var passes(get_passes, never):Array<MaterialPassBase>;
+    public var sharedRegisters(get, set):ShaderRegisterData;
+    public var passes(get, never):Array<MaterialPassBase>;
 
     private var _sharedRegisters:ShaderRegisterData;
     private var _passes:Array<MaterialPassBase>;

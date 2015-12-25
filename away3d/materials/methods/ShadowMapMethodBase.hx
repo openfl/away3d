@@ -12,10 +12,10 @@ import away3d.library.assets.IAsset;
 import away3d.lights.shadowmaps.ShadowMapperBase;
 import away3d.lights.LightBase;
 class ShadowMapMethodBase extends ShadingMethodBase implements IAsset {
-    public var assetType(get_assetType, never):String;
-    public var alpha(get_alpha, set_alpha):Float;
-    public var castingLight(get_castingLight, never):LightBase;
-    public var epsilon(get_epsilon, set_epsilon):Float;
+    public var assetType(get, never):String;
+    public var alpha(get, set):Float;
+    public var castingLight(get, never):LightBase;
+    public var epsilon(get, set):Float;
 
     private var _castingLight:LightBase;
     private var _shadowMapper:ShadowMapperBase;
@@ -37,7 +37,7 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.SHADOW_MAP_METHOD;
     }
 

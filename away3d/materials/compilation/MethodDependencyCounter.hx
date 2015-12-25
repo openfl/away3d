@@ -12,14 +12,14 @@ import away3d.materials.LightSources;
 import away3d.materials.methods.MethodVO;
 
 class MethodDependencyCounter {
-    public var tangentDependencies(get_tangentDependencies, never):Int;
-    public var usesGlobalPosFragment(get_usesGlobalPosFragment, never):Bool;
-    public var projectionDependencies(get_projectionDependencies, never):Int;
-    public var normalDependencies(get_normalDependencies, never):Int;
-    public var viewDirDependencies(get_viewDirDependencies, never):Int;
-    public var uvDependencies(get_uvDependencies, never):Int;
-    public var secondaryUVDependencies(get_secondaryUVDependencies, never):Int;
-    public var globalPosDependencies(get_globalPosDependencies, never):Int;
+    public var tangentDependencies(get, never):Int;
+    public var usesGlobalPosFragment(get, never):Bool;
+    public var projectionDependencies(get, never):Int;
+    public var normalDependencies(get, never):Int;
+    public var viewDirDependencies(get, never):Int;
+    public var uvDependencies(get, never):Int;
+    public var secondaryUVDependencies(get, never):Int;
+    public var globalPosDependencies(get, never):Int;
 
     private var _projectionDependencies:Int;
     private var _normalDependencies:Int;

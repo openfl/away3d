@@ -35,20 +35,20 @@ import openfl.events.Event;
 import openfl.geom.Matrix3D;
 
 class MaterialBase extends NamedAssetBase implements IAsset {
-    public var assetType(get_assetType, never):String;
-    public var lightPicker(get_lightPicker, set_lightPicker):LightPickerBase;
-    public var mipmap(get_mipmap, set_mipmap):Bool;
-    public var smooth(get_smooth, set_smooth):Bool;
-    public var depthCompareMode(get_depthCompareMode, set_depthCompareMode):Context3DCompareMode;
-    public var repeat(get_repeat, set_repeat):Bool;
-    public var anisotropy(get_anisotropy, set_anisotropy):Anisotropy;
-    public var bothSides(get_bothSides, set_bothSides):Bool;
-    public var blendMode(get_blendMode, set_blendMode):BlendMode;
-    public var alphaPremultiplied(get_alphaPremultiplied, set_alphaPremultiplied):Bool;
-    public var requiresBlending(get_requiresBlending, never):Bool;
-    public var uniqueId(get_uniqueId, never):Int;
-    public var numPasses(get_numPasses, never):Int;
-    public var owners(get_owners, never):Array<IMaterialOwner>;
+    public var assetType(get, never):String;
+    public var lightPicker(get, set):LightPickerBase;
+    public var mipmap(get, set):Bool;
+    public var smooth(get, set):Bool;
+    public var depthCompareMode(get, set):Context3DCompareMode;
+    public var repeat(get, set):Bool;
+    public var anisotropy(get, set):Anisotropy;
+    public var bothSides(get, set):Bool;
+    public var blendMode(get, set):BlendMode;
+    public var alphaPremultiplied(get, set):Bool;
+    public var requiresBlending(get, never):Bool;
+    public var uniqueId(get, never):Int;
+    public var numPasses(get, never):Int;
+    public var owners(get, never):Array<IMaterialOwner>;
 
     /**
 	 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
@@ -134,7 +134,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.MATERIAL;
     }
 
