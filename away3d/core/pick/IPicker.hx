@@ -7,7 +7,7 @@ import openfl.geom.Vector3D;
 import away3d.containers.Scene3D;
 import away3d.containers.View3D;
 interface IPicker {
-    var onlyMouseEnabled(get_onlyMouseEnabled, set_onlyMouseEnabled):Bool;
+    var onlyMouseEnabled(get, set):Bool;
 
     /**
 	 * Gets the collision object from the screen coordinates of the picking ray.
@@ -28,8 +28,8 @@ interface IPicker {
     /**
 	 * Determines whether the picker takes account of the mouseEnabled properties of entities. Defaults to true.
 	 */
-    function get_onlyMouseEnabled():Bool;
-    function set_onlyMouseEnabled(value:Bool):Bool;
+    private function get_onlyMouseEnabled():Bool;
+    private function set_onlyMouseEnabled(value:Bool):Bool;
     /**
 	 * Disposes memory used by the IPicker object
 	 */

@@ -12,7 +12,7 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class ColorMatrixMethod extends EffectMethodBase {
-    public var colorMatrix(get_colorMatrix, set_colorMatrix):Vector<Dynamic>;
+    public var colorMatrix(get, set):Vector<Dynamic>;
 
     private var _matrix:Vector<Dynamic>;
     /**
@@ -29,11 +29,11 @@ class ColorMatrixMethod extends EffectMethodBase {
     /**
 	 * The 4 x 5 matrix to transform the color of the material.
 	 */
-    public function get_colorMatrix():Vector<Dynamic> {
+    private function get_colorMatrix():Vector<Dynamic> {
         return _matrix;
     }
 
-    public function set_colorMatrix(value:Vector<Dynamic>):Vector<Dynamic> {
+    private function set_colorMatrix(value:Vector<Dynamic>):Vector<Dynamic> {
         _matrix = value;
         return value;
     }

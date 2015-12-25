@@ -7,9 +7,9 @@ import openfl.errors.Error;
 import openfl.geom.Vector3D;
 
 class WireframeCube extends WireframePrimitiveBase {
-    public var width(get_width, set_width):Float;
-    public var height(get_height, set_height):Float;
-    public var depth(get_depth, set_depth):Float;
+    public var width(get, set):Float;
+    public var height(get, set):Float;
+    public var depth(get, set):Float;
 
     private var _width:Float;
     private var _height:Float;
@@ -32,11 +32,11 @@ class WireframeCube extends WireframePrimitiveBase {
     /**
 	 * The size of the cube along its X-axis.
 	 */
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function set_width(value:Float):Float {
+    private function set_width(value:Float):Float {
         _width = value;
         invalidateGeometry();
         return value;
@@ -45,11 +45,11 @@ class WireframeCube extends WireframePrimitiveBase {
     /**
 	 * The size of the cube along its Y-axis.
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         if (value <= 0) throw new Error("Value needs to be greater than 0");
         _height = value;
         invalidateGeometry();
@@ -59,11 +59,11 @@ class WireframeCube extends WireframePrimitiveBase {
     /**
 	 * The size of the cube along its Z-axis.
 	 */
-    public function get_depth():Float {
+    private function get_depth():Float {
         return _depth;
     }
 
-    public function set_depth(value:Float):Float {
+    private function set_depth(value:Float):Float {
         _depth = value;
         invalidateGeometry();
         return value;

@@ -20,8 +20,8 @@ import openfl.Vector;
 
 class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher {
     
-    public var numCascades(get_numCascades, set_numCascades):Int;
-    public var nearPlaneDistances(get_nearPlaneDistances, never):Array<Float>;
+    public var numCascades(get, set):Int;
+    public var nearPlaneDistances(get, never):Array<Float>;
 
     private var _scissorRects:Array<Rectangle>;
     private var _scissorRectsInvalid:Bool;
@@ -96,7 +96,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 
     // will not be allowed
 
-    override public function set_depthMapSize(value:Int):Int {
+    override private function set_depthMapSize(value:Int):Int {
         if (value == _depthMapSize) 
             return value;
         
@@ -110,11 +110,11 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
         _scissorRectsInvalid = true;
     }
 
-    public function get_numCascades():Int {
+    private function get_numCascades():Int {
         return _numCascades;
     }
 
-    public function set_numCascades(value:Int):Int {
+    private function set_numCascades(value:Int):Int {
         if (value == _numCascades) 
             return value;
         

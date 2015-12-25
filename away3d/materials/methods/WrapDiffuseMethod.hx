@@ -11,7 +11,7 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class WrapDiffuseMethod extends BasicDiffuseMethod {
-    public var wrapFactor(get_wrapFactor, set_wrapFactor):Float;
+    public var wrapFactor(get, set):Float;
 
     private var _wrapDataRegister:ShaderRegisterElement;
     private var _wrapFactor:Float;
@@ -35,11 +35,11 @@ class WrapDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * A factor to indicate the amount by which the light is allowed to wrap.
 	 */
-    public function get_wrapFactor():Float {
+    private function get_wrapFactor():Float {
         return _wrapFactor;
     }
 
-    public function set_wrapFactor(value:Float):Float {
+    private function set_wrapFactor(value:Float):Float {
         _wrapFactor = value;
         _wrapFactor = 1 / (value + 1);
         return value;

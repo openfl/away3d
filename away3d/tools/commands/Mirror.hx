@@ -10,8 +10,8 @@ import away3d.tools.utils.GeomUtil;
 import openfl.geom.Matrix3D;
 
 class Mirror {
-    public var recenter(get_recenter, set_recenter):Bool;
-    public var duplicate(get_duplicate, set_duplicate):Bool;
+    public var recenter(get, set):Bool;
+    public var duplicate(get, set):Bool;
 
     inline static public var X_AXIS:Int = 1;
 // 001
@@ -37,21 +37,21 @@ class Mirror {
         _duplicate = duplicate;
     }
 
-    public function set_recenter(b:Bool):Bool {
+    private function set_recenter(b:Bool):Bool {
         _recenter = b;
         return b;
     }
 
-    public function get_recenter():Bool {
+    private function get_recenter():Bool {
         return _recenter;
     }
 
-    public function set_duplicate(b:Bool):Bool {
+    private function set_duplicate(b:Bool):Bool {
         _duplicate = b;
         return b;
     }
 
-    public function get_duplicate():Bool {
+    private function get_duplicate():Bool {
         return _duplicate;
     }
 

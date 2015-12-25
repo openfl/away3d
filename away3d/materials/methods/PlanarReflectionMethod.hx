@@ -12,9 +12,9 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.PlanarReflectionTexture;
 
 class PlanarReflectionMethod extends EffectMethodBase {
-    public var alpha(get_alpha, set_alpha):Float;
-    public var texture(get_texture, set_texture):PlanarReflectionTexture;
-    public var normalDisplacement(get_normalDisplacement, set_normalDisplacement):Float;
+    public var alpha(get, set):Float;
+    public var texture(get, set):PlanarReflectionTexture;
+    public var normalDisplacement(get, set):Float;
 
     private var _texture:PlanarReflectionTexture;
     private var _alpha:Float;
@@ -43,11 +43,11 @@ class PlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The reflectivity of the surface.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _alpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         _alpha = value;
         return value;
     }
@@ -55,11 +55,11 @@ class PlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The PlanarReflectionTexture used to render the reflected view.
 	 */
-    public function get_texture():PlanarReflectionTexture {
+    private function get_texture():PlanarReflectionTexture {
         return _texture;
     }
 
-    public function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture {
+    private function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture {
         _texture = value;
         return value;
     }
@@ -67,11 +67,11 @@ class PlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The amount of displacement on the surface, for use with water waves.
 	 */
-    public function get_normalDisplacement():Float {
+    private function get_normalDisplacement():Float {
         return _normalDisplacement;
     }
 
-    public function set_normalDisplacement(value:Float):Float {
+    private function set_normalDisplacement(value:Float):Float {
         if (_normalDisplacement == value) return value;
         if (_normalDisplacement == 0 || value == 0) invalidateShaderProgram();
         _normalDisplacement = value;

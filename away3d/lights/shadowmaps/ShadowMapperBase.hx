@@ -15,10 +15,10 @@ import away3d.textures.TextureProxyBase;
 import openfl.display3D.textures.TextureBase;
 
 class ShadowMapperBase {
-    public var autoUpdateShadows(get_autoUpdateShadows, set_autoUpdateShadows):Bool;
-    public var light(get_light, set_light):LightBase;
-    public var depthMap(get_depthMap, never):TextureProxyBase;
-    public var depthMapSize(get_depthMapSize, set_depthMapSize):Int;
+    public var autoUpdateShadows(get, set):Bool;
+    public var light(get, set):LightBase;
+    public var depthMap(get, never):TextureProxyBase;
+    public var depthMapSize(get, set):Int;
 
     private var _casterCollector:ShadowCasterCollector;
     private var _depthMap:TextureProxyBase;
@@ -38,11 +38,11 @@ class ShadowMapperBase {
         return new ShadowCasterCollector();
     }
 
-    public function get_autoUpdateShadows():Bool {
+    private function get_autoUpdateShadows():Bool {
         return _autoUpdateShadows;
     }
 
-    public function set_autoUpdateShadows(value:Bool):Bool {
+    private function set_autoUpdateShadows(value:Bool):Bool {
         _autoUpdateShadows = value;
         return value;
     }
@@ -72,16 +72,16 @@ class ShadowMapperBase {
         else _explicitDepthMap = false;
     }
 
-    public function get_light():LightBase {
+    private function get_light():LightBase {
         return _light;
     }
 
-    public function set_light(value:LightBase):LightBase {
+    private function set_light(value:LightBase):LightBase {
         _light = value;
         return value;
     }
 
-    public function get_depthMap():TextureProxyBase {
+    private function get_depthMap():TextureProxyBase {
 
         if (_depthMap == null)
             _depthMap = createDepthTexture();
@@ -89,11 +89,11 @@ class ShadowMapperBase {
         return _depthMap ;
     }
 
-    public function get_depthMapSize():Int {
+    private function get_depthMapSize():Int {
         return _depthMapSize;
     }
 
-    public function set_depthMapSize(value:Int):Int {
+    private function set_depthMapSize(value:Int):Int {
         if (value == _depthMapSize) 
             return value;
        

@@ -44,11 +44,11 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset {
     /**
 	 * The "transparency" of the shadows. This allows making shadows less strong.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _alpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         _alpha = value;
         return value;
     }
@@ -56,7 +56,7 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset {
     /**
 	 * The light casting the shadows.
 	 */
-    public function get_castingLight():LightBase {
+    private function get_castingLight():LightBase {
         return _castingLight;
     }
 
@@ -64,11 +64,11 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset {
 	 * A small value to counter floating point precision errors when comparing values in the shadow map with the
 	 * calculated depth value. Increase this if shadow banding occurs, decrease it if the shadow seems to be too detached.
 	 */
-    public function get_epsilon():Float {
+    private function get_epsilon():Float {
         return _epsilon;
     }
 
-    public function set_epsilon(value:Float):Float {
+    private function set_epsilon(value:Float):Float {
         _epsilon = value;
         return value;
     }

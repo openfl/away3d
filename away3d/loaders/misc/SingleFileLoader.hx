@@ -51,21 +51,21 @@ class SingleFileLoader extends EventDispatcher
 	
 	public var url(get, null) : String;
 	
-	public function get_url() : String
+	private function get_url() : String
 	{
 		return _req!=null? _req.url : '';
 	}
 	
 	public var data(get, null) : Dynamic ;
 	
-	public function get_data() : Dynamic
+	private function get_data() : Dynamic
 	{
 		return _data;
 	}
 	
 	public var loadAsRawData(get, null) : Bool;
 	
-	public function get_loadAsRawData() : Bool
+	private function get_loadAsRawData() : Bool
 	{
 		return _loadAsRawData;
 	}
@@ -154,7 +154,7 @@ class SingleFileLoader extends EventDispatcher
 	 * A reference to the parser that will translate the loaded data into a usable resource.
 	 */
 	public var parser(get, null) : ParserBase;
-	public function get_parser() : ParserBase
+	private function get_parser() : ParserBase
 	{
 		return _parser;
 	}
@@ -163,12 +163,12 @@ class SingleFileLoader extends EventDispatcher
 	 * A list of dependencies that need to be loaded and resolved for the loaded object.
 	 */
 	public var dependencies(get, set) : Array<ResourceDependency>;
-	public function get_dependencies() : Array<ResourceDependency>
+	private function get_dependencies() : Array<ResourceDependency>
 	{
 		return _parser!=null? _parser.dependencies : new Array<ResourceDependency>();
 	}
 
-	public function set_dependencies(value : Array<ResourceDependency>) : Array<ResourceDependency>
+	private function set_dependencies(value : Array<ResourceDependency>) : Array<ResourceDependency>
 	{
 		if (_parser!=null) _parser.dependencies = value;
 		return value;

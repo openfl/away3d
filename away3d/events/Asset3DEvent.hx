@@ -7,8 +7,8 @@ import away3d.library.assets.IAsset;
 import openfl.events.Event;
 
 class Asset3DEvent extends Event {
-    public var asset(get_asset, never):IAsset;
-    public var assetPrevName(get_assetPrevName, never):String;
+    public var asset(get, never):IAsset;
+    public var assetPrevName(get, never):String;
 
     static public var ASSET_COMPLETE:String = "assetComplete";
     static public var ENTITY_COMPLETE:String = "entityComplete";
@@ -47,11 +47,11 @@ class Asset3DEvent extends Event {
             _prevName = ((_asset != null) ? _asset.name : null);
     }
 
-    public function get_asset():IAsset {
+    private function get_asset():IAsset {
         return _asset;
     }
 
-    public function get_assetPrevName():String {
+    private function get_assetPrevName():String {
         return _prevName;
     }
 

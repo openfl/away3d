@@ -3,8 +3,8 @@ package away3d.filters;
 import away3d.filters.tasks.Filter3DHBlurTask;
 
 class HBlurFilter3D extends Filter3DBase {
-    public var amount(get_amount, set_amount):Int;
-    public var stepSize(get_stepSize, set_stepSize):Int;
+    public var amount(get, set):Int;
+    public var stepSize(get, set):Int;
 
     private var _blurTask:Filter3DHBlurTask;
     /**
@@ -18,11 +18,11 @@ class HBlurFilter3D extends Filter3DBase {
         addTask(_blurTask);
     }
 
-    public function get_amount():Int {
+    private function get_amount():Int {
         return _blurTask.amount;
     }
 
-    public function set_amount(value:Int):Int {
+    private function set_amount(value:Int):Int {
         _blurTask.amount = value;
         return value;
     }
@@ -31,11 +31,11 @@ class HBlurFilter3D extends Filter3DBase {
 	 * The distance between two blur samples. Set to -1 to autodetect with acceptable quality (default value).
 	 * Higher values provide better performance at the cost of reduces quality.
 	 */
-    public function get_stepSize():Int {
+    private function get_stepSize():Int {
         return _blurTask.stepSize;
     }
 
-    public function set_stepSize(value:Int):Int {
+    private function set_stepSize(value:Int):Int {
         _blurTask.stepSize = value;
         return value;
     }

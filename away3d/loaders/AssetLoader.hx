@@ -39,7 +39,7 @@ class AssetLoader extends EventDispatcher
 	 * Returns the base dependency of the loader
 	 */
 	public var baseDependency(get, null) : ResourceDependency;
-	public function get_baseDependency() : ResourceDependency
+	private function get_baseDependency() : ResourceDependency
 	{
 		return _baseDependency;
 	}

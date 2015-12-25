@@ -15,7 +15,7 @@ import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 
 class ParticleRotateToPositionState extends ParticleStateBase {
-    public var position(get_position, set_position):Vector3D;
+    public var position(get, set):Vector3D;
 
     private var _particleRotateToPositionNode:ParticleRotateToPositionNode;
     private var _position:Vector3D;
@@ -24,11 +24,11 @@ class ParticleRotateToPositionState extends ParticleStateBase {
     /**
 	 * Defines the position of the point the particle will rotate to face when in global mode. Defaults to 0,0,0.
 	 */
-    public function get_position():Vector3D {
+    private function get_position():Vector3D {
         return _position;
     }
 
-    public function set_position(value:Vector3D):Vector3D {
+    private function set_position(value:Vector3D):Vector3D {
         _position = value;
         return value;
     }

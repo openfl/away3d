@@ -18,7 +18,7 @@ class RenderCubeTexture extends CubeTextureBase {
         setSize(size, size);
     }
 
-    public function set_size(value:Int):Int {
+    private function set_size(value:Int):Int {
         if (value == _width) return value;
         if (!TextureUtils.isDimensionValid(value)) throw new Error("Invalid size: Width and height must be power of 2 and cannot exceed 2048");
         invalidateContent();

@@ -87,49 +87,49 @@ class MethodDependencyCounter {
     /**
 	 * The amount of tangent vector dependencies (fragment shader).
 	 */
-    public function get_tangentDependencies():Int {
+    private function get_tangentDependencies():Int {
         return _tangentDependencies;
     }
 
     /**
 	 * Indicates whether there are any dependencies on the world-space position vector.
 	 */
-    public function get_usesGlobalPosFragment():Bool {
+    private function get_usesGlobalPosFragment():Bool {
         return _usesGlobalPosFragment;
     }
 
     /**
 	 * The amount of dependencies on the projected position.
 	 */
-    public function get_projectionDependencies():Int {
+    private function get_projectionDependencies():Int {
         return _projectionDependencies;
     }
 
     /**
 	 * The amount of dependencies on the normal vector.
 	 */
-    public function get_normalDependencies():Int {
+    private function get_normalDependencies():Int {
         return _normalDependencies;
     }
 
     /**
 	 * The amount of dependencies on the view direction.
 	 */
-    public function get_viewDirDependencies():Int {
+    private function get_viewDirDependencies():Int {
         return _viewDirDependencies;
     }
 
     /**
 	 * The amount of dependencies on the primary UV coordinates.
 	 */
-    public function get_uvDependencies():Int {
+    private function get_uvDependencies():Int {
         return _uvDependencies;
     }
 
     /**
 	 * The amount of dependencies on the secondary UV coordinates.
 	 */
-    public function get_secondaryUVDependencies():Int {
+    private function get_secondaryUVDependencies():Int {
         return _secondaryUVDependencies;
     }
 
@@ -137,7 +137,7 @@ class MethodDependencyCounter {
 	 * The amount of dependencies on the global position. This can be 0 while hasGlobalPosDependencies is true when
 	 * the global position is used as a temporary value (fe to calculate the view direction)
 	 */
-    public function get_globalPosDependencies():Int {
+    private function get_globalPosDependencies():Int {
         return _globalPosDependencies;
     }
 

@@ -9,9 +9,9 @@ import away3d.materials.compilation.ShaderRegisterData;
 import away3d.materials.compilation.ShaderRegisterElement;
 
 class FresnelSpecularMethod extends CompositeSpecularMethod {
-    public var basedOnSurface(get_basedOnSurface, set_basedOnSurface):Bool;
-    public var fresnelPower(get_fresnelPower, set_fresnelPower):Float;
-    public var normalReflectance(get_normalReflectance, set_normalReflectance):Float;
+    public var basedOnSurface(get, set):Bool;
+    public var fresnelPower(get, set):Float;
+    public var normalReflectance(get, set):Float;
 
     private var _dataReg:ShaderRegisterElement;
     private var _incidentLight:Bool;
@@ -45,11 +45,11 @@ class FresnelSpecularMethod extends CompositeSpecularMethod {
     /**
 	 * Defines whether the fresnel effect should be based on the view angle on the surface (if true), or on the angle between the light and the view.
 	 */
-    public function get_basedOnSurface():Bool {
+    private function get_basedOnSurface():Bool {
         return !_incidentLight;
     }
 
-    public function set_basedOnSurface(value:Bool):Bool {
+    private function set_basedOnSurface(value:Bool):Bool {
         if (_incidentLight != value) return value;
         _incidentLight = !value;
         invalidateShaderProgram();
@@ -59,11 +59,11 @@ class FresnelSpecularMethod extends CompositeSpecularMethod {
     /**
 	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
 	 */
-    public function get_fresnelPower():Float {
+    private function get_fresnelPower():Float {
         return _fresnelPower;
     }
 
-    public function set_fresnelPower(value:Float):Float {
+    private function set_fresnelPower(value:Float):Float {
         _fresnelPower = value;
         return value;
     }
@@ -79,11 +79,11 @@ class FresnelSpecularMethod extends CompositeSpecularMethod {
     /**
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
-    public function get_normalReflectance():Float {
+    private function get_normalReflectance():Float {
         return _normalReflectance;
     }
 
-    public function set_normalReflectance(value:Float):Float {
+    private function set_normalReflectance(value:Float):Float {
         _normalReflectance = value;
         return value;
     }

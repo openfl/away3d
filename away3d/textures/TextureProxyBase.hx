@@ -33,11 +33,11 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
         super();
     }
 
-    public function get_hasMipMaps():Bool {
+    private function get_hasMipMaps():Bool {
         return _hasMipmaps;
     }
 
-    public function get_format():Context3DTextureFormat {
+    private function get_format():Context3DTextureFormat {
         return _format;
     }
 
@@ -45,21 +45,21 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
         return Asset3DType.TEXTURE;
     }
 
-    public function get_width():Int {
+    private function get_width():Int {
         return _width;
     }
 
-    public function get_height():Int {
+    private function get_height():Int {
         return _height;
     }
 
-    public function set_width(value:Int):Int {
+    private function set_width(value:Int):Int {
         if (value == _width) return value;
         _width = value;
         return value;
     }
 
-    public function set_height(value:Int):Int {
+    private function set_height(value:Int):Int {
         if (value == _height) return value;
         _height = value;
         return value;

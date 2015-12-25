@@ -18,7 +18,7 @@ import away3d.utils.ArrayUtils;
 import openfl.Vector;
 
 class RaycastPicker implements IPicker {
-    public var onlyMouseEnabled(get_onlyMouseEnabled, set_onlyMouseEnabled):Bool;
+    public var onlyMouseEnabled(get, set):Bool;
 
     // TODO: add option of finding best hit?
     var _findClosestCollision:Bool;
@@ -33,11 +33,11 @@ class RaycastPicker implements IPicker {
     /**
 	 * @inheritDoc
 	 */
-    public function get_onlyMouseEnabled():Bool {
+    private function get_onlyMouseEnabled():Bool {
         return _onlyMouseEnabled;
     }
 
-    public function set_onlyMouseEnabled(value:Bool):Bool {
+    private function set_onlyMouseEnabled(value:Bool):Bool {
         _onlyMouseEnabled = value;
         return value;
     }

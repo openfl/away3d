@@ -4,18 +4,18 @@
 package away3d.primitives;
 
 class RegularPolygonGeometry extends CylinderGeometry {
-    public var radius(get_radius, set_radius):Float;
-    public var sides(get_sides, set_sides):Int;
-    public var subdivisions(get_subdivisions, set_subdivisions):Int;
+    public var radius(get, set):Float;
+    public var sides(get, set):Int;
+    public var subdivisions(get, set):Int;
 
     /**
 	 * The radius of the regular polygon.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _bottomRadius;
     }
 
-    public function set_radius(value:Float):Float {
+    private function set_radius(value:Float):Float {
         _bottomRadius = value;
         invalidateGeometry();
         return value;
@@ -24,11 +24,11 @@ class RegularPolygonGeometry extends CylinderGeometry {
     /**
 	 * The number of sides of the regular polygon.
 	 */
-    public function get_sides():Int {
+    private function get_sides():Int {
         return _segmentsW;
     }
 
-    public function set_sides(value:Int):Int {
+    private function set_sides(value:Int):Int {
         segmentsW = value;
         return value;
     }
@@ -36,11 +36,11 @@ class RegularPolygonGeometry extends CylinderGeometry {
     /**
 	 * The number of subdivisions from the edge to the center of the regular polygon.
 	 */
-    public function get_subdivisions():Int {
+    private function get_subdivisions():Int {
         return _segmentsH;
     }
 
-    public function set_subdivisions(value:Int):Int {
+    private function set_subdivisions(value:Int):Int {
         segmentsH = value;
         return value;
     }

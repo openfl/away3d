@@ -10,8 +10,8 @@ import away3d.animators.data.SkeletonPose;
 import openfl.Vector;
 
 class SkeletonClipState extends AnimationClipState implements ISkeletonAnimationState {
-    public var currentPose(get_currentPose, never):SkeletonPose;
-    public var nextPose(get_nextPose, never):SkeletonPose;
+    public var currentPose(get, never):SkeletonPose;
+    public var nextPose(get, never):SkeletonPose;
 
     private var _rootPos:Vector3D;
     private var _frames:Vector<SkeletonPose>;
@@ -24,7 +24,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
     /**
 	 * Returns the current skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
-    public function get_currentPose():SkeletonPose {
+    private function get_currentPose():SkeletonPose {
         if (_framesDirty) updateFrames();
         return _currentPose;
     }
@@ -32,7 +32,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
     /**
 	 * Returns the next skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
-    public function get_nextPose():SkeletonPose {
+    private function get_nextPose():SkeletonPose {
         if (_framesDirty) updateFrames();
         return _nextPose;
     }

@@ -56,12 +56,12 @@ package away3d.materials.passes;
 		 * Indicates whether lights that cast shadows should be included in the pass.
 		 */
 		public var includeCasters(get, set) : Bool;
-		public function get_includeCasters() : Bool
+		private function get_includeCasters() : Bool
 		{
 			return _includeCasters;
 		}
 		
-		public function set_includeCasters(value:Bool) : Bool
+		private function set_includeCasters(value:Bool) : Bool
 		{
 			if (_includeCasters == value)
 				return _includeCasters;
@@ -74,12 +74,12 @@ package away3d.materials.passes;
 		 * The ColorTransform object to transform the colour of the material with. Defaults to null.
 		 */
 		public var colorTransform(get, set) : ColorTransform;
-		public function get_colorTransform() : ColorTransform
+		private function get_colorTransform() : ColorTransform
 		{
 			return _methodSetup.colorTransformMethod!=null ? _methodSetup._colorTransformMethod.colorTransform : null;
 		}
 		
-		public function set_colorTransform(value:ColorTransform) : ColorTransform
+		private function set_colorTransform(value:ColorTransform) : ColorTransform
 		{
 			if (value!=null) {
 				if (colorTransformMethod==null) colorTransformMethod = new ColorTransformMethod();
@@ -96,12 +96,12 @@ package away3d.materials.passes;
 		 * The ColorTransformMethod object to transform the colour of the material with. Defaults to null.
 		 */
 		public var colorTransformMethod(get, set) : ColorTransformMethod;
-		public function get_colorTransformMethod() : ColorTransformMethod
+		private function get_colorTransformMethod() : ColorTransformMethod
 		{
 			return _methodSetup.colorTransformMethod;
 		}
 		
-		public function set_colorTransformMethod(value:ColorTransformMethod) : ColorTransformMethod
+		private function set_colorTransformMethod(value:ColorTransformMethod) : ColorTransformMethod
 		{
 			_methodSetup.colorTransformMethod = value;
 			return value;
@@ -121,7 +121,7 @@ package away3d.materials.passes;
 		 * The number of "effect" methods added to the material.
 		 */
 		public var numMethods(get, null) : Int;
-		public function get_numMethods() : Int
+		private function get_numMethods() : Int
 		{
 			return _methodSetup.numMethods;
 		}
@@ -428,12 +428,12 @@ package away3d.materials.passes;
 		 */
 		public var ignoreLights(get, set) : Bool;
 		
-		public function get_ignoreLights() : Bool
+		private function get_ignoreLights() : Bool
 		{
 			return _ignoreLights;
 		}
 
-		public function set_ignoreLights(ignoreLights:Bool) : Bool
+		private function set_ignoreLights(ignoreLights:Bool) : Bool
 		{
 			_ignoreLights = ignoreLights;
 			return _ignoreLights;

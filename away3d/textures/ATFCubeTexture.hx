@@ -8,7 +8,7 @@ import openfl.display3D.textures.TextureBase;
 import openfl.utils.ByteArray;
 
 class ATFCubeTexture extends CubeTextureBase {
-    public var atfData(get_atfData, set_atfData):ATFData;
+    public var atfData(get, set):ATFData;
 
     private var _atfData:ATFData;
 
@@ -20,11 +20,11 @@ class ATFCubeTexture extends CubeTextureBase {
         _hasMipmaps = _atfData.numTextures > 1;
     }
 
-    public function get_atfData():ATFData {
+    private function get_atfData():ATFData {
         return _atfData;
     }
 
-    public function set_atfData(value:ATFData):ATFData {
+    private function set_atfData(value:ATFData):ATFData {
         _atfData = value;
         invalidateContent();
         setSize(value.width, value.height);

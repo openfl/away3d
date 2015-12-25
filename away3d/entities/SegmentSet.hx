@@ -244,7 +244,7 @@ class SegmentSet extends Entity implements IRenderable {
     /**
 	 * @returns howmany segments are in the SegmentSet
 	 */
-    public function get_segmentCount():Int {
+    private function get_segmentCount():Int {
         return _indexSegments;
     }
 
@@ -413,7 +413,7 @@ class SegmentSet extends Entity implements IRenderable {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_mouseEnabled():Bool {
+    override private function get_mouseEnabled():Bool {
         return false;
     }
 
@@ -481,27 +481,27 @@ class SegmentSet extends Entity implements IRenderable {
         return new RenderableNode(this);
     }
 
-    public function get_numTriangles():Int {
+    private function get_numTriangles():Int {
         return Std.int(_numIndices * 0.3333333);
     }
 
-    public function get_sourceEntity():Entity {
+    private function get_sourceEntity():Entity {
         return this;
     }
 
-    public function get_castsShadows():Bool {
+    private function get_castsShadows():Bool {
         return false;
     }
 
-    public function get_material():MaterialBase {
+    private function get_material():MaterialBase {
         return _material;
     }
 
-    public function get_animator():IAnimator {
+    private function get_animator():IAnimator {
         return _animator;
     }
 
-    public function set_material(value:MaterialBase):MaterialBase {
+    private function set_material(value:MaterialBase):MaterialBase {
         if (value == _material) return value;
         if (_material != null) _material.removeOwner(this);
         _material = value;
@@ -509,51 +509,51 @@ class SegmentSet extends Entity implements IRenderable {
         return value;
     }
 
-    public function get_uvTransform():Matrix {
+    private function get_uvTransform():Matrix {
         return null;
     }
 
-    public function get_uvTransform2():Matrix {
+    private function get_uvTransform2():Matrix {
         return null;
     }
 
-    public function get_vertexData():Vector<Float> {
+    private function get_vertexData():Vector<Float> {
         return null;
     }
 
-    public function get_indexData():Vector<UInt> {
+    private function get_indexData():Vector<UInt> {
         return null;
     }
 
-    public function get_UVData():Vector<Float> {
+    private function get_UVData():Vector<Float> {
         return null;
     }
 
-    public function get_numVertices():Int {
+    private function get_numVertices():Int {
         return 0;
     }
 
-    public function get_vertexStride():Int {
+    private function get_vertexStride():Int {
         return 11;
     }
 
-    public function get_vertexNormalData():Vector<Float> {
+    private function get_vertexNormalData():Vector<Float> {
         return null;
     }
 
-    public function get_vertexTangentData():Vector<Float> {
+    private function get_vertexTangentData():Vector<Float> {
         return null;
     }
 
-    public function get_vertexOffset():Int {
+    private function get_vertexOffset():Int {
         return 0;
     }
 
-    public function get_vertexNormalOffset():Int {
+    private function get_vertexNormalOffset():Int {
         return 0;
     }
 
-    public function get_vertexTangentOffset():Int {
+    private function get_vertexTangentOffset():Int {
         return 0;
     }
 

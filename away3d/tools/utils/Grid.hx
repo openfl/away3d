@@ -11,8 +11,8 @@ import away3d.core.base.SubGeometry;
 import away3d.entities.Mesh;
 
 class Grid {
-    public var unit(get_unit, set_unit):Float;
-    public var objectSpace(get_objectSpace, set_objectSpace):Bool;
+    public var unit(get, set):Float;
+    public var objectSpace(get, set):Bool;
 
     private var _unit:Float;
     private var _objectSpace:Bool;
@@ -65,25 +65,25 @@ class Grid {
     /**
 	 * Defines if the grid unit.
 	 */
-    public function set_unit(val:Float):Float {
+    private function set_unit(val:Float):Float {
         _unit = Math.abs(val);
         _unit = ((_unit == 0)) ? .001 : _unit;
         return val;
     }
 
-    public function get_unit():Float {
+    private function get_unit():Float {
         return _unit;
     }
 
     /**
 	 * Defines if the grid unit is applied in objectspace or worldspace. In worldspace, objects positions are affected.
 	 */
-    public function set_objectSpace(b:Bool):Bool {
+    private function set_objectSpace(b:Bool):Bool {
         _objectSpace = b;
         return b;
     }
 
-    public function get_objectSpace():Bool {
+    private function get_objectSpace():Bool {
         return _objectSpace;
     }
 

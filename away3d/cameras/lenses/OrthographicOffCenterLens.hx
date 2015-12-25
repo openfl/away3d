@@ -9,10 +9,10 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class OrthographicOffCenterLens extends LensBase {
-    public var minX(get_minX, set_minX):Float;
-    public var maxX(get_maxX, set_maxX):Float;
-    public var minY(get_minY, set_minY):Float;
-    public var maxY(get_maxY, set_maxY):Float;
+    public var minX(get, set):Float;
+    public var maxX(get, set):Float;
+    public var minY(get, set):Float;
+    public var maxY(get, set):Float;
 
     private var _minX:Float;
     private var _maxX:Float;
@@ -30,41 +30,41 @@ class OrthographicOffCenterLens extends LensBase {
         _maxY = maxY;
     }
 
-    public function get_minX():Float {
+    private function get_minX():Float {
         return _minX;
     }
 
-    public function set_minX(value:Float):Float {
+    private function set_minX(value:Float):Float {
         _minX = value;
         invalidateMatrix();
         return value;
     }
 
-    public function get_maxX():Float {
+    private function get_maxX():Float {
         return _maxX;
     }
 
-    public function set_maxX(value:Float):Float {
+    private function set_maxX(value:Float):Float {
         _maxX = value;
         invalidateMatrix();
         return value;
     }
 
-    public function get_minY():Float {
+    private function get_minY():Float {
         return _minY;
     }
 
-    public function set_minY(value:Float):Float {
+    private function set_minY(value:Float):Float {
         _minY = value;
         invalidateMatrix();
         return value;
     }
 
-    public function get_maxY():Float {
+    private function get_maxY():Float {
         return _maxY;
     }
 
-    public function set_maxY(value:Float):Float {
+    private function set_maxY(value:Float):Float {
         _maxY = value;
         invalidateMatrix();
         return value;

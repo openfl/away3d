@@ -5,7 +5,7 @@ package away3d.materials;
 
 
 class ColorMultiPassMaterial extends MultiPassMaterialBase {
-    public var color(get_color, set_color):Int;
+    public var color(get, set):Int;
 
     /**
 	 * Creates a new ColorMultiPassMaterial object.
@@ -20,11 +20,11 @@ class ColorMultiPassMaterial extends MultiPassMaterialBase {
     /**
 	 * The diffuse reflectivity color of the surface.
 	 */
-    public function get_color():Int {
+    private function get_color():Int {
         return diffuseMethod.diffuseColor;
     }
 
-    public function set_color(value:Int):Int {
+    private function set_color(value:Int):Int {
         diffuseMethod.diffuseColor = value;
         return value;
     }

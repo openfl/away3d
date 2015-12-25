@@ -7,7 +7,7 @@ import away3d.animators.states.SkeletonClipState;
 import away3d.animators.data.SkeletonPose;
 
 class SkeletonClipNode extends AnimationClipNodeBase {
-    public var frames(get_frames, never):Array<SkeletonPose>;
+    public var frames(get, never):Array<SkeletonPose>;
 
     private var _frames:Array<SkeletonPose>;
     
@@ -20,7 +20,7 @@ class SkeletonClipNode extends AnimationClipNodeBase {
     /**
 	 * Returns a vector of skeleton poses representing the pose of each animation frame in the clip.
 	 */
-    public function get_frames():Array<SkeletonPose> {
+    private function get_frames():Array<SkeletonPose> {
         return _frames;
     }
 

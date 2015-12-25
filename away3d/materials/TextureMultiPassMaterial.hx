@@ -7,9 +7,9 @@ import away3d.textures.Texture2DBase;
 import away3d.textures.Anisotropy;
 
 class TextureMultiPassMaterial extends MultiPassMaterialBase {
-    public var animateUVs(get_animateUVs, set_animateUVs):Bool;
-    public var texture(get_texture, set_texture):Texture2DBase;
-    public var ambientTexture(get_ambientTexture, set_ambientTexture):Texture2DBase;
+    public var animateUVs(get, set):Bool;
+    public var texture(get, set):Texture2DBase;
+    public var ambientTexture(get, set):Texture2DBase;
 
     private var _animateUVs:Bool;
     
@@ -33,11 +33,11 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
     /**
 	 * Specifies whether or not the UV coordinates should be animated using a transformation matrix.
 	 */
-    public function get_animateUVs():Bool {
+    private function get_animateUVs():Bool {
         return _animateUVs;
     }
 
-    public function set_animateUVs(value:Bool):Bool {
+    private function set_animateUVs(value:Bool):Bool {
         _animateUVs = value;
         return value;
     }
@@ -45,11 +45,11 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
     /**
 	 * The texture object to use for the albedo colour.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return diffuseMethod.texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         diffuseMethod.texture = value;
         return value;
     }
@@ -57,11 +57,11 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase {
     /**
 	 * The texture object to use for the ambient colour.
 	 */
-    public function get_ambientTexture():Texture2DBase {
+    private function get_ambientTexture():Texture2DBase {
         return ambientMethod.texture;
     }
 
-    public function set_ambientTexture(value:Texture2DBase):Texture2DBase {
+    private function set_ambientTexture(value:Texture2DBase):Texture2DBase {
         ambientMethod.texture = value;
         diffuseMethod.useAmbientTexture = cast((value!=null), Bool);
         return value;

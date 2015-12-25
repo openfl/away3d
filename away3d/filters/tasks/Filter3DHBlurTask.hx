@@ -7,8 +7,8 @@ import openfl.display3D.textures.Texture;
 import openfl.Vector;
 
 class Filter3DHBlurTask extends Filter3DTaskBase {
-    public var amount(get_amount, set_amount):Int;
-    public var stepSize(get_stepSize, set_stepSize):Int;
+    public var amount(get, set):Int;
+    public var stepSize(get, set):Int;
 
     static private var MAX_AUTO_SAMPLES:Int = 15;
     private var _amount:Int;
@@ -29,11 +29,11 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
         this.stepSize = stepSize;
     }
 
-    public function get_amount():Int {
+    private function get_amount():Int {
         return _amount;
     }
 
-    public function set_amount(value:Int):Int {
+    private function set_amount(value:Int):Int {
         if (value == _amount) return value;
         
         _amount = value;
@@ -44,11 +44,11 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
         return value;
     }
 
-    public function get_stepSize():Int {
+    private function get_stepSize():Int {
         return _stepSize;
     }
 
-    public function set_stepSize(value:Int):Int {
+    private function set_stepSize(value:Int):Int {
         if (value == _stepSize) return value;
         
         _stepSize = value;

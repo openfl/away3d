@@ -12,8 +12,8 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.Texture2DBase;
 
 class AlphaMaskMethod extends EffectMethodBase {
-    public var useSecondaryUV(get_useSecondaryUV, set_useSecondaryUV):Bool;
-    public var texture(get_texture, set_texture):Texture2DBase;
+    public var useSecondaryUV(get, set):Bool;
+    public var texture(get, set):Texture2DBase;
 
     private var _texture:Texture2DBase;
     private var _useSecondaryUV:Bool;
@@ -41,11 +41,11 @@ class AlphaMaskMethod extends EffectMethodBase {
 	 * instance to tile the main texture and normal map while providing untiled alpha, for example to define the
 	 * transparency over a tiled water surface.
 	 */
-    public function get_useSecondaryUV():Bool {
+    private function get_useSecondaryUV():Bool {
         return _useSecondaryUV;
     }
 
-    public function set_useSecondaryUV(value:Bool):Bool {
+    private function set_useSecondaryUV(value:Bool):Bool {
         if (_useSecondaryUV == value) return value;
         _useSecondaryUV = value;
         invalidateShaderProgram();
@@ -55,11 +55,11 @@ class AlphaMaskMethod extends EffectMethodBase {
     /**
 	 * The texture to use as the alpha mask.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         _texture = value;
         return value;
     }

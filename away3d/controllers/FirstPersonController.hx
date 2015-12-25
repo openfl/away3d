@@ -35,11 +35,11 @@ class FirstPersonController extends ControllerBase {
 	 * @see    #tiltAngle
 	 * @see    #panAngle
 	 */
-    public function get_steps():Int {
+    private function get_steps():Int {
         return _steps;
     }
 
-    public function set_steps(val:Int):Int {
+    private function set_steps(val:Int):Int {
         val = ((val < 1)) ? 1 : val;
         if (_steps == val) return val;
         _steps = val;
@@ -50,11 +50,11 @@ class FirstPersonController extends ControllerBase {
     /**
 	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
 	 */
-    public function get_panAngle():Float {
+    private function get_panAngle():Float {
         return _panAngle;
     }
 
-    public function set_panAngle(val:Float):Float {
+    private function set_panAngle(val:Float):Float {
         if (_panAngle == val) return val;
         _panAngle = val;
         notifyUpdate();
@@ -64,11 +64,11 @@ class FirstPersonController extends ControllerBase {
     /**
 	 * Elevation angle of the camera in degrees. Defaults to 90.
 	 */
-    public function get_tiltAngle():Float {
+    private function get_tiltAngle():Float {
         return _tiltAngle;
     }
 
-    public function set_tiltAngle(val:Float):Float {
+    private function set_tiltAngle(val:Float):Float {
         val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
         if (_tiltAngle == val) return val;
         _tiltAngle = val;
@@ -81,11 +81,11 @@ class FirstPersonController extends ControllerBase {
 	 *
 	 * @see    #tiltAngle
 	 */
-    public function get_minTiltAngle():Float {
+    private function get_minTiltAngle():Float {
         return _minTiltAngle;
     }
 
-    public function set_minTiltAngle(val:Float):Float {
+    private function set_minTiltAngle(val:Float):Float {
         if (_minTiltAngle == val) return val;
         _minTiltAngle = val;
         tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
@@ -97,11 +97,11 @@ class FirstPersonController extends ControllerBase {
 	 *
 	 * @see    #tiltAngle
 	 */
-    public function get_maxTiltAngle():Float {
+    private function get_maxTiltAngle():Float {
         return _maxTiltAngle;
     }
 
-    public function set_maxTiltAngle(val:Float):Float {
+    private function set_maxTiltAngle(val:Float):Float {
         if (_maxTiltAngle == val) return val;
         _maxTiltAngle = val;
         tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
@@ -111,11 +111,11 @@ class FirstPersonController extends ControllerBase {
     /**
 	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
 	 */
-    public function get_wrapPanAngle():Bool {
+    private function get_wrapPanAngle():Bool {
         return _wrapPanAngle;
     }
 
-    public function set_wrapPanAngle(val:Bool):Bool {
+    private function set_wrapPanAngle(val:Bool):Bool {
         if (_wrapPanAngle == val) return val;
         _wrapPanAngle = val;
         notifyUpdate();

@@ -23,11 +23,11 @@ import openfl.geom.Rectangle;
 import openfl.geom.Vector3D;
 
 class PlanarReflectionTexture extends RenderTexture {
-    public var plane(get_plane, set_plane):Plane3D;
-    public var renderer(get_renderer, set_renderer):RendererBase;
-    public var scale(get_scale, set_scale):Float;
-    public var textureRatioX(get_textureRatioX, never):Float;
-    public var textureRatioY(get_textureRatioY, never):Float;
+    public var plane(get, set):Plane3D;
+    public var renderer(get, set):RendererBase;
+    public var scale(get, set):Float;
+    public var textureRatioX(get, never):Float;
+    public var textureRatioY(get, never):Float;
 
     private var _mockTexture:BitmapTexture;
     private var _mockBitmapData:BitmapData;
@@ -64,11 +64,11 @@ class PlanarReflectionTexture extends RenderTexture {
     /**
 	 * The plane to reflect with.
 	 */
-    public function get_plane():Plane3D {
+    private function get_plane():Plane3D {
         return _plane;
     }
 
-    public function set_plane(value:Plane3D):Plane3D {
+    private function set_plane(value:Plane3D):Plane3D {
         _plane = value;
         return value;
     }
@@ -99,11 +99,11 @@ class PlanarReflectionTexture extends RenderTexture {
     /**
 	 * The renderer to use.
 	 */
-    public function get_renderer():RendererBase {
+    private function get_renderer():RendererBase {
         return _renderer;
     }
 
-    public function set_renderer(value:RendererBase):RendererBase {
+    private function set_renderer(value:RendererBase):RendererBase {
         _renderer.dispose();
         _renderer = value;
         _entityCollector = _renderer.createEntityCollector();
@@ -113,11 +113,11 @@ class PlanarReflectionTexture extends RenderTexture {
     /**
 	 * A scale factor to reduce the quality of the reflection. Default value is 1 (same quality as the View)
 	 */
-    public function get_scale():Float {
+    private function get_scale():Float {
         return _scale;
     }
 
-    public function set_scale(value:Float):Float {
+    private function set_scale(value:Float):Float {
         _scale = value > (1) ? 1 : value < (0) ? 0 : value;
         return value;
     }

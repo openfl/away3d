@@ -51,13 +51,13 @@ class SimplePanVolumeDriver extends AbstractSound3DDriver implements ISound3DDri
         _sound_chan.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete);
     }
 
-    override public function set_volume(val:Float):Float {
+    override private function set_volume(val:Float):Float {
         _volume = val;
         _st3D.volume = val;
         return val;
     }
 
-    override public function set_scale(val:Float):Float {
+    override private function set_scale(val:Float):Float {
         _scale = val;
         _st3D.scale = scale;
         return val;

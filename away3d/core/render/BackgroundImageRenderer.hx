@@ -13,8 +13,8 @@ import openfl.display3D.Program3D;
 import openfl.display3D.VertexBuffer3D;
 
 class BackgroundImageRenderer {
-    public var stage3DProxy(get_stage3DProxy, set_stage3DProxy):Stage3DProxy;
-    public var texture(get_texture, set_texture):Texture2DBase;
+    public var stage3DProxy(get, set):Stage3DProxy;
+    public var texture(get, set):Texture2DBase;
 
     private var _program3d:Program3D;
     private var _texture:Texture2DBase;
@@ -27,11 +27,11 @@ class BackgroundImageRenderer {
         this.stage3DProxy = stage3DProxy;
     }
 
-    public function get_stage3DProxy():Stage3DProxy {
+    private function get_stage3DProxy():Stage3DProxy {
         return _stage3DProxy;
     }
 
-    public function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy {
+    private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy {
         if (value == _stage3DProxy) return value;
         _stage3DProxy = value;
         removeBuffers();
@@ -114,11 +114,11 @@ class BackgroundImageRenderer {
         _vertexBuffer.uploadFromVector(verts, 0, 4);
     }
 
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         _texture = value;
         return value;
     }

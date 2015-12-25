@@ -23,11 +23,11 @@ class BitmapDataAsset extends NamedAssetBase implements IAsset {
     /**
 	 * The bitmapData to be treated as a resource.
 	 */
-    public function get_bitmapData():BitmapData {
+    private function get_bitmapData():BitmapData {
         return _bitmapData;
     }
 
-    public function set_bitmapData(value:BitmapData):BitmapData {
+    private function set_bitmapData(value:BitmapData):BitmapData {
         _bitmapData = value;
         return value;
     }

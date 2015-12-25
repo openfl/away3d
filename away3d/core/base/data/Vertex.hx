@@ -4,10 +4,10 @@
 package away3d.core.base.data;
 
 class Vertex {
-    public var index(get_index, set_index):Int;
-    public var x(get_x, set_x):Float;
-    public var y(get_y, set_y):Float;
-    public var z(get_z, set_z):Float;
+    public var index(get, set):Int;
+    public var x(get, set):Float;
+    public var y(get, set):Float;
+    public var z(get, set):Float;
 
     private var _x:Float;
     private var _y:Float;
@@ -32,12 +32,12 @@ class Vertex {
 	 * To define/store the index of value object
 	 * @param    ind        The index
 	 */
-    public function set_index(ind:Int):Int {
+    private function set_index(ind:Int):Int {
         _index = ind;
         return ind;
     }
 
-    public function get_index():Int {
+    private function get_index():Int {
         return _index;
     }
 
@@ -45,11 +45,11 @@ class Vertex {
 	 * To define/store the x value of the value object
 	 * @param    value        The x value
 	 */
-    public function get_x():Float {
+    private function get_x():Float {
         return _x;
     }
 
-    public function set_x(value:Float):Float {
+    private function set_x(value:Float):Float {
         _x = value;
         return value;
     }
@@ -58,11 +58,11 @@ class Vertex {
 	 * To define/store the y value of the value object
 	 * @param    value        The y value
 	 */
-    public function get_y():Float {
+    private function get_y():Float {
         return _y;
     }
 
-    public function set_y(value:Float):Float {
+    private function set_y(value:Float):Float {
         _y = value;
         return value;
     }
@@ -71,11 +71,11 @@ class Vertex {
 	 * To define/store the z value of the value object
 	 * @param    value        The z value
 	 */
-    public function get_z():Float {
+    private function get_z():Float {
         return _z;
     }
 
-    public function set_z(value:Float):Float {
+    private function set_z(value:Float):Float {
         _z = value;
         return value;
     }

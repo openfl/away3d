@@ -31,27 +31,27 @@ import openfl.Vector;
 class Stage3DProxy extends EventDispatcher {
     static private var _frameEventDriver:Shape = new Shape();
     
-    public var profile(get_profile, never):String;
-    public var enableDepthAndStencil(get_enableDepthAndStencil, set_enableDepthAndStencil):Bool;
-    public var renderTarget(get_renderTarget, never):TextureBase;
-    public var renderSurfaceSelector(get_renderSurfaceSelector, never):Int;
-    public var scissorRect(get_scissorRect, set_scissorRect):Rectangle;
-    public var stage3DIndex(get_stage3DIndex, never):Int;
-    public var stage3D(get_stage3D, never):Stage3D;
-    public var context3D(get_context3D, never):Context3D;
-    public var driverInfo(get_driverInfo, never):String;
-    public var usesSoftwareRendering(get_usesSoftwareRendering, never):Bool;
-    public var x(get_x, set_x):Float;
-    public var y(get_y, set_y):Float;
-    public var width(get_width, set_width):Int;
-    public var height(get_height, set_height):Int;
-    public var antiAlias(get_antiAlias, set_antiAlias):Int;
-    public var viewPort(get_viewPort, never):Rectangle;
-    public var color(get_color, set_color):Int;
-    public var visible(get_visible, set_visible):Bool;
-    public var bufferClear(get_bufferClear, set_bufferClear):Bool;
-    public var mouse3DManager(get_mouse3DManager, set_mouse3DManager):Mouse3DManager;
-    public var touch3DManager(get_touch3DManager, set_touch3DManager):Touch3DManager;
+    public var profile(get, never):String;
+    public var enableDepthAndStencil(get, set):Bool;
+    public var renderTarget(get, never):TextureBase;
+    public var renderSurfaceSelector(get, never):Int;
+    public var scissorRect(get, set):Rectangle;
+    public var stage3DIndex(get, never):Int;
+    public var stage3D(get, never):Stage3D;
+    public var context3D(get, never):Context3D;
+    public var driverInfo(get, never):String;
+    public var usesSoftwareRendering(get, never):Bool;
+    public var x(get, set):Float;
+    public var y(get, set):Float;
+    public var width(get, set):Int;
+    public var height(get, set):Int;
+    public var antiAlias(get, set):Int;
+    public var viewPort(get, never):Rectangle;
+    public var color(get, set):Int;
+    public var visible(get, set):Bool;
+    public var bufferClear(get, set):Bool;
+    public var mouse3DManager(get, set):Mouse3DManager;
+    public var touch3DManager(get, set):Touch3DManager;
     
     private var _context3D:Context3D;
     private var _stage3DIndex:Int;
@@ -138,7 +138,7 @@ class Stage3DProxy extends EventDispatcher {
 
     private var forceSoftware:Bool ;
 
-    public function get_profile():String {
+    private function get_profile():String {
         return _profile;
     }
 
@@ -208,21 +208,21 @@ class Stage3DProxy extends EventDispatcher {
     /*
      * Indicates whether the depth and stencil buffer is used
      */
-    public function get_enableDepthAndStencil():Bool {
+    private function get_enableDepthAndStencil():Bool {
         return _enableDepthAndStencil;
     }
 
-    public function set_enableDepthAndStencil(enableDepthAndStencil:Bool):Bool {
+    private function set_enableDepthAndStencil(enableDepthAndStencil:Bool):Bool {
         _enableDepthAndStencil = enableDepthAndStencil;
         _backBufferDirty = true;
         return enableDepthAndStencil;
     }
 
-    public function get_renderTarget():TextureBase {
+    private function get_renderTarget():TextureBase {
         return _renderTarget;
     }
 
-    public function get_renderSurfaceSelector():Int {
+    private function get_renderSurfaceSelector():Int {
         return _renderSurfaceSelector;
     }
 
@@ -300,11 +300,11 @@ class Stage3DProxy extends EventDispatcher {
     }
     #end
 
-    public function get_scissorRect():Rectangle {
+    private function get_scissorRect():Rectangle {
         return _scissorRect;
     }
 
-    public function set_scissorRect(value:Rectangle):Rectangle {
+    private function set_scissorRect(value:Rectangle):Rectangle {
         _scissorRect = value;
         _context3D.setScissorRectangle(_scissorRect);
         return value;
@@ -313,28 +313,28 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The index of the Stage3D which is managed by this instance of Stage3DProxy.
      */
-    public function get_stage3DIndex():Int {
+    private function get_stage3DIndex():Int {
         return _stage3DIndex;
     }
 
     /**
      * The base Stage3D object associated with this proxy.
      */
-    public function get_stage3D():Stage3D {
+    private function get_stage3D():Stage3D {
         return _stage3D;
     }
 
     /**
      * The Context3D object associated with the given Stage3D object.
      */
-    public function get_context3D():Context3D {
+    private function get_context3D():Context3D {
         return _context3D;
     }
 
     /**
      * The driver information as reported by the Context3D object (if any)
      */
-    public function get_driverInfo():String {
+    private function get_driverInfo():String {
         return (_context3D != null) ? _context3D.driverInfo : null;
     }
 
@@ -343,18 +343,18 @@ class Stage3DProxy extends EventDispatcher {
      * Remember to wait for the CONTEXT3D_CREATED event before checking this property,
      * as only then will it be guaranteed to be accurate.
      */
-    public function get_usesSoftwareRendering():Bool {
+    private function get_usesSoftwareRendering():Bool {
         return _usesSoftwareRendering;
     }
 
     /**
      * The x position of the Stage3D.
      */
-    public function get_x():Float {
+    private function get_x():Float {
         return _stage3D.x;
     }
 
-    public function set_x(value:Float):Float {
+    private function set_x(value:Float):Float {
         if (_viewPort.x == value) return value;
         _stage3D.x = _viewPort.x = value;
         notifyViewportUpdated();
@@ -364,11 +364,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The y position of the Stage3D.
      */
-    public function get_y():Float {
+    private function get_y():Float {
         return _stage3D.y;
     }
 
-    public function set_y(value:Float):Float {
+    private function set_y(value:Float):Float {
         if (_viewPort.y == value) return value;
         _stage3D.y = _viewPort.y = value;
         notifyViewportUpdated();
@@ -378,11 +378,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The width of the Stage3D.
      */
-    public function get_width():Int {
+    private function get_width():Int {
         return _backBufferWidth;
     }
 
-    public function set_width(width:Int):Int {
+    private function set_width(width:Int):Int {
         if (_viewPort.width == width) return width;
         _viewPort.width = _backBufferWidth = width;
         _backBufferDirty = true;
@@ -393,11 +393,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The height of the Stage3D.
      */
-    public function get_height():Int {
+    private function get_height():Int {
         return _backBufferHeight;
     }
 
-    public function set_height(height:Int):Int {
+    private function set_height(height:Int):Int {
         if (_viewPort.height == height) return height;
         _viewPort.height = _backBufferHeight = height;
         _backBufferDirty = true;
@@ -408,11 +408,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The antiAliasing of the Stage3D.
      */
-    public function get_antiAlias():Int {
+    private function get_antiAlias():Int {
         return _antiAlias;
     }
 
-    public function set_antiAlias(antiAlias:Int):Int {
+    private function set_antiAlias(antiAlias:Int):Int {
         _antiAlias = antiAlias;
         _backBufferDirty = true;
         return antiAlias;
@@ -421,7 +421,7 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * A viewPort rectangle equivalent of the Stage3D size and position.
      */
-    public function get_viewPort():Rectangle {
+    private function get_viewPort():Rectangle {
         _viewportDirty = false;
         return _viewPort;
     }
@@ -429,11 +429,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The background color of the Stage3D.
      */
-    public function get_color():Int {
+    private function get_color():Int {
         return _color;
     }
 
-    public function set_color(color:Int):Int {
+    private function set_color(color:Int):Int {
         _color = color;
         return color;
     }
@@ -441,11 +441,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The visibility of the Stage3D.
      */
-    public function get_visible():Bool {
+    private function get_visible():Bool {
         return _stage3D.visible;
     }
 
-    public function set_visible(value:Bool):Bool {
+    private function set_visible(value:Bool):Bool {
         _stage3D.visible = value;
         return value;
     }
@@ -453,11 +453,11 @@ class Stage3DProxy extends EventDispatcher {
     /**
      * The freshly cleared state of the backbuffer before any rendering
      */
-    public function get_bufferClear():Bool {
+    private function get_bufferClear():Bool {
         return _bufferClear;
     }
 
-    public function set_bufferClear(newBufferClear:Bool):Bool {
+    private function set_bufferClear(newBufferClear:Bool):Bool {
         _bufferClear = newBufferClear;
         return newBufferClear;
     }
@@ -465,20 +465,20 @@ class Stage3DProxy extends EventDispatcher {
     /*
      * Access to fire mouseevents across multiple layered view3D instances
      */
-    public function get_mouse3DManager():Mouse3DManager {
+    private function get_mouse3DManager():Mouse3DManager {
         return _mouse3DManager;
     }
 
-    public function set_mouse3DManager(value:Mouse3DManager):Mouse3DManager {
+    private function set_mouse3DManager(value:Mouse3DManager):Mouse3DManager {
         _mouse3DManager = value;
         return value;
     }
 
-    public function get_touch3DManager():Touch3DManager {
+    private function get_touch3DManager():Touch3DManager {
         return _touch3DManager;
     }
 
-    public function set_touch3DManager(value:Touch3DManager):Touch3DManager {
+    private function set_touch3DManager(value:Touch3DManager):Touch3DManager {
         _touch3DManager = value;
         return value;
     }

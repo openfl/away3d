@@ -11,7 +11,7 @@ class Scene3DEvent extends Event {
     public var objectContainer3D:ObjectContainer3D;
 //@:getter(target)
 #if flash
-    public function get_target():Dynamic {
+    private function get_target():Dynamic {
         return objectContainer3D;
     }
 #end

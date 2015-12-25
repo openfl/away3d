@@ -18,7 +18,7 @@ import openfl.geom.Vector3D;
 import haxe.ds.ObjectMap;
 
 class ParticlePositionState extends ParticleStateBase {
-    public var position(get_position, set_position):Vector3D;
+    public var position(get, set):Vector3D;
 
     private var _particlePositionNode:ParticlePositionNode;
     private var _position:Vector3D;
@@ -26,11 +26,11 @@ class ParticlePositionState extends ParticleStateBase {
     /**
 	 * Defines the position of the particle when in global mode. Defaults to 0,0,0.
 	 */
-    public function get_position():Vector3D {
+    private function get_position():Vector3D {
         return _position;
     }
 
-    public function set_position(value:Vector3D):Vector3D {
+    private function set_position(value:Vector3D):Vector3D {
         _position = value;
         return value;
     }

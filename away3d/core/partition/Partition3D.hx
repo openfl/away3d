@@ -10,7 +10,7 @@ import away3d.core.traverse.PartitionTraverser;
 import away3d.entities.Entity;
 
 class Partition3D {
-    public var showDebugBounds(get_showDebugBounds, set_showDebugBounds):Bool;
+    public var showDebugBounds(get, set):Bool;
 
     private var _rootNode:NodeBase;
     private var _updatesMade:Bool;
@@ -24,11 +24,11 @@ class Partition3D {
         if (rootNode == null)_rootNode = new NullNode();
     }
 
-    public function get_showDebugBounds():Bool {
+    private function get_showDebugBounds():Bool {
         return _rootNode.showDebugBounds;
     }
 
-    public function set_showDebugBounds(value:Bool):Bool {
+    private function set_showDebugBounds(value:Bool):Bool {
         _rootNode.showDebugBounds = value;
         return value;
     }

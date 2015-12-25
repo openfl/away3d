@@ -8,7 +8,7 @@ import away3d.animators.AnimatorBase;
 import away3d.animators.AnimatorBase;
 import openfl.events.Event;
 class AnimatorEvent extends Event {
-    public var animator(get_animator, never):AnimatorBase;
+    public var animator(get, never):AnimatorBase;
 
     /**
 	 * Defines the value of the type property of a start event object.
@@ -34,7 +34,7 @@ class AnimatorEvent extends Event {
         _animator = animator;
     }
 
-    public function get_animator():AnimatorBase {
+    private function get_animator():AnimatorBase {
         return _animator;
     }
 

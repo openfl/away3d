@@ -15,8 +15,8 @@ import away3d.entities.Mesh;
 import openfl.geom.Vector3D;
 import haxe.ds.StringMap;
 class Weld {
-    public var verticesRemovedCount(get_verticesRemovedCount, never):Int;
-    public var verticesAddedCount(get_verticesAddedCount, never):Int;
+    public var verticesRemovedCount(get, never):Int;
+    public var verticesAddedCount(get, never):Int;
 
     inline static public var USE_VERTEXNORMALS:String = "UseVertexNormals";
     inline static public var USE_FACENORMALS:String = "UseFaceNormals";
@@ -66,7 +66,7 @@ class Weld {
     /**
 	 * returns howmany vertices were deleted during the welding operation.
 	 */
-    public function get_verticesRemovedCount():Int {
+    private function get_verticesRemovedCount():Int {
         if (Math.isNaN(_vertCnt)) return 0;
         return ((_vertCnt > 0)) ? _vertCnt : 0;
     }
@@ -74,7 +74,7 @@ class Weld {
     /**
 	 * returns howmany vertices were added during the welding operation.
 	 */
-    public function get_verticesAddedCount():Int {
+    private function get_verticesAddedCount():Int {
         if (Math.isNaN(_vertCnt)) return 0;
         return ((_vertCnt < 0)) ? Std.int(Math.abs(_vertCnt)) : 0;
     }

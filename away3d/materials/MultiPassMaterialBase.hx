@@ -29,25 +29,25 @@ import openfl.events.Event;
 
 class MultiPassMaterialBase extends MaterialBase {
 
-    public var enableLightFallOff(get_enableLightFallOff, set_enableLightFallOff):Bool;
-    public var alphaThreshold(get_alphaThreshold, set_alphaThreshold):Float;
-    public var specularLightSources(get_specularLightSources, set_specularLightSources):Int;
-    public var diffuseLightSources(get_diffuseLightSources, set_diffuseLightSources):Int;
-    public var ambientMethod(get_ambientMethod, set_ambientMethod):BasicAmbientMethod;
-    public var shadowMethod(get_shadowMethod, set_shadowMethod):ShadowMapMethodBase;
-    public var diffuseMethod(get_diffuseMethod, set_diffuseMethod):BasicDiffuseMethod;
-    public var specularMethod(get_specularMethod, set_specularMethod):BasicSpecularMethod;
-    public var normalMethod(get_normalMethod, set_normalMethod):BasicNormalMethod;
-    public var numMethods(get_numMethods, never):Int;
-    public var normalMap(get_normalMap, set_normalMap):Texture2DBase;
-    public var specularMap(get_specularMap, set_specularMap):Texture2DBase;
-    public var gloss(get_gloss, set_gloss):Float;
-    public var ambient(get_ambient, set_ambient):Float;
-    public var specular(get_specular, set_specular):Float;
-    public var ambientColor(get_ambientColor, set_ambientColor):Int;
-    public var specularColor(get_specularColor, set_specularColor):Int;
-    public var numLights(get_numLights, never):Int;
-    public var numNonCasters(get_numNonCasters, never):Int;
+    public var enableLightFallOff(get, set):Bool;
+    public var alphaThreshold(get, set):Float;
+    public var specularLightSources(get, set):Int;
+    public var diffuseLightSources(get, set):Int;
+    public var ambientMethod(get, set):BasicAmbientMethod;
+    public var shadowMethod(get, set):ShadowMapMethodBase;
+    public var diffuseMethod(get, set):BasicDiffuseMethod;
+    public var specularMethod(get, set):BasicSpecularMethod;
+    public var normalMethod(get, set):BasicNormalMethod;
+    public var numMethods(get, never):Int;
+    public var normalMap(get, set):Texture2DBase;
+    public var specularMap(get, set):Texture2DBase;
+    public var gloss(get, set):Float;
+    public var ambient(get, set):Float;
+    public var specular(get, set):Float;
+    public var ambientColor(get, set):Int;
+    public var specularColor(get, set):Int;
+    public var numLights(get, never):Int;
+    public var numNonCasters(get, never):Int;
 
     private var _casterLightPass:ShadowCasterPass;
     private var _nonCasterLightPasses:Array<LightingPass>;
@@ -84,11 +84,11 @@ class MultiPassMaterialBase extends MaterialBase {
 	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
 	 * compatibility for constrained mode.
 	 */
-    public function get_enableLightFallOff():Bool {
+    private function get_enableLightFallOff():Bool {
         return _enableLightFallOff;
     }
 
-    public function set_enableLightFallOff(value:Bool):Bool {
+    private function set_enableLightFallOff(value:Bool):Bool {
         if (_enableLightFallOff != value) 
             invalidateScreenPasses();
         
@@ -102,11 +102,11 @@ class MultiPassMaterialBase extends MaterialBase {
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
-    public function get_alphaThreshold():Float {
+    private function get_alphaThreshold():Float {
         return _alphaThreshold;
     }
 
-    public function set_alphaThreshold(value:Float):Float {
+    private function set_alphaThreshold(value:Float):Float {
         _alphaThreshold = value;
         _diffuseMethod.alphaThreshold = value;
         _depthPass.alphaThreshold = value;
@@ -118,7 +118,7 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode {
+    override private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode {
         super.depthCompareMode = value;
         
         invalidateScreenPasses();
@@ -129,7 +129,7 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_blendMode(value:BlendMode):BlendMode {
+    override private function set_blendMode(value:BlendMode):BlendMode {
         super.blendMode = value;
         
         invalidateScreenPasses();
@@ -155,11 +155,11 @@ class MultiPassMaterialBase extends MaterialBase {
 	 *
 	 * @see away3d.materials.LightSources
 	 */
-    public function get_specularLightSources():Int {
+    private function get_specularLightSources():Int {
         return _specularLightSources;
     }
 
-    public function set_specularLightSources(value:Int):Int {
+    private function set_specularLightSources(value:Int):Int {
         _specularLightSources = value;
         return value;
     }
@@ -170,11 +170,11 @@ class MultiPassMaterialBase extends MaterialBase {
 	 *
 	 * @see away3d.materials.LightSources
 	 */
-    public function get_diffuseLightSources():Int {
+    private function get_diffuseLightSources():Int {
         return _diffuseLightSources;
     }
 
-    public function set_diffuseLightSources(value:Int):Int {
+    private function set_diffuseLightSources(value:Int):Int {
         _diffuseLightSources = value;
         return value;
     }
@@ -182,7 +182,7 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_lightPicker(value:LightPickerBase):LightPickerBase {
+    override private function set_lightPicker(value:LightPickerBase):LightPickerBase {
         if (_lightPicker != null) 
             _lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
         
@@ -198,18 +198,18 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_requiresBlending():Bool {
+    override private function get_requiresBlending():Bool {
         return false;
     }
 
     /**
 	 * The method that provides the ambient lighting contribution. Defaults to BasicAmbientMethod.
 	 */
-    public function get_ambientMethod():BasicAmbientMethod {
+    private function get_ambientMethod():BasicAmbientMethod {
         return _ambientMethod;
     }
 
-    public function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod {
+    private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod {
         value.copyFrom(_ambientMethod);
         _ambientMethod = value;
         invalidateScreenPasses();
@@ -219,11 +219,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered. Defaults to null.
 	 */
-    public function get_shadowMethod():ShadowMapMethodBase {
+    private function get_shadowMethod():ShadowMapMethodBase {
         return _shadowMethod;
     }
 
-    public function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase {
+    private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase {
         if (value != null && _shadowMethod != null) 
             value.copyFrom(_shadowMethod);
         
@@ -237,11 +237,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
 	 */
-    public function get_diffuseMethod():BasicDiffuseMethod {
+    private function get_diffuseMethod():BasicDiffuseMethod {
         return _diffuseMethod;
     }
 
-    public function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
+    private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
         value.copyFrom(_diffuseMethod);
         _diffuseMethod = value;
         
@@ -253,11 +253,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The method that provides the specular lighting contribution. Defaults to BasicSpecularMethod.
 	 */
-    public function get_specularMethod():BasicSpecularMethod {
+    private function get_specularMethod():BasicSpecularMethod {
         return _specularMethod;
     }
 
-    public function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod {
+    private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod {
         if (value != null && _specularMethod != null) 
             value.copyFrom(_specularMethod);
         _specularMethod = value;
@@ -270,11 +270,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
 	 */
-    public function get_normalMethod():BasicNormalMethod {
+    private function get_normalMethod():BasicNormalMethod {
         return _normalMethod;
     }
 
-    public function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod {
+    private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod {
         value.copyFrom(_normalMethod);
         _normalMethod = value;
        
@@ -300,7 +300,7 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The number of "effect" methods added to the material.
 	 */
-    public function get_numMethods():Int {
+    private function get_numMethods():Int {
         return (_effectsPass != null) ? _effectsPass.numMethods : 0;
     }
 
@@ -353,7 +353,7 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_mipmap(value:Bool):Bool {
+    override private function set_mipmap(value:Bool):Bool {
         if (_mipmap == value) 
             return value;
         
@@ -366,11 +366,11 @@ class MultiPassMaterialBase extends MaterialBase {
 	 * The normal map to modulate the direction of the surface for each texel. The default normal method expects
 	 * tangent-space normal maps, but others could expect object-space maps.
 	 */
-    public function get_normalMap():Texture2DBase {
+    private function get_normalMap():Texture2DBase {
         return _normalMethod.normalMap;
     }
 
-    public function set_normalMap(value:Texture2DBase):Texture2DBase {
+    private function set_normalMap(value:Texture2DBase):Texture2DBase {
         _normalMethod.normalMap = value;
         return value;
     }
@@ -380,11 +380,11 @@ class MultiPassMaterialBase extends MaterialBase {
 	 * and the gloss factor in the green channel. You can use SpecularBitmapTexture if you want to easily set
 	 * specular and gloss maps from grayscale images, but correctly authored images are preferred.
 	 */
-    public function get_specularMap():Texture2DBase {
+    private function get_specularMap():Texture2DBase {
         return _specularMethod.texture;
     }
 
-    public function set_specularMap(value:Texture2DBase):Texture2DBase {
+    private function set_specularMap(value:Texture2DBase):Texture2DBase {
         if (_specularMethod != null) 
             _specularMethod.texture = value;
         else 
@@ -396,11 +396,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The glossiness of the material (sharpness of the specular highlight).
 	 */
-    public function get_gloss():Float {
+    private function get_gloss():Float {
         return (_specularMethod != null) ? _specularMethod.gloss : 0;
     }
 
-    public function set_gloss(value:Float):Float {
+    private function set_gloss(value:Float):Float {
         if (_specularMethod != null) 
             _specularMethod.gloss = value;
         
@@ -410,11 +410,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The strength of the ambient reflection.
 	 */
-    public function get_ambient():Float {
+    private function get_ambient():Float {
         return _ambientMethod.ambient;
     }
 
-    public function set_ambient(value:Float):Float {
+    private function set_ambient(value:Float):Float {
         _ambientMethod.ambient = value;
         return value;
     }
@@ -422,11 +422,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The overall strength of the specular reflection.
 	 */
-    public function get_specular():Float {
+    private function get_specular():Float {
         return (_specularMethod != null) ? _specularMethod.specular : 0;
     }
 
-    public function set_specular(value:Float):Float {
+    private function set_specular(value:Float):Float {
         if (_specularMethod != null) 
             _specularMethod.specular = value;
         
@@ -436,11 +436,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The colour of the ambient reflection.
 	 */
-    public function get_ambientColor():Int {
+    private function get_ambientColor():Int {
         return _ambientMethod.ambientColor;
     }
 
-    public function set_ambientColor(value:Int):Int {
+    private function set_ambientColor(value:Int):Int {
         _ambientMethod.ambientColor = value;
         return value;
     }
@@ -448,11 +448,11 @@ class MultiPassMaterialBase extends MaterialBase {
     /**
 	 * The colour of the specular reflection.
 	 */
-    public function get_specularColor():Int {
+    private function get_specularColor():Int {
         return _specularMethod.specularColor;
     }
 
-    public function set_specularColor(value:Int):Int {
+    private function set_specularColor(value:Int):Int {
         _specularMethod.specularColor = value;
         return value;
     }

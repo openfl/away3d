@@ -6,8 +6,8 @@ package away3d.materials.compilation;
 import openfl.Vector;
 
 class ShaderRegisterElement {
-    public var regName(get_regName, never):String;
-    public var index(get_index, never):Int;
+    public var regName(get, never):String;
+    public var index(get, never):Int;
 
     private var _regName:String;
     private var _index:Int;
@@ -39,14 +39,14 @@ class ShaderRegisterElement {
     /**
 	 * The register's name.
 	 */
-    public function get_regName():String {
+    private function get_regName():String {
         return _regName;
     }
 
     /**
 	 * The register's index.
 	 */
-    public function get_index():Int {
+    private function get_index():Int {
         return _index;
     }
 }

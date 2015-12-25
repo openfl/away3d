@@ -27,10 +27,10 @@ import away3d.events.Object3DEvent;
 import openfl.events.Event;
 
 class Sound3D extends ObjectContainer3D {
-    public var volume(get_volume, set_volume):Float;
-    public var scaleDistance(get_scaleDistance, set_scaleDistance):Float;
-    public var playing(get_playing, never):Bool;
-    public var paused(get_paused, never):Bool;
+    public var volume(get, set):Float;
+    public var scaleDistance(get, set):Float;
+    public var playing(get, never):Bool;
+    public var paused(get, never):Bool;
 
     private var _refv:Vector3D;
     private var _driver:ISound3DDriver;
@@ -71,11 +71,11 @@ class Sound3D extends ObjectContainer3D {
 	 *
 	 * @see ISound3DDriver.volume
 	 */
-    public function get_volume():Float {
+    private function get_volume():Float {
         return _driver.volume;
     }
 
-    public function set_volume(val:Float):Float {
+    private function set_volume(val:Float):Float {
         _driver.volume = val;
         return val;
     }
@@ -88,11 +88,11 @@ class Sound3D extends ObjectContainer3D {
 	 *
 	 * @see ISound3DDriver.scale
 	 */
-    public function get_scaleDistance():Float {
+    private function get_scaleDistance():Float {
         return _driver.scale;
     }
 
-    public function set_scaleDistance(val:Float):Float {
+    private function set_scaleDistance(val:Float):Float {
         _driver.scale = val;
         return val;
     }
@@ -101,7 +101,7 @@ class Sound3D extends ObjectContainer3D {
 	 * Returns a boolean indicating whether or not the sound is currently
 	 * playing.
 	 */
-    public function get_playing():Bool {
+    private function get_playing():Bool {
         return _playing;
     }
 
@@ -109,7 +109,7 @@ class Sound3D extends ObjectContainer3D {
 	 * Returns a boolean indicating whether or not playback is currently
 	 * paused.
 	 */
-    public function get_paused():Bool {
+    private function get_paused():Bool {
         return _paused;
     }
 

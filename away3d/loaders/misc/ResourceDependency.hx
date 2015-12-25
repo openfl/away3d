@@ -38,37 +38,37 @@ class ResourceDependency
 	}
 	
 	public var id(get, null) : String;		
-	public function get_id() : String
+	private function get_id() : String
 	{
 		return _id;
 	}
 	
 	public var assets(get, null) : Array<IAsset>;		
-	public function get_assets() : Array<IAsset>
+	private function get_assets() : Array<IAsset>
 	{
 		return _assets;
 	}
 	
 	public var dependencies(get, null) : Array<ResourceDependency>;		
-	public function get_dependencies() : Array<ResourceDependency>
+	private function get_dependencies() : Array<ResourceDependency>
 	{
 		return _dependencies;
 	}
 	
 	public var request(get, null) : URLRequest;	
-	public function get_request() : URLRequest
+	private function get_request() : URLRequest
 	{
 		return _req;
 	}
 	
 	public var retrieveAsRawData(get, null) : Bool;		
-	public function get_retrieveAsRawData() : Bool
+	private function get_retrieveAsRawData() : Bool
 	{
 		return _retrieveAsRawData;
 	}
 	
 	public var suppresAsset3DEvents(get, null) : Bool;		
-	public function get_suppresAsset3DEvents() : Bool
+	private function get_suppresAsset3DEvents() : Bool
 	{
 		return _suppressAsset3DEvents;
 	}
@@ -77,7 +77,7 @@ class ResourceDependency
 	 * The data containing the dependency to be parsed, if the resource was already loaded.
 	 */
 	public var data(get, null) : Dynamic;
-	public function get_data() : Dynamic
+	private function get_data() : Dynamic
 	{
 		return _data;
 	}
@@ -95,7 +95,7 @@ class ResourceDependency
 	 * The parser which is dependent on this ResourceDependency object.
 	 */
 	public var parentParser(get, null) : ParserBase;
-	public function get_parentParser() : ParserBase
+	private function get_parentParser() : ParserBase
 	{
 		return _parentParser;
 	}

@@ -11,9 +11,9 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
-    public var numVertices(get_numVertices, never):Int;
-    public var secondaryUVStride(get_secondaryUVStride, never):Int;
-    public var secondaryUVOffset(get_secondaryUVOffset, never):Int;
+    public var numVertices(get, never):Int;
+    public var secondaryUVStride(get, never):Int;
+    public var secondaryUVOffset(get, never):Int;
 
     private var _vertexDataInvalid:Vector<Bool>;
     private var _vertexBuffer:Vector<VertexBuffer3D>;
@@ -35,7 +35,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         _autoDeriveVertexTangents = false;
     }
 
-    public function get_numVertices():Int {
+    private function get_numVertices():Int {
         return _numVertices;
     }
 
@@ -143,7 +143,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         _activeContext = _bufferContext[contextIndex];
     }
 
-    override public function get_vertexData():Vector<Float> {
+    override private function get_vertexData():Vector<Float> {
         if (_autoDeriveVertexNormals && _vertexNormalsDirty) _vertexData = updateVertexNormals(_vertexData);
         if (_autoDeriveVertexTangents && _vertexTangentsDirty) _vertexData = updateVertexTangents(_vertexData);
         if (_uvsDirty && _autoGenerateUVs) _vertexData = updateDummyUVs(_vertexData);
@@ -163,17 +163,17 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         return super.updateVertexTangents(target);
     }
 
-    override public function get_vertexNormalData():Vector<Float> {
+    override private function get_vertexNormalData():Vector<Float> {
         if (_autoDeriveVertexNormals && _vertexNormalsDirty) _vertexData = updateVertexNormals(_vertexData);
         return _vertexData;
     }
 
-    override public function get_vertexTangentData():Vector<Float> {
+    override private function get_vertexTangentData():Vector<Float> {
         if (_autoDeriveVertexTangents && _vertexTangentsDirty) _vertexData = updateVertexTangents(_vertexData);
         return _vertexData;
     }
 
-    override public function get_UVData():Vector<Float> {
+    override private function get_UVData():Vector<Float> {
         if (_uvsDirty && _autoGenerateUVs) {
             _vertexData = updateDummyUVs(_vertexData);
             invalidateBuffers(_vertexDataInvalid);
@@ -205,43 +205,43 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         invalidateBuffers(_vertexDataInvalid);
     }
 
-    override public function get_vertexStride():Int {
+    override private function get_vertexStride():Int {
         return 13;
     }
 
-    override public function get_vertexNormalStride():Int {
+    override private function get_vertexNormalStride():Int {
         return 13;
     }
 
-    override public function get_vertexTangentStride():Int {
+    override private function get_vertexTangentStride():Int {
         return 13;
     }
 
-    override public function get_UVStride():Int {
+    override private function get_UVStride():Int {
         return 13;
     }
 
-    public function get_secondaryUVStride():Int {
+    private function get_secondaryUVStride():Int {
         return 13;
     }
 
-    override public function get_vertexOffset():Int {
+    override private function get_vertexOffset():Int {
         return 0;
     }
 
-    override public function get_vertexNormalOffset():Int {
+    override private function get_vertexNormalOffset():Int {
         return 3;
     }
 
-    override public function get_vertexTangentOffset():Int {
+    override private function get_vertexTangentOffset():Int {
         return 6;
     }
 
-    override public function get_UVOffset():Int {
+    override private function get_UVOffset():Int {
         return 9;
     }
 
-    public function get_secondaryUVOffset():Int {
+    private function get_secondaryUVOffset():Int {
         return 11;
     }
 
@@ -274,7 +274,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         return clone;
     }
 
-    override public function get_vertexPositionData():Vector<Float> {
+    override private function get_vertexPositionData():Vector<Float> {
         if (_isolatedVertexPositionDataDirty || _isolatedVertexPositionData == null) {
             _isolatedVertexPositionData = stripBuffer(0, 3);
             _isolatedVertexPositionDataDirty = false;

@@ -68,84 +68,84 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     /**
 	 * The maximum amount of directional lights that will be provided.
 	 */
-    public function get_numDirectionalLights():Int {
+    private function get_numDirectionalLights():Int {
         return _numDirectionalLights;
     }
 
     /**
 	 * The maximum amount of point lights that will be provided.
 	 */
-    public function get_numPointLights():Int {
+    private function get_numPointLights():Int {
         return _numPointLights;
     }
 
     /**
 	 * The maximum amount of directional lights that cast shadows.
 	 */
-    public function get_numCastingDirectionalLights():Int {
+    private function get_numCastingDirectionalLights():Int {
         return _numCastingDirectionalLights;
     }
 
     /**
 	 * The amount of point lights that cast shadows.
 	 */
-    public function get_numCastingPointLights():Int {
+    private function get_numCastingPointLights():Int {
         return _numCastingPointLights;
     }
 
     /**
 	 * The maximum amount of light probes that will be provided.
 	 */
-    public function get_numLightProbes():Int {
+    private function get_numLightProbes():Int {
         return _numLightProbes;
     }
 
     /**
 	 * The collected point lights to be used for shading.
 	 */
-    public function get_pointLights():Array<PointLight> {
+    private function get_pointLights():Array<PointLight> {
         return _pointLights;
     }
 
     /**
 	 * The collected directional lights to be used for shading.
 	 */
-    public function get_directionalLights():Array<DirectionalLight> {
+    private function get_directionalLights():Array<DirectionalLight> {
         return _directionalLights;
     }
 
     /**
 	 * The collected point lights that cast shadows to be used for shading.
 	 */
-    public function get_castingPointLights():Array<PointLight> {
+    private function get_castingPointLights():Array<PointLight> {
         return _castingPointLights;
     }
 
     /**
 	 * The collected directional lights that cast shadows to be used for shading.
 	 */
-    public function get_castingDirectionalLights():Array<DirectionalLight> {
+    private function get_castingDirectionalLights():Array<DirectionalLight> {
         return _castingDirectionalLights;
     }
 
     /**
 	 * The collected light probes to be used for shading.
 	 */
-    public function get_lightProbes():Array<LightProbe> {
+    private function get_lightProbes():Array<LightProbe> {
         return _lightProbes;
     }
 
     /**
 	 * The weights for each light probe, defining their influence on the object.
 	 */
-    public function get_lightProbeWeights():Array<Float> {
+    private function get_lightProbeWeights():Array<Float> {
         return _lightProbeWeights;
     }
 
     /**
 	 * A collection of all the collected lights.
 	 */
-    public function get_allPickedLights():Array<LightBase> {
+    private function get_allPickedLights():Array<LightBase> {
         return _allPickedLights;
     }
 

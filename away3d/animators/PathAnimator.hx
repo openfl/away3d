@@ -10,16 +10,16 @@ import openfl.events.EventDispatcher;
 import openfl.geom.Vector3D;
 
 class PathAnimator extends EventDispatcher {
-    public var upAxis(get_upAxis, set_upAxis):Vector3D;
-    public var alignToPath(get_alignToPath, set_alignToPath):Bool;
-    public var position(get_position, never):Vector3D;
-    public var path(get_path, set_path):IPath;
-    public var progress(get_progress, set_progress):Float;
-    public var orientation(get_orientation, never):Vector3D;
-    public var target(get_target, set_target):Object3D;
-    public var lookAtObject(get_lookAtObject, set_lookAtObject):Object3D;
-    public var rotations(never, set_rotations):Vector<Vector3D>;
-    public var index(get_index, set_index):Int;
+    public var upAxis(get, set):Vector3D;
+    public var alignToPath(get, set):Bool;
+    public var position(get, never):Vector3D;
+    public var path(get, set):IPath;
+    public var progress(get, set):Float;
+    public var orientation(get, never):Vector3D;
+    public var target(get, set):Object3D;
+    public var lookAtObject(get, set):Object3D;
+    public var rotations(never, set):Vector<Vector3D>;
+    public var index(get, set):Int;
 
     private var _path:IPath;
     private var _time:Float;
@@ -71,11 +71,11 @@ class PathAnimator extends EventDispatcher {
 
     }
 
-    public function get_upAxis():Vector3D {
+    private function get_upAxis():Vector3D {
         return _upAxis;
     }
 
-    public function set_upAxis(value:Vector3D):Vector3D {
+    private function set_upAxis(value:Vector3D):Vector3D {
         _upAxis = value;
         return value;
     }
@@ -197,19 +197,19 @@ class PathAnimator extends EventDispatcher {
     /**
 	 * defines if the object animated along the path must be aligned to the path.
 	 */
-    public function set_alignToPath(b:Bool):Bool {
+    private function set_alignToPath(b:Bool):Bool {
         _alignToPath = b;
         return b;
     }
 
-    public function get_alignToPath():Bool {
+    private function get_alignToPath():Bool {
         return _alignToPath;
     }
 
     /**
 	 * returns the current interpolated position on the path with no optional offset applied
 	 */
-    public function get_position():Vector3D {
+    private function get_position():Vector3D {
         return _position;
     }
 
@@ -217,23 +217,23 @@ class PathAnimator extends EventDispatcher {
 	 * defines the path to follow
 	 * @see Path
 	 */
-    public function set_path(value:IPath):IPath {
+    private function set_path(value:IPath):IPath {
         _path = value;
         return value;
     }
 
-    public function get_path():IPath {
+    private function get_path():IPath {
         return _path;
     }
 
     /**
 	 * Represents the progress of the animation playhead from the start (0) to the end (1) of the animation.
 	 */
-    public function get_progress():Float {
+    private function get_progress():Float {
         return _time;
     }
 
-    public function set_progress(val:Float):Float {
+    private function set_progress(val:Float):Float {
         if (_time == val) return val;
         updateProgress(val);
         return val;
@@ -251,39 +251,39 @@ class PathAnimator extends EventDispatcher {
     /**
 	 * returns the actual interpolated rotation along the path.
 	 */
-    public function get_orientation():Vector3D {
+    private function get_orientation():Vector3D {
         return _rot;
     }
 
     /**
 	 * sets the object to be animated along the path.
 	 */
-    public function set_target(object3d:Object3D):Object3D {
+    private function set_target(object3d:Object3D):Object3D {
         _target = object3d;
         return object3d;
     }
 
-    public function get_target():Object3D {
+    private function get_target():Object3D {
         return _target;
     }
 
     /**
 	 * sets the object that the animated object will be looking at along the path
 	 */
-    public function set_lookAtObject(object3d:Object3D):Object3D {
+    private function set_lookAtObject(object3d:Object3D):Object3D {
         _lookAtTarget = object3d;
         if (_alignToPath) _alignToPath = false;
         return object3d;
     }
 
-    public function get_lookAtObject():Object3D {
+    private function get_lookAtObject():Object3D {
         return _lookAtTarget;
     }
 
     /**
 	 * sets an optional Vector.&lt;Vector3D&gt; of rotations. if the object3d is animated along a PathExtrude object, use the very same vector to follow the "curves".
 	 */
-    public function set_rotations(value:Vector<Vector3D>):Vector<Vector3D> {
+    private function set_rotations(value:Vector<Vector3D>):Vector<Vector3D> {
         _rotations = value;
         if (_rotations != null && _rot == null) {
             _rot = new Vector3D();
@@ -295,12 +295,12 @@ class PathAnimator extends EventDispatcher {
     /**
 	 * Set the pointer to a given segment along the path
 	 */
-    public function set_index(val:Int):Int {
+    private function set_index(val:Int):Int {
         _index = ((val > _path.numSegments - 1)) ? _path.numSegments - 1 : ((val > 0)) ? val : 0;
         return val;
     }
 
-    public function get_index():Int {
+    private function get_index():Int {
         return _index;
     }
 

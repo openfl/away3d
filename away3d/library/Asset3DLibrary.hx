@@ -70,11 +70,11 @@ class Asset3DLibrary {
     }
 
 
-    public static function get_conflictPrecedence():String {
+    private static function get_conflictPrecedence():String {
         return getBundle().conflictPrecedence;
     }
 
-    public static function set_conflictPrecedence(val:String):String {
+    private static function set_conflictPrecedence(val:String):String {
         return getBundle().conflictPrecedence = val;
     }
 

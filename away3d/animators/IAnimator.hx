@@ -18,7 +18,7 @@ interface IAnimator {
     /**
 	 * Returns the animation data set in use by the animator.
 	 */
-    function get_animationSet():IAnimationSet;
+    private function get_animationSet():IAnimationSet;
     /**
 	 * Sets the GPU render state required by the animation that is dependent of the rendered object.
 	 *

@@ -14,8 +14,8 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.Texture2DBase;
 
 class LightMapDiffuseMethod extends CompositeDiffuseMethod {
-    public var blendMode(get_blendMode, set_blendMode):BlendMode;
-    public var lightMapTexture(get_lightMapTexture, set_lightMapTexture):Texture2DBase;
+    public var blendMode(get, set):BlendMode;
+    public var lightMapTexture(get, set):Texture2DBase;
 
     /**
 	 * Indicates the light map should be multiplied with the calculated shading result.
@@ -59,11 +59,11 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod {
 	 * @see LightMapDiffuseMethod.ADD
 	 * @see LightMapDiffuseMethod.MULTIPLY
 	 */
-    public function get_blendMode():BlendMode {
+    private function get_blendMode():BlendMode {
         return _blendMode;
     }
 
-    public function set_blendMode(value:BlendMode):BlendMode {
+    private function set_blendMode(value:BlendMode):BlendMode {
         if (value != LightMapDiffuseMethod.ADD && value != LightMapDiffuseMethod.MULTIPLY) throw new Error("Unknown blendmode!");
         if (_blendMode == value) return value;
         _blendMode = value;
@@ -74,11 +74,11 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod {
     /**
 	 * The texture containing the light map data.
 	 */
-    public function get_lightMapTexture():Texture2DBase {
+    private function get_lightMapTexture():Texture2DBase {
         return _texture;
     }
 
-    public function set_lightMapTexture(value:Texture2DBase):Texture2DBase {
+    private function set_lightMapTexture(value:Texture2DBase):Texture2DBase {
         _texture = value;
         return value;
     }

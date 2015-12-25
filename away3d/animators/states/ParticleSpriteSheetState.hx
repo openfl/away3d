@@ -18,8 +18,8 @@ import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.Vector;
 
 class ParticleSpriteSheetState extends ParticleStateBase {
-    public var cyclePhase(get_cyclePhase, set_cyclePhase):Float;
-    public var cycleDuration(get_cycleDuration, set_cycleDuration):Float;
+    public var cyclePhase(get, set):Float;
+    public var cycleDuration(get, set):Float;
 
     private var _particleSpriteSheetNode:ParticleSpriteSheetNode;
     private var _usesCycle:Bool;
@@ -33,11 +33,11 @@ class ParticleSpriteSheetState extends ParticleStateBase {
     /**
 	 * Defines the cycle phase, when in global mode. Defaults to zero.
 	 */
-    public function get_cyclePhase():Float {
+    private function get_cyclePhase():Float {
         return _cyclePhase;
     }
 
-    public function set_cyclePhase(value:Float):Float {
+    private function set_cyclePhase(value:Float):Float {
         _cyclePhase = value;
         updateSpriteSheetData();
         return value;
@@ -46,11 +46,11 @@ class ParticleSpriteSheetState extends ParticleStateBase {
     /**
 	 * Defines the cycle duration in seconds, when in global mode. Defaults to 1.
 	 */
-    public function get_cycleDuration():Float {
+    private function get_cycleDuration():Float {
         return _cycleDuration;
     }
 
-    public function set_cycleDuration(value:Float):Float {
+    private function set_cycleDuration(value:Float):Float {
         _cycleDuration = value;
         updateSpriteSheetData();
         return value;

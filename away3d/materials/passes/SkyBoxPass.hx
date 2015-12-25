@@ -20,7 +20,7 @@ import openfl.display3D.Context3DMipFilter;
 import openfl.Vector;
 
 class SkyBoxPass extends MaterialPassBase {
-    public var cubeTexture(get_cubeTexture, set_cubeTexture):CubeTextureBase;
+    public var cubeTexture(get, set):CubeTextureBase;
 
     private var _cubeTexture:CubeTextureBase;
     private var _vertexData:Vector<Float>;
@@ -38,11 +38,11 @@ class SkyBoxPass extends MaterialPassBase {
     /**
 	 * The cube texture to use as the skybox.
 	 */
-    public function get_cubeTexture():CubeTextureBase {
+    private function get_cubeTexture():CubeTextureBase {
         return _cubeTexture;
     }
 
-    public function set_cubeTexture(value:CubeTextureBase):CubeTextureBase {
+    private function set_cubeTexture(value:CubeTextureBase):CubeTextureBase {
         _cubeTexture = value;
         return value;
     }

@@ -15,9 +15,9 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.geom.Vector3D;
 
 class ParticleSpriteSheetNode extends ParticleNodeBase {
-    public var numColumns(get_numColumns, never):Float;
-    public var numRows(get_numRows, never):Float;
-    public var totalFrames(get_totalFrames, never):Float;
+    public var numColumns(get, never):Float;
+    public var numRows(get, never):Float;
+    public var totalFrames(get, never):Float;
 
     
     /** @private */
@@ -56,21 +56,21 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
     /**
 	 * Defines the number of columns in the spritesheet, when in global mode. Defaults to 1. Read only.
 	 */
-    public function get_numColumns():Float {
+    private function get_numColumns():Float {
         return _numColumns;
     }
 
     /**
 	 * Defines the number of rows in the spritesheet, when in global mode. Defaults to 1. Read only.
 	 */
-    public function get_numRows():Float {
+    private function get_numRows():Float {
         return _numRows;
     }
 
     /**
 	 * Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows. Read only.
 	 */
-    public function get_totalFrames():Float {
+    private function get_totalFrames():Float {
         return _totalFrames;
     }
 

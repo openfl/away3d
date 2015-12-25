@@ -3,9 +3,9 @@ package away3d.animators.states;
 import openfl.geom.Vector3D;
 
 interface IAnimationState {
-    var positionDelta(get_positionDelta, never):Vector3D;
+    var positionDelta(get, never):Vector3D;
 
-    function get_positionDelta():Vector3D;
+    private function get_positionDelta():Vector3D;
     function offset(startTime:Int):Void;
     function update(time:Int):Void;
     /**

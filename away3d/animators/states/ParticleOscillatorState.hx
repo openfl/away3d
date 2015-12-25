@@ -17,7 +17,7 @@ import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.geom.Vector3D;
 
 class ParticleOscillatorState extends ParticleStateBase {
-    public var oscillator(get_oscillator, set_oscillator):Vector3D;
+    public var oscillator(get, set):Vector3D;
 
     private var _particleOscillatorNode:ParticleOscillatorNode;
     private var _oscillator:Vector3D;
@@ -25,11 +25,11 @@ class ParticleOscillatorState extends ParticleStateBase {
     /**
 	 * Defines the default oscillator axis (x, y, z) and cycleDuration (w) of the state, used when in global mode.
 	 */
-    public function get_oscillator():Vector3D {
+    private function get_oscillator():Vector3D {
         return _oscillator;
     }
 
-    public function set_oscillator(value:Vector3D):Vector3D {
+    private function set_oscillator(value:Vector3D):Vector3D {
         _oscillator = value;
         updateOscillatorData();
         return value;

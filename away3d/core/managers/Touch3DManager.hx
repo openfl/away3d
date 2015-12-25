@@ -13,9 +13,9 @@ import haxe.ds.IntMap;
 import openfl.Vector;
 
 class Touch3DManager {
-    public var forceTouchMove(get_forceTouchMove, set_forceTouchMove):Bool;
-    public var touchPicker(get_touchPicker, set_touchPicker):IPicker;
-    public var view(never, set_view):View3D;
+    public var forceTouchMove(get, set):Bool;
+    public var touchPicker(get, set):IPicker;
+    public var view(never, set):View3D;
 
     private var _updateDirty:Bool;
     private var _nullVector:Vector3D;
@@ -233,25 +233,25 @@ class Touch3DManager {
     // Getters & setters.
     // ---------------------------------------------------------------------
 
-    public function get_forceTouchMove():Bool {
+    private function get_forceTouchMove():Bool {
         return _forceTouchMove;
     }
 
-    public function set_forceTouchMove(value:Bool):Bool {
+    private function set_forceTouchMove(value:Bool):Bool {
         _forceTouchMove = value;
         return value;
     }
 
-    public function get_touchPicker():IPicker {
+    private function get_touchPicker():IPicker {
         return _touchPicker;
     }
 
-    public function set_touchPicker(value:IPicker):IPicker {
+    private function set_touchPicker(value:IPicker):IPicker {
         _touchPicker = value;
         return value;
     }
 
-    public function set_view(value:View3D):View3D {
+    private function set_view(value:View3D):View3D {
         _view = value;
         return value;
     }

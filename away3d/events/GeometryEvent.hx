@@ -9,7 +9,7 @@ import away3d.core.base.ISubGeometry;
 import openfl.events.Event;
 
 class GeometryEvent extends Event {
-    public var subGeometry(get_subGeometry, never):ISubGeometry;
+    public var subGeometry(get, never):ISubGeometry;
 
     /**
 	 * Dispatched when a SubGeometry was added from the dispatching Geometry.
@@ -34,7 +34,7 @@ class GeometryEvent extends Event {
     /**
 	 * The SubGeometry object that is the subject of this event, if appropriate.
 	 */
-    public function get_subGeometry():ISubGeometry {
+    private function get_subGeometry():ISubGeometry {
         return _subGeometry;
     }
 

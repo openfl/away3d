@@ -14,7 +14,7 @@ import openfl.geom.ColorTransform;
 import openfl.geom.Vector3D;
 
 class ParticleInitialColorState extends ParticleStateBase {
-    public var initialColor(get_initialColor, set_initialColor):ColorTransform;
+    public var initialColor(get, set):ColorTransform;
 
     private var _particleInitialColorNode:ParticleInitialColorNode;
     private var _usesMultiplier:Bool;
@@ -35,11 +35,11 @@ class ParticleInitialColorState extends ParticleStateBase {
     /**
 	 * Defines the initial color transform of the state, when in global mode.
 	 */
-    public function get_initialColor():ColorTransform {
+    private function get_initialColor():ColorTransform {
         return _initialColor;
     }
 
-    public function set_initialColor(value:ColorTransform):ColorTransform {
+    private function set_initialColor(value:ColorTransform):ColorTransform {
         _initialColor = value;
         return value;
     }

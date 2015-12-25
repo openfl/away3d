@@ -8,15 +8,15 @@ import away3d.core.base.data.Vertex;
 
 
 class NURBSVertex extends Vertex {
-    public var w(get_w, set_w):Float;
+    public var w(get, set):Float;
 
     private var _w:Float;
 
-    public function get_w():Float {
+    private function get_w():Float {
         return _w;
     }
 
-    public function set_w(w:Float):Float {
+    private function set_w(w:Float):Float {
         _w = w;
         return w;
     }

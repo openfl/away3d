@@ -18,8 +18,8 @@ import away3d.filters.tasks.Filter3DTaskBase;
 import openfl.Vector;
 
 class Filter3DRenderer {
-    public var requireDepthRender(get_requireDepthRender, never):Bool;
-    public var filters(get_filters, set_filters):Vector<Dynamic>;
+    public var requireDepthRender(get, never):Bool;
+    public var filters(get, set):Vector<Dynamic>;
 
     private var _filters:Vector<Dynamic>;
     private var _tasks:Array<Filter3DTaskBase>;
@@ -41,7 +41,7 @@ class Filter3DRenderer {
         _filterSizesInvalid = true;
     }
 
-    public function get_requireDepthRender():Bool {
+    private function get_requireDepthRender():Bool {
         return _requireDepthRender;
     }
 
@@ -50,11 +50,11 @@ class Filter3DRenderer {
         return _mainInputTexture;
     }
 
-    public function get_filters():Vector<Dynamic> {
+    private function get_filters():Vector<Dynamic> {
         return _filters;
     }
 
-    public function set_filters(value:Vector<Dynamic>):Vector<Dynamic> {
+    private function set_filters(value:Vector<Dynamic>):Vector<Dynamic> {
         _filters = value;
         _filterTasksInvalid = true;
         _requireDepthRender = false;

@@ -18,7 +18,7 @@ import away3d.lights.LightBase;
 import openfl.Vector;
 
 class SimpleShadowMapMethodBase extends ShadowMapMethodBase {
-    var depthMapCoordReg(get_depthMapCoordReg, set_depthMapCoordReg):ShaderRegisterElement;
+    var depthMapCoordReg(get, set):ShaderRegisterElement;
 
     private var _depthMapCoordReg:ShaderRegisterElement;
     private var _usePoint:Bool;

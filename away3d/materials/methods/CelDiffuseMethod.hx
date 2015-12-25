@@ -12,8 +12,8 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class CelDiffuseMethod extends CompositeDiffuseMethod {
-    public var levels(get_levels, set_levels):Int;
-    public var smoothness(get_smoothness, set_smoothness):Float;
+    public var levels(get, set):Int;
+    public var smoothness(get, set):Float;
 
     private var _levels:Int;
     private var _dataReg:ShaderRegisterElement;
@@ -43,11 +43,11 @@ class CelDiffuseMethod extends CompositeDiffuseMethod {
     /**
 	 * The amount of shadow gradations.
 	 */
-    public function get_levels():Int {
+    private function get_levels():Int {
         return _levels;
     }
 
-    public function set_levels(value:Int):Int {
+    private function set_levels(value:Int):Int {
         _levels = value;
         return value;
     }
@@ -55,11 +55,11 @@ class CelDiffuseMethod extends CompositeDiffuseMethod {
     /**
 	 * The smoothness of the edge between 2 shading levels.
 	 */
-    public function get_smoothness():Float {
+    private function get_smoothness():Float {
         return _smoothness;
     }
 
-    public function set_smoothness(value:Float):Float {
+    private function set_smoothness(value:Float):Float {
         _smoothness = value;
         return value;
     }

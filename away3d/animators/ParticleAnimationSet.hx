@@ -27,7 +27,7 @@ import openfl.errors.Error;
 import openfl.Vector;
 
 class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
-    public var particleNodes(get_particleNodes, never):Array<ParticleNodeBase>;
+    public var particleNodes(get, never):Array<ParticleNodeBase>;
 
     /** @private */
     public var animationRegisterCache:AnimationRegisterCache;
@@ -105,7 +105,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * Returns a vector of the particle animation nodes contained within the set.
 	 */
-    public function get_particleNodes():Array<ParticleNodeBase> {
+    private function get_particleNodes():Array<ParticleNodeBase> {
         return _particleNodes;
     }
 
@@ -234,7 +234,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_usesCPU():Bool {
+    override private function get_usesCPU():Bool {
         return false;
     }
 

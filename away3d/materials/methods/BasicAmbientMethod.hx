@@ -18,9 +18,9 @@ import openfl.display3D.Context3DMipFilter;
 import openfl.Vector;
 
 class BasicAmbientMethod extends ShadingMethodBase {
-    public var ambient(get_ambient, set_ambient):Float;
-    public var ambientColor(get_ambientColor, set_ambientColor):Int;
-    public var texture(get_texture, set_texture):Texture2DBase;
+    public var ambient(get, set):Float;
+    public var ambientColor(get, set):Int;
+    public var texture(get, set):Texture2DBase;
 
     private var _useTexture:Bool;
     private var _texture:Texture2DBase;
@@ -66,11 +66,11 @@ class BasicAmbientMethod extends ShadingMethodBase {
     /**
 	 * The strength of the ambient reflection of the surface.
 	 */
-    public function get_ambient():Float {
+    private function get_ambient():Float {
         return _ambient;
     }
 
-    public function set_ambient(value:Float):Float {
+    private function set_ambient(value:Float):Float {
         _ambient = value;
         return value;
     }
@@ -78,11 +78,11 @@ class BasicAmbientMethod extends ShadingMethodBase {
     /**
 	 * The colour of the ambient reflection of the surface.
 	 */
-    public function get_ambientColor():Int {
+    private function get_ambientColor():Int {
         return _ambientColor;
     }
 
-    public function set_ambientColor(value:Int):Int {
+    private function set_ambientColor(value:Int):Int {
         _ambientColor = value;
         return value;
     }
@@ -90,11 +90,11 @@ class BasicAmbientMethod extends ShadingMethodBase {
     /**
 	 * The bitmapData to use to define the diffuse reflection color per texel.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
             invalidateShaderProgram();
         }

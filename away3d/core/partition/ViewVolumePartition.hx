@@ -4,7 +4,7 @@ package away3d.core.partition;
 import away3d.entities.Entity;
 
 class ViewVolumePartition extends Partition3D {
-    public var dynamicGrid(get_dynamicGrid, set_dynamicGrid):DynamicGrid;
+    public var dynamicGrid(get, set):DynamicGrid;
 
     public function new() {
         super(new ViewVolumeRootNode());
@@ -30,11 +30,11 @@ class ViewVolumePartition extends Partition3D {
 	 * A dynamic grid to be able to determine visibility of dynamic objects. If none is provided, dynamic objects are only frustum-culled.
 	 * If provided, ViewVolumes need to have visible grid cells assigned from the same DynamicGrid instance.
 	 */
-    public function get_dynamicGrid():DynamicGrid {
+    private function get_dynamicGrid():DynamicGrid {
         return cast((_rootNode), ViewVolumeRootNode).dynamicGrid;
     }
 
-    public function set_dynamicGrid(value:DynamicGrid):DynamicGrid {
+    private function set_dynamicGrid(value:DynamicGrid):DynamicGrid {
         cast((_rootNode), ViewVolumeRootNode).dynamicGrid = value;
         return value;
     }

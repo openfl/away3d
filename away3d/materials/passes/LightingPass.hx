@@ -57,12 +57,12 @@ class LightingPass extends CompiledPass
 	 * This needs to be set before the light picker is assigned.
 	 */
 	public var directionalLightsOffset(get, set) : UInt;
-	public function get_directionalLightsOffset() : UInt
+	private function get_directionalLightsOffset() : UInt
 	{
 		return _directionalLightsOffset;
 	}
 	
-	public function set_directionalLightsOffset(value:UInt) : UInt
+	private function set_directionalLightsOffset(value:UInt) : UInt
 	{
 		_directionalLightsOffset = value;
 		return value;
@@ -73,12 +73,12 @@ class LightingPass extends CompiledPass
 	 * This needs to be set before the light picker is assigned.
 	 */
 	public var pointLightsOffset(get, set) : UInt;
-	public function get_pointLightsOffset() : UInt
+	private function get_pointLightsOffset() : UInt
 	{
 		return _pointLightsOffset;
 	}
 	
-	public function set_pointLightsOffset(value:UInt) : UInt
+	private function set_pointLightsOffset(value:UInt) : UInt
 	{
 		_pointLightsOffset = value;
 		return value;
@@ -89,12 +89,12 @@ class LightingPass extends CompiledPass
 	 * This needs to be set before the light picker is assigned.
 	 */
 	public var lightProbesOffset(get, set) : UInt;
-	public function get_lightProbesOffset() : UInt
+	private function get_lightProbesOffset() : UInt
 	{
 		return _lightProbesOffset;
 	}
 	
-	public function set_lightProbesOffset(value:UInt) : UInt
+	private function set_lightProbesOffset(value:UInt) : UInt
 	{
 		_lightProbesOffset = value;
 		return value;
@@ -113,12 +113,12 @@ class LightingPass extends CompiledPass
 	 * Indicates whether or not shadow casting lights need to be included.
 	 */
 	public var includeCasters(get, set) : Bool;
-	public function get_includeCasters() : Bool
+	private function get_includeCasters() : Bool
 	{
 		return _includeCasters;
 	}
 	
-	public function set_includeCasters(value:Bool) : Bool
+	private function set_includeCasters(value:Bool) : Bool
 	{
 		if (_includeCasters == value)
 			return value;

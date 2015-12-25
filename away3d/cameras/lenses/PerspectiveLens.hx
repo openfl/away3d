@@ -8,8 +8,8 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class PerspectiveLens extends LensBase {
-    public var fieldOfView(get_fieldOfView, set_fieldOfView):Float;
-    public var focalLength(get_focalLength, set_focalLength):Float;
+    public var fieldOfView(get, set):Float;
+    public var focalLength(get, set):Float;
 
     private var _fieldOfView:Float;
     private var _focalLength:Float;
@@ -30,11 +30,11 @@ class PerspectiveLens extends LensBase {
     /**
 	 * The vertical field of view of the projection in degrees.
 	 */
-    public function get_fieldOfView():Float {
+    private function get_fieldOfView():Float {
         return _fieldOfView;
     }
 
-    public function set_fieldOfView(value:Float):Float {
+    private function set_fieldOfView(value:Float):Float {
         if (value == _fieldOfView) return value;
         _fieldOfView = value;
         _focalLengthInv = Math.tan(_fieldOfView * Math.PI / 360);
@@ -46,11 +46,11 @@ class PerspectiveLens extends LensBase {
     /**
 	 * The focal length of the projection in units of viewport height.
 	 */
-    public function get_focalLength():Float {
+    private function get_focalLength():Float {
         return _focalLength;
     }
 
-    public function set_focalLength(value:Float):Float {
+    private function set_focalLength(value:Float):Float {
         if (value == _focalLength) return value;
         _focalLength = value;
         _focalLengthInv = 1 / _focalLength;

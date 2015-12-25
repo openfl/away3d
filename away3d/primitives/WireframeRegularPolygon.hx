@@ -6,9 +6,9 @@ package away3d.primitives;
 import openfl.geom.Vector3D;
 
 class WireframeRegularPolygon extends WireframePrimitiveBase {
-    public var orientation(get_orientation, set_orientation):String;
-    public var radius(get_radius, set_radius):Float;
-    public var sides(get_sides, set_sides):Int;
+    public var orientation(get, set):String;
+    public var radius(get, set):Float;
+    public var sides(get, set):Int;
 
     static public var ORIENTATION_YZ:String = "yz";
     static public var ORIENTATION_XY:String = "xy";
@@ -34,11 +34,11 @@ class WireframeRegularPolygon extends WireframePrimitiveBase {
     /**
 	 * The orientaion in which the polygon lies.
 	 */
-    public function get_orientation():String {
+    private function get_orientation():String {
         return _orientation;
     }
 
-    public function set_orientation(value:String):String {
+    private function set_orientation(value:String):String {
         _orientation = value;
         invalidateGeometry();
         return value;
@@ -47,11 +47,11 @@ class WireframeRegularPolygon extends WireframePrimitiveBase {
     /**
 	 * The radius of the regular polygon.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _radius;
     }
 
-    public function set_radius(value:Float):Float {
+    private function set_radius(value:Float):Float {
         _radius = value;
         invalidateGeometry();
         return value;
@@ -60,11 +60,11 @@ class WireframeRegularPolygon extends WireframePrimitiveBase {
     /**
 	 * The number of sides to the regular polygon.
 	 */
-    public function get_sides():Int {
+    private function get_sides():Int {
         return _sides;
     }
 
-    public function set_sides(value:Int):Int {
+    private function set_sides(value:Int):Int {
         _sides = value;
         removeAllSegments();
         invalidateGeometry();

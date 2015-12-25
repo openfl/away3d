@@ -10,10 +10,10 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.materials.passes.MaterialPassBase;
 
 class ParticleNodeBase extends AnimationNodeBase {
-    public var mode(get_mode, never):Int;
-    public var priority(get_priority, never):Int;
-    public var dataLength(get_dataLength, never):Int;
-    public var oneData(get_oneData, never):Array<Float>;
+    public var mode(get, never):Int;
+    public var priority(get, never):Int;
+    public var dataLength(get, never):Int;
+    public var oneData(get, never):Array<Float>;
 
     private var _mode:Int;
     private var _priority:Int;
@@ -26,7 +26,7 @@ class ParticleNodeBase extends AnimationNodeBase {
 	 *
 	 * @see away3d.animators.data.ParticlePropertiesMode
 	 */
-    public function get_mode():Int {
+    private function get_mode():Int {
         return _mode;
     }
 
@@ -36,7 +36,7 @@ class ParticleNodeBase extends AnimationNodeBase {
 	 * @see away3d.animators.ParticleAnimationSet
 	 * @see #getAGALVertexCode
 	 */
-    public function get_priority():Int {
+    private function get_priority():Int {
         return _priority;
     }
 
@@ -46,7 +46,7 @@ class ParticleNodeBase extends AnimationNodeBase {
 	 * @see away3d.animators.ParticleAnimationSet
 	 * @see #getAGALVertexCode
 	 */
-    public function get_dataLength():Int {
+    private function get_dataLength():Int {
         return _dataLength;
     }
 
@@ -56,7 +56,7 @@ class ParticleNodeBase extends AnimationNodeBase {
 	 * @see away3d.animators.ParticleAnimationSet
 	 * @see #generatePropertyOfOneParticle
 	 */
-    public function get_oneData():Array<Float> {
+    private function get_oneData():Array<Float> {
         return _oneData;
     }
 
