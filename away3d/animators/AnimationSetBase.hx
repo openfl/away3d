@@ -14,10 +14,10 @@ import away3d.library.assets.IAsset;
 import openfl.Vector;
 
 class AnimationSetBase extends NamedAssetBase implements IAsset {
-    public var usesCPU(get_usesCPU, never):Bool;
-    public var assetType(get_assetType, never):String;
-    public var animations(get_animations, never):Vector<AnimationNodeBase>;
-    public var animationNames(get_animationNames, never):Vector<String>;
+    public var usesCPU(get, never):Bool;
+    public var assetType(get, never):String;
+    public var animations(get, never):Vector<AnimationNodeBase>;
+    public var animationNames(get, never):Vector<String>;
 
     private var _usesCPU:Bool;
     private var _animations:Vector<AnimationNodeBase>;
@@ -77,7 +77,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.ANIMATION_SET;
     }
 

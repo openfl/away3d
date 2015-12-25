@@ -14,26 +14,26 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class ObjectContainer3D extends Object3D implements IAsset {
-    public var ignoreTransform(get_ignoreTransform, set_ignoreTransform):Bool;
-    public var implicitPartition(get_implicitPartition, set_implicitPartition):Partition3D;
-    public var isVisible(get_isVisible, never):Bool;
-    public var mouseEnabled(get_mouseEnabled, set_mouseEnabled):Bool;
-    public var mouseChildren(get_mouseChildren, set_mouseChildren):Bool;
-    public var visible(get_visible, set_visible):Bool;
-    public var assetType(get_assetType, never):String;
-    public var scenePosition(get_scenePosition, never):Vector3D;
-    public var minX(get_minX, never):Float;
-    public var minY(get_minY, never):Float;
-    public var minZ(get_minZ, never):Float;
-    public var maxX(get_maxX, never):Float;
-    public var maxY(get_maxY, never):Float;
-    public var maxZ(get_maxZ, never):Float;
-    public var partition(get_partition, set_partition):Partition3D;
-    public var sceneTransform(get_sceneTransform, never):Matrix3D;
-    public var scene(get_scene, set_scene):Scene3D;
-    public var inverseSceneTransform(get_inverseSceneTransform, never):Matrix3D;
-    public var parent(get_parent, never):ObjectContainer3D;
-    public var numChildren(get_numChildren, never):Int;
+    public var ignoreTransform(get, set):Bool;
+    public var implicitPartition(get, set):Partition3D;
+    public var isVisible(get, never):Bool;
+    public var mouseEnabled(get, set):Bool;
+    public var mouseChildren(get, set):Bool;
+    public var visible(get, set):Bool;
+    public var assetType(get, never):String;
+    public var scenePosition(get, never):Vector3D;
+    public var minX(get, never):Float;
+    public var minY(get, never):Float;
+    public var minZ(get, never):Float;
+    public var maxX(get, never):Float;
+    public var maxY(get, never):Float;
+    public var maxZ(get, never):Float;
+    public var partition(get, set):Partition3D;
+    public var sceneTransform(get, never):Matrix3D;
+    public var scene(get, set):Scene3D;
+    public var inverseSceneTransform(get, never):Matrix3D;
+    public var parent(get, never):ObjectContainer3D;
+    public var numChildren(get, never):Int;
 
     /** @private */
     public var _ancestorsAllowMouseEnabled:Bool;
@@ -247,7 +247,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
         return value;
     }
 
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.CONTAINER;
     }
 

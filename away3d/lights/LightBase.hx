@@ -195,7 +195,7 @@ class LightBase extends Entity {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.LIGHT;
     }
 

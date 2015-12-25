@@ -69,7 +69,7 @@ class TextureProjector extends ObjectContainer3D {
         return value;
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.TEXTURE_PROJECTOR;
     }
 

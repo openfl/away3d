@@ -25,25 +25,26 @@ import openfl.Vector;
 import haxe.ds.IntMap;
 
 class SegmentSet extends Entity implements IRenderable {
-    public var segmentCount(get_segmentCount, never):Int;
-    public var subSetCount(get_subSetCount, never):Int;
-    public var hasData(get_hasData, never):Bool;
-    public var numTriangles(get_numTriangles, never):Int;
-    public var sourceEntity(get_sourceEntity, never):Entity;
-    public var castsShadows(get_castsShadows, never):Bool;
-    public var material(get_material, set_material):MaterialBase;
-    public var animator(get_animator, never):IAnimator;
-    public var uvTransform(get_uvTransform, never):Matrix;
-    public var vertexData(get_vertexData, never):Vector<Float>;
-    public var indexData(get_indexData, never):Vector<UInt>;
-    public var UVData(get_UVData, never):Vector<Float>;
-    public var numVertices(get_numVertices, never):Int;
-    public var vertexStride(get_vertexStride, never):Int;
-    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
-    public var vertexOffset(get_vertexOffset, never):Int;
-    public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
-    public var vertexTangentOffset(get_vertexTangentOffset, never):Int;
+    public var segmentCount(get, never):Int;
+    public var subSetCount(get, never):Int;
+    public var hasData(get, never):Bool;
+    public var numTriangles(get, never):Int;
+    public var sourceEntity(get, never):Entity;
+    public var castsShadows(get, never):Bool;
+    public var material(get, set):MaterialBase;
+    public var animator(get, never):IAnimator;
+    public var uvTransform(get, never):Matrix;
+    public var uvTransform2(get, never):Matrix;
+    public var vertexData(get, never):Vector<Float>;
+    public var indexData(get, never):Vector<UInt>;
+    public var UVData(get, never):Vector<Float>;
+    public var numVertices(get, never):Int;
+    public var vertexStride(get, never):Int;
+    public var vertexNormalData(get, never):Vector<Float>;
+    public var vertexTangentData(get, never):Vector<Float>;
+    public var vertexOffset(get, never):Int;
+    public var vertexNormalOffset(get, never):Int;
+    public var vertexTangentOffset(get, never):Int;
 
     private var LIMIT:Int;
     private var _activeSubSet:SubSet;
@@ -512,6 +513,10 @@ class SegmentSet extends Entity implements IRenderable {
         return null;
     }
 
+    public function get_uvTransform2():Matrix {
+        return null;
+    }
+
     public function get_vertexData():Vector<Float> {
         return null;
     }
@@ -552,7 +557,7 @@ class SegmentSet extends Entity implements IRenderable {
         return 0;
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.SEGMENT_SET;
     }
 

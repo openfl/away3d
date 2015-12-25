@@ -19,19 +19,19 @@ import away3d.lights.PointLight;
 import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 class LightPickerBase extends NamedAssetBase implements IAsset {
-    public var assetType(get_assetType, never):String;
-    public var numDirectionalLights(get_numDirectionalLights, never):Int;
-    public var numPointLights(get_numPointLights, never):Int;
-    public var numCastingDirectionalLights(get_numCastingDirectionalLights, never):Int;
-    public var numCastingPointLights(get_numCastingPointLights, never):Int;
-    public var numLightProbes(get_numLightProbes, never):Int;
-    public var pointLights(get_pointLights, never):Array<PointLight>;
-    public var directionalLights(get_directionalLights, never):Array<DirectionalLight>;
-    public var castingPointLights(get_castingPointLights, never):Array<PointLight>;
-    public var castingDirectionalLights(get_castingDirectionalLights, never):Array<DirectionalLight>;
-    public var lightProbes(get_lightProbes, never):Array<LightProbe>;
-    public var lightProbeWeights(get_lightProbeWeights, never):Array<Float>;
-    public var allPickedLights(get_allPickedLights, never):Array<LightBase>;
+    public var assetType(get, never):String;
+    public var numDirectionalLights(get, never):Int;
+    public var numPointLights(get, never):Int;
+    public var numCastingDirectionalLights(get, never):Int;
+    public var numCastingPointLights(get, never):Int;
+    public var numLightProbes(get, never):Int;
+    public var pointLights(get, never):Array<PointLight>;
+    public var directionalLights(get, never):Array<DirectionalLight>;
+    public var castingPointLights(get, never):Array<PointLight>;
+    public var castingDirectionalLights(get, never):Array<DirectionalLight>;
+    public var lightProbes(get, never):Array<LightProbe>;
+    public var lightProbeWeights(get, never):Array<Float>;
+    public var allPickedLights(get, never):Array<LightBase>;
 
     private var _numPointLights:Int;
     private var _numDirectionalLights:Int;
@@ -61,7 +61,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.LIGHT_PICKER;
     }
 

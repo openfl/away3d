@@ -9,10 +9,11 @@ import away3d.textures.Texture2DBase;
 import away3d.textures.Anisotropy;
 
 class TextureMaterial extends SinglePassMaterialBase {
-    public var animateUVs(get_animateUVs, set_animateUVs):Bool;
-    public var alpha(get_alpha, set_alpha):Float;
-    public var texture(get_texture, set_texture):Texture2DBase;
-    public var ambientTexture(get_ambientTexture, set_ambientTexture):Texture2DBase;
+    public var animateUVs(get, set):Bool;
+    public var animateUVs2(get, set):Bool;
+    public var alpha(get, set):Float;
+    public var texture(get, set):Texture2DBase;
+    public var ambientTexture(get, set):Texture2DBase;
 
     /**
 	 * Creates a new TextureMaterial.
@@ -42,6 +43,20 @@ class TextureMaterial extends SinglePassMaterialBase {
 
     public function set_animateUVs(value:Bool):Bool {
         _screenPass.animateUVs = value;
+        return value;
+    }
+
+    /**
+	 * Specifies whether or not the UV coordinates should be animated using IRenderable's uvTransform matrix.
+	 *
+	 * @see IRenderable.uvTransform
+	 */
+    public function get_animateUVs2():Bool {
+        return _screenPass.animateUVs2;
+    }
+
+    public function set_animateUVs2(value:Bool):Bool {
+        _screenPass.animateUVs2 = value;
         return value;
     }
 

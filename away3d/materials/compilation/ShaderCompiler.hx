@@ -18,47 +18,49 @@ import away3d.textures.Anisotropy;
 import openfl.Vector;
 
 class ShaderCompiler {
-    public var enableLightFallOff(get_enableLightFallOff, set_enableLightFallOff):Bool;
-    public var needUVAnimation(get_needUVAnimation, never):Bool;
-    public var UVTarget(get_UVTarget, never):String;
-    public var UVSource(get_UVSource, never):String;
-    public var forceSeperateMVP(get_forceSeperateMVP, set_forceSeperateMVP):Bool;
-    public var animateUVs(get_animateUVs, set_animateUVs):Bool;
-    public var alphaPremultiplied(get_alphaPremultiplied, set_alphaPremultiplied):Bool;
-    public var preserveAlpha(get_preserveAlpha, set_preserveAlpha):Bool;
-    public var methodSetup(get_methodSetup, set_methodSetup):ShaderMethodSetup;
-    public var commonsDataIndex(get_commonsDataIndex, never):Int;
-    public var numUsedVertexConstants(get_numUsedVertexConstants, never):Int;
-    public var numUsedFragmentConstants(get_numUsedFragmentConstants, never):Int;
-    public var numUsedStreams(get_numUsedStreams, never):Int;
-    public var numUsedTextures(get_numUsedTextures, never):Int;
-    public var numUsedVaryings(get_numUsedVaryings, never):Int;
-    public var specularLightSources(get_specularLightSources, set_specularLightSources):Int;
-    public var diffuseLightSources(get_diffuseLightSources, set_diffuseLightSources):Int;
-    public var uvBufferIndex(get_uvBufferIndex, never):Int;
-    public var uvTransformIndex(get_uvTransformIndex, never):Int;
-    public var secondaryUVBufferIndex(get_secondaryUVBufferIndex, never):Int;
-    public var normalBufferIndex(get_normalBufferIndex, never):Int;
-    public var tangentBufferIndex(get_tangentBufferIndex, never):Int;
-    public var lightFragmentConstantIndex(get_lightFragmentConstantIndex, never):Int;
-    public var cameraPositionIndex(get_cameraPositionIndex, never):Int;
-    public var sceneMatrixIndex(get_sceneMatrixIndex, never):Int;
-    public var sceneNormalMatrixIndex(get_sceneNormalMatrixIndex, never):Int;
-    public var probeWeightsIndex(get_probeWeightsIndex, never):Int;
-    public var vertexCode(get_vertexCode, never):String;
-    public var fragmentCode(get_fragmentCode, never):String;
-    public var fragmentLightCode(get_fragmentLightCode, never):String;
-    public var fragmentPostLightCode(get_fragmentPostLightCode, never):String;
-    public var shadedTarget(get_shadedTarget, never):String;
-    public var numPointLights(get_numPointLights, set_numPointLights):Int;
-    public var numDirectionalLights(get_numDirectionalLights, set_numDirectionalLights):Int;
-    public var numLightProbes(get_numLightProbes, set_numLightProbes):Int;
-    public var usingSpecularMethod(get_usingSpecularMethod, never):Bool;
-    public var animatableAttributes(get_animatableAttributes, never):Array<String>;
-    public var animationTargetRegisters(get_animationTargetRegisters, never):Array<String>;
-    public var usesNormals(get_usesNormals, never):Bool;
-    public var lightProbeDiffuseIndices(get_lightProbeDiffuseIndices, never):Array<UInt>;
-    public var lightProbeSpecularIndices(get_lightProbeSpecularIndices, never):Array<UInt>;
+    public var enableLightFallOff(get, set):Bool;
+    public var needUVAnimation(get, never):Bool;
+    public var UVTarget(get, never):String;
+    public var UVSource(get, never):String;
+    public var forceSeperateMVP(get, set):Bool;
+    public var animateUVs(get, set):Bool;
+    public var animateUVs2(get, set):Bool;
+    public var alphaPremultiplied(get, set):Bool;
+    public var preserveAlpha(get, set):Bool;
+    public var methodSetup(get, set):ShaderMethodSetup;
+    public var commonsDataIndex(get, never):Int;
+    public var numUsedVertexConstants(get, never):Int;
+    public var numUsedFragmentConstants(get, never):Int;
+    public var numUsedStreams(get, never):Int;
+    public var numUsedTextures(get, never):Int;
+    public var numUsedVaryings(get, never):Int;
+    public var specularLightSources(get, set):Int;
+    public var diffuseLightSources(get, set):Int;
+    public var uvBufferIndex(get, never):Int;
+    public var uvTransformIndex(get, never):Int;
+    public var uvTransformIndex2(get, never):Int;
+    public var secondaryUVBufferIndex(get, never):Int;
+    public var normalBufferIndex(get, never):Int;
+    public var tangentBufferIndex(get, never):Int;
+    public var lightFragmentConstantIndex(get, never):Int;
+    public var cameraPositionIndex(get, never):Int;
+    public var sceneMatrixIndex(get, never):Int;
+    public var sceneNormalMatrixIndex(get, never):Int;
+    public var probeWeightsIndex(get, never):Int;
+    public var vertexCode(get, never):String;
+    public var fragmentCode(get, never):String;
+    public var fragmentLightCode(get, never):String;
+    public var fragmentPostLightCode(get, never):String;
+    public var shadedTarget(get, never):String;
+    public var numPointLights(get, set):Int;
+    public var numDirectionalLights(get, set):Int;
+    public var numLightProbes(get, set):Int;
+    public var usingSpecularMethod(get, never):Bool;
+    public var animatableAttributes(get, never):Array<String>;
+    public var animationTargetRegisters(get, never):Array<String>;
+    public var usesNormals(get, never):Bool;
+    public var lightProbeDiffuseIndices(get, never):Array<UInt>;
+    public var lightProbeSpecularIndices(get, never):Array<UInt>;
 
     private var _sharedRegisters:ShaderRegisterData;
     private var _registerCache:ShaderRegisterCache;
@@ -71,6 +73,7 @@ class ShaderCompiler {
     private var _enableLightFallOff:Bool;
     private var _preserveAlpha:Bool;
     private var _animateUVs:Bool;
+    private var _animateUVs2:Bool;
     private var _alphaPremultiplied:Bool;
     private var _vertexConstantData:Vector<Float>;
     private var _fragmentConstantData:Vector<Float>;
@@ -85,6 +88,7 @@ class ShaderCompiler {
     private var _lightProbeSpecularIndices:Array<UInt>;
     private var _uvBufferIndex:Int;
     private var _uvTransformIndex:Int;
+    private var _uvTransformIndex2:Int;
     private var _secondaryUVBufferIndex:Int;
     private var _normalBufferIndex:Int;
     private var _tangentBufferIndex:Int;
@@ -117,6 +121,7 @@ class ShaderCompiler {
         _commonsDataIndex = -1;
         _uvBufferIndex = -1;
         _uvTransformIndex = -1;
+        _uvTransformIndex2 = -1;
         _secondaryUVBufferIndex = -1;
         _normalBufferIndex = -1;
         _tangentBufferIndex = -1;
@@ -198,6 +203,18 @@ class ShaderCompiler {
 
     public function set_animateUVs(value:Bool):Bool {
         _animateUVs = value;
+        return value;
+    }
+
+    /**
+	 * Indicate whether UV coordinates need to be animated using the renderable's transformUV matrix.
+	 */
+    public function get_animateUVs2():Bool {
+        return _animateUVs2;
+    }
+
+    public function set_animateUVs2(value:Bool):Bool {
+        _animateUVs2 = value;
         return value;
     }
 
@@ -338,10 +355,12 @@ class ShaderCompiler {
         if (animateUVs) {
             // a, b, 0, tx
             // c, d, 0, ty
-            var uvTransform1:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
-            var uvTransform2:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
-            _uvTransformIndex = uvTransform1.index * 4;
-            _vertexCode += "dp4 " + varying + ".x, " + uvAttributeReg + ", " + uvTransform1 + "\n" + "dp4 " + varying + ".y, " + uvAttributeReg + ", " + uvTransform2 + "\n" + "mov " + varying + ".zw, " + uvAttributeReg + ".zw \n";
+            var uvTransformX:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
+            var uvTransformY:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
+            _uvTransformIndex = uvTransformX.index * 4;
+			_vertexCode += 	"dp4 " + varying + ".x, " + uvAttributeReg + ", " + uvTransformX + "\n" + 
+							"dp4 " + varying + ".y, " + uvAttributeReg + ", " + uvTransformY + "\n" + 
+							"mov " + varying + ".zw, " + uvAttributeReg + ".zw \n";
         } else {
             _uvTransformIndex = -1;
             _needUVAnimation = true;
@@ -356,8 +375,22 @@ class ShaderCompiler {
     private function compileSecondaryUVCode():Void {
         var uvAttributeReg:ShaderRegisterElement = _registerCache.getFreeVertexAttribute();
         _secondaryUVBufferIndex = uvAttributeReg.index;
-        _sharedRegisters.secondaryUVVarying = _registerCache.getFreeVarying();
-        _vertexCode += "mov " + _sharedRegisters.secondaryUVVarying + ", " + uvAttributeReg + "\n";
+        var varying:ShaderRegisterElement = _registerCache.getFreeVarying();
+        _sharedRegisters.secondaryUVVarying = varying;
+        
+		if (animateUVs2) {
+            // a, b, 0, tx
+            // c, d, 0, ty
+			var uvTransformX:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
+            var uvTransformY:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
+			_uvTransformIndex2 = uvTransformX.index * 4;
+			_vertexCode += "dp4 " + varying + ".x, " + uvAttributeReg + ", " + uvTransformX + "\n";
+			_vertexCode += "dp4 " + varying + ".y, " + uvAttributeReg + ", " + uvTransformY + "\n";
+			_vertexCode += "mov " + varying + ".zw, " + uvAttributeReg + ".zw" + "\n";
+        } else {
+			_uvTransformIndex2 = -1;
+            _vertexCode += "mov " + varying + ", " + uvAttributeReg + "\n";
+        }
     }
 
     /**
@@ -409,6 +442,7 @@ class ShaderCompiler {
         _cameraPositionIndex = -1;
         _uvBufferIndex = -1;
         _uvTransformIndex = -1;
+        _uvTransformIndex2 = -1;
         _secondaryUVBufferIndex = -1;
         _normalBufferIndex = -1;
         _tangentBufferIndex = -1;
@@ -656,6 +690,13 @@ class ShaderCompiler {
 	 */
     public function get_uvTransformIndex():Int {
         return _uvTransformIndex;
+    }
+
+    /**
+	 * The index for the UV transformation matrix vertex constant.
+	 */
+    public function get_uvTransformIndex2():Int {
+        return _uvTransformIndex2;
     }
 
     /**

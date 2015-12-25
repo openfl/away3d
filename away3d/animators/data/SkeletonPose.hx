@@ -15,8 +15,8 @@ import away3d.library.assets.IAsset;
 import openfl.Vector;
 
 class SkeletonPose extends NamedAssetBase implements IAsset {
-    public var numJointPoses(get_numJointPoses, never):Int;
-    public var assetType(get_assetType, never):String;
+    public var numJointPoses(get, never):Int;
+    public var assetType(get, never):String;
 
     /**
 	 * A flat list of pose objects that comprise the skeleton pose. The pose indices correspond to the target skeleton's joint indices.
@@ -43,7 +43,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.SKELETON_POSE;
     }
 

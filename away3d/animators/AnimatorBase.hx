@@ -16,15 +16,15 @@ import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 
 class AnimatorBase extends NamedAssetBase implements IAsset {
-    public var absoluteTime(get_absoluteTime, never):Int;
-    public var animationSet(get_animationSet, never):IAnimationSet;
-    public var activeState(get_activeState, never):IAnimationState;
-    public var activeAnimation(get_activeAnimation, never):AnimationNodeBase;
-    public var activeAnimationName(get_activeAnimationName, never):String;
-    public var autoUpdate(get_autoUpdate, set_autoUpdate):Bool;
-    public var time(get_time, set_time):Int;
-    public var playbackSpeed(get_playbackSpeed, set_playbackSpeed):Float;
-    public var assetType(get_assetType, never):String;
+    public var absoluteTime(get, never):Int;
+    public var animationSet(get, never):IAnimationSet;
+    public var activeState(get, never):IAnimationState;
+    public var activeAnimation(get, never):AnimationNodeBase;
+    public var activeAnimationName(get, never):String;
+    public var autoUpdate(get, set):Bool;
+    public var time(get, set_time):Int;
+    public var playbackSpeed(get, set):Float;
+    public var assetType(get, never):String;
 
     private var _broadcaster:Sprite;
     private var _isPlaying:Bool;
@@ -305,7 +305,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.ANIMATOR;
     }
 }

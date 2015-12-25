@@ -12,6 +12,7 @@ import away3d.lights.LightBase;
 import haxe.ds.ObjectMap;
 import away3d.entities.Entity;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 import away3d.containers.ObjectContainer3D;
 import away3d.entities.Mesh;

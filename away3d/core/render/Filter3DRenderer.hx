@@ -19,9 +19,9 @@ import openfl.Vector;
 
 class Filter3DRenderer {
     public var requireDepthRender(get_requireDepthRender, never):Bool;
-    public var filters(get_filters, set_filters):Array<Filter3DBase>;
+    public var filters(get_filters, set_filters):Vector<Dynamic>;
 
-    private var _filters:Array<Filter3DBase>;
+    private var _filters:Vector<Dynamic>;
     private var _tasks:Array<Filter3DTaskBase>;
     private var _filterTasksInvalid:Bool;
     private var _mainInputTexture:Texture;
@@ -50,11 +50,11 @@ class Filter3DRenderer {
         return _mainInputTexture;
     }
 
-    public function get_filters():Array<Filter3DBase> {
+    public function get_filters():Vector<Dynamic> {
         return _filters;
     }
 
-    public function set_filters(value:Array<Filter3DBase>):Array<Filter3DBase> {
+    public function set_filters(value:Vector<Dynamic>):Vector<Dynamic> {
         _filters = value;
         _filterTasksInvalid = true;
         _requireDepthRender = false;
