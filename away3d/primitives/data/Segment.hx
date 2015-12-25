@@ -32,11 +32,13 @@ class Segment {
     public function new(start:Vector3D, end:Vector3D, anchor:Vector3D, colorStart:Int = 0x333333, colorEnd:Int = 0x333333, thickness:Float = 1) {
         _index = -1;
         _subSetIndex = -1;
-// TODO: not yet used: for CurveSegment support
+
+        // TODO: not yet used: for CurveSegment support
         anchor = null;
         _thickness = thickness * .5;
-// TODO: add support for curve using anchor v1
-// Prefer removing v1 from this, and make Curve a separate class extending Segment? (- David)
+        
+        // TODO: add support for curve using anchor v1
+        // Prefer removing v1 from this, and make Curve a separate class extending Segment? (- David)
         _start = start;
         _end = end;
         startColor = colorStart;
@@ -44,13 +46,17 @@ class Segment {
     }
 
     public function updateSegment(start:Vector3D, end:Vector3D, anchor:Vector3D, colorStart:Int = 0x333333, colorEnd:Int = 0x333333, thickness:Float = 1):Void {
-// TODO: not yet used: for CurveSegment support
+        
+        // TODO: not yet used: for CurveSegment support
         anchor = null;
         _start = start;
         _end = end;
+        
         if (_startColor != colorStart) startColor = colorStart;
         if (_endColor != colorEnd) endColor = colorEnd;
+        
         _thickness = thickness * .5;
+        
         update();
     }
 
@@ -63,7 +69,9 @@ class Segment {
 
     public function set_start(value:Vector3D):Vector3D {
         _start = value;
+        
         update();
+        
         return value;
     }
 
@@ -76,7 +84,9 @@ class Segment {
 
     public function set_end(value:Vector3D):Vector3D {
         _end = value;
+        
         update();
+        
         return value;
     }
 
@@ -89,7 +99,9 @@ class Segment {
 
     public function set_thickness(value:Float):Float {
         _thickness = value * .5;
+        
         update();
+        
         return value;
     }
 
@@ -105,7 +117,9 @@ class Segment {
         _startG = ((color >> 8) & 0xff) / 255;
         _startB = (color & 0xff) / 255;
         _startColor = color;
+        
         update();
+        
         return color;
     }
 
@@ -121,7 +135,9 @@ class Segment {
         _endG = ((color >> 8) & 0xff) / 255;
         _endB = (color & 0xff) / 255;
         _endColor = color;
+        
         update();
+        
         return color;
     }
 
@@ -154,7 +170,9 @@ class Segment {
     }
 
     private function update():Void {
-        if (_segmentsBase == null) return;
+        if (_segmentsBase == null)
+            return;
+        
         _segmentsBase.updateSegment(this);
     }
 }

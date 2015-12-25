@@ -15,6 +15,7 @@ import away3d.core.managers.Stage3DProxy;
 import away3d.animators.nodes.ParticleSpriteSheetNode;
 import away3d.animators.ParticleAnimator;
 import openfl.display3D.Context3DVertexBufferFormat;
+import openfl.Vector;
 
 class ParticleSpriteSheetState extends ParticleStateBase {
     public var cyclePhase(get_cyclePhase, set_cyclePhase):Float;

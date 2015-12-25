@@ -23,7 +23,6 @@ import openfl.geom.Vector3D;
 import haxe.ds.StringMap.StringMap;
 import openfl.Vector;
 
-
 /**
  * Helper Class for the Mesh object <code>MeshHelper</code>
  * A series of methods usually usefull for mesh manipulations
@@ -341,7 +340,7 @@ class MeshHelper {
         for (i in 0...numSubGeoms) {
             subGeom = cast(geometries[i], ISubGeometry);
             indices = subGeom.indexData;
-            indicesC = subGeom.indexData.concat(new Vector<UInt>());
+            indicesC = subGeom.indexData.concat();
 
             normals = subGeom.vertexNormalData;
             nOffs = subGeom.vertexNormalOffset;

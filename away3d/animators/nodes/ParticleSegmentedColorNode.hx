@@ -10,6 +10,7 @@ import away3d.animators.states.ParticleSegmentedColorState;
 import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.materials.passes.MaterialPassBase;
 import openfl.geom.ColorTransform;
+import openfl.Vector;
 
 class ParticleSegmentedColorNode extends ParticleNodeBase {
 
