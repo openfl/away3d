@@ -9,6 +9,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class ParticleSegmentedScaleState extends ParticleStateBase {
     public var startScale(get_startScale, set_startScale):Vector3D;

@@ -3,14 +3,7 @@
  */
 package away3d.extrusions;
 
-import Reflect;
-import Reflect;
-import Reflect;
-import Reflect;
-import Reflect;
-import Reflect;
-import Reflect;
-import Reflect;
+import openfl.Vector;
 import away3d.extrusions.data.Line;
 import away3d.extrusions.data.FourPoints;
 import away3d.extrusions.data.RenderSide;
@@ -70,9 +63,9 @@ class LatheExtrude extends Mesh {
     private var _ignoreSides:String;
     private var _smoothSurface:Bool;
     private var _tweek:Dynamic;
-    private var _varr:Vector<Vector3D>;
-    private var _varr2:Vector<Vector3D>;
-    private var _uvarr:Vector<UV>;
+    private var _varr:Array<Vector3D>;
+    private var _varr2:Array<Vector3D>;
+    private var _uvarr:Array<UV>;
     private var _startRotationOffset:Float;
     private var _geomDirty:Bool;
     private var _subGeometry:SubGeometry;
@@ -97,6 +90,7 @@ class LatheExtrude extends Mesh {
     inline static public var X_AXIS:String = "x";
     inline static public var Y_AXIS:String = "y";
     inline static public var Z_AXIS:String = "z";
+
     /**
 	 *  Class LatheExtrude generates circular meshes such as donuts, pipes, pyramids etc.. from a series of Vector3D's
 	 *
@@ -128,7 +122,7 @@ class LatheExtrude extends Mesh {
         var geom:Geometry = new Geometry();
         _subGeometry = new SubGeometry();
         if (material == null && materials != null && materials.front != null) material = materials.front;
-        super(geom, material);
+        
         _profile = profile;
         _axis = axis;
         _revolutions = revolutions;
@@ -143,9 +137,11 @@ class LatheExtrude extends Mesh {
         _ignoreSides = ignoreSides;
         _tweek = tweek;
         _smoothSurface = smoothSurface;
+		
+		super(geom, material);
     }
 
-/*
+    /*
 	 * A Vector.<Vector3D> representing the profile information to be repeated/rotated around a given axis.
 	 */
     public function get_profile():Vector<Vector3D> {
@@ -544,8 +540,8 @@ class LatheExtrude extends Mesh {
         }
     }
 
-    private function generate(vectors:Vector<Vector3D>, axis:String, tweek:Dynamic, render:Bool = true, id:Int = 0):Void {
-// TODO: not used
+    private function generate(vectors:Array<Vector3D>, axis:String, tweek:Dynamic, render:Bool = true, id:Int = 0):Void {
+        // TODO: not used
         if (!tweek) tweek = { };
         if (Math.isNaN(Reflect.field(tweek, X_AXIS)) || !Reflect.field(tweek, X_AXIS)) Reflect.setField(tweek, X_AXIS, 0);
         if (Math.isNaN(Reflect.field(tweek, Y_AXIS)) || !Reflect.field(tweek, Y_AXIS)) Reflect.setField(tweek, Y_AXIS, 0);
@@ -559,16 +555,17 @@ class LatheExtrude extends Mesh {
         var tweekZ:Float = 0;
         var tweekradius:Float = 0;
         var tweekrotation:Float = 0;
-        var tmpVecs:Vector<Vector3D>;
-        var aRads:Vector<Dynamic> = [];
+        var tmpVecs:Array<Vector3D>;
+        var aRads:Array<Dynamic> = [];
         var uvu:Float;
         var uvv:Float;
         var i:Int;
-        if (_varr == null) _varr = new Vector<Vector3D>();
+        if (_varr == null) _varr = new Array<Vector3D>();
+        if (_uvarr == null) _uvarr = new Array<UV>();
         i = 0;
         while (i < vectors.length) {
             _varr.push(new Vector3D(vectors[i].x, vectors[i].y, vectors[i].z));
-            _uvarr.push(new UV(0, 1 % i));
+            _uvarr.push(new UV(0, i % 2));
             ++i;
         }
         var offsetradius:Float = -_offsetRadius;
@@ -579,16 +576,16 @@ class LatheExtrude extends Mesh {
         if (_revolutions < 1) step *= _revolutions;
         i = 0;
         while (i <= lsub) {
-            tmpVecs = new Vector<Vector3D>();
-            tmpVecs = vectors.concat();
+            tmpVecs = new Array<Vector3D>();
+            tmpVecs = vectors.concat([]);
             j = 0;
             while (j < tmpVecs.length) {
                 factor = ((_revolutions - 1) / (_varr.length + 1));
                 if (Reflect.field(tweek, X_AXIS) != 0) tweekX += (Reflect.field(tweek, X_AXIS) * factor) / _revolutions;
                 if (Reflect.field(tweek, Y_AXIS) != 0) tweekY += (Reflect.field(tweek, Y_AXIS) * factor) / _revolutions;
                 if (Reflect.field(tweek, Z_AXIS) != 0) tweekZ += (Reflect.field(tweek, Z_AXIS) * factor) / _revolutions;
-                if (tweek.radius != 0) tweekradius += (tweek.radius / (_varr.length + 1));
-                if (tweek.rotation != 0) tweekrotation += 360 / (tweek.rotation * _subdivision);
+                if (tweek.radius != null && tweek.radius != 0) tweekradius += (tweek.radius / (_varr.length + 1));
+                if (tweek.rotation != null && tweek.rotation != 0) tweekrotation += 360 / (tweek.rotation * _subdivision);
                 if (_axis == X_AXIS) {
                     if (i == 0) aRads[j] = offsetradius - Math.abs(tmpVecs[j].z);
                     tmpVecs[j].z = Math.cos(-angle / 180 * Math.PI) * (aRads[j] + tweekradius);
@@ -597,9 +594,7 @@ class LatheExtrude extends Mesh {
                         _varr[j].z += tmpVecs[j].z;
                         _varr[j].y += tmpVecs[j].y;
                     }
-                }
-
-                else if (_axis == Y_AXIS) {
+                } else if (_axis == Y_AXIS) {
                     if (i == 0) aRads[j] = offsetradius - Math.abs(tmpVecs[j].x);
                     tmpVecs[j].x = Math.cos(-angle / 180 * Math.PI) * (aRads[j] + tweekradius);
                     tmpVecs[j].z = Math.sin(angle / 180 * Math.PI) * (aRads[j] + tweekradius);
@@ -607,9 +602,7 @@ class LatheExtrude extends Mesh {
                         _varr[j].x = tmpVecs[j].x;
                         _varr[j].z = tmpVecs[j].z;
                     }
-                }
-
-                else {
+                } else {
                     if (i == 0) aRads[j] = offsetradius - Math.abs(tmpVecs[j].y);
                     tmpVecs[j].x = Math.cos(-angle / 180 * Math.PI) * (aRads[j] + tweekradius);
                     tmpVecs[j].y = Math.sin(angle / 180 * Math.PI) * (aRads[j] + tweekradius);

@@ -18,6 +18,7 @@ class WireframeCylinder extends WireframePrimitiveBase {
     private var _height:Float;
     private var _segmentsW:Int;
     private var _segmentsH:Int;
+    
     /**
 	 * Creates a new WireframeCylinder instance
 	 * @param topRadius Top radius of the cylinder
@@ -44,31 +45,39 @@ class WireframeCylinder extends WireframePrimitiveBase {
         var revolutionAngle:Float;
         var revolutionAngleDelta:Float = TWO_PI / _segmentsW;
         var nextVertexIndex:Int = 0;
-        var x:Float;
-        var y:Float;
-        var z:Float;
+        var x:Float = 0;
+        var y:Float = 0;
+        var z:Float = 0;
         var lastLayer:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>(_segmentsH + 1, true);
+        
         j = 0;
         while (j <= _segmentsH) {
             lastLayer[j] = new Vector<Vector3D>(_segmentsW + 1, true);
+            // for (s in 0..._segmentsW + 1)
+            //     lastLayer[j][s] = new Vector3D();
+
             radius = _topRadius - ((j / _segmentsH) * (_topRadius - _bottomRadius));
             z = -(_height / 2) + (j / _segmentsH * _height);
             var previousV:Vector3D = null;
             i = 0;
             while (i <= _segmentsW) {
-// revolution vertex
+
+                // revolution vertex
                 revolutionAngle = i * revolutionAngleDelta;
                 x = radius * Math.cos(revolutionAngle);
                 y = radius * Math.sin(revolutionAngle);
+                
                 var vertex:Vector3D = null;
                 if (previousV != null) {
                     vertex = new Vector3D(x, -z, y);
                     updateOrAddSegment(nextVertexIndex++, vertex, previousV);
                     previousV = vertex;
-                }
-
-                else previousV = new Vector3D(x, -z, y);
-                if (j > 0) updateOrAddSegment(nextVertexIndex++, vertex, lastLayer[j - 1][i]);
+                } else 
+                    previousV = new Vector3D(x, -z, y);
+                
+                if (j > 0 && i > 0)
+                    updateOrAddSegment(nextVertexIndex++, vertex, lastLayer[j - 1][i]);
+                
                 lastLayer[j][i] = previousV;
                 ++i;
             }
@@ -84,6 +93,7 @@ class WireframeCylinder extends WireframePrimitiveBase {
     }
 
     public function set_topRadius(value:Float):Float {
+        if (_topRadius == value) return value;
         _topRadius = value;
         invalidateGeometry();
         return value;
@@ -97,6 +107,7 @@ class WireframeCylinder extends WireframePrimitiveBase {
     }
 
     public function set_bottomRadius(value:Float):Float {
+        if (_bottomRadius == value) return value;
         _bottomRadius = value;
         invalidateGeometry();
         return value;
@@ -111,6 +122,7 @@ class WireframeCylinder extends WireframePrimitiveBase {
 
     public function set_height(value:Float):Float {
         if (height <= 0) throw new Error("Height must be a value greater than zero.");
+        if (_height == value) return value;
         _height = value;
         invalidateGeometry();
         return value;

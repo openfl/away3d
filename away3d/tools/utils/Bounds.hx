@@ -18,7 +18,10 @@ import away3d.containers.ObjectContainer3D;
 import away3d.entities.Mesh;
 import openfl.geom.Vector3D;
 
+import openfl.Vector;
+
 class Bounds {
+    
     static public var minX(get_minX, never):Float;
     static public var minY(get_minY, never):Float;
     static public var minZ(get_minZ, never):Float;
@@ -37,12 +40,12 @@ class Bounds {
     static private var _maxZ:Float;
     static private var _defaultPosition:Vector3D = new Vector3D(0.0, 0.0, 0.0);
     static private var _containers:ObjectMap<ObjectContainer3D, Vector<Float>>;
+    
     /**
 	 * Calculate the bounds of a Mesh object
 	 * @param mesh        Mesh. The Mesh to get the bounds from.
 	 * Use the getters of this class to retrieve the results
 	 */
-
     static public function getMeshBounds(mesh:Mesh):Void {
         getObjectContainerBounds(mesh);
     }
@@ -52,7 +55,6 @@ class Bounds {
 	 * @param container        ObjectContainer3D. The ObjectContainer3D to get the bounds from.
 	 * Use the getters of this class to retrieve the results
 	 */
-
     static public function getObjectContainerBounds(container:ObjectContainer3D, worldBased:Bool = true):Void {
         reset();
         parseObjectContainerBounds(container);
@@ -77,7 +79,6 @@ class Bounds {
 	 * @param vertices        Vector.&lt;Number&gt;. The vertices to get the bounds from.
 	 * Use the getters of this class to retrieve the results
 	 */
-
     static public function getVerticesVectorBounds(vertices:Vector<Float>):Void {
         reset();
         var l:Int = vertices.length;
@@ -104,7 +105,6 @@ class Bounds {
 	 * @param outCenter        Vector3D. Optional Vector3D, if provided the same Vector3D is returned with the bounds center.
 	 * @return the center of the bound
 	 */
-
     static public function getCenter(outCenter:Vector3D = null):Vector3D {
         var center:Vector3D = outCenter;
         if (center == null)center = new Vector3D();
@@ -117,7 +117,6 @@ class Bounds {
     /**
 	 * @return the smalest x value
 	 */
-
     static public function get_minX():Float {
         return _minX;
     }
@@ -125,7 +124,6 @@ class Bounds {
     /**
 	 * @return the smalest y value
 	 */
-
     static public function get_minY():Float {
         return _minY;
     }
@@ -133,7 +131,6 @@ class Bounds {
     /**
 	 * @return the smalest z value
 	 */
-
     static public function get_minZ():Float {
         return _minZ;
     }
@@ -141,7 +138,6 @@ class Bounds {
     /**
 	 * @return the biggest x value
 	 */
-
     static public function get_maxX():Float {
         return _maxX;
     }
@@ -149,7 +145,6 @@ class Bounds {
     /**
 	 * @return the biggest y value
 	 */
-
     static public function get_maxY():Float {
         return _maxY;
     }
@@ -157,7 +152,6 @@ class Bounds {
     /**
 	 * @return the biggest z value
 	 */
-
     static public function get_maxZ():Float {
         return _maxZ;
     }
@@ -165,7 +159,6 @@ class Bounds {
     /**
 	 * @return the width value from the bounds
 	 */
-
     static public function get_width():Float {
         return _maxX - _minX;
     }
@@ -173,7 +166,6 @@ class Bounds {
     /**
 	 * @return the height value from the bounds
 	 */
-
     static public function get_height():Float {
         return _maxY - _minY;
     }
@@ -181,7 +173,6 @@ class Bounds {
     /**
 	 * @return the depth value from the bounds
 	 */
-
     static public function get_depth():Float {
         return _maxZ - _minZ;
     }
@@ -197,32 +188,38 @@ class Bounds {
 
     static private function parseObjectContainerBounds(obj:ObjectContainer3D, parentTransform:Matrix3D = null):Void {
         if (!obj.visible) return;
+        
         if (!_containers.exists(obj))
             _containers.set(obj, Vector.ofArray([Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY,
             Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY]));
+        
         var containerBounds:Vector<Float> = _containers.get(obj);
         var child:ObjectContainer3D;
         var isEntity:Entity = cast(obj, Entity);
         var containerTransform:Matrix3D = new Matrix3D();
+        
         if (isEntity != null && parentTransform != null) {
             parseObjectBounds(obj, parentTransform);
             containerTransform = obj.transform.clone();
-            if (parentTransform != null) containerTransform.append(parentTransform);
-        }
-
-        else if (isEntity != null && parentTransform == null) {
+            if (parentTransform != null)
+                containerTransform.append(parentTransform);
+        } else if (isEntity != null && parentTransform == null) {
             var mat:Matrix3D = obj.transform.clone();
             mat.invert();
             parseObjectBounds(obj, mat);
         }
+        
         var i:Int = 0;
         while (i < obj.numChildren) {
             child = obj.getChildAt(i);
             parseObjectContainerBounds(child, containerTransform);
             ++i;
         }
+        
         var parentBounds:Vector<Float> = _containers.get(obj.parent);
-        if (isEntity == null && parentTransform != null) parseObjectBounds(obj, parentTransform, true);
+        if (isEntity == null && parentTransform != null)
+            parseObjectBounds(obj, parentTransform, true);
+        
         if (parentBounds != null) {
             parentBounds[0] = Math.min(parentBounds[0], containerBounds[0]);
             parentBounds[1] = Math.min(parentBounds[1], containerBounds[1]);
@@ -230,9 +227,7 @@ class Bounds {
             parentBounds[3] = Math.max(parentBounds[3], containerBounds[3]);
             parentBounds[4] = Math.max(parentBounds[4], containerBounds[4]);
             parentBounds[5] = Math.max(parentBounds[5], containerBounds[5]);
-        }
-
-        else {
+        } else {
             _minX = containerBounds[0];
             _minY = containerBounds[1];
             _minZ = containerBounds[2];
@@ -249,6 +244,7 @@ class Bounds {
 
     static private function parseObjectBounds(oC:ObjectContainer3D, parentTransform:Matrix3D = null, resetBounds:Bool = false):Void {
         if (Std.is(oC, LightBase)) return;
+        
         var e:Entity = cast(oC, Entity);
         var corners:Vector<Float>;
         var mat:Matrix3D = oC.transform.clone();
@@ -259,9 +255,7 @@ class Bounds {
             }
             corners = getBoundsCorners(e.minX, e.minY, e.minZ, e.maxX, e.maxY, e.maxZ);
             if (parentTransform != null) mat.append(parentTransform);
-        }
-
-        else {
+        } else {
             corners = getBoundsCorners(cB[0], cB[1], cB[2], cB[3], cB[4], cB[5]);
             if (parentTransform != null) mat.prepend(parentTransform);
         }
@@ -270,6 +264,7 @@ class Bounds {
             cB[0] = cB[1] = cB[2] = Math.POSITIVE_INFINITY;
             cB[3] = cB[4] = cB[5] = Math.NEGATIVE_INFINITY;
         }
+        
         transformContainer(cB, corners, mat);
     }
 
@@ -294,7 +289,6 @@ class Bounds {
             if (z < bounds[2]) bounds[2] = z;
             if (z > bounds[5]) bounds[5] = z;
         }
-
     }
 }
 
