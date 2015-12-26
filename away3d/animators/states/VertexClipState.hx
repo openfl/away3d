@@ -30,7 +30,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
         return _nextGeometry;
     }
 
-    function new(animator:IAnimator, vertexClipNode:VertexClipNode) {
+    public function new(animator:IAnimator, vertexClipNode:VertexClipNode) {
         super(animator, vertexClipNode);
         _vertexClipNode = vertexClipNode;
         _frames = _vertexClipNode.frames;

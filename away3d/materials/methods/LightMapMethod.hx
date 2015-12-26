@@ -37,11 +37,11 @@ class LightMapMethod extends EffectMethodBase {
 	 * @param blendMode The blend mode with which the light map should be applied to the lighting result.
 	 * @param useSecondaryUV Indicates whether the secondary UV set should be used to map the light map.
 	 */
-    public function new(texture:Texture2DBase, blendMode:BlendMode, useSecondaryUV:Bool = false) {
+    public function new(texture:Texture2DBase, blendMode:BlendMode = null, useSecondaryUV:Bool = false) {
         super();
         _useSecondaryUV = useSecondaryUV;
         _texture = texture;
-        this.blendMode = blendMode;
+        this.blendMode = (blendMode == null ? MULTIPLY : blendMode);
     }
 
     /**
