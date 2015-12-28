@@ -318,13 +318,13 @@ class View3D extends Sprite
         addChild(_hitField);
     }
     
-    public var filters3d(get, set) : Vector<Dynamic>;
-    private function get_filters3d() : Vector<Dynamic>
+    public var filters3d(get, set) : Vector<Filter3DBase>;
+    private function get_filters3d() : Vector<Filter3DBase>
     {
         return _filter3DRenderer!=null ? _filter3DRenderer.filters : null;
     }
     
-    private function set_filters3d(value:Vector<Dynamic>) : Vector<Dynamic>
+    private function set_filters3d(value:Vector<Filter3DBase>) : Vector<Filter3DBase>
     {
         if (value!=null && value.length == 0)
             value = null;
