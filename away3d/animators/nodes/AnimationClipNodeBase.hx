@@ -6,12 +6,12 @@ package away3d.animators.nodes;
 import openfl.geom.Vector3D;
 
 class AnimationClipNodeBase extends AnimationNodeBase {
-    public var looping(get_looping, set_looping):Bool;
-    public var stitchFinalFrame(get_stitchFinalFrame, set_stitchFinalFrame):Bool;
-    public var totalDuration(get_totalDuration, never):Int;
-    public var totalDelta(get_totalDelta, never):Vector3D;
-    public var lastFrame(get_lastFrame, never):Int;
-    public var durations(get_durations, never):Array<UInt>;
+    public var looping(get, set):Bool;
+    public var stitchFinalFrame(get, set):Bool;
+    public var totalDuration(get, never):Int;
+    public var totalDelta(get, never):Vector3D;
+    public var lastFrame(get, never):Int;
+    public var durations(get, never):Array<UInt>;
 
     private var _looping:Bool;
     private var _totalDuration:Int;
@@ -26,11 +26,11 @@ class AnimationClipNodeBase extends AnimationNodeBase {
     /**
 	 * Determines whether the contents of the animation node have looping characteristics enabled.
 	 */
-    public function get_looping():Bool {
+    private function get_looping():Bool {
         return _looping;
     }
 
-    public function set_looping(value:Bool):Bool {
+    private function set_looping(value:Bool):Bool {
         if (_looping == value) return value;
         _looping = value;
         _stitchDirty = true;
@@ -41,28 +41,28 @@ class AnimationClipNodeBase extends AnimationNodeBase {
 	 * Defines if looping content blends the final frame of animation data with the first (true) or works on the
 	 * assumption that both first and last frames are identical (false). Defaults to false.
 	 */
-    public function get_stitchFinalFrame():Bool {
+    private function get_stitchFinalFrame():Bool {
         return _stitchFinalFrame;
     }
 
-    public function set_stitchFinalFrame(value:Bool):Bool {
+    private function set_stitchFinalFrame(value:Bool):Bool {
         if (_stitchFinalFrame == value) return value;
         _stitchFinalFrame = value;
         _stitchDirty = true;
         return value;
     }
 
-    public function get_totalDuration():Int {
+    private function get_totalDuration():Int {
         if (_stitchDirty) updateStitch();
         return _totalDuration;
     }
 
-    public function get_totalDelta():Vector3D {
+    private function get_totalDelta():Vector3D {
         if (_stitchDirty) updateStitch();
         return _totalDelta;
     }
 
-    public function get_lastFrame():Int {
+    private function get_lastFrame():Int {
         if (_stitchDirty) updateStitch();
         return _lastFrame;
     }
@@ -70,7 +70,7 @@ class AnimationClipNodeBase extends AnimationNodeBase {
     /**
 	 * Returns a vector of time values representing the duration (in milliseconds) of each animation frame in the clip.
 	 */
-    public function get_durations():Array<UInt> {
+    private function get_durations():Array<UInt> {
         return _durations;
     }
 

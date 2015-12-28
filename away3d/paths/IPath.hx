@@ -3,17 +3,17 @@ package away3d.paths;
 import openfl.geom.Vector3D;
 
 interface IPath {
-    var numSegments(get_numSegments, never):Int;
-    var segments(get_segments, never):Vector<IPathSegment>;
+    var numSegments(get, never):Int;
+    var segments(get, never):Vector<IPathSegment>;
 
     /**
 	 * The number of <code>CubicPathSegment</code> instances in the path.
 	 */
-    function get_numSegments():Int;
+    private function get_numSegments():Int;
     /**
 	 * The <code>IPathSegment</code> instances which make up this path.
 	 */
-    function get_segments():Vector<IPathSegment>;
+    private function get_segments():Vector<IPathSegment>;
     /**
 	 * Returns the <code>CubicPathSegment</code> at the specified index
 	 * @param index The index of the segment

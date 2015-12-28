@@ -9,12 +9,12 @@ import openfl.display3D.textures.Texture;
 import openfl.geom.Vector3D;
 
 class DepthOfFieldFilter3D extends Filter3DBase {
-    public var stepSize(get_stepSize, set_stepSize):Int;
-    public var focusTarget(get_focusTarget, set_focusTarget):ObjectContainer3D;
-    public var focusDistance(get_focusDistance, set_focusDistance):Float;
-    public var range(get_range, set_range):Float;
-    public var maxBlurX(get_maxBlurX, set_maxBlurX):Int;
-    public var maxBlurY(get_maxBlurY, set_maxBlurY):Int;
+    public var stepSize(get, set):Int;
+    public var focusTarget(get, set):ObjectContainer3D;
+    public var focusDistance(get, set):Float;
+    public var range(get, set):Float;
+    public var maxBlurX(get, set):Int;
+    public var maxBlurY(get, set):Int;
 
     private var _focusTarget:ObjectContainer3D;
     private var _hDofTask:Filter3DHDepthOfFFieldTask;
@@ -36,11 +36,11 @@ class DepthOfFieldFilter3D extends Filter3DBase {
     /**
 	 * The amount of pixels between each sample.
 	 */
-    public function get_stepSize():Int {
+    private function get_stepSize():Int {
         return _hDofTask.stepSize;
     }
 
-    public function set_stepSize(value:Int):Int {
+    private function set_stepSize(value:Int):Int {
         _vDofTask.stepSize = _hDofTask.stepSize = value;
         return value;
     }
@@ -48,11 +48,11 @@ class DepthOfFieldFilter3D extends Filter3DBase {
     /**
 	 * An optional target ObjectContainer3D that will be used to auto-focus on.
 	 */
-    public function get_focusTarget():ObjectContainer3D {
+    private function get_focusTarget():ObjectContainer3D {
         return _focusTarget;
     }
 
-    public function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D {
+    private function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D {
         _focusTarget = value;
         return value;
     }
@@ -60,11 +60,11 @@ class DepthOfFieldFilter3D extends Filter3DBase {
     /**
 	 * The distance from the camera to the point that is in focus.
 	 */
-    public function get_focusDistance():Float {
+    private function get_focusDistance():Float {
         return _hDofTask.focusDistance;
     }
 
-    public function set_focusDistance(value:Float):Float {
+    private function set_focusDistance(value:Float):Float {
         _hDofTask.focusDistance = _vDofTask.focusDistance = value;
         return value;
     }
@@ -72,11 +72,11 @@ class DepthOfFieldFilter3D extends Filter3DBase {
     /**
 	 * The distance between the focus point and the maximum amount of blur.
 	 */
-    public function get_range():Float {
+    private function get_range():Float {
         return _hDofTask.range;
     }
 
-    public function set_range(value:Float):Float {
+    private function set_range(value:Float):Float {
         _vDofTask.range = _hDofTask.range = value;
         return value;
     }
@@ -84,11 +84,11 @@ class DepthOfFieldFilter3D extends Filter3DBase {
     /**
 	 * The maximum amount of horizontal blur.
 	 */
-    public function get_maxBlurX():Int {
+    private function get_maxBlurX():Int {
         return _hDofTask.maxBlur;
     }
 
-    public function set_maxBlurX(value:Int):Int {
+    private function set_maxBlurX(value:Int):Int {
         _hDofTask.maxBlur = value;
         return value;
     }
@@ -96,11 +96,11 @@ class DepthOfFieldFilter3D extends Filter3DBase {
     /**
 	 * The maximum amount of vertical blur.
 	 */
-    public function get_maxBlurY():Int {
+    private function get_maxBlurY():Int {
         return _vDofTask.maxBlur;
     }
 
-    public function set_maxBlurY(value:Int):Int {
+    private function set_maxBlurY(value:Int):Int {
         _vDofTask.maxBlur = value;
         return value;
     }

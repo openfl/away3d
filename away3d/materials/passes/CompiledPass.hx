@@ -109,11 +109,11 @@ class CompiledPass extends MaterialPassBase {
 	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
 	 * compatibility for constrained mode.
 	 */
-    public function get_enableLightFallOff():Bool {
+    private function get_enableLightFallOff():Bool {
         return _enableLightFallOff;
     }
 
-    public function set_enableLightFallOff(value:Bool):Bool {
+    private function set_enableLightFallOff(value:Bool):Bool {
         if (value != _enableLightFallOff) invalidateShaderProgram(true);
         _enableLightFallOff = value;
         return value;
@@ -124,11 +124,11 @@ class CompiledPass extends MaterialPassBase {
 	 * view-projection matrix. This is used to prevent rounding errors when using multiple passes with different
 	 * projection code.
 	 */
-    public function get_forceSeparateMVP():Bool {
+    private function get_forceSeparateMVP():Bool {
         return _forceSeparateMVP;
     }
 
-    public function set_forceSeparateMVP(value:Bool):Bool {
+    private function set_forceSeparateMVP(value:Bool):Bool {
         _forceSeparateMVP = value;
         return value;
     }
@@ -275,11 +275,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * Indicates whether the output alpha value should remain unchanged compared to the material's original alpha.
 	 */
-    public function get_preserveAlpha():Bool {
+    private function get_preserveAlpha():Bool {
         return _preserveAlpha;
     }
 
-    public function set_preserveAlpha(value:Bool):Bool {
+    private function set_preserveAlpha(value:Bool):Bool {
         if (_preserveAlpha == value) return value;
         _preserveAlpha = value;
         invalidateShaderProgram();
@@ -289,11 +289,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * Indicate whether UV coordinates need to be animated using the renderable's transformUV matrix.
 	 */
-    public function get_animateUVs():Bool {
+    private function get_animateUVs():Bool {
         return _animateUVs;
     }
 
-    public function set_animateUVs(value:Bool):Bool {
+    private function set_animateUVs(value:Bool):Bool {
         if (_animateUVs == value) return value;
         _animateUVs = value;
         invalidateShaderProgram();
@@ -303,11 +303,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * Indicate whether UV coordinates need to be animated using the renderable's transformUV matrix.
 	 */
-    public function get_animateUVs2():Bool {
+    private function get_animateUVs2():Bool {
         return _animateUVs2;
     }
 
-    public function set_animateUVs2(value:Bool):Bool {
+    private function set_animateUVs2(value:Bool):Bool {
         if (_animateUVs2 == value) return value;
         _animateUVs2 = value;
         invalidateShaderProgram();
@@ -317,7 +317,7 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_mipmap(value:Bool):Bool {
+    override private function set_mipmap(value:Bool):Bool {
         if (_mipmap == value) return value;
         super.mipmap = value;
         return value;
@@ -326,7 +326,7 @@ class CompiledPass extends MaterialPassBase {
     /**
      * @inheritDoc
      */
-    override public function set_anisotropy(value:Anisotropy):Anisotropy {
+    override private function set_anisotropy(value:Anisotropy):Anisotropy {
         if (_anisotropy == value) return value;
         super.anisotropy = value;
         return value;
@@ -336,11 +336,11 @@ class CompiledPass extends MaterialPassBase {
 	 * The normal map to modulate the direction of the surface for each texel. The default normal method expects
 	 * tangent-space normal maps, but others could expect object-space maps.
 	 */
-    public function get_normalMap():Texture2DBase {
+    private function get_normalMap():Texture2DBase {
         return _methodSetup._normalMethod.normalMap;
     }
 
-    public function set_normalMap(value:Texture2DBase):Texture2DBase {
+    private function set_normalMap(value:Texture2DBase):Texture2DBase {
         _methodSetup._normalMethod.normalMap = value;
         return value;
     }
@@ -348,11 +348,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
 	 */
-    public function get_normalMethod():BasicNormalMethod {
+    private function get_normalMethod():BasicNormalMethod {
         return _methodSetup.normalMethod;
     }
 
-    public function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod {
+    private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod {
         _methodSetup.normalMethod = value;
         return value;
     }
@@ -360,11 +360,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * The method that provides the ambient lighting contribution. Defaults to BasicAmbientMethod.
 	 */
-    public function get_ambientMethod():BasicAmbientMethod {
+    private function get_ambientMethod():BasicAmbientMethod {
         return _methodSetup.ambientMethod;
     }
 
-    public function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod {
+    private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod {
         _methodSetup.ambientMethod = value;
         return value;
     }
@@ -372,11 +372,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered. Defaults to null.
 	 */
-    public function get_shadowMethod():ShadowMapMethodBase {
+    private function get_shadowMethod():ShadowMapMethodBase {
         return _methodSetup.shadowMethod;
     }
 
-    public function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase {
+    private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase {
         _methodSetup.shadowMethod = value;
         return value;
     }
@@ -384,11 +384,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
 	 */
-    public function get_diffuseMethod():BasicDiffuseMethod {
+    private function get_diffuseMethod():BasicDiffuseMethod {
         return _methodSetup.diffuseMethod;
     }
 
-    public function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
+    private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
         _methodSetup.diffuseMethod = value;
         return value;
     }
@@ -396,11 +396,11 @@ class CompiledPass extends MaterialPassBase {
     /**
 	 * The method that provides the specular lighting contribution. Defaults to BasicSpecularMethod.
 	 */
-    public function get_specularMethod():BasicSpecularMethod {
+    private function get_specularMethod():BasicSpecularMethod {
         return _methodSetup.specularMethod;
     }
 
-    public function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod {
+    private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod {
         _methodSetup.specularMethod = value;
         return value;
     }
@@ -707,11 +707,11 @@ class CompiledPass extends MaterialPassBase {
 	 *
 	 * @see away3d.materials.LightSources
 	 */
-    public function get_specularLightSources():Int {
+    private function get_specularLightSources():Int {
         return _specularLightSources;
     }
 
-    public function set_specularLightSources(value:Int):Int {
+    private function set_specularLightSources(value:Int):Int {
         _specularLightSources = value;
         return value;
     }
@@ -722,11 +722,11 @@ class CompiledPass extends MaterialPassBase {
 	 *
 	 * @see away3d.materials.LightSources
 	 */
-    public function get_diffuseLightSources():Int {
+    private function get_diffuseLightSources():Int {
         return _diffuseLightSources;
     }
 
-    public function set_diffuseLightSources(value:Int):Int {
+    private function set_diffuseLightSources(value:Int):Int {
         _diffuseLightSources = value;
         return value;
     }

@@ -23,7 +23,7 @@ class Skeleton extends NamedAssetBase implements IAsset {
     /**
 	 * The total number of joints in the skeleton.
 	 */
-    public function get_numJoints():Int {
+    private function get_numJoints():Int {
         return joints.length;
     }
 

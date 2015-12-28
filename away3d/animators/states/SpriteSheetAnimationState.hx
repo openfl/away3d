@@ -4,11 +4,11 @@ import away3d.animators.data.SpriteSheetAnimationFrame;
 import away3d.animators.nodes.SpriteSheetClipNode;
 
 class SpriteSheetAnimationState extends AnimationClipState implements ISpriteSheetAnimationState {
-    public var reverse(never, set_reverse):Bool;
-    public var backAndForth(never, set_backAndForth):Bool;
-    public var currentFrameData(get_currentFrameData, never):SpriteSheetAnimationFrame;
-    public var currentFrameNumber(get_currentFrameNumber, set_currentFrameNumber):Int;
-    public var totalFrames(get_totalFrames, never):Int;
+    public var reverse(never, set):Bool;
+    public var backAndForth(never, set):Bool;
+    public var currentFrameData(get, never):SpriteSheetAnimationFrame;
+    public var currentFrameNumber(get, set):Int;
+    public var totalFrames(get, never):Int;
 
     private var _frames:Vector<SpriteSheetAnimationFrame>;
     private var _clipNode:SpriteSheetClipNode;
@@ -25,13 +25,13 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
         _frames = _clipNode.frames;
     }
 
-    public function set_reverse(b:Bool):Bool {
+    private function set_reverse(b:Bool):Bool {
         _back = false;
         _reverse = b;
         return b;
     }
 
-    public function set_backAndForth(b:Bool):Bool {
+    private function set_backAndForth(b:Bool):Bool {
         if (b) _reverse = false;
         _back = false;
         _backAndForth = b;
@@ -41,7 +41,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
     /**
 	 * @inheritDoc
 	 */
-    public function get_currentFrameData():SpriteSheetAnimationFrame {
+    private function get_currentFrameData():SpriteSheetAnimationFrame {
         if (_framesDirty) updateFrames();
         return _frames[_currentFrameID];
     }
@@ -50,11 +50,11 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 	 * returns current frame index of the animation.
 	 * The index is zero based and counts from first frame of the defined animation.
 	 */
-    public function get_currentFrameNumber():Int {
+    private function get_currentFrameNumber():Int {
         return _currentFrameID;
     }
 
-    public function set_currentFrameNumber(frameNumber:Int):Int {
+    private function set_currentFrameNumber(frameNumber:Int):Int {
         _currentFrameID = ((frameNumber > _frames.length - 1)) ? _frames.length - 1 : frameNumber;
         _forcedFrame = true;
         return frameNumber;

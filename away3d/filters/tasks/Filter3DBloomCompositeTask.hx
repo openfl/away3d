@@ -10,8 +10,8 @@ import openfl.display3D.textures.TextureBase;
 import openfl.Vector;
 
 class Filter3DBloomCompositeTask extends Filter3DTaskBase {
-    public var overlayTexture(get_overlayTexture, set_overlayTexture):TextureBase;
-    public var exposure(get_exposure, set_exposure):Float;
+    public var overlayTexture(get, set):TextureBase;
+    public var exposure(get, set):Float;
 
     private var _data:Vector<Float>;
     private var _overlayTexture:TextureBase;
@@ -26,11 +26,11 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase {
         this.exposure = exposure;
     }
 
-    public function get_overlayTexture():TextureBase {
+    private function get_overlayTexture():TextureBase {
         return _overlayTexture;
     }
 
-    public function set_overlayTexture(value:TextureBase):TextureBase {
+    private function set_overlayTexture(value:TextureBase):TextureBase {
         _overlayTexture = value;
         return value;
     }
@@ -52,11 +52,11 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase {
         stage3DProxy.context3D.setTextureAt(1, null);
     }
 
-    public function get_exposure():Float {
+    private function get_exposure():Float {
         return _exposure;
     }
 
-    public function set_exposure(exposure:Float):Float {
+    private function set_exposure(exposure:Float):Float {
         _exposure = exposure;
         _data[3] = 1 + _exposure / 10;
         return exposure;

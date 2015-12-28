@@ -8,10 +8,10 @@ import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 
 class StereoCamera3D extends Camera3D {
-    public var leftCamera(get_leftCamera, never):Camera3D;
-    public var rightCamera(get_rightCamera, never):Camera3D;
-    public var stereoFocus(get_stereoFocus, set_stereoFocus):Float;
-    public var stereoOffset(get_stereoOffset, set_stereoOffset):Float;
+    public var leftCamera(get, never):Camera3D;
+    public var rightCamera(get, never):Camera3D;
+    public var stereoFocus(get, set):Float;
+    public var stereoOffset(get, set):Float;
 
     private var _leftCam:Camera3D;
     private var _rightCam:Camera3D;
@@ -37,7 +37,7 @@ class StereoCamera3D extends Camera3D {
         _focusPoint = new Vector3D();
     }
 
-    override public function set_lens(value:LensBase):LensBase {
+    override private function set_lens(value:LensBase):LensBase {
         _leftCam.lens = value;
         _rightCam.lens = value;
         
@@ -46,7 +46,7 @@ class StereoCamera3D extends Camera3D {
         return value;
     }
 
-    public function get_leftCamera():Camera3D {
+    private function get_leftCamera():Camera3D {
         if (_leftCamDirty) {
             var tf:Matrix3D;
             
@@ -66,7 +66,7 @@ class StereoCamera3D extends Camera3D {
         return _leftCam;
     }
 
-    public function get_rightCamera():Camera3D {
+    private function get_rightCamera():Camera3D {
         if (_rightCamDirty) {
             var tf:Matrix3D;
             
@@ -86,21 +86,21 @@ class StereoCamera3D extends Camera3D {
         return _rightCam;
     }
 
-    public function get_stereoFocus():Float {
+    private function get_stereoFocus():Float {
         return _focus;
     }
 
-    public function set_stereoFocus(value:Float):Float {
+    private function set_stereoFocus(value:Float):Float {
         _focus = value;
         invalidateStereoCams();
         return value;
     }
 
-    public function get_stereoOffset():Float {
+    private function get_stereoOffset():Float {
         return _offset;
     }
 
-    public function set_stereoOffset(value:Float):Float {
+    private function set_stereoOffset(value:Float):Float {
         _offset = value;
         invalidateStereoCams();
         return value;

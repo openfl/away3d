@@ -14,10 +14,10 @@ import haxe.ds.ObjectMap;
 import openfl.Vector;
 
 class Stage3DManager {
-    public var hasFreeStage3DProxy(get_hasFreeStage3DProxy, never):Bool;
-    public var numProxySlotsFree(get_numProxySlotsFree, never):Int;
-    public var numProxySlotsUsed(get_numProxySlotsUsed, never):Int;
-    public var numProxySlotsTotal(get_numProxySlotsTotal, never):Int;
+    public var hasFreeStage3DProxy(get, never):Bool;
+    public var numProxySlotsFree(get, never):Int;
+    public var numProxySlotsUsed(get, never):Int;
+    public var numProxySlotsTotal(get, never):Int;
 
     static private var _instances:ObjectMap<Stage, Stage3DManager>;
     static private var _stageProxies:Vector<Stage3DProxy>;
@@ -118,7 +118,7 @@ class Stage3DManager {
      * Checks if a new stage3DProxy can be created and managed by the class.
      * @return true if there is one slot free for a new stage3DProxy
      */
-    public function get_hasFreeStage3DProxy():Bool {
+    private function get_hasFreeStage3DProxy():Bool {
         return Std.int(_numStageProxies) < (_stageProxies.length) ? true : false;
     }
 
@@ -126,7 +126,7 @@ class Stage3DManager {
      * Returns the amount of stage3DProxy objects that can be created and managed by the class
      * @return the amount of free slots
      */
-    public function get_numProxySlotsFree():Int {
+    private function get_numProxySlotsFree():Int {
         return _stageProxies.length - _numStageProxies;
     }
 
@@ -134,7 +134,7 @@ class Stage3DManager {
      * Returns the amount of Stage3DProxy objects currently managed by the class.
      * @return the amount of slots used
      */
-    public function get_numProxySlotsUsed():Int {
+    private function get_numProxySlotsUsed():Int {
         return _numStageProxies;
     }
 
@@ -142,7 +142,7 @@ class Stage3DManager {
      * Returns the maximum amount of Stage3DProxy objects that can be managed by the class
      * @return the maximum amount of Stage3DProxy objects that can be managed by the class
      */
-    public function get_numProxySlotsTotal():Int {
+    private function get_numProxySlotsTotal():Int {
         return _stageProxies.length;
     }
 }

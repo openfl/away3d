@@ -14,9 +14,9 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class AxisAlignedBoundingBox extends BoundingVolumeBase {
-    public var halfExtentsX(get_halfExtentsX, never):Float;
-    public var halfExtentsY(get_halfExtentsY, never):Float;
-    public var halfExtentsZ(get_halfExtentsZ, never):Float;
+    public var halfExtentsX(get, never):Float;
+    public var halfExtentsY(get, never):Float;
+    public var halfExtentsZ(get, never):Float;
 
     private var _centerX:Float;
     private var _centerY:Float;
@@ -205,15 +205,15 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase {
         return clone;
     }
 
-    public function get_halfExtentsX():Float {
+    private function get_halfExtentsX():Float {
         return _halfExtentsX;
     }
 
-    public function get_halfExtentsY():Float {
+    private function get_halfExtentsY():Float {
         return _halfExtentsY;
     }
 
-    public function get_halfExtentsZ():Float {
+    private function get_halfExtentsZ():Float {
         return _halfExtentsZ;
     }
 

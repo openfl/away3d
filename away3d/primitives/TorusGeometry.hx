@@ -9,11 +9,11 @@ import away3d.core.base.CompactSubGeometry;
 import openfl.Vector;
 
 class TorusGeometry extends PrimitiveBase {
-    public var radius(get_radius, set_radius):Float;
-    public var tubeRadius(get_tubeRadius, set_tubeRadius):Float;
-    public var segmentsR(get_segmentsR, set_segmentsR):Int;
-    public var segmentsT(get_segmentsT, set_segmentsT):Int;
-    public var yUp(get_yUp, set_yUp):Bool;
+    public var radius(get, set):Float;
+    public var tubeRadius(get, set):Float;
+    public var segmentsR(get, set):Int;
+    public var segmentsT(get, set):Int;
+    public var yUp(get, set):Bool;
 
     private var _radius:Float;
     private var _tubeRadius:Float;
@@ -222,11 +222,11 @@ class TorusGeometry extends PrimitiveBase {
     /**
 	 * The radius of the torus.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _radius;
     }
 
-    public function set_radius(value:Float):Float {
+    private function set_radius(value:Float):Float {
         _radius = value;
         invalidateGeometry();
         return value;
@@ -235,11 +235,11 @@ class TorusGeometry extends PrimitiveBase {
     /**
 	 * The radius of the inner tube of the torus.
 	 */
-    public function get_tubeRadius():Float {
+    private function get_tubeRadius():Float {
         return _tubeRadius;
     }
 
-    public function set_tubeRadius(value:Float):Float {
+    private function set_tubeRadius(value:Float):Float {
         _tubeRadius = value;
         invalidateGeometry();
         return value;
@@ -248,11 +248,11 @@ class TorusGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of horizontal segments that make up the torus. Defaults to 16.
 	 */
-    public function get_segmentsR():Int {
+    private function get_segmentsR():Int {
         return _segmentsR;
     }
 
-    public function set_segmentsR(value:Int):Int {
+    private function set_segmentsR(value:Int):Int {
         _segmentsR = value;
         invalidateGeometry();
         invalidateUVs();
@@ -262,11 +262,11 @@ class TorusGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of vertical segments that make up the torus. Defaults to 8.
 	 */
-    public function get_segmentsT():Int {
+    private function get_segmentsT():Int {
         return _segmentsT;
     }
 
-    public function set_segmentsT(value:Int):Int {
+    private function set_segmentsT(value:Int):Int {
         _segmentsT = value;
         invalidateGeometry();
         invalidateUVs();
@@ -276,11 +276,11 @@ class TorusGeometry extends PrimitiveBase {
     /**
 	 * Defines whether the torus poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-    public function get_yUp():Bool {
+    private function get_yUp():Bool {
         return _yUp;
     }
 
-    public function set_yUp(value:Bool):Bool {
+    private function set_yUp(value:Bool):Bool {
         _yUp = value;
         invalidateGeometry();
         return value;

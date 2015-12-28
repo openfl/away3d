@@ -19,8 +19,8 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class ParticleFollowState extends ParticleStateBase {
-    public var followTarget(get_followTarget, set_followTarget):Object3D;
-    public var smooth(get_smooth, set_smooth):Bool;
+    public var followTarget(get, set):Object3D;
+    public var smooth(get, set):Bool;
 
     private var _particleFollowNode:ParticleFollowNode;
     private var _followTarget:Object3D;
@@ -41,20 +41,20 @@ class ParticleFollowState extends ParticleStateBase {
         _smooth = particleFollowNode._smooth;
     }
 
-    public function get_followTarget():Object3D {
+    private function get_followTarget():Object3D {
         return _followTarget;
     }
 
-    public function set_followTarget(value:Object3D):Object3D {
+    private function set_followTarget(value:Object3D):Object3D {
         _followTarget = value;
         return value;
     }
 
-    public function get_smooth():Bool {
+    private function get_smooth():Bool {
         return _smooth;
     }
 
-    public function set_smooth(value:Bool):Bool {
+    private function set_smooth(value:Bool):Bool {
         _smooth = value;
         return value;
     }

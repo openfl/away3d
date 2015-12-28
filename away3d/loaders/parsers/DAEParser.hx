@@ -1225,7 +1225,7 @@ class DAEVertex {
 
     public var hash(get, null):String;
 
-    public function get_hash():String {
+    private function get_hash():String {
         var s:String = format(x);
         s += "_" + format(y);
         s += "_" + format(z);

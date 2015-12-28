@@ -15,10 +15,10 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class BoundingVolumeBase {
-    public var max(get_max, never):Vector3D;
-    public var min(get_min, never):Vector3D;
-    public var aabbPoints(get_aabbPoints, never):Vector<Float>;
-    public var boundingRenderable(get_boundingRenderable, never):WireframePrimitiveBase;
+    public var max(get, never):Vector3D;
+    public var min(get, never):Vector3D;
+    public var aabbPoints(get, never):Vector<Float>;
+    public var boundingRenderable(get, never):WireframePrimitiveBase;
 
     private var _min:Vector3D;
     private var _max:Vector3D;
@@ -29,21 +29,21 @@ class BoundingVolumeBase {
     /**
 	 * The maximum extreme of the bounds
 	 */
-    public function get_max():Vector3D {
+    private function get_max():Vector3D {
         return _max;
     }
 
     /**
 	 * The minimum extreme of the bounds
 	 */
-    public function get_min():Vector3D {
+    private function get_min():Vector3D {
         return _min;
     }
 
     /**
 	 * Returns a vector of values representing the concatenated cartesian triplet of the 8 axial extremities of the bounding volume.
 	 */
-    public function get_aabbPoints():Vector<Float> {
+    private function get_aabbPoints():Vector<Float> {
         if (_aabbPointsDirty) updateAABBPoints();
         return _aabbPoints;
     }
@@ -54,7 +54,7 @@ class BoundingVolumeBase {
 	 *
 	 * @see away3d.entities.Entity#showBounds
 	 */
-    public function get_boundingRenderable():WireframePrimitiveBase {
+    private function get_boundingRenderable():WireframePrimitiveBase {
         if (_boundingRenderable == null) {
             _boundingRenderable = createBoundingRenderable();
             updateBoundingRenderable();

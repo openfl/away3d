@@ -12,8 +12,8 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class CelSpecularMethod extends CompositeSpecularMethod {
-    public var smoothness(get_smoothness, set_smoothness):Float;
-    public var specularCutOff(get_specularCutOff, set_specularCutOff):Float;
+    public var smoothness(get, set):Float;
+    public var specularCutOff(get, set):Float;
 
     private var _dataReg:ShaderRegisterElement;
     private var _smoothness:Float;
@@ -33,11 +33,11 @@ class CelSpecularMethod extends CompositeSpecularMethod {
     /**
 	 * The smoothness of the highlight edge.
 	 */
-    public function get_smoothness():Float {
+    private function get_smoothness():Float {
         return _smoothness;
     }
 
-    public function set_smoothness(value:Float):Float {
+    private function set_smoothness(value:Float):Float {
         _smoothness = value;
         return value;
     }
@@ -45,11 +45,11 @@ class CelSpecularMethod extends CompositeSpecularMethod {
     /**
 	 * The threshold at which the specular highlight should be shown.
 	 */
-    public function get_specularCutOff():Float {
+    private function get_specularCutOff():Float {
         return _specularCutOff;
     }
 
-    public function set_specularCutOff(value:Float):Float {
+    private function set_specularCutOff(value:Float):Float {
         _specularCutOff = value;
         return value;
     }

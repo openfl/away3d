@@ -4,8 +4,8 @@ import openfl.errors.Error;
 import openfl.geom.ColorTransform;
 
 class ColorSegmentPoint {
-    public var color(get_color, never):ColorTransform;
-    public var life(get_life, never):Float;
+    public var color(get, never):ColorTransform;
+    public var life(get, never):Float;
 
     private var _color:ColorTransform;
     private var _life:Float;
@@ -17,11 +17,11 @@ class ColorSegmentPoint {
         _color = color;
     }
 
-    public function get_color():ColorTransform {
+    private function get_color():ColorTransform {
         return _color;
     }
 
-    public function get_life():Float {
+    private function get_life():Float {
         return _life;
     }
 }

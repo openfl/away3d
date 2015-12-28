@@ -6,12 +6,12 @@ package away3d.animators.nodes;
 import away3d.animators.states.SkeletonNaryLERPState;
 
 class SkeletonNaryLERPNode extends AnimationNodeBase {
-    public var numInputs(get_numInputs, never):Int;
+    public var numInputs(get, never):Int;
 
     public var _inputs:Vector<AnimationNodeBase>;
     private var _numInputs:Int;
 
-    public function get_numInputs():Int {
+    private function get_numInputs():Int {
         return _numInputs;
     }
 

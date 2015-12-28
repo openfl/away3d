@@ -5,14 +5,14 @@ import away3d.entities.SegmentSet;
 import openfl.geom.Vector3D;
 
 class Segment {
-    public var start(get_start, set_start):Vector3D;
-    public var end(get_end, set_end):Vector3D;
-    public var thickness(get_thickness, set_thickness):Float;
-    public var startColor(get_startColor, set_startColor):Int;
-    public var endColor(get_endColor, set_endColor):Int;
-    public var index(get_index, set_index):Int;
-    public var subSetIndex(get_subSetIndex, set_subSetIndex):Int;
-    public var segmentsBase(never, set_segmentsBase):SegmentSet;
+    public var start(get, set):Vector3D;
+    public var end(get, set):Vector3D;
+    public var thickness(get, set):Float;
+    public var startColor(get, set):Int;
+    public var endColor(get, set):Int;
+    public var index(get, set):Int;
+    public var subSetIndex(get, set):Int;
+    public var segmentsBase(never, set):SegmentSet;
 
     public var _segmentsBase:SegmentSet;
     public var _thickness:Float;
@@ -63,11 +63,11 @@ class Segment {
     /**
 	 * Defines the starting vertex.
 	 */
-    public function get_start():Vector3D {
+    private function get_start():Vector3D {
         return _start;
     }
 
-    public function set_start(value:Vector3D):Vector3D {
+    private function set_start(value:Vector3D):Vector3D {
         _start = value;
         
         update();
@@ -78,11 +78,11 @@ class Segment {
     /**
 	 * Defines the ending vertex.
 	 */
-    public function get_end():Vector3D {
+    private function get_end():Vector3D {
         return _end;
     }
 
-    public function set_end(value:Vector3D):Vector3D {
+    private function set_end(value:Vector3D):Vector3D {
         _end = value;
         
         update();
@@ -93,11 +93,11 @@ class Segment {
     /**
 	 * Defines the ending vertex.
 	 */
-    public function get_thickness():Float {
+    private function get_thickness():Float {
         return _thickness * 2;
     }
 
-    public function set_thickness(value:Float):Float {
+    private function set_thickness(value:Float):Float {
         _thickness = value * .5;
         
         update();
@@ -108,11 +108,11 @@ class Segment {
     /**
 	 * Defines the startColor
 	 */
-    public function get_startColor():Int {
+    private function get_startColor():Int {
         return _startColor;
     }
 
-    public function set_startColor(color:Int):Int {
+    private function set_startColor(color:Int):Int {
         _startR = ((color >> 16) & 0xff) / 255;
         _startG = ((color >> 8) & 0xff) / 255;
         _startB = (color & 0xff) / 255;
@@ -126,11 +126,11 @@ class Segment {
     /**
 	 * Defines the endColor
 	 */
-    public function get_endColor():Int {
+    private function get_endColor():Int {
         return _endColor;
     }
 
-    public function set_endColor(color:Int):Int {
+    private function set_endColor(color:Int):Int {
         _endR = ((color >> 16) & 0xff) / 255;
         _endG = ((color >> 8) & 0xff) / 255;
         _endB = (color & 0xff) / 255;

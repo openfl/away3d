@@ -12,7 +12,7 @@ import openfl.display3D.Context3D;
 import openfl.Vector;
 
 class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
-    public var jointsPerVertex(get_jointsPerVertex, never):Int;
+    public var jointsPerVertex(get, never):Int;
 
     private var _jointsPerVertex:Int;
 
@@ -20,7 +20,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
 	 * Returns the amount of skeleton joints that can be linked to a single vertex via skinned weight values. For GPU-base animation, the
 	 * maximum allowed value is 4.
 	 */
-    public function get_jointsPerVertex():Int {
+    private function get_jointsPerVertex():Int {
         return _jointsPerVertex;
     }
 

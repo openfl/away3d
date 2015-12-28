@@ -130,7 +130,7 @@ class SkyBox extends Entity implements IRenderable {
         return _material;
     }
 
-    public function set_material(value:MaterialBase):MaterialBase {
+    private function set_material(value:MaterialBase):MaterialBase {
         throw new AbstractMethodError("Unsupported method!");
         return value;
     }

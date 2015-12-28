@@ -13,7 +13,7 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.Texture2DBase;
 
 class CompositeDiffuseMethod extends BasicDiffuseMethod {
-    public var baseMethod(get_baseMethod, set_baseMethod):BasicDiffuseMethod;
+    public var baseMethod(get, set):BasicDiffuseMethod;
 
     private var _baseMethod:BasicDiffuseMethod;
     /**
@@ -32,11 +32,11 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * The base diffuse method on which this method's shading is based.
 	 */
-    public function get_baseMethod():BasicDiffuseMethod {
+    private function get_baseMethod():BasicDiffuseMethod {
         return _baseMethod;
     }
 
-    public function set_baseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
+    private function set_baseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
         if (_baseMethod == value) return value;
         _baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         _baseMethod = value;
@@ -70,11 +70,11 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_alphaThreshold():Float {
+    override private function get_alphaThreshold():Float {
         return _baseMethod.alphaThreshold;
     }
 
-    override public function set_alphaThreshold(value:Float):Float {
+    override private function set_alphaThreshold(value:Float):Float {
         _baseMethod.alphaThreshold = value;
         return value;
     }
@@ -82,14 +82,14 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_texture():Texture2DBase {
+    override private function get_texture():Texture2DBase {
         return _baseMethod.texture;
     }
 
     /**
 	 * @inheritDoc
 	 */
-    override public function set_texture(value:Texture2DBase):Texture2DBase {
+    override private function set_texture(value:Texture2DBase):Texture2DBase {
         _baseMethod.texture = value;
         return value;
     }
@@ -97,21 +97,21 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_diffuseAlpha():Float {
+    override private function get_diffuseAlpha():Float {
         return _baseMethod.diffuseAlpha;
     }
 
     /**
 	 * @inheritDoc
 	 */
-    override public function get_diffuseColor():Int {
+    override private function get_diffuseColor():Int {
         return _baseMethod.diffuseColor;
     }
 
     /**
 	 * @inheritDoc
 	 */
-    override public function set_diffuseColor(diffuseColor:Int):Int {
+    override private function set_diffuseColor(diffuseColor:Int):Int {
         _baseMethod.diffuseColor = diffuseColor;
         return diffuseColor;
     }
@@ -119,7 +119,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_diffuseAlpha(value:Float):Float {
+    override private function set_diffuseAlpha(value:Float):Float {
         _baseMethod.diffuseAlpha = value;
         return value;
     }

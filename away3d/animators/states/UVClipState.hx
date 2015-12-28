@@ -4,8 +4,8 @@ import away3d.animators.nodes.UVClipNode;
 import away3d.animators.data.UVAnimationFrame;
 
 class UVClipState extends AnimationClipState implements IUVAnimationState {
-    public var currentUVFrame(get_currentUVFrame, never):UVAnimationFrame;
-    public var nextUVFrame(get_nextUVFrame, never):UVAnimationFrame;
+    public var currentUVFrame(get, never):UVAnimationFrame;
+    public var nextUVFrame(get, never):UVAnimationFrame;
 
     private var _frames:Array<UVAnimationFrame>;
     private var _uvClipNode:UVClipNode;
@@ -14,7 +14,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState {
     /**
 	 * @inheritDoc
 	 */
-    public function get_currentUVFrame():UVAnimationFrame {
+    private function get_currentUVFrame():UVAnimationFrame {
         if (_framesDirty) updateFrames();
         return _currentUVFrame;
     }
@@ -22,7 +22,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState {
     /**
 	 * @inheritDoc
 	 */
-    public function get_nextUVFrame():UVAnimationFrame {
+    private function get_nextUVFrame():UVAnimationFrame {
         if (_framesDirty) updateFrames();
         return _nextUVFrame;
     }

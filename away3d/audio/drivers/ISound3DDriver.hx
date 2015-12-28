@@ -5,39 +5,39 @@ import openfl.media.Sound;
 import openfl.events.IEventDispatcher;
 
 interface ISound3DDriver extends IEventDispatcher {
-    var sourceSound(get_sourceSound, set_sourceSound):Sound;
-    var scale(get_scale, set_scale):Float;
-    var volume(get_volume, set_volume):Float;
-    var mute(get_mute, set_mute):Bool;
+    var sourceSound(get, set):Sound;
+    var scale(get, set):Float;
+    var volume(get, set):Float;
+    var mute(get, set):Bool;
 
     /**
 	 * The sound object (flash.media.Sound) to play at the point of the sound
 	 * source. The output of this sound is modified by the driver before actual
 	 * sound output.
 	 */
-    function get_sourceSound():Sound;
-    function set_sourceSound(val:Sound):Sound;
+    private function get_sourceSound():Sound;
+    private function set_sourceSound(val:Sound):Sound;
     /**
 	 * Arbitrary value by which all distances are divided. The default value of
 	 * 1000 is usually suitable for scenes with a scale that roughly matches the
 	 * standard Away3D scale, i.e. that look good from the default camera position.
 	 */
-    function get_scale():Float;
-    function set_scale(val:Float):Float;
+    private function get_scale():Float;
+    private function set_scale(val:Float):Float;
     /**
 	 * Master volume/gain after 3D modifications to pan/volume have been applied.
 	 * Modify this to raise or lower the overall volume regardless of where the
 	 * sound source is located.
 	 */
-    function get_volume():Float;
-    function set_volume(val:Float):Float;
+    private function get_volume():Float;
+    private function set_volume(val:Float):Float;
     /**
 	 * Mutes/unmutes the driver completely, which is typically only done (internally
 	 * by Sound3D) whenever the sound source is removed from the scene. When true,
 	 * any values set to the volume property will be ignored.
 	 */
-    function get_mute():Bool;
-    function set_mute(val:Bool):Bool;
+    private function get_mute():Bool;
+    private function set_mute(val:Bool):Bool;
     /**
 	 * Start playing (or resume if paused) the audio. This is NOT The same thing
 	 * as invoking play() on the flash.media.Sound object used as the source sound

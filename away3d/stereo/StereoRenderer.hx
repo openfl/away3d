@@ -17,7 +17,7 @@ import openfl.display3D.textures.Texture;
 import openfl.events.Event;
 
 class StereoRenderer {
-    public var renderMethod(get_renderMethod, set_renderMethod):StereoRenderMethodBase;
+    public var renderMethod(get, set):StereoRenderMethodBase;
 
     private var _leftTexture:Texture;
     private var _rightTexture:Texture;
@@ -38,11 +38,11 @@ class StereoRenderer {
             _method = new InterleavedStereoRenderMethod();
     }
 
-    public function get_renderMethod():StereoRenderMethodBase {
+    private function get_renderMethod():StereoRenderMethodBase {
         return _method;
     }
 
-    public function set_renderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase {
+    private function set_renderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase {
         _method = value;
         _program3DInvalid = true;
         

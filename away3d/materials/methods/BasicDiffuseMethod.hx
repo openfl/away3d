@@ -15,12 +15,12 @@ import openfl.display3D.Context3DMipFilter;
 import openfl.Vector;
 
 class BasicDiffuseMethod extends LightingMethodBase {
-    public var useAmbientTexture(get_useAmbientTexture, set_useAmbientTexture):Bool;
-    public var diffuseAlpha(get_diffuseAlpha, set_diffuseAlpha):Float;
-    public var diffuseColor(get_diffuseColor, set_diffuseColor):Int;
-    public var texture(get_texture, set_texture):Texture2DBase;
-    public var alphaThreshold(get_alphaThreshold, set_alphaThreshold):Float;
-    public var shadowRegister(never, set_shadowRegister):ShaderRegisterElement;
+    public var useAmbientTexture(get, set):Bool;
+    public var diffuseAlpha(get, set):Float;
+    public var diffuseColor(get, set):Int;
+    public var texture(get, set):Texture2DBase;
+    public var alphaThreshold(get, set):Float;
+    public var shadowRegister(never, set):ShaderRegisterElement;
 
     private var _useAmbientTexture:Bool;
     private var _useTexture:Bool;
@@ -82,11 +82,11 @@ class BasicDiffuseMethod extends LightingMethodBase {
     /**
 	 * The alpha component of the diffuse reflection.
 	 */
-    public function get_diffuseAlpha():Float {
+    private function get_diffuseAlpha():Float {
         return _diffuseA;
     }
 
-    public function set_diffuseAlpha(value:Float):Float {
+    private function set_diffuseAlpha(value:Float):Float {
         _diffuseA = value;
         return value;
     }
@@ -94,11 +94,11 @@ class BasicDiffuseMethod extends LightingMethodBase {
     /**
 	 * The color of the diffuse reflection when not using a texture.
 	 */
-    public function get_diffuseColor():Int {
+    private function get_diffuseColor():Int {
         return _diffuseColor;
     }
 
-    public function set_diffuseColor(diffuseColor:Int):Int {
+    private function set_diffuseColor(diffuseColor:Int):Int {
         _diffuseColor = diffuseColor;
         updateDiffuse();
         return diffuseColor;
@@ -107,11 +107,11 @@ class BasicDiffuseMethod extends LightingMethodBase {
     /**
 	 * The bitmapData to use to define the diffuse reflection color per texel.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
             invalidateShaderProgram();
         }
@@ -125,11 +125,11 @@ class BasicDiffuseMethod extends LightingMethodBase {
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
-    public function get_alphaThreshold():Float {
+    private function get_alphaThreshold():Float {
         return _alphaThreshold;
     }
 
-    public function set_alphaThreshold(value:Float):Float {
+    private function set_alphaThreshold(value:Float):Float {
         if (value < 0) value = 0
         else if (value > 1) value = 1;
         if (value == _alphaThreshold) return value;

@@ -13,7 +13,7 @@ import away3d.core.math.Quaternion;
 import away3d.animators.IAnimator;
 
 class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAnimationState {
-    public var blendWeight(get_blendWeight, set_blendWeight):Float;
+    public var blendWeight(get, set):Float;
 
     private var _blendWeight:Float;
     static private var _tempQuat:Quaternion = new Quaternion();
@@ -29,11 +29,11 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 	 * @see #baseInput
 	 * @see #differenceInput
 	 */
-    public function get_blendWeight():Float {
+    private function get_blendWeight():Float {
         return _blendWeight;
     }
 
-    public function set_blendWeight(value:Float):Float {
+    private function set_blendWeight(value:Float):Float {
         _blendWeight = value;
         _positionDeltaDirty = true;
         _skeletonPoseDirty = true;

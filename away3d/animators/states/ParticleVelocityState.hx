@@ -17,7 +17,7 @@ import away3d.animators.ParticleAnimator;
 import openfl.geom.Vector3D;
 
 class ParticleVelocityState extends ParticleStateBase {
-    public var velocity(get_velocity, set_velocity):Vector3D;
+    public var velocity(get, set):Vector3D;
 
     private var _particleVelocityNode:ParticleVelocityNode;
     private var _velocity:Vector3D;
@@ -25,11 +25,11 @@ class ParticleVelocityState extends ParticleStateBase {
     /**
 	 * Defines the default velocity vector of the state, used when in global mode.
 	 */
-    public function get_velocity():Vector3D {
+    private function get_velocity():Vector3D {
         return _velocity;
     }
 
-    public function set_velocity(value:Vector3D):Vector3D {
+    private function set_velocity(value:Vector3D):Vector3D {
         _velocity = value;
         return value;
     }

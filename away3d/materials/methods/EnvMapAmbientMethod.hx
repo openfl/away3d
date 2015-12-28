@@ -12,7 +12,7 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.CubeTextureBase;
 
 class EnvMapAmbientMethod extends BasicAmbientMethod {
-    public var envMap(get_envMap, set_envMap):CubeTextureBase;
+    public var envMap(get, set):CubeTextureBase;
 
     private var _cubeTexture:CubeTextureBase;
     /**
@@ -41,11 +41,11 @@ class EnvMapAmbientMethod extends BasicAmbientMethod {
     /**
 	 * The cube environment map to use for the diffuse lighting.
 	 */
-    public function get_envMap():CubeTextureBase {
+    private function get_envMap():CubeTextureBase {
         return _cubeTexture;
     }
 
-    public function set_envMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_envMap(value:CubeTextureBase):CubeTextureBase {
         _cubeTexture = value;
         return value;
     }

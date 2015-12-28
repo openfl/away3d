@@ -14,10 +14,10 @@ import openfl.geom.Vector3D;
 import openfl.Vector; 
 
 class DirectionalShadowMapper extends ShadowMapperBase {
-    public var snap(get_snap, set_snap):Float;
-    public var lightOffset(get_lightOffset, set_lightOffset):Float;
-    public var depthProjection(get_depthProjection, never):Matrix3D;
-    public var depth(get_depth, never):Float;
+    public var snap(get, set):Float;
+    public var lightOffset(get, set):Float;
+    public var depthProjection(get, never):Matrix3D;
+    public var depth(get, never):Float;
 
     private var _overallDepthCamera:Camera3D;
     private var _localFrustum:Vector<Float>;
@@ -42,20 +42,20 @@ class DirectionalShadowMapper extends ShadowMapperBase {
         _matrix = new Matrix3D();
     }
 
-    public function get_snap():Float {
+    private function get_snap():Float {
         return _snap;
     }
 
-    public function set_snap(value:Float):Float {
+    private function set_snap(value:Float):Float {
         _snap = value;
         return value;
     }
 
-    public function get_lightOffset():Float {
+    private function get_lightOffset():Float {
         return _lightOffset;
     }
 
-    public function set_lightOffset(value:Float):Float {
+    private function set_lightOffset(value:Float):Float {
         _lightOffset = value;
         return value;
     }

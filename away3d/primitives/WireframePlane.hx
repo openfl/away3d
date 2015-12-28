@@ -7,11 +7,11 @@ import openfl.errors.Error;
 import openfl.geom.Vector3D;
 
 class WireframePlane extends WireframePrimitiveBase {
-    public var orientation(get_orientation, set_orientation):String;
-    public var width(get_width, set_width):Float;
-    public var height(get_height, set_height):Float;
-    public var segmentsW(get_segmentsW, set_segmentsW):Int;
-    public var segmentsH(get_segmentsH, set_segmentsH):Int;
+    public var orientation(get, set):String;
+    public var width(get, set):Float;
+    public var height(get, set):Float;
+    public var segmentsW(get, set):Int;
+    public var segmentsH(get, set):Int;
 
     static public var ORIENTATION_YZ:String = "yz";
     static public var ORIENTATION_XY:String = "xy";
@@ -43,11 +43,11 @@ class WireframePlane extends WireframePrimitiveBase {
     /**
 	 * The orientaion in which the plane lies.
 	 */
-    public function get_orientation():String {
+    private function get_orientation():String {
         return _orientation;
     }
 
-    public function set_orientation(value:String):String {
+    private function set_orientation(value:String):String {
         _orientation = value;
         invalidateGeometry();
         return value;
@@ -56,11 +56,11 @@ class WireframePlane extends WireframePrimitiveBase {
     /**
 	 * The size of the cube along its X-axis.
 	 */
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function set_width(value:Float):Float {
+    private function set_width(value:Float):Float {
         _width = value;
         invalidateGeometry();
         return value;
@@ -69,11 +69,11 @@ class WireframePlane extends WireframePrimitiveBase {
     /**
 	 * The size of the cube along its Y-axis.
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         if (value <= 0) throw new Error("Value needs to be greater than 0");
         _height = value;
         invalidateGeometry();
@@ -83,11 +83,11 @@ class WireframePlane extends WireframePrimitiveBase {
     /**
 	 * The number of segments that make up the plane along the X-axis.
 	 */
-    public function get_segmentsW():Int {
+    private function get_segmentsW():Int {
         return _segmentsW;
     }
 
-    public function set_segmentsW(value:Int):Int {
+    private function set_segmentsW(value:Int):Int {
         _segmentsW = value;
         removeAllSegments();
         invalidateGeometry();
@@ -97,11 +97,11 @@ class WireframePlane extends WireframePrimitiveBase {
     /**
 	 * The number of segments that make up the plane along the Y-axis.
 	 */
-    public function get_segmentsH():Int {
+    private function get_segmentsH():Int {
         return _segmentsH;
     }
 
-    public function set_segmentsH(value:Int):Int {
+    private function set_segmentsH(value:Int):Int {
         _segmentsH = value;
         removeAllSegments();
         invalidateGeometry();

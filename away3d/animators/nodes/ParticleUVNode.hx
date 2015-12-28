@@ -9,9 +9,9 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.geom.Vector3D;
 class ParticleUVNode extends ParticleNodeBase {
-    public var cycle(get_cycle, set_cycle):Float;
-    public var scale(get_scale, set_scale):Float;
-    public var axis(get_axis, set_axis):String;
+    public var cycle(get, set):Float;
+    public var scale(get, set):Float;
+    public var axis(get, set):String;
 
     /** @private */
     static public var UV_INDEX:Int = 0;
@@ -52,11 +52,11 @@ class ParticleUVNode extends ParticleNodeBase {
     /**
 	 *
 	 */
-    public function get_cycle():Float {
+    private function get_cycle():Float {
         return _cycle;
     }
 
-    public function set_cycle(value:Float):Float {
+    private function set_cycle(value:Float):Float {
         _cycle = value;
         updateUVData();
         return value;
@@ -65,11 +65,11 @@ class ParticleUVNode extends ParticleNodeBase {
     /**
 	 *
 	 */
-    public function get_scale():Float {
+    private function get_scale():Float {
         return _scale;
     }
 
-    public function set_scale(value:Float):Float {
+    private function set_scale(value:Float):Float {
         _scale = value;
         updateUVData();
         return value;
@@ -78,11 +78,11 @@ class ParticleUVNode extends ParticleNodeBase {
     /**
 	 *
 	 */
-    public function get_axis():String {
+    private function get_axis():String {
         return _axis;
     }
 
-    public function set_axis(value:String):String {
+    private function set_axis(value:String):String {
         _axis = value;
         return value;
     }

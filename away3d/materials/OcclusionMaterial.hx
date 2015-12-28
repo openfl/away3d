@@ -8,7 +8,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 
 class OcclusionMaterial extends ColorMaterial {
-    public var occlude(get_occlude, set_occlude):Bool;
+    public var occlude(get, set):Bool;
 
     private var _occlude:Bool;
     /**
@@ -26,11 +26,11 @@ class OcclusionMaterial extends ColorMaterial {
     /**
 	 * Whether or not an object with this material applied hides other objects.
 	 */
-    public function get_occlude():Bool {
+    private function get_occlude():Bool {
         return _occlude;
     }
 
-    public function set_occlude(value:Bool):Bool {
+    private function set_occlude(value:Bool):Bool {
         _occlude = value;
         return value;
     }

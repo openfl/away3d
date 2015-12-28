@@ -5,11 +5,11 @@ import openfl.events.EventDispatcher;
 import openfl.Vector;
 
 class NamedAssetBase extends EventDispatcher {
-    public var originalName(get_originalName, never):String;
-    public var id(get_id, set_id):String;
-    public var name(get_name, set_name):String;
-    public var assetNamespace(get_assetNamespace, never):String;
-    public var assetFullPath(get_assetFullPath, never):Array<Dynamic>;
+    public var originalName(get, never):String;
+    public var id(get, set):String;
+    public var name(get, set):String;
+    public var assetNamespace(get, never):String;
+    public var assetFullPath(get, never):Array<Dynamic>;
 
     private var _originalName:String;
     private var _namespace:String;
@@ -32,24 +32,24 @@ class NamedAssetBase extends EventDispatcher {
 	 * it was found. This may not be the same as <code>name</code>, which may
 	 * have changed due to of a name conflict.
 	 */
-    public function get_originalName():String {
+    private function get_originalName():String {
         return _originalName;
     }
 
-    public function get_id():String {
+    private function get_id():String {
         return _id;
     }
 
-    public function set_id(newID:String):String {
+    private function set_id(newID:String):String {
         _id = newID;
         return newID;
     }
 
-    public function get_name():String {
+    private function get_name():String {
         return _name;
     }
 
-    public function set_name(val:String):String {
+    private function set_name(val:String):String {
         var prev:String;
         prev = _name;
         _name = val;
@@ -59,11 +59,11 @@ class NamedAssetBase extends EventDispatcher {
         return val;
     }
 
-    public function get_assetNamespace():String {
+    private function get_assetNamespace():String {
         return _namespace;
     }
 
-    public function get_assetFullPath():Array<Dynamic> {
+    private function get_assetFullPath():Array<Dynamic> {
         return _full_path;
     }
 

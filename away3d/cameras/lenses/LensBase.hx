@@ -13,12 +13,12 @@ import away3d.errors.AbstractMethodError;
 import away3d.events.LensEvent;
 
 class LensBase extends EventDispatcher {
-    public var frustumCorners(get_frustumCorners, set_frustumCorners):Array<Float>;
-    public var matrix(get_matrix, set_matrix):Matrix3D;
-    public var near(get_near, set_near):Float;
-    public var far(get_far, set_far):Float;
-    public var unprojectionMatrix(get_unprojectionMatrix, never):Matrix3D;
-    public var aspectRatio(get_aspectRatio, set_aspectRatio):Float;
+    public var frustumCorners(get, set):Array<Float>;
+    public var matrix(get, set):Matrix3D;
+    public var near(get, set):Float;
+    public var far(get, set):Float;
+    public var unprojectionMatrix(get, never):Matrix3D;
+    public var aspectRatio(get, set):Float;
 
     private var _matrix:Matrix3D;
     private var _scissorRect:Rectangle;
@@ -49,11 +49,11 @@ class LensBase extends EventDispatcher {
     /**
 	 * Retrieves the corner points of the lens frustum.
 	 */
-    public function get_frustumCorners():Array<Float> {
+    private function get_frustumCorners():Array<Float> {
         return _frustumCorners;
     }
 
-    public function set_frustumCorners(frustumCorners:Array<Float>):Array<Float> {
+    private function set_frustumCorners(frustumCorners:Array<Float>):Array<Float> {
         _frustumCorners = frustumCorners;
         return frustumCorners;
     }
@@ -61,7 +61,7 @@ class LensBase extends EventDispatcher {
     /**
 	 * The projection matrix that transforms 3D geometry to normalized homogeneous coordinates.
 	 */
-    public function get_matrix():Matrix3D {
+    private function get_matrix():Matrix3D {
         if (_matrixInvalid) {
             updateMatrix();
             _matrixInvalid = false;
@@ -69,7 +69,7 @@ class LensBase extends EventDispatcher {
         return _matrix;
     }
 
-    public function set_matrix(value:Matrix3D):Matrix3D {
+    private function set_matrix(value:Matrix3D):Matrix3D {
         _matrix = value;
         invalidateMatrix();
         return value;
@@ -78,11 +78,11 @@ class LensBase extends EventDispatcher {
     /**
 	 * The distance to the near plane of the frustum. Anything behind near plane will not be rendered.
 	 */
-    public function get_near():Float {
+    private function get_near():Float {
         return _near;
     }
 
-    public function set_near(value:Float):Float {
+    private function set_near(value:Float):Float {
         if (value == _near) return value;
         _near = value;
         invalidateMatrix();
@@ -92,11 +92,11 @@ class LensBase extends EventDispatcher {
     /**
 	 * The distance to the far plane of the frustum. Anything beyond the far plane will not be rendered.
 	 */
-    public function get_far():Float {
+    private function get_far():Float {
         return _far;
     }
 
-    public function set_far(value:Float):Float {
+    private function set_far(value:Float):Float {
         if (value == _far) return value;
         _far = value;
         invalidateMatrix();
@@ -118,7 +118,7 @@ class LensBase extends EventDispatcher {
         return v;
     }
 
-    public function get_unprojectionMatrix():Matrix3D {
+    private function get_unprojectionMatrix():Matrix3D {
         if (_unprojectionInvalid) {
             if (_unprojection == null)
                 _unprojection = new Matrix3D();

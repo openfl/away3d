@@ -4,9 +4,9 @@ import away3d.animators.nodes.AnimationClipNodeBase;
 import away3d.events.AnimationStateEvent;
 
 class AnimationClipState extends AnimationStateBase {
-    public var blendWeight(get_blendWeight, never):Float;
-    public var currentFrame(get_currentFrame, never):Int;
-    public var nextFrame(get_nextFrame, never):Int;
+    public var blendWeight(get, never):Float;
+    public var currentFrame(get, never):Int;
+    public var nextFrame(get, never):Int;
 
     private var _animationClipNode:AnimationClipNodeBase;
     private var _animationStatePlaybackComplete:AnimationStateEvent;
@@ -24,7 +24,7 @@ class AnimationClipState extends AnimationStateBase {
 	 * @see #currentFrame
 	 * @see #nextFrame
 	 */
-    public function get_blendWeight():Float {
+    private function get_blendWeight():Float {
         if (_framesDirty) updateFrames();
         return _blendWeight;
     }
@@ -32,7 +32,7 @@ class AnimationClipState extends AnimationStateBase {
     /**
 	 * Returns the current frame of animation in the clip based on the internal playhead position.
 	 */
-    public function get_currentFrame():Int {
+    private function get_currentFrame():Int {
         if (_framesDirty) updateFrames();
         return _currentFrame;
     }
@@ -40,7 +40,7 @@ class AnimationClipState extends AnimationStateBase {
     /**
 	 * Returns the next frame of animation in the clip based on the internal playhead position.
 	 */
-    public function get_nextFrame():Int {
+    private function get_nextFrame():Int {
         if (_framesDirty) updateFrames();
         return _nextFrame;
     }

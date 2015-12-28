@@ -65,7 +65,7 @@ class ShadingMethodBase extends NamedAssetBase {
     /**
 	 * Any passes required that render to a texture used by this method.
 	 */
-    public function get_passes():Array<MaterialPassBase> {
+    private function get_passes():Array<MaterialPassBase> {
         return _passes;
     }
 

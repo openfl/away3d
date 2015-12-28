@@ -23,10 +23,10 @@ import openfl.geom.Matrix;
 
 
 class UVAnimator extends AnimatorBase implements IAnimator {
-    public var autoRotation(get_autoRotation, set_autoRotation):Bool;
-    public var rotationIncrease(get_rotationIncrease, set_rotationIncrease):Float;
-    public var autoTranslate(get_autoTranslate, set_autoTranslate):Bool;
-    public var translateIncrease(get_translateIncrease, never):Vector<Float>;
+    public var autoRotation(get, set):Bool;
+    public var rotationIncrease(get, set):Float;
+    public var autoTranslate(get, set):Bool;
+    public var translateIncrease(get, never):Vector<Float>;
 
     private var _uvAnimationSet:UVAnimationSet;
     private var _deltaFrame:UVAnimationFrame;
@@ -57,37 +57,37 @@ class UVAnimator extends AnimatorBase implements IAnimator {
     /**
 	 * Defines if a rotation is performed automatically each update. The rotationIncrease value is added each iteration.
 	 */
-    public function set_autoRotation(b:Bool):Bool {
+    private function set_autoRotation(b:Bool):Bool {
         _autoRotation = b;
         return b;
     }
 
-    public function get_autoRotation():Bool {
+    private function get_autoRotation():Bool {
         return _autoRotation;
     }
 
     /**
 	 * if autoRotation = true, the rotation is increased by the rotationIncrease value. Default is 1;
 	 */
-    public function set_rotationIncrease(value:Float):Float {
+    private function set_rotationIncrease(value:Float):Float {
         _rotationIncrease = value;
         return value;
     }
 
-    public function get_rotationIncrease():Float {
+    private function get_rotationIncrease():Float {
         return _rotationIncrease;
     }
 
     /**
 	 * Defines if the animation is translated automatically each update. Ideal to scroll maps. Use setTranslateIncrease to define the offsets.
 	 */
-    public function set_autoTranslate(b:Bool):Bool {
+    private function set_autoTranslate(b:Bool):Bool {
         _autoTranslate = b;
         if (b && _translateIncrease == null) _translateIncrease = Vector.ofArray(cast [0, 0]);
         return b;
     }
 
-    public function get_autoTranslate():Bool {
+    private function get_autoTranslate():Bool {
         return _autoTranslate;
     }
 
@@ -101,7 +101,7 @@ class UVAnimator extends AnimatorBase implements IAnimator {
         _translateIncrease[1] = v;
     }
 
-    public function get_translateIncrease():Vector<Float> {
+    private function get_translateIncrease():Vector<Float> {
         return _translateIncrease;
     }
 

@@ -18,7 +18,7 @@ import away3d.lights.PointLight;
 import openfl.geom.Vector3D;
 
 class PartitionTraverser {
-    public var entryPoint(get_entryPoint, never):Vector3D;
+    public var entryPoint(get, never):Vector3D;
 
     /**
 	 * The scene being traversed.
@@ -88,7 +88,7 @@ class PartitionTraverser {
 	 * position-dependently. For example: BSP visibility determination or collision detection.
 	 * For the EntityCollector, this is the camera's scene position for example.
 	 */
-    public function get_entryPoint():Vector3D {
+    private function get_entryPoint():Vector3D {
         return _entryPoint;
     }
 }

@@ -16,8 +16,8 @@ import away3d.animators.ParticleAnimator;
 import openfl.geom.Vector3D;
 
 class ParticleBezierCurveState extends ParticleStateBase {
-    public var controlPoint(get_controlPoint, set_controlPoint):Vector3D;
-    public var endPoint(get_endPoint, set_endPoint):Vector3D;
+    public var controlPoint(get, set):Vector3D;
+    public var endPoint(get, set):Vector3D;
 
     private var _particleBezierCurveNode:ParticleBezierCurveNode;
     private var _controlPoint:Vector3D;
@@ -26,11 +26,11 @@ class ParticleBezierCurveState extends ParticleStateBase {
     /**
 	 * Defines the default control point of the node, used when in global mode.
 	 */
-    public function get_controlPoint():Vector3D {
+    private function get_controlPoint():Vector3D {
         return _controlPoint;
     }
 
-    public function set_controlPoint(value:Vector3D):Vector3D {
+    private function set_controlPoint(value:Vector3D):Vector3D {
         _controlPoint = value;
         return value;
     }
@@ -38,11 +38,11 @@ class ParticleBezierCurveState extends ParticleStateBase {
     /**
 	 * Defines the default end point of the node, used when in global mode.
 	 */
-    public function get_endPoint():Vector3D {
+    private function get_endPoint():Vector3D {
         return _endPoint;
     }
 
-    public function set_endPoint(value:Vector3D):Vector3D {
+    private function set_endPoint(value:Vector3D):Vector3D {
         _endPoint = value;
         return value;
     }

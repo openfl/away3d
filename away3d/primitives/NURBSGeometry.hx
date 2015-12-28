@@ -10,15 +10,15 @@ import away3d.primitives.data.NURBSVertex;
 import openfl.geom.Vector3D;
 
 class NURBSGeometry extends PrimitiveBase {
-    public var controlNet(get_controlNet, set_controlNet):Vector<NURBSVertex>;
-    public var uOrder(get_uOrder, set_uOrder):Int;
-    public var vOrder(get_vOrder, set_vOrder):Int;
-    public var uControlPoints(get_uControlPoints, set_uControlPoints):Int;
-    public var vControlPoints(get_vControlPoints, set_vControlPoints):Int;
-    public var uKnot(get_uKnot, set_uKnot):Vector<Float>;
-    public var vKnot(get_vKnot, set_vKnot):Vector<Float>;
-    public var uSegments(get_uSegments, set_uSegments):Int;
-    public var vSegments(get_vSegments, set_vSegments):Int;
+    public var controlNet(get, set):Vector<NURBSVertex>;
+    public var uOrder(get, set):Int;
+    public var vOrder(get, set):Int;
+    public var uControlPoints(get, set):Int;
+    public var vControlPoints(get, set):Int;
+    public var uKnot(get, set):Vector<Float>;
+    public var vKnot(get, set):Vector<Float>;
+    public var uSegments(get, set):Int;
+    public var vSegments(get, set):Int;
 
     private var _controlNet:Vector<NURBSVertex>;
     private var _uOrder:Int;
@@ -46,11 +46,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the control point net to describe the NURBS surface
 	 */
-    public function get_controlNet():Vector<NURBSVertex> {
+    private function get_controlNet():Vector<NURBSVertex> {
         return _controlNet;
     }
 
-    public function set_controlNet(value:Vector<NURBSVertex>):Vector<NURBSVertex> {
+    private function set_controlNet(value:Vector<NURBSVertex>):Vector<NURBSVertex> {
         if (_controlNet == value) return value;
         _controlNet = value;
         invalidateGeometry();
@@ -61,11 +61,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of control points along the U splines that influence any given point on the curve
 	 */
-    public function get_uOrder():Int {
+    private function get_uOrder():Int {
         return _uOrder;
     }
 
-    public function set_uOrder(value:Int):Int {
+    private function set_uOrder(value:Int):Int {
         if (_uOrder == value) return value;
         _uOrder = value;
         invalidateGeometry();
@@ -76,11 +76,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of control points along the V splines that influence any given point on the curve
 	 */
-    public function get_vOrder():Int {
+    private function get_vOrder():Int {
         return _vOrder;
     }
 
-    public function set_vOrder(value:Int):Int {
+    private function set_vOrder(value:Int):Int {
         if (_vOrder == value) return value;
         _vOrder = value;
         invalidateGeometry();
@@ -91,11 +91,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of control points along the U splines
 	 */
-    public function get_uControlPoints():Int {
+    private function get_uControlPoints():Int {
         return _numUContolPoints;
     }
 
-    public function set_uControlPoints(value:Int):Int {
+    private function set_uControlPoints(value:Int):Int {
         if (_numUContolPoints == value) return value;
         _numUContolPoints = value;
         invalidateGeometry();
@@ -106,11 +106,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of control points along the V splines
 	 */
-    public function get_vControlPoints():Int {
+    private function get_vControlPoints():Int {
         return _numVContolPoints;
     }
 
-    public function set_vControlPoints(value:Int):Int {
+    private function set_vControlPoints(value:Int):Int {
         if (_numVContolPoints == value) return value;
         _numVContolPoints = value;
         invalidateGeometry();
@@ -122,11 +122,11 @@ class NURBSGeometry extends PrimitiveBase {
 	 * Defines the knot sequence in the U direction that determines where and how the control points
 	 * affect the NURBS curve.
 	 */
-    public function get_uKnot():Vector<Float> {
+    private function get_uKnot():Vector<Float> {
         return _uKnotSequence;
     }
 
-    public function set_uKnot(value:Vector<Float>):Vector<Float> {
+    private function set_uKnot(value:Vector<Float>):Vector<Float> {
         if (_uKnotSequence == value) return value;
         _uKnotSequence = value;
         _autoGenKnotSeq = ((_uKnotSequence == null || _uKnotSequence.length == 0) || (_vKnotSequence == null || _vKnotSequence.length == 0));
@@ -139,11 +139,11 @@ class NURBSGeometry extends PrimitiveBase {
 	 * Defines the knot sequence in the V direction that determines where and how the control points
 	 * affect the NURBS curve.
 	 */
-    public function get_vKnot():Vector<Float> {
+    private function get_vKnot():Vector<Float> {
         return _vKnotSequence;
     }
 
-    public function set_vKnot(value:Vector<Float>):Vector<Float> {
+    private function set_vKnot(value:Vector<Float>):Vector<Float> {
         if (_vKnotSequence == value) return value;
         _vKnotSequence = value;
         _autoGenKnotSeq = ((_uKnotSequence == null || _uKnotSequence.length == 0) || (_vKnotSequence == null || _vKnotSequence.length == 0));
@@ -155,11 +155,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the number segments (triangle pair) the final curve will be divided into in the U direction
 	 */
-    public function get_uSegments():Int {
+    private function get_uSegments():Int {
         return _uSegments;
     }
 
-    public function set_uSegments(value:Int):Int {
+    private function set_uSegments(value:Int):Int {
         if (_uSegments == value) return value;
         _uSegments = value;
         invalidateGeometry();
@@ -170,11 +170,11 @@ class NURBSGeometry extends PrimitiveBase {
     /**
 	 * Defines the number segments (triangle pair) the final curve will be divided into in the V direction
 	 */
-    public function get_vSegments():Int {
+    private function get_vSegments():Int {
         return _vSegments;
     }
 
-    public function set_vSegments(value:Int):Int {
+    private function set_vSegments(value:Int):Int {
         if (_vSegments == value) return value;
         _vSegments = value;
         invalidateGeometry();

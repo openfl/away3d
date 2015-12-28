@@ -14,7 +14,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset {
 
     private var _stateClass:Class<IAnimationState>;
 
-    public function get_stateClass():Class<IAnimationState> {
+    private function get_stateClass():Class<IAnimationState> {
         return _stateClass;
     }
 

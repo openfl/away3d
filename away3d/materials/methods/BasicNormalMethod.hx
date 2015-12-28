@@ -14,9 +14,9 @@ import openfl.display3D.Context3DTextureFilter;
 import openfl.display3D.Context3DMipFilter;
 
 class BasicNormalMethod extends ShadingMethodBase {
-    public var tangentSpace(get_tangentSpace, never):Bool;
-    public var hasOutput(get_hasOutput, never):Bool;
-    public var normalMap(get_normalMap, set_normalMap):Texture2DBase;
+    public var tangentSpace(get, never):Bool;
+    public var hasOutput(get, never):Bool;
+    public var normalMap(get, set):Texture2DBase;
 
     private var _texture:Texture2DBase;
     private var _useTexture:Bool;
@@ -62,11 +62,11 @@ class BasicNormalMethod extends ShadingMethodBase {
     /**
 	 * The texture containing the normals per pixel.
 	 */
-    public function get_normalMap():Texture2DBase {
+    private function get_normalMap():Texture2DBase {
         return _texture;
     }
 
-    public function set_normalMap(value:Texture2DBase):Texture2DBase {
+    private function set_normalMap(value:Texture2DBase):Texture2DBase {
         if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
             invalidateShaderProgram();
         }

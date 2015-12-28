@@ -7,7 +7,7 @@ import away3d.core.traverse.PartitionTraverser;
 import away3d.lights.LightBase;
 
 class LightNode extends EntityNode {
-    public var light(get_light, never):LightBase;
+    public var light(get, never):LightBase;
 
     private var _light:LightBase;
     /**
@@ -22,7 +22,7 @@ class LightNode extends EntityNode {
     /**
 	 * The light object contained in this node.
 	 */
-    public function get_light():LightBase {
+    private function get_light():LightBase {
         return _light;
     }
 

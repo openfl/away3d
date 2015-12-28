@@ -1,9 +1,9 @@
 package away3d.errors;
 import openfl.errors.Error;
 class DeprecationError extends Error {
-    public var since(get_since, never):String;
-    public var source(get_source, never):String;
-    public var info(get_info, never):String;
+    public var since(get, never):String;
+    public var source(get, never):String;
+    public var info(get, never):String;
 
     private var _since:String;
     private var _source:String;
@@ -16,15 +16,15 @@ class DeprecationError extends Error {
         _info = info;
     }
 
-    public function get_since():String {
+    private function get_since():String {
         return _since;
     }
 
-    public function get_source():String {
+    private function get_source():String {
         return _source;
     }
 
-    public function get_info():String {
+    private function get_info():String {
         return _info;
     }
 }

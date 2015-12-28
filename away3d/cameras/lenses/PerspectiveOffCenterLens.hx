@@ -7,10 +7,10 @@ import away3d.core.math.Matrix3DUtils;
 import openfl.geom.Vector3D;
 
 class PerspectiveOffCenterLens extends LensBase {
-    public var minAngleX(get_minAngleX, set_minAngleX):Float;
-    public var maxAngleX(get_maxAngleX, set_maxAngleX):Float;
-    public var minAngleY(get_minAngleY, set_minAngleY):Float;
-    public var maxAngleY(get_maxAngleY, set_maxAngleY):Float;
+    public var minAngleX(get, set):Float;
+    public var maxAngleX(get, set):Float;
+    public var minAngleY(get, set):Float;
+    public var maxAngleY(get, set):Float;
 
     private var _minAngleX:Float;
     private var _minLengthX:Float;
@@ -37,44 +37,44 @@ class PerspectiveOffCenterLens extends LensBase {
         this.maxAngleY = maxAngleY;
     }
 
-    public function get_minAngleX():Float {
+    private function get_minAngleX():Float {
         return _minAngleX;
     }
 
-    public function set_minAngleX(value:Float):Float {
+    private function set_minAngleX(value:Float):Float {
         _minAngleX = value;
         _tanMinX = Math.tan(_minAngleX * Math.PI / 180);
         invalidateMatrix();
         return value;
     }
 
-    public function get_maxAngleX():Float {
+    private function get_maxAngleX():Float {
         return _maxAngleX;
     }
 
-    public function set_maxAngleX(value:Float):Float {
+    private function set_maxAngleX(value:Float):Float {
         _maxAngleX = value;
         _tanMaxX = Math.tan(_maxAngleX * Math.PI / 180);
         invalidateMatrix();
         return value;
     }
 
-    public function get_minAngleY():Float {
+    private function get_minAngleY():Float {
         return _minAngleY;
     }
 
-    public function set_minAngleY(value:Float):Float {
+    private function set_minAngleY(value:Float):Float {
         _minAngleY = value;
         _tanMinY = Math.tan(_minAngleY * Math.PI / 180);
         invalidateMatrix();
         return value;
     }
 
-    public function get_maxAngleY():Float {
+    private function get_maxAngleY():Float {
         return _maxAngleY;
     }
 
-    public function set_maxAngleY(value:Float):Float {
+    private function set_maxAngleY(value:Float):Float {
         _maxAngleY = value;
         _tanMaxY = Math.tan(_maxAngleY * Math.PI / 180);
         invalidateMatrix();

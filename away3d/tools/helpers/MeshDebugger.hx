@@ -10,12 +10,12 @@ import away3d.entities.Mesh;
 import away3d.tools.helpers.data.MeshDebug;
 
 class MeshDebugger {
-    public var colorNormals(get_colorNormals, set_colorNormals):Int;
-    public var colorVertexNormals(get_colorVertexNormals, set_colorVertexNormals):Int;
-    public var colorTangents(get_colorTangents, set_colorTangents):Int;
-    public var lengthVertexNormals(get_lengthVertexNormals, set_lengthVertexNormals):Float;
-    public var lengthNormals(get_lengthNormals, set_lengthNormals):Float;
-    public var lengthTangents(get_lengthTangents, set_lengthTangents):Float;
+    public var colorNormals(get, set):Int;
+    public var colorVertexNormals(get, set):Int;
+    public var colorTangents(get, set):Int;
+    public var lengthVertexNormals(get, set):Float;
+    public var lengthNormals(get, set):Float;
+    public var lengthTangents(get, set):Float;
 
     private var _meshesData:Vector<MeshDebugData>;
     private var _colorNormals:Int;
@@ -82,81 +82,81 @@ class MeshDebugger {
 /*
 	 * To set a the color of the normals display. Default is 0xFF3399.
 	 */
-    public function set_colorNormals(val:Int):Int {
+    private function set_colorNormals(val:Int):Int {
         _colorNormals = val;
         invalidate();
         return val;
     }
 
-    public function get_colorNormals():Int {
+    private function get_colorNormals():Int {
         return _colorNormals;
     }
 
 /*
 	 * To set a the color of the vertexnormals display. Default is 0x66CCFF.
 	 */
-    public function set_colorVertexNormals(val:Int):Int {
+    private function set_colorVertexNormals(val:Int):Int {
         _colorVertexNormals = val;
         invalidate();
         return val;
     }
 
-    public function get_colorVertexNormals():Int {
+    private function get_colorVertexNormals():Int {
         return _colorVertexNormals;
     }
 
 /*
 	 * To set a the color of the tangent display. Default is 0xFFCC00.
 	 */
-    public function set_colorTangents(val:Int):Int {
+    private function set_colorTangents(val:Int):Int {
         _colorTangents = val;
         invalidate();
         return val;
     }
 
-    public function get_colorTangents():Int {
+    private function get_colorTangents():Int {
         return _colorTangents;
     }
 
 /*
 	 * To set a the length of the vertexnormals segments. Default is 50.
 	 */
-    public function set_lengthVertexNormals(val:Float):Float {
+    private function set_lengthVertexNormals(val:Float):Float {
         val = val < (0) ? 1 : val;
         _lengthVertexNormals = val;
         invalidate();
         return val;
     }
 
-    public function get_lengthVertexNormals():Float {
+    private function get_lengthVertexNormals():Float {
         return _lengthVertexNormals;
     }
 
 /*
 	 * To set a the length of the normals segments. Default is 50.
 	 */
-    public function set_lengthNormals(val:Float):Float {
+    private function set_lengthNormals(val:Float):Float {
         val = val < (0) ? 1 : val;
         _lengthNormals = val;
         invalidate();
         return val;
     }
 
-    public function get_lengthNormals():Float {
+    private function get_lengthNormals():Float {
         return _lengthNormals;
     }
 
 /*
 	 * To set a the length of the tangents segments. Default is 50.
 	 */
-    public function set_lengthTangents(val:Float):Float {
+    private function set_lengthTangents(val:Float):Float {
         val = val < (0) ? 1 : val;
         _lengthTangents = val;
         invalidate();
         return val;
     }
 
-    public function get_lengthTangents():Float {
+    private function get_lengthTangents():Float {
         return _lengthTangents;
     }
 

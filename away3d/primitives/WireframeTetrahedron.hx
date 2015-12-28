@@ -8,9 +8,9 @@ import openfl.geom.Vector3D;
 import away3d.primitives.WireframePrimitiveBase;
 
 class WireframeTetrahedron extends WireframePrimitiveBase {
-    public var orientation(get_orientation, set_orientation):String;
-    public var width(get_width, set_width):Float;
-    public var height(get_height, set_height):Float;
+    public var orientation(get, set):String;
+    public var width(get, set):Float;
+    public var height(get, set):Float;
 
     static public var ORIENTATION_YZ:String = "yz";
     static public var ORIENTATION_XY:String = "xy";
@@ -35,11 +35,11 @@ class WireframeTetrahedron extends WireframePrimitiveBase {
     /**
 	 * The orientation in which the plane lies
 	 */
-    public function get_orientation():String {
+    private function get_orientation():String {
         return _orientation;
     }
 
-    public function set_orientation(value:String):String {
+    private function set_orientation(value:String):String {
         _orientation = value;
         invalidateGeometry();
         return value;
@@ -48,11 +48,11 @@ class WireframeTetrahedron extends WireframePrimitiveBase {
     /**
 	 * The size of the tetrahedron bottom.
 	 */
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function set_width(value:Float):Float {
+    private function set_width(value:Float):Float {
         if (value <= 0) throw new Error("Value needs to be greater than 0");
         _width = value;
         invalidateGeometry();
@@ -62,11 +62,11 @@ class WireframeTetrahedron extends WireframePrimitiveBase {
     /**
 	 * The size of the tetrahedron height.
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         if (value <= 0) throw new Error("Value needs to be greater than 0");
         _height = value;
         invalidateGeometry();

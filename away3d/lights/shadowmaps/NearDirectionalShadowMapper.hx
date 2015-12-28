@@ -4,7 +4,7 @@ package away3d.lights.shadowmaps;
 import away3d.cameras.Camera3D;
 
 class NearDirectionalShadowMapper extends DirectionalShadowMapper {
-    public var coverageRatio(get_coverageRatio, set_coverageRatio):Float;
+    public var coverageRatio(get, set):Float;
 
     private var _coverageRatio:Float;
 
@@ -16,11 +16,11 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper {
     /**
 	 * A value between 0 and 1 to indicate the ratio of the view frustum that needs to be covered by the shadow map.
 	 */
-    public function get_coverageRatio():Float {
+    private function get_coverageRatio():Float {
         return _coverageRatio;
     }
 
-    public function set_coverageRatio(value:Float):Float {
+    private function set_coverageRatio(value:Float):Float {
         if (value > 1) value = 1
         else if (value < 0) value = 0;
         _coverageRatio = value;

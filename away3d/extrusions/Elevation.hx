@@ -11,13 +11,13 @@ import openfl.display.BitmapData;
 import openfl.Vector;
 
 class Elevation extends Mesh {
-    public var minElevation(get_minElevation, set_minElevation):Int;
-    public var maxElevation(get_maxElevation, set_maxElevation):Int;
-    public var segmentsH(get_segmentsH, set_segmentsH):Int;
-    public var width(get_width, set_width):Float;
-    public var height(get_height, set_height):Float;
-    public var depth(get_depth, set_depth):Float;
-    public var smoothedHeightMap(get_smoothedHeightMap, never):BitmapData;
+    public var minElevation(get, set):Int;
+    public var maxElevation(get, set):Int;
+    public var segmentsH(get, set):Int;
+    public var width(get, set):Float;
+    public var height(get, set):Float;
+    public var depth(get, set):Float;
+    public var smoothedHeightMap(get, never):BitmapData;
 
     private var _segmentsW:Int;
     private var _segmentsH:Int;
@@ -68,14 +68,14 @@ class Elevation extends Mesh {
     /**
 	 * Locks elevation factor beneath this color reading level. Default is 0;
 	 */
-    public function set_minElevation(val:Int):Int {
+    private function set_minElevation(val:Int):Int {
         if (_minElevation == val) return val;
         _minElevation = val;
         invalidateGeometry();
         return val;
     }
 
-    public function get_minElevation():Int {
+    private function get_minElevation():Int {
         return _minElevation;
     }
 
@@ -83,14 +83,14 @@ class Elevation extends Mesh {
 	 * Locks elevation factor above this color reading level. Default is 255;
 	 * Allows to build "canyon" like landscapes with no additional work on heightmap source.
 	 */
-    public function set_maxElevation(val:Int):Int {
+    private function set_maxElevation(val:Int):Int {
         if (_maxElevation == val) return val;
         _maxElevation = val;
         invalidateGeometry();
         return val;
     }
 
-    public function get_maxElevation():Int {
+    private function get_maxElevation():Int {
         return _maxElevation;
     }
 
@@ -98,11 +98,11 @@ class Elevation extends Mesh {
 	 * The number of segments that make up the plane along the Y or Z-axis, depending on whether yUp is true or
 	 * false, respectively. Defaults to 1.
 	 */
-    public function get_segmentsH():Int {
+    private function get_segmentsH():Int {
         return _segmentsH;
     }
 
-    public function set_segmentsH(value:Int):Int {
+    private function set_segmentsH(value:Int):Int {
         _segmentsH = value;
         invalidateGeometry();
         invalidateUVs();
@@ -112,21 +112,21 @@ class Elevation extends Mesh {
     /**
 	 * The width of the terrain plane.
 	 */
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function set_width(value:Float):Float {
+    private function set_width(value:Float):Float {
         _width = value;
         invalidateGeometry();
         return value;
     }
 
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         _height = value;
         return value;
     }
@@ -134,11 +134,11 @@ class Elevation extends Mesh {
     /**
 	 * The depth of the terrain plane.
 	 */
-    public function get_depth():Float {
+    private function get_depth():Float {
         return _depth;
     }
 
-    public function set_depth(value:Float):Float {
+    private function set_depth(value:Float):Float {
         _depth = value;
         invalidateGeometry();
         return value;
@@ -239,7 +239,7 @@ class Elevation extends Mesh {
 /*
 	 * Returns the smoothed heightmap
 	 */
-    public function get_smoothedHeightMap():BitmapData {
+    private function get_smoothedHeightMap():BitmapData {
         return _smoothedHeightMap;
     }
 

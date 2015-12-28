@@ -14,11 +14,11 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.PlanarReflectionTexture;
 
 class FresnelPlanarReflectionMethod extends EffectMethodBase {
-    public var alpha(get_alpha, set_alpha):Float;
-    public var fresnelPower(get_fresnelPower, set_fresnelPower):Float;
-    public var normalReflectance(get_normalReflectance, set_normalReflectance):Float;
-    public var texture(get_texture, set_texture):PlanarReflectionTexture;
-    public var normalDisplacement(get_normalDisplacement, set_normalDisplacement):Float;
+    public var alpha(get, set):Float;
+    public var fresnelPower(get, set):Float;
+    public var normalReflectance(get, set):Float;
+    public var texture(get, set):PlanarReflectionTexture;
+    public var normalDisplacement(get, set):Float;
 
     private var _texture:PlanarReflectionTexture;
     private var _alpha:Float;
@@ -45,11 +45,11 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The reflectivity of the surface.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _alpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         _alpha = value;
         return value;
     }
@@ -57,11 +57,11 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
 	 */
-    public function get_fresnelPower():Float {
+    private function get_fresnelPower():Float {
         return _fresnelPower;
     }
 
-    public function set_fresnelPower(value:Float):Float {
+    private function set_fresnelPower(value:Float):Float {
         _fresnelPower = value;
         return value;
     }
@@ -69,11 +69,11 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
-    public function get_normalReflectance():Float {
+    private function get_normalReflectance():Float {
         return _normalReflectance;
     }
 
-    public function set_normalReflectance(value:Float):Float {
+    private function set_normalReflectance(value:Float):Float {
         _normalReflectance = value;
         return value;
     }
@@ -92,11 +92,11 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase {
 	 *
 	 * @see away3d.textures.PlanarReflectionTexture
 	 */
-    public function get_texture():PlanarReflectionTexture {
+    private function get_texture():PlanarReflectionTexture {
         return _texture;
     }
 
-    public function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture {
+    private function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture {
         _texture = value;
         return value;
     }
@@ -104,11 +104,11 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase {
     /**
 	 * The amount of displacement caused by per-pixel normals.
 	 */
-    public function get_normalDisplacement():Float {
+    private function get_normalDisplacement():Float {
         return _normalDisplacement;
     }
 
-    public function set_normalDisplacement(value:Float):Float {
+    private function set_normalDisplacement(value:Float):Float {
         if (_normalDisplacement == value) return value;
         if (_normalDisplacement == 0 || value == 0) invalidateShaderProgram();
         _normalDisplacement = value;

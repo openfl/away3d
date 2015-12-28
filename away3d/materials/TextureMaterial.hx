@@ -37,11 +37,11 @@ class TextureMaterial extends SinglePassMaterialBase {
 	 *
 	 * @see IRenderable.uvTransform
 	 */
-    public function get_animateUVs():Bool {
+    private function get_animateUVs():Bool {
         return _screenPass.animateUVs;
     }
 
-    public function set_animateUVs(value:Bool):Bool {
+    private function set_animateUVs(value:Bool):Bool {
         _screenPass.animateUVs = value;
         return value;
     }
@@ -51,11 +51,11 @@ class TextureMaterial extends SinglePassMaterialBase {
 	 *
 	 * @see IRenderable.uvTransform
 	 */
-    public function get_animateUVs2():Bool {
+    private function get_animateUVs2():Bool {
         return _screenPass.animateUVs2;
     }
 
-    public function set_animateUVs2(value:Bool):Bool {
+    private function set_animateUVs2(value:Bool):Bool {
         _screenPass.animateUVs2 = value;
         return value;
     }
@@ -63,11 +63,11 @@ class TextureMaterial extends SinglePassMaterialBase {
     /**
 	 * The alpha of the surface.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return (_screenPass.colorTransform != null) ? _screenPass.colorTransform.alphaMultiplier : 1;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         if (value > 1) value = 1
         else if (value < 0) value = 0;
         if (colorTransform == null)
@@ -81,11 +81,11 @@ class TextureMaterial extends SinglePassMaterialBase {
     /**
 	 * The texture object to use for the albedo colour.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _screenPass.diffuseMethod.texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         _screenPass.diffuseMethod.texture = value;
         return value;
     }
@@ -93,11 +93,11 @@ class TextureMaterial extends SinglePassMaterialBase {
     /**
 	 * The texture object to use for the ambient colour.
 	 */
-    public function get_ambientTexture():Texture2DBase {
+    private function get_ambientTexture():Texture2DBase {
         return _screenPass.ambientMethod.texture;
     }
 
-    public function set_ambientTexture(value:Texture2DBase):Texture2DBase {
+    private function set_ambientTexture(value:Texture2DBase):Texture2DBase {
         _screenPass.ambientMethod.texture = value;
         _screenPass.diffuseMethod.useAmbientTexture = cast((value != null), Bool);
         return value;

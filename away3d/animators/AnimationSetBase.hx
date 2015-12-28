@@ -56,7 +56,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
-    public function get_usesCPU():Bool {
+    private function get_usesCPU():Bool {
         return _usesCPU;
     }
 
@@ -84,14 +84,14 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
     /**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
-    public function get_animations():Vector<AnimationNodeBase> {
+    private function get_animations():Vector<AnimationNodeBase> {
         return _animations;
     }
 
     /**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
-    public function get_animationNames():Vector<String> {
+    private function get_animationNames():Vector<String> {
         return _animationNames;
     }
 

@@ -15,11 +15,11 @@ import openfl.display3D.Context3DMipFilter;
 import openfl.Vector;
 
 class BasicSpecularMethod extends LightingMethodBase {
-    public var gloss(get_gloss, set_gloss):Float;
-    public var specular(get_specular, set_specular):Float;
-    public var specularColor(get_specularColor, set_specularColor):Int;
-    public var texture(get_texture, set_texture):Texture2DBase;
-    public var shadowRegister(never, set_shadowRegister):ShaderRegisterElement;
+    public var gloss(get, set):Float;
+    public var specular(get, set):Float;
+    public var specularColor(get, set):Int;
+    public var texture(get, set):Texture2DBase;
+    public var shadowRegister(never, set):ShaderRegisterElement;
 
     private var _useTexture:Bool;
     private var _totalLightColorReg:ShaderRegisterElement;
@@ -60,11 +60,11 @@ class BasicSpecularMethod extends LightingMethodBase {
     /**
 	 * The sharpness of the specular highlight.
 	 */
-    public function get_gloss():Float {
+    private function get_gloss():Float {
         return _gloss;
     }
 
-    public function set_gloss(value:Float):Float {
+    private function set_gloss(value:Float):Float {
         _gloss = value;
         return value;
     }
@@ -72,11 +72,11 @@ class BasicSpecularMethod extends LightingMethodBase {
     /**
 	 * The overall strength of the specular highlights.
 	 */
-    public function get_specular():Float {
+    private function get_specular():Float {
         return _specular;
     }
 
-    public function set_specular(value:Float):Float {
+    private function set_specular(value:Float):Float {
         if (value == _specular) return value;
         _specular = value;
         updateSpecular();
@@ -86,11 +86,11 @@ class BasicSpecularMethod extends LightingMethodBase {
     /**
 	 * The colour of the specular reflection of the surface.
 	 */
-    public function get_specularColor():UInt {
+    private function get_specularColor():UInt {
         return _specularColor;
     }
 
-    public function set_specularColor(value:UInt):UInt {
+    private function set_specularColor(value:UInt):UInt {
         if (_specularColor == value) return value;
         if (_specularColor == 0 || value == 0) invalidateShaderProgram();
         _specularColor = value;
@@ -103,11 +103,11 @@ class BasicSpecularMethod extends LightingMethodBase {
 	 * in the green channel. You can use SpecularBitmapTexture if you want to easily set specular and gloss maps
 	 * from grayscale images, but prepared images are preferred.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
             invalidateShaderProgram();
         }

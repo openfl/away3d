@@ -111,12 +111,12 @@ class View3D extends Sprite
     
     public var depthPrepass(get, set) : Bool;
     
-    public function get_depthPrepass() : Bool
+    private function get_depthPrepass() : Bool
     {
         return _depthPrepass;
     }
     
-    public function set_depthPrepass(value:Bool) : Bool
+    private function set_depthPrepass(value:Bool) : Bool
     {
         _depthPrepass = value;
         return value;
@@ -223,12 +223,12 @@ class View3D extends Sprite
     
     // public var rightClickMenuEnabled(get, set) : Bool;
     
-    // public function get_rightClickMenuEnabled() : Bool
+    // private function get_rightClickMenuEnabled() : Bool
     // {
     //  return _rightClickMenuEnabled;
     // }
     
-    // public function set_rightClickMenuEnabled(val:Bool) : Bool
+    // private function set_rightClickMenuEnabled(val:Bool) : Bool
     // {
     //  _rightClickMenuEnabled = val;
         
@@ -238,12 +238,12 @@ class View3D extends Sprite
     
     public var stage3DProxy(get, set) : Stage3DProxy;
     
-    public function get_stage3DProxy() : Stage3DProxy
+    private function get_stage3DProxy() : Stage3DProxy
     {
         return _stage3DProxy;
     }
     
-    public function set_stage3DProxy(stage3DProxy:Stage3DProxy) : Stage3DProxy
+    private function set_stage3DProxy(stage3DProxy:Stage3DProxy) : Stage3DProxy
     {
         if (_stage3DProxy!=null)
             _stage3DProxy.removeEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
@@ -264,12 +264,12 @@ class View3D extends Sprite
      * etc to be triggered due to changes in the scene graph. Defaults to false.
      */
     public var forceMouseMove(get, set) : Bool;
-    public function get_forceMouseMove() : Bool
+    private function get_forceMouseMove() : Bool
     {
         return _mouse3DManager.forceMouseMove;
     }
     
-    public function set_forceMouseMove(value:Bool) : Bool
+    private function set_forceMouseMove(value:Bool) : Bool
     {
         _mouse3DManager.forceMouseMove = value;
         //_touch3DManager.forceTouchMove = value;
@@ -278,12 +278,12 @@ class View3D extends Sprite
     
     public var background(get, set) : Texture2DBase;
     
-    public function get_background() : Texture2DBase
+    private function get_background() : Texture2DBase
     {
         return _background;
     }
     
-    public function set_background(value:Texture2DBase) : Texture2DBase
+    private function set_background(value:Texture2DBase) : Texture2DBase
     {
         _background = value;
         _renderer.background = _background;
@@ -297,12 +297,12 @@ class View3D extends Sprite
      * layer. Defaults to false.
      */
     public var layeredView(get, set) : Bool;
-    public function get_layeredView() : Bool
+    private function get_layeredView() : Bool
     {
         return _layeredView;
     }
     
-    public function set_layeredView(value:Bool) : Bool
+    private function set_layeredView(value:Bool) : Bool
     {
         _layeredView = value;
         return _layeredView;
@@ -318,13 +318,13 @@ class View3D extends Sprite
         addChild(_hitField);
     }
     
-    public var filters3d(get, set) : Vector<Dynamic>;
-    public function get_filters3d() : Vector<Dynamic>
+    public var filters3d(get, set) : Vector<Filter3DBase>;
+    private function get_filters3d() : Vector<Filter3DBase>
     {
         return _filter3DRenderer!=null ? _filter3DRenderer.filters : null;
     }
     
-    public function set_filters3d(value:Vector<Dynamic>) : Vector<Dynamic>
+    private function set_filters3d(value:Vector<Filter3DBase>) : Vector<Filter3DBase>
     {
         if (value!=null && value.length == 0)
             value = null;
@@ -354,12 +354,12 @@ class View3D extends Sprite
      * The renderer used to draw the scene.
      */
     public var renderer(get, set) : RendererBase;
-    public function get_renderer() : RendererBase
+    private function get_renderer() : RendererBase
     {
         return _renderer;
     }
     
-    public function set_renderer(value:RendererBase) : RendererBase
+    private function set_renderer(value:RendererBase) : RendererBase
     {
         _renderer.dispose();
         _renderer = value;
@@ -381,12 +381,12 @@ class View3D extends Sprite
      * The background color of the screen. This value is only used when clearAll is set to true.
      */
     public var backgroundColor(get, set) : UInt;
-    public function get_backgroundColor() : UInt
+    private function get_backgroundColor() : UInt
     {
         return _backgroundColor;
     }
     
-    public function set_backgroundColor(value:UInt) : UInt
+    private function set_backgroundColor(value:UInt) : UInt
     {
         _backgroundColor = value;
         _renderer.backgroundR = ((value >> 16) & 0xff)/0xff;
@@ -396,12 +396,12 @@ class View3D extends Sprite
     }
     
     public var backgroundAlpha(get, set) : Float;       
-    public function get_backgroundAlpha() : Float
+    private function get_backgroundAlpha() : Float
     {
         return _backgroundAlpha;
     }
     
-    public function set_backgroundAlpha(value:Float) : Float
+    private function set_backgroundAlpha(value:Float) : Float
     {
         if (value > 1)
             value = 1;
@@ -417,7 +417,7 @@ class View3D extends Sprite
      * The camera that's used to render the scene for this viewport
      */
     public var camera(get, set) : Camera3D;
-    public function get_camera() : Camera3D
+    private function get_camera() : Camera3D
     {
         return _camera;
     }
@@ -425,7 +425,7 @@ class View3D extends Sprite
     /**
      * Set camera that's used to render the scene for this viewport
      */
-    public function set_camera(camera:Camera3D) : Camera3D
+    private function set_camera(camera:Camera3D) : Camera3D
     {
         _camera.removeEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
         
@@ -446,7 +446,7 @@ class View3D extends Sprite
      * The scene that's used to render for this viewport
      */
     public var scene(get, set) : Scene3D;
-    public function get_scene() : Scene3D
+    private function get_scene() : Scene3D
     {
         return _scene;
     }
@@ -454,7 +454,7 @@ class View3D extends Sprite
     /**
      * Set the scene that's used to render for this viewport
      */
-    public function set_scene(scene:Scene3D) : Scene3D
+    private function set_scene(scene:Scene3D) : Scene3D
     {
         _scene.removeEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
         _scene = scene;
@@ -470,7 +470,7 @@ class View3D extends Sprite
      * The amount of milliseconds the last render call took
      */
     public var deltaTime(get, null) : UInt;
-    public function get_deltaTime() : UInt
+    private function get_deltaTime() : UInt
     {
         return _deltaTime;
     }
@@ -481,7 +481,7 @@ class View3D extends Sprite
      * Not supported. Use filters3d instead.
      */
     @:getter(filters)
-    public function get_filters() : Array<BitmapFilter>
+    private function get_filters() : Array<BitmapFilter>
     {
         throw new Error("filters is not supported in View3D. Use filters3d instead.");
         return null;
@@ -491,7 +491,7 @@ class View3D extends Sprite
      * Not supported. Use filters3d instead.
      */
     @:setter(filters)
-    public function set_filters(value:Array<BitmapFilter>) : Void
+    private function set_filters(value:Array<BitmapFilter>) : Void
     {
         throw new Error("filters is not supported in View3D. Use filters3d instead.");
     }
@@ -501,13 +501,13 @@ class View3D extends Sprite
      * platform to 2048 pixels.
      */
     @:getter(width)
-    public function get_width() : Float
+    private function get_width() : Float
     {
         return _width;
     }
 
     @:setter(width)
-    public function set_width(value:Float) : Void
+    private function set_width(value:Float) : Void
     {
         // Backbuffer limitation in software mode. See comment in updateBackBuffer()
         if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -538,13 +538,13 @@ class View3D extends Sprite
      * platform to 2048 pixels.
      */
     @:getter(height)
-    public function get_height() : Float
+    private function get_height() : Float
     {
         return _height;
     }
 
     @:setter(height)
-    public function set_height(value:Float) : Void
+    private function set_height(value:Float) : Void
     {
         // Backbuffer limitation in software mode. See comment in updateBackBuffer()
         if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -572,7 +572,7 @@ class View3D extends Sprite
     }
 
     @:setter(x)
-    public function set_x(value:Float) : Void
+    private function set_x(value:Float) : Void
     {
         if (x == value)
             return;
@@ -585,7 +585,7 @@ class View3D extends Sprite
     }
 
     @:setter(x)
-    public function set_y(value:Float) : Void
+    private function set_y(value:Float) : Void
     {
         if (y == value)
             return;
@@ -598,7 +598,7 @@ class View3D extends Sprite
     }
 
     @:setter(visible)
-    public function set_visible(value:Bool) : Void
+    private function set_visible(value:Bool) : Void
     {
         super.visible = value;
         
@@ -613,12 +613,12 @@ class View3D extends Sprite
      * The width of the viewport. When software rendering is used, this is limited by the
      * platform to 2048 pixels.
      */
-    override public function get_width() : Float
+    override private function get_width() : Float
     {
         return _width;
     }
 
-    override public function set_width(value:Float) : Float
+    override private function set_width(value:Float) : Float
     {
         // Backbuffer limitation in software mode. See comment in updateBackBuffer()
         if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -649,12 +649,12 @@ class View3D extends Sprite
      * The height of the viewport. When software rendering is used, this is limited by the
      * platform to 2048 pixels.
      */
-    override public function get_height() : Float
+    override private function get_height() : Float
     {
         return _height;
     }
 
-    override public function set_height(value:Float) : Float
+    override private function set_height(value:Float) : Float
     {
         // Backbuffer limitation in software mode. See comment in updateBackBuffer()
         if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -681,7 +681,7 @@ class View3D extends Sprite
         return value;
     }
 
-    override public function set_x(value:Float) : Float
+    override private function set_x(value:Float) : Float
     {
         if (x == value)
             return x;
@@ -693,7 +693,7 @@ class View3D extends Sprite
         return x;
     }
 
-    override public function set_y(value:Float) : Float
+    override private function set_y(value:Float) : Float
     {
         if (y == value)
             return y;
@@ -705,7 +705,7 @@ class View3D extends Sprite
         return y;
     }
 
-    override public function set_visible(value:Bool) : Bool
+    override private function set_visible(value:Bool) : Bool
     {
         super.visible = value;
         
@@ -720,12 +720,12 @@ class View3D extends Sprite
      * The amount of anti-aliasing to be used.
      */
     public var antiAlias(get, set) : UInt;
-    public function get_antiAlias() : UInt
+    private function get_antiAlias() : UInt
     {
         return _antiAlias;
     }
     
-    public function set_antiAlias(value:UInt) : UInt
+    private function set_antiAlias(value:UInt) : UInt
     {
         _antiAlias = value;
         _renderer.antiAlias = value;
@@ -738,7 +738,7 @@ class View3D extends Sprite
      * The amount of faces that were pushed through the render pipeline on the last frame render.
      */
     public var renderedFacesCount(get, null) : UInt;
-    public function get_renderedFacesCount() : UInt
+    private function get_renderedFacesCount() : UInt
     {
         return _entityCollector.numTriangles;
     }
@@ -748,12 +748,12 @@ class View3D extends Sprite
      * to share the same Context3D object.
      */
     public var shareContext(get, set) : Bool;
-    public function get_shareContext() : Bool
+    private function get_shareContext() : Bool
     {
         return _shareContext;
     }
     
-    public function set_shareContext(value:Bool) : Bool
+    private function set_shareContext(value:Bool) : Bool
     {
         if (_shareContext == value)
             return value;
@@ -1073,12 +1073,12 @@ class View3D extends Sprite
     
     public var mousePicker(get, set) : IPicker;
     
-    public function get_mousePicker() : IPicker
+    private function get_mousePicker() : IPicker
     {
         return _mouse3DManager.mousePicker;
     }
     
-    public function set_mousePicker(value:IPicker) : IPicker
+    private function set_mousePicker(value:IPicker) : IPicker
     {
         _mouse3DManager.mousePicker = value;
         return value;
@@ -1086,12 +1086,12 @@ class View3D extends Sprite
     
     public var touchPicker(get, set) : IPicker;
     
-    public function get_touchPicker() : IPicker
+    private function get_touchPicker() : IPicker
     {
         return _touch3DManager.touchPicker;
     }
     
-    public function set_touchPicker(value:IPicker) : IPicker
+    private function set_touchPicker(value:IPicker) : IPicker
     {
         _touch3DManager.touchPicker = value;
         return value;
@@ -1104,7 +1104,7 @@ class View3D extends Sprite
      * @private
      */
     public var entityCollector(get, null) : EntityCollector;
-    public function get_entityCollector() : EntityCollector
+    private function get_entityCollector() : EntityCollector
     {
         return _entityCollector;
     }

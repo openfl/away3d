@@ -14,7 +14,7 @@ import away3d.lights.LightProbe;
 import away3d.lights.PointLight;
 
 class StaticLightPicker extends LightPickerBase {
-    public var lights(get_lights, set_lights):Array<LightBase>;
+    public var lights(get, set):Array<LightBase>;
 
     private var _lights:Array<LightBase>;
 
@@ -30,11 +30,11 @@ class StaticLightPicker extends LightPickerBase {
     /**
 	 * The lights used for shading.
 	 */
-    public function get_lights():Array<LightBase> {
+    private function get_lights():Array<LightBase> {
         return _lights;
     }
 
-    public function set_lights(value:Array<LightBase>):Array<LightBase> {
+    private function set_lights(value:Array<LightBase>):Array<LightBase> {
         var numPointLights:Int = 0;
         var numDirectionalLights:Int = 0;
         var numCastingPointLights:Int = 0;

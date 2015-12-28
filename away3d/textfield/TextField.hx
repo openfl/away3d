@@ -115,11 +115,11 @@ class TextField extends Mesh {
 
 	/** Indicates whether the text is bold. @default false */
 	public var bold(get, set):Bool;
-	public function get_bold():Bool {
+	private function get_bold():Bool {
 		return mBold;
 	}
 
-	public function set_bold(value:Bool):Bool {
+	private function set_bold(value:Bool):Bool {
 		if (mBold != value) {
 			mBold = value;
 			updateText();
@@ -129,11 +129,11 @@ class TextField extends Mesh {
 
 	/** Indicates whether the text is italicized. @default false */
 	public var italic(get, set):Bool;
-	public function get_italic():Bool {
+	private function get_italic():Bool {
 		return mItalic;
 	}
 
-	public function set_italic(value:Bool):Bool {
+	private function set_italic(value:Bool):Bool {
 		if (mItalic != value) {
 			mItalic = value;
 			updateText();
@@ -143,11 +143,11 @@ class TextField extends Mesh {
 
 	/** Indicates whether the text is underlined. @default false */
 	public var underline(get, set):Bool;
-	public function get_underline():Bool {
+	private function get_underline():Bool {
 		return mUnderline;
 	}
 
-	public function set_underline(value:Bool):Bool {
+	private function set_underline(value:Bool):Bool {
 		if (mUnderline != value) {
 			mUnderline = value;
 			updateText();
@@ -157,11 +157,11 @@ class TextField extends Mesh {
 
 	/** Indicates whether kerning is enabled. @default true */
 	public var kerning(get, set):Bool;
-	public function get_kerning():Bool {
+	private function get_kerning():Bool {
 		return mKerning;
 	}
 
-	public function set_kerning(value:Bool):Bool {
+	private function set_kerning(value:Bool):Bool {
 		if (mKerning != value) {
 			mKerning = value;
 			updateText();
@@ -175,11 +175,11 @@ class TextField extends Mesh {
 	 * The default value is null, which means that 0 pixels of letter spacing is used.
 	 * You can use decimal values such as 1.75. @default 0 */
 	public var letterSpacing(get, set):Float;
-	public function get_letterSpacing():Float {
+	private function get_letterSpacing():Float {
 		return mLetterSpacing;
 	}
 
-	public function set_letterSpacing(value:Float):Float {
+	private function set_letterSpacing(value:Float):Float {
 		if (mLetterSpacing != value) {
 			mLetterSpacing = value;
 			updateText();
@@ -190,11 +190,11 @@ class TextField extends Mesh {
 	/** Indicates whether the font size is scaled down so that the complete text fits
 	 *  into the text field. @default false */
 	public var autoScale(get, set):Bool;
-	public function get_autoScale():Bool {
+	private function get_autoScale():Bool {
 		return mAutoScale;
 	}
 
-	public function set_autoScale(value:Bool):Bool {
+	private function set_autoScale(value:Bool):Bool {
 		if (mAutoScale != value) {
 			mAutoScale = value;
 			updateText();
@@ -207,11 +207,11 @@ class TextField extends Mesh {
 	 *  implications on alignment: horizontally auto-sized text will always be left-,
 	 *  vertically auto-sized text will always be top-aligned. @default "none" */
 	public var autoSize(get, set):TextFieldAutoSize;
-	public function get_autoSize():TextFieldAutoSize {
+	private function get_autoSize():TextFieldAutoSize {
 		return mAutoSize;
 	}
 
-	public function set_autoSize(value:TextFieldAutoSize):TextFieldAutoSize {
+	private function set_autoSize(value:TextFieldAutoSize):TextFieldAutoSize {
 		if (mAutoSize != value) {
 			mAutoSize = value;
 			updateText();
@@ -220,21 +220,21 @@ class TextField extends Mesh {
 	}
 	
 	public var textHeight(get, null):Float;
-	public function get_textHeight():Float 
+	private function get_textHeight():Float 
 	{
 		_textHeight = Math.abs(bounds.min.z - bounds.max.z);
 		return _textHeight;
 	}
 	
 	public var textWidth(get, null):Float;
-	public function get_textWidth():Float 
+	private function get_textWidth():Float 
 	{
 		_textWidth = Math.abs(bounds.min.x - bounds.max.x);
 		return _textWidth;
 	}
 	
 	public var boundsRect(get, null):Rectangle;
-	public function get_boundsRect():Rectangle 
+	private function get_boundsRect():Rectangle 
 	{
 		var minX:Float = bounds.min.x;
 		var maxX:Float = bounds.max.x;
@@ -250,12 +250,12 @@ class TextField extends Mesh {
 	}
 	
 	public var alpha(get, set):Float;
-	public function get_alpha():Float 
+	private function get_alpha():Float 
 	{
 		return textureMaterial.colorTransform.alphaMultiplier;
 	}
 	
-	public function set_alpha(value:Float):Float 
+	private function set_alpha(value:Float):Float 
 	{
 		return textureMaterial.colorTransform.alphaMultiplier = value;
 	}	

@@ -6,7 +6,7 @@ import away3d.filters.tasks.Filter3DDoubleBufferCopyTask;
 import away3d.filters.tasks.Filter3DXFadeCompositeTask;
 
 class MotionBlurFilter3D extends Filter3DBase {
-    public var strength(get_strength, set_strength):Float;
+    public var strength(get, set):Float;
 
     private var _compositeTask:Filter3DXFadeCompositeTask;
     private var _copyTask:Filter3DDoubleBufferCopyTask;
@@ -19,11 +19,11 @@ class MotionBlurFilter3D extends Filter3DBase {
         addTask(_copyTask);
     }
 
-    public function get_strength():Float {
+    private function get_strength():Float {
         return _compositeTask.amount;
     }
 
-    public function set_strength(value:Float):Float {
+    private function set_strength(value:Float):Float {
         _compositeTask.amount = value;
         return value;
     }

@@ -12,9 +12,9 @@ import openfl.display3D.Context3D;
 import openfl.Vector;
 
 class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
-    public var numPoses(get_numPoses, never):Int;
-    public var blendMode(get_blendMode, never):String;
-    public var useNormals(get_useNormals, never):Bool;
+    public var numPoses(get, never):Int;
+    public var blendMode(get, never):String;
+    public var useNormals(get, never):Bool;
 
     private var _numPoses:Int;
     private var _blendMode:String;
@@ -27,21 +27,21 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet {
     /**
 	 * Returns the number of poses made available at once to the GPU animation code.
 	 */
-    public function get_numPoses():Int {
+    private function get_numPoses():Int {
         return _numPoses;
     }
 
     /**
 	 * Returns the active blend mode of the vertex animator object.
 	 */
-    public function get_blendMode():String {
+    private function get_blendMode():String {
         return _blendMode;
     }
 
     /**
 	 * Returns whether or not normal data is used in last set GPU pass of the vertex shader.
 	 */
-    public function get_useNormals():Bool {
+    private function get_useNormals():Bool {
         return _uploadNormals;
     }
 

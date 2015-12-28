@@ -9,11 +9,11 @@ import openfl.events.Event;
 import openfl.geom.Rectangle;
 
 class VideoTexture extends BitmapTexture {
-    public var autoPlay(get_autoPlay, set_autoPlay):Bool;
-    public var materialWidth(get_materialWidth, set_materialWidth):Int;
-    public var materialHeight(get_materialHeight, set_materialHeight):Int;
-    public var autoUpdate(get_autoUpdate, set_autoUpdate):Bool;
-    public var player(get_player, never):IVideoPlayer;
+    public var autoPlay(get, set):Bool;
+    public var materialWidth(get, set):Int;
+    public var materialHeight(get, set):Int;
+    public var autoUpdate(get, set):Bool;
+    public var player(get, never):IVideoPlayer;
 
     private var _broadcaster:Sprite;
     private var _autoPlay:Bool;
@@ -78,31 +78,31 @@ class VideoTexture extends BitmapTexture {
 	 * Indicates whether the video will start playing on initialisation.
 	 * If false, only the first frame is displayed.
 	 */
-    public function set_autoPlay(b:Bool):Bool {
+    private function set_autoPlay(b:Bool):Bool {
         _autoPlay = b;
         return b;
     }
 
-    public function get_autoPlay():Bool {
+    private function get_autoPlay():Bool {
         return _autoPlay;
     }
 
-    public function get_materialWidth():Int {
+    private function get_materialWidth():Int {
         return _materialWidth;
     }
 
-    public function set_materialWidth(value:Int):Int {
+    private function set_materialWidth(value:Int):Int {
         _materialWidth = validateMaterialSize(value);
         _player.width = _materialWidth;
         _clippingRect.width = _materialWidth;
         return value;
     }
 
-    public function get_materialHeight():Int {
+    private function get_materialHeight():Int {
         return _materialHeight;
     }
 
-    public function set_materialHeight(value:Int):Int {
+    private function set_materialHeight(value:Int):Int {
         _materialHeight = validateMaterialSize(value);
         _player.width = _materialHeight;
         _clippingRect.width = _materialHeight;
@@ -121,11 +121,11 @@ class VideoTexture extends BitmapTexture {
     /**
 	 * Indicates whether the material will redraw onEnterFrame
 	 */
-    public function get_autoUpdate():Bool {
+    private function get_autoUpdate():Bool {
         return _autoUpdate;
     }
 
-    public function set_autoUpdate(value:Bool):Bool {
+    private function set_autoUpdate(value:Bool):Bool {
         if (value == _autoUpdate) return value;
         _autoUpdate = value;
         if (value) _broadcaster.addEventListener(Event.ENTER_FRAME, autoUpdateHandler, false, 0, true)
@@ -133,7 +133,7 @@ class VideoTexture extends BitmapTexture {
         return value;
     }
 
-    public function get_player():IVideoPlayer {
+    private function get_player():IVideoPlayer {
         return _player;
     }
 }

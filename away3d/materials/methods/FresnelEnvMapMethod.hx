@@ -14,11 +14,11 @@ import openfl.display3D.Context3D;
 import openfl.Vector;
 
 class FresnelEnvMapMethod extends EffectMethodBase {
-    public var mask(get_mask, set_mask):Texture2DBase;
-    public var fresnelPower(get_fresnelPower, set_fresnelPower):Float;
-    public var envMap(get_envMap, set_envMap):CubeTextureBase;
-    public var alpha(get_alpha, set_alpha):Float;
-    public var normalReflectance(get_normalReflectance, set_normalReflectance):Float;
+    public var mask(get, set):Texture2DBase;
+    public var fresnelPower(get, set):Float;
+    public var envMap(get, set):CubeTextureBase;
+    public var alpha(get, set):Float;
+    public var normalReflectance(get, set):Float;
 
     private var _cubeTexture:CubeTextureBase;
     private var _fresnelPower:Float;
@@ -57,11 +57,11 @@ class FresnelEnvMapMethod extends EffectMethodBase {
     /**
 	 * An optional texture to modulate the reflectivity of the surface.
 	 */
-    public function get_mask():Texture2DBase {
+    private function get_mask():Texture2DBase {
         return _mask;
     }
 
-    public function set_mask(value:Texture2DBase):Texture2DBase {
+    private function set_mask(value:Texture2DBase):Texture2DBase {
         if (cast((value != null), Bool) != cast((_mask != null), Bool) || (value != null && _mask != null && (value.hasMipMaps != _mask.hasMipMaps || value.format != _mask.format))) {
             invalidateShaderProgram();
         }
@@ -72,11 +72,11 @@ class FresnelEnvMapMethod extends EffectMethodBase {
     /**
 	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
 	 */
-    public function get_fresnelPower():Float {
+    private function get_fresnelPower():Float {
         return _fresnelPower;
     }
 
-    public function set_fresnelPower(value:Float):Float {
+    private function set_fresnelPower(value:Float):Float {
         _fresnelPower = value;
         return value;
     }
@@ -84,11 +84,11 @@ class FresnelEnvMapMethod extends EffectMethodBase {
     /**
 	 * The cubic environment map containing the reflected scene.
 	 */
-    public function get_envMap():CubeTextureBase {
+    private function get_envMap():CubeTextureBase {
         return _cubeTexture;
     }
 
-    public function set_envMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_envMap(value:CubeTextureBase):CubeTextureBase {
         _cubeTexture = value;
         return value;
     }
@@ -102,11 +102,11 @@ class FresnelEnvMapMethod extends EffectMethodBase {
     /**
 	 * The reflectivity of the surface.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _alpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         _alpha = value;
         return value;
     }
@@ -114,11 +114,11 @@ class FresnelEnvMapMethod extends EffectMethodBase {
     /**
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
-    public function get_normalReflectance():Float {
+    private function get_normalReflectance():Float {
         return _normalReflectance;
     }
 
-    public function set_normalReflectance(value:Float):Float {
+    private function set_normalReflectance(value:Float):Float {
         _normalReflectance = value;
         return value;
     }

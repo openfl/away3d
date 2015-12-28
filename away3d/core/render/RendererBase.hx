@@ -21,22 +21,22 @@ import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
 
 class RendererBase {
-    public var viewWidth(get_viewWidth, set_viewWidth):Float;
-    public var viewHeight(get_viewHeight, set_viewHeight):Float;
-    public var renderToTexture(get_renderToTexture, never):Bool;
-    public var renderableSorter(get_renderableSorter, set_renderableSorter):IEntitySorter;
-    public var clearOnRender(get_clearOnRender, set_clearOnRender):Bool;
-    public var backgroundR(get_backgroundR, set_backgroundR):Float;
-    public var backgroundG(get_backgroundG, set_backgroundG):Float;
-    public var backgroundB(get_backgroundB, set_backgroundB):Float;
-    public var stage3DProxy(get_stage3DProxy, set_stage3DProxy):Stage3DProxy;
-    public var shareContext(get_shareContext, set_shareContext):Bool;
-    public var backgroundAlpha(get_backgroundAlpha, set_backgroundAlpha):Float;
-    public var background(get_background, set_background):Texture2DBase;
-    public var backgroundImageRenderer(get_backgroundImageRenderer, never):BackgroundImageRenderer;
-    public var antiAlias(get_antiAlias, set_antiAlias):Int;
-    public var textureRatioX(get_textureRatioX, set_textureRatioX):Float;
-    public var textureRatioY(get_textureRatioY, set_textureRatioY):Float;
+    public var viewWidth(get, set):Float;
+    public var viewHeight(get, set):Float;
+    public var renderToTexture(get, never):Bool;
+    public var renderableSorter(get, set):IEntitySorter;
+    public var clearOnRender(get, set):Bool;
+    public var backgroundR(get, set):Float;
+    public var backgroundG(get, set):Float;
+    public var backgroundB(get, set):Float;
+    public var stage3DProxy(get, set):Stage3DProxy;
+    public var shareContext(get, set):Bool;
+    public var backgroundAlpha(get, set):Float;
+    public var background(get, set):Texture2DBase;
+    public var backgroundImageRenderer(get, never):BackgroundImageRenderer;
+    public var antiAlias(get, set):Int;
+    public var textureRatioX(get, set):Float;
+    public var textureRatioY(get, set):Float;
 
     private var _context:Context3D;
     private var _stage3DProxy:Stage3DProxy;
@@ -106,11 +106,11 @@ class RendererBase {
         return _renderToTexture;
     }
 
-    public function get_renderableSorter():IEntitySorter {
+    private function get_renderableSorter():IEntitySorter {
         return _renderableSorter;
     }
 
-    public function set_renderableSorter(value:IEntitySorter):IEntitySorter {
+    private function set_renderableSorter(value:IEntitySorter):IEntitySorter {
         _renderableSorter = value;
         return value;
     }
@@ -338,15 +338,15 @@ class RendererBase {
         return value;
     }
 
-    public function get_backgroundImageRenderer():BackgroundImageRenderer {
+    private function get_backgroundImageRenderer():BackgroundImageRenderer {
         return _backgroundImageRenderer;
     }
 
-    public function get_antiAlias():Int {
+    private function get_antiAlias():Int {
         return _antiAlias;
     }
 
-    public function set_antiAlias(antiAlias:Int):Int {
+    private function set_antiAlias(antiAlias:Int):Int {
         _antiAlias = antiAlias;
         return antiAlias;
     }

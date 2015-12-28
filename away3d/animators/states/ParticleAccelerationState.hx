@@ -16,7 +16,7 @@ import away3d.animators.ParticleAnimator;
 import openfl.geom.Vector3D;
 
 class ParticleAccelerationState extends ParticleStateBase {
-    public var acceleration(get_acceleration, set_acceleration):Vector3D;
+    public var acceleration(get, set):Vector3D;
 
     private var _particleAccelerationNode:ParticleAccelerationNode;
     private var _acceleration:Vector3D;
@@ -24,11 +24,11 @@ class ParticleAccelerationState extends ParticleStateBase {
     /**
 	 * Defines the acceleration vector of the state, used when in global mode.
 	 */
-    public function get_acceleration():Vector3D {
+    private function get_acceleration():Vector3D {
         return _acceleration;
     }
 
-    public function set_acceleration(value:Vector3D):Vector3D {
+    private function set_acceleration(value:Vector3D):Vector3D {
         _acceleration.x = value.x;
         _acceleration.y = value.y;
         _acceleration.z = value.z;

@@ -33,7 +33,7 @@ class PrimitiveBase extends Geometry {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subGeometries():Vector<ISubGeometry> {
+    override private function get_subGeometries():Vector<ISubGeometry> {
         if (_geomDirty) updateGeometry();
         if (_uvDirty) updateUVs();
         return super.subGeometries;

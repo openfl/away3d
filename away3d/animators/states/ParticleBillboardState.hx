@@ -17,7 +17,7 @@ import openfl.geom.Vector3D;
 import openfl.geom.Orientation3D;
 
 class ParticleBillboardState extends ParticleStateBase {
-    public var billboardAxis(get_billboardAxis, set_billboardAxis):Vector3D;
+    public var billboardAxis(get, set):Vector3D;
 
     private var _matrix:Matrix3D;
     private var _billboardAxis:Vector3D;
@@ -73,11 +73,11 @@ class ParticleBillboardState extends ParticleStateBase {
     /**
 	 * Defines the billboard axis.
 	 */
-    public function get_billboardAxis():Vector3D {
+    private function get_billboardAxis():Vector3D {
         return _billboardAxis;
     }
 
-    public function set_billboardAxis(value:Vector3D):Vector3D {
+    private function set_billboardAxis(value:Vector3D):Vector3D {
         _billboardAxis = (value != null) ? value.clone() : null;
 
         if (_billboardAxis != null)

@@ -9,7 +9,7 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class OrthographicLens extends LensBase {
-    public var projectionHeight(get_projectionHeight, set_projectionHeight):Float;
+    public var projectionHeight(get, set):Float;
 
     private var _projectionHeight:Float;
     private var _xMax:Float;
@@ -25,11 +25,11 @@ class OrthographicLens extends LensBase {
     /**
 	 * The vertical field of view of the projection.
 	 */
-    public function get_projectionHeight():Float {
+    private function get_projectionHeight():Float {
         return _projectionHeight;
     }
 
-    public function set_projectionHeight(value:Float):Float {
+    private function set_projectionHeight(value:Float):Float {
         if (value == _projectionHeight) return value;
         _projectionHeight = value;
         invalidateMatrix();

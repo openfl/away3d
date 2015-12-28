@@ -7,8 +7,8 @@ package away3d.materials;
 import openfl.display.BlendMode;
 
 class ColorMaterial extends SinglePassMaterialBase {
-    public var alpha(get_alpha, set_alpha):Float;
-    public var color(get_color, set_color):Int;
+    public var alpha(get, set):Float;
+    public var color(get, set):Int;
 
     private var _diffuseAlpha:Float;
     /**
@@ -26,11 +26,11 @@ class ColorMaterial extends SinglePassMaterialBase {
     /**
 	 * The alpha of the surface.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _screenPass.diffuseMethod.diffuseAlpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         if (value > 1) value = 1
         else if (value < 0) value = 0;
         _screenPass.diffuseMethod.diffuseAlpha = _diffuseAlpha = value;
@@ -42,11 +42,11 @@ class ColorMaterial extends SinglePassMaterialBase {
     /**
 	 * The diffuse reflectivity color of the surface.
 	 */
-    public function get_color():Int {
+    private function get_color():Int {
         return _screenPass.diffuseMethod.diffuseColor;
     }
 
-    public function set_color(value:Int):Int {
+    private function set_color(value:Int):Int {
         _screenPass.diffuseMethod.diffuseColor = value;
         return value;
     }
@@ -54,7 +54,7 @@ class ColorMaterial extends SinglePassMaterialBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_requiresBlending():Bool {
+    override private function get_requiresBlending():Bool {
         return super.requiresBlending || _diffuseAlpha < 1;
     }
 }

@@ -8,10 +8,10 @@ import away3d.filters.tasks.Filter3DVBlurTask;
 import openfl.display3D.textures.Texture;
 
 class BloomFilter3D extends Filter3DBase {
-    public var exposure(get_exposure, set_exposure):Float;
-    public var blurX(get_blurX, set_blurX):Int;
-    public var blurY(get_blurY, set_blurY):Int;
-    public var threshold(get_threshold, set_threshold):Float;
+    public var exposure(get, set):Float;
+    public var blurX(get, set):Int;
+    public var blurY(get, set):Int;
+    public var threshold(get, set):Float;
 
     private var _brightPassTask:Filter3DBrightPassTask;
     private var _vBlurTask:Filter3DVBlurTask;
@@ -53,38 +53,38 @@ class BloomFilter3D extends Filter3DBase {
         super.setRenderTargets(mainTarget, stage3DProxy);
     }
 
-    public function get_exposure():Float {
+    private function get_exposure():Float {
         return _compositeTask.exposure;
     }
 
-    public function set_exposure(value:Float):Float {
+    private function set_exposure(value:Float):Float {
         _compositeTask.exposure = value;
         return value;
     }
 
-    public function get_blurX():Int {
+    private function get_blurX():Int {
         return _hBlurTask.amount;
     }
 
-    public function set_blurX(value:Int):Int {
+    private function set_blurX(value:Int):Int {
         _hBlurTask.amount = value;
         return value;
     }
 
-    public function get_blurY():Int {
+    private function get_blurY():Int {
         return _vBlurTask.amount;
     }
 
-    public function set_blurY(value:Int):Int {
+    private function set_blurY(value:Int):Int {
         _vBlurTask.amount = value;
         return value;
     }
 
-    public function get_threshold():Float {
+    private function get_threshold():Float {
         return _brightPassTask.threshold;
     }
 
-    public function set_threshold(value:Float):Float {
+    private function set_threshold(value:Float):Float {
         _brightPassTask.threshold = value;
         return value;
     }

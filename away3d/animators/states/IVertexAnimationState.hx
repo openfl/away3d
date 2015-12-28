@@ -7,22 +7,22 @@ package away3d.animators.states;
 
 import away3d.core.base.Geometry;
 interface IVertexAnimationState extends IAnimationState {
-    var currentGeometry(get_currentGeometry, never):Geometry;
-    var nextGeometry(get_nextGeometry, never):Geometry;
-    var blendWeight(get_blendWeight, never):Float;
+    var currentGeometry(get, never):Geometry;
+    var nextGeometry(get, never):Geometry;
+    var blendWeight(get, never):Float;
 
     /**
 	 * Returns the current geometry frame of animation in the clip based on the internal playhead position.
 	 */
-    function get_currentGeometry():Geometry;
+    private function get_currentGeometry():Geometry;
     /**
 	 * Returns the current geometry frame of animation in the clip based on the internal playhead position.
 	 */
-    function get_nextGeometry():Geometry;
+    private function get_nextGeometry():Geometry;
     /**
 	 * Returns a fractional value between 0 and 1 representing the blending ratio of the current playhead position
 	 * between the current geometry frame (0) and next geometry frame (1) of the animation.
 	 */
-    function get_blendWeight():Float;
+    private function get_blendWeight():Float;
 }
 

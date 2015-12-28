@@ -7,10 +7,10 @@ import away3d.filters.tasks.Filter3DVDepthOfFFieldTask;
 import openfl.geom.Vector3D;
 
 class VDepthOfFieldFilter3D extends Filter3DBase {
-    public var focusTarget(get_focusTarget, set_focusTarget):ObjectContainer3D;
-    public var focusDistance(get_focusDistance, set_focusDistance):Float;
-    public var range(get_range, set_range):Float;
-    public var maxBlur(get_maxBlur, set_maxBlur):Int;
+    public var focusTarget(get, set):ObjectContainer3D;
+    public var focusDistance(get, set):Float;
+    public var range(get, set):Float;
+    public var maxBlur(get, set):Int;
 
     private var _dofTask:Filter3DVDepthOfFFieldTask;
     private var _focusTarget:ObjectContainer3D;
@@ -25,38 +25,38 @@ class VDepthOfFieldFilter3D extends Filter3DBase {
         addTask(_dofTask);
     }
 
-    public function get_focusTarget():ObjectContainer3D {
+    private function get_focusTarget():ObjectContainer3D {
         return _focusTarget;
     }
 
-    public function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D {
+    private function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D {
         _focusTarget = value;
         return value;
     }
 
-    public function get_focusDistance():Float {
+    private function get_focusDistance():Float {
         return _dofTask.focusDistance;
     }
 
-    public function set_focusDistance(value:Float):Float {
+    private function set_focusDistance(value:Float):Float {
         _dofTask.focusDistance = value;
         return value;
     }
 
-    public function get_range():Float {
+    private function get_range():Float {
         return _dofTask.range;
     }
 
-    public function set_range(value:Float):Float {
+    private function set_range(value:Float):Float {
         _dofTask.range = value;
         return value;
     }
 
-    public function get_maxBlur():Int {
+    private function get_maxBlur():Int {
         return _dofTask.maxBlur;
     }
 
-    public function set_maxBlur(value:Int):Int {
+    private function set_maxBlur(value:Int):Int {
         _dofTask.maxBlur = value;
         return value;
     }

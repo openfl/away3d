@@ -40,7 +40,7 @@ import openfl.geom.Rectangle;
 import openfl.Vector;
 
 class ShaderPicker implements IPicker {
-    public var onlyMouseEnabled(get_onlyMouseEnabled, set_onlyMouseEnabled):Bool;
+    public var onlyMouseEnabled(get, set):Bool;
 
     private var _stage3DProxy:Stage3DProxy;
     private var _context:Context3D;
@@ -71,11 +71,11 @@ class ShaderPicker implements IPicker {
     /**
 	 * @inheritDoc
 	 */
-    public function get_onlyMouseEnabled():Bool {
+    private function get_onlyMouseEnabled():Bool {
         return _onlyMouseEnabled;
     }
 
-    public function set_onlyMouseEnabled(value:Bool):Bool {
+    private function set_onlyMouseEnabled(value:Bool):Bool {
         _onlyMouseEnabled = value;
         return value;
     }

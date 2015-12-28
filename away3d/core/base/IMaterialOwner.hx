@@ -7,8 +7,8 @@ import away3d.animators.IAnimator;
 import away3d.materials.MaterialBase;
 
 interface IMaterialOwner {
-    var material(get_material, set_material):MaterialBase;
-    var animator(get_animator, never):IAnimator;
+    var material(get, set):MaterialBase;
+    var animator(get, never):IAnimator;
 
     /**
 	 * The material with which to render the object.

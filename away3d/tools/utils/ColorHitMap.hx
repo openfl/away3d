@@ -5,11 +5,11 @@ import openfl.events.Event;
 import openfl.events.EventDispatcher;
 
 class ColorHitMap extends EventDispatcher {
-    public var offsetX(get_offsetX, set_offsetX):Float;
-    public var offsetY(get_offsetY, set_offsetY):Float;
-    public var scaleX(get_scaleX, set_scaleX):Float;
-    public var scaleY(get_scaleY, set_scaleY):Float;
-    public var bitmapData(get_bitmapData, set_bitmapData):BitmapData;
+    public var offsetX(get, set):Float;
+    public var offsetY(get, set):Float;
+    public var scaleX(get, set):Float;
+    public var scaleY(get, set):Float;
+    public var bitmapData(get, set):BitmapData;
 
     private var _colorMap:BitmapData;
     private var _colorObjects:Vector<ColorObject>;
@@ -126,56 +126,56 @@ class ColorHitMap extends EventDispatcher {
 	 * The offsetX, offsetY
 	 * by default offsetX and offsetY represent the center of the map.
 	 */
-    public function set_offsetX(value:Float):Float {
+    private function set_offsetX(value:Float):Float {
         _offsetX = value;
         return value;
     }
 
-    public function set_offsetY(value:Float):Float {
+    private function set_offsetY(value:Float):Float {
         _offsetY = value;
         return value;
     }
 
-    public function get_offsetX():Float {
+    private function get_offsetX():Float {
         return _offsetX;
     }
 
-    public function get_offsetY():Float {
+    private function get_offsetY():Float {
         return _offsetY;
     }
 
     /**
 	 * defines the  scaleX and scaleY. Defines the ratio map to the 3d world
 	 */
-    public function set_scaleX(value:Float):Float {
+    private function set_scaleX(value:Float):Float {
         _scaleX = value;
         return value;
     }
 
-    public function set_scaleY(value:Float):Float {
+    private function set_scaleY(value:Float):Float {
         _scaleY = value;
         return value;
     }
 
-    public function get_scaleX():Float {
+    private function get_scaleX():Float {
         return _scaleX;
     }
 
-    public function get_scaleY():Float {
+    private function get_scaleY():Float {
         return _scaleY;
     }
 
     /**
 	 * The source bitmapdata uses for colour readings
 	 */
-    public function set_bitmapData(map:BitmapData):BitmapData {
+    private function set_bitmapData(map:BitmapData):BitmapData {
         _colorMap = map;
         _offsetX = _colorMap.width * .5;
         _offsetY = _colorMap.height * .5;
         return map;
     }
 
-    public function get_bitmapData():BitmapData {
+    private function get_bitmapData():BitmapData {
         return _colorMap;
     }
 

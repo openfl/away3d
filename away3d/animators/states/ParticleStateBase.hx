@@ -16,7 +16,7 @@ import away3d.animators.ParticleAnimator;
 import openfl.Vector;
 
 class ParticleStateBase extends AnimationStateBase {
-    public var needUpdateTime(get_needUpdateTime, never):Bool;
+    public var needUpdateTime(get, never):Bool;
 
     private var _particleNode:ParticleNodeBase;
     private var _dynamicProperties:Vector<Vector3D>;
@@ -31,7 +31,7 @@ class ParticleStateBase extends AnimationStateBase {
         _needUpdateTime = needUpdateTime;
     }
 
-    public function get_needUpdateTime():Bool {
+    private function get_needUpdateTime():Bool {
         return _needUpdateTime;
     }
 

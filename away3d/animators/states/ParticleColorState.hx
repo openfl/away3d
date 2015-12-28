@@ -19,10 +19,10 @@ import away3d.animators.nodes.ParticleColorNode;
 import away3d.animators.ParticleAnimator;
 
 class ParticleColorState extends ParticleStateBase {
-    public var startColor(get_startColor, set_startColor):ColorTransform;
-    public var endColor(get_endColor, set_endColor):ColorTransform;
-    public var cycleDuration(get_cycleDuration, set_cycleDuration):Float;
-    public var cyclePhase(get_cyclePhase, set_cyclePhase):Float;
+    public var startColor(get, set):ColorTransform;
+    public var endColor(get, set):ColorTransform;
+    public var cycleDuration(get, set):Float;
+    public var cyclePhase(get, set):Float;
 
     private var _particleColorNode:ParticleColorNode;
     private var _usesMultiplier:Bool;
@@ -41,11 +41,11 @@ class ParticleColorState extends ParticleStateBase {
     /**
 	 * Defines the start color transform of the state, when in global mode.
 	 */
-    public function get_startColor():ColorTransform {
+    private function get_startColor():ColorTransform {
         return _startColor;
     }
 
-    public function set_startColor(value:ColorTransform):ColorTransform {
+    private function set_startColor(value:ColorTransform):ColorTransform {
         _startColor = value;
         updateColorData();
         return value;
@@ -54,11 +54,11 @@ class ParticleColorState extends ParticleStateBase {
     /**
 	 * Defines the end color transform of the state, when in global mode.
 	 */
-    public function get_endColor():ColorTransform {
+    private function get_endColor():ColorTransform {
         return _endColor;
     }
 
-    public function set_endColor(value:ColorTransform):ColorTransform {
+    private function set_endColor(value:ColorTransform):ColorTransform {
         _endColor = value;
         updateColorData();
         return value;
@@ -67,11 +67,11 @@ class ParticleColorState extends ParticleStateBase {
     /**
 	 * Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 */
-    public function get_cycleDuration():Float {
+    private function get_cycleDuration():Float {
         return _cycleDuration;
     }
 
-    public function set_cycleDuration(value:Float):Float {
+    private function set_cycleDuration(value:Float):Float {
         _cycleDuration = value;
         updateColorData();
         return value;
@@ -80,11 +80,11 @@ class ParticleColorState extends ParticleStateBase {
     /**
 	 * Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-    public function get_cyclePhase():Float {
+    private function get_cyclePhase():Float {
         return _cyclePhase;
     }
 
-    public function set_cyclePhase(value:Float):Float {
+    private function set_cyclePhase(value:Float):Float {
         _cyclePhase = value;
         updateColorData();
         return value;

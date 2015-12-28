@@ -144,11 +144,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @see away3d.materials.lightpickers.LightPickerBase
 	 * @see away3d.materials.lightpickers.StaticLightPicker
 	 */
-    public function get_lightPicker():LightPickerBase {
+    private function get_lightPicker():LightPickerBase {
         return _lightPicker;
     }
 
-    public function set_lightPicker(value:LightPickerBase):LightPickerBase {
+    private function set_lightPicker(value:LightPickerBase):LightPickerBase {
         if (value != _lightPicker) {
             _lightPicker = value;
             var len:Int = _passes.length;
@@ -164,11 +164,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
 	 * Indicates whether or not any used textures should use mipmapping. Defaults to true.
 	 */
-    public function get_mipmap():Bool {
+    private function get_mipmap():Bool {
         return _mipmap;
     }
 
-    public function set_mipmap(value:Bool):Bool {
+    private function set_mipmap(value:Bool):Bool {
         _mipmap = value;
         var i:Int = 0;
         while (i < _numPasses) {
@@ -181,11 +181,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
 	 * Indicates whether or not any used textures should use smoothing.
 	 */
-    public function get_smooth():Bool {
+    private function get_smooth():Bool {
         return _smooth;
     }
 
-    public function set_smooth(value:Bool):Bool {
+    private function set_smooth(value:Bool):Bool {
         _smooth = value;
         var i:Int = 0;
         while (i < _numPasses) {
@@ -200,11 +200,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @see openfl.display3D.Context3DCompareMode
 	 */
-    public function get_depthCompareMode():Context3DCompareMode {
+    private function get_depthCompareMode():Context3DCompareMode {
         return _depthCompareMode;
     }
 
-    public function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode {
+    private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode {
         _depthCompareMode = value;
         return value;
     }
@@ -213,11 +213,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * Indicates whether or not any used textures should be tiled. If set to false, texture samples are clamped to
 	 * the texture's borders when the uv coordinates are outside the [0, 1] interval.
 	 */
-    public function get_repeat():Bool {
+    private function get_repeat():Bool {
         return _repeat;
     }
 
-    public function set_repeat(value:Bool):Bool {
+    private function set_repeat(value:Bool):Bool {
         _repeat = value;
         var i:Int = 0;
         while (i < _numPasses) {
@@ -230,11 +230,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
      * Indicates the number of Anisotropic filtering samples to take for mipmapping
      */
-    public function get_anisotropy():Anisotropy {
+    private function get_anisotropy():Anisotropy {
         return _anisotropy;
     }
 
-    public function set_anisotropy(value:Anisotropy):Anisotropy {
+    private function set_anisotropy(value:Anisotropy):Anisotropy {
         _anisotropy = value;
         var i:Int = 0;
         while (i < _numPasses) {
@@ -264,11 +264,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
 	 * Defines whether or not the material should cull triangles facing away from the camera.
 	 */
-    public function get_bothSides():Bool {
+    private function get_bothSides():Bool {
         return _bothSides;
     }
 
-    public function set_bothSides(value:Bool):Bool {
+    private function set_bothSides(value:Bool):Bool {
         _bothSides = value;
         var i:Int = 0;
         while (i < _numPasses) {
@@ -290,11 +290,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * <li>BlendMode.ALPHA</li>
 	 * </ul>
 	 */
-    public function get_blendMode():BlendMode {
+    private function get_blendMode():BlendMode {
         return _blendMode;
     }
 
-    public function set_blendMode(value:BlendMode):BlendMode {
+    private function set_blendMode(value:BlendMode):BlendMode {
         _blendMode = value;
         return value;
     }
@@ -304,11 +304,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * already been premultiplied. Toggle this if you are seeing black halos around your
 	 * blended alpha edges.
 	 */
-    public function get_alphaPremultiplied():Bool {
+    private function get_alphaPremultiplied():Bool {
         return _alphaPremultiplied;
     }
 
-    public function set_alphaPremultiplied(value:Bool):Bool {
+    private function set_alphaPremultiplied(value:Bool):Bool {
         _alphaPremultiplied = value;
         var i:Int = 0;
         while (i < _numPasses) {
@@ -321,7 +321,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
     /**
 	 * Indicates whether or not the material requires alpha blending during rendering.
 	 */
-    public function get_requiresBlending():Bool {
+    private function get_requiresBlending():Bool {
         return _blendMode != BlendMode.NORMAL;
     }
 
@@ -329,7 +329,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * An id for this material used to sort the renderables by material, which reduces render state changes across
 	 * materials using the same Program3D.
 	 */
-    public function get_uniqueId():Int {
+    private function get_uniqueId():Int {
         return _uniqueId;
     }
 

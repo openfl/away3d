@@ -18,10 +18,10 @@ import away3d.textures.Texture2DBase;
 import openfl.geom.Matrix3D;
 
 class TextureProjector extends ObjectContainer3D {
-    public var aspectRatio(get_aspectRatio, set_aspectRatio):Float;
-    public var fieldOfView(get_fieldOfView, set_fieldOfView):Float;
-    public var texture(get_texture, set_texture):Texture2DBase;
-    public var viewProjection(get_viewProjection, never):Matrix3D;
+    public var aspectRatio(get, set):Float;
+    public var fieldOfView(get, set):Float;
+    public var texture(get, set):Texture2DBase;
+    public var viewProjection(get, never):Matrix3D;
 
     private var _lens:PerspectiveLens;
     private var _viewProjectionInvalid:Bool;
@@ -48,11 +48,11 @@ class TextureProjector extends ObjectContainer3D {
     /**
 	 * The aspect ratio of the texture or projection. By default this is the same aspect ratio of the texture (width/height)
 	 */
-    public function get_aspectRatio():Float {
+    private function get_aspectRatio():Float {
         return _lens.aspectRatio;
     }
 
-    public function set_aspectRatio(value:Float):Float {
+    private function set_aspectRatio(value:Float):Float {
         _lens.aspectRatio = value;
         return value;
     }
@@ -60,11 +60,11 @@ class TextureProjector extends ObjectContainer3D {
     /**
 	 * The vertical field of view of the projection, or the angle of the cone.
 	 */
-    public function get_fieldOfView():Float {
+    private function get_fieldOfView():Float {
         return _lens.fieldOfView;
     }
 
-    public function set_fieldOfView(value:Float):Float {
+    private function set_fieldOfView(value:Float):Float {
         _lens.fieldOfView = value;
         return value;
     }
@@ -81,11 +81,11 @@ class TextureProjector extends ObjectContainer3D {
 	 * Black for ADD,
 	 * Transparent for MIX
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         if (value == _texture) return value;
         _texture = value;
         return value;
@@ -94,7 +94,7 @@ class TextureProjector extends ObjectContainer3D {
     /**
 	 * The matrix that projects a point in scene space into the texture coordinates.
 	 */
-    public function get_viewProjection():Matrix3D {
+    private function get_viewProjection():Matrix3D {
         if (_viewProjectionInvalid) {
             _viewProjection.copyFrom(inverseSceneTransform);
             _viewProjection.append(_lens.matrix);

@@ -193,23 +193,23 @@ class AwayStats extends Sprite {
         init();
     }
 
-    public function get_max_ram():Float {
+    private function get_max_ram():Float {
         return _max_ram;
     }
 
-    public function get_ram():Float {
+    private function get_ram():Float {
         return _ram;
     }
 
-    public function get_avg_fps():Float {
+    private function get_avg_fps():Float {
         return _avg_fps;
     }
 
-    public function get_max_fps():Float {
+    private function get_max_fps():Float {
         return _max_fps;
     }
 
-    public function get_fps():Float {
+    private function get_fps():Float {
         return _fps;
     }
 
@@ -230,7 +230,7 @@ class AwayStats extends Sprite {
      * properties and register views from anywhere in your code.
      */
 
-    static public function get_instance():AwayStats {
+    static private function get_instance():AwayStats {
         return (_INSTANCE != null) ? _INSTANCE : _INSTANCE = new AwayStats();
     }
 

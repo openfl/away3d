@@ -11,11 +11,11 @@ import openfl.geom.Vector3D;
 import openfl.media.SoundTransform;
 
 class SoundTransform3D {
-    public var soundTransform(get_soundTransform, set_soundTransform):SoundTransform;
-    public var scale(get_scale, set_scale):Float;
-    public var volume(get_volume, set_volume):Float;
-    public var emitter(get_emitter, set_emitter):ObjectContainer3D;
-    public var listener(get_listener, set_listener):ObjectContainer3D;
+    public var soundTransform(get, set):SoundTransform;
+    public var scale(get, set):Float;
+    public var volume(get, set):Float;
+    public var emitter(get, set):ObjectContainer3D;
+    public var listener(get, set):ObjectContainer3D;
 
     private var _scale:Float;
     private var _volume:Float;
@@ -87,51 +87,51 @@ class SoundTransform3D {
         _soundTransform.volume *= _volume;
     }
 
-    public function get_soundTransform():SoundTransform {
+    private function get_soundTransform():SoundTransform {
         return _soundTransform;
     }
 
-    public function set_soundTransform(value:SoundTransform):SoundTransform {
+    private function set_soundTransform(value:SoundTransform):SoundTransform {
         _soundTransform = value;
         update();
         return value;
     }
 
-    public function get_scale():Float {
+    private function get_scale():Float {
         return _scale;
     }
 
-    public function set_scale(value:Float):Float {
+    private function set_scale(value:Float):Float {
         _scale = value;
         update();
         return value;
     }
 
-    public function get_volume():Float {
+    private function get_volume():Float {
         return _volume;
     }
 
-    public function set_volume(value:Float):Float {
+    private function set_volume(value:Float):Float {
         _volume = value;
         update();
         return value;
     }
 
-    public function get_emitter():ObjectContainer3D {
+    private function get_emitter():ObjectContainer3D {
         return _emitter;
     }
 
-    public function set_emitter(value:ObjectContainer3D):ObjectContainer3D {
+    private function set_emitter(value:ObjectContainer3D):ObjectContainer3D {
         _emitter = value;
         update();
         return value;
     }
 
-    public function get_listener():ObjectContainer3D {
+    private function get_listener():ObjectContainer3D {
         return _listener;
     }
 
-    public function set_listener(value:ObjectContainer3D):ObjectContainer3D {
+    private function set_listener(value:ObjectContainer3D):ObjectContainer3D {
         _listener = value;
         update();
         return value;
