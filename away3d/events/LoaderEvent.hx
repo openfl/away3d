@@ -8,7 +8,7 @@ import openfl.events.Event;
 class LoaderEvent extends Event {
     public var url(get, never):String;
     public var message(get, never):String;
-   // public var isDependency(get_isDependency, never):Bool;
+   // public var isDependency(get, never):Bool;
 
     /**
 	 * Dispatched when loading of a asset failed.
