@@ -62,13 +62,13 @@ import openfl.utils.ByteArray;
 import openfl.Assets;
 
 class AwayStats extends Sprite {
-    public var max_ram(get_max_ram, never):Float;
-    public var ram(get_ram, never):Float;
-    public var avg_fps(get_avg_fps, never):Float;
-    public var max_fps(get_max_fps, never):Float;
-    public var fps(get_fps, never):Float;
+    public var max_ram(get, never):Float;
+    public var ram(get, never):Float;
+    public var avg_fps(get, never):Float;
+    public var max_fps(get, never):Float;
+    public var fps(get, never):Float;
     
-    static public var instance(get_instance, never):AwayStats;
+    static public var instance(get, never):AwayStats;
 
     private var _views:Array<View3D>;
     private var _timer:Timer;

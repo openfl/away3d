@@ -9,12 +9,12 @@ package away3d.controllers;
 import away3d.core.math.MathConsts;
 import away3d.entities.Entity;
 class FirstPersonController extends ControllerBase {
-    public var steps(get_steps, set_steps):Int;
-    public var panAngle(get_panAngle, set_panAngle):Float;
-    public var tiltAngle(get_tiltAngle, set_tiltAngle):Float;
-    public var minTiltAngle(get_minTiltAngle, set_minTiltAngle):Float;
-    public var maxTiltAngle(get_maxTiltAngle, set_maxTiltAngle):Float;
-    public var wrapPanAngle(get_wrapPanAngle, set_wrapPanAngle):Bool;
+    public var steps(get, set):Int;
+    public var panAngle(get, set):Float;
+    public var tiltAngle(get, set):Float;
+    public var minTiltAngle(get, set):Float;
+    public var maxTiltAngle(get, set):Float;
+    public var wrapPanAngle(get, set):Bool;
 
     private var _currentPanAngle:Float;
     private var _currentTiltAngle:Float;

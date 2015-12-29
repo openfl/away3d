@@ -5,10 +5,10 @@ import openfl.media.Sound;
 import openfl.events.EventDispatcher;
 
 class AbstractSound3DDriver extends EventDispatcher {
-    public var sourceSound(get_sourceSound, set_sourceSound):Sound;
-    public var volume(get_volume, set_volume):Float;
-    public var scale(get_scale, set_scale):Float;
-    public var mute(get_mute, set_mute):Bool;
+    public var sourceSound(get, set):Sound;
+    public var volume(get, set):Float;
+    public var scale(get, set):Float;
+    public var mute(get, set):Bool;
 
     private var _ref_v:Vector3D;
     private var _src:Sound;
