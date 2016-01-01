@@ -29,7 +29,7 @@ class AwayFont
 	 * meaning that color transforms will affect all of them.
 	 * @return
 	 */
-	static public function type(type:Class<FontSize>, cacheMaterial:Bool=false):BitmapFont 
+	static public function type(type:Class<FontSize>, cacheMaterial:Bool=false, mipmap:Bool=true):BitmapFont 
 	{
 		//try {
 			
@@ -52,13 +52,13 @@ class AwayFont
 				var bmdLocation:String = Reflect.getProperty(type, "TEXTURE");
 				var texture:BitmapData = Assets.getBitmapData(bmdLocation);
 				
-				return generate(family, size, data, texture, cacheMaterial);
+				return generate(family, size, data, texture, cacheMaterial, mipmap);
 				
 			/*}else if (cacheMaterial) {
 				return cached;
 				*/
 			}else {
-				var fontMaterial:TextureMaterial = new TextureMaterial(registeredTexture[regName], true, false, true);
+				var fontMaterial:TextureMaterial = new TextureMaterial(registeredTexture[regName], true, false, mipmap);
 				fontMaterial.smooth = true;
 				fontMaterial.alphaBlending = true;
 				fontMaterial.bothSides = true;
@@ -72,11 +72,11 @@ class AwayFont
 		//return gen(new type()); // This approach was horribly inefficient
 	}
 	
-	public static function gen(fontSize:FontSize, cacheMaterial:Bool=false):BitmapFont {
-		return generate(fontSize.family, fontSize.size, fontSize.data, fontSize.texture, cacheMaterial);
+	public static function gen(fontSize:FontSize, cacheMaterial:Bool=false, mipmap:Bool=true):BitmapFont {
+		return generate(fontSize.family, fontSize.size, fontSize.data, fontSize.texture, cacheMaterial, mipmap);
 	}
 	
-	public static function generate(family:String, size:Int, data:Xml, texture:BitmapData, cacheMaterial:Bool=false):BitmapFont {
+	public static function generate(family:String, size:Int, data:Xml, texture:BitmapData, cacheMaterial:Bool=false, mipmap:Bool):BitmapFont {
 		var regName:String = family + "_" + size;
 		var bmTexture:BitmapTexture;
 		var fontMaterial:TextureMaterial;
@@ -85,9 +85,9 @@ class AwayFont
 			var bitmapFont:BitmapFont = registeredBitmapFont[regName];
 			if (bitmapFont == null) {
 				
-				bmTexture = new BitmapTexture(texture);
+				bmTexture = new BitmapTexture(texture, mipmap);
 				
-				fontMaterial = new TextureMaterial(bmTexture, true, false, true);
+				fontMaterial = new TextureMaterial(bmTexture, true, false, mipmap);
 				fontMaterial.smooth = true;
 				fontMaterial.alphaBlending = true;
 				fontMaterial.bothSides = true;
