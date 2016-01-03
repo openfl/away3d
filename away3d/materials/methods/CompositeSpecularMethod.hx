@@ -13,7 +13,7 @@ import away3d.textures.Texture2DBase;
 import away3d.materials.passes.MaterialPassBase;
 import away3d.events.ShadingMethodEvent;
 class CompositeSpecularMethod extends BasicSpecularMethod {
-    public var baseMethod(get_baseMethod, set_baseMethod):BasicSpecularMethod;
+    public var baseMethod(get, set):BasicSpecularMethod;
 
     private var _baseMethod:BasicSpecularMethod;
     /**
@@ -46,11 +46,11 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
     /**
 	 * The base specular method on which this method's shading is based.
 	 */
-    public function get_baseMethod():BasicSpecularMethod {
+    private function get_baseMethod():BasicSpecularMethod {
         return _baseMethod;
     }
 
-    public function set_baseMethod(value:BasicSpecularMethod):BasicSpecularMethod {
+    private function set_baseMethod(value:BasicSpecularMethod):BasicSpecularMethod {
         if (_baseMethod == value) return value;
         _baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         _baseMethod = value;
@@ -62,11 +62,11 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_gloss():Float {
+    override private function get_gloss():Float {
         return _baseMethod.gloss;
     }
 
-    override public function set_gloss(value:Float):Float {
+    override private function set_gloss(value:Float):Float {
         _baseMethod.gloss = value;
         return value;
     }
@@ -74,11 +74,11 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_specular():Float {
+    override private function get_specular():Float {
         return _baseMethod.specular;
     }
 
-    override public function set_specular(value:Float):Float {
+    override private function set_specular(value:Float):Float {
         _baseMethod.specular = value;
         return value;
     }
@@ -86,7 +86,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_passes():Array<MaterialPassBase> {
+    override private function get_passes():Array<MaterialPassBase> {
         return _baseMethod.passes;
     }
 
@@ -101,11 +101,11 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_texture():Texture2DBase {
+    override private function get_texture():Texture2DBase {
         return _baseMethod.texture;
     }
 
-    override public function set_texture(value:Texture2DBase):Texture2DBase {
+    override private function set_texture(value:Texture2DBase):Texture2DBase {
         _baseMethod.texture = value;
         return value;
     }

@@ -16,7 +16,7 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class EntityNode extends NodeBase {
-    public var entity(get_entity, never):Entity;
+    public var entity(get, never):Entity;
 
     private var _entity:Entity;
     /**
@@ -37,7 +37,7 @@ class EntityNode extends NodeBase {
     /**
 	 * The entity contained in this leaf node.
 	 */
-    public function get_entity():Entity {
+    private function get_entity():Entity {
         return _entity;
     }
 

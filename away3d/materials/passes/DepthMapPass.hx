@@ -40,12 +40,12 @@ class DepthMapPass extends MaterialPassBase
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
 	public var alphaThreshold(get, set) : Float;
-	public function get_alphaThreshold() : Float
+	private function get_alphaThreshold() : Float
 	{
 		return _alphaThreshold;
 	}
 	
-	public function set_alphaThreshold(value:Float) : Float
+	private function set_alphaThreshold(value:Float) : Float
 	{
 		if (value < 0)
 			value = 0;
@@ -67,12 +67,12 @@ class DepthMapPass extends MaterialPassBase
 	 * Usually the diffuse texture when alphaThreshold is used.
 	 */
 	public var alphaMask(get, set) : Texture2DBase;
-	public function get_alphaMask() : Texture2DBase
+	private function get_alphaMask() : Texture2DBase
 	{
 		return _alphaMask;
 	}
 	
-	public function set_alphaMask(value:Texture2DBase) : Texture2DBase
+	private function set_alphaMask(value:Texture2DBase) : Texture2DBase
 	{
 		_alphaMask = value;
 		return value;

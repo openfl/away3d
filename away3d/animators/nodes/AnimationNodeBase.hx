@@ -9,12 +9,12 @@ import away3d.library.assets.NamedAssetBase;
 import away3d.library.assets.IAsset;
 
 class AnimationNodeBase extends NamedAssetBase implements IAsset {
-    public var stateClass(get_stateClass, never):Class<IAnimationState>;
-    public var assetType(get_assetType, never):String;
+    public var stateClass(get, never):Class<IAnimationState>;
+    public var assetType(get, never):String;
 
     private var _stateClass:Class<IAnimationState>;
 
-    public function get_stateClass():Class<IAnimationState> {
+    private function get_stateClass():Class<IAnimationState> {
         return _stateClass;
     }
 
@@ -34,7 +34,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.ANIMATION_NODE;
     }
 }

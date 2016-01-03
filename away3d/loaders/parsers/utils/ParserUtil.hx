@@ -20,7 +20,7 @@ package away3d.loaders.parsers.utils;
 				data = Type.createInstance(data,[]);
 			}
 			
-			if (Std.is(data, ByteArray))
+			if (Std.is(data, ByteArrayData))
 				return data;
 			else
 				return null;

@@ -11,11 +11,11 @@ import away3d.textures.Texture2DBase;
 import openfl.Vector;
 
 class SimpleWaterNormalMethod extends BasicNormalMethod {
-    public var water1OffsetX(get_water1OffsetX, set_water1OffsetX):Float;
-    public var water1OffsetY(get_water1OffsetY, set_water1OffsetY):Float;
-    public var water2OffsetX(get_water2OffsetX, set_water2OffsetX):Float;
-    public var water2OffsetY(get_water2OffsetY, set_water2OffsetY):Float;
-    public var secondaryNormalMap(get_secondaryNormalMap, set_secondaryNormalMap):Texture2DBase;
+    public var water1OffsetX(get, set):Float;
+    public var water1OffsetY(get, set):Float;
+    public var water2OffsetX(get, set):Float;
+    public var water2OffsetY(get, set):Float;
+    public var secondaryNormalMap(get, set):Texture2DBase;
 
     private var _texture2:Texture2DBase;
     private var _normalTextureRegister2:ShaderRegisterElement;
@@ -61,11 +61,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
     /**
 	 * The translation of the first wave layer along the X-axis.
 	 */
-    public function get_water1OffsetX():Float {
+    private function get_water1OffsetX():Float {
         return _water1OffsetX;
     }
 
-    public function set_water1OffsetX(value:Float):Float {
+    private function set_water1OffsetX(value:Float):Float {
         _water1OffsetX = value;
         return value;
     }
@@ -73,11 +73,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
     /**
 	 * The translation of the first wave layer along the Y-axis.
 	 */
-    public function get_water1OffsetY():Float {
+    private function get_water1OffsetY():Float {
         return _water1OffsetY;
     }
 
-    public function set_water1OffsetY(value:Float):Float {
+    private function set_water1OffsetY(value:Float):Float {
         _water1OffsetY = value;
         return value;
     }
@@ -85,11 +85,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
     /**
 	 * The translation of the second wave layer along the X-axis.
 	 */
-    public function get_water2OffsetX():Float {
+    private function get_water2OffsetX():Float {
         return _water2OffsetX;
     }
 
-    public function set_water2OffsetX(value:Float):Float {
+    private function set_water2OffsetX(value:Float):Float {
         _water2OffsetX = value;
         return value;
     }
@@ -97,11 +97,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
     /**
 	 * The translation of the second wave layer along the Y-axis.
 	 */
-    public function get_water2OffsetY():Float {
+    private function get_water2OffsetY():Float {
         return _water2OffsetY;
     }
 
-    public function set_water2OffsetY(value:Float):Float {
+    private function set_water2OffsetY(value:Float):Float {
         _water2OffsetY = value;
         return value;
     }
@@ -109,7 +109,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_normalMap(value:Texture2DBase):Texture2DBase {
+    override private function set_normalMap(value:Texture2DBase):Texture2DBase {
         if (value == null) return value;
         super.normalMap = value;
         return value;
@@ -118,11 +118,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod {
     /**
 	 * A second normal map that will be combined with the first to create a wave-like animation pattern.
 	 */
-    public function get_secondaryNormalMap():Texture2DBase {
+    private function get_secondaryNormalMap():Texture2DBase {
         return _texture2;
     }
 
-    public function set_secondaryNormalMap(value:Texture2DBase):Texture2DBase {
+    private function set_secondaryNormalMap(value:Texture2DBase):Texture2DBase {
         _texture2 = value;
         return value;
     }

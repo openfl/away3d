@@ -9,14 +9,14 @@ import away3d.core.base.CompactSubGeometry;
 import openfl.Vector;
 
 class CylinderGeometry extends PrimitiveBase {
-    public var topRadius(get_topRadius, set_topRadius):Float;
-    public var bottomRadius(get_bottomRadius, set_bottomRadius):Float;
-    public var height(get_height, set_height):Float;
-    public var segmentsW(get_segmentsW, set_segmentsW):Int;
-    public var segmentsH(get_segmentsH, set_segmentsH):Int;
-    public var topClosed(get_topClosed, set_topClosed):Bool;
-    public var bottomClosed(get_bottomClosed, set_bottomClosed):Bool;
-    public var yUp(get_yUp, set_yUp):Bool;
+    public var topRadius(get, set):Float;
+    public var bottomRadius(get, set):Float;
+    public var height(get, set):Float;
+    public var segmentsW(get, set):Int;
+    public var segmentsH(get, set):Int;
+    public var topClosed(get, set):Bool;
+    public var bottomClosed(get, set):Bool;
+    public var yUp(get, set):Bool;
 
     private var _topRadius:Float;
     private var _bottomRadius:Float;
@@ -361,11 +361,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * The radius of the top end of the cylinder.
 	 */
-    public function get_topRadius():Float {
+    private function get_topRadius():Float {
         return _topRadius;
     }
 
-    public function set_topRadius(value:Float):Float {
+    private function set_topRadius(value:Float):Float {
         _topRadius = value;
         invalidateGeometry();
         return value;
@@ -374,11 +374,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * The radius of the bottom end of the cylinder.
 	 */
-    public function get_bottomRadius():Float {
+    private function get_bottomRadius():Float {
         return _bottomRadius;
     }
 
-    public function set_bottomRadius(value:Float):Float {
+    private function set_bottomRadius(value:Float):Float {
         _bottomRadius = value;
         invalidateGeometry();
         return value;
@@ -387,11 +387,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * The radius of the top end of the cylinder.
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         _height = value;
         invalidateGeometry();
         return value;
@@ -400,11 +400,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of horizontal segments that make up the cylinder. Defaults to 16.
 	 */
-    public function get_segmentsW():Int {
+    private function get_segmentsW():Int {
         return _segmentsW;
     }
 
-    public function set_segmentsW(value:Int):Int {
+    private function set_segmentsW(value:Int):Int {
         _segmentsW = value;
         invalidateGeometry();
         invalidateUVs();
@@ -414,11 +414,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of vertical segments that make up the cylinder. Defaults to 1.
 	 */
-    public function get_segmentsH():Int {
+    private function get_segmentsH():Int {
         return _segmentsH;
     }
 
-    public function set_segmentsH(value:Int):Int {
+    private function set_segmentsH(value:Int):Int {
         _segmentsH = value;
         invalidateGeometry();
         invalidateUVs();
@@ -428,11 +428,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * Defines whether the top end of the cylinder is closed (true) or open.
 	 */
-    public function get_topClosed():Bool {
+    private function get_topClosed():Bool {
         return _topClosed;
     }
 
-    public function set_topClosed(value:Bool):Bool {
+    private function set_topClosed(value:Bool):Bool {
         _topClosed = value;
         invalidateGeometry();
         return value;
@@ -441,11 +441,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * Defines whether the bottom end of the cylinder is closed (true) or open.
 	 */
-    public function get_bottomClosed():Bool {
+    private function get_bottomClosed():Bool {
         return _bottomClosed;
     }
 
-    public function set_bottomClosed(value:Bool):Bool {
+    private function set_bottomClosed(value:Bool):Bool {
         _bottomClosed = value;
         invalidateGeometry();
         return value;
@@ -454,11 +454,11 @@ class CylinderGeometry extends PrimitiveBase {
     /**
 	 * Defines whether the cylinder poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-    public function get_yUp():Bool {
+    private function get_yUp():Bool {
         return _yUp;
     }
 
-    public function set_yUp(value:Bool):Bool {
+    private function set_yUp(value:Bool):Bool {
         _yUp = value;
         invalidateGeometry();
         return value;

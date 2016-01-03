@@ -17,10 +17,10 @@ import away3d.animators.nodes.ParticleScaleNode;
 import away3d.animators.ParticleAnimator;
 
 class ParticleScaleState extends ParticleStateBase {
-    public var minScale(get_minScale, set_minScale):Float;
-    public var maxScale(get_maxScale, set_maxScale):Float;
-    public var cycleDuration(get_cycleDuration, set_cycleDuration):Float;
-    public var cyclePhase(get_cyclePhase, set_cyclePhase):Float;
+    public var minScale(get, set):Float;
+    public var maxScale(get, set):Float;
+    public var cycleDuration(get, set):Float;
+    public var cyclePhase(get, set):Float;
 
     private var _particleScaleNode:ParticleScaleNode;
     private var _usesCycle:Bool;
@@ -33,11 +33,11 @@ class ParticleScaleState extends ParticleStateBase {
     /**
 	 * Defines the end scale of the state, when in global mode. Defaults to 1.
 	 */
-    public function get_minScale():Float {
+    private function get_minScale():Float {
         return _minScale;
     }
 
-    public function set_minScale(value:Float):Float {
+    private function set_minScale(value:Float):Float {
         _minScale = value;
         updateScaleData();
         return value;
@@ -46,11 +46,11 @@ class ParticleScaleState extends ParticleStateBase {
     /**
 	 * Defines the end scale of the state, when in global mode. Defaults to 1.
 	 */
-    public function get_maxScale():Float {
+    private function get_maxScale():Float {
         return _maxScale;
     }
 
-    public function set_maxScale(value:Float):Float {
+    private function set_maxScale(value:Float):Float {
         _maxScale = value;
         updateScaleData();
         return value;
@@ -59,11 +59,11 @@ class ParticleScaleState extends ParticleStateBase {
     /**
 	 * Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 */
-    public function get_cycleDuration():Float {
+    private function get_cycleDuration():Float {
         return _cycleDuration;
     }
 
-    public function set_cycleDuration(value:Float):Float {
+    private function set_cycleDuration(value:Float):Float {
         _cycleDuration = value;
         updateScaleData();
         return value;
@@ -72,11 +72,11 @@ class ParticleScaleState extends ParticleStateBase {
     /**
 	 * Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-    public function get_cyclePhase():Float {
+    private function get_cyclePhase():Float {
         return _cyclePhase;
     }
 
-    public function set_cyclePhase(value:Float):Float {
+    private function set_cyclePhase(value:Float):Float {
         _cyclePhase = value;
         updateScaleData();
         return value;

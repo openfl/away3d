@@ -21,8 +21,8 @@ import openfl.Vector;
 
 class NearShadowMapMethod extends SimpleShadowMapMethodBase {
 
-    public var baseMethod(get_baseMethod, set_baseMethod):SimpleShadowMapMethodBase;
-    public var fadeRatio(get_fadeRatio, set_fadeRatio):Float;
+    public var baseMethod(get, set):SimpleShadowMapMethodBase;
+    public var fadeRatio(get, set):Float;
 
     private var _baseMethod:SimpleShadowMapMethodBase;
     private var _fadeRatio:Float;
@@ -44,11 +44,11 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase {
     /**
 	 * The base shadow map method on which this method's shading is based.
 	 */
-    public function get_baseMethod():SimpleShadowMapMethodBase {
+    private function get_baseMethod():SimpleShadowMapMethodBase {
         return _baseMethod;
     }
 
-    public function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase {
+    private function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase {
         if (_baseMethod == value) return value;
         _baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         _baseMethod = value;
@@ -87,11 +87,11 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_alpha():Float {
+    override private function get_alpha():Float {
         return _baseMethod.alpha;
     }
 
-    override public function set_alpha(value:Float):Float {
+    override private function set_alpha(value:Float):Float {
         _baseMethod.alpha = value;
         return value;
     }
@@ -99,11 +99,11 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_epsilon():Float {
+    override private function get_epsilon():Float {
         return _baseMethod.epsilon;
     }
 
-    override public function set_epsilon(value:Float):Float {
+    override private function set_epsilon(value:Float):Float {
         _baseMethod.epsilon = value;
         return value;
     }
@@ -111,11 +111,11 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase {
     /**
 	 * The amount of shadow fading to the outer shadow area. A value of 1 would mean the shadows start fading from the camera's near plane.
 	 */
-    public function get_fadeRatio():Float {
+    private function get_fadeRatio():Float {
         return _fadeRatio;
     }
 
-    public function set_fadeRatio(value:Float):Float {
+    private function set_fadeRatio(value:Float):Float {
         _fadeRatio = value;
         return value;
     }

@@ -6,8 +6,8 @@ package away3d.materials.compilation;
 import away3d.utils.ArrayUtils;
 
 class LightingShaderCompiler extends ShaderCompiler {
-    public var lightVertexConstantIndex(get_lightVertexConstantIndex, never):Int;
-    public var tangentSpace(get_tangentSpace, never):Bool;
+    public var lightVertexConstantIndex(get, never):Int;
+    public var tangentSpace(get, never):Bool;
 
     public var _pointLightFragmentConstants:Array<ShaderRegisterElement>;
     public var _pointLightVertexConstants:Array<ShaderRegisterElement>;
@@ -27,7 +27,7 @@ class LightingShaderCompiler extends ShaderCompiler {
     /**
 	 * The starting index if the vertex constant to which light data needs to be uploaded.
 	 */
-    public function get_lightVertexConstantIndex():Int {
+    private function get_lightVertexConstantIndex():Int {
         return _lightVertexConstantIndex;
     }
 
@@ -66,7 +66,7 @@ class LightingShaderCompiler extends ShaderCompiler {
 	 * Indicates whether or not lighting happens in tangent space. This is only the case if no world-space
 	 * dependencies exist.
 	 */
-    public function get_tangentSpace():Bool {
+    private function get_tangentSpace():Bool {
         return _numLightProbes == 0 && methodSetup._normalMethod.hasOutput && _methodSetup._normalMethod.tangentSpace;
     }
 

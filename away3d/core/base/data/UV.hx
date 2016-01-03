@@ -4,8 +4,8 @@
 package away3d.core.base.data;
 
 class UV {
-    public var v(get_v, set_v):Float;
-    public var u(get_u, set_u):Float;
+    public var v(get, set):Float;
+    public var u(get, set):Float;
 
     private var _u:Float;
     private var _v:Float;
@@ -23,11 +23,11 @@ class UV {
     /**
 	 * Defines the vertical coordinate of the texture value.
 	 */
-    public function get_v():Float {
+    private function get_v():Float {
         return _v;
     }
 
-    public function set_v(value:Float):Float {
+    private function set_v(value:Float):Float {
         _v = value;
         return value;
     }
@@ -35,11 +35,11 @@ class UV {
     /**
 	 * Defines the horizontal coordinate of the texture value.
 	 */
-    public function get_u():Float {
+    private function get_u():Float {
         return _u;
     }
 
-    public function set_u(value:Float):Float {
+    private function set_u(value:Float):Float {
         _u = value;
         return value;
     }

@@ -25,18 +25,18 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class EntityCollector extends PartitionTraverser {
-    public var camera(get_camera, set_camera):Camera3D;
-    public var cullPlanes(get_cullPlanes, set_cullPlanes):Vector<Plane3D>;
-    public var numMouseEnableds(get_numMouseEnableds, never):Int;
-    public var skyBox(get_skyBox, never):IRenderable;
-    public var opaqueRenderableHead(get_opaqueRenderableHead, set_opaqueRenderableHead):RenderableListItem;
-    public var blendedRenderableHead(get_blendedRenderableHead, set_blendedRenderableHead):RenderableListItem;
-    public var entityHead(get_entityHead, never):EntityListItem;
-    public var lights(get_lights, never):Array<LightBase>;
-    public var directionalLights(get_directionalLights, never):Array<DirectionalLight>;
-    public var pointLights(get_pointLights, never):Array<PointLight>;
-    public var lightProbes(get_lightProbes, never):Array<LightProbe>;
-    public var numTriangles(get_numTriangles, never):Int;
+    public var camera(get, set):Camera3D;
+    public var cullPlanes(get, set):Vector<Plane3D>;
+    public var numMouseEnableds(get, never):Int;
+    public var skyBox(get, never):IRenderable;
+    public var opaqueRenderableHead(get, set):RenderableListItem;
+    public var blendedRenderableHead(get, set):RenderableListItem;
+    public var entityHead(get, never):EntityListItem;
+    public var lights(get, never):Array<LightBase>;
+    public var directionalLights(get, never):Array<DirectionalLight>;
+    public var pointLights(get, never):Array<PointLight>;
+    public var lightProbes(get, never):Array<LightProbe>;
+    public var numTriangles(get, never):Int;
 
     private var _skyBox:IRenderable;
     private var _opaqueRenderableHead:RenderableListItem;
@@ -90,11 +90,11 @@ class EntityCollector extends PartitionTraverser {
     /**
 	 * The camera that provides the visible frustum.
 	 */
-    public function get_camera():Camera3D {
+    private function get_camera():Camera3D {
         return _camera;
     }
 
-    public function set_camera(value:Camera3D):Camera3D {
+    private function set_camera(value:Camera3D):Camera3D {
         _camera = value;
         _entryPoint = _camera.scenePosition;
         _cameraForward = _camera.forwardVector;
@@ -103,11 +103,11 @@ class EntityCollector extends PartitionTraverser {
         return value;
     }
 
-    public function get_cullPlanes():Vector<Plane3D> {
+    private function get_cullPlanes():Vector<Plane3D> {
         return _customCullPlanes;
     }
 
-    public function set_cullPlanes(value:Vector<Plane3D>):Vector<Plane3D> {
+    private function set_cullPlanes(value:Vector<Plane3D>):Vector<Plane3D> {
         _customCullPlanes = value;
         return value;
     }
@@ -115,14 +115,14 @@ class EntityCollector extends PartitionTraverser {
     /**
 	 * The amount of IRenderable objects that are mouse-enabled.
 	 */
-    public function get_numMouseEnableds():Int {
+    private function get_numMouseEnableds():Int {
         return _numMouseEnableds;
     }
 
     /**
 	 * The sky box object if encountered.
 	 */
-    public function get_skyBox():IRenderable {
+    private function get_skyBox():IRenderable {
         return _skyBox;
     }
 
@@ -130,11 +130,11 @@ class EntityCollector extends PartitionTraverser {
 	 * The list of opaque IRenderable objects that are considered potentially visible.
 	 * @param value
 	 */
-    public function get_opaqueRenderableHead():RenderableListItem {
+    private function get_opaqueRenderableHead():RenderableListItem {
         return _opaqueRenderableHead;
     }
 
-    public function set_opaqueRenderableHead(value:RenderableListItem):RenderableListItem {
+    private function set_opaqueRenderableHead(value:RenderableListItem):RenderableListItem {
         _opaqueRenderableHead = value;
         return value;
     }
@@ -143,35 +143,35 @@ class EntityCollector extends PartitionTraverser {
 	 * The list of IRenderable objects that require blending and are considered potentially visible.
 	 * @param value
 	 */
-    public function get_blendedRenderableHead():RenderableListItem {
+    private function get_blendedRenderableHead():RenderableListItem {
         return _blendedRenderableHead;
     }
 
-    public function set_blendedRenderableHead(value:RenderableListItem):RenderableListItem {
+    private function set_blendedRenderableHead(value:RenderableListItem):RenderableListItem {
         _blendedRenderableHead = value;
         return value;
     }
 
-    public function get_entityHead():EntityListItem {
+    private function get_entityHead():EntityListItem {
         return _entityHead;
     }
 
     /**
 	 * The lights of which the affecting area intersects the camera's frustum.
 	 */
-    public function get_lights():Array<LightBase> {
+    private function get_lights():Array<LightBase> {
         return _lights;
     }
 
-    public function get_directionalLights():Array<DirectionalLight> {
+    private function get_directionalLights():Array<DirectionalLight> {
         return _directionalLights;
     }
 
-    public function get_pointLights():Array<PointLight> {
+    private function get_pointLights():Array<PointLight> {
         return _pointLights;
     }
 
-    public function get_lightProbes():Array<LightProbe> {
+    private function get_lightProbes():Array<LightProbe> {
         return _lightProbes;
     }
 
@@ -305,7 +305,7 @@ class EntityCollector extends PartitionTraverser {
     /**
 	 * The total number of triangles collected, and which will be pushed to the render engine.
 	 */
-    public function get_numTriangles():Int {
+    private function get_numTriangles():Int {
         return _numTriangles;
     }
 

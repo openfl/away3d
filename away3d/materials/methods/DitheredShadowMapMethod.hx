@@ -14,8 +14,8 @@ import openfl.utils.ByteArray;
 import openfl.Vector;
 
 class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
-    public var numSamples(get_numSamples, set_numSamples):Int;
-    public var range(get_range, set_range):Float;
+    public var numSamples(get, set):Int;
+    public var range(get, set):Float;
 
     static private var _grainTexture:BitmapTexture;
     static private var _grainUsages:Int;
@@ -41,11 +41,11 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
 	 * The amount of samples to take for dithering. Minimum 1, maximum 24. The actual maximum may depend on the
 	 * complexity of the shader.
 	 */
-    public function get_numSamples():Int {
+    private function get_numSamples():Int {
         return _numSamples;
     }
 
-    public function set_numSamples(value:Int):Int {
+    private function set_numSamples(value:Int):Int {
         _numSamples = value;
         if (_numSamples < 1) _numSamples = 1
         else if (_numSamples > 24) _numSamples = 24;
@@ -74,11 +74,11 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
     /**
 	 * The range in the shadow map in which to distribute the samples.
 	 */
-    public function get_range():Float {
+    private function get_range():Float {
         return _range * 2;
     }
 
-    public function set_range(value:Float):Float {
+    private function set_range(value:Float):Float {
         _range = value / 2;
         return value;
     }

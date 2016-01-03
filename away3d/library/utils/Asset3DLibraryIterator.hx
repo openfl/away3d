@@ -3,8 +3,8 @@ package away3d.library.utils;
 import away3d.library.assets.IAsset;
 
 class Asset3DLibraryIterator {
-    public var currentAsset(get_currentAsset, never):IAsset;
-    public var numAssets(get_numAssets, never):Int;
+    public var currentAsset(get, never):IAsset;
+    public var numAssets(get, never):Int;
 
     private var _assets:Array<IAsset>;
     private var _filtered:Array<IAsset>;
@@ -15,12 +15,12 @@ class Asset3DLibraryIterator {
         filter(assetTypeFilter, namespaceFilter, filterFunc);
     }
 
-    public function get_currentAsset():IAsset {
+    private function get_currentAsset():IAsset {
         // Return current, or null if no current
         return ((_idx < _filtered.length)) ? _filtered[_idx] : null;
     }
 
-    public function get_numAssets():Int {
+    private function get_numAssets():Int {
         return _filtered.length;
     }
 

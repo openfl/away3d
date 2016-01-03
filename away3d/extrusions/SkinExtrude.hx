@@ -13,12 +13,12 @@ import away3d.tools.helpers.MeshHelper;
 import openfl.geom.Vector3D;
 
 class SkinExtrude extends Mesh {
-    public var profiles(get_profiles, set_profiles):Vector<Vector<Vector3D>>;
-    public var coverAll(get_coverAll, set_coverAll):Bool;
-    public var closeShape(get_closeShape, set_closeShape):Bool;
-    public var flip(get_flip, set_flip):Bool;
-    public var centerMesh(get_centerMesh, set_centerMesh):Bool;
-    public var subdivision(get_subdivision, set_subdivision):Float;
+    public var profiles(get, set):Vector<Vector<Vector3D>>;
+    public var coverAll(get, set):Bool;
+    public var closeShape(get, set):Bool;
+    public var flip(get, set):Bool;
+    public var centerMesh(get, set):Bool;
+    public var subdivision(get, set):Float;
 
     private var LIMIT:Int;
     private var _tmpVectors:Vector<Float>;
@@ -70,11 +70,11 @@ class SkinExtrude extends Mesh {
     /**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
-    public function get_profiles():Vector<Vector<Vector3D>> {
+    private function get_profiles():Vector<Vector<Vector3D>> {
         return _profiles;
     }
 
-    public function set_profiles(val:Vector<Vector<Vector3D>>):Vector<Vector<Vector3D>> {
+    private function set_profiles(val:Vector<Vector<Vector3D>>):Vector<Vector<Vector3D>> {
         _profiles = val;
         invalidateGeometry();
         return val;
@@ -83,11 +83,11 @@ class SkinExtrude extends Mesh {
     /**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
-    public function get_coverAll():Bool {
+    private function get_coverAll():Bool {
         return _coverAll;
     }
 
-    public function set_coverAll(val:Bool):Bool {
+    private function set_coverAll(val:Bool):Bool {
         if (_coverAll == val) return val;
         _coverAll = val;
         invalidateGeometry();
@@ -97,11 +97,11 @@ class SkinExtrude extends Mesh {
     /**
 	 * Defines if the last vector of Vector3D are joined to the first one, closing the shape. works from 3 vector.&lt;Vector3D&gt; entered.
 	 */
-    public function get_closeShape():Bool {
+    private function get_closeShape():Bool {
         return _closeShape;
     }
 
-    public function set_closeShape(val:Bool):Bool {
+    private function set_closeShape(val:Bool):Bool {
         if (_closeShape == val) return val;
         _closeShape = val;
         invalidateGeometry();
@@ -111,11 +111,11 @@ class SkinExtrude extends Mesh {
     /**
 	 * Defines if the face orientatio needs to be inverted
 	 */
-    public function get_flip():Bool {
+    private function get_flip():Bool {
         return _flip;
     }
 
-    public function set_flip(val:Bool):Bool {
+    private function set_flip(val:Bool):Bool {
         if (_flip == val) return val;
         _flip = val;
         invalidateGeometry();
@@ -125,11 +125,11 @@ class SkinExtrude extends Mesh {
     /**
 	 * Defines whether the mesh is _centerMeshed of not after generation
 	 */
-    public function get_centerMesh():Bool {
+    private function get_centerMesh():Bool {
         return _centerMesh;
     }
 
-    public function set_centerMesh(val:Bool):Bool {
+    private function set_centerMesh(val:Bool):Bool {
         if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && _subGeometry.vertexData.length > 0) MeshHelper.applyPosition(this, (this.minX + this.maxX) * .5, (this.minY + this.maxY) * .5, (this.minZ + this.maxZ) * .5)
@@ -137,11 +137,11 @@ class SkinExtrude extends Mesh {
         return val;
     }
 
-    public function get_subdivision():Float {
+    private function get_subdivision():Float {
         return _subdivision;
     }
 
-    public function set_subdivision(val:Float):Float {
+    private function set_subdivision(val:Float):Float {
         if (_subdivision == val) return val;
         _subdivision = val;
         invalidateGeometry();
@@ -354,7 +354,7 @@ class SkinExtrude extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_bounds():BoundingVolumeBase {
+    override private function get_bounds():BoundingVolumeBase {
         if (_geomDirty) buildExtrude();
         return super.bounds;
     }
@@ -362,7 +362,7 @@ class SkinExtrude extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_geometry():Geometry {
+    override private function get_geometry():Geometry {
         if (_geomDirty) buildExtrude();
         return super.geometry;
     }
@@ -370,7 +370,7 @@ class SkinExtrude extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subMeshes():Vector<SubMesh> {
+    override private function get_subMeshes():Vector<SubMesh> {
         if (_geomDirty) buildExtrude();
         return super.subMeshes;
     }

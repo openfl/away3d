@@ -3,12 +3,12 @@ package away3d.materials.utils;
 import away3d.materials.MaterialBase;
 
 class MultipleMaterials {
-    public var left(get_left, set_left):MaterialBase;
-    public var right(get_right, set_right):MaterialBase;
-    public var bottom(get_bottom, set_bottom):MaterialBase;
-    public var top(get_top, set_top):MaterialBase;
-    public var front(get_front, set_front):MaterialBase;
-    public var back(get_back, set_back):MaterialBase;
+    public var left(get, set):MaterialBase;
+    public var right(get, set):MaterialBase;
+    public var bottom(get, set):MaterialBase;
+    public var top(get, set):MaterialBase;
+    public var front(get, set):MaterialBase;
+    public var back(get, set):MaterialBase;
 
     private var _left:MaterialBase;
     private var _right:MaterialBase;
@@ -39,11 +39,11 @@ class MultipleMaterials {
     /**
 	 * Defines the material applied to the left side of the cube.
 	 */
-    public function get_left():MaterialBase {
+    private function get_left():MaterialBase {
         return _left;
     }
 
-    public function set_left(val:MaterialBase):MaterialBase {
+    private function set_left(val:MaterialBase):MaterialBase {
         if (_left == val) return val;
         _left = val;
         return val;
@@ -52,11 +52,11 @@ class MultipleMaterials {
     /**
 	 * Defines the material applied to the right side of the cube.
 	 */
-    public function get_right():MaterialBase {
+    private function get_right():MaterialBase {
         return _right;
     }
 
-    public function set_right(val:MaterialBase):MaterialBase {
+    private function set_right(val:MaterialBase):MaterialBase {
         if (_right == val) return val;
         _right = val;
         return val;
@@ -65,11 +65,11 @@ class MultipleMaterials {
     /**
 	 * Defines the material applied to the bottom side of the cube.
 	 */
-    public function get_bottom():MaterialBase {
+    private function get_bottom():MaterialBase {
         return _bottom;
     }
 
-    public function set_bottom(val:MaterialBase):MaterialBase {
+    private function set_bottom(val:MaterialBase):MaterialBase {
         if (_bottom == val) return val;
         _bottom = val;
         return val;
@@ -78,11 +78,11 @@ class MultipleMaterials {
     /**
 	 * Defines the material applied to the top side of the cube.
 	 */
-    public function get_top():MaterialBase {
+    private function get_top():MaterialBase {
         return _top;
     }
 
-    public function set_top(val:MaterialBase):MaterialBase {
+    private function set_top(val:MaterialBase):MaterialBase {
         if (_top == val) return val;
         _top = val;
         return val;
@@ -91,11 +91,11 @@ class MultipleMaterials {
     /**
 	 * Defines the material applied to the front side of the cube.
 	 */
-    public function get_front():MaterialBase {
+    private function get_front():MaterialBase {
         return _front;
     }
 
-    public function set_front(val:MaterialBase):MaterialBase {
+    private function set_front(val:MaterialBase):MaterialBase {
         if (_front == val) return val;
         _front = val;
         return val;
@@ -104,11 +104,11 @@ class MultipleMaterials {
     /**
 	 * Defines the material applied to the back side of the cube.
 	 */
-    public function get_back():MaterialBase {
+    private function get_back():MaterialBase {
         return _back;
     }
 
-    public function set_back(val:MaterialBase):MaterialBase {
+    private function set_back(val:MaterialBase):MaterialBase {
         if (_back == val) return val;
         _back = val;
         return val;

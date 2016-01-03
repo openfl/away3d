@@ -13,7 +13,7 @@ import openfl.geom.ColorTransform;
 import openfl.Vector;
 
 class ColorTransformMethod extends EffectMethodBase {
-    public var colorTransform(get_colorTransform, set_colorTransform):ColorTransform;
+    public var colorTransform(get, set):ColorTransform;
 
     private var _colorTransform:ColorTransform;
     /**
@@ -26,11 +26,11 @@ class ColorTransformMethod extends EffectMethodBase {
     /**
 	 * The ColorTransform object to transform the colour of the material with.
 	 */
-    public function get_colorTransform():ColorTransform {
+    private function get_colorTransform():ColorTransform {
         return _colorTransform;
     }
 
-    public function set_colorTransform(value:ColorTransform):ColorTransform {
+    private function set_colorTransform(value:ColorTransform):ColorTransform {
         _colorTransform = value;
         return value;
     }

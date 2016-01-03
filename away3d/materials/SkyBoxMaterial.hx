@@ -10,7 +10,7 @@ import away3d.materials.passes.SkyBoxPass;
 import away3d.textures.CubeTextureBase;
 
 class SkyBoxMaterial extends MaterialBase {
-    public var cubeMap(get_cubeMap, set_cubeMap):CubeTextureBase;
+    public var cubeMap(get, set):CubeTextureBase;
 
     private var _cubeMap:CubeTextureBase;
     private var _skyboxPass:SkyBoxPass;
@@ -29,11 +29,11 @@ class SkyBoxMaterial extends MaterialBase {
     /**
 	 * The cube texture to use as the skybox.
 	 */
-    public function get_cubeMap():CubeTextureBase {
+    private function get_cubeMap():CubeTextureBase {
         return _cubeMap;
     }
 
-    public function set_cubeMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_cubeMap(value:CubeTextureBase):CubeTextureBase {
         if (value != null && _cubeMap != null && (value.hasMipMaps != _cubeMap.hasMipMaps || value.format != _cubeMap.format)) invalidatePasses(null);
         _cubeMap = value;
         _skyboxPass.cubeTexture = _cubeMap;

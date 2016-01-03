@@ -22,13 +22,13 @@ import away3d.core.pick.IPickingCollider;
 import away3d.bounds.BoundingVolumeBase;
 
 class Entity extends ObjectContainer3D {
-    public var shaderPickingDetails(get_shaderPickingDetails, set_shaderPickingDetails):Bool;
-    public var staticNode(get_staticNode, set_staticNode):Bool;
-    public var pickingCollisionVO(get_pickingCollisionVO, never):PickingCollisionVO;
-    public var showBounds(get_showBounds, set_showBounds):Bool;
-    public var bounds(get_bounds, set_bounds):BoundingVolumeBase;
-    public var worldBounds(get_worldBounds, never):BoundingVolumeBase;
-    public var pickingCollider(get_pickingCollider, set_pickingCollider):IPickingCollider;
+    public var shaderPickingDetails(get, set):Bool;
+    public var staticNode(get, set):Bool;
+    public var pickingCollisionVO(get, never):PickingCollisionVO;
+    public var showBounds(get, set):Bool;
+    public var bounds(get, set):BoundingVolumeBase;
+    public var worldBounds(get, never):BoundingVolumeBase;
+    public var pickingCollider(get, set):IPickingCollider;
 
     private var _showBounds:Bool;
     private var _partitionNode:EntityNode;
@@ -42,7 +42,7 @@ class Entity extends ObjectContainer3D {
     private var _worldBounds:BoundingVolumeBase;
     private var _worldBoundsInvalid:Bool;
 
-    override public function set_ignoreTransform(value:Bool):Bool {
+    override private function set_ignoreTransform(value:Bool):Bool {
         if (_scene != null) _scene.invalidateEntityBounds(this);
         super.ignoreTransform = value;
         return value;
@@ -55,11 +55,11 @@ class Entity extends ObjectContainer3D {
 	 *
 	 * @see away3d.core.pick.ShaderPicker
 	 */
-    public function get_shaderPickingDetails():Bool {
+    private function get_shaderPickingDetails():Bool {
         return _shaderPickingDetails;
     }
 
-    public function set_shaderPickingDetails(value:Bool):Bool {
+    private function set_shaderPickingDetails(value:Bool):Bool {
         _shaderPickingDetails = value;
         return value;
     }
@@ -68,11 +68,11 @@ class Entity extends ObjectContainer3D {
 	 * Defines whether or not the object will be moved or animated at runtime. This property is used by some partitioning systems to improve performance.
 	 * Warning: if set to true, they may not be processed by certain partition systems using static visibility lists, unless they're specifically assigned to the visibility list.
 	 */
-    public function get_staticNode():Bool {
+    private function get_staticNode():Bool {
         return _staticNode;
     }
 
-    public function set_staticNode(value:Bool):Bool {
+    private function set_staticNode(value:Bool):Bool {
         _staticNode = value;
         return value;
     }
@@ -80,7 +80,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * Returns a unique picking collision value object for the entity.
 	 */
-    public function get_pickingCollisionVO():PickingCollisionVO {
+    private function get_pickingCollisionVO():PickingCollisionVO {
         if (_pickingCollisionVO == null) _pickingCollisionVO = new PickingCollisionVO(this);
         return _pickingCollisionVO;
     }
@@ -98,11 +98,11 @@ class Entity extends ObjectContainer3D {
     /**
 	 *
 	 */
-    public function get_showBounds():Bool {
+    private function get_showBounds():Bool {
         return _showBounds;
     }
 
-    public function set_showBounds(value:Bool):Bool {
+    private function set_showBounds(value:Bool):Bool {
         if (value == _showBounds) return value;
         _showBounds = value;
         if (_showBounds) addBounds()
@@ -113,7 +113,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_minX():Float {
+    override private function get_minX():Float {
         if (_boundsInvalid) updateBounds();
         return _bounds.min.x;
     }
@@ -121,7 +121,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_minY():Float {
+    override private function get_minY():Float {
         if (_boundsInvalid) updateBounds();
         return _bounds.min.y;
     }
@@ -129,7 +129,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_minZ():Float {
+    override private function get_minZ():Float {
         if (_boundsInvalid) updateBounds();
         return _bounds.min.z;
     }
@@ -137,7 +137,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_maxX():Float {
+    override private function get_maxX():Float {
         if (_boundsInvalid) updateBounds();
         return _bounds.max.x;
     }
@@ -145,7 +145,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_maxY():Float {
+    override private function get_maxY():Float {
         if (_boundsInvalid) updateBounds();
         return _bounds.max.y;
     }
@@ -153,7 +153,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_maxZ():Float {
+    override private function get_maxZ():Float {
         if (_boundsInvalid) updateBounds();
         return _bounds.max.z;
     }
@@ -161,12 +161,12 @@ class Entity extends ObjectContainer3D {
     /**
 	 * The bounding volume approximating the volume occupied by the Entity.
 	 */
-    public function get_bounds():BoundingVolumeBase {
+    private function get_bounds():BoundingVolumeBase {
         if (_boundsInvalid) updateBounds();
         return _bounds;
     }
 
-    public function set_bounds(value:BoundingVolumeBase):BoundingVolumeBase {
+    private function set_bounds(value:BoundingVolumeBase):BoundingVolumeBase {
         removeBounds();
         _bounds = value;
         _worldBounds = value.clone();
@@ -175,7 +175,7 @@ class Entity extends ObjectContainer3D {
         return value;
     }
 
-    public function get_worldBounds():BoundingVolumeBase {
+    private function get_worldBounds():BoundingVolumeBase {
 		//why
         if (_worldBoundsInvalid) {
 			updateWorldBounds();
@@ -203,7 +203,7 @@ class Entity extends ObjectContainer3D {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_scene(value:Scene3D):Scene3D {
+    override private function set_scene(value:Scene3D):Scene3D {
         if (value == _scene) return value;
         if (_scene != null) _scene.unregisterEntity(this);
         if (value != null) value.registerEntity(this);
@@ -211,7 +211,7 @@ class Entity extends ObjectContainer3D {
         return value;
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.ENTITY;
     }
 
@@ -222,11 +222,11 @@ class Entity extends ObjectContainer3D {
 	 *
 	 * @see away3d.core.pick.RaycastPicker
 	 */
-    public function get_pickingCollider():IPickingCollider {
+    private function get_pickingCollider():IPickingCollider {
         return _pickingCollider;
     }
 
-    public function set_pickingCollider(value:IPickingCollider):IPickingCollider {
+    private function set_pickingCollider(value:IPickingCollider):IPickingCollider {
         _pickingCollider = value;
         return value;
     }

@@ -28,24 +28,24 @@ import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
 
 class MaterialPassBase extends EventDispatcher {
-	public var material(get_material, set_material):MaterialBase;
-	public var writeDepth(get_writeDepth, set_writeDepth):Bool;
-	public var mipmap(get_mipmap, set_mipmap):Bool;
-	public var smooth(get_smooth, set_smooth):Bool;
-	public var repeat(get_repeat, set_repeat):Bool;
-	public var anisotropy(get_anisotropy, set_anisotropy):Anisotropy;
-	public var bothSides(get_bothSides, set_bothSides):Bool;
-	public var depthCompareMode(get_depthCompareMode, set_depthCompareMode):Context3DCompareMode;
-	public var animationSet(get_animationSet, set_animationSet):IAnimationSet;
-	public var renderToTexture(get_renderToTexture, never):Bool;
-	public var numUsedStreams(get_numUsedStreams, never):Int;
-	public var numUsedVertexConstants(get_numUsedVertexConstants, never):Int;
-	public var numUsedVaryings(get_numUsedVaryings, never):Int;
-	public var numUsedFragmentConstants(get_numUsedFragmentConstants, never):Int;
-	public var needFragmentAnimation(get_needFragmentAnimation, never):Bool;
-	public var needUVAnimation(get_needUVAnimation, never):Bool;
-	public var lightPicker(get_lightPicker, set_lightPicker):LightPickerBase;
-	public var alphaPremultiplied(get_alphaPremultiplied, set_alphaPremultiplied):Bool;
+	public var material(get, set):MaterialBase;
+	public var writeDepth(get, set):Bool;
+	public var mipmap(get, set):Bool;
+	public var smooth(get, set):Bool;
+	public var repeat(get, set):Bool;
+	public var anisotropy(get, set):Anisotropy;
+	public var bothSides(get, set):Bool;
+	public var depthCompareMode(get, set):Context3DCompareMode;
+	public var animationSet(get, set):IAnimationSet;
+	public var renderToTexture(get, never):Bool;
+	public var numUsedStreams(get, never):Int;
+	public var numUsedVertexConstants(get, never):Int;
+	public var numUsedVaryings(get, never):Int;
+	public var numUsedFragmentConstants(get, never):Int;
+	public var needFragmentAnimation(get, never):Bool;
+	public var needUVAnimation(get, never):Bool;
+	public var lightPicker(get, set):LightPickerBase;
+	public var alphaPremultiplied(get, set):Bool;
 
 	private var _material:MaterialBase;
 	private var _animationSet:IAnimationSet;
@@ -131,12 +131,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * The material to which this pass belongs.
 	 */ 
-	public function get_material() : MaterialBase
+	private function get_material() : MaterialBase
 	{
 		return _material;
 	}
 	
-	public function set_material(value:MaterialBase) : MaterialBase
+	private function set_material(value:MaterialBase) : MaterialBase
 	{
 		_material = value;
 		return _material;
@@ -145,12 +145,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Indicate whether this pass should write to the depth buffer or not. Ignored when blending is enabled.
 	 */ 
-	public function get_writeDepth() : Bool
+	private function get_writeDepth() : Bool
 	{
 		return _writeDepth;
 	}
 	
-	public function set_writeDepth(value:Bool) : Bool
+	private function set_writeDepth(value:Bool) : Bool
 	{
 		_writeDepth = value;
 		return _writeDepth;
@@ -159,12 +159,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Defines whether any used textures should use mipmapping.
 	 */ 
-	public function get_mipmap() : Bool
+	private function get_mipmap() : Bool
 	{
 		return _mipmap;
 	}
 	
-	public function set_mipmap(value:Bool) : Bool
+	private function set_mipmap(value:Bool) : Bool
 	{
 		if (_mipmap == value)
 			return _mipmap;
@@ -176,11 +176,11 @@ class MaterialPassBase extends EventDispatcher {
     /**
      * Indicates the number of Anisotropic filtering samples to take for mipmapping
      */
-    public function get_anisotropy():Anisotropy {
+    private function get_anisotropy():Anisotropy {
         return _anisotropy;
     }
 
-    public function set_anisotropy(value:Anisotropy):Anisotropy {
+    private function set_anisotropy(value:Anisotropy):Anisotropy {
         if (_anisotropy == value)
         	return _anisotropy;
         _anisotropy = value;
@@ -191,12 +191,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Defines whether smoothing should be applied to any used textures.
 	 */ 
-	public function get_smooth() : Bool
+	private function get_smooth() : Bool
 	{
 		return _smooth;
 	}
 	
-	public function set_smooth(value:Bool) : Bool
+	private function set_smooth(value:Bool) : Bool
 	{
 		if (_smooth == value)
 			return _smooth;
@@ -208,12 +208,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Defines whether textures should be tiled.
 	 */ 
-	public function get_repeat() : Bool
+	private function get_repeat() : Bool
 	{
 		return _repeat;
 	}
 	
-	public function set_repeat(value:Bool) : Bool
+	private function set_repeat(value:Bool) : Bool
 	{
 		if (_repeat == value)
 			return _repeat;
@@ -225,12 +225,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Defines whether or not the material should perform backface culling.
 	 */ 
-	public function get_bothSides() : Bool
+	private function get_bothSides() : Bool
 	{
 		return _bothSides;
 	}
 	
-	public function set_bothSides(value:Bool) : Bool
+	private function set_bothSides(value:Bool) : Bool
 	{
 		_bothSides = value;
 		return _bothSides;
@@ -241,12 +241,12 @@ class MaterialPassBase extends EventDispatcher {
 	 *
 	 * @see openfl.display3D.Context3DCompareMode
 	 */ 
-	public function get_depthCompareMode() : Context3DCompareMode
+	private function get_depthCompareMode() : Context3DCompareMode
 	{
 		return _depthCompareMode;
 	}
 	
-	public function set_depthCompareMode(value:Context3DCompareMode) : Context3DCompareMode
+	private function set_depthCompareMode(value:Context3DCompareMode) : Context3DCompareMode
 	{
 		_depthCompareMode = value;
 		return _depthCompareMode;
@@ -255,12 +255,12 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Returns the animation data set adding animations to the material.
 	 */ 
-	public function get_animationSet() : IAnimationSet
+	private function get_animationSet() : IAnimationSet
 	{
 		return _animationSet;
 	}
 	
-	public function set_animationSet(value:IAnimationSet) : IAnimationSet
+	private function set_animationSet(value:IAnimationSet) : IAnimationSet
 	{
 		if (_animationSet == value)
 			return _animationSet;
@@ -274,7 +274,7 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Specifies whether this pass renders to texture
 	 */ 
-	public function get_renderToTexture() : Bool
+	private function get_renderToTexture() : Bool
 	{
 		return _renderToTexture;
 	}
@@ -303,7 +303,7 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
 	 */ 
-	public function get_numUsedStreams() : UInt
+	private function get_numUsedStreams() : UInt
 	{
 		return _numUsedStreams;
 	}
@@ -311,13 +311,13 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
 	 */ 
-	public function get_numUsedVertexConstants() : UInt
+	private function get_numUsedVertexConstants() : UInt
 	{
 		return _numUsedVertexConstants;
 	}
 	 
 	
-	public function get_numUsedVaryings() : UInt
+	private function get_numUsedVaryings() : UInt
 	{
 		return _numUsedVaryings;
 	}
@@ -325,13 +325,13 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * The amount of used fragment constants in the fragment code. Used by the animation code generation to know from which index on registers are available.
 	 */ 
-	public function get_numUsedFragmentConstants() : UInt
+	private function get_numUsedFragmentConstants() : UInt
 	{
 		return _numUsedFragmentConstants;
 	}
 	 
 	
-	public function get_needFragmentAnimation() : Bool
+	private function get_needFragmentAnimation() : Bool
 	{
 		return _needFragmentAnimation;
 	}
@@ -339,7 +339,7 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Indicates whether the pass requires any UV animatin code.
 	 */ 
-	public function get_needUVAnimation() : Bool
+	private function get_needUVAnimation() : Bool
 	{
 		return _needUVAnimation;
 	}
@@ -558,12 +558,12 @@ class MaterialPassBase extends EventDispatcher {
 	 * @see away3d.materials.lightpickers.LightPickerBase
 	 * @see away3d.materials.lightpickers.StaticLightPicker
 	 */ 
-	public function get_lightPicker() : LightPickerBase
+	private function get_lightPicker() : LightPickerBase
 	{
 		return _lightPicker;
 	}
 	
-	public function set_lightPicker(value:LightPickerBase) : LightPickerBase
+	private function set_lightPicker(value:LightPickerBase) : LightPickerBase
 	{
 		if (_lightPicker!=null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
@@ -595,12 +595,12 @@ class MaterialPassBase extends EventDispatcher {
 	 * already been premultiplied. Toggle this if you are seeing black halos around your
 	 * blended alpha edges.
 	 */ 
-	public function get_alphaPremultiplied() : Bool
+	private function get_alphaPremultiplied() : Bool
 	{
 		return _alphaPremultiplied;
 	}
 	
-	public function set_alphaPremultiplied(value:Bool) : Bool
+	private function set_alphaPremultiplied(value:Bool) : Bool
 	{
 		_alphaPremultiplied = value;
 		invalidateShaderProgram(false);

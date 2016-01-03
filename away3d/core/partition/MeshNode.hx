@@ -9,7 +9,7 @@ import away3d.entities.Mesh;
 import openfl.Vector;
 
 class MeshNode extends EntityNode {
-    public var mesh(get_mesh, never):Mesh;
+    public var mesh(get, never):Mesh;
 
     private var _mesh:Mesh;
     /**
@@ -25,7 +25,7 @@ class MeshNode extends EntityNode {
     /**
 	 * The mesh object contained in the partition node.
 	 */
-    public function get_mesh():Mesh {
+    private function get_mesh():Mesh {
         return _mesh;
     }
 

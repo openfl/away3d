@@ -8,9 +8,9 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class WireframeCylinder extends WireframePrimitiveBase {
-    public var topRadius(get_topRadius, set_topRadius):Float;
-    public var bottomRadius(get_bottomRadius, set_bottomRadius):Float;
-    public var height(get_height, set_height):Float;
+    public var topRadius(get, set):Float;
+    public var bottomRadius(get, set):Float;
+    public var height(get, set):Float;
 
     static private var TWO_PI:Float = 2 * Math.PI;
     private var _topRadius:Float;
@@ -88,11 +88,11 @@ class WireframeCylinder extends WireframePrimitiveBase {
     /**
 	 * Top radius of the cylinder
 	 */
-    public function get_topRadius():Float {
+    private function get_topRadius():Float {
         return _topRadius;
     }
 
-    public function set_topRadius(value:Float):Float {
+    private function set_topRadius(value:Float):Float {
         if (_topRadius == value) return value;
         _topRadius = value;
         invalidateGeometry();
@@ -102,11 +102,11 @@ class WireframeCylinder extends WireframePrimitiveBase {
     /**
 	 * Bottom radius of the cylinder
 	 */
-    public function get_bottomRadius():Float {
+    private function get_bottomRadius():Float {
         return _bottomRadius;
     }
 
-    public function set_bottomRadius(value:Float):Float {
+    private function set_bottomRadius(value:Float):Float {
         if (_bottomRadius == value) return value;
         _bottomRadius = value;
         invalidateGeometry();
@@ -116,11 +116,11 @@ class WireframeCylinder extends WireframePrimitiveBase {
     /**
 	 * The height of the cylinder
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         if (height <= 0) throw new Error("Height must be a value greater than zero.");
         if (_height == value) return value;
         _height = value;

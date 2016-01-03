@@ -12,7 +12,7 @@ import away3d.animators.nodes.AnimationNodeBase;
 import openfl.Vector;
 
 interface IAnimationSet {
-    var usesCPU(get_usesCPU, never):Bool;
+    var usesCPU(get, never):Bool;
 
 	/**
 	 * Check to determine whether a state is registered in the animation set under the given name.
@@ -33,7 +33,7 @@ interface IAnimationSet {
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
-    function get_usesCPU():Bool;
+    private function get_usesCPU():Bool;
 	
 	/**
 	 * Called by the material to reset the GPU indicator before testing whether register space in the shader

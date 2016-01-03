@@ -17,7 +17,7 @@ import openfl.display3D.textures.TextureBase;
 import openfl.geom.Rectangle;
 
 class DepthRenderer extends RendererBase {
-    public var disableColor(get_disableColor, set_disableColor):Bool;
+    public var disableColor(get, set):Bool;
 
     private var _activeMaterial:MaterialBase;
     private var _renderBlended:Bool;
@@ -37,11 +37,11 @@ class DepthRenderer extends RendererBase {
         _backgroundB = 1;
     }
 
-    public function get_disableColor():Bool {
+    private function get_disableColor():Bool {
         return _disableColor;
     }
 
-    public function set_disableColor(value:Bool):Bool {
+    private function set_disableColor(value:Bool):Bool {
         _disableColor = value;
         return value;
     }

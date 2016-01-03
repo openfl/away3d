@@ -7,14 +7,14 @@ import away3d.animators.states.UVClipState;
 import away3d.animators.data.UVAnimationFrame;
 
 class UVClipNode extends AnimationClipNodeBase {
-    public var frames(get_frames, never):Array<UVAnimationFrame>;
+    public var frames(get, never):Array<UVAnimationFrame>;
 
     private var _frames:Array<UVAnimationFrame>;
     
     /**
 	 * Returns a vector of UV frames representing the uv values of each animation frame in the clip.
 	 */
-    public function get_frames():Array<UVAnimationFrame> {
+    private function get_frames():Array<UVAnimationFrame> {
         return _frames;
     }
 

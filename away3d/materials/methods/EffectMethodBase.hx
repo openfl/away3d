@@ -11,7 +11,7 @@ import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 class EffectMethodBase extends ShadingMethodBase implements IAsset {
-    public var assetType(get_assetType, never):String;
+    public var assetType(get, never):String;
 
     public function new() {
         super();
@@ -20,7 +20,7 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.EFFECTS_METHOD;
     }
 

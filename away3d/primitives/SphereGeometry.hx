@@ -8,10 +8,10 @@ import away3d.core.base.CompactSubGeometry;
 import openfl.Vector;
 
 class SphereGeometry extends PrimitiveBase {
-    public var radius(get_radius, set_radius):Float;
-    public var segmentsW(get_segmentsW, set_segmentsW):Int;
-    public var segmentsH(get_segmentsH, set_segmentsH):Int;
-    public var yUp(get_yUp, set_yUp):Bool;
+    public var radius(get, set):Float;
+    public var segmentsW(get, set):Int;
+    public var segmentsH(get, set):Int;
+    public var yUp(get, set):Bool;
 
     private var _radius:Float;
     private var _segmentsW:Int;
@@ -182,11 +182,11 @@ class SphereGeometry extends PrimitiveBase {
     /**
 	 * The radius of the sphere.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _radius;
     }
 
-    public function set_radius(value:Float):Float {
+    private function set_radius(value:Float):Float {
         _radius = value;
         invalidateGeometry();
         return value;
@@ -195,11 +195,11 @@ class SphereGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of horizontal segments that make up the sphere. Defaults to 16.
 	 */
-    public function get_segmentsW():Int {
+    private function get_segmentsW():Int {
         return _segmentsW;
     }
 
-    public function set_segmentsW(value:Int):Int {
+    private function set_segmentsW(value:Int):Int {
         _segmentsW = value;
         invalidateGeometry();
         invalidateUVs();
@@ -209,11 +209,11 @@ class SphereGeometry extends PrimitiveBase {
     /**
 	 * Defines the number of vertical segments that make up the sphere. Defaults to 12.
 	 */
-    public function get_segmentsH():Int {
+    private function get_segmentsH():Int {
         return _segmentsH;
     }
 
-    public function set_segmentsH(value:Int):Int {
+    private function set_segmentsH(value:Int):Int {
         _segmentsH = value;
         invalidateGeometry();
         invalidateUVs();
@@ -223,11 +223,11 @@ class SphereGeometry extends PrimitiveBase {
     /**
 	 * Defines whether the sphere poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-    public function get_yUp():Bool {
+    private function get_yUp():Bool {
         return _yUp;
     }
 
-    public function set_yUp(value:Bool):Bool {
+    private function set_yUp(value:Bool):Bool {
         _yUp = value;
         invalidateGeometry();
         return value;

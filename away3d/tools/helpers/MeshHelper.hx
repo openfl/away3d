@@ -340,7 +340,7 @@ class MeshHelper {
         for (i in 0...numSubGeoms) {
             subGeom = cast(geometries[i], ISubGeometry);
             indices = subGeom.indexData;
-            indicesC = subGeom.indexData.concat();
+            indicesC = subGeom.indexData.concat(new Vector<UInt>());
 
             normals = subGeom.vertexNormalData;
             nOffs = subGeom.vertexNormalOffset;

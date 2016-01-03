@@ -41,12 +41,12 @@ package away3d.loaders.misc;
 		 * parseData() operations) should be automatically loaded. Defaults to true.
 		 */
 		public var includeDependencies(get, set) : Bool;
-		public function get_includeDependencies() : Bool
+		private function get_includeDependencies() : Bool
 		{
 			return _includeDependencies;
 		}
 		
-		public function set_includeDependencies(val:Bool) : Bool
+		private function set_includeDependencies(val:Bool) : Bool
 		{
 			_includeDependencies = val;
 			return val;
@@ -61,12 +61,12 @@ package away3d.loaders.misc;
 		 * 
 		 */
 		public var materialMode(get, set) : UInt;
-		public function get_materialMode() : UInt
+		private function get_materialMode() : UInt
 		{
 			return _materialMode;
 		}
 		
-		public function set_materialMode(materialMode:UInt) : UInt
+		private function set_materialMode(materialMode:UInt) : UInt
 		{
 			_materialMode = materialMode;
 			return _materialMode;
@@ -77,12 +77,12 @@ package away3d.loaders.misc;
 		 * Absolute paths will not be affected by the value of this property.
 		 */
 		public var dependencyBaseUrl(get, set) : String;
-		public function get_dependencyBaseUrl() : String
+		private function get_dependencyBaseUrl() : String
 		{
 			return _dependencyBaseUrl;
 		}
 		
-		public function set_dependencyBaseUrl(val:String) : String
+		private function set_dependencyBaseUrl(val:String) : String
 		{
 			_dependencyBaseUrl = val;
 			return val;
@@ -94,12 +94,12 @@ package away3d.loaders.misc;
 		 * "base", /path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
 		 */
 		public var overrideAbsolutePaths(get, set) : Bool;
-		public function get_overrideAbsolutePaths() : Bool
+		private function get_overrideAbsolutePaths() : Bool
 		{
 			return _overrideAbsPath;
 		}
 		
-		public function set_overrideAbsolutePaths(val:Bool) : Bool
+		private function set_overrideAbsolutePaths(val:Bool) : Bool
 		{
 			_overrideAbsPath = val;
 			return val;
@@ -111,12 +111,12 @@ package away3d.loaders.misc;
 		 * path is "base", http://example.com/path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
 		 */
 		public var overrideFullURLs(get, set) : Bool;
-		public function get_overrideFullURLs() : Bool
+		private function get_overrideFullURLs() : Bool
 		{
 			return _overrideFullUrls;
 		}
 		
-		public function set_overrideFullURLs(val:Bool) : Bool
+		private function set_overrideFullURLs(val:Bool) : Bool
 		{
 			_overrideFullUrls = val;
 			return val;

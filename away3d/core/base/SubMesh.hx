@@ -21,42 +21,52 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 class SubMesh implements IRenderable {
-    public var shaderPickingDetails(get_shaderPickingDetails, never):Bool;
-    public var offsetU(get_offsetU, set_offsetU):Float;
-    public var offsetV(get_offsetV, set_offsetV):Float;
-    public var scaleU(get_scaleU, set_scaleU):Float;
-    public var scaleV(get_scaleV, set_scaleV):Float;
-    public var uvRotation(get_uvRotation, set_uvRotation):Float;
-    public var sourceEntity(get_sourceEntity, never):Entity;
-    public var subGeometry(get_subGeometry, set_subGeometry):ISubGeometry;
-    public var material(get_material, set_material):MaterialBase;
-    public var sceneTransform(get_sceneTransform, never):Matrix3D;
-    public var inverseSceneTransform(get_inverseSceneTransform, never):Matrix3D;
-    public var numTriangles(get_numTriangles, never):Int;
-    public var animator(get_animator, never):IAnimator;
-    public var mouseEnabled(get_mouseEnabled, never):Bool;
-    public var castsShadows(get_castsShadows, never):Bool;
-    public var parentMesh(get_parentMesh, set_parentMesh):Mesh;
-    public var uvTransform(get_uvTransform, never):Matrix;
-    public var vertexData(get_vertexData, never):Vector<Float>;
-    public var indexData(get_indexData, never):Vector<UInt>;
-    public var UVData(get_UVData, never):Vector<Float>;
-    public var bounds(get_bounds, never):BoundingVolumeBase;
-    public var visible(get_visible, never):Bool;
-    public var numVertices(get_numVertices, never):Int;
-    public var vertexStride(get_vertexStride, never):Int;
-    public var UVStride(get_UVStride, never):Int;
-    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
-    public var UVOffset(get_UVOffset, never):Int;
-    public var vertexOffset(get_vertexOffset, never):Int;
-    public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
-    public var vertexTangentOffset(get_vertexTangentOffset, never):Int;
+    public var shaderPickingDetails(get, never):Bool;
+    
+	public var offsetU(get, set):Float;
+    public var offsetV(get, set):Float;
+    public var scaleU(get, set):Float;
+    public var scaleV(get, set):Float;
+    public var uvRotation(get, set):Float;
+    
+	public var offsetU2(get, set):Float;
+    public var offsetV2(get, set):Float;
+    public var scaleU2(get, set):Float;
+    public var scaleV2(get, set):Float;
+    public var uvRotation2(get, set):Float;
+    
+	public var sourceEntity(get, never):Entity;
+    public var subGeometry(get, set):ISubGeometry;
+    public var material(get, set):MaterialBase;
+    public var sceneTransform(get, never):Matrix3D;
+    public var inverseSceneTransform(get, never):Matrix3D;
+    public var numTriangles(get, never):Int;
+    public var animator(get, never):IAnimator;
+    public var mouseEnabled(get, never):Bool;
+    public var castsShadows(get, never):Bool;
+    public var parentMesh(get, set):Mesh;
+    public var uvTransform(get, never):Matrix;
+    public var uvTransform2(get, never):Matrix;
+    public var vertexData(get, never):Vector<Float>;
+    public var indexData(get, never):Vector<UInt>;
+    public var UVData(get, never):Vector<Float>;
+    public var bounds(get, never):BoundingVolumeBase;
+    public var visible(get, never):Bool;
+    public var numVertices(get, never):Int;
+    public var vertexStride(get, never):Int;
+    public var UVStride(get, never):Int;
+    public var vertexNormalData(get, never):Vector<Float>;
+    public var vertexTangentData(get, never):Vector<Float>;
+    public var UVOffset(get, never):Int;
+    public var vertexOffset(get, never):Int;
+    public var vertexNormalOffset(get, never):Int;
+    public var vertexTangentOffset(get, never):Int;
 
     public var _material:MaterialBase;
     private var _parentMesh:Mesh;
     private var _subGeometry:ISubGeometry;
     public var _index:Int;
+	
     private var _uvTransform:Matrix;
     private var _uvTransformDirty:Bool;
     private var _uvRotation:Float;
@@ -64,6 +74,15 @@ class SubMesh implements IRenderable {
     private var _scaleV:Float;
     private var _offsetU:Float;
     private var _offsetV:Float;
+	
+	private var _uvTransform2:Matrix;
+    private var _uvTransformDirty2:Bool;
+    private var _uvRotation2:Float;
+    private var _scaleU2:Float;
+    private var _scaleV2:Float;
+    private var _offsetU2:Float;
+    private var _offsetV2:Float;
+	
     public var animationSubGeometry:AnimationSubGeometry;
     public var animatorSubGeometry:AnimationSubGeometry;
 
@@ -79,85 +98,152 @@ class SubMesh implements IRenderable {
         _scaleV = 1;
         _offsetU = 0;
         _offsetV = 0;
-        _parentMesh = parentMesh;
+        
+		_uvRotation2 = 0;
+        _scaleU2 = 1;
+        _scaleV2 = 1;
+        _offsetU2 = 0;
+        _offsetV2 = 0;
+        
+		_parentMesh = parentMesh;
         _subGeometry = subGeometry;
         this.material = material;
     }
 
-    public function get_shaderPickingDetails():Bool {
+    private function get_shaderPickingDetails():Bool {
         return sourceEntity.shaderPickingDetails;
     }
 
-    public function get_offsetU():Float {
+    private function get_offsetU():Float {
         return _offsetU;
     }
 
-    public function set_offsetU(value:Float):Float {
+    private function set_offsetU(value:Float):Float {
         if (value == _offsetU) return value;
         _offsetU = value;
         _uvTransformDirty = true;
         return value;
     }
 
-    public function get_offsetV():Float {
+    private function get_offsetV():Float {
         return _offsetV;
     }
 
-    public function set_offsetV(value:Float):Float {
+    private function set_offsetV(value:Float):Float {
         if (value == _offsetV) return value;
         _offsetV = value;
         _uvTransformDirty = true;
         return value;
     }
 
-    public function get_scaleU():Float {
+    private function get_scaleU():Float {
         return _scaleU;
     }
 
-    public function set_scaleU(value:Float):Float {
+    private function set_scaleU(value:Float):Float {
         if (value == _scaleU) return value;
         _scaleU = value;
         _uvTransformDirty = true;
         return value;
     }
 
-    public function get_scaleV():Float {
+    private function get_scaleV():Float {
         return _scaleV;
     }
 
-    public function set_scaleV(value:Float):Float {
+    private function set_scaleV(value:Float):Float {
         if (value == _scaleV) return value;
         _scaleV = value;
         _uvTransformDirty = true;
         return value;
     }
 
-    public function get_uvRotation():Float {
+    private function get_uvRotation():Float {
         return _uvRotation;
     }
 
-    public function set_uvRotation(value:Float):Float {
+    private function set_uvRotation(value:Float):Float {
         if (value == _uvRotation) return value;
         _uvRotation = value;
         _uvTransformDirty = true;
         return value;
     }
 
+	
+	
+	
+	
+	
+    private function get_offsetU2():Float {
+        return _offsetU2;
+    }
+
+    private function set_offsetU2(value:Float):Float {
+        if (value == _offsetU2) return value;
+        _offsetU2 = value;
+        _uvTransformDirty2 = true;
+        return value;
+    }
+
+    private function get_offsetV2():Float {
+        return _offsetV2;
+    }
+
+    private function set_offsetV2(value:Float):Float {
+        if (value == _offsetV2) return value;
+        _offsetV2 = value;
+        _uvTransformDirty2 = true;
+        return value;
+    }
+
+    private function get_scaleU2():Float {
+        return _scaleU2;
+    }
+
+    private function set_scaleU2(value:Float):Float {
+        if (value == _scaleU2) return value;
+        _scaleU2 = value;
+        _uvTransformDirty2 = true;
+        return value;
+    }
+
+    private function get_scaleV2():Float {
+        return _scaleV2;
+    }
+
+    private function set_scaleV2(value:Float):Float {
+        if (value == _scaleV2) return value;
+        _scaleV2 = value;
+        _uvTransformDirty2 = true;
+        return value;
+    }
+
+    private function get_uvRotation2():Float {
+        return _uvRotation2;
+    }
+
+    private function set_uvRotation2(value:Float):Float {
+        if (value == _uvRotation2) return value;
+        _uvRotation2 = value;
+        _uvTransformDirty2 = true;
+        return value;
+    }
+
     /**
 	 * The entity that that initially provided the IRenderable to the render pipeline (ie: the owning Mesh object).
 	 */
-    public function get_sourceEntity():Entity {
+    private function get_sourceEntity():Entity {
         return _parentMesh;
     }
 
     /**
 	 * The SubGeometry object which provides the geometry data for this SubMesh.
 	 */
-    public function get_subGeometry():ISubGeometry {
+    private function get_subGeometry():ISubGeometry {
         return _subGeometry;
     }
 
-    public function set_subGeometry(value:ISubGeometry):ISubGeometry {
+    private function set_subGeometry(value:ISubGeometry):ISubGeometry {
         _subGeometry = value;
         return value;
     }
@@ -165,12 +251,12 @@ class SubMesh implements IRenderable {
     /**
 	 * The material used to render the current SubMesh. If set to null, its parent Mesh's material will be used instead.
 	 */
-    public function get_material():MaterialBase {
+    private function get_material():MaterialBase {
         if (_material != null)return _material ;
         return _parentMesh.material;
     }
 
-    public function set_material(value:MaterialBase):MaterialBase {
+    private function set_material(value:MaterialBase):MaterialBase {
         if (_material != null) _material.removeOwner(this);
         _material = value;
         if (_material != null) _material.addOwner(this);
@@ -181,14 +267,14 @@ class SubMesh implements IRenderable {
     /**
 	 * The scene transform object that transforms from model to world space.
 	 */
-    public function get_sceneTransform():Matrix3D {
+    private function get_sceneTransform():Matrix3D {
         return _parentMesh.sceneTransform;
     }
 
     /**
 	 * The inverse scene transform object that transforms from world to model space.
 	 */
-    public function get_inverseSceneTransform():Matrix3D {
+    private function get_inverseSceneTransform():Matrix3D {
         return _parentMesh.inverseSceneTransform;
     }
 
@@ -237,25 +323,25 @@ class SubMesh implements IRenderable {
     /**
 	 * The amount of triangles that make up this SubMesh.
 	 */
-    public function get_numTriangles():Int {
+    private function get_numTriangles():Int {
         return _subGeometry.numTriangles;
     }
 
     /**
 	 * The animator object that provides the state for the SubMesh's animation.
 	 */
-    public function get_animator():IAnimator {
+    private function get_animator():IAnimator {
         return _parentMesh.animator;
     }
 
     /**
 	 * Indicates whether the SubMesh should trigger mouse events, and hence should be rendered for hit testing.
 	 */
-    public function get_mouseEnabled():Bool {
+    private function get_mouseEnabled():Bool {
         return _parentMesh.mouseEnabled || _parentMesh._ancestorsAllowMouseEnabled;
     }
 
-    public function get_castsShadows():Bool {
+    private function get_castsShadows():Bool {
         return _parentMesh.castsShadows;
     }
 
@@ -273,9 +359,14 @@ class SubMesh implements IRenderable {
         return value;
     }
 
-    public function get_uvTransform():Matrix {
+    private function get_uvTransform():Matrix {
         if (_uvTransformDirty) updateUVTransform();
         return _uvTransform;
+    }
+
+    private function get_uvTransform2():Matrix {
+        if (_uvTransformDirty2) updateUVTransform2();
+        return _uvTransform2;
     }
 
     private function updateUVTransform():Void {
@@ -288,64 +379,74 @@ class SubMesh implements IRenderable {
         _uvTransformDirty = false;
     }
 
+    private function updateUVTransform2():Void {
+        if (_uvTransform2 == null)
+            _uvTransform2 = new Matrix();
+        _uvTransform2.identity();
+        if (_uvRotation2 != 0) _uvTransform2.rotate(_uvRotation2);
+        if (_scaleU2 != 1 || _scaleV2 != 1) _uvTransform2.scale(_scaleU2, _scaleV2);
+        _uvTransform2.translate(_offsetU2, _offsetV2);
+		_uvTransformDirty2 = false;
+    }
+
     public function dispose():Void {
         material = null;
     }
 
-    public function get_vertexData():Vector<Float> {
+    private function get_vertexData():Vector<Float> {
         return _subGeometry.vertexData;
     }
 
-    public function get_indexData():Vector<UInt> {
+    private function get_indexData():Vector<UInt> {
         return _subGeometry.indexData;
     }
 
-    public function get_UVData():Vector<Float> {
+    private function get_UVData():Vector<Float> {
         return _subGeometry.UVData;
     }
 
-    public function get_bounds():BoundingVolumeBase {
+    private function get_bounds():BoundingVolumeBase {
         return _parentMesh.bounds;
         // TODO: return smaller, sub mesh bounds instead
     }
 
-    public function get_visible():Bool {
+    private function get_visible():Bool {
         return _parentMesh.visible;
     }
 
-    public function get_numVertices():Int {
+    private function get_numVertices():Int {
         return _subGeometry.numVertices;
     }
 
-    public function get_vertexStride():Int {
+    private function get_vertexStride():Int {
         return _subGeometry.vertexStride;
     }
 
-    public function get_UVStride():Int {
+    private function get_UVStride():Int {
         return _subGeometry.UVStride;
     }
 
-    public function get_vertexNormalData():Vector<Float> {
+    private function get_vertexNormalData():Vector<Float> {
         return _subGeometry.vertexNormalData;
     }
 
-    public function get_vertexTangentData():Vector<Float> {
+    private function get_vertexTangentData():Vector<Float> {
         return _subGeometry.vertexTangentData;
     }
 
-    public function get_UVOffset():Int {
+    private function get_UVOffset():Int {
         return _subGeometry.UVOffset;
     }
 
-    public function get_vertexOffset():Int {
+    private function get_vertexOffset():Int {
         return _subGeometry.vertexOffset;
     }
 
-    public function get_vertexNormalOffset():Int {
+    private function get_vertexNormalOffset():Int {
         return _subGeometry.vertexNormalOffset;
     }
 
-    public function get_vertexTangentOffset():Int {
+    private function get_vertexTangentOffset():Int {
         return _subGeometry.vertexTangentOffset;
     }
 

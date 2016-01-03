@@ -23,9 +23,9 @@ import away3d.library.assets.Asset3DType;
 import away3d.utils.ArrayUtils;
 
 class Camera3D extends Entity {
-    public var frustumPlanes(get_frustumPlanes, never):Vector<Plane3D>;
-    public var lens(get_lens, set_lens):LensBase;
-    public var viewProjection(get_viewProjection, never):Matrix3D;
+    public var frustumPlanes(get, never):Vector<Plane3D>;
+    public var lens(get, set):LensBase;
+    public var viewProjection(get, never):Matrix3D;
 
     private var _viewProjection:Matrix3D;
     private var _viewProjectionDirty:Bool;
@@ -65,7 +65,7 @@ class Camera3D extends Entity {
         return new NullBounds();
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.CAMERA;
     }
 
@@ -78,7 +78,7 @@ class Camera3D extends Entity {
     /**
 	 *
 	 */
-    public function get_frustumPlanes():Vector<Plane3D> {
+    private function get_frustumPlanes():Vector<Plane3D> {
         if (_frustumPlanesDirty) updateFrustum();  
         return _frustumPlanes;
     }
@@ -222,11 +222,11 @@ class Camera3D extends Entity {
     /**
 	 * The lens used by the camera to perform the projection;
 	 */
-    public function get_lens():LensBase {
+    private function get_lens():LensBase {
         return _lens;
     }
 
-    public function set_lens(value:LensBase):LensBase {
+    private function set_lens(value:LensBase):LensBase {
         if (_lens == value) return value;
         if (value == null) throw new Error("Lens cannot be null!");
         _lens.removeEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
@@ -239,7 +239,7 @@ class Camera3D extends Entity {
     /**
 	 * The view projection matrix of the camera.
 	 */
-    public function get_viewProjection():Matrix3D {
+    private function get_viewProjection():Matrix3D {
         if (_viewProjectionDirty) {
             _viewProjection.copyFrom(inverseSceneTransform);
             _viewProjection.append(_lens.matrix);

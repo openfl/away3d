@@ -17,9 +17,9 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class NodeBase {
-    public var showDebugBounds(get_showDebugBounds, set_showDebugBounds):Bool;
-    public var parent(get_parent, never):NodeBase;
-    var numEntities(get_numEntities, never):Int;
+    public var showDebugBounds(get, set):Bool;
+    public var parent(get, never):NodeBase;
+    var numEntities(get, never):Int;
 
     public var _parent:NodeBase;
     public var _collectionMark:Int;
@@ -38,11 +38,11 @@ class NodeBase {
 		_numChildNodes= 0;
     }
 
-    public function get_showDebugBounds():Bool {
+    private function get_showDebugBounds():Bool {
         return _debugPrimitive != null;
     }
 
-    public function set_showDebugBounds(value:Bool):Bool {
+    private function set_showDebugBounds(value:Bool):Bool {
         if (cast((_debugPrimitive != null), Bool) == value) return value;
         if (value) _debugPrimitive = createDebugBounds()
         else {
@@ -61,7 +61,7 @@ class NodeBase {
     /**
 	 * The parent node. Null if this node is the root.
 	 */
-    public function get_parent():NodeBase {
+    private function get_parent():NodeBase {
         return _parent;
     }
 

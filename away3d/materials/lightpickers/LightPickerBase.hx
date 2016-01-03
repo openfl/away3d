@@ -19,19 +19,19 @@ import away3d.lights.PointLight;
 import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 class LightPickerBase extends NamedAssetBase implements IAsset {
-    public var assetType(get_assetType, never):String;
-    public var numDirectionalLights(get_numDirectionalLights, never):Int;
-    public var numPointLights(get_numPointLights, never):Int;
-    public var numCastingDirectionalLights(get_numCastingDirectionalLights, never):Int;
-    public var numCastingPointLights(get_numCastingPointLights, never):Int;
-    public var numLightProbes(get_numLightProbes, never):Int;
-    public var pointLights(get_pointLights, never):Array<PointLight>;
-    public var directionalLights(get_directionalLights, never):Array<DirectionalLight>;
-    public var castingPointLights(get_castingPointLights, never):Array<PointLight>;
-    public var castingDirectionalLights(get_castingDirectionalLights, never):Array<DirectionalLight>;
-    public var lightProbes(get_lightProbes, never):Array<LightProbe>;
-    public var lightProbeWeights(get_lightProbeWeights, never):Array<Float>;
-    public var allPickedLights(get_allPickedLights, never):Array<LightBase>;
+    public var assetType(get, never):String;
+    public var numDirectionalLights(get, never):Int;
+    public var numPointLights(get, never):Int;
+    public var numCastingDirectionalLights(get, never):Int;
+    public var numCastingPointLights(get, never):Int;
+    public var numLightProbes(get, never):Int;
+    public var pointLights(get, never):Array<PointLight>;
+    public var directionalLights(get, never):Array<DirectionalLight>;
+    public var castingPointLights(get, never):Array<PointLight>;
+    public var castingDirectionalLights(get, never):Array<DirectionalLight>;
+    public var lightProbes(get, never):Array<LightProbe>;
+    public var lightProbeWeights(get, never):Array<Float>;
+    public var allPickedLights(get, never):Array<LightBase>;
 
     private var _numPointLights:Int;
     private var _numDirectionalLights:Int;
@@ -61,91 +61,91 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.LIGHT_PICKER;
     }
 
     /**
 	 * The maximum amount of directional lights that will be provided.
 	 */
-    public function get_numDirectionalLights():Int {
+    private function get_numDirectionalLights():Int {
         return _numDirectionalLights;
     }
 
     /**
 	 * The maximum amount of point lights that will be provided.
 	 */
-    public function get_numPointLights():Int {
+    private function get_numPointLights():Int {
         return _numPointLights;
     }
 
     /**
 	 * The maximum amount of directional lights that cast shadows.
 	 */
-    public function get_numCastingDirectionalLights():Int {
+    private function get_numCastingDirectionalLights():Int {
         return _numCastingDirectionalLights;
     }
 
     /**
 	 * The amount of point lights that cast shadows.
 	 */
-    public function get_numCastingPointLights():Int {
+    private function get_numCastingPointLights():Int {
         return _numCastingPointLights;
     }
 
     /**
 	 * The maximum amount of light probes that will be provided.
 	 */
-    public function get_numLightProbes():Int {
+    private function get_numLightProbes():Int {
         return _numLightProbes;
     }
 
     /**
 	 * The collected point lights to be used for shading.
 	 */
-    public function get_pointLights():Array<PointLight> {
+    private function get_pointLights():Array<PointLight> {
         return _pointLights;
     }
 
     /**
 	 * The collected directional lights to be used for shading.
 	 */
-    public function get_directionalLights():Array<DirectionalLight> {
+    private function get_directionalLights():Array<DirectionalLight> {
         return _directionalLights;
     }
 
     /**
 	 * The collected point lights that cast shadows to be used for shading.
 	 */
-    public function get_castingPointLights():Array<PointLight> {
+    private function get_castingPointLights():Array<PointLight> {
         return _castingPointLights;
     }
 
     /**
 	 * The collected directional lights that cast shadows to be used for shading.
 	 */
-    public function get_castingDirectionalLights():Array<DirectionalLight> {
+    private function get_castingDirectionalLights():Array<DirectionalLight> {
         return _castingDirectionalLights;
     }
 
     /**
 	 * The collected light probes to be used for shading.
 	 */
-    public function get_lightProbes():Array<LightProbe> {
+    private function get_lightProbes():Array<LightProbe> {
         return _lightProbes;
     }
 
     /**
 	 * The weights for each light probe, defining their influence on the object.
 	 */
-    public function get_lightProbeWeights():Array<Float> {
+    private function get_lightProbeWeights():Array<Float> {
         return _lightProbeWeights;
     }
 
     /**
 	 * A collection of all the collected lights.
 	 */
-    public function get_allPickedLights():Array<LightBase> {
+    private function get_allPickedLights():Array<LightBase> {
         return _allPickedLights;
     }
 

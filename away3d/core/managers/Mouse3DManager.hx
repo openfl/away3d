@@ -22,8 +22,8 @@ import haxe.ds.ObjectMap;
 import openfl.Vector;
 
 class Mouse3DManager {
-    public var forceMouseMove(get_forceMouseMove, set_forceMouseMove):Bool;
-    public var mousePicker(get_mousePicker, set_mousePicker):IPicker;
+    public var forceMouseMove(get, set):Bool;
+    public var mousePicker(get, set):IPicker;
 
     static var _view3Ds:ObjectMap<View3D, Int>;
     static var _view3DLookup:Array<View3D>;
@@ -346,20 +346,20 @@ class Mouse3DManager {
     // Getters & setters.
     // ---------------------------------------------------------------------
 
-    public function get_forceMouseMove():Bool {
+    private function get_forceMouseMove():Bool {
         return _forceMouseMove;
     }
 
-    public function set_forceMouseMove(value:Bool):Bool {
+    private function set_forceMouseMove(value:Bool):Bool {
         _forceMouseMove = value;
         return value;
     }
 
-    public function get_mousePicker():IPicker {
+    private function get_mousePicker():IPicker {
         return _mousePicker;
     }
 
-    public function set_mousePicker(value:IPicker):IPicker {
+    private function set_mousePicker(value:IPicker):IPicker {
         _mousePicker = value;
         return value;
     }

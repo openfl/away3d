@@ -9,12 +9,12 @@ import openfl.display3D.textures.Texture;
 import openfl.Vector;
 
 class Filter3DRadialBlurTask extends Filter3DTaskBase {
-    public var intensity(get_intensity, set_intensity):Float;
-    public var glowGamma(get_glowGamma, set_glowGamma):Float;
-    public var blurStart(get_blurStart, set_blurStart):Float;
-    public var blurWidth(get_blurWidth, set_blurWidth):Float;
-    public var cx(get_cx, set_cx):Float;
-    public var cy(get_cy, set_cy):Float;
+    public var intensity(get, set):Float;
+    public var glowGamma(get, set):Float;
+    public var blurStart(get, set):Float;
+    public var blurWidth(get, set):Float;
+    public var cx(get, set):Float;
+    public var cy(get, set):Float;
 
     static private var LAYERS:Int = 15;
     private var _data:Vector<Float>;
@@ -105,61 +105,61 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase {
         return code;
     }
 
-    public function get_intensity():Float {
+    private function get_intensity():Float {
         return _intensity;
     }
 
-    public function set_intensity(intensity:Float):Float {
+    private function set_intensity(intensity:Float):Float {
         _intensity = intensity;
         resetUniforms();
         return intensity;
     }
 
-    public function get_glowGamma():Float {
+    private function get_glowGamma():Float {
         return _glowGamma;
     }
 
-    public function set_glowGamma(glowGamma:Float):Float {
+    private function set_glowGamma(glowGamma:Float):Float {
         _glowGamma = glowGamma;
         resetUniforms();
         return glowGamma;
     }
 
-    public function get_blurStart():Float {
+    private function get_blurStart():Float {
         return _blurStart;
     }
 
-    public function set_blurStart(blurStart:Float):Float {
+    private function set_blurStart(blurStart:Float):Float {
         _blurStart = blurStart;
         resetUniforms();
         return blurStart;
     }
 
-    public function get_blurWidth():Float {
+    private function get_blurWidth():Float {
         return _blurWidth;
     }
 
-    public function set_blurWidth(blurWidth:Float):Float {
+    private function set_blurWidth(blurWidth:Float):Float {
         _blurWidth = blurWidth;
         resetUniforms();
         return blurWidth;
     }
 
-    public function get_cx():Float {
+    private function get_cx():Float {
         return _cx;
     }
 
-    public function set_cx(cx:Float):Float {
+    private function set_cx(cx:Float):Float {
         _cx = cx;
         resetUniforms();
         return cx;
     }
 
-    public function get_cy():Float {
+    private function get_cy():Float {
         return _cy;
     }
 
-    public function set_cy(cy:Float):Float {
+    private function set_cy(cy:Float):Float {
         _cy = cy;
         resetUniforms();
         return cy;

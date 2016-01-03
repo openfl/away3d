@@ -12,8 +12,8 @@ import openfl.Vector;
 import haxe.ds.ObjectMap;
 
 class AnimationRegisterCache extends ShaderRegisterCache {
-    public var numVertexConstant(get_numVertexConstant, never):Int;
-    public var numFragmentConstant(get_numFragmentConstant, never):Int;
+    public var numVertexConstant(get, never):Int;
+    public var numFragmentConstant(get, never):Int;
 
     //vertex
     public var positionAttribute:ShaderRegisterElement;
@@ -196,11 +196,11 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     private var _numVertexConstant:Int;
     private var _numFragmentConstant:Int;
 
-    public function get_numVertexConstant():Int {
+    private function get_numVertexConstant():Int {
         return _numVertexConstant;
     }
 
-    public function get_numFragmentConstant():Int {
+    private function get_numFragmentConstant():Int {
         return _numFragmentConstant;
     }
 

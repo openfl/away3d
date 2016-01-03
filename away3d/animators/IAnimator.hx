@@ -13,12 +13,12 @@ import away3d.cameras.Camera3D;
 import away3d.materials.passes.MaterialPassBase;
 
 interface IAnimator {
-    var animationSet(get_animationSet, never):IAnimationSet;
+    var animationSet(get, never):IAnimationSet;
 
     /**
 	 * Returns the animation data set in use by the animator.
 	 */
-    function get_animationSet():IAnimationSet;
+    private function get_animationSet():IAnimationSet;
     /**
 	 * Sets the GPU render state required by the animation that is dependent of the rendered object.
 	 *

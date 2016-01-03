@@ -8,7 +8,7 @@ import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.textures.Texture;
 
 class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase {
-    public var secondaryInputTexture(get_secondaryInputTexture, never):Texture;
+    public var secondaryInputTexture(get, never):Texture;
 
     private var _secondaryInputTexture:Texture;
 
@@ -16,7 +16,7 @@ class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase {
         super();
     }
 
-    public function get_secondaryInputTexture():Texture {
+    private function get_secondaryInputTexture():Texture {
         return _secondaryInputTexture;
     }
 

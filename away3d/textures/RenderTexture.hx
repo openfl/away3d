@@ -16,7 +16,7 @@ class RenderTexture extends Texture2DBase {
         setSize(_width, _height);
     }
 
-    override public function set_width(value:Int):Int {
+    override private function set_width(value:Int):Int {
         if (value == _width) return value;
         if (!TextureUtils.isDimensionValid(value)) throw new Error("Invalid size: Width and height must be power of 2 and cannot exceed 2048");
         invalidateContent();
@@ -24,7 +24,7 @@ class RenderTexture extends Texture2DBase {
         return value;
     }
 
-    override public function set_height(value:Int):Int {
+    override private function set_height(value:Int):Int {
         if (value == _height) return value;
         if (!TextureUtils.isDimensionValid(value)) throw new Error("Invalid size: Width and height must be power of 2 and cannot exceed 2048");
         invalidateContent();

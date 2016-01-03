@@ -12,8 +12,8 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class SoftShadowMapMethod extends SimpleShadowMapMethodBase {
-    public var numSamples(get_numSamples, set_numSamples):Int;
-    public var range(get_range, set_range):Float;
+    public var numSamples(get, set):Int;
+    public var range(get, set):Float;
 
     private var _range:Float;
     private var _numSamples:Int;
@@ -37,11 +37,11 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase {
 	 * The amount of samples to take for dithering. Minimum 1, maximum 32. The actual maximum may depend on the
 	 * complexity of the shader.
 	 */
-    public function get_numSamples():Int {
+    private function get_numSamples():Int {
         return _numSamples;
     }
 
-    public function set_numSamples(value:Int):Int {
+    private function set_numSamples(value:Int):Int {
         _numSamples = value;
         
         if (_numSamples < 1) 
@@ -58,11 +58,11 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase {
     /**
 	 * The range in the shadow map in which to distribute the samples.
 	 */
-    public function get_range():Float {
+    private function get_range():Float {
         return _range;
     }
 
-    public function set_range(value:Float):Float {
+    private function set_range(value:Float):Float {
         _range = value;
         return value;
     }

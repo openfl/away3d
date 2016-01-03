@@ -15,12 +15,12 @@ class FreeMatrixLens extends LensBase {
         _matrix.copyFrom(new PerspectiveLens().matrix);
     }
 
-    override public function set_near(value:Float):Float {
+    override private function set_near(value:Float):Float {
         _near = value;
         return value;
     }
 
-    override public function set_far(value:Float):Float {
+    override private function set_far(value:Float):Float {
         _far = value;
         return value;
     }

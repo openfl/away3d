@@ -19,7 +19,7 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class ParticleRotationalVelocityState extends ParticleStateBase {
-    public var rotationalVelocity(get_rotationalVelocity, set_rotationalVelocity):Vector3D;
+    public var rotationalVelocity(get, set):Vector3D;
 
     private var _particleRotationalVelocityNode:ParticleRotationalVelocityNode;
     private var _rotationalVelocityData:Vector3D;
@@ -27,11 +27,11 @@ class ParticleRotationalVelocityState extends ParticleStateBase {
     /**
 	 * Defines the default rotationalVelocity of the state, used when in global mode.
 	 */
-    public function get_rotationalVelocity():Vector3D {
+    private function get_rotationalVelocity():Vector3D {
         return _rotationalVelocity;
     }
 
-    public function set_rotationalVelocity(value:Vector3D):Vector3D {
+    private function set_rotationalVelocity(value:Vector3D):Vector3D {
         _rotationalVelocity = value;
         updateRotationalVelocityData();
         return value;

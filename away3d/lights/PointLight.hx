@@ -17,8 +17,8 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class PointLight extends LightBase {
-    public var radius(get_radius, set_radius):Float;
-    public var fallOff(get_fallOff, set_fallOff):Float;
+    public var radius(get, set):Float;
+    public var fallOff(get, set):Float;
 
     //private static var _pos : Vector3D = new Vector3D();
     public var _radius:Float;
@@ -46,11 +46,11 @@ class PointLight extends LightBase {
     /**
 	 * The minimum distance of the light's reach.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _radius;
     }
 
-    public function set_radius(value:Float):Float {
+    private function set_radius(value:Float):Float {
         _radius = value;
         if (_radius < 0) _radius = 0
         else if (_radius > _fallOff) {
@@ -68,11 +68,11 @@ class PointLight extends LightBase {
     /**
 	 * The maximum distance of the light's reach
 	 */
-    public function get_fallOff():Float {
+    private function get_fallOff():Float {
         return _fallOff;
     }
 
-    public function set_fallOff(value:Float):Float {
+    private function set_fallOff(value:Float):Float {
         _fallOff = value;
         if (_fallOff < 0) _fallOff = 0;
         if (_fallOff < _radius) _radius = _fallOff;

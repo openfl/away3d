@@ -11,9 +11,9 @@ import away3d.containers.ObjectContainer3D;
 import openfl.geom.Vector3D;
 
 class LookAtController extends ControllerBase {
-    public var upAxis(get_upAxis, set_upAxis):Vector3D;
-    public var lookAtPosition(get_lookAtPosition, set_lookAtPosition):Vector3D;
-    public var lookAtObject(get_lookAtObject, set_lookAtObject):ObjectContainer3D;
+    public var upAxis(get, set):Vector3D;
+    public var lookAtPosition(get, set):Vector3D;
+    public var lookAtObject(get, set):ObjectContainer3D;
 
     private var _lookAtPosition:Vector3D;
     private var _lookAtObject:ObjectContainer3D;
@@ -34,11 +34,11 @@ class LookAtController extends ControllerBase {
         * The vector representing the up direction of the target object.
         */
 
-    public function get_upAxis():Vector3D {
+    private function get_upAxis():Vector3D {
         return _upAxis;
     }
 
-    public function set_upAxis(upAxis:Vector3D):Vector3D {
+    private function set_upAxis(upAxis:Vector3D):Vector3D {
         _upAxis = upAxis;
         notifyUpdate();
         return upAxis;
@@ -47,11 +47,11 @@ class LookAtController extends ControllerBase {
     /**
 	 * The Vector3D object that the target looks at.
 	 */
-    public function get_lookAtPosition():Vector3D {
+    private function get_lookAtPosition():Vector3D {
         return _lookAtPosition;
     }
 
-    public function set_lookAtPosition(val:Vector3D):Vector3D {
+    private function set_lookAtPosition(val:Vector3D):Vector3D {
         if (_lookAtObject != null) {
             _lookAtObject.removeEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onLookAtObjectChanged);
             _lookAtObject = null;
@@ -64,11 +64,11 @@ class LookAtController extends ControllerBase {
     /**
 	 * The 3d object that the target looks at.
 	 */
-    public function get_lookAtObject():ObjectContainer3D {
+    private function get_lookAtObject():ObjectContainer3D {
         return _lookAtObject;
     }
 
-    public function set_lookAtObject(val:ObjectContainer3D):ObjectContainer3D {
+    private function set_lookAtObject(val:ObjectContainer3D):ObjectContainer3D {
         if (_lookAtPosition != null) _lookAtPosition = null;
         if (_lookAtObject == val) return val;
         if (_lookAtObject != null) _lookAtObject.removeEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onLookAtObjectChanged);

@@ -7,18 +7,18 @@ import away3d.animators.IAnimator;
 import away3d.materials.MaterialBase;
 
 interface IMaterialOwner {
-    var material(get_material, set_material):MaterialBase;
-    var animator(get_animator, never):IAnimator;
+    var material(get, set):MaterialBase;
+    var animator(get, never):IAnimator;
 
     /**
 	 * The material with which to render the object.
 	 */
-    function get_material():MaterialBase;
-    function set_material(value:MaterialBase):MaterialBase;
+	private function get_material():MaterialBase;
+    private function set_material(value:MaterialBase):MaterialBase;
     /**
 	 * The animation used by the material to assemble the vertex code.
 	 */
-    function get_animator():IAnimator;
+    private function get_animator():IAnimator;
 // in most cases, this will in fact be null
 }
 

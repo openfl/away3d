@@ -8,7 +8,7 @@ import openfl.geom.Vector3D;
 import away3d.core.base.Geometry;
 
 class VertexClipNode extends AnimationClipNodeBase {
-    public var frames(get_frames, never):Array<Geometry>;
+    public var frames(get, never):Array<Geometry>;
 
     private var _frames:Array<Geometry>;
     private var _translations:Array<Vector3D>;
@@ -16,7 +16,7 @@ class VertexClipNode extends AnimationClipNodeBase {
     /**
 	 * Returns a vector of geometry frames representing the vertex values of each animation frame in the clip.
 	 */
-    public function get_frames():Array<Geometry> {
+    private function get_frames():Array<Geometry> {
         return _frames;
     }
 

@@ -10,8 +10,8 @@ import away3d.library.assets.NamedAssetBase;
 import away3d.library.assets.IAsset;
 
 class Skeleton extends NamedAssetBase implements IAsset {
-    public var numJoints(get_numJoints, never):Int;
-    public var assetType(get_assetType, never):String;
+    public var numJoints(get, never):Int;
+    public var assetType(get, never):String;
 
     /**
 	 * A flat list of joint objects that comprise the skeleton. Every joint except for the root has a parentIndex
@@ -23,7 +23,7 @@ class Skeleton extends NamedAssetBase implements IAsset {
     /**
 	 * The total number of joints in the skeleton.
 	 */
-    public function get_numJoints():Int {
+    private function get_numJoints():Int {
         return joints.length;
     }
 
@@ -84,7 +84,7 @@ class Skeleton extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.SKELETON;
     }
 }

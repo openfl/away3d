@@ -15,11 +15,11 @@ import haxe.ds.IntMap;
 import openfl.Vector;
 
 class SkinnedSubGeometry extends CompactSubGeometry {
-    public var condensedIndexLookUp(get_condensedIndexLookUp, never):Vector<UInt>;
-    public var numCondensedJoints(get_numCondensedJoints, never):Int;
-    public var animatedData(get_animatedData, never):Vector<Float>;
-    public var jointWeightsData(get_jointWeightsData, never):Vector<Float>;
-    public var jointIndexData(get_jointIndexData, never):Vector<UInt>;
+    public var condensedIndexLookUp(get, never):Vector<UInt>;
+    public var numCondensedJoints(get, never):Int;
+    public var animatedData(get, never):Vector<Float>;
+    public var jointWeightsData(get, never):Vector<Float>;
+    public var jointIndexData(get, never):Vector<UInt>;
 
     private var _bufferFormat:Context3DVertexBufferFormat;
     private var _jointWeightsData:Vector<Float>;
@@ -77,21 +77,21 @@ class SkinnedSubGeometry extends CompactSubGeometry {
     /**
 	 * If indices have been condensed, this will contain the original index for each condensed index.
 	 */
-    public function get_condensedIndexLookUp():Vector<UInt> {
+    private function get_condensedIndexLookUp():Vector<UInt> {
         return _condensedIndexLookUp;
     }
 
     /**
 	 * The amount of joints used when joint indices have been condensed.
 	 */
-    public function get_numCondensedJoints():Int {
+    private function get_numCondensedJoints():Int {
         return _numCondensedJoints;
     }
 
     /**
 	 * The animated vertex positions when set explicitly if the skinning transformations couldn't be performed on GPU.
 	 */
-    public function get_animatedData():Vector<Float> {
+    private function get_animatedData():Vector<Float> {
         if (_animatedData != null) return _animatedData ;
         return _vertexData.copy();
     }

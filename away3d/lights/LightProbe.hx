@@ -11,8 +11,8 @@ import away3d.textures.CubeTextureBase;
 import openfl.geom.Matrix3D;
 
 class LightProbe extends LightBase {
-    public var diffuseMap(get_diffuseMap, set_diffuseMap):CubeTextureBase;
-    public var specularMap(get_specularMap, set_specularMap):CubeTextureBase;
+    public var diffuseMap(get, set):CubeTextureBase;
+    public var specularMap(get, set):CubeTextureBase;
 
     private var _diffuseMap:CubeTextureBase;
     private var _specularMap:CubeTextureBase;
@@ -29,20 +29,20 @@ class LightProbe extends LightBase {
         return new LightProbeNode(this);
     }
 
-    public function get_diffuseMap():CubeTextureBase {
+    private function get_diffuseMap():CubeTextureBase {
         return _diffuseMap;
     }
 
-    public function set_diffuseMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_diffuseMap(value:CubeTextureBase):CubeTextureBase {
         _diffuseMap = value;
         return value;
     }
 
-    public function get_specularMap():CubeTextureBase {
+    private function get_specularMap():CubeTextureBase {
         return _specularMap;
     }
 
-    public function set_specularMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_specularMap(value:CubeTextureBase):CubeTextureBase {
         _specularMap = value;
         return value;
     }

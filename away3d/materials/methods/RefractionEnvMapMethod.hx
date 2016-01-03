@@ -11,12 +11,12 @@ import away3d.textures.CubeTextureBase;
 import openfl.Vector;
 
 class RefractionEnvMapMethod extends EffectMethodBase {
-    public var envMap(get_envMap, set_envMap):CubeTextureBase;
-    public var refractionIndex(get_refractionIndex, set_refractionIndex):Float;
-    public var dispersionR(get_dispersionR, set_dispersionR):Float;
-    public var dispersionG(get_dispersionG, set_dispersionG):Float;
-    public var dispersionB(get_dispersionB, set_dispersionB):Float;
-    public var alpha(get_alpha, set_alpha):Float;
+    public var envMap(get, set):CubeTextureBase;
+    public var refractionIndex(get, set):Float;
+    public var dispersionR(get, set):Float;
+    public var dispersionG(get, set):Float;
+    public var dispersionB(get, set):Float;
+    public var alpha(get, set):Float;
 
     private var _envMap:CubeTextureBase;
     private var _dispersionR:Float;
@@ -69,11 +69,11 @@ class RefractionEnvMapMethod extends EffectMethodBase {
     /**
 	 * The cube environment map to use for the refraction.
 	 */
-    public function get_envMap():CubeTextureBase {
+    private function get_envMap():CubeTextureBase {
         return _envMap;
     }
 
-    public function set_envMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_envMap(value:CubeTextureBase):CubeTextureBase {
         _envMap = value;
         return value;
     }
@@ -81,11 +81,11 @@ class RefractionEnvMapMethod extends EffectMethodBase {
     /**
 	 * The refractive index of the material.
 	 */
-    public function get_refractionIndex():Float {
+    private function get_refractionIndex():Float {
         return _refractionIndex;
     }
 
-    public function set_refractionIndex(value:Float):Float {
+    private function set_refractionIndex(value:Float):Float {
         _refractionIndex = value;
         return value;
     }
@@ -93,11 +93,11 @@ class RefractionEnvMapMethod extends EffectMethodBase {
     /**
 	 * The amount of chromatic dispersion of the red channel. Defaults to 0 (none).
 	 */
-    public function get_dispersionR():Float {
+    private function get_dispersionR():Float {
         return _dispersionR;
     }
 
-    public function set_dispersionR(value:Float):Float {
+    private function set_dispersionR(value:Float):Float {
         _dispersionR = value;
         var useDispersion:Bool = !(_dispersionR == _dispersionB && _dispersionR == _dispersionG);
         if (_useDispersion != useDispersion) {
@@ -110,11 +110,11 @@ class RefractionEnvMapMethod extends EffectMethodBase {
     /**
 	 * The amount of chromatic dispersion of the green channel. Defaults to 0 (none).
 	 */
-    public function get_dispersionG():Float {
+    private function get_dispersionG():Float {
         return _dispersionG;
     }
 
-    public function set_dispersionG(value:Float):Float {
+    private function set_dispersionG(value:Float):Float {
         _dispersionG = value;
         var useDispersion:Bool = !(_dispersionR == _dispersionB && _dispersionR == _dispersionG);
         if (_useDispersion != useDispersion) {
@@ -127,11 +127,11 @@ class RefractionEnvMapMethod extends EffectMethodBase {
     /**
 	 * The amount of chromatic dispersion of the blue channel. Defaults to 0 (none).
 	 */
-    public function get_dispersionB():Float {
+    private function get_dispersionB():Float {
         return _dispersionB;
     }
 
-    public function set_dispersionB(value:Float):Float {
+    private function set_dispersionB(value:Float):Float {
         _dispersionB = value;
         var useDispersion:Bool = !(_dispersionR == _dispersionB && _dispersionR == _dispersionG);
         if (_useDispersion != useDispersion) {
@@ -145,11 +145,11 @@ class RefractionEnvMapMethod extends EffectMethodBase {
 	 * The amount of transparency of the object. Warning: the alpha applies to the refracted color, not the actual
 	 * material. A value of 1 will make it appear fully transparent.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _alpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         _alpha = value;
         return value;
     }

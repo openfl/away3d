@@ -5,9 +5,9 @@ import away3d.errors.AbstractMethodError;
 import openfl.geom.Vector3D;
 
 class SegmentedPathBase implements IPath {
-    public var pointData(never, set_pointData):Vector<Vector3D>;
-    public var numSegments(get_numSegments, never):Int;
-    public var segments(get_segments, never):Vector<IPathSegment>;
+    public var pointData(never, set):Vector<Vector3D>;
+    public var numSegments(get, never):Int;
+    public var segments(get, never):Vector<IPathSegment>;
 
     private var _pointsPerSegment:Int;
     private var _segments:Vector<IPathSegment>;
@@ -17,7 +17,7 @@ class SegmentedPathBase implements IPath {
         if (data != null) pointData = data;
     }
 
-    public function set_pointData(data:Vector<Vector3D>):Vector<Vector3D> {
+    private function set_pointData(data:Vector<Vector3D>):Vector<Vector3D> {
         if (data.length < _pointsPerSegment) throw new Error("Path Vector.<Vector3D> must contain at least " + _pointsPerSegment + " Vector3D's");
         if (data.length % _pointsPerSegment != 0) throw new Error("Path Vector.<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
         _segments = new Vector<IPathSegment>();
@@ -40,7 +40,7 @@ class SegmentedPathBase implements IPath {
     /**
 	 * The number of segments in the Path
 	 */
-    public function get_numSegments():Int {
+    private function get_numSegments():Int {
         return _segments.length;
     }
 
@@ -49,7 +49,7 @@ class SegmentedPathBase implements IPath {
 	 *
 	 * @return    a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
 	 */
-    public function get_segments():Vector<IPathSegment> {
+    private function get_segments():Vector<IPathSegment> {
         return _segments;
     }
 

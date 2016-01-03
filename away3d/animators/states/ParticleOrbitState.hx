@@ -18,10 +18,10 @@ import away3d.animators.ParticleAnimator;
 import openfl.display3D.Context3DVertexBufferFormat;
 
 class ParticleOrbitState extends ParticleStateBase {
-    public var radius(get_radius, set_radius):Float;
-    public var cycleDuration(get_cycleDuration, set_cycleDuration):Float;
-    public var cyclePhase(get_cyclePhase, set_cyclePhase):Float;
-    public var eulers(get_eulers, set_eulers):Vector3D;
+    public var radius(get, set):Float;
+    public var cycleDuration(get, set):Float;
+    public var cyclePhase(get, set):Float;
+    public var eulers(get, set):Vector3D;
 
     private var _particleOrbitNode:ParticleOrbitNode;
     private var _usesEulers:Bool;
@@ -36,11 +36,11 @@ class ParticleOrbitState extends ParticleStateBase {
     /**
 	 * Defines the radius of the orbit when in global mode. Defaults to 100.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _radius;
     }
 
-    public function set_radius(value:Float):Float {
+    private function set_radius(value:Float):Float {
         _radius = value;
         updateOrbitData();
         return value;
@@ -49,11 +49,11 @@ class ParticleOrbitState extends ParticleStateBase {
     /**
 	 * Defines the duration of the orbit in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 */
-    public function get_cycleDuration():Float {
+    private function get_cycleDuration():Float {
         return _cycleDuration;
     }
 
-    public function set_cycleDuration(value:Float):Float {
+    private function set_cycleDuration(value:Float):Float {
         _cycleDuration = value;
         updateOrbitData();
         return value;
@@ -62,11 +62,11 @@ class ParticleOrbitState extends ParticleStateBase {
     /**
 	 * Defines the phase of the orbit in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-    public function get_cyclePhase():Float {
+    private function get_cyclePhase():Float {
         return _cyclePhase;
     }
 
-    public function set_cyclePhase(value:Float):Float {
+    private function set_cyclePhase(value:Float):Float {
         _cyclePhase = value;
         updateOrbitData();
         return value;
@@ -75,11 +75,11 @@ class ParticleOrbitState extends ParticleStateBase {
     /**
 	 * Defines the euler rotation in degrees, applied to the orientation of the orbit when in global mode.
 	 */
-    public function get_eulers():Vector3D {
+    private function get_eulers():Vector3D {
         return _eulers;
     }
 
-    public function set_eulers(value:Vector3D):Vector3D {
+    private function set_eulers(value:Vector3D):Vector3D {
         _eulers = value;
         updateOrbitData();
         return value;

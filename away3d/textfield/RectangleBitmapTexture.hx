@@ -14,12 +14,12 @@ class RectangleBitmapTexture extends Texture2DBase {
 		this.bitmapData = bitmapData;
 	}
 	
-	public var bitmapData(get_assetFullPath, set):BitmapData
-	public function get_bitmapData():BitmapData {
+	public var bitmapData(get, set):BitmapData
+	private function get_bitmapData():BitmapData {
 		return _bitmapData;
 	}
 
-	public function set_bitmapData(value:BitmapData):BitmapData {
+	private function set_bitmapData(value:BitmapData):BitmapData {
 		if (value == _bitmapData)
 			return value;
 

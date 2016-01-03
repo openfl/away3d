@@ -21,8 +21,8 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class DirectionalLight extends LightBase {
-    public var sceneDirection(get_sceneDirection, never):Vector3D;
-    public var direction(get_direction, set_direction):Vector3D;
+    public var sceneDirection(get, never):Vector3D;
+    public var direction(get, set):Vector3D;
 
     private var _direction:Vector3D;
     private var _tmpLookAt:Vector3D;
@@ -48,7 +48,7 @@ class DirectionalLight extends LightBase {
     /**
 	 * The direction of the light in scene coordinates.
 	 */
-    public function get_sceneDirection():Vector3D {
+    private function get_sceneDirection():Vector3D {
         if (_sceneTransformDirty) updateSceneTransform();
         return _sceneDirection;
     }
@@ -56,11 +56,11 @@ class DirectionalLight extends LightBase {
     /**
 	 * The direction of the light.
 	 */
-    public function get_direction():Vector3D {
+    private function get_direction():Vector3D {
         return _direction;
     }
 
-    public function set_direction(value:Vector3D):Vector3D {
+    private function set_direction(value:Vector3D):Vector3D {
         _direction = value;
         
         //lookAt(new Vector3D(x + _direction.x, y + _direction.y, z + _direction.z));

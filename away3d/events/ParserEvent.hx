@@ -3,7 +3,7 @@ package away3d.events;
 import openfl.events.Event;
 
 class ParserEvent extends Event {
-    public var message(get_message, never):String;
+    public var message(get, never):String;
 
     private var _message:String;
     /**
@@ -30,7 +30,7 @@ class ParserEvent extends Event {
     /**
 	 * Additional human-readable message. Usually supplied for PARSE_ERROR events.
 	 */
-    public function get_message():String {
+    private function get_message():String {
         return _message;
     }
 

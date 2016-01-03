@@ -6,9 +6,9 @@ package away3d.events;
 import openfl.events.Event;
 
 class LoaderEvent extends Event {
-    public var url(get_url, never):String;
-    public var message(get_message, never):String;
-   // public var isDependency(get_isDependency, never):Bool;
+    public var url(get, never):String;
+    public var message(get, never):String;
+   // public var isDependency(get, never):Bool;
 
     /**
 	 * Dispatched when loading of a asset failed.
@@ -43,14 +43,14 @@ class LoaderEvent extends Event {
     /**
 	 * The url of the loaded resource.
 	 */
-    public function get_url():String {
+    private function get_url():String {
         return _url;
     }
 
     /**
 	 * The error string on loadError.
 	 */
-    public function get_message():String {
+    private function get_message():String {
         return _message;
     }
 
@@ -59,7 +59,7 @@ class LoaderEvent extends Event {
 	 * to the base file. Dependencies can be textures or other files that are
 	 * referenced by the base file.
 	 */
-    public function get_isDependency():Bool {
+    private function get_isDependency():Bool {
         return _isDependency;
     }
 

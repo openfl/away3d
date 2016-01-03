@@ -7,7 +7,7 @@ import away3d.core.traverse.PartitionTraverser;
 import away3d.lights.DirectionalLight;
 
 class DirectionalLightNode extends EntityNode {
-    public var light(get_light, never):DirectionalLight;
+    public var light(get, never):DirectionalLight;
 
     private var _light:DirectionalLight;
     /**
@@ -22,7 +22,7 @@ class DirectionalLightNode extends EntityNode {
     /**
 	 * The light object contained in this node.
 	 */
-    public function get_light():DirectionalLight {
+    private function get_light():DirectionalLight {
         return _light;
     }
 

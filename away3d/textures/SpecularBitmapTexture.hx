@@ -11,8 +11,8 @@ import openfl.geom.Point;
 import openfl.geom.Rectangle;
 
 class SpecularBitmapTexture extends BitmapTexture {
-    public var specularMap(get_specularMap, set_specularMap):BitmapData;
-    public var glossMap(get_glossMap, set_glossMap):BitmapData;
+    public var specularMap(get, set):BitmapData;
+    public var glossMap(get, set):BitmapData;
 
     private var _specularMap:BitmapData;
     private var _glossMap:BitmapData;
@@ -27,22 +27,22 @@ class SpecularBitmapTexture extends BitmapTexture {
         this.glossMap = glossMap;
     }
 
-    public function get_specularMap():BitmapData {
+    private function get_specularMap():BitmapData {
         return _specularMap;
     }
 
-    public function set_specularMap(value:BitmapData):BitmapData {
+    private function set_specularMap(value:BitmapData):BitmapData {
         _specularMap = value;
         invalidateContent();
         testSize();
         return value;
     }
 
-    public function get_glossMap():BitmapData {
+    private function get_glossMap():BitmapData {
         return _glossMap;
     }
 
-    public function set_glossMap(value:BitmapData):BitmapData {
+    private function set_glossMap(value:BitmapData):BitmapData {
         _glossMap = value;
         invalidateContent();
         testSize();

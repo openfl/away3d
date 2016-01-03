@@ -16,15 +16,15 @@ import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
 
 class AnimatorBase extends NamedAssetBase implements IAsset {
-    public var absoluteTime(get_absoluteTime, never):Int;
-    public var animationSet(get_animationSet, never):IAnimationSet;
-    public var activeState(get_activeState, never):IAnimationState;
-    public var activeAnimation(get_activeAnimation, never):AnimationNodeBase;
-    public var activeAnimationName(get_activeAnimationName, never):String;
-    public var autoUpdate(get_autoUpdate, set_autoUpdate):Bool;
-    public var time(get_time, set_time):Int;
-    public var playbackSpeed(get_playbackSpeed, set_playbackSpeed):Float;
-    public var assetType(get_assetType, never):String;
+    public var absoluteTime(get, never):Int;
+    public var animationSet(get, never):IAnimationSet;
+    public var activeState(get, never):IAnimationState;
+    public var activeAnimation(get, never):AnimationNodeBase;
+    public var activeAnimationName(get, never):String;
+    public var autoUpdate(get, set):Bool;
+    public var time(get, set_time):Int;
+    public var playbackSpeed(get, set):Float;
+    public var assetType(get, never):String;
 
     private var _broadcaster:Sprite;
     private var _isPlaying:Bool;
@@ -69,35 +69,35 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
 	 * @see #time
 	 * @see #playbackSpeed
 	 */
-    public function get_absoluteTime():Int {
+    private function get_absoluteTime():Int {
         return _absoluteTime;
     }
 
     /**
 	 * Returns the animation data set in use by the animator.
 	 */
-    public function get_animationSet():IAnimationSet {
+    private function get_animationSet():IAnimationSet {
         return _animationSet;
     }
 
     /**
 	 * Returns the current active animation state.
 	 */
-    public function get_activeState():IAnimationState {
+    private function get_activeState():IAnimationState {
         return _activeState;
     }
 
     /**
 	 * Returns the current active animation node.
 	 */
-    public function get_activeAnimation():AnimationNodeBase {
+    private function get_activeAnimation():AnimationNodeBase {
         return _animationSet.getAnimation(_activeAnimationName);
     }
 
     /**
 	 * Returns the current active animation node.
 	 */
-    public function get_activeAnimationName():String {
+    private function get_activeAnimationName():String {
         return _activeAnimationName;
     }
 
@@ -109,11 +109,11 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
 	 * @see #time
 	 * @see #update()
 	 */
-    public function get_autoUpdate():Bool {
+    private function get_autoUpdate():Bool {
         return _autoUpdate;
     }
 
-    public function set_autoUpdate(value:Bool):Bool {
+    private function set_autoUpdate(value:Bool):Bool {
         if (_autoUpdate == value) return value;
         _autoUpdate = value;
         if (_autoUpdate) start()
@@ -124,11 +124,11 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
     /**
 	 * Gets and sets the internal time clock of the animator.
 	 */
-    public function get_time():Int {
+    private function get_time():Int {
         return _time;
     }
 
-    public function set_time(value:Int):Int {
+    private function set_time(value:Int):Int {
         if (_time == value) return value;
         update(value);
         return value;
@@ -164,11 +164,11 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
     /**
 	 * The amount by which passed time should be scaled. Used to slow down or speed up animations. Defaults to 1.
 	 */
-    public function get_playbackSpeed():Float {
+    private function get_playbackSpeed():Float {
         return _playbackSpeed;
     }
 
-    public function set_playbackSpeed(value:Float):Float {
+    private function set_playbackSpeed(value:Float):Float {
         _playbackSpeed = value;
         return value;
     }
@@ -305,7 +305,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.ANIMATOR;
     }
 }

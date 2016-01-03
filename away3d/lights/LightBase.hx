@@ -15,13 +15,13 @@ import away3d.lights.shadowmaps.ShadowMapperBase;
 import openfl.geom.Matrix3D;
 
 class LightBase extends Entity {
-    public var castsShadows(get_castsShadows, set_castsShadows):Bool;
-    public var specular(get_specular, set_specular):Float;
-    public var diffuse(get_diffuse, set_diffuse):Float;
-    public var color(get_color, set_color):Int;
-    public var ambient(get_ambient, set_ambient):Float;
-    public var ambientColor(get_ambientColor, set_ambientColor):Int;
-    public var shadowMapper(get_shadowMapper, set_shadowMapper):ShadowMapperBase;
+    public var castsShadows(get, set):Bool;
+    public var specular(get, set):Float;
+    public var diffuse(get, set):Float;
+    public var color(get, set):Int;
+    public var ambient(get, set):Float;
+    public var ambientColor(get, set):Int;
+    public var shadowMapper(get, set):ShadowMapperBase;
 
     private var _color:Int;
     private var _colorR:Float;
@@ -67,11 +67,11 @@ class LightBase extends Entity {
         super();
     }
 
-    public function get_castsShadows():Bool {
+    private function get_castsShadows():Bool {
         return _castsShadows;
     }
 
-    public function set_castsShadows(value:Bool):Bool {
+    private function set_castsShadows(value:Bool):Bool {
         if (_castsShadows == value) return value;
         _castsShadows = value;
         if (value) {
@@ -98,11 +98,11 @@ class LightBase extends Entity {
     /**
 	 * The specular emission strength of the light. Default value is <code>1</code>.
 	 */
-    public function get_specular():Float {
+    private function get_specular():Float {
         return _specular;
     }
 
-    public function set_specular(value:Float):Float {
+    private function set_specular(value:Float):Float {
         if (value < 0) value = 0;
         _specular = value;
         updateSpecular();
@@ -112,11 +112,11 @@ class LightBase extends Entity {
     /**
 	 * The diffuse emission strength of the light. Default value is <code>1</code>.
 	 */
-    public function get_diffuse():Float {
+    private function get_diffuse():Float {
         return _diffuse;
     }
 
-    public function set_diffuse(value:Float):Float {
+    private function set_diffuse(value:Float):Float {
         if (value < 0) value = 0;
         _diffuse = value;
         updateDiffuse();
@@ -126,11 +126,11 @@ class LightBase extends Entity {
     /**
 	 * The color of the light. Default value is <code>0xffffff</code>.
 	 */
-    public function get_color():Int {
+    private function get_color():Int {
         return _color;
     }
 
-    public function set_color(value:Int):Int {
+    private function set_color(value:Int):Int {
         _color = value;
         _colorR = ((_color >> 16) & 0xff) / 0xff;
         _colorG = ((_color >> 8) & 0xff) / 0xff;
@@ -143,11 +143,11 @@ class LightBase extends Entity {
     /**
 	 * The ambient emission strength of the light. Default value is <code>0</code>.
 	 */
-    public function get_ambient():Float {
+    private function get_ambient():Float {
         return _ambient;
     }
 
-    public function set_ambient(value:Float):Float {
+    private function set_ambient(value:Float):Float {
         if (value < 0) value = 0
         else if (value > 1) value = 1;
         _ambient = value;
@@ -155,14 +155,14 @@ class LightBase extends Entity {
         return value;
     }
 
-    public function get_ambientColor():Int {
+    private function get_ambientColor():Int {
         return _ambientColor;
     }
 
     /**
 	 * The ambient emission colour of the light. Default value is <code>0xffffff</code>.
 	 */
-    public function set_ambientColor(value:Int):Int {
+    private function set_ambientColor(value:Int):Int {
         _ambientColor = value;
         updateAmbient();
         return value;
@@ -195,7 +195,7 @@ class LightBase extends Entity {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.LIGHT;
     }
 
@@ -219,11 +219,11 @@ class LightBase extends Entity {
         _diffuseB = _colorB * _diffuse;
     }
 
-    public function get_shadowMapper():ShadowMapperBase {
+    private function get_shadowMapper():ShadowMapperBase {
         return _shadowMapper;
     }
 
-    public function set_shadowMapper(value:ShadowMapperBase):ShadowMapperBase {
+    private function set_shadowMapper(value:ShadowMapperBase):ShadowMapperBase {
         _shadowMapper = value;
         _shadowMapper.light = this;
         return value;

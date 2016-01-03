@@ -27,30 +27,32 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 class SkyBox extends Entity implements IRenderable {
-    public var animator(get_animator, never):IAnimator;
-    public var numTriangles(get_numTriangles, never):Int;
-    public var sourceEntity(get_sourceEntity, never):Entity;
-    public var material(get_material, set_material):MaterialBase;
-    public var castsShadows(get_castsShadows, never):Bool;
-    public var uvTransform(get_uvTransform, never):Matrix;
-    public var vertexData(get_vertexData, never):Vector<Float>;
-    public var indexData(get_indexData, never):Vector<UInt>;
-    public var UVData(get_UVData, never):Vector<Float>;
-    public var numVertices(get_numVertices, never):Int;
-    public var vertexStride(get_vertexStride, never):Int;
-    public var vertexNormalData(get_vertexNormalData, never):Vector<Float>;
-    public var vertexTangentData(get_vertexTangentData, never):Vector<Float>;
-    public var vertexOffset(get_vertexOffset, never):Int;
-    public var vertexNormalOffset(get_vertexNormalOffset, never):Int;
-    public var vertexTangentOffset(get_vertexTangentOffset, never):Int;
+    public var animator(get, never):IAnimator;
+    public var numTriangles(get, never):Int;
+    public var sourceEntity(get, never):Entity;
+    public var material(get, set_material):MaterialBase;
+    public var castsShadows(get, never):Bool;
+    public var uvTransform(get, never):Matrix;
+    public var uvTransform2(get, never):Matrix;
+    public var vertexData(get, never):Vector<Float>;
+    public var indexData(get, never):Vector<UInt>;
+    public var UVData(get, never):Vector<Float>;
+    public var numVertices(get, never):Int;
+    public var vertexStride(get, never):Int;
+    public var vertexNormalData(get, never):Vector<Float>;
+    public var vertexTangentData(get, never):Vector<Float>;
+    public var vertexOffset(get, never):Int;
+    public var vertexNormalOffset(get, never):Int;
+    public var vertexTangentOffset(get, never):Int;
 
     // todo: remove SubGeometry, use a simple single buffer with offsets
     private var _geometry:SubGeometry;
     private var _material:SkyBoxMaterial;
     private var _uvTransform:Matrix;
+    private var _uvTransform2:Matrix;
     private var _animator:IAnimator;
 
-    public function get_animator():IAnimator {
+    private function get_animator():IAnimator {
         return _animator;
     }
 
@@ -64,6 +66,7 @@ class SkyBox extends Entity implements IRenderable {
 	 */
     public function new(cubeMap:CubeTextureBase) {
         _uvTransform = new Matrix();
+        _uvTransform2 = new Matrix();
         super();
         _material = new SkyBoxMaterial(cubeMap);
         _material.addOwner(this);
@@ -109,30 +112,30 @@ class SkyBox extends Entity implements IRenderable {
     /**
 	 * The amount of triangles that comprise the SkyBox geometry.
 	 */
-    public function get_numTriangles():Int {
+    private function get_numTriangles():Int {
         return _geometry.numTriangles;
     }
 
     /**
 	 * The entity that that initially provided the IRenderable to the render pipeline.
 	 */
-    public function get_sourceEntity():Entity {
+    private function get_sourceEntity():Entity {
         return null;
     }
 
     /**
 	 * The material with which to render the object.
 	 */
-    public function get_material():MaterialBase {
+    private function get_material():MaterialBase {
         return _material;
     }
 
-    public function set_material(value:MaterialBase):MaterialBase {
+    private function set_material(value:MaterialBase):MaterialBase {
         throw new AbstractMethodError("Unsupported method!");
         return value;
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.SKYBOX;
     }
 
@@ -168,51 +171,55 @@ class SkyBox extends Entity implements IRenderable {
         target.updateIndexData(indices);
     }
 
-    public function get_castsShadows():Bool {
+    private function get_castsShadows():Bool {
         return false;
     }
 
-    public function get_uvTransform():Matrix {
+    private function get_uvTransform():Matrix {
         return _uvTransform;
     }
 
-    public function get_vertexData():Vector<Float> {
+    private function get_uvTransform2():Matrix {
+        return _uvTransform2;
+    }
+
+    private function get_vertexData():Vector<Float> {
         return _geometry.vertexData;
     }
 
-    public function get_indexData():Vector<UInt> {
+    private function get_indexData():Vector<UInt> {
         return _geometry.indexData;
     }
 
-    public function get_UVData():Vector<Float> {
+    private function get_UVData():Vector<Float> {
         return _geometry.UVData;
     }
 
-    public function get_numVertices():Int {
+    private function get_numVertices():Int {
         return _geometry.numVertices;
     }
 
-    public function get_vertexStride():Int {
+    private function get_vertexStride():Int {
         return _geometry.vertexStride;
     }
 
-    public function get_vertexNormalData():Vector<Float> {
+    private function get_vertexNormalData():Vector<Float> {
         return _geometry.vertexNormalData;
     }
 
-    public function get_vertexTangentData():Vector<Float> {
+    private function get_vertexTangentData():Vector<Float> {
         return _geometry.vertexTangentData;
     }
 
-    public function get_vertexOffset():Int {
+    private function get_vertexOffset():Int {
         return _geometry.vertexOffset;
     }
 
-    public function get_vertexNormalOffset():Int {
+    private function get_vertexNormalOffset():Int {
         return _geometry.vertexNormalOffset;
     }
 
-    public function get_vertexTangentOffset():Int {
+    private function get_vertexTangentOffset():Int {
         return _geometry.vertexTangentOffset;
     }
 

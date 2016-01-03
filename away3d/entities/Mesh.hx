@@ -24,12 +24,12 @@ import openfl.Vector;
 
 class Mesh extends Entity implements IMaterialOwner implements IAsset {
     
-    public var castsShadows(get_castsShadows, set_castsShadows):Bool;
-    public var animator(get_animator, set_animator):IAnimator;
-    public var geometry(get_geometry, set_geometry):Geometry;
-    public var material(get_material, set_material):MaterialBase;
-    public var subMeshes(get_subMeshes, never):Vector<SubMesh>;
-    public var shareAnimationGeometry(get_shareAnimationGeometry, set_shareAnimationGeometry):Bool;
+    public var castsShadows(get, set):Bool;
+    public var animator(get, set):IAnimator;
+    public var geometry(get, set):Geometry;
+    public var material(get, set):MaterialBase;
+    public var subMeshes(get, never):Vector<SubMesh>;
+    public var shareAnimationGeometry(get, set):Bool;
 
     private var _subMeshes:Vector<SubMesh>;
     private var _geometry:Geometry;
@@ -69,7 +69,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
         transform.identity();
     }
 
-    override public function get_assetType():String {
+    override private function get_assetType():String {
         return Asset3DType.MESH;
     }
 
@@ -80,11 +80,11 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     /**
      * Indicates whether or not the Mesh can cast shadows. Default value is <code>true</code>.
      */
-    public function get_castsShadows():Bool {
+    private function get_castsShadows():Bool {
         return _castsShadows;
     }
 
-    public function set_castsShadows(value:Bool):Bool {
+    private function set_castsShadows(value:Bool):Bool {
         _castsShadows = value;
         return value;
     }
@@ -92,11 +92,11 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     /**
      * Defines the animator of the mesh. Act on the mesh's geometry.  Default value is <code>null</code>.
      */
-    public function get_animator():IAnimator {
+    private function get_animator():IAnimator {
         return _animator;
     }
 
-    public function set_animator(value:IAnimator):IAnimator {
+    private function set_animator(value:IAnimator):IAnimator {
         if (_animator != null) 
             _animator.removeOwner(this);
         
@@ -129,11 +129,11 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     /**
      * The geometry used by the mesh that provides it with its shape.
      */
-    public function get_geometry():Geometry {
+    private function get_geometry():Geometry {
         return _geometry;
     }
 
-    public function set_geometry(value:Geometry):Geometry {
+    private function set_geometry(value:Geometry):Geometry {
         var i:Int;
         
         if (_geometry != null) {
@@ -173,11 +173,11 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     /**
      * The material with which to render the Mesh.
      */
-    public function get_material():MaterialBase {
+    private function get_material():MaterialBase {
         return _material;
     }
 
-    public function set_material(value:MaterialBase):MaterialBase {
+    private function set_material(value:MaterialBase):MaterialBase {
         if (value == _material)
             return value;
 
@@ -196,7 +196,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
      * The SubMeshes out of which the Mesh consists. Every SubMesh can be assigned a material to override the Mesh's
      * material.
      */
-    public function get_subMeshes():Vector<SubMesh> {
+    private function get_subMeshes():Vector<SubMesh> {
         // Since this getter is invoked every iteration of the render loop, and
         // the geometry construct could affect the sub-meshes, the geometry is
         // validated here to give it a chance to rebuild.
@@ -207,11 +207,11 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset {
     /**
      * Indicates whether or not the mesh share the same animation geometry.
      */
-    public function get_shareAnimationGeometry():Bool {
+    private function get_shareAnimationGeometry():Bool {
         return _shareAnimationGeometry;
     }
 
-    public function set_shareAnimationGeometry(value:Bool):Bool {
+    private function set_shareAnimationGeometry(value:Bool):Bool {
         _shareAnimationGeometry = value;
         return value;
     }

@@ -12,9 +12,9 @@ import away3d.textures.Texture2DBase;
 import openfl.display3D.Context3D;
 
 class EnvMapMethod extends EffectMethodBase {
-    public var mask(get_mask, set_mask):Texture2DBase;
-    public var envMap(get_envMap, set_envMap):CubeTextureBase;
-    public var alpha(get_alpha, set_alpha):Float;
+    public var mask(get, set):Texture2DBase;
+    public var envMap(get, set):CubeTextureBase;
+    public var alpha(get, set):Float;
 
     private var _cubeTexture:CubeTextureBase;
     private var _alpha:Float;
@@ -33,11 +33,11 @@ class EnvMapMethod extends EffectMethodBase {
     /**
 	 * An optional texture to modulate the reflectivity of the surface.
 	 */
-    public function get_mask():Texture2DBase {
+    private function get_mask():Texture2DBase {
         return _mask;
     }
 
-    public function set_mask(value:Texture2DBase):Texture2DBase {
+    private function set_mask(value:Texture2DBase):Texture2DBase {
         if (cast((value != null), Bool) != cast((_mask != null), Bool) || (value != null && _mask != null && (value.hasMipMaps != _mask.hasMipMaps || value.format != _mask.format))) {
             invalidateShaderProgram();
         }
@@ -57,11 +57,11 @@ class EnvMapMethod extends EffectMethodBase {
     /**
 	 * The cubic environment map containing the reflected scene.
 	 */
-    public function get_envMap():CubeTextureBase {
+    private function get_envMap():CubeTextureBase {
         return _cubeTexture;
     }
 
-    public function set_envMap(value:CubeTextureBase):CubeTextureBase {
+    private function set_envMap(value:CubeTextureBase):CubeTextureBase {
         _cubeTexture = value;
         return value;
     }
@@ -75,11 +75,11 @@ class EnvMapMethod extends EffectMethodBase {
     /**
 	 * The reflectivity of the surface.
 	 */
-    public function get_alpha():Float {
+    private function get_alpha():Float {
         return _alpha;
     }
 
-    public function set_alpha(value:Float):Float {
+    private function set_alpha(value:Float):Float {
         _alpha = value;
         return value;
     }

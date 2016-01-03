@@ -7,7 +7,7 @@ import away3d.cameras.lenses.LensBase;
 import openfl.events.Event;
 
 class LensEvent extends Event {
-    public var lens(get_lens, never):LensBase;
+    public var lens(get, never):LensBase;
 
     static public var MATRIX_CHANGED:String = "matrixChanged";
     private var _lens:LensBase;
@@ -17,7 +17,7 @@ class LensEvent extends Event {
         _lens = lens;
     }
 
-    public function get_lens():LensBase {
+    private function get_lens():LensBase {
         return _lens;
     }
 

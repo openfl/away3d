@@ -8,13 +8,13 @@ import away3d.events.ShadingMethodEvent;
 import openfl.events.EventDispatcher;
 
 class ShaderMethodSetup extends EventDispatcher {
-    public var normalMethod(get_normalMethod, set_normalMethod):BasicNormalMethod;
-    public var ambientMethod(get_ambientMethod, set_ambientMethod):BasicAmbientMethod;
-    public var shadowMethod(get_shadowMethod, set_shadowMethod):ShadowMapMethodBase;
-    public var diffuseMethod(get_diffuseMethod, set_diffuseMethod):BasicDiffuseMethod;
-    public var specularMethod(get_specularMethod, set_specularMethod):BasicSpecularMethod;
-    public var colorTransformMethod(get_colorTransformMethod, set_colorTransformMethod):ColorTransformMethod;
-    public var numMethods(get_numMethods, never):Int;
+    public var normalMethod(get, set):BasicNormalMethod;
+    public var ambientMethod(get, set):BasicAmbientMethod;
+    public var shadowMethod(get, set):ShadowMapMethodBase;
+    public var diffuseMethod(get, set):BasicDiffuseMethod;
+    public var specularMethod(get, set):BasicSpecularMethod;
+    public var colorTransformMethod(get, set):ColorTransformMethod;
+    public var numMethods(get, never):Int;
 
     public var _colorTransformMethod:ColorTransformMethod;
     public var _colorTransformMethodVO:MethodVO;
@@ -69,11 +69,11 @@ class ShaderMethodSetup extends EventDispatcher {
     /**
 	 *  The method used to generate the per-pixel normals.
 	 */
-    public function get_normalMethod():BasicNormalMethod {
+    private function get_normalMethod():BasicNormalMethod {
         return _normalMethod;
     }
 
-    public function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod {
+    private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod {
         if (_normalMethod != null) _normalMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         if (value != null) {
             if (_normalMethod != null) value.copyFrom(_normalMethod);
@@ -88,11 +88,11 @@ class ShaderMethodSetup extends EventDispatcher {
     /**
 	 * The method that provides the ambient lighting contribution.
 	 */
-    public function get_ambientMethod():BasicAmbientMethod {
+    private function get_ambientMethod():BasicAmbientMethod {
         return _ambientMethod;
     }
 
-    public function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod {
+    private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod {
         if (_ambientMethod != null) _ambientMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         if (value != null) {
             if (_ambientMethod != null) value.copyFrom(_ambientMethod);
@@ -107,11 +107,11 @@ class ShaderMethodSetup extends EventDispatcher {
     /**
 	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered.
 	 */
-    public function get_shadowMethod():ShadowMapMethodBase {
+    private function get_shadowMethod():ShadowMapMethodBase {
         return _shadowMethod;
     }
 
-    public function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase {
+    private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase {
         if (_shadowMethod != null) _shadowMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         _shadowMethod = value;
         if (_shadowMethod != null) {
@@ -127,11 +127,11 @@ class ShaderMethodSetup extends EventDispatcher {
     /**
 	 * The method that provides the diffuse lighting contribution.
 	 */
-    public function get_diffuseMethod():BasicDiffuseMethod {
+    private function get_diffuseMethod():BasicDiffuseMethod {
         return _diffuseMethod;
     }
 
-    public function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
+    private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod {
         if (_diffuseMethod != null) _diffuseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
         if (value != null) {
             if (_diffuseMethod != null) value.copyFrom(_diffuseMethod);
@@ -146,11 +146,11 @@ class ShaderMethodSetup extends EventDispatcher {
     /**
 	 * The method to perform specular shading.
 	 */
-    public function get_specularMethod():BasicSpecularMethod {
+    private function get_specularMethod():BasicSpecularMethod {
         return _specularMethod;
     }
 
-    public function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod {
+    private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod {
         if (_specularMethod != null) {
             _specularMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
             if (value != null) value.copyFrom(_specularMethod);
@@ -258,7 +258,7 @@ class ShaderMethodSetup extends EventDispatcher {
     /**
 	 * The number of "effect" methods added to the material.
 	 */
-    public function get_numMethods():Int {
+    private function get_numMethods():Int {
         return _methods.length;
     }
 

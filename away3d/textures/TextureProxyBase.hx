@@ -12,11 +12,11 @@ import openfl.display3D.textures.TextureBase;
 import openfl.Vector;
 
 class TextureProxyBase extends NamedAssetBase implements IAsset {
-    public var hasMipMaps(get_hasMipMaps, never):Bool;
-    public var format(get_format, never):Context3DTextureFormat;
-    public var assetType(get_assetType, never):String;
-    public var width(get_width, never):Int;
-    public var height(get_height, never):Int;
+    public var hasMipMaps(get, never):Bool;
+    public var format(get, never):Context3DTextureFormat;
+    public var assetType(get, never):String;
+    public var width(get, never):Int;
+    public var height(get, never):Int;
 
     private var _format:Context3DTextureFormat;
     private var _hasMipmaps:Bool;
@@ -33,33 +33,33 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
         super();
     }
 
-    public function get_hasMipMaps():Bool {
+    private function get_hasMipMaps():Bool {
         return _hasMipmaps;
     }
 
-    public function get_format():Context3DTextureFormat {
+    private function get_format():Context3DTextureFormat {
         return _format;
     }
 
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.TEXTURE;
     }
 
-    public function get_width():Int {
+    private function get_width():Int {
         return _width;
     }
 
-    public function get_height():Int {
+    private function get_height():Int {
         return _height;
     }
 
-    public function set_width(value:Int):Int {
+    private function set_width(value:Int):Int {
         if (value == _width) return value;
         _width = value;
         return value;
     }
 
-    public function set_height(value:Int):Int {
+    private function set_height(value:Int):Int {
         if (value == _height) return value;
         _height = value;
         return value;

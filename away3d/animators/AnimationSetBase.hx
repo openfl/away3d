@@ -14,10 +14,10 @@ import away3d.library.assets.IAsset;
 import openfl.Vector;
 
 class AnimationSetBase extends NamedAssetBase implements IAsset {
-    public var usesCPU(get_usesCPU, never):Bool;
-    public var assetType(get_assetType, never):String;
-    public var animations(get_animations, never):Vector<AnimationNodeBase>;
-    public var animationNames(get_animationNames, never):Vector<String>;
+    public var usesCPU(get, never):Bool;
+    public var assetType(get, never):String;
+    public var animations(get, never):Vector<AnimationNodeBase>;
+    public var animationNames(get, never):Vector<String>;
 
     private var _usesCPU:Bool;
     private var _animations:Vector<AnimationNodeBase>;
@@ -56,7 +56,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
-    public function get_usesCPU():Bool {
+    private function get_usesCPU():Bool {
         return _usesCPU;
     }
 
@@ -77,21 +77,21 @@ class AnimationSetBase extends NamedAssetBase implements IAsset {
     /**
 	 * @inheritDoc
 	 */
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.ANIMATION_SET;
     }
 
     /**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
-    public function get_animations():Vector<AnimationNodeBase> {
+    private function get_animations():Vector<AnimationNodeBase> {
         return _animations;
     }
 
     /**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
-    public function get_animationNames():Vector<String> {
+    private function get_animationNames():Vector<String> {
         return _animationNames;
     }
 

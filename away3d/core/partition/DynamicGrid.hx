@@ -11,10 +11,10 @@ import away3d.entities.Entity;
 import openfl.geom.Vector3D;
 
 class DynamicGrid {
-    public var numCellsX(get_numCellsX, never):Int;
-    public var numCellsY(get_numCellsY, never):Int;
-    public var numCellsZ(get_numCellsZ, never):Int;
-    public var showDebugBounds(get_showDebugBounds, set_showDebugBounds):Bool;
+    public var numCellsX(get, never):Int;
+    public var numCellsY(get, never):Int;
+    public var numCellsZ(get, never):Int;
+    public var showDebugBounds(get, set):Bool;
 
     private var _minX:Float;
     private var _minY:Float;
@@ -41,15 +41,15 @@ class DynamicGrid {
         _leaves = createLevel(numCellsX, numCellsY, numCellsZ, _cellWidth, _cellHeight, _cellDepth);
     }
 
-    public function get_numCellsX():Int {
+    private function get_numCellsX():Int {
         return _numCellsX;
     }
 
-    public function get_numCellsY():Int {
+    private function get_numCellsY():Int {
         return _numCellsY;
     }
 
-    public function get_numCellsZ():Int {
+    private function get_numCellsZ():Int {
         return _numCellsZ;
     }
 
@@ -146,11 +146,11 @@ class DynamicGrid {
         return node;
     }
 
-    public function get_showDebugBounds():Bool {
+    private function get_showDebugBounds():Bool {
         return _showDebugBounds;
     }
 
-    public function set_showDebugBounds(value:Bool):Bool {
+    private function set_showDebugBounds(value:Bool):Bool {
         var numLeaves:Int = _leaves.length;
         _showDebugBounds = showDebugBounds;
         var i:Int = 0;

@@ -61,31 +61,31 @@ class BitmapChar
 	
 	/** The unicode ID of the char. */
 	public var charID(get, null):Int;
-	public function get_charID():Int { return mCharID; }
+	private function get_charID():Int { return mCharID; }
 	
 	/** The number of points to move the char in x direction on character arrangement. */
 	public var xOffset(get, null):Float;
-	public function get_xOffset():Float { return mXOffset; }
+	private function get_xOffset():Float { return mXOffset; }
 	
 	/** The number of points to move the char in y direction on character arrangement. */
 	public var yOffset(get, null):Float;
-	public function get_yOffset():Float { return mYOffset; }
+	private function get_yOffset():Float { return mYOffset; }
 	
 	/** The number of points the cursor has to be moved to the right for the next char. */
 	public var xAdvance(get, null):Float;
-	public function get_xAdvance():Float { return mXAdvance; }
+	private function get_xAdvance():Float { return mXAdvance; }
 	
 	/** The width of the character in points. */
 	public var width(get, null):Float;
-	public function get_width():Float { return mWidth; }
+	private function get_width():Float { return mWidth; }
 	
 	/** The height of the character in points. */
 	public var height(get, null):Float;
-	public function get_height():Float { return mHeight; }
+	private function get_height():Float { return mHeight; }
 	
 	public var x(get, null):Float;
-	public function get_x():Float { return mX; }
+	private function get_x():Float { return mX; }
 	
 	public var y(get, null):Float;
-	public function get_y():Float { return mY; }
+	private function get_y():Float { return mY; }
 }

@@ -62,13 +62,13 @@ import openfl.utils.ByteArray;
 import openfl.Assets;
 
 class AwayStats extends Sprite {
-    public var max_ram(get_max_ram, never):Float;
-    public var ram(get_ram, never):Float;
-    public var avg_fps(get_avg_fps, never):Float;
-    public var max_fps(get_max_fps, never):Float;
-    public var fps(get_fps, never):Float;
+    public var max_ram(get, never):Float;
+    public var ram(get, never):Float;
+    public var avg_fps(get, never):Float;
+    public var max_fps(get, never):Float;
+    public var fps(get, never):Float;
     
-    static public var instance(get_instance, never):AwayStats;
+    static public var instance(get, never):AwayStats;
 
     private var _views:Array<View3D>;
     private var _timer:Timer;
@@ -193,23 +193,23 @@ class AwayStats extends Sprite {
         init();
     }
 
-    public function get_max_ram():Float {
+    private function get_max_ram():Float {
         return _max_ram;
     }
 
-    public function get_ram():Float {
+    private function get_ram():Float {
         return _ram;
     }
 
-    public function get_avg_fps():Float {
+    private function get_avg_fps():Float {
         return _avg_fps;
     }
 
-    public function get_max_fps():Float {
+    private function get_max_fps():Float {
         return _max_fps;
     }
 
-    public function get_fps():Float {
+    private function get_fps():Float {
         return _fps;
     }
 
@@ -230,7 +230,7 @@ class AwayStats extends Sprite {
      * properties and register views from anywhere in your code.
      */
 
-    static public function get_instance():AwayStats {
+    static private function get_instance():AwayStats {
         return (_INSTANCE != null) ? _INSTANCE : _INSTANCE = new AwayStats();
     }
 

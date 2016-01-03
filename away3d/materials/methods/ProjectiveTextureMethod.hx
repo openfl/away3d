@@ -18,8 +18,8 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 class ProjectiveTextureMethod extends EffectMethodBase {
-    public var mode(get_mode, set_mode):BlendMode;
-    public var projector(get_projector, set_projector):TextureProjector;
+    public var mode(get, set):BlendMode;
+    public var projector(get, set):TextureProjector;
 
     static public var MULTIPLY:BlendMode = BlendMode.MULTIPLY;
     static public var ADD:BlendMode = BlendMode.ADD;
@@ -71,11 +71,11 @@ class ProjectiveTextureMethod extends EffectMethodBase {
 	 * ProjectiveTextureMethod.ADD can be used to project light, such as a slide projector or light coming through stained glass. To prevent clamping, the texture's alpha should be black!
 	 * ProjectiveTextureMethod.MIX provides normal alpha blending. To prevent clamping, the texture's alpha should be transparent!
 	 */
-    public function get_mode():BlendMode {
+    private function get_mode():BlendMode {
         return _mode;
     }
 
-    public function set_mode(value:BlendMode):BlendMode {
+    private function set_mode(value:BlendMode):BlendMode {
         if (_mode == value) return value;
         _mode = value;
         invalidateShaderProgram();
@@ -87,11 +87,11 @@ class ProjectiveTextureMethod extends EffectMethodBase {
 	 *
 	 * @see away3d.entities.TextureProjector
 	 */
-    public function get_projector():TextureProjector {
+    private function get_projector():TextureProjector {
         return _projector;
     }
 
-    public function set_projector(value:TextureProjector):TextureProjector {
+    private function set_projector(value:TextureProjector):TextureProjector {
         _projector = value;
         return value;
     }

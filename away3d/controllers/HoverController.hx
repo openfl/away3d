@@ -13,16 +13,16 @@ import away3d.containers.ObjectContainer3D;
 import openfl.geom.Vector3D;
 
 class HoverController extends LookAtController {
-    public var steps(get_steps, set_steps):Int;
-    public var panAngle(get_panAngle, set_panAngle):Float;
-    public var tiltAngle(get_tiltAngle, set_tiltAngle):Float;
-    public var distance(get_distance, set_distance):Float;
-    public var minPanAngle(get_minPanAngle, set_minPanAngle):Float;
-    public var maxPanAngle(get_maxPanAngle, set_maxPanAngle):Float;
-    public var minTiltAngle(get_minTiltAngle, set_minTiltAngle):Float;
-    public var maxTiltAngle(get_maxTiltAngle, set_maxTiltAngle):Float;
-    public var yFactor(get_yFactor, set_yFactor):Float;
-    public var wrapPanAngle(get_wrapPanAngle, set_wrapPanAngle):Bool;
+    public var steps(get, set):Int;
+    public var panAngle(get, set):Float;
+    public var tiltAngle(get, set):Float;
+    public var distance(get, set):Float;
+    public var minPanAngle(get, set):Float;
+    public var maxPanAngle(get, set):Float;
+    public var minTiltAngle(get, set):Float;
+    public var maxTiltAngle(get, set):Float;
+    public var yFactor(get, set):Float;
+    public var wrapPanAngle(get, set):Bool;
 
     private var _currentPanAngle:Float;
     private var _currentTiltAngle:Float;
@@ -45,11 +45,11 @@ class HoverController extends LookAtController {
 	 * @see    #tiltAngle
 	 * @see    #panAngle
 	 */
-    public function get_steps():Int {
+    private function get_steps():Int {
         return _steps;
     }
 
-    public function set_steps(val:Int):Int {
+    private function set_steps(val:Int):Int {
         val = ((val < 1)) ? 1 : val;
         if (_steps == val) return val;
         _steps = val;
@@ -60,11 +60,11 @@ class HoverController extends LookAtController {
     /**
 	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
 	 */
-    public function get_panAngle():Float {
+    private function get_panAngle():Float {
         return _panAngle;
     }
 
-    public function set_panAngle(val:Float):Float {
+    private function set_panAngle(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         val = Math.max(_minPanAngle, Math.min(_maxPanAngle, val));
         if (_panAngle == val) return val;
@@ -76,11 +76,11 @@ class HoverController extends LookAtController {
     /**
 	 * Elevation angle of the camera in degrees. Defaults to 90.
 	 */
-    public function get_tiltAngle():Float {
+    private function get_tiltAngle():Float {
         return _tiltAngle;
     }
 
-    public function set_tiltAngle(val:Float):Float {
+    private function set_tiltAngle(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
         if (_tiltAngle == val) return val;
@@ -92,11 +92,11 @@ class HoverController extends LookAtController {
     /**
 	 * Distance between the camera and the specified target. Defaults to 1000.
 	 */
-    public function get_distance():Float {
+    private function get_distance():Float {
         return _distance;
     }
 
-    public function set_distance(val:Float):Float {
+    private function set_distance(val:Float):Float {
         if (_distance == val) return val;
         _distance = val;
         notifyUpdate();
@@ -108,11 +108,11 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #panAngle
 	 */
-    public function get_minPanAngle():Float {
+    private function get_minPanAngle():Float {
         return _minPanAngle;
     }
 
-    public function set_minPanAngle(val:Float):Float {
+    private function set_minPanAngle(val:Float):Float {
         if (_minPanAngle == val) return val;
         _minPanAngle = val;
         panAngle = Math.max(_minPanAngle, Math.min(_maxPanAngle, _panAngle));
@@ -124,11 +124,11 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #panAngle
 	 */
-    public function get_maxPanAngle():Float {
+    private function get_maxPanAngle():Float {
         return _maxPanAngle;
     }
 
-    public function set_maxPanAngle(val:Float):Float {
+    private function set_maxPanAngle(val:Float):Float {
         if (_maxPanAngle == val) return val;
         _maxPanAngle = val;
         panAngle = Math.max(_minPanAngle, Math.min(_maxPanAngle, _panAngle));
@@ -140,11 +140,11 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #tiltAngle
 	 */
-    public function get_minTiltAngle():Float {
+    private function get_minTiltAngle():Float {
         return _minTiltAngle;
     }
 
-    public function set_minTiltAngle(val:Float):Float {
+    private function set_minTiltAngle(val:Float):Float {
         if (_minTiltAngle == val) return val;
         _minTiltAngle = val;
         tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
@@ -156,11 +156,11 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #tiltAngle
 	 */
-    public function get_maxTiltAngle():Float {
+    private function get_maxTiltAngle():Float {
         return _maxTiltAngle;
     }
 
-    public function set_maxTiltAngle(val:Float):Float {
+    private function set_maxTiltAngle(val:Float):Float {
         if (_maxTiltAngle == val) return val;
         _maxTiltAngle = val;
         tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
@@ -172,11 +172,11 @@ class HoverController extends LookAtController {
 	 *
 	 * @see    #distance
 	 */
-    public function get_yFactor():Float {
+    private function get_yFactor():Float {
         return _yFactor;
     }
 
-    public function set_yFactor(val:Float):Float {
+    private function set_yFactor(val:Float):Float {
         if (_yFactor == val) return val;
         _yFactor = val;
         notifyUpdate();
@@ -186,11 +186,11 @@ class HoverController extends LookAtController {
     /**
 	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
 	 */
-    public function get_wrapPanAngle():Bool {
+    private function get_wrapPanAngle():Bool {
         return _wrapPanAngle;
     }
 
-    public function set_wrapPanAngle(val:Bool):Bool {
+    private function set_wrapPanAngle(val:Bool):Bool {
         if (_wrapPanAngle == val) return val;
         _wrapPanAngle = val;
         notifyUpdate();

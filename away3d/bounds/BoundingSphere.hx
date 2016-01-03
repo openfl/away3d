@@ -15,7 +15,7 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class BoundingSphere extends BoundingVolumeBase {
-    public var radius(get_radius, never):Float;
+    public var radius(get, never):Float;
 
     private var _radius:Float;
     private var _centerX:Float;
@@ -25,7 +25,7 @@ class BoundingSphere extends BoundingVolumeBase {
     /**
 	 * The radius of the bounding sphere, calculated from the contents of the entity.
 	 */
-    public function get_radius():Float {
+    private function get_radius():Float {
         return _radius;
     }
 

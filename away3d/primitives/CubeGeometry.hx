@@ -8,13 +8,13 @@ import away3d.core.base.CompactSubGeometry;
 import openfl.Vector;
 
 class CubeGeometry extends PrimitiveBase {
-    public var width(get_width, set_width):Float;
-    public var height(get_height, set_height):Float;
-    public var depth(get_depth, set_depth):Float;
-    public var tile6(get_tile6, set_tile6):Bool;
-    public var segmentsW(get_segmentsW, set_segmentsW):Float;
-    public var segmentsH(get_segmentsH, set_segmentsH):Float;
-    public var segmentsD(get_segmentsD, set_segmentsD):Float;
+    public var width(get, set):Float;
+    public var height(get, set):Float;
+    public var depth(get, set):Float;
+    public var tile6(get, set):Bool;
+    public var segmentsW(get, set):Float;
+    public var segmentsH(get, set):Float;
+    public var segmentsD(get, set):Float;
 
     private var _width:Float;
     private var _height:Float;
@@ -48,11 +48,11 @@ class CubeGeometry extends PrimitiveBase {
     /**
 	 * The size of the cube along its X-axis.
 	 */
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function set_width(value:Float):Float {
+    private function set_width(value:Float):Float {
         _width = value;
         invalidateGeometry();
         return value;
@@ -61,11 +61,11 @@ class CubeGeometry extends PrimitiveBase {
     /**
 	 * The size of the cube along its Y-axis.
 	 */
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function set_height(value:Float):Float {
+    private function set_height(value:Float):Float {
         _height = value;
         invalidateGeometry();
         return value;
@@ -74,11 +74,11 @@ class CubeGeometry extends PrimitiveBase {
     /**
 	 * The size of the cube along its Z-axis.
 	 */
-    public function get_depth():Float {
+    private function get_depth():Float {
         return _depth;
     }
 
-    public function set_depth(value:Float):Float {
+    private function set_depth(value:Float):Float {
         _depth = value;
         invalidateGeometry();
         return value;
@@ -92,11 +92,11 @@ class CubeGeometry extends PrimitiveBase {
 	 * several shared edges (between the top, front, left and right faces) which simplifies
 	 * texture painting.
 	 */
-    public function get_tile6():Bool {
+    private function get_tile6():Bool {
         return _tile6;
     }
 
-    public function set_tile6(value:Bool):Bool {
+    private function set_tile6(value:Bool):Bool {
         _tile6 = value;
         invalidateUVs();
         return value;
@@ -105,11 +105,11 @@ class CubeGeometry extends PrimitiveBase {
     /**
 	 * The number of segments that make up the cube along the X-axis. Defaults to 1.
 	 */
-    public function get_segmentsW():Float {
+    private function get_segmentsW():Float {
         return _segmentsW;
     }
 
-    public function set_segmentsW(value:Float):Float {
+    private function set_segmentsW(value:Float):Float {
         _segmentsW = value;
         invalidateGeometry();
         invalidateUVs();
@@ -119,11 +119,11 @@ class CubeGeometry extends PrimitiveBase {
     /**
 	 * The number of segments that make up the cube along the Y-axis. Defaults to 1.
 	 */
-    public function get_segmentsH():Float {
+    private function get_segmentsH():Float {
         return _segmentsH;
     }
 
-    public function set_segmentsH(value:Float):Float {
+    private function set_segmentsH(value:Float):Float {
         _segmentsH = value;
         invalidateGeometry();
         invalidateUVs();
@@ -133,11 +133,11 @@ class CubeGeometry extends PrimitiveBase {
     /**
 	 * The number of segments that make up the cube along the Z-axis. Defaults to 1.
 	 */
-    public function get_segmentsD():Float {
+    private function get_segmentsD():Float {
         return _segmentsD;
     }
 
-    public function set_segmentsD(value:Float):Float {
+    private function set_segmentsD(value:Float):Float {
         _segmentsD = value;
         invalidateGeometry();
         invalidateUVs();

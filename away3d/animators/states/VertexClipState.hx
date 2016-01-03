@@ -7,8 +7,8 @@ import away3d.animators.nodes.VertexClipNode;
 import away3d.core.base.Geometry;
 
 class VertexClipState extends AnimationClipState implements IVertexAnimationState {
-    public var currentGeometry(get_currentGeometry, never):Geometry;
-    public var nextGeometry(get_nextGeometry, never):Geometry;
+    public var currentGeometry(get, never):Geometry;
+    public var nextGeometry(get, never):Geometry;
 
     private var _frames:Array<Geometry>;
     private var _vertexClipNode:VertexClipNode;
@@ -17,7 +17,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
     /**
 	 * @inheritDoc
 	 */
-    public function get_currentGeometry():Geometry {
+    private function get_currentGeometry():Geometry {
         if (_framesDirty) updateFrames();
         return _currentGeometry;
     }
@@ -25,7 +25,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
     /**
 	 * @inheritDoc
 	 */
-    public function get_nextGeometry():Geometry {
+    private function get_nextGeometry():Geometry {
         if (_framesDirty) updateFrames();
         return _nextGeometry;
     }

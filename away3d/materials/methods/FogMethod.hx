@@ -10,9 +10,9 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class FogMethod extends EffectMethodBase {
-    public var minDistance(get_minDistance, set_minDistance):Float;
-    public var maxDistance(get_maxDistance, set_maxDistance):Float;
-    public var fogColor(get_fogColor, set_fogColor):Int;
+    public var minDistance(get, set):Float;
+    public var maxDistance(get, set):Float;
+    public var fogColor(get, set):Int;
 
     private var _minDistance:Float;
     private var _maxDistance:Float;
@@ -56,11 +56,11 @@ class FogMethod extends EffectMethodBase {
     /**
 	 * The distance from which the fog starts appearing.
 	 */
-    public function get_minDistance():Float {
+    private function get_minDistance():Float {
         return _minDistance;
     }
 
-    public function set_minDistance(value:Float):Float {
+    private function set_minDistance(value:Float):Float {
         _minDistance = value;
         return value;
     }
@@ -68,11 +68,11 @@ class FogMethod extends EffectMethodBase {
     /**
 	 * The distance at which the fog is densest.
 	 */
-    public function get_maxDistance():Float {
+    private function get_maxDistance():Float {
         return _maxDistance;
     }
 
-    public function set_maxDistance(value:Float):Float {
+    private function set_maxDistance(value:Float):Float {
         _maxDistance = value;
         return value;
     }
@@ -80,11 +80,11 @@ class FogMethod extends EffectMethodBase {
     /**
 	 * The colour of the fog.
 	 */
-    public function get_fogColor():Int {
+    private function get_fogColor():Int {
         return _fogColor;
     }
 
-    public function set_fogColor(value:Int):Int {
+    private function set_fogColor(value:Int):Int {
         _fogColor = value;
         _fogR = ((value >> 16) & 0xff) / 0xff;
         _fogG = ((value >> 8) & 0xff) / 0xff;

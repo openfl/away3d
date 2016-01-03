@@ -7,7 +7,7 @@ import openfl.events.Event;
 import away3d.cameras.Camera3D;
 
 class CameraEvent extends Event {
-    public var camera(get_camera, never):Camera3D;
+    public var camera(get, never):Camera3D;
 
     static public var LENS_CHANGED:String = "lensChanged";
     private var _camera:Camera3D;
@@ -17,7 +17,7 @@ class CameraEvent extends Event {
         _camera = camera;
     }
 
-    public function get_camera():Camera3D {
+    private function get_camera():Camera3D {
         return _camera;
     }
 

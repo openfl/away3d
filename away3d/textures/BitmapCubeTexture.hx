@@ -10,12 +10,12 @@ import openfl.display3D.textures.TextureBase;
 import openfl.Vector;
 
 class BitmapCubeTexture extends CubeTextureBase {
-    public var positiveX(get_positiveX, set_positiveX):BitmapData;
-    public var negativeX(get_negativeX, set_negativeX):BitmapData;
-    public var positiveY(get_positiveY, set_positiveY):BitmapData;
-    public var negativeY(get_negativeY, set_negativeY):BitmapData;
-    public var positiveZ(get_positiveZ, set_positiveZ):BitmapData;
-    public var negativeZ(get_negativeZ, set_negativeZ):BitmapData;
+    public var positiveX(get, set):BitmapData;
+    public var negativeX(get, set):BitmapData;
+    public var positiveY(get, set):BitmapData;
+    public var negativeY(get, set):BitmapData;
+    public var positiveZ(get, set):BitmapData;
+    public var negativeZ(get, set):BitmapData;
 
     private var _bitmapDatas:Vector<BitmapData>;
     //private var _useAlpha : Boolean;
@@ -36,11 +36,11 @@ class BitmapCubeTexture extends CubeTextureBase {
     /**
 	 * The texture on the cube's right face.
 	 */
-    public function get_positiveX():BitmapData {
+    private function get_positiveX():BitmapData {
         return _bitmapDatas[0];
     }
 
-    public function set_positiveX(value:BitmapData):BitmapData {
+    private function set_positiveX(value:BitmapData):BitmapData {
         testSize(value);
         invalidateContent();
         setSize(value.width, value.height);
@@ -51,11 +51,11 @@ class BitmapCubeTexture extends CubeTextureBase {
     /**
 	 * The texture on the cube's left face.
 	 */
-    public function get_negativeX():BitmapData {
+    private function get_negativeX():BitmapData {
         return _bitmapDatas[1];
     }
 
-    public function set_negativeX(value:BitmapData):BitmapData {
+    private function set_negativeX(value:BitmapData):BitmapData {
         testSize(value);
         invalidateContent();
         setSize(value.width, value.height);
@@ -66,11 +66,11 @@ class BitmapCubeTexture extends CubeTextureBase {
     /**
 	 * The texture on the cube's top face.
 	 */
-    public function get_positiveY():BitmapData {
+    private function get_positiveY():BitmapData {
         return _bitmapDatas[2];
     }
 
-    public function set_positiveY(value:BitmapData):BitmapData {
+    private function set_positiveY(value:BitmapData):BitmapData {
         testSize(value);
         invalidateContent();
         setSize(value.width, value.height);
@@ -81,11 +81,11 @@ class BitmapCubeTexture extends CubeTextureBase {
     /**
 	 * The texture on the cube's bottom face.
 	 */
-    public function get_negativeY():BitmapData {
+    private function get_negativeY():BitmapData {
         return _bitmapDatas[3];
     }
 
-    public function set_negativeY(value:BitmapData):BitmapData {
+    private function set_negativeY(value:BitmapData):BitmapData {
         testSize(value);
         invalidateContent();
         setSize(value.width, value.height);
@@ -96,11 +96,11 @@ class BitmapCubeTexture extends CubeTextureBase {
     /**
 	 * The texture on the cube's far face.
 	 */
-    public function get_positiveZ():BitmapData {
+    private function get_positiveZ():BitmapData {
         return _bitmapDatas[4];
     }
 
-    public function set_positiveZ(value:BitmapData):BitmapData {
+    private function set_positiveZ(value:BitmapData):BitmapData {
         testSize(value);
         invalidateContent();
         setSize(value.width, value.height);
@@ -111,11 +111,11 @@ class BitmapCubeTexture extends CubeTextureBase {
     /**
 	 * The texture on the cube's near face.
 	 */
-    public function get_negativeZ():BitmapData {
+    private function get_negativeZ():BitmapData {
         return _bitmapDatas[5];
     }
 
-    public function set_negativeZ(value:BitmapData):BitmapData {
+    private function set_negativeZ(value:BitmapData):BitmapData {
         testSize(value);
         invalidateContent();
         setSize(value.width, value.height);

@@ -11,9 +11,9 @@ import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 
 class OutlineMethod extends EffectMethodBase {
-    public var showInnerLines(get_showInnerLines, set_showInnerLines):Bool;
-    public var outlineColor(get_outlineColor, set_outlineColor):Int;
-    public var outlineSize(get_outlineSize, set_outlineSize):Float;
+    public var showInnerLines(get, set):Bool;
+    public var outlineColor(get, set):Int;
+    public var outlineSize(get, set):Float;
 
     private var _outlinePass:OutlinePass;
     /**
@@ -42,11 +42,11 @@ class OutlineMethod extends EffectMethodBase {
 	 * Set this to true to draw outlines for geometry overlapping in the view, useful to achieve a cel-shaded drawing outline.
 	 * Setting this to false will only cause the outline to appear around the 2D projection of the geometry.
 	 */
-    public function get_showInnerLines():Bool {
+    private function get_showInnerLines():Bool {
         return _outlinePass.showInnerLines;
     }
 
-    public function set_showInnerLines(value:Bool):Bool {
+    private function set_showInnerLines(value:Bool):Bool {
         _outlinePass.showInnerLines = value;
         return value;
     }
@@ -54,11 +54,11 @@ class OutlineMethod extends EffectMethodBase {
     /**
 	 * The colour of the outline.
 	 */
-    public function get_outlineColor():Int {
+    private function get_outlineColor():Int {
         return _outlinePass.outlineColor;
     }
 
-    public function set_outlineColor(value:Int):Int {
+    private function set_outlineColor(value:Int):Int {
         _outlinePass.outlineColor = value;
         return value;
     }
@@ -66,11 +66,11 @@ class OutlineMethod extends EffectMethodBase {
     /**
 	 * The size of the outline.
 	 */
-    public function get_outlineSize():Float {
+    private function get_outlineSize():Float {
         return _outlinePass.outlineSize;
     }
 
-    public function set_outlineSize(value:Float):Float {
+    private function set_outlineSize(value:Float):Float {
         _outlinePass.outlineSize = value;
         return value;
     }

@@ -19,9 +19,9 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
 class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
-    public var scattering(get_scattering, set_scattering):Float;
-    public var translucency(get_translucency, set_translucency):Float;
-    public var scatterColor(get_scatterColor, set_scatterColor):Int;
+    public var scattering(get, set):Float;
+    public var translucency(get, set):Float;
+    public var scatterColor(get, set):Int;
 
     private var _depthPass:SingleObjectDepthPass;
     private var _lightProjVarying:ShaderRegisterElement;
@@ -91,11 +91,11 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	 * The amount by which the light scatters. It can be used to set the translucent surface's thickness. Use low
 	 * values for skin.
 	 */
-    public function get_scattering():Float {
+    private function get_scattering():Float {
         return _scattering;
     }
 
-    public function set_scattering(value:Float):Float {
+    private function set_scattering(value:Float):Float {
         _scattering = value;
         return value;
     }
@@ -103,11 +103,11 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
     /**
 	 * The translucency of the object.
 	 */
-    public function get_translucency():Float {
+    private function get_translucency():Float {
         return _translucency;
     }
 
-    public function set_translucency(value:Float):Float {
+    private function set_translucency(value:Float):Float {
         _translucency = value;
         return value;
     }
@@ -115,11 +115,11 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
     /**
 	 * The colour of the "insides" of the object, ie: the colour the light becomes after leaving the object.
 	 */
-    public function get_scatterColor():Int {
+    private function get_scatterColor():Int {
         return _scatterColor;
     }
 
-    public function set_scatterColor(scatterColor:Int):Int {
+    private function set_scatterColor(scatterColor:Int):Int {
         _scatterColor = scatterColor;
         _scatterR = ((scatterColor >> 16) & 0xff) / 0xff;
         _scatterG = ((scatterColor >> 8) & 0xff) / 0xff;

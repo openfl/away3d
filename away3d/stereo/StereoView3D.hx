@@ -10,8 +10,8 @@ import away3d.stereo.methods.StereoRenderMethodBase;
 import openfl.display3D.textures.Texture;
 
 class StereoView3D extends View3D {
-    public var stereoRenderMethod(get_stereoRenderMethod, set_stereoRenderMethod):StereoRenderMethodBase;
-    public var stereoEnabled(get_stereoEnabled, set_stereoEnabled):Bool;
+    public var stereoRenderMethod(get, set):StereoRenderMethodBase;
+    public var stereoEnabled(get, set):Bool;
 
     private var _stereoCam:StereoCamera3D;
     private var _stereoRenderer:StereoRenderer;
@@ -23,31 +23,31 @@ class StereoView3D extends View3D {
         _stereoRenderer = new StereoRenderer(stereoRenderMethod);
     }
 
-    public function get_stereoRenderMethod():StereoRenderMethodBase {
+    private function get_stereoRenderMethod():StereoRenderMethodBase {
         return _stereoRenderer.renderMethod;
     }
 
-    public function set_stereoRenderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase {
+    private function set_stereoRenderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase {
         _stereoRenderer.renderMethod = value;
         return value;
     }
 
-    override public function get_camera():Camera3D {
+    override private function get_camera():Camera3D {
         return _stereoCam;
     }
 
-    override public function set_camera(value:Camera3D):Camera3D {
+    override private function set_camera(value:Camera3D):Camera3D {
         if (value == _stereoCam) return value;
         if (Std.is(value, StereoCamera3D)) _stereoCam = cast((value), StereoCamera3D)
         else throw new Error("StereoView3D must be used with StereoCamera3D");
         return value;
     }
 
-    public function get_stereoEnabled():Bool {
+    private function get_stereoEnabled():Bool {
         return _stereoEnabled;
     }
 
-    public function set_stereoEnabled(val:Bool):Bool {
+    private function set_stereoEnabled(val:Bool):Bool {
         _stereoEnabled = val;
         return val;
     }

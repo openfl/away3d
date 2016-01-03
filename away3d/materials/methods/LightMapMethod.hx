@@ -14,8 +14,8 @@ import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.textures.Texture2DBase;
 
 class LightMapMethod extends EffectMethodBase {
-    public var blendMode(get_blendMode, set_blendMode):BlendMode;
-    public var texture(get_texture, set_texture):Texture2DBase;
+    public var blendMode(get, set):BlendMode;
+    public var texture(get, set):Texture2DBase;
 
     /**
 	 * Indicates the light map should be multiplied with the calculated shading result.
@@ -58,11 +58,11 @@ class LightMapMethod extends EffectMethodBase {
 	 * @see LightMapMethod.ADD
 	 * @see LightMapMethod.MULTIPLY
 	 */
-    public function get_blendMode():BlendMode {
+    private function get_blendMode():BlendMode {
         return _blendMode;
     }
 
-    public function set_blendMode(value:BlendMode):BlendMode {
+    private function set_blendMode(value:BlendMode):BlendMode {
         if (value != ADD && value != MULTIPLY) throw new Error("Unknown blendmode!");
         if (_blendMode == value) return value;
         _blendMode = value;
@@ -73,11 +73,11 @@ class LightMapMethod extends EffectMethodBase {
     /**
 	 * The texture containing the light map.
 	 */
-    public function get_texture():Texture2DBase {
+    private function get_texture():Texture2DBase {
         return _texture;
     }
 
-    public function set_texture(value:Texture2DBase):Texture2DBase {
+    private function set_texture(value:Texture2DBase):Texture2DBase {
         if (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format) invalidateShaderProgram();
         _texture = value;
         return value;

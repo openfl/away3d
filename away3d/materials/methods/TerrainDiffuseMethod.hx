@@ -121,7 +121,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod {
     /**
 	 * @inheritDoc
 	 */
-    override public function set_alphaThreshold(value:Float):Float {
+    override private function set_alphaThreshold(value:Float):Float {
         if (value > 0) throw new Error("Alpha threshold not supported for TerrainDiffuseMethod");
         return value;
     }

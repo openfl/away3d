@@ -12,11 +12,11 @@ import openfl.display3D.Program3D;
 import openfl.display3D.textures.Texture;
 
 class Filter3DTaskBase {
-    public var textureScale(get_textureScale, set_textureScale):Int;
-    public var target(get_target, set_target):Texture;
-    public var textureWidth(get_textureWidth, set_textureWidth):Int;
-    public var textureHeight(get_textureHeight, set_textureHeight):Int;
-    public var requireDepthRender(get_requireDepthRender, never):Bool;
+    public var textureScale(get, set):Int;
+    public var target(get, set):Texture;
+    public var textureWidth(get, set):Int;
+    public var textureHeight(get, set):Int;
+    public var requireDepthRender(get, never):Bool;
 
     private var _mainInputTexture:Texture;
     private var _scaledTextureWidth:Int;
@@ -44,11 +44,11 @@ class Filter3DTaskBase {
     /**
 	 * The texture scale for the input of this texture. This will define the output of the previous entry in the chain
 	 */
-    public function get_textureScale():Int {
+    private function get_textureScale():Int {
         return _textureScale;
     }
 
-    public function set_textureScale(value:Int):Int {
+    private function set_textureScale(value:Int):Int {
         if (_textureScale == value) return value;
         _textureScale = value;
         _scaledTextureWidth = _textureWidth >> _textureScale;
@@ -57,20 +57,20 @@ class Filter3DTaskBase {
         return value;
     }
 
-    public function get_target():Texture {
+    private function get_target():Texture {
         return _target;
     }
 
-    public function set_target(value:Texture):Texture {
+    private function set_target(value:Texture):Texture {
         _target = value;
         return value;
     }
 
-    public function get_textureWidth():Int {
+    private function get_textureWidth():Int {
         return _textureWidth;
     }
 
-    public function set_textureWidth(value:Int):Int {
+    private function set_textureWidth(value:Int):Int {
         if (_textureWidth == value) return value;
         _textureWidth = value;
         _scaledTextureWidth = _textureWidth >> _textureScale;
@@ -78,11 +78,11 @@ class Filter3DTaskBase {
         return value;
     }
 
-    public function get_textureHeight():Int {
+    private function get_textureHeight():Int {
         return _textureHeight;
     }
 
-    public function set_textureHeight(value:Int):Int {
+    private function set_textureHeight(value:Int):Int {
         if (_textureHeight == value) return value;
         _textureHeight = value;
         _scaledTextureHeight = _textureHeight >> _textureScale;
@@ -138,7 +138,7 @@ class Filter3DTaskBase {
     public function deactivate(stage3DProxy:Stage3DProxy):Void {
     }
 
-    public function get_requireDepthRender():Bool {
+    private function get_requireDepthRender():Bool {
         return _requireDepthRender;
     }
 }

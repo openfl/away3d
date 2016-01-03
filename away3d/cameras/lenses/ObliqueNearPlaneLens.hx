@@ -7,8 +7,8 @@ import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 
 class ObliqueNearPlaneLens extends LensBase {
-    public var plane(get_plane, set_plane):Plane3D;
-    public var baseLens(never, set_baseLens):LensBase;
+    public var plane(get, set):Plane3D;
+    public var baseLens(never, set):LensBase;
 
     private var _baseLens:LensBase;
     private var _plane:Plane3D;
@@ -19,24 +19,24 @@ class ObliqueNearPlaneLens extends LensBase {
         super();
     }
 
-    override public function get_frustumCorners():Vector<Float> {
+    override private function get_frustumCorners():Vector<Float> {
         return _baseLens.frustumCorners;
     }
 
-    override public function get_near():Float {
+    override private function get_near():Float {
         return _baseLens.near;
     }
 
-    override public function set_near(value:Float):Float {
+    override private function set_near(value:Float):Float {
         _baseLens.near = value;
         return value;
     }
 
-    override public function get_far():Float {
+    override private function get_far():Float {
         return _baseLens.far;
     }
 
-    override public function set_far(value:Float):Float {
+    override private function set_far(value:Float):Float {
         _baseLens.far = value;
         return value;
     }
@@ -50,17 +50,17 @@ class ObliqueNearPlaneLens extends LensBase {
         return value;
     }
 
-    public function get_plane():Plane3D {
+    private function get_plane():Plane3D {
         return _plane;
     }
 
-    public function set_plane(value:Plane3D):Plane3D {
+    private function set_plane(value:Plane3D):Plane3D {
         _plane = value;
         invalidateMatrix();
         return value;
     }
 
-    public function set_baseLens(value:LensBase):LensBase {
+    private function set_baseLens(value:LensBase):LensBase {
         if (_baseLens != null) _baseLens.removeEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
         _baseLens = value;
         if (_baseLens != null) _baseLens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);

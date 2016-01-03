@@ -9,10 +9,10 @@ import openfl.display3D.textures.Texture;
 import openfl.Vector;
 
 class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase {
-    public var stepSize(get_stepSize, set_stepSize):Int;
-    public var range(get_range, set_range):Float;
-    public var focusDistance(get_focusDistance, set_focusDistance):Float;
-    public var maxBlur(get_maxBlur, set_maxBlur):Int;
+    public var stepSize(get, set):Int;
+    public var range(get, set):Float;
+    public var focusDistance(get, set):Float;
+    public var maxBlur(get, set):Int;
 
     static private var MAX_AUTO_SAMPLES:Int = 10;
     private var _maxBlur:Int;
@@ -34,11 +34,11 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase {
         this.stepSize = stepSize;
     }
 
-    public function get_stepSize():Int {
+    private function get_stepSize():Int {
         return _stepSize;
     }
 
-    public function set_stepSize(value:Int):Int {
+    private function set_stepSize(value:Int):Int {
         if (value == _stepSize) return value;
         _stepSize = value;
         calculateStepSize();
@@ -47,30 +47,30 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase {
         return value;
     }
 
-    public function get_range():Float {
+    private function get_range():Float {
         return _range;
     }
 
-    public function set_range(value:Float):Float {
+    private function set_range(value:Float):Float {
         _range = value;
         _data[8] = 1 / value;
         return value;
     }
 
-    public function get_focusDistance():Float {
+    private function get_focusDistance():Float {
         return _focusDistance;
     }
 
-    public function set_focusDistance(value:Float):Float {
+    private function set_focusDistance(value:Float):Float {
         _data[3] = _focusDistance = value;
         return value;
     }
 
-    public function get_maxBlur():Int {
+    private function get_maxBlur():Int {
         return _maxBlur;
     }
 
-    public function set_maxBlur(value:Int):Int {
+    private function set_maxBlur(value:Int):Int {
         if (_maxBlur == value) return value;
         _maxBlur = value;
         invalidateProgram3D();

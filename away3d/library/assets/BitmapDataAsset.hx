@@ -7,8 +7,8 @@ package away3d.library.assets;
 import openfl.display.BitmapData;
 
 class BitmapDataAsset extends NamedAssetBase implements IAsset {
-    public var bitmapData(get_bitmapData, set_bitmapData):BitmapData;
-    public var assetType(get_assetType, never):String;
+    public var bitmapData(get, set):BitmapData;
+    public var assetType(get, never):String;
 
     private var _bitmapData:BitmapData;
     /**
@@ -23,16 +23,16 @@ class BitmapDataAsset extends NamedAssetBase implements IAsset {
     /**
 	 * The bitmapData to be treated as a resource.
 	 */
-    public function get_bitmapData():BitmapData {
+    private function get_bitmapData():BitmapData {
         return _bitmapData;
     }
 
-    public function set_bitmapData(value:BitmapData):BitmapData {
+    private function set_bitmapData(value:BitmapData):BitmapData {
         _bitmapData = value;
         return value;
     }
 
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.TEXTURE;
     }
 

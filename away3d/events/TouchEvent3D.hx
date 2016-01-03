@@ -10,8 +10,8 @@ import openfl.geom.Point;
 import openfl.geom.Vector3D;
 
 class TouchEvent3D extends Event {
-    public var scenePosition(get_scenePosition, never):Vector3D;
-    public var sceneNormal(get_sceneNormal, never):Vector3D;
+    public var scenePosition(get, never):Vector3D;
+    public var sceneNormal(get, never):Vector3D;
 
 // Private.
     private var _allowedToPropagate:Bool;
@@ -143,7 +143,7 @@ class TouchEvent3D extends Event {
     /**
 	 * The position in scene space where the event took place
 	 */
-    public function get_scenePosition():Vector3D {
+    private function get_scenePosition():Vector3D {
         if (Std.is(object, ObjectContainer3D)) return cast((object), ObjectContainer3D).sceneTransform.transformVector(localPosition)
         else return localPosition;
     }
@@ -151,7 +151,7 @@ class TouchEvent3D extends Event {
     /**
 	 * The normal in scene space where the event took place
 	 */
-    public function get_sceneNormal():Vector3D {
+    private function get_sceneNormal():Vector3D {
         if (Std.is(object, ObjectContainer3D)) {
             var sceneNormal:Vector3D = cast((object), ObjectContainer3D).sceneTransform.deltaTransformVector(localNormal);
             sceneNormal.normalize();

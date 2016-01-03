@@ -6,10 +6,10 @@ import away3d.filters.tasks.Filter3DTaskBase;
 import openfl.display3D.textures.Texture;
 
 class Filter3DBase {
-    public var requireDepthRender(get_requireDepthRender, never):Bool;
-    public var tasks(get_tasks, never):Array<Filter3DTaskBase>;
-    public var textureWidth(get_textureWidth, set_textureWidth):Int;
-    public var textureHeight(get_textureHeight, set_textureHeight):Int;
+    public var requireDepthRender(get, never):Bool;
+    public var tasks(get, never):Array<Filter3DTaskBase>;
+    public var textureWidth(get, set):Int;
+    public var textureHeight(get, set):Int;
 
     private var _tasks:Array<Filter3DTaskBase>;
     private var _requireDepthRender:Bool;
@@ -20,7 +20,7 @@ class Filter3DBase {
         _tasks = new Array<Filter3DTaskBase>();
     }
 
-    public function get_requireDepthRender():Bool {
+    private function get_requireDepthRender():Bool {
         return _requireDepthRender;
     }
 
@@ -30,7 +30,7 @@ class Filter3DBase {
             _requireDepthRender = filter.requireDepthRender;
     }
 
-    public function get_tasks():Array<Filter3DTaskBase> {
+    private function get_tasks():Array<Filter3DTaskBase> {
         return _tasks;
     }
 
@@ -38,11 +38,11 @@ class Filter3DBase {
         return _tasks[0].getMainInputTexture(stage3DProxy);
     }
 
-    public function get_textureWidth():Int {
+    private function get_textureWidth():Int {
         return _textureWidth;
     }
 
-    public function set_textureWidth(value:Int):Int {
+    private function set_textureWidth(value:Int):Int {
         _textureWidth = value;
         var i:Int = 0;
         while (i < _tasks.length) {
@@ -52,11 +52,11 @@ class Filter3DBase {
         return value;
     }
 
-    public function get_textureHeight():Int {
+    private function get_textureHeight():Int {
         return _textureHeight;
     }
 
-    public function set_textureHeight(value:Int):Int {
+    private function set_textureHeight(value:Int):Int {
         _textureHeight = value;
         var i:Int = 0;
         while (i < _tasks.length) {

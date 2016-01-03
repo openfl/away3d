@@ -6,7 +6,7 @@ import away3d.entities.Entity;
 import openfl.geom.Vector3D;
 
 class ViewVolumeRootNode extends NodeBase {
-    public var dynamicGrid(get_dynamicGrid, set_dynamicGrid):DynamicGrid;
+    public var dynamicGrid(get, set):DynamicGrid;
 
 // todo: provide a better data structure to find the containing view volume faster
     private var _viewVolumes:Vector<ViewVolume>;
@@ -19,7 +19,7 @@ class ViewVolumeRootNode extends NodeBase {
 
     }
 
-    override public function set_showDebugBounds(value:Bool):Bool {
+    override private function set_showDebugBounds(value:Bool):Bool {
         super.showDebugBounds = value;
         if (_dynamicGrid != null) _dynamicGrid.showDebugBounds = true;
         return value;
@@ -29,11 +29,11 @@ class ViewVolumeRootNode extends NodeBase {
         return (_dynamicGrid != null) ? _dynamicGrid.findPartitionForEntity(entity) : this;
     }
 
-    public function get_dynamicGrid():DynamicGrid {
+    private function get_dynamicGrid():DynamicGrid {
         return _dynamicGrid;
     }
 
-    public function set_dynamicGrid(value:DynamicGrid):DynamicGrid {
+    private function set_dynamicGrid(value:DynamicGrid):DynamicGrid {
         _dynamicGrid = value;
         _dynamicGrid.showDebugBounds = showDebugBounds;
         return value;

@@ -72,26 +72,26 @@ import away3d.events.Object3DEvent;
 import away3d.utils.ArrayUtils;
 
 class Object3D extends NamedAssetBase {
-    public var x(get_x, set_x):Float;
-    public var y(get_y, set_y):Float;
-    public var z(get_z, set_z):Float;
-    public var rotationX(get_rotationX, set_rotationX):Float;
-    public var rotationY(get_rotationY, set_rotationY):Float;
-    public var rotationZ(get_rotationZ, set_rotationZ):Float;
-    public var scaleX(get_scaleX, set_scaleX):Float;
-    public var scaleY(get_scaleY, set_scaleY):Float;
-    public var scaleZ(get_scaleZ, set_scaleZ):Float;
-    public var eulers(get_eulers, set_eulers):Vector3D;
-    public var transform(get_transform, set_transform):Matrix3D;
-    public var pivotPoint(get_pivotPoint, set_pivotPoint):Vector3D;
-    public var position(get_position, set_position):Vector3D;
-    public var forwardVector(get_forwardVector, never):Vector3D;
-    public var rightVector(get_rightVector, never):Vector3D;
-    public var upVector(get_upVector, never):Vector3D;
-    public var backVector(get_backVector, never):Vector3D;
-    public var leftVector(get_leftVector, never):Vector3D;
-    public var downVector(get_downVector, never):Vector3D;
-    public var zOffset(get_zOffset, set_zOffset):Int;
+    public var x(get, set_x):Float;
+    public var y(get, set_y):Float;
+    public var z(get, set_z):Float;
+    public var rotationX(get, set):Float;
+    public var rotationY(get, set):Float;
+    public var rotationZ(get, set):Float;
+    public var scaleX(get, set):Float;
+    public var scaleY(get, set):Float;
+    public var scaleZ(get, set):Float;
+    public var eulers(get, set):Vector3D;
+    public var transform(get, set):Matrix3D;
+    public var pivotPoint(get, set):Vector3D;
+    public var position(get, set):Vector3D;
+    public var forwardVector(get, never):Vector3D;
+    public var rightVector(get, never):Vector3D;
+    public var upVector(get, never):Vector3D;
+    public var backVector(get, never):Vector3D;
+    public var leftVector(get, never):Vector3D;
+    public var downVector(get, never):Vector3D;
+    public var zOffset(get, set):Int;
 
     /** @private */
     public var _controller:ControllerBase;
@@ -205,11 +205,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the x coordinate of the 3d object relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_x():Float {
+    private function get_x():Float {
         return _x;
     }
 
-    public function set_x(val:Float):Float {
+    private function set_x(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (_x == val) return val;
         _x = val;
@@ -220,11 +220,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the y coordinate of the 3d object relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_y():Float {
+    private function get_y():Float {
         return _y;
     }
 
-    public function set_y(val:Float):Float {
+    private function set_y(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (_y == val) return val;
         _y = val;
@@ -235,11 +235,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the z coordinate of the 3d object relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_z():Float {
+    private function get_z():Float {
         return _z;
     }
 
-    public function set_z(val:Float):Float {
+    private function set_z(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (_z == val) return val;
         _z = val;
@@ -250,11 +250,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the euler angle of rotation of the 3d object around the x-axis, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_rotationX():Float {
+    private function get_rotationX():Float {
         return _rotationX * MathConsts.RADIANS_TO_DEGREES;
     }
 
-    public function set_rotationX(val:Float):Float {
+    private function set_rotationX(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (rotationX == val) return val;
         _rotationX = val * MathConsts.DEGREES_TO_RADIANS;
@@ -265,11 +265,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the euler angle of rotation of the 3d object around the y-axis, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_rotationY():Float {
+    private function get_rotationY():Float {
         return _rotationY * MathConsts.RADIANS_TO_DEGREES;
     }
 
-    public function set_rotationY(val:Float):Float {
+    private function set_rotationY(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (rotationY == val) return val;
         _rotationY = val * MathConsts.DEGREES_TO_RADIANS;
@@ -280,11 +280,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the euler angle of rotation of the 3d object around the z-axis, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_rotationZ():Float {
+    private function get_rotationZ():Float {
         return _rotationZ * MathConsts.RADIANS_TO_DEGREES;
     }
 
-    public function set_rotationZ(val:Float):Float {
+    private function set_rotationZ(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (rotationZ == val) return val;
         _rotationZ = val * MathConsts.DEGREES_TO_RADIANS;
@@ -295,11 +295,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the scale of the 3d object along the x-axis, relative to local coordinates.
 	 */
-    public function get_scaleX():Float {
+    private function get_scaleX():Float {
         return _scaleX;
     }
 
-    public function set_scaleX(val:Float):Float {
+    private function set_scaleX(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (_scaleX == val) return val;
         _scaleX = val;
@@ -310,11 +310,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the scale of the 3d object along the y-axis, relative to local coordinates.
 	 */
-    public function get_scaleY():Float {
+    private function get_scaleY():Float {
         return _scaleY;
     }
 
-    public function set_scaleY(val:Float):Float {
+    private function set_scaleY(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (_scaleY == val) return val;
         _scaleY = val;
@@ -325,11 +325,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the scale of the 3d object along the z-axis, relative to local coordinates.
 	 */
-    public function get_scaleZ():Float {
+    private function get_scaleZ():Float {
         return _scaleZ;
     }
 
-    public function set_scaleZ(val:Float):Float {
+    private function set_scaleZ(val:Float):Float {
         if (Math.isNaN(val)) val=0;
         if (_scaleZ == val) return val;
         _scaleZ = val;
@@ -340,14 +340,14 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the rotation of the 3d object as a <code>Vector3D</code> object containing euler angles for rotation around x, y and z axis.
 	 */
-    public function get_eulers():Vector3D {
+    private function get_eulers():Vector3D {
         _eulers.x = _rotationX * MathConsts.RADIANS_TO_DEGREES;
         _eulers.y = _rotationY * MathConsts.RADIANS_TO_DEGREES;
         _eulers.z = _rotationZ * MathConsts.RADIANS_TO_DEGREES;
         return _eulers;
     }
 
-    public function set_eulers(value:Vector3D):Vector3D {
+    private function set_eulers(value:Vector3D):Vector3D {
         _rotationX = value.x * MathConsts.DEGREES_TO_RADIANS;
         _rotationY = value.y * MathConsts.DEGREES_TO_RADIANS;
         _rotationZ = value.z * MathConsts.DEGREES_TO_RADIANS;
@@ -358,12 +358,12 @@ class Object3D extends NamedAssetBase {
     /**
 	 * The transformation of the 3d object, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_transform():Matrix3D {
+    private function get_transform():Matrix3D {
         if (_transformDirty) updateTransform();
         return _transform;
     }
 
-    public function set_transform(val:Matrix3D):Matrix3D {
+    private function set_transform(val:Matrix3D):Matrix3D {
         //ridiculous matrix error
         if (val.rawData[0] == 0) {
             var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
@@ -400,11 +400,11 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the local point around which the object rotates.
 	 */
-    public function get_pivotPoint():Vector3D {
+    private function get_pivotPoint():Vector3D {
         return _pivotPoint;
     }
 
-    public function set_pivotPoint(pivot:Vector3D):Vector3D {
+    private function set_pivotPoint(pivot:Vector3D):Vector3D {
         _pivotPoint = pivot.clone();
         invalidatePivot();
         return pivot;
@@ -413,12 +413,12 @@ class Object3D extends NamedAssetBase {
     /**
 	 * Defines the position of the 3d object, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 */
-    public function get_position():Vector3D {
+    private function get_position():Vector3D {
         transform.copyColumnTo(3, _pos);
         return _pos.clone();
     }
 
-    public function set_position(value:Vector3D):Vector3D {
+    private function set_position(value:Vector3D):Vector3D {
         _x = value.x;
         _y = value.y;
         _z = value.z;
@@ -429,28 +429,28 @@ class Object3D extends NamedAssetBase {
     /**
 	 *
 	 */
-    public function get_forwardVector():Vector3D {
+    private function get_forwardVector():Vector3D {
         return Matrix3DUtils.getForward(transform);
     }
 
     /**
 	 *
 	 */
-    public function get_rightVector():Vector3D {
+    private function get_rightVector():Vector3D {
         return Matrix3DUtils.getRight(transform);
     }
 
     /**
 	 *
 	 */
-    public function get_upVector():Vector3D {
+    private function get_upVector():Vector3D {
         return Matrix3DUtils.getUp(transform);
     }
 
     /**
 	 *
 	 */
-    public function get_backVector():Vector3D {
+    private function get_backVector():Vector3D {
         var director:Vector3D = Matrix3DUtils.getForward(transform);
         director.negate();
         return director;
@@ -459,7 +459,7 @@ class Object3D extends NamedAssetBase {
     /**
 	 *
 	 */
-    public function get_leftVector():Vector3D {
+    private function get_leftVector():Vector3D {
         var director:Vector3D = Matrix3DUtils.getRight(transform);
         director.negate();
         return director;
@@ -468,7 +468,7 @@ class Object3D extends NamedAssetBase {
     /**
 	 *
 	 */
-    public function get_downVector():Vector3D {
+    private function get_downVector():Vector3D {
         var director:Vector3D = Matrix3DUtils.getUp(transform);
         director.negate();
         return director;
@@ -793,11 +793,11 @@ class Object3D extends NamedAssetBase {
         _scaleDirty = false;
     }
 
-    public function get_zOffset():Int {
+    private function get_zOffset():Int {
         return _zOffset;
     }
 
-    public function set_zOffset(value:Int):Int {
+    private function set_zOffset(value:Int):Int {
         _zOffset = value;
         return value;
     }

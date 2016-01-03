@@ -20,19 +20,19 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 class Geometry extends NamedAssetBase implements IAsset {
-    public var assetType(get_assetType, never):String;
-    public var subGeometries(get_subGeometries, never):Vector<ISubGeometry>;
+    public var assetType(get, never):String;
+    public var subGeometries(get, never):Vector<ISubGeometry>;
 
     private var _subGeometries:Vector<ISubGeometry>;
 
-    public function get_assetType():String {
+    private function get_assetType():String {
         return Asset3DType.GEOMETRY;
     }
 
     /**
 	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
 	 */
-    public function get_subGeometries():Vector<ISubGeometry> {
+    private function get_subGeometries():Vector<ISubGeometry> {
         return _subGeometries;
     }
 

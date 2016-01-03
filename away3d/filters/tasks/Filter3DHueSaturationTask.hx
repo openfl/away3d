@@ -30,11 +30,11 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
         updateConstants();
     }
 
-    public function get_saturation():Float {
+    private function get_saturation():Float {
         return _saturation;
     }
 
-    public function set_saturation(value:Float):Float {
+    private function set_saturation(value:Float):Float {
         if (_saturation == value) return value;
         _saturation = value;
         
@@ -43,11 +43,11 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
         return value;
     }
 
-    public function get_r():Float {
+    private function get_r():Float {
         return _r;
     }
 
-    public function set_r(value:Float):Float {
+    private function set_r(value:Float):Float {
         if (_r == value) return value;
         _r = value;
         
@@ -56,11 +56,11 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
         return value;
     }
 
-    public function get_b():Float {
+    private function get_b():Float {
         return _b;
     }
 
-    public function set_b(value:Float):Float {
+    private function set_b(value:Float):Float {
         if (_b == value) return value;
         _b = value;
         
@@ -69,11 +69,11 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
         return value;
     }
 
-    public function get_g():Float {
+    private function get_g():Float {
         return _g;
     }
 
-    public function set_g(value:Float):Float {
+    private function set_g(value:Float):Float {
         if (_g == value) return value;
         _g = value;
         

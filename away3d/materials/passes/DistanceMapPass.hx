@@ -19,8 +19,8 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 
 class DistanceMapPass extends MaterialPassBase {
-    public var alphaThreshold(get_alphaThreshold, set_alphaThreshold):Float;
-    public var alphaMask(get_alphaMask, set_alphaMask):Texture2DBase;
+    public var alphaThreshold(get, set):Float;
+    public var alphaMask(get, set):Texture2DBase;
 
     private var _fragmentData:Vector<Float>;
     private var _vertexData:Vector<Float>;
@@ -42,11 +42,11 @@ class DistanceMapPass extends MaterialPassBase {
      * invisible or entirely opaque, often used with textures for foliage, etc.
      * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
      */
-    public function get_alphaThreshold():Float {
+    private function get_alphaThreshold():Float {
         return _alphaThreshold;
     }
 
-    public function set_alphaThreshold(value:Float):Float {
+    private function set_alphaThreshold(value:Float):Float {
         if (value < 0) value = 0
         else if (value > 1) value = 1;
         if (value == _alphaThreshold) return value;
@@ -60,11 +60,11 @@ class DistanceMapPass extends MaterialPassBase {
      * A texture providing alpha data to be able to prevent semi-transparent pixels to write to the alpha mask.
      * Usually the diffuse texture when alphaThreshold is used.
      */
-    public function get_alphaMask():Texture2DBase {
+    private function get_alphaMask():Texture2DBase {
         return _alphaMask;
     }
 
-    public function set_alphaMask(value:Texture2DBase):Texture2DBase {
+    private function set_alphaMask(value:Texture2DBase):Texture2DBase {
         _alphaMask = value;
         return value;
     }

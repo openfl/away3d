@@ -10,8 +10,8 @@ import openfl.display3D.textures.Texture;
 import openfl.display3D.textures.TextureBase;
 
 class Filter3DCompositeTask extends Filter3DTaskBase {
-    public var overlayTexture(get_overlayTexture, set_overlayTexture):TextureBase;
-    public var exposure(get_exposure, set_exposure):Float;
+    public var overlayTexture(get, set):TextureBase;
+    public var exposure(get, set):Float;
 
     private var _data:Array<Float>;
     private var _overlayTexture:TextureBase;
@@ -23,20 +23,20 @@ class Filter3DCompositeTask extends Filter3DTaskBase {
         _blendMode = blendMode;
     }
 
-    public function get_overlayTexture():TextureBase {
+    private function get_overlayTexture():TextureBase {
         return _overlayTexture;
     }
 
-    public function set_overlayTexture(value:TextureBase):TextureBase {
+    private function set_overlayTexture(value:TextureBase):TextureBase {
         _overlayTexture = value;
         return value;
     }
 
-    public function get_exposure():Float {
+    private function get_exposure():Float {
         return _data[0];
     }
 
-    public function set_exposure(value:Float):Float {
+    private function set_exposure(value:Float):Float {
         _data[0] = value;
         return value;
     }

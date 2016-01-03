@@ -18,8 +18,8 @@ import openfl.events.EventDispatcher;
 import openfl.Vector;
 
 class Scene3D extends EventDispatcher {
-    public var partition(get_partition, set_partition):Partition3D;
-    public var numChildren(get_numChildren, never):Int;
+    public var partition(get, set):Partition3D;
+    public var numChildren(get, never):Int;
 
     public var _sceneGraphRoot:ObjectContainer3D;
     private var _partitions:Vector<Partition3D>;
@@ -56,11 +56,11 @@ class Scene3D extends EventDispatcher {
     /**
 	 * The root partition to be used by the Scene3D.
 	 */
-    public function get_partition():Partition3D {
+    private function get_partition():Partition3D {
         return _sceneGraphRoot.partition;
     }
 
-    public function set_partition(value:Partition3D):Partition3D {
+    private function set_partition(value:Partition3D):Partition3D {
         _sceneGraphRoot.partition = value;
         dispatchEvent(new Scene3DEvent(Scene3DEvent.PARTITION_CHANGED, _sceneGraphRoot));
         return value;
@@ -107,7 +107,7 @@ class Scene3D extends EventDispatcher {
     /**
 	 * The amount of children directly contained by the scene.
 	 */
-    public function get_numChildren():Int {
+    private function get_numChildren():Int {
         return _sceneGraphRoot.numChildren;
     }
 

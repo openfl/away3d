@@ -103,7 +103,7 @@ class ParserBase extends EventDispatcher
 		return isValid;
 	}
 	
-	public function set_parsingFailure(b:Bool) : Bool
+	private function set_parsingFailure(b:Bool) : Bool
 	{
 		_parsingFailure = b;
 		return b;
@@ -111,7 +111,7 @@ class ParserBase extends EventDispatcher
 	
 	public var parsingFailure(get, set) : Bool;
 	
-	public function get_parsingFailure() : Bool
+	private function get_parsingFailure() : Bool
 	{
 		return _parsingFailure;
 	}
@@ -123,14 +123,14 @@ class ParserBase extends EventDispatcher
 	 * (e.g. it is waiting for dependencys to be loadet and parsed before it will continue)
 	 */
 	public var parsingPaused(get, null) : Bool;
-	public function get_parsingPaused() : Bool
+	private function get_parsingPaused() : Bool
 	{
 		return _parsingPaused;
 	}
 	
 	public var parsingComplete(get, null) : Bool;
 	
-	public function get_parsingComplete() : Bool
+	private function get_parsingComplete() : Bool
 	{
 		return _parsingComplete;
 	}
@@ -143,7 +143,7 @@ class ParserBase extends EventDispatcher
 	 * 2 (Force MultiPass) - All Parsers will create MultiPassMaterials
 	 * 
 	 */
-	public function set_materialMode(newMaterialMode:UInt) : UInt
+	private function set_materialMode(newMaterialMode:UInt) : UInt
 	{
 		_materialMode = newMaterialMode;
 		return _materialMode;
@@ -151,7 +151,7 @@ class ParserBase extends EventDispatcher
 	
 	public var materialMode(get, set) : UInt;
 	
-	public function get_materialMode() : UInt
+	private function get_materialMode() : UInt
 	{
 		return _materialMode;
 	}
@@ -160,7 +160,7 @@ class ParserBase extends EventDispatcher
 	 * The data format of the file data to be parsed. Can be either <code>ParserDataFormat.BINARY</code> or <code>ParserDataFormat.PLAIN_TEXT</code>.
 	 */
 	public var dataFormat(get, null) : String;
-	public function get_dataFormat() : String
+	private function get_dataFormat() : String
 	{
 		return _dataFormat;
 	}
@@ -185,11 +185,11 @@ class ParserBase extends EventDispatcher
 	 * A list of dependencies that need to be loaded and resolved for the object being parsed.
 	 */
 	public var dependencies(get, set) : Array<ResourceDependency>;
-	public function get_dependencies() : Array<ResourceDependency>
+	private function get_dependencies() : Array<ResourceDependency>
 	{
 		return _dependencies;
 	}
-	public function set_dependencies(val : Array<ResourceDependency>) : Array<ResourceDependency>
+	private function set_dependencies(val : Array<ResourceDependency>) : Array<ResourceDependency>
 	{
 		_dependencies = val;
 		return _dependencies;

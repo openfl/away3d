@@ -22,11 +22,11 @@ import away3d.tools.helpers.MeshHelper;
 import openfl.geom.Vector3D;
 
 class DelaunayMesh extends Mesh {
-    public var vectors(get_vectors, set_vectors):Vector<Vector3D>;
-    public var smoothSurface(get_smoothSurface, set_smoothSurface):Bool;
-    public var plane(get_plane, set_plane):String;
-    public var flip(get_flip, set_flip):Bool;
-    public var centerMesh(get_centerMesh, set_centerMesh):Bool;
+    public var vectors(get, set):Vector<Vector3D>;
+    public var smoothSurface(get, set):Bool;
+    public var plane(get, set):String;
+    public var flip(get, set):Bool;
+    public var centerMesh(get, set):Bool;
 
     inline static public var PLANE_XZ:String = "xz";
     inline static public var PLANE_XY:String = "xy";
@@ -84,11 +84,11 @@ class DelaunayMesh extends Mesh {
     /**
 	 * The "cloud" of vector3d's to compose the mesh
 	 */
-    public function get_vectors():Vector<Vector3D> {
+    private function get_vectors():Vector<Vector3D> {
         return _vectors;
     }
 
-    public function set_vectors(val:Vector<Vector3D>):Vector<Vector3D> {
+    private function set_vectors(val:Vector<Vector3D>):Vector<Vector3D> {
         if (_vectors.length < 3) return val;
         _vectors = val;
         invalidateGeometry();
@@ -98,11 +98,11 @@ class DelaunayMesh extends Mesh {
     /**
 	 * Defines if the surface of the mesh must be smoothed or not. Default value is true.
 	 */
-    public function get_smoothSurface():Bool {
+    private function get_smoothSurface():Bool {
         return _smoothSurface;
     }
 
-    public function set_smoothSurface(val:Bool):Bool {
+    private function set_smoothSurface(val:Bool):Bool {
         if (_smoothSurface == val) return val;
         _smoothSurface = val;
         invalidateGeometry();
@@ -112,11 +112,11 @@ class DelaunayMesh extends Mesh {
     /**
 	 * Defines the projection plane for the class. Default is xz.
 	 */
-    public function get_plane():String {
+    private function get_plane():String {
         return _plane;
     }
 
-    public function set_plane(val:String):String {
+    private function set_plane(val:String):String {
         if (_plane == val) return val;
         if (val != PLANE_XZ && val != PLANE_XY && val != PLANE_ZY) return val;
         _plane = val;
@@ -127,11 +127,11 @@ class DelaunayMesh extends Mesh {
     /**
 	 * Defines if the face orientation needs to be inverted
 	 */
-    public function get_flip():Bool {
+    private function get_flip():Bool {
         return _flip;
     }
 
-    public function set_flip(val:Bool):Bool {
+    private function set_flip(val:Bool):Bool {
         if (_flip == val) return val;
         _flip = val;
         invalidateGeometry();
@@ -141,11 +141,11 @@ class DelaunayMesh extends Mesh {
     /**
 	 * Defines whether the mesh is recentered of not after generation
 	 */
-    public function get_centerMesh():Bool {
+    private function get_centerMesh():Bool {
         return _centerMesh;
     }
 
-    public function set_centerMesh(val:Bool):Bool {
+    private function set_centerMesh(val:Bool):Bool {
         if (_centerMesh == val) return val;
         _centerMesh = val;
         if (_centerMesh && _subGeometry.vertexData.length > 0) MeshHelper.applyPosition(this, (this.minX + this.maxX) * .5, (this.minY + this.maxY) * .5, (this.minZ + this.maxZ) * .5)
@@ -660,7 +660,7 @@ class DelaunayMesh extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_bounds():BoundingVolumeBase {
+    override private function get_bounds():BoundingVolumeBase {
         if (_geomDirty) buildExtrude();
         return super.bounds;
     }
@@ -668,7 +668,7 @@ class DelaunayMesh extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_geometry():Geometry {
+    override private function get_geometry():Geometry {
         if (_geomDirty) buildExtrude();
         return super.geometry;
     }
@@ -676,7 +676,7 @@ class DelaunayMesh extends Mesh {
     /**
 	 * @inheritDoc
 	 */
-    override public function get_subMeshes():Vector<SubMesh> {
+    override private function get_subMeshes():Vector<SubMesh> {
         if (_geomDirty) buildExtrude();
         return super.subMeshes;
     }

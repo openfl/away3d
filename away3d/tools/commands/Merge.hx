@@ -12,9 +12,9 @@ import away3d.materials.MaterialBase;
 import openfl.Vector;
 
 class Merge {
-    public var disposeSources(get_disposeSources, set_disposeSources):Bool;
-    public var keepMaterial(get_keepMaterial, set_keepMaterial):Bool;
-    public var objectSpace(get_objectSpace, set_objectSpace):Bool;
+    public var disposeSources(get, set):Bool;
+    public var keepMaterial(get, set):Bool;
+    public var objectSpace(get, set):Bool;
 
     //private const LIMIT:uint = 196605;
     private var _objectSpace:Bool;
@@ -39,36 +39,36 @@ class Merge {
     /**
      * Determines if the mesh and geometry source(s) used for the merging are disposed. Defaults to false.
      */
-    public function set_disposeSources(b:Bool):Bool {
+    private function set_disposeSources(b:Bool):Bool {
         _disposeSources = b;
         return b;
     }
 
-    public function get_disposeSources():Bool {
+    private function get_disposeSources():Bool {
         return _disposeSources;
     }
 
     /**
      * Determines if the material source(s) used for the merging are disposed. Defaults to false.
      */
-    public function set_keepMaterial(b:Bool):Bool {
+    private function set_keepMaterial(b:Bool):Bool {
         _keepMaterial = b;
         return b;
     }
 
-    public function get_keepMaterial():Bool {
+    private function get_keepMaterial():Bool {
         return _keepMaterial;
     }
 
     /**
      * Determines if source mesh(es) is/are merged using objectSpace or worldspace. Defaults to false.
      */
-    public function set_objectSpace(b:Bool):Bool {
+    private function set_objectSpace(b:Bool):Bool {
         _objectSpace = b;
         return b;
     }
 
-    public function get_objectSpace():Bool {
+    private function get_objectSpace():Bool {
         return _objectSpace;
     }
 

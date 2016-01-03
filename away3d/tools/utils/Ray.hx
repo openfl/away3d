@@ -3,9 +3,9 @@ package away3d.tools.utils;
 import openfl.geom.Vector3D;
 
 class Ray {
-    public var orig(get_orig, set_orig):Vector3D;
-    public var dir(get_dir, set_dir):Vector3D;
-    public var planeNormal(get_planeNormal, never):Vector3D;
+    public var orig(get, set):Vector3D;
+    public var dir(get, set):Vector3D;
+    public var planeNormal(get, never):Vector3D;
 
     private var _orig:Vector3D;
     private var _dir:Vector3D;
@@ -33,14 +33,14 @@ class Ray {
 	 * Defines the origin point of the Ray object
 	 * @return    Vector3D        The origin point of the Ray object
 	 */
-    public function set_orig(o:Vector3D):Vector3D {
+    private function set_orig(o:Vector3D):Vector3D {
         _orig.x = o.x;
         _orig.y = o.y;
         _orig.z = o.z;
         return o;
     }
 
-    public function get_orig():Vector3D {
+    private function get_orig():Vector3D {
         return _orig;
     }
 
@@ -48,14 +48,14 @@ class Ray {
 	 * Defines the directional vector of the Ray object
 	 * @return    Vector3D        The directional vector
 	 */
-    public function set_dir(n:Vector3D):Vector3D {
+    private function set_dir(n:Vector3D):Vector3D {
         _dir.x = n.x;
         _dir.y = n.y;
         _dir.z = n.z;
         return n;
     }
 
-    public function get_dir():Vector3D {
+    private function get_dir():Vector3D {
         return _dir;
     }
 
@@ -63,7 +63,7 @@ class Ray {
 	 * Defines the directional normal of the Ray object
 	 * @return    Vector3D        The normal of the plane
 	 */
-    public function get_planeNormal():Vector3D {
+    private function get_planeNormal():Vector3D {
         return _pn;
     }
 

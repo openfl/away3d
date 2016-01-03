@@ -16,20 +16,20 @@ import away3d.core.partition.EntityNode;
 import away3d.core.partition.InvertedOctreeNode;
 
 class ViewVolume extends NodeBase {
-    public var minBound(get_minBound, never):Vector3D;
-    public var maxBound(get_maxBound, never):Vector3D;
-    public var width(get_width, never):Float;
-    public var height(get_height, never):Float;
-    public var depth(get_depth, never):Float;
-    public var numCellsX(get_numCellsX, never):Int;
-    public var numCellsY(get_numCellsY, never):Int;
-    public var numCellsZ(get_numCellsZ, never):Int;
-    public var minX(get_minX, never):Float;
-    public var minY(get_minY, never):Float;
-    public var minZ(get_minZ, never):Float;
-    public var maxX(get_maxX, never):Float;
-    public var maxY(get_maxY, never):Float;
-    public var maxZ(get_maxZ, never):Float;
+    public var minBound(get, never):Vector3D;
+    public var maxBound(get, never):Vector3D;
+    public var width(get, never):Float;
+    public var height(get, never):Float;
+    public var depth(get, never):Float;
+    public var numCellsX(get, never):Int;
+    public var numCellsY(get, never):Int;
+    public var numCellsZ(get, never):Int;
+    public var minX(get, never):Float;
+    public var minY(get, never):Float;
+    public var minZ(get, never):Float;
+    public var maxX(get, never):Float;
+    public var maxY(get, never):Float;
+    public var maxZ(get, never):Float;
 
     private var _width:Float;
     private var _height:Float;
@@ -69,11 +69,11 @@ class ViewVolume extends NodeBase {
         super();
     }
 
-    public function get_minBound():Vector3D {
+    private function get_minBound():Vector3D {
         return new Vector3D(_minX, _minY, _minZ);
     }
 
-    public function get_maxBound():Vector3D {
+    private function get_maxBound():Vector3D {
         return new Vector3D(_maxX, _maxY, _maxZ);
     }
 
@@ -174,51 +174,51 @@ class ViewVolume extends NodeBase {
         _cells[index] = null;
     }
 
-    public function get_width():Float {
+    private function get_width():Float {
         return _width;
     }
 
-    public function get_height():Float {
+    private function get_height():Float {
         return _height;
     }
 
-    public function get_depth():Float {
+    private function get_depth():Float {
         return _depth;
     }
 
-    public function get_numCellsX():Int {
+    private function get_numCellsX():Int {
         return _numCellsX;
     }
 
-    public function get_numCellsY():Int {
+    private function get_numCellsY():Int {
         return _numCellsY;
     }
 
-    public function get_numCellsZ():Int {
+    private function get_numCellsZ():Int {
         return _numCellsZ;
     }
 
-    public function get_minX():Float {
+    private function get_minX():Float {
         return _minX;
     }
 
-    public function get_minY():Float {
+    private function get_minY():Float {
         return _minY;
     }
 
-    public function get_minZ():Float {
+    private function get_minZ():Float {
         return _minZ;
     }
 
-    public function get_maxX():Float {
+    private function get_maxX():Float {
         return _maxX;
     }
 
-    public function get_maxY():Float {
+    private function get_maxY():Float {
         return _maxY;
     }
 
-    public function get_maxZ():Float {
+    private function get_maxZ():Float {
         return _maxZ;
     }
 

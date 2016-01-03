@@ -9,7 +9,6 @@ import away3d.utils.ArrayUtils;
 import openfl.Vector;
 
 class PlaneGeometry extends PrimitiveBase {
-    
     public var segmentsW(get, set):Int;
     public var segmentsH(get, set):Int;
     public var yUp(get, set):Bool;
@@ -17,13 +16,12 @@ class PlaneGeometry extends PrimitiveBase {
     public var width(get, set):Float;
     public var height(get, set):Float;
 
-    private var _segmentsW:Int = 1;
-    private var _segmentsH:Int = 1;
+    private var _segmentsW:Int;
+    private var _segmentsH:Int;
     private var _yUp:Bool;
-    private var _width:Float = 100;
-    private var _height:Float = 100;
+    private var _width:Float;
+    private var _height:Float;
     private var _doubleSided:Bool;
-
     /**
 	 * Creates a new Plane object.
 	 * @param width The width of the plane.
@@ -35,7 +33,6 @@ class PlaneGeometry extends PrimitiveBase {
 	 */
     public function new(width:Float = 100, height:Float = 100, segmentsW:Int = 1, segmentsH:Int = 1, yUp:Bool = true, doubleSided:Bool = false) {
         super();
-        
         _segmentsW = segmentsW;
         _segmentsH = segmentsH;
         _yUp = yUp;
@@ -52,7 +49,6 @@ class PlaneGeometry extends PrimitiveBase {
     }
 
     private function set_segmentsW(value:Int):Int {
-        if (_segmentsW == value) return value;
         _segmentsW = value;
         invalidateGeometry();
         invalidateUVs();
@@ -68,7 +64,6 @@ class PlaneGeometry extends PrimitiveBase {
     }
 
     private function set_segmentsH(value:Int):Int {
-        if (_segmentsH == value) return value;
         _segmentsH = value;
         invalidateGeometry();
         invalidateUVs();
@@ -109,7 +104,6 @@ class PlaneGeometry extends PrimitiveBase {
     }
 
     private function set_width(value:Float):Float {
-        if (_width == value) return value;
         _width = value;
         invalidateGeometry();
         return value;
@@ -123,7 +117,6 @@ class PlaneGeometry extends PrimitiveBase {
     }
 
     private function set_height(value:Float):Float {
-        if (_height == value) return value;
         _height = value;
         invalidateGeometry();
         return value;
