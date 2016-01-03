@@ -65,7 +65,7 @@ NOTE: When using OpenFL 3.x and the non-html5 targets, please add the -Dlegacy o
 	openfl test mac -Dlegacy
 	
 ##Dependencies
-Requires OpenFL 2.2.4
+Requires OpenFL 3.x & Lime 2.x (ideally OpenFL 3.5.3 & Lime 2.8.3 or later for both).
 
 ##License
 
