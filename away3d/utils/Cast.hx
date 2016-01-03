@@ -26,7 +26,7 @@ class Cast {
 
     static public function byteArray(data:Dynamic):ByteArray { 
         if (Std.is(data, Class)) data = Type.createInstance(data, []);
-        if (Std.is(data, ByteArray)) return data;
+        if (Std.is(data, ByteArrayData)) return data;
         return cast((data), ByteArray);
     }
 /*
