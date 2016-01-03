@@ -142,7 +142,7 @@ class Object3D extends NamedAssetBase {
             case Object3DEvent.ROTATION_CHANGED:
                 _listenToRotationChanged = true;
             case Object3DEvent.SCALE_CHANGED:
-                _listenToRotationChanged = true;
+                _listenToScaleChanged = true;
         }
     }
 
