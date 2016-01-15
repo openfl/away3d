@@ -12,9 +12,10 @@ class RectangleBitmapTexture extends Texture2DBase {
 
 	public function new(bitmapData:BitmapData) {
 		this.bitmapData = bitmapData;
+		super();
 	}
 	
-	public var bitmapData(get, set):BitmapData
+	public var bitmapData(get, set):BitmapData;
 	private function get_bitmapData():BitmapData {
 		return _bitmapData;
 	}
@@ -35,6 +36,6 @@ class RectangleBitmapTexture extends Texture2DBase {
 	}
 	
 	override private function createTexture(context:Context3D):TextureBase {
-		return context.createRectangleTexture(_width, _height, Context3DTextureFormat.BGRA_PACKED, false);
+		return context.createRectangleTexture(_width, _height, Context3DTextureFormat.BGRA, false);
 	}
 }
