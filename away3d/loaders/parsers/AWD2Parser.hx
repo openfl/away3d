@@ -1761,26 +1761,26 @@ class AWD2Parser extends ParserBase {
                 cast(effectMethodReturn, ColorTransformMethod).colorTransform = newColorTransform;
             case 403: //EnvMap
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE]), "CubeTexture");
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this EnvMapMethod");
                 effectMethodReturn = new EnvMapMethod(assetVO.data, props.getValue(101, 1));
                 targetID = props.getValue(2, 0);
                 if (targetID > 0) {
-                    assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
+                    assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE]));
                     if (!assetVO.enable)
                         _blocks[blockID].addError("Could not find the Mask-texture (ID = " + targetID + " ) for this EnvMapMethod");
                     cast(effectMethodReturn, EnvMapMethod).mask = assetVO.data;
                 }
             case 404: //LightMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE]));
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the LightMap (ID = " + targetID + " ) for this LightMapMethod");
                 effectMethodReturn = new LightMapMethod(assetVO.data, blendModeDic[props.getValue(401, 10)]); //usesecondaryUV not set
             case 405: //ProjectiveTextureMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE_PROJECTOR]);
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE_PROJECTOR]));
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the TextureProjector (ID = " + targetID + " ) for this ProjectiveTextureMethod");
                 effectMethodReturn = new ProjectiveTextureMethod(assetVO.data, blendModeDic[props.getValue(401, 10)]);
@@ -1789,14 +1789,14 @@ class AWD2Parser extends ParserBase {
 
             case 407: //AlphaMaskMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE]);
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE]));
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the Alpha-texture (ID = " + targetID + " ) for this AlphaMaskMethod");
                 effectMethodReturn = new AlphaMaskMethod(assetVO.data, props.getValue(701, false));
 
             case 408: //RefractionEnvMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE]), "CubeTexture");
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this RefractionEnvMapMethod");
                 effectMethodReturn = new RefractionEnvMapMethod(assetVO.data, props.getValue(101, 0.1), props.getValue(102, 0.01), props.getValue(103, 0.01), props.getValue(104, 0.01));
@@ -1807,7 +1807,7 @@ class AWD2Parser extends ParserBase {
 
             case 410: //FresnelEnvMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.TEXTURE], "CubeTexture");
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.TEXTURE]), "CubeTexture");
                 if (!assetVO.enable)
                     _blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this FresnelEnvMapMethod");
                 effectMethodReturn = new FresnelEnvMapMethod(assetVO.data, props.getValue(101, 1));
@@ -1829,7 +1829,7 @@ class AWD2Parser extends ParserBase {
         var shadowLightID:UInt;
         _blocks[blockID].name = parseVarStr();
         shadowLightID = _newBlockBytes.readUnsignedInt();
-        var assetVO:AssetVO = getAssetByID(shadowLightID, [Asset3DType.LIGHT]);
+        var assetVO:AssetVO = getAssetByID(shadowLightID, Vector.ofArray([Asset3DType.LIGHT]));
         if (!assetVO.enable) {
             _blocks[blockID].addError("Could not find the TargetLight (ID = " + shadowLightID + " ) for this ShadowMethod - ShadowMethod not created");
             return;
@@ -1875,7 +1875,7 @@ class AWD2Parser extends ParserBase {
         {
             case 1001: //CascadeShadowMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.SHADOW_MAP_METHOD]);
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.SHADOW_MAP_METHOD]));
                 if (!assetVO.enable) {
                     _blocks[blockID].addError("Could not find the ShadowBaseMethod (ID = " + targetID + " ) for this CascadeShadowMapMethod - ShadowMethod not created");
                     return shadowMethod;
@@ -1883,7 +1883,7 @@ class AWD2Parser extends ParserBase {
                 shadowMethod = new CascadeShadowMapMethod(assetVO.data);
             case 1002: //NearShadowMapMethod
                 targetID = props.getValue(1, 0);
-                assetVO = getAssetByID(targetID, [Asset3DType.SHADOW_MAP_METHOD]);
+                assetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.SHADOW_MAP_METHOD]));
                 if (!assetVO.enable) {
                     _blocks[blockID].addError("Could not find the ShadowBaseMethod (ID = " + targetID + " ) for this NearShadowMapMethod - ShadowMethod not created");
                     return shadowMethod;
@@ -2007,7 +2007,7 @@ class AWD2Parser extends ParserBase {
         while (frames_parsed < num_frames) {
             pose_addr = _newBlockBytes.readUnsignedInt();
             frame_dur = _newBlockBytes.readUnsignedShort();
-            assetVO = getAssetByID(pose_addr, [Asset3DType.SKELETON_POSE]);
+            assetVO = getAssetByID(pose_addr, Vector.ofArray([Asset3DType.SKELETON_POSE]));
             if (!assetVO.enable)
                 _blocks[blockID].addError("Could not find the SkeletonPose Frame # " + frames_parsed + " (ID = " + pose_addr + " ) for this SkeletonClipNode");
             else
@@ -2053,7 +2053,7 @@ class AWD2Parser extends ParserBase {
         var thisGeo:Geometry;
         var name:String = parseVarStr();
         var geoAdress:Int = _newBlockBytes.readUnsignedInt();
-        var assetVO:AssetVO = getAssetByID(geoAdress, [Asset3DType.GEOMETRY]);
+        var assetVO:AssetVO = getAssetByID(geoAdress, Vector.ofArray([Asset3DType.GEOMETRY]));
         if (!assetVO.enable) {
             _blocks[blockID].addError("Could not find the target-Geometry-Object " + geoAdress + " ) for this VertexClipNode");
             return;
@@ -2138,7 +2138,7 @@ class AWD2Parser extends ParserBase {
         var vertexFrames:Vector<VertexClipNode> = new Vector<VertexClipNode>();
         while (frames_parsed < num_frames) {
             poseBlockAdress = _newBlockBytes.readUnsignedInt();
-            assetVO = getAssetByID(poseBlockAdress, [Asset3DType.ANIMATION_NODE]);
+            assetVO = getAssetByID(poseBlockAdress, Vector.ofArray([Asset3DType.ANIMATION_NODE]));
             if (!assetVO.enable) {
                 _blocks[blockID].addError("Could not find the AnimationClipNode Nr " + frames_parsed + " ( " + poseBlockAdress + " ) for this AnimationSet");
             }
@@ -2166,7 +2166,7 @@ class AWD2Parser extends ParserBase {
 
         }
         else if (skeletonFrames.length > 0) {
-            assetVO = getAssetByID(poseBlockAdress, [Asset3DType.ANIMATION_NODE]);
+            assetVO = getAssetByID(poseBlockAdress, Vector.ofArray([Asset3DType.ANIMATION_NODE]));
             var newSkeletonAnimationSet:SkeletonAnimationSet = new SkeletonAnimationSet(props.getValue(1, 4)); //props.getValue(1,4));
             var skeletFrame:SkeletonClipNode;
             for (skeletFrame in skeletonFrames)
@@ -2236,11 +2236,11 @@ class AWD2Parser extends ParserBase {
         var targetMeshes:Vector<Mesh> = new Vector<Mesh>();
 
         for (i in 0...meshAdresses.length) {
-            assetVO = getAssetByID(meshAdresses[i], [Asset3DType.MESH]);
+            assetVO = getAssetByID(meshAdresses[i], Vector.ofArray([Asset3DType.MESH]));
             if (assetVO.enable)
                 targetMeshes.push(cast(assetVO.data, Mesh));
         }
-        assetVO = getAssetByID(animSetBlockAdress, [Asset3DType.ANIMATION_SET]);
+        assetVO = getAssetByID(animSetBlockAdress, Vector.ofArray([Asset3DType.ANIMATION_SET]));
         if (!assetVO.enable) {
             _blocks[blockID].addError("Could not find the AnimationSet ( " + animSetBlockAdress + " ) for this Animator");
             return;
@@ -2249,7 +2249,7 @@ class AWD2Parser extends ParserBase {
         var thisAnimator:AnimatorBase = null;
         if (type == 1) {
 
-            assetVO = getAssetByID(props.getValue(1, 0), [Asset3DType.SKELETON]);
+            assetVO = getAssetByID(props.getValue(1, 0), Vector.ofArray([Asset3DType.SKELETON]));
             if (!assetVO.enable) {
                 _blocks[blockID].addError("Could not find the Skeleton ( " + props.getValue(1, 0) + " ) for this Animator");
                 return;
@@ -2284,7 +2284,7 @@ class AWD2Parser extends ParserBase {
 
         var parentObject:ObjectContainer3D = null;
         var targetObject:ObjectContainer3D = null;
-        var assetVO:AssetVO = getAssetByID(par_id, [Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]);
+        var assetVO:AssetVO = getAssetByID(par_id, Vector.ofArray([Asset3DType.CONTAINER, Asset3DType.LIGHT, Asset3DType.MESH, Asset3DType.ENTITY, Asset3DType.SEGMENT_SET]));
         if (assetVO.enable)
             parentObject = cast(assetVO.data, ObjectContainer3D);
 
@@ -2295,7 +2295,7 @@ class AWD2Parser extends ParserBase {
         {
             case 1:
                 var targetID:Int = props.getValue(1, 0);
-                var targetAssetVO:AssetVO = getAssetByID(targetID, [Asset3DType.LIGHT, Asset3DType.TEXTURE_PROJECTOR]); //for no only light is requested!!!!
+                var targetAssetVO:AssetVO = getAssetByID(targetID, Vector.ofArray([Asset3DType.LIGHT, Asset3DType.TEXTURE_PROJECTOR])); //for no only light is requested!!!!
                 if (!targetAssetVO.enable && (targetID != 0)) {
                     _blocks[blockID].addError("Could not find the light (ID = " + targetID + " ( for this CommandBock!");
                     return;

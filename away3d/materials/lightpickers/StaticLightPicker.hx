@@ -12,17 +12,18 @@ import away3d.lights.DirectionalLight;
 import away3d.lights.LightBase;
 import away3d.lights.LightProbe;
 import away3d.lights.PointLight;
+import openfl.Vector;
 
 class StaticLightPicker extends LightPickerBase {
-    public var lights(get, set):Array<LightBase>;
+    public var lights(get, set):Vector<LightBase>;
 
-    private var _lights:Array<LightBase>;
+    private var _lights:Vector<LightBase>;
 
     /**
 	 * Creates a new StaticLightPicker object.
 	 * @param lights The lights to be used for shading.
 	 */
-    public function new(lights:Array<LightBase>) {
+    public function new(lights:Vector<LightBase>) {
         this.lights = lights;
         super();
     }
@@ -30,11 +31,11 @@ class StaticLightPicker extends LightPickerBase {
     /**
 	 * The lights used for shading.
 	 */
-    private function get_lights():Array<LightBase> {
+    private function get_lights():Vector<LightBase> {
         return _lights;
     }
 
-    private function set_lights(value:Array<LightBase>):Array<LightBase> {
+    private function set_lights(value:Vector<LightBase>):Vector<LightBase> {
         var numPointLights:Int = 0;
         var numDirectionalLights:Int = 0;
         var numCastingPointLights:Int = 0;

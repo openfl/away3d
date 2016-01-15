@@ -50,7 +50,7 @@ class UVAnimator extends AnimatorBase implements IAnimator {
         _rotationIncrease = 1;
         super(uvAnimationSet);
         _uvTransform = new Matrix();
-        _matrix2d = [1, 0, 0, 0, 1, 0, 0, 0];
+        _matrix2d = Vector.ofArray([1, 0, 0, 0, 1, 0, 0, 0]);
         _translate = Vector.ofArray([0, 0, 0.5, 0.5]);
         _uvAnimationSet = uvAnimationSet;
     }
