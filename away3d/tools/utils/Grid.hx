@@ -9,6 +9,7 @@ import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.core.base.SubGeometry;
 import away3d.entities.Mesh;
+import openfl.Vector;
 
 class Grid {
     public var unit(get, set):Float;

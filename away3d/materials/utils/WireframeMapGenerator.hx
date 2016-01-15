@@ -11,6 +11,7 @@ import openfl.display.BitmapData;
 import openfl.display.Graphics;
 import openfl.display.Sprite;
 import openfl.display.TriangleCulling;
+import openfl.Vector;
 
 class WireframeMapGenerator {
 

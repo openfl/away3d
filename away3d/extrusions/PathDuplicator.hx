@@ -7,6 +7,7 @@ import away3d.entities.Mesh;
 import away3d.paths.IPath;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 @:meta(Deprecated())
 class PathDuplicator {

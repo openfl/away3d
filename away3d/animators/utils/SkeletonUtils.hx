@@ -8,6 +8,7 @@ import away3d.animators.data.JointPose;
 import openfl.errors.Error;
 import away3d.animators.data.SkeletonPose;
 import away3d.animators.nodes.SkeletonClipNode;
+import openfl.Vector;
 
 class SkeletonUtils {
 

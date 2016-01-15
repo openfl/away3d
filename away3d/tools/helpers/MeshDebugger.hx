@@ -8,6 +8,7 @@ import away3d.containers.Scene3D;
 import away3d.containers.ObjectContainer3D;
 import away3d.entities.Mesh;
 import away3d.tools.helpers.data.MeshDebug;
+import openfl.Vector;
 
 class MeshDebugger {
     public var colorNormals(get, set):Int;

@@ -10,6 +10,7 @@ import away3d.animators.IAnimationSet;
 import away3d.materials.passes.MaterialPassBase;
 import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3D;
+import openfl.Vector;
 
 class UVAnimationSet extends AnimationSetBase implements IAnimationSet {
 

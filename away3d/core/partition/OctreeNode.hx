@@ -7,6 +7,7 @@ import away3d.entities.Entity;
 import away3d.primitives.WireframeCube;
 import away3d.primitives.WireframePrimitiveBase;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class OctreeNode extends NodeBase {
 

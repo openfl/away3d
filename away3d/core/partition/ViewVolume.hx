@@ -14,6 +14,7 @@ import away3d.primitives.WireframePrimitiveBase;
 import openfl.geom.Vector3D;
 import away3d.core.partition.EntityNode;
 import away3d.core.partition.InvertedOctreeNode;
+import openfl.Vector;
 
 class ViewVolume extends NodeBase {
     public var minBound(get, never):Vector3D;

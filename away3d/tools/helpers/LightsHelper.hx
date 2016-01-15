@@ -14,7 +14,7 @@ import openfl.Vector;
 
 class LightsHelper {
 
-    static private var _lightsArray:Array<Dynamic>;
+    static private var _lightsArray:Vector<Dynamic>;
     static private var _light:LightBase;
     static private var _state:Int;
     
@@ -28,7 +28,7 @@ class LightsHelper {
         
         if (lights.length == 0) return;
         
-        _lightsArray = [];
+        _lightsArray = Vector.ofArray([]);
         for (i in 0...lights.length) {
             _lightsArray[i] = lights[i];
        }
@@ -82,7 +82,7 @@ class LightsHelper {
     static private function apply(materialOwner:IMaterialOwner):Void {
         
         var picker:StaticLightPicker;
-        var aLights:Array<Dynamic>;
+        var aLights:Vector<LightBase>;
         var hasLight:Bool = false;
         var i:Int = 0;
 
@@ -94,11 +94,11 @@ class LightsHelper {
                     picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
                     
                     if (picker == null || picker.lights != _lightsArray) 
-                        materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
+                        materialOwner.material.lightPicker = new StaticLightPicker(Vector.ofArray(_lightsArray));
                 
                 case 1:
                     if (materialOwner.material.lightPicker == null)
-                        materialOwner.material.lightPicker = new StaticLightPicker([]);
+                        materialOwner.material.lightPicker = new StaticLightPicker(Vector.ofArray([]));
                     
                     picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
                     

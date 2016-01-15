@@ -9,6 +9,7 @@ import openfl.geom.Vector3D;
 import openfl.net.URLRequest;
 import openfl.utils.ByteArray;
 import haxe.ds.StringMap;
+import openfl.Vector;
 
 import away3d.containers.ObjectContainer3D;
 import away3d.core.base.CompactSubGeometry;
@@ -71,7 +72,7 @@ class AC3DParser extends ParserBase {
     public function new() {
         super(ParserDataFormat.PLAIN_TEXT);
 
-        _containersList = [];
+        _containersList = Vector.ofArray([]);
         _tmpcontainerpos = new Vector3D(0.0, 0.0, 0.0);
         _tmpos = new Vector3D(0.0, 0.0, 0.0);
     }
@@ -145,7 +146,7 @@ class AC3DParser extends ParserBase {
             _textData = getTextData();
             var re:EReg = new EReg(String.fromCharCode(13), "g");
             _textData = re.replace(_textData, "");
-            _materialList = [];
+            _materialList = Vector.ofArray([]);
             _startedParsing = true;
 
             _meshList = new Vector<Mesh>();
@@ -168,19 +169,19 @@ class AC3DParser extends ParserBase {
         var nextObject:Int;
         var nextSurface:Int;
 
-        while (_charIndex < _stringLen && hasTime()) {
-
+        while (_charIndex < _stringLen && hasTime())
+		{
             _charIndex = _textData.indexOf(CR, _oldIndex);
-
+			
             if (_charIndex == -1)
                 _charIndex = _stringLen;
-
+			
             line = _textData.substring(_oldIndex, _charIndex);
-
+			
             if (line.indexOf("texture ") != -1)
                 tUrl = line.substring(line.indexOf('"') + 1, line.length - 1);
-            _trunk = line.replace("  ", " ").replace("  ", " ").replace("  ", " ").split(" ");
-
+            _trunk = Vector.ofArray(line.replace("  ", " ").replace("  ", " ").replace("  ", " ").split(" "));
+			
             if (_charIndex != _stringLen)
                 _oldIndex = _charIndex + 1;
 
@@ -245,7 +246,7 @@ class AC3DParser extends ParserBase {
                         if (_vertices != null)
                             cleanUpBuffers();
                         _vertices = new Vector<Vertex>();
-                        _uvs = [];
+                        _uvs = Vector.ofArray([]);
                         _activeMesh.name = "m_" + _meshList.length;
                         _meshList[_meshList.length] = _activeMesh;
 //in case of groups, numvert might not be there
@@ -401,7 +402,7 @@ class AC3DParser extends ParserBase {
         var indices:Vector<UInt> = new Vector<UInt>();
         var uvs:Vector<Float> = new Vector<Float>();
 
-        var subGeomsData:Vector<Dynamic> = [vertices, indices, uvs];
+        var subGeomsData:Array<Dynamic> = [vertices, indices, uvs];
 //var j:uint;
         var dic:StringMap<Int> = new StringMap<Int>();
         var ref:String;
@@ -542,29 +543,28 @@ class AC3DParser extends ParserBase {
     }
 
     private function parseMaterialLine(materialString:String):MaterialBase {
-        var trunk:Vector<String> = materialString.split(" ");
-
-
+        var trunk:Vector<String> = Vector.ofArray(materialString.split(" "));
+		
         var color:UInt = 0x000000;
         var name:String = "";
         var ambient:Float = 0;
         var specular:Float = 0;
         var gloss:Float = 0;
         var alpha:Float = 0;
-
+		
         var i:Int = 0;
         while (i < trunk.length) {
             if (trunk[i] == "") {
                 i++;
                 continue;
             }
-
+			
             if (trunk[i].indexOf("\"") != -1 || trunk[i].indexOf("\'") != -1) {
                 name = trunk[i].substring(1, trunk[i].length - 1);
                 i++;
                 continue;
             }
-
+			
             switch (trunk[i])
             {
                 case "rgb":

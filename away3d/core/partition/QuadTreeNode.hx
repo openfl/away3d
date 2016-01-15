@@ -5,6 +5,7 @@ import away3d.bounds.BoundingVolumeBase;
 import away3d.core.math.Plane3D;
 import away3d.entities.Entity;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class QuadTreeNode extends NodeBase {
 

@@ -24,12 +24,12 @@ class FontContainer
 	
 	public function best(size:Int):FontSize 
 	{
-		var best:FontSize;
+		var best:FontSize = null;
 		var lowestDif:Float = Math.POSITIVE_INFINITY;
-		for (var i:int = 0; i < fontSizes.length; i++) 
+		for (i in 0...fontSizes.length) 
 		{
 			var fontSize:FontSize = fontSizes[i];
-			var dif:int = Math.abs(fontSize.size - size);
+			var dif:Int = cast Math.abs(fontSize.size - size);
 			if (dif < lowestDif) {
 				best = fontSize;
 				lowestDif = dif;

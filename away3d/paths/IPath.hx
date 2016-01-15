@@ -1,6 +1,7 @@
 package away3d.paths;
 
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 interface IPath {
     var numSegments(get, never):Int;

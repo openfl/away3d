@@ -6,6 +6,7 @@ import openfl.geom.Vector3D;
 import away3d.animators.data.Skeleton;
 import away3d.animators.data.SkeletonPose;
 import away3d.animators.nodes.SkeletonNaryLERPNode;
+import openfl.Vector;
 
 
 class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnimationState {

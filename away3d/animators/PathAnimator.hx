@@ -8,6 +8,7 @@ import away3d.paths.IPath;
 import away3d.paths.IPathSegment;
 import openfl.events.EventDispatcher;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class PathAnimator extends EventDispatcher {
     public var upAxis(get, set):Vector3D;

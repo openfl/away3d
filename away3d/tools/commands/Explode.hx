@@ -10,6 +10,7 @@ import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
 import away3d.tools.utils.GeomUtil;
+import openfl.Vector;
 
 class Explode {
 

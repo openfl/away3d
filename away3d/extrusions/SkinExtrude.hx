@@ -11,6 +11,7 @@ import away3d.entities.Mesh;
 import away3d.materials.MaterialBase;
 import away3d.tools.helpers.MeshHelper;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class SkinExtrude extends Mesh {
     public var profiles(get, set):Vector<Vector<Vector3D>>;
