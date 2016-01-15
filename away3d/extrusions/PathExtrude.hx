@@ -18,6 +18,7 @@ import openfl.geom.Vector3D;
 import away3d.core.base.SubGeometry;
 import away3d.materials.MaterialBase;
 import away3d.extrusions.data.SubGeometryList;
+import openfl.Vector;
 class PathExtrude extends Mesh {
     public var upAxis(get, set):Vector3D;
     public var centerMesh(get, set):Bool;

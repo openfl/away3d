@@ -5,6 +5,7 @@ package away3d.primitives;
 
 import away3d.utils.ArrayUtils;
 import away3d.core.base.CompactSubGeometry;
+import openfl.Vector;
 
 import away3d.primitives.data.NURBSVertex;
 import openfl.geom.Vector3D;

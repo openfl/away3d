@@ -18,6 +18,7 @@ import away3d.core.traverse.EntityCollector;
 import openfl.display.BitmapData;
 import openfl.display3D.textures.TextureBase;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class CubeReflectionTexture extends RenderCubeTexture {
     public var position(get, set):Vector3D;

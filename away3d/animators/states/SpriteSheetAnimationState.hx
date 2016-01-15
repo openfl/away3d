@@ -2,6 +2,7 @@ package away3d.animators.states;
 
 import away3d.animators.data.SpriteSheetAnimationFrame;
 import away3d.animators.nodes.SpriteSheetClipNode;
+import openfl.Vector;
 
 class SpriteSheetAnimationState extends AnimationClipState implements ISpriteSheetAnimationState {
     public var reverse(never, set):Bool;

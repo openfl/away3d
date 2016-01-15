@@ -8,6 +8,7 @@ import openfl.geom.Vector3D;
 import away3d.animators.data.Skeleton;
 import away3d.animators.nodes.SkeletonDirectionalNode;
 import away3d.animators.data.SkeletonPose;
+import openfl.Vector;
 
 class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAnimationState {
     public var direction(get, set):Float;

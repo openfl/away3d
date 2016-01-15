@@ -5,6 +5,7 @@ package away3d.cameras.lenses;
 
 import away3d.core.math.Matrix3DUtils;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class PerspectiveOffCenterLens extends LensBase {
     public var minAngleX(get, set):Float;

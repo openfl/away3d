@@ -8,6 +8,7 @@ import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
 import away3d.tools.utils.GeomUtil;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
 class Mirror {
     public var recenter(get, set):Bool;

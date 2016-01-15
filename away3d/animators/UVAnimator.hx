@@ -15,6 +15,7 @@ import away3d.materials.TextureMaterial;
 import away3d.core.base.SubMesh;
 import away3d.animators.states.IUVAnimationState;
 import away3d.animators.data.UVAnimationFrame;
+import openfl.Vector;
 
 import away3d.cameras.Camera3D;
 
@@ -50,7 +51,7 @@ class UVAnimator extends AnimatorBase implements IAnimator {
         super(uvAnimationSet);
         _uvTransform = new Matrix();
         _matrix2d = [1, 0, 0, 0, 1, 0, 0, 0];
-        _translate = [0, 0, 0.5, 0.5];
+        _translate = Vector.ofArray([0, 0, 0.5, 0.5]);
         _uvAnimationSet = uvAnimationSet;
     }
 

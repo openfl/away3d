@@ -14,6 +14,7 @@ import openfl.display.BitmapData;
 import openfl.display.MovieClip;
 import openfl.geom.Matrix;
 import openfl.geom.Point;
+import openfl.Vector;
 
 class SpriteSheetHelper {
 

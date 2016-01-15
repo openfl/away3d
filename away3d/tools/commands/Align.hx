@@ -4,6 +4,7 @@
 package away3d.tools.commands;
 
 
+import openfl.Vector;
 import Reflect;
 import Reflect;
 import Reflect;
@@ -156,7 +157,7 @@ class Align {
 
     static private function checkCondition(condition:String):Void {
         condition = condition.toLowerCase();
-        var aConds:Vector<Dynamic> = [POSITIVE, NEGATIVE, "", AVERAGE];
+        var aConds:Vector<Dynamic> = Vector.ofArray([POSITIVE, NEGATIVE, "", AVERAGE]);
         var i:Int = 0;
         while (i < aConds.length) {
             if (aConds[i] == condition) {

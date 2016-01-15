@@ -10,6 +10,7 @@ import away3d.entities.Mesh;
 import away3d.entities.SegmentSet;
 import away3d.primitives.LineSegment;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class MeshDebug extends SegmentSet {
 
@@ -57,15 +58,15 @@ class MeshDebug extends SegmentSet {
             indices = subGeom.indexData;
             j = 0;
             while (j < indices.length) {
-                index = offset + indices[j] * stride;
+                index = cast offset + indices[j] * stride;
                 v0.x = vertices[index];
                 v0.y = vertices[index + 1];
                 v0.z = vertices[index + 2];
-                index = offset + indices[j + 1] * stride;
+                index = cast offset + indices[j + 1] * stride;
                 v1.x = vertices[index];
                 v1.y = vertices[index + 1];
                 v1.z = vertices[index + 2];
-                index = offset + indices[j + 2] * stride;
+                index = cast offset + indices[j + 2] * stride;
                 v2.x = vertices[index];
                 v2.y = vertices[index + 1];
                 v2.z = vertices[index + 2];
@@ -130,11 +131,11 @@ class MeshDebug extends SegmentSet {
             indices = subGeom.indexData;
             j = 0;
             while (j < indices.length) {
-                index = offset + indices[j] * stride;
+                index = cast offset + indices[j] * stride;
                 v0.x = vertices[index];
                 v0.y = vertices[index + 1];
                 v0.z = vertices[index + 2];
-                index = offsettarget + indices[j] * stride;
+                index = cast offsettarget + indices[j] * stride;
                 _normal.x = vectorTarget[index];
                 _normal.y = vectorTarget[index + 1];
                 _normal.z = vectorTarget[index + 2];
@@ -143,11 +144,11 @@ class MeshDebug extends SegmentSet {
                 l0.y = v0.y + (_normal.y * length);
                 l0.z = v0.z + (_normal.z * length);
                 addSegment(new LineSegment(v0, l0, color, color, 1));
-                index = offset + indices[j + 1] * stride;
+                index = cast offset + indices[j + 1] * stride;
                 v1.x = vertices[index];
                 v1.y = vertices[index + 1];
                 v1.z = vertices[index + 2];
-                index = offsettarget + indices[j + 1] * stride;
+                index = cast offsettarget + indices[j + 1] * stride;
                 _normal.x = vectorTarget[index];
                 _normal.y = vectorTarget[index + 1];
                 _normal.z = vectorTarget[index + 2];
@@ -156,11 +157,11 @@ class MeshDebug extends SegmentSet {
                 l0.y = v1.y + (_normal.y * length);
                 l0.z = v1.z + (_normal.z * length);
                 addSegment(new LineSegment(v1, l0, color, color, 1));
-                index = offset + indices[j + 2] * stride;
+                index = cast offset + indices[j + 2] * stride;
                 v2.x = vertices[index];
                 v2.y = vertices[index + 1];
                 v2.z = vertices[index + 2];
-                index = offsettarget + indices[j + 2] * stride;
+                index = cast offsettarget + indices[j + 2] * stride;
                 _normal.x = vectorTarget[index];
                 _normal.y = vectorTarget[index + 1];
                 _normal.z = vectorTarget[index + 2];

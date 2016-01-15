@@ -9,6 +9,7 @@ import openfl.errors.Error;
 import away3d.bounds.BoundingVolumeBase;
 import away3d.entities.Entity;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class DynamicGrid {
     public var numCellsX(get, never):Int;

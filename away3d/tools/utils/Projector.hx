@@ -10,6 +10,7 @@ import away3d.entities.Mesh;
 import openfl.geom.Vector3D;
 import away3d.core.base.data.UV;
 import away3d.containers.ObjectContainer3D;
+import openfl.Vector;
 class Projector {
 
     static public var FRONT:String = "front";

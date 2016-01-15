@@ -5,6 +5,7 @@ package away3d.animators.nodes;
 
 import away3d.animators.states.SpriteSheetAnimationState;
 import away3d.animators.data.SpriteSheetAnimationFrame;
+import openfl.Vector;
 
 class SpriteSheetClipNode extends AnimationClipNodeBase {
     public var frames(get, never):Vector<SpriteSheetAnimationFrame>;

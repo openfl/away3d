@@ -1,5 +1,6 @@
 package away3d.extrusions;
 
+import openfl.Vector;
 import Reflect;
 import Reflect;
 import Reflect;
@@ -483,7 +484,7 @@ class LinearExtrude extends Mesh {
         var vector:Vertex = new Vertex();
         var renderSide:RenderSide = null;
         if (_thickness != 0) {
-            var aListsides:Vector<Dynamic> = ["top", "bottom", "right", "left", "front", "back"];
+            var aListsides:Vector<Dynamic> = Vector.ofArray(["top", "bottom", "right", "left", "front", "back"]);
             renderSide = new RenderSide();
             i = 0;
             while (i < aListsides.length) {
@@ -685,11 +686,11 @@ class LinearExtrude extends Mesh {
                     }
                     if (j == 0 && renderSide.bottom) {
                         mat = ((materials != null && materials.bottom != null)) ? materials.bottom : this.material;
-                        addThicknessSubdivision([v4c, v3a], [v2c, v1a], _uvd.u, _uvb.u, mat);
+                        addThicknessSubdivision(Vector.ofArray([v4c, v3a]), Vector.ofArray([v2c, v1a]), _uvd.u, _uvb.u, mat);
                     }
                     if (j == _subdivision - 1 && renderSide.top) {
                         mat = ((materials != null && materials.top != null)) ? materials.top : this.material;
-                        addThicknessSubdivision([v3b, v3c], [v1b, v1c], _uva.u, _uvc.u, mat);
+                        addThicknessSubdivision(Vector.ofArray([v3b, v3c]), Vector.ofArray([v1b, v1c]), _uva.u, _uvc.u, mat);
                     }
                     if (i == _aVectors.length - 2 && renderSide.front) {
                         mat = ((materials != null && materials.front != null)) ? materials.front : this.material;
@@ -726,7 +727,7 @@ class LinearExtrude extends Mesh {
         var index:Int = 0;
         var v1:Float = 0;
         var v2:Float = 0;
-        var tmp:Vector<Dynamic> = [];
+        var tmp = new Vector<Dynamic>();
         i = 0;
         while (i < points1.length) {
             stepx = (points2[i].x - points1[i].x) / _thicknessSubdivision;
@@ -786,8 +787,8 @@ class LinearExtrude extends Mesh {
     }
 
     private function buildThicknessPoints(prop1:String, prop2:String):Vector<Dynamic> {
-        var anchors:Vector<Dynamic> = [];
-        var lines:Vector<Dynamic> = [];
+        var anchors = new Vector<Dynamic>();
+        var lines = new Vector<Dynamic>();
         var i:Int = 0;
         while (i < _aVectors.length - 1) {
             if (Reflect.field(_aVectors[i], prop1) == 0 && Reflect.field(_aVectors[i], prop2) == 0) Reflect.setField(_aVectors[i], prop1, EPS);
@@ -819,7 +820,7 @@ class LinearExtrude extends Mesh {
             fourPoints.pt2 = anchorFP.pt2;
             fourPoints.pt3 = anchorFP.pt3;
             fourPoints.pt4 = anchorFP.pt4;
-            lines = [fourPoints];
+            lines = Vector.ofArray([fourPoints]);
         }
 
         return lines;
