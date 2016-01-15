@@ -5,7 +5,6 @@ import away3d.core.math.Plane3D;
 import away3d.events.LensEvent;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
-import openfl.Vector;
 
 class ObliqueNearPlaneLens extends LensBase {
     public var plane(get, set):Plane3D;
@@ -20,7 +19,7 @@ class ObliqueNearPlaneLens extends LensBase {
         super();
     }
 
-    override private function get_frustumCorners():Vector<Float> {
+    override private function get_frustumCorners():Array<Float> {
         return _baseLens.frustumCorners;
     }
 

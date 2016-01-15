@@ -3,6 +3,7 @@
 // Zachary Forest Johnson
 package away3d.extrusions;
 
+import openfl.Vector;
 import Reflect;
 import Reflect;
 import Reflect;
@@ -370,7 +371,7 @@ class DelaunayMesh extends Mesh {
                 ++i;
             }
             var bList:Vector<Bool> = new Vector<Bool>();
-            var edges:Vector<Dynamic> = [];
+            var edges = new Vector<Dynamic>();
             var nEdge:Int = 0;
             var maxTris:Int = 4 * nv;
             var maxEdges:Int = nv * 2;
