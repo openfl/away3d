@@ -51,7 +51,7 @@ class SimpleVideoPlayer implements IVideoPlayer {
         "close":streamClose};
 // NetConnection
         _nc = new NetConnection();
-        _nc.client = _nsClient;
+        Reflect.setProperty(_nc, "client", _nsClient);
         _nc.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler, false, 0, true);
         _nc.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true);
         _nc.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
@@ -61,7 +61,7 @@ class SimpleVideoPlayer implements IVideoPlayer {
         _ns = new NetStream(_nc);
         _ns.checkPolicyFile = true;
         _ns.client = _nsClient;
-        _ns.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler, false, 0, true);
+		_ns.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler, false, 0, true);
         _ns.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler, false, 0, true);
         _ns.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
 // video
