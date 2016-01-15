@@ -317,7 +317,7 @@ class ShaderCompiler {
 	 */
     private function compileMethodsCode():Void {
         if (_dependencyCounter.uvDependencies > 0) compileUVCode();
-        if (_dependencyCounter.secondaryUVDependencies > 0) compileSecondaryUVCode();
+		if (_dependencyCounter.secondaryUVDependencies > 0 || animateUVs2) compileSecondaryUVCode();
         if (_dependencyCounter.normalDependencies > 0) compileNormalCode();
         if (_dependencyCounter.viewDirDependencies > 0) compileViewDirCode();
         compileLightingCode();
