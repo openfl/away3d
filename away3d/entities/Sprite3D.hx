@@ -35,6 +35,7 @@ class Sprite3D extends Entity implements IRenderable {
     public var animator(get, never):IAnimator;
     public var castsShadows(get, never):Bool;
     public var uvTransform(get, never):Matrix;
+    public var uvTransform2(get, never):Matrix;
     public var vertexData(get, never):Vector<Float>;
     public var indexData(get, never):Vector<UInt>;
     public var UVData(get, never):Vector<Float>;
@@ -182,6 +183,10 @@ class Sprite3D extends Entity implements IRenderable {
     }
 
     private function get_uvTransform():Matrix {
+        return null;
+    }
+
+    private function get_uvTransform2():Matrix {
         return null;
     }
 
