@@ -11,6 +11,7 @@ import away3d.animators.data.SkeletonPose;
 import away3d.animators.nodes.SkeletonDifferenceNode;
 import away3d.core.math.Quaternion;
 import away3d.animators.IAnimator;
+import openfl.Vector;
 
 class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAnimationState {
     public var blendWeight(get, set):Float;

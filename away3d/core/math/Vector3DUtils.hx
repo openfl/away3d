@@ -5,6 +5,7 @@ package away3d.core.math;
 
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 class Vector3DUtils {
 
     static private var MathPI:Float = Math.PI;

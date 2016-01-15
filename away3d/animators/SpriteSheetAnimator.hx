@@ -19,6 +19,7 @@ import away3d.animators.data.SpriteSheetAnimationFrame;
 import away3d.animators.states.ISpriteSheetAnimationState;
 import away3d.animators.states.SpriteSheetAnimationState;
 import away3d.animators.transitions.IAnimationTransition;
+import openfl.Vector;
 
 import away3d.cameras.Camera3D;
 import openfl.display3D.Context3DProgramType;

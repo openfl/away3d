@@ -9,6 +9,7 @@ package away3d.tools.serialize;
 import away3d.core.math.Quaternion;
 import away3d.errors.AbstractMethodError;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class SerializerBase {
 

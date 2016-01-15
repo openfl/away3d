@@ -4,6 +4,7 @@ package away3d.core.partition;
 import away3d.core.traverse.PartitionTraverser;
 import away3d.entities.Entity;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class ViewVolumeRootNode extends NodeBase {
     public var dynamicGrid(get, set):DynamicGrid;

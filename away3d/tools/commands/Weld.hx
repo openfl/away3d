@@ -5,6 +5,7 @@ package away3d.tools.commands;
 
 
 import haxe.ds.IntMap;
+import openfl.Vector;
 import String;
 import away3d.containers.ObjectContainer3D;
 import away3d.core.base.CompactSubGeometry;

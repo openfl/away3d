@@ -10,6 +10,7 @@ import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class SphereMaker {
 

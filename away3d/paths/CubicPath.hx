@@ -6,6 +6,7 @@
 package away3d.paths;
 
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class CubicPath extends SegmentedPathBase implements IPath {
 

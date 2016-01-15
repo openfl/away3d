@@ -11,6 +11,7 @@ import away3d.core.base.CompactSubGeometry;
 import away3d.core.base.data.UV;
 import away3d.core.base.data.Vertex;
 import away3d.entities.Mesh;
+import openfl.Vector;
 
 class FaceHelper {
 

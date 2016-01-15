@@ -4,6 +4,7 @@
 package away3d.animators.nodes;
 
 import away3d.animators.states.SkeletonNaryLERPState;
+import openfl.Vector;
 
 class SkeletonNaryLERPNode extends AnimationNodeBase {
     public var numInputs(get, never):Int;

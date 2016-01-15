@@ -21,6 +21,7 @@ import openfl.display3D.textures.TextureBase;
 import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class PlanarReflectionTexture extends RenderTexture {
     public var plane(get, set):Plane3D;

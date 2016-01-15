@@ -7,6 +7,7 @@ package away3d.materials;
 
 import openfl.errors.Error;
 import away3d.textures.Texture2DBase;
+import openfl.Vector;
 
 class SpriteSheetMaterial extends TextureMaterial {
 
