@@ -16,9 +16,10 @@ class NumSuffixConflictStrategy extends ConflictStrategyBase {
     }
 
 
-    override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset,
-                                             assetsDictionary:StringMap<IAsset>, precedence:String):Void {
-        var orig:String;
+    override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Dynamic, precedence:String):Void
+	{
+        var assetsDictionary2:StringMap<IAsset> = cast assetsDictionary;
+		var orig:String;
         var new_name:String;
         var base:String, suffix:Int;
 
@@ -47,11 +48,11 @@ class NumSuffixConflictStrategy extends ConflictStrategyBase {
         do {
             suffix++;
             new_name = base + _separator + suffix;
-        } while (assetsDictionary.exists(new_name));
+        } while (assetsDictionary2.exists(new_name));
 
         _next_suffix.set(base, suffix);
 
-        updateNames(oldAsset.assetNamespace, new_name, oldAsset, changedAsset, assetsDictionary, precedence);
+        updateNames(oldAsset.assetNamespace, new_name, oldAsset, changedAsset, assetsDictionary2, precedence);
     }
 
 

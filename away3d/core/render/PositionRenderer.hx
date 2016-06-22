@@ -15,6 +15,7 @@ import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Program3D;
 import openfl.display3D.textures.TextureBase;
 import openfl.geom.Matrix3D;
+import openfl.utils.AGALMiniAssembler;
 
 class PositionRenderer extends RendererBase {
 
@@ -80,8 +81,12 @@ class PositionRenderer extends RendererBase {
         _program3D = context.createProgram();
         vertexCode = "m44 vt0, va0, vc0	\n" + "mov op, vt0		\n" + "rcp vt1.x, vt0.w	\n" + "mul v0, vt0, vt1.x	\n";
         fragmentCode = "mov oc, v0\n";
-
-        _program3D.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode));
+		
+		var assembler = new AGALMiniAssembler();
+        _program3D.upload(
+			assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
+			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+		);
     }
 }
 

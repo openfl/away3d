@@ -11,27 +11,27 @@ class Object3DEvent extends Event {
     /**
 	 * Defines the value of the type property of a visiblityUpdated event object.
 	 */
-    static public var VISIBLITY_UPDATED:String = "visiblityUpdated";
+    static public inline var VISIBLITY_UPDATED:String = "visiblityUpdated";
     /**
 	 * Defines the value of the type property of a scenetransformChanged event object.
 	 */
-    static public var SCENETRANSFORM_CHANGED:String = "scenetransformChanged";
+    static public inline var SCENETRANSFORM_CHANGED:String = "scenetransformChanged";
     /**
 	 * Defines the value of the type property of a sceneChanged event object.
 	 */
-    static public var SCENE_CHANGED:String = "sceneChanged";
+    static public inline var SCENE_CHANGED:String = "sceneChanged";
     /**
 	 * Defines the value of the type property of a positionChanged event object.
 	 */
-    static public var POSITION_CHANGED:String = "positionChanged";
+    static public inline var POSITION_CHANGED:String = "positionChanged";
     /**
 	 * Defines the value of the type property of a rotationChanged event object.
 	 */
-    static public var ROTATION_CHANGED:String = "rotationChanged";
+    static public inline var ROTATION_CHANGED:String = "rotationChanged";
     /**
 	 * Defines the value of the type property of a scaleChanged event object.
 	 */
-    static public var SCALE_CHANGED:String = "scaleChanged";
+    static public inline var SCALE_CHANGED:String = "scaleChanged";
     /**
 	 * A reference to the 3d object that is relevant to the event.
 	 */
