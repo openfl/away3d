@@ -71,7 +71,7 @@ class NamedAssetBase extends EventDispatcher {
         return (_name == name && (ns == null || _namespace == ns));
     }
 
-    public function resetAssetPath(name:String, ns:String = null, overrideOriginal:Bool = true):Void {
+    public function resetAssetPath(name:String, ns:String = null, ?overrideOriginal:Bool = true):Void {
         _name = (name != null) ? name : "null";
         _namespace = (ns != null) ? ns : DEFAULT_NAMESPACE;
         if (overrideOriginal) _originalName = _name;

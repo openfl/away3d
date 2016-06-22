@@ -578,7 +578,7 @@ class Stage3DProxy extends EventDispatcher {
 
     public function clearDepthBuffer():Void {
         if (_context3D == null) return;
-        _context3D.clear(0, 0, 0, 1, 1, 0, Context3DClearMask.DEPTH);
+        _context3D.clear(0, 0, 0, 1, 1, 0, cast Context3DClearMask.DEPTH);
     }
 
     /*

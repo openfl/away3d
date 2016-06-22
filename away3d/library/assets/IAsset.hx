@@ -33,7 +33,7 @@ interface IAsset extends IEventDispatcher {
 	 */
     private function get_assetFullPath():Array<Dynamic>;
     function assetPathEquals(name:String, ns:String):Bool;
-    function resetAssetPath(name:String, ns:String = null, overrideOriginal:Bool = true):Void;
+    function resetAssetPath(name:String, ns:String = null, ?overrideOriginal:Bool = true):Void;
     /**
 	 * Cleans up resources used by this asset.
 	 */

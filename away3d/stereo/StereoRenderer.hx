@@ -15,6 +15,7 @@ import openfl.display3D.Program3D;
 import openfl.display3D.VertexBuffer3D;
 import openfl.display3D.textures.Texture;
 import openfl.events.Event;
+import openfl.utils.AGALMiniAssembler;
 
 class StereoRenderer {
     public var renderMethod(get, set):StereoRenderMethodBase;
@@ -125,7 +126,11 @@ class StereoRenderer {
                 _program3D.dispose();
 
             _program3D = stage3DProxy.context3D.createProgram();
-            _program3D.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode));
+			var assembler = new AGALMiniAssembler();
+            _program3D.upload(
+				assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
+				assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+			);
             _program3DInvalid = false;
         }
         return _program3D;

@@ -2,7 +2,6 @@
  */
 package away3d.filters.tasks;
 
-import openfl.display3D._shaders.AGLSLShaderUtils;
 import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import away3d.errors.AbstractMethodError;
@@ -10,6 +9,7 @@ import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.Program3D;
 import openfl.display3D.textures.Texture;
+import openfl.utils.AGALMiniAssembler;
 
 class Filter3DTaskBase {
     public var textureScale(get, set):Int;
@@ -107,8 +107,12 @@ class Filter3DTaskBase {
     private function updateProgram3D(stage:Stage3DProxy):Void {
         if (_program3D != null) _program3D.dispose();
         _program3D = stage.context3D.createProgram();
-
-        _program3D.upload(AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, getVertexCode()), AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, getFragmentCode()));
+		
+		var assembler = new AGALMiniAssembler();
+        _program3D.upload(
+			assembler.assemble(Context3DProgramType.VERTEX, getVertexCode()), 
+			assembler.assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
+		);
         _program3DInvalid = false;
     }
 

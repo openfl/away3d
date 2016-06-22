@@ -2,6 +2,7 @@ package away3d.textfield.utils;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
+import haxe.io.Bytes;
 import openfl.errors.Error;
 /**
  * ...
@@ -26,7 +27,8 @@ class FontSize
 				var dataType:Class<Dynamic> = Reflect.getProperty(type, "DATA");
 				var textureType:Class<Dynamic> = Reflect.getProperty(type, "TEXTURE");
 				data = cast(Type.createInstance(dataType, null), Xml);
-				texture = cast(Type.createInstance(textureType, null), Bitmap).bitmapData;
+				//texture = cast(Type.createInstance(textureType, null), Bitmap).bitmapData;
+				texture = cast(Type.createInstance(textureType, null), Bytes);
 				
 			}catch (e:Error) {
 				throw new Error("Class inheriting from FontSize ("+type+") should have PUBLIC static members FAMILY, SIZE, DATA and TEXTURE.");
