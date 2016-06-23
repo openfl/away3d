@@ -38,6 +38,7 @@ import openfl.geom.Point;
 import openfl.geom.Vector3D;
 import openfl.geom.Rectangle;
 import openfl.Vector;
+import openfl.display3D._shaders.AGLSLShaderUtils;
 
 class ShaderPicker implements IPicker {
     public var onlyMouseEnabled(get, set):Bool;
@@ -237,10 +238,9 @@ class ShaderPicker implements IPicker {
         fragmentCode = "mov oc, fc0\n";
         // write identifier
 		
-		var assembler = new AGALMiniAssembler();
         _objectProgram3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
-			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+			AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
+			AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
 		);
     }
 
@@ -257,10 +257,9 @@ class ShaderPicker implements IPicker {
         fragmentCode = "mov oc, v0\n";
 
         // write identifier
-		var assembler = new AGALMiniAssembler();
         _triangleProgram3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
-			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+			AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
+			AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
 		);
     }
 

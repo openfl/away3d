@@ -82,10 +82,9 @@ class PositionRenderer extends RendererBase {
         vertexCode = "m44 vt0, va0, vc0	\n" + "mov op, vt0		\n" + "rcp vt1.x, vt0.w	\n" + "mul v0, vt0, vt1.x	\n";
         fragmentCode = "mov oc, v0\n";
 		
-		var assembler = new AGALMiniAssembler();
         _program3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
-			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+			AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
+			AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
 		);
     }
 }
