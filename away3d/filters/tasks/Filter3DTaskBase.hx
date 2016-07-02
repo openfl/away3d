@@ -29,7 +29,8 @@ class Filter3DTaskBase {
     private var _target:Texture;
     private var _requireDepthRender:Bool;
     private var _textureScale:Int;
-
+	private static var assembler = new AGALMiniAssembler();
+	
     public function new(requireDepthRender:Bool = false) {
         _scaledTextureWidth = -1;
         _scaledTextureHeight = -1;
@@ -108,9 +109,8 @@ class Filter3DTaskBase {
         if (_program3D != null) _program3D.dispose();
         _program3D = stage.context3D.createProgram();
 		
-		var assembler = new AGALMiniAssembler();
-        _program3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, getVertexCode()), 
+		_program3D.upload(
+			assembler.assemble(Context3DProgramType.VERTEX, getVertexCode()),
 			assembler.assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
 		);
         _program3DInvalid = false;

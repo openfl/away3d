@@ -2,10 +2,10 @@ package away3d.core.managers;
 
 
 import haxe.ds.StringMap;
-import openfl.utils.AGALMiniAssembler;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Program3D;
 import openfl.errors.Error;
+import openfl.utils.AGALMiniAssembler;
 
 import away3d.events.Stage3DEvent;
 import away3d.materials.passes.MaterialPassBase;
@@ -21,7 +21,8 @@ class AGALProgram3DCache {
     private var _usages:Array<Int>;
     private var _keys:Array<String>;
     static private var _currentId:Int=0;
-
+	private static var assembler = new AGALMiniAssembler();
+	
     public function new(stage3DProxy:Stage3DProxy) {
         _stage3DProxy = stage3DProxy;
 
@@ -84,12 +85,11 @@ class AGALProgram3DCache {
             ++_currentId;
             program = _stage3DProxy.context3D.createProgram();
 			
-			var assembler = new AGALMiniAssembler();
-            var vertexByteCode = assembler.assemble(Context3DProgramType.VERTEX, vertexCode);
-            var fragmentByteCode = assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode);
-
-            program.upload(vertexByteCode, fragmentByteCode);
-
+            program.upload(
+				assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
+				assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+			);
+			
             _program3Ds.set(key, program);
         }
 	

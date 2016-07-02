@@ -126,10 +126,9 @@ class StereoRenderer {
                 _program3D.dispose();
 
             _program3D = stage3DProxy.context3D.createProgram();
-			var assembler = new AGALMiniAssembler();
             _program3D.upload(
-				assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
-				assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+				AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
+				AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
 			);
             _program3DInvalid = false;
         }

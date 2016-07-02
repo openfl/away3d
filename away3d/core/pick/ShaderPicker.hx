@@ -38,6 +38,7 @@ import openfl.geom.Point;
 import openfl.geom.Vector3D;
 import openfl.geom.Rectangle;
 import openfl.Vector;
+import openfl.utils.AGALMiniAssembler;
 
 class ShaderPicker implements IPicker {
     public var onlyMouseEnabled(get, set):Bool;
@@ -67,7 +68,8 @@ class ShaderPicker implements IPicker {
     private var _rayDir:Vector3D;
     private var _potentialFound:Bool;
     static private var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
-
+	private static var assembler = new AGALMiniAssembler();
+	
     /**
 	 * @inheritDoc
 	 */
@@ -237,9 +239,8 @@ class ShaderPicker implements IPicker {
         fragmentCode = "mov oc, fc0\n";
         // write identifier
 		
-		var assembler = new AGALMiniAssembler();
-        _objectProgram3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
+		_objectProgram3D.upload(
+			assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
 			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
 		);
     }
@@ -257,9 +258,8 @@ class ShaderPicker implements IPicker {
         fragmentCode = "mov oc, v0\n";
 
         // write identifier
-		var assembler = new AGALMiniAssembler();
-        _triangleProgram3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, vertexCode), 
+		_triangleProgram3D.upload(
+			assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
 			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
 		);
     }
