@@ -11,7 +11,6 @@ import openfl.display3D.IndexBuffer3D;
 import openfl.display3D.Program3D;
 import openfl.display3D.VertexBuffer3D;
 import openfl.utils.AGALMiniAssembler;
-import openfl.display3D._shaders.AGLSLShaderUtils;
 
 class BackgroundImageRenderer {
     public var stage3DProxy(get, set):Stage3DProxy;
@@ -23,7 +22,8 @@ class BackgroundImageRenderer {
     private var _vertexBuffer:VertexBuffer3D;
     private var _stage3DProxy:Stage3DProxy;
     private var _context:Context3D;
-
+	private static var assembler = new AGALMiniAssembler();
+	
     public function new(stage3DProxy:Stage3DProxy) {
         this.stage3DProxy = stage3DProxy;
     }
@@ -101,8 +101,8 @@ class BackgroundImageRenderer {
         var inds:Vector<UInt> = Vector.ofArray(cast [ 2, 1, 0, 3, 2, 0 ]);
         _indexBuffer.uploadFromVector(inds, 0, 6);
         _program3d.upload(
-			AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, getVertexCode()), 
-			AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, getFragmentCode())
+			assembler.assemble(Context3DProgramType.VERTEX, getVertexCode()),
+			assembler.assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
 		);
         var w:Float = 2;
         var h:Float = 2;
