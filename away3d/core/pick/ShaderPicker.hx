@@ -38,7 +38,11 @@ import openfl.geom.Point;
 import openfl.geom.Vector3D;
 import openfl.geom.Rectangle;
 import openfl.Vector;
-import openfl.utils.AGALMiniAssembler;
+#if (openfl >= "4.0.0")
+	import openfl.utils.AGALMiniAssembler;
+#else
+	import openfl.display3D._shaders.AGLSLShaderUtils;
+#end
 
 class ShaderPicker implements IPicker {
     public var onlyMouseEnabled(get, set):Bool;
@@ -68,8 +72,10 @@ class ShaderPicker implements IPicker {
     private var _rayDir:Vector3D;
     private var _potentialFound:Bool;
     static private var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
-	private static var assembler = new AGALMiniAssembler();
 	
+	#if (openfl >= "4.0.0")
+	private static var assembler = new AGALMiniAssembler();
+	#end
     /**
 	 * @inheritDoc
 	 */
@@ -239,10 +245,17 @@ class ShaderPicker implements IPicker {
         fragmentCode = "mov oc, fc0\n";
         // write identifier
 		
+		#if (openfl >= "4.0.0")
 		_objectProgram3D.upload(
 			assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
 			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
 		);
+		#else
+			_objectProgram3D.upload(
+				AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
+				AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
+			);
+		#end
     }
 
     /**
@@ -258,10 +271,17 @@ class ShaderPicker implements IPicker {
         fragmentCode = "mov oc, v0\n";
 
         // write identifier
-		_triangleProgram3D.upload(
-			assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
-			assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
-		);
+		#if (openfl >= "4.0.0")
+			_triangleProgram3D.upload(
+				assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
+				assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+			);
+		#else
+			_triangleProgram3D.upload(
+				AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
+				AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
+			);
+		#end
     }
 
     /**
