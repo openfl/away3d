@@ -2,26 +2,26 @@ package away3d.library.assets;
 
 class Asset3DType {
 
-    static public var ENTITY:String = "entity";
-    static public var SKYBOX:String = "skybox";
-    static public var CAMERA:String = "camera";
-    static public var SEGMENT_SET:String = "segmentSet";
-    static public var MESH:String = "mesh";
-    static public var GEOMETRY:String = "geometry";
-    static public var SKELETON:String = "skeleton";
-    static public var SKELETON_POSE:String = "skeletonPose";
-    static public var CONTAINER:String = "container";
-    static public var TEXTURE:String = "texture";
-    static public var TEXTURE_PROJECTOR:String = "textureProjector";
-    static public var MATERIAL:String = "material";
-    static public var ANIMATION_SET:String = "animationSet";
-    static public var ANIMATION_STATE:String = "animationState";
-    static public var ANIMATION_NODE:String = "animationNode";
-    static public var ANIMATOR:String = "animator";
-    static public var STATE_TRANSITION:String = "stateTransition";
-    static public var LIGHT:String = "light";
-    static public var LIGHT_PICKER:String = "lightPicker";
-    static public var SHADOW_MAP_METHOD:String = "shadowMapMethod";
-    static public var EFFECTS_METHOD:String = "effectsMethod";
+    static public inline var ENTITY:String = "entity";
+    static public inline var SKYBOX:String = "skybox";
+    static public inline var CAMERA:String = "camera";
+    static public inline var SEGMENT_SET:String = "segmentSet";
+    static public inline var MESH:String = "mesh";
+    static public inline var GEOMETRY:String = "geometry";
+    static public inline var SKELETON:String = "skeleton";
+    static public inline var SKELETON_POSE:String = "skeletonPose";
+    static public inline var CONTAINER:String = "container";
+    static public inline var TEXTURE:String = "texture";
+    static public inline var TEXTURE_PROJECTOR:String = "textureProjector";
+    static public inline var MATERIAL:String = "material";
+    static public inline var ANIMATION_SET:String = "animationSet";
+    static public inline var ANIMATION_STATE:String = "animationState";
+    static public inline var ANIMATION_NODE:String = "animationNode";
+    static public inline var ANIMATOR:String = "animator";
+    static public inline var STATE_TRANSITION:String = "stateTransition";
+    static public inline var LIGHT:String = "light";
+    static public inline var LIGHT_PICKER:String = "lightPicker";
+    static public inline var SHADOW_MAP_METHOD:String = "shadowMapMethod";
+    static public inline var EFFECTS_METHOD:String = "effectsMethod";
 }
 

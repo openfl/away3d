@@ -2,11 +2,15 @@ package away3d.core.managers;
 
 
 import haxe.ds.StringMap;
-import openfl.display3D._shaders.AGLSLShaderUtils;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Program3D;
 import openfl.errors.Error;
 
+#if (openfl >= "4.0.0")
+	import openfl.utils.AGALMiniAssembler;
+#else
+	import openfl.display3D._shaders.AGLSLShaderUtils;
+#end
 import away3d.events.Stage3DEvent;
 import away3d.materials.passes.MaterialPassBase;
 import away3d.utils.ArrayUtils;
@@ -20,8 +24,12 @@ class AGALProgram3DCache {
     private var _ids:StringMap<Int>;
     private var _usages:Array<Int>;
     private var _keys:Array<String>;
-    static private var _currentId:Int=0;
-
+    static private var _currentId:Int = 0;
+	
+	#if (openfl >= "4.0.0")
+	private static var assembler = new AGALMiniAssembler();
+	#end
+	
     public function new(stage3DProxy:Stage3DProxy) {
         _stage3DProxy = stage3DProxy;
 
@@ -83,12 +91,18 @@ class AGALProgram3DCache {
             _ids.set(key, _currentId);
             ++_currentId;
             program = _stage3DProxy.context3D.createProgram();
- 
-            var vertexByteCode = AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode);
-            var fragmentByteCode = AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode);
-
-            program.upload(vertexByteCode, fragmentByteCode);
-
+			
+			#if (openfl >= "4.0.0")
+				program.upload(
+					assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
+					assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode)
+				);
+			#else
+				var vertexByteCode = AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode);
+				var fragmentByteCode = AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode);
+				program.upload(vertexByteCode, fragmentByteCode);
+			#end
+			
             _program3Ds.set(key, program);
         }
 	
