@@ -15,6 +15,7 @@ import away3d.core.managers.Stage3DProxy;
 import away3d.animators.nodes.ParticleVelocityNode;
 import away3d.animators.ParticleAnimator;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 class ParticleVelocityState extends ParticleStateBase {
     public var velocity(get, set):Vector3D;
@@ -37,11 +38,11 @@ class ParticleVelocityState extends ParticleStateBase {
     /**
 	 *
 	 */
-    public function getVelocities():Array<Vector3D> {
+    public function getVelocities():Vector<Vector3D> {
         return _dynamicProperties;
     }
 
-    public function setVelocities(value:Array<Vector3D>):Void {
+    public function setVelocities(value:Vector<Vector3D>):Void {
         _dynamicProperties = value;
         _dynamicPropertiesDirty = new ObjectMap<AnimationSubGeometry, Bool>();
     }

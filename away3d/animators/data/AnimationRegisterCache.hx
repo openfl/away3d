@@ -38,11 +38,11 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public var uvVar:ShaderRegisterElement;
 
     //these are targets only need to rotate ( normal and tangent )
-    public var rotationRegisters:Array<ShaderRegisterElement>;
+    public var rotationRegisters:Vector<ShaderRegisterElement>;
     public var needFragmentAnimation:Bool;
     public var needUVAnimation:Bool;
-    public var sourceRegisters:Array<String>;
-    public var targetRegisters:Array<String>;
+    public var sourceRegisters:Vector<String>;
+    public var targetRegisters:Vector<String>;
     private var indexDictionary:ObjectMap<AnimationNodeBase, Array<Int>>;
 
     //set true if has an node which will change UV
@@ -69,7 +69,7 @@ class AnimationRegisterCache extends ShaderRegisterCache {
 
     override public function reset():Void {
         super.reset();
-        rotationRegisters = new Array<ShaderRegisterElement>();
+        rotationRegisters = new Vector<ShaderRegisterElement>();
         positionAttribute = getRegisterFromString(sourceRegisters[0]);
         scaleAndRotateTarget = getRegisterFromString(targetRegisters[0]);
         addVertexTempUsages(scaleAndRotateTarget, 1);

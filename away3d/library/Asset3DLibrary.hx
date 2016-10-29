@@ -15,6 +15,7 @@ import away3d.loaders.misc.AssetLoaderToken;
 import away3d.loaders.misc.SingleFileLoader;
 import away3d.loaders.parsers.ParserBase;
 import openfl.net.URLRequest;
+import openfl.Vector;
 
 class Asset3DLibrary {
     public static var _instances:StringMap<Asset3DLibraryBundle> = new StringMap<Asset3DLibraryBundle>();
@@ -57,7 +58,7 @@ class Asset3DLibrary {
 	/**
 	 *
 	 */
-    public static function enableParsers(parserClasses:Array<Class<ParserBase>>):Void {
+    public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void {
         SingleFileLoader.enableParsers(parserClasses);
     }
 

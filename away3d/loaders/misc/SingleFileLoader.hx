@@ -15,6 +15,7 @@ import openfl.net.URLLoaderDataFormat;
 import openfl.net.URLRequest;
 
 import openfl.errors.Error;
+import openfl.Vector;
 
 /**
  * The SingleFileLoader is used to load a single file, as part of a resource.
@@ -38,7 +39,7 @@ class SingleFileLoader extends EventDispatcher
 	var _data:Dynamic;
 	
 	// Image parser only parser that is added by default, to save file size.
-	private static var _parsers:Array<Dynamic> = [ ImageParser ];
+	private static var _parsers:Vector<Class<ParserBase>> = Vector.ofArray([ ImageParser ]);
 	
 	/**
 	 * Creates a new SingleFileLoader object.
@@ -76,7 +77,7 @@ class SingleFileLoader extends EventDispatcher
 			_parsers.push(parser);
 	}
 	
-	public static function enableParsers(parsers:Array<Dynamic>):Void
+	public static function enableParsers(parsers:Vector<Class<ParserBase>>):Void
 	{
 		var pc;
 		for (pc in parsers)
@@ -200,7 +201,7 @@ class SingleFileLoader extends EventDispatcher
 		// For loop conversion - 			for (var i:Int = len - 1; i >= 0; i--)
 		var i:Int = len-1;
 		while (i >= 0) {
-			if (_parsers[i].supportsType(_fileExtension))
+			if ((cast _parsers[i]).supportsType(_fileExtension))
 				return Type.createInstance(_parsers[i], []);
 			i--;
 		}
@@ -222,7 +223,7 @@ class SingleFileLoader extends EventDispatcher
 		// For loop conversion - 			for (var i:Int = len - 1; i >= 0; i--)
 		var i:Int = len-1;
 		while (i >= 0) {
-			if (_parsers[i].supportsData(data))
+			if ((cast _parsers[i]).supportsData(data))
 				return Type.createInstance(_parsers[i],[]);
 			i--;
 		}

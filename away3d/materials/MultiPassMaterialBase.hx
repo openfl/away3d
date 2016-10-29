@@ -26,6 +26,7 @@ import openfl.display3D.Context3D;
 import openfl.display3D.Context3DBlendFactor;
 import openfl.display3D.Context3DCompareMode;
 import openfl.events.Event;
+import openfl.Vector;
 
 class MultiPassMaterialBase extends MaterialBase {
 
@@ -655,7 +656,7 @@ class MultiPassMaterialBase extends MaterialBase {
         _casterLightPass.specularMethod = null;
         _casterLightPass.shadowMethod = null;
         _casterLightPass.enableLightFallOff = _enableLightFallOff;
-        _casterLightPass.lightPicker = new StaticLightPicker( [ _shadowMethod.castingLight ] );
+        _casterLightPass.lightPicker = new StaticLightPicker( Vector.ofArray([ _shadowMethod.castingLight ]) );
         _casterLightPass.shadowMethod = _shadowMethod;
         _casterLightPass.diffuseMethod = _diffuseMethod;
         _casterLightPass.ambientMethod = _ambientMethod;

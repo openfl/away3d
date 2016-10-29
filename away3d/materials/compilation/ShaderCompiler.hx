@@ -56,8 +56,8 @@ class ShaderCompiler {
     public var numDirectionalLights(get, set):Int;
     public var numLightProbes(get, set):Int;
     public var usingSpecularMethod(get, never):Bool;
-    public var animatableAttributes(get, never):Array<String>;
-    public var animationTargetRegisters(get, never):Array<String>;
+    public var animatableAttributes(get, never):Vector<String>;
+    public var animationTargetRegisters(get, never):Vector<String>;
     public var usesNormals(get, never):Bool;
     public var lightProbeDiffuseIndices(get, never):Array<UInt>;
     public var lightProbeSpecularIndices(get, never):Array<UInt>;
@@ -82,8 +82,8 @@ class ShaderCompiler {
     private var _fragmentLightCode:String;
     private var _fragmentPostLightCode:String;
     private var _commonsDataIndex:Int;
-    private var _animatableAttributes:Array<String>;
-    private var _animationTargetRegisters:Array<String>;
+    private var _animatableAttributes:Vector<String>;
+    private var _animationTargetRegisters:Vector<String>;
     private var _lightProbeDiffuseIndices:Array<UInt>;
     private var _lightProbeSpecularIndices:Array<UInt>;
     private var _uvBufferIndex:Int;
@@ -284,8 +284,8 @@ class ShaderCompiler {
     public function compile():Void {
         initRegisterIndices();
         initLightData();
-        _animatableAttributes = [ "va0" ];
-        _animationTargetRegisters = [ "vt0" ];
+        _animatableAttributes = Vector.ofArray([ "va0" ]);
+        _animationTargetRegisters = Vector.ofArray([ "vt0" ]);
         _vertexCode = "";
         _fragmentCode = "";
         _sharedRegisters.localPosition = _registerCache.getFreeVertexVectorTemp();
@@ -836,14 +836,14 @@ class ShaderCompiler {
     /**
 	 * The attributes that need to be animated by animators.
 	 */
-    private function get_animatableAttributes():Array<String> {
+    private function get_animatableAttributes():Vector<String> {
         return _animatableAttributes;
     }
 
     /**
 	 * The target registers for animated properties, written to by the animators.
 	 */
-    private function get_animationTargetRegisters():Array<String> {
+    private function get_animationTargetRegisters():Vector<String> {
         return _animationTargetRegisters;
     }
 

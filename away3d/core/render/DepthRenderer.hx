@@ -11,6 +11,7 @@ import away3d.core.math.Plane3D;
 import away3d.core.traverse.EntityCollector;
 import away3d.entities.Entity;
 import away3d.materials.MaterialBase;
+import openfl.Vector;
 import openfl.display3D.Context3DBlendFactor;
 import openfl.display3D.Context3DCompareMode;
 import openfl.display3D.textures.TextureBase;
@@ -82,7 +83,7 @@ class DepthRenderer extends RendererBase {
         _stage3DProxy.scissorRect = null;
     }
 
-    private function drawCascadeRenderables(item:RenderableListItem, camera:Camera3D, cullPlanes:Array<Plane3D>):Void {
+    private function drawCascadeRenderables(item:RenderableListItem, camera:Camera3D, cullPlanes:Vector<Plane3D>):Void {
         var material:MaterialBase;
         while (item != null) {
             if (item.cascaded) {

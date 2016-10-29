@@ -32,8 +32,8 @@ class DistanceMapPass extends MaterialPassBase {
      */
     public function new() {
         super();
-        _fragmentData = [ 1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
-        _vertexData = [ 0.0, 0.0, 0.0, 1.0 ];
+        _fragmentData = Vector.ofArray([ 1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]);
+        _vertexData = Vector.ofArray([ 0.0, 0.0, 0.0, 1.0 ]);
         _numUsedVertexConstants = 9;
     }
 

@@ -26,6 +26,7 @@ import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
+import openfl.Vector;
 
 class MaterialPassBase extends EventDispatcher {
 	public var material(get, set):MaterialBase;
@@ -70,8 +71,8 @@ class MaterialPassBase extends EventDispatcher {
 	private var _enableBlending:Bool;
 	private var _bothSides:Bool;
 	private var _lightPicker:LightPickerBase;
-	private var _animatableAttributes:Array<String>;
-	private var _animationTargetRegisters:Array<String>;
+	private var _animatableAttributes:Vector<String>;
+	private var _animationTargetRegisters:Vector<String>;
 	private var _shadedTarget:String;
 	
 	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
@@ -115,8 +116,8 @@ class MaterialPassBase extends EventDispatcher {
 		_blendFactorSource = Context3DBlendFactor.ONE;
 		_blendFactorDest = Context3DBlendFactor.ZERO;
 
-		_animatableAttributes = [ "va0" ];
-		_animationTargetRegisters = [ "vt0" ];
+		_animatableAttributes = Vector.ofArray([ "va0" ]);
+		_animationTargetRegisters = Vector.ofArray([ "vt0" ]);
 		_shadedTarget = "ft0";
 		
 		_defaultCulling = Context3DTriangleFace.BACK;

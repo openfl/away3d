@@ -8,12 +8,13 @@ import openfl.events.EventDispatcher;
 import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 
 import away3d.errors.AbstractMethodError;
 import away3d.events.LensEvent;
 
 class LensBase extends EventDispatcher {
-    public var frustumCorners(get, set):Array<Float>;
+    public var frustumCorners(get, set):Vector<Float>;
     public var matrix(get, set):Matrix3D;
     public var near(get, set):Float;
     public var far(get, set):Float;
@@ -27,7 +28,7 @@ class LensBase extends EventDispatcher {
     private var _far:Float;
     private var _aspectRatio:Float;
     private var _matrixInvalid:Bool;
-    private var _frustumCorners:Array<Float>;
+    private var _frustumCorners:Vector<Float>;
     private var _unprojection:Matrix3D;
     private var _unprojectionInvalid:Bool;
     /**
@@ -41,7 +42,7 @@ class LensBase extends EventDispatcher {
         _far = 3000;
         _aspectRatio = 1;
         _matrixInvalid = true;
-        _frustumCorners = ArrayUtils.Prefill( new Array<Float>(), 8 * 3, 0 );
+        _frustumCorners = new Vector<Float>(8 * 3);
         _unprojectionInvalid = true;
         _matrix = new Matrix3D();
     }
@@ -49,11 +50,11 @@ class LensBase extends EventDispatcher {
     /**
 	 * Retrieves the corner points of the lens frustum.
 	 */
-    private function get_frustumCorners():Array<Float> {
+    private function get_frustumCorners():Vector<Float> {
         return _frustumCorners;
     }
 
-    private function set_frustumCorners(frustumCorners:Array<Float>):Array<Float> {
+    private function set_frustumCorners(frustumCorners:Vector<Float>):Vector<Float> {
         _frustumCorners = frustumCorners;
         return frustumCorners;
     }

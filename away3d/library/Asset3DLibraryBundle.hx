@@ -282,7 +282,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
                 asset.dispose();
         }
 
-        _assets = [];
+        _assets.length = 0;
         rehashAssetDict();
     }
 
@@ -304,7 +304,7 @@ class Asset3DLibraryBundle extends EventDispatcher {
         // Empty the assets vector after having stored a copy of it.
         // The copy will be filled with all assets which weren't removed.
         old_assets = _assets.copy();
-        _assets = [];
+        _assets.length = 0;
 
         if (ns == null)
             ns = NamedAssetBase.DEFAULT_NAMESPACE;

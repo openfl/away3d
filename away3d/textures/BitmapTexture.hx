@@ -42,51 +42,15 @@ class BitmapTexture extends Texture2DBase {
         
         _bitmapData = value;
         
-        #if flash
-        
         if (_generateMipmaps)
             getMipMapHolder();
-        
-        #elseif (lime_legacy || hybrid)
-        
-        var data = BitmapData.getRGBAPixels (_bitmapData);
-        _bitmapDataArray = new UInt8Array (data);
-
-        #elseif js
-
-        var data = bitmapData.image.data.buffer;
-        _bitmapDataArray = new UInt8Array (data);
-        
-        #else
-
-        // TODO: Implement BGRA directly in GL using BGRA_EXT
-
-        var data = bitmapData.image.data;
-        _bitmapDataArray = new UInt8Array (data.length);
-        
-        var i:Int = 0;
-        while (i < data.length) {
-            
-            _bitmapDataArray[i] = data[i+2];
-            _bitmapDataArray[i+1] = data[i+1];
-            _bitmapDataArray[i+2] = data[i];
-            _bitmapDataArray[i+3] = data[i+3];
-            i+=4;
-            
-        }
-
-        #end
  
         return value;
     }
 
     override private function uploadContent(texture:TextureBase):Void { 
-        #if flash
         if (_generateMipmaps) MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true)
         else cast((texture), Texture).uploadFromBitmapData(_bitmapData, 0);
-        #else
-        cast((texture), Texture).uploadFromUInt8Array(_bitmapDataArray, 0);
-        #end
     }
 
     private function getMipMapHolder():Void {

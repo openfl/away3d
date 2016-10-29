@@ -165,7 +165,7 @@ class SkyBox extends Entity implements IRenderable {
 	 */
     private function buildGeometry(target:SubGeometry):Void {
 
-        var vertices:Vector<Float> = [ -1.0, 1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1 ];
+        var vertices:Vector<Float> = Vector.ofArray([ -1.0, 1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1 ]);
         var indices:Vector<UInt> = Vector.ofArray( [ 0, 1, 2, 2, 3, 0, 6, 5, 4, 4, 7, 6, 2, 6, 7, 7, 3, 2, 4, 5, 1, 1, 0, 4, 4, 0, 3, 3, 7, 4, 2, 1, 5, 5, 6, 2 ] );
         target.updateVertexData(vertices);
         target.updateIndexData(indices);

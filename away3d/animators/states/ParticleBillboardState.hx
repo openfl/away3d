@@ -15,6 +15,7 @@ import away3d.core.math.MathConsts;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 import openfl.geom.Orientation3D;
+import openfl.Vector;
 
 class ParticleBillboardState extends ParticleStateBase {
     public var billboardAxis(get, set):Vector3D;
@@ -33,7 +34,7 @@ class ParticleBillboardState extends ParticleStateBase {
     override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void {
 
         // TODO: not used
-        var comps:Array<Vector3D>;
+        var comps:Vector<Vector3D>;
         if (_billboardAxis != null) {
             var pos:Vector3D = renderable.sceneTransform.position;
             var look:Vector3D = camera.sceneTransform.position.subtract(pos);

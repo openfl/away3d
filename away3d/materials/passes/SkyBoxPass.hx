@@ -32,7 +32,7 @@ class SkyBoxPass extends MaterialPassBase {
         super();
         mipmap = false;
         _numUsedTextures = 1;
-        _vertexData = [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0];
+        _vertexData = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0]);
     }
 
     /**

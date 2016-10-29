@@ -16,7 +16,7 @@ class Matrix3DUtils {
 	 */
     static public var RAW_DATA_CONTAINER(get, null):Vector<Float>;
     static private function get_RAW_DATA_CONTAINER():Vector<Float> {
-         return [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
+         return Vector.ofArray([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]);
     }
 
     static public var CALCULATION_MATRIX(get, null):Matrix3D;

@@ -179,7 +179,7 @@ class Loader3D extends ObjectContainer3D
 	 * @param parserClasses A Vector of parser classes to enable.
 	 * @see away3d.loaders.parsers.Parsers
 	 */
-	public static function enableParsers(parserClasses:Vector<Dynamic>):Void
+	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}

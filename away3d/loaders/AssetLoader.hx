@@ -8,6 +8,7 @@ import away3d.loaders.parsers.*;
 import openfl.events.*;
 import openfl.net.*;
 import openfl.errors.Error;
+import openfl.Vector;
 
 /**
  * AssetLoader can load any file format that Away3D supports (or for which a third-party parser
@@ -79,7 +80,7 @@ class AssetLoader extends EventDispatcher
 	 * @param parserClasses A Vector of parser classes to enable.
 	 * @see away3d.loaders.parsers.Parsers
 	 */
-	public static function enableParsers(parserClasses:Array<Dynamic>):Void
+	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}

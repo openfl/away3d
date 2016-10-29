@@ -175,7 +175,7 @@ class ShaderPicker implements IPicker {
         var camera:Camera3D = entityCollector.camera;
         _context.clear(0, 0, 0, 1);
         _stage3DProxy.scissorRect = MOUSE_SCISSOR_RECT;
-        _interactives = [];
+        _interactives.length = 0;
         _interactiveId = 0;
 
         if (_objectProgram3D == null) 

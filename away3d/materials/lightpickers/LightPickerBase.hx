@@ -18,6 +18,9 @@ import away3d.lights.DirectionalLight;
 import away3d.lights.PointLight;
 import away3d.library.assets.IAsset;
 import away3d.library.assets.NamedAssetBase;
+
+import openfl.Vector;
+
 class LightPickerBase extends NamedAssetBase implements IAsset {
     public var assetType(get, never):String;
     public var numDirectionalLights(get, never):Int;
@@ -31,14 +34,14 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     public var castingDirectionalLights(get, never):Array<DirectionalLight>;
     public var lightProbes(get, never):Array<LightProbe>;
     public var lightProbeWeights(get, never):Array<Float>;
-    public var allPickedLights(get, never):Array<LightBase>;
+    public var allPickedLights(get, never):Vector<LightBase>;
 
     private var _numPointLights:Int;
     private var _numDirectionalLights:Int;
     private var _numCastingPointLights:Int;
     private var _numCastingDirectionalLights:Int;
     private var _numLightProbes:Int;
-    private var _allPickedLights:Array<LightBase>;
+    private var _allPickedLights:Vector<LightBase>;
     private var _pointLights:Array<PointLight>;
     private var _castingPointLights:Array<PointLight>;
     private var _directionalLights:Array<DirectionalLight>;
@@ -145,7 +148,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     /**
 	 * A collection of all the collected lights.
 	 */
-    private function get_allPickedLights():Array<LightBase> {
+    private function get_allPickedLights():Vector<LightBase> {
         return _allPickedLights;
     }
 

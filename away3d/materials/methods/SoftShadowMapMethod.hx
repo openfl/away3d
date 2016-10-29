@@ -83,7 +83,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase {
         super.activate(vo, stage3DProxy);
         
         var texRange:Float = .5 * _range / _castingLight.shadowMapper.depthMapSize;
-        var data:Array<Float> = vo.fragmentData;
+        var data:Vector<Float> = vo.fragmentData;
         var index:Int = vo.fragmentConstantsIndex + 10;
         var len:Int = _numSamples << 1;
         var i:Int = 0;
@@ -131,7 +131,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase {
         super.activate(vo, stage3DProxy);
         
         var texRange:Float = _range / _castingLight.shadowMapper.depthMapSize;
-        var data:Array<Float> = vo.fragmentData;
+        var data:Vector<Float> = vo.fragmentData;
         var index:Int = vo.secondaryFragmentConstantsIndex;
         var len:Int = _numSamples << 1;
         

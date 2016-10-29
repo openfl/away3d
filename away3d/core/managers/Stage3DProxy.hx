@@ -95,13 +95,11 @@ class Stage3DProxy extends EventDispatcher {
         dispatchEvent(_enterFrame);
     }
 
-    #if flash
     private function notifyExitFrame():Void {
         if (!hasEventListener(Event.EXIT_FRAME)) return;
         if (_exitFrame == null) _exitFrame = new Event(Event.EXIT_FRAME);
         dispatchEvent(_exitFrame);
     }
-    #end
 
     /**
      * Creates a Stage3DProxy object. This method should not be called directly. Creation of Stage3DProxy objects should
@@ -160,19 +158,11 @@ class Stage3DProxy extends EventDispatcher {
     public function setRenderCallback(func : Event -> Void) : Void {
         if (_context3D != null) {
             if (_callbackMethod != null) {
-                #if flash
                 flash.Lib.current.removeEventListener(flash.events.Event.ENTER_FRAME, func);
-                #else
-                _context3D.removeRenderMethod(func);
-                #end
             }
 
             if (func != null) {
-                #if flash
                 flash.Lib.current.addEventListener(flash.events.Event.ENTER_FRAME, func);
-                #else
-                _context3D.setRenderMethod(func);
-                #end
             }
         }
 
@@ -275,7 +265,6 @@ class Stage3DProxy extends EventDispatcher {
      * @param priority The priority level of the event listener. The priority is designated by a signed 32-bit integer. The higher the number, the higher the priority. All listeners with priority n are processed before listeners of priority n-1. If two or more listeners share the same priority, they are processed in the order in which they were added. The default priority is 0.
      * @param useWeakReference Determines whether the reference to the listener is strong or weak. A strong reference (the default) prevents your listener from being garbage-collected. A weak reference does not.
      */
-    #if flash
     override public function addEventListener(type:String, listener:Dynamic -> Void, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void {
         super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 
@@ -298,7 +287,6 @@ class Stage3DProxy extends EventDispatcher {
         if (!hasEventListener(Event.ENTER_FRAME) && !hasEventListener(Event.EXIT_FRAME) && _frameEventDriver.hasEventListener(Event.ENTER_FRAME)) _frameEventDriver.removeEventListener(Event.ENTER_FRAME, onEnterFrame, useCapture);
 
     }
-    #end
 
     private function get_scissorRect():Rectangle {
         return _scissorRect;
@@ -504,9 +492,7 @@ class Stage3DProxy extends EventDispatcher {
             var hadContext:Bool = (_context3D != null);
             _context3D = _stage3D.context3D;
             _context3D.enableErrorChecking = Debug.active;
-            #if flash
             _usesSoftwareRendering = (_context3D.driverInfo.indexOf("Software") == 0);
-            #end
 
             // Only configure back buffer if width and height have been set,
             // which they may not have been if View3D.render() has yet to be
@@ -539,7 +525,7 @@ class Stage3DProxy extends EventDispatcher {
 
         // Enum to string - cast for Flash and Std.string for other platforms, cast doesn't work on windows :( 
         var renderMode:Context3DRenderMode = (forceSoftware) ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-        _stage3D.requestContext3D( #if flash cast renderMode #else Std.string( renderMode ) #end );
+        _stage3D.requestContext3D( Std.string( renderMode ) );
 
 
         _contextRequested = true;
@@ -561,9 +547,7 @@ class Stage3DProxy extends EventDispatcher {
         present();
         //notify the exitframe listeners
 
-        #if flash
         notifyExitFrame();
-        #end
     }
 
     public function recoverFromDisposal():Bool {
