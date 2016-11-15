@@ -8,16 +8,16 @@ package away3d.animators.nodes;
 import away3d.animators.data.SpriteSheetAnimationFrame;
 
 interface ISpriteSheetAnimationNode {
-    var currentFrameData(get, never):SpriteSheetAnimationFrame;
-    var currentFrameNumber(get, never):Int;
+	var currentFrameData(get, never):SpriteSheetAnimationFrame;
+	var currentFrameNumber(get, never):Int;
 
-    /**
+	/**
 	 * Returns the current SpriteSheetAnimationFrame of animation in the clip based on the internal playhead position.
 	 */
-    private function get_currentFrameData():SpriteSheetAnimationFrame;
-    /**
+	private function get_currentFrameData():SpriteSheetAnimationFrame;
+	/**
 	 * Returns the current frame number.
 	 */
-    private function get_currentFrameNumber():Int;
+	private function get_currentFrameNumber():Int;
 }
 

@@ -14,71 +14,71 @@ import away3d.lights.LightBase;
 import openfl.geom.Vector3D;
 
 class RaycastCollector extends EntityCollector {
-    public var rayPosition(get, set):Vector3D;
-    public var rayDirection(get, set):Vector3D;
+	public var rayPosition(get, set):Vector3D;
+	public var rayDirection(get, set):Vector3D;
 
-    private var _rayPosition:Vector3D;
-    private var _rayDirection:Vector3D;
-    /**
+	private var _rayPosition:Vector3D;
+	private var _rayDirection:Vector3D;
+	/**
 	 * Creates a new RaycastCollector object.
 	 */
-    public function new() {
-        _rayPosition = new Vector3D();
-        _rayDirection = new Vector3D();
+	public function new() {
+		_rayPosition = new Vector3D();
+		_rayDirection = new Vector3D();
 
-        super();
-    }
+		super();
+	}
 
-    /**
+	/**
 	 * Provides the starting position of the ray.
 	 */
-    private function get_rayPosition():Vector3D {
-        return _rayPosition;
-    }
+	private function get_rayPosition():Vector3D {
+		return _rayPosition;
+	}
 
-    private function set_rayPosition(value:Vector3D):Vector3D {
-        _rayPosition = value;
-        return value;
-    }
+	private function set_rayPosition(value:Vector3D):Vector3D {
+		_rayPosition = value;
+		return value;
+	}
 
-    /**
+	/**
 	 * Provides the direction vector of the ray.
 	 */
-    private function get_rayDirection():Vector3D {
-        return _rayDirection;
-    }
+	private function get_rayDirection():Vector3D {
+		return _rayDirection;
+	}
 
-    private function set_rayDirection(value:Vector3D):Vector3D {
-        _rayDirection = value;
-        return value;
-    }
+	private function set_rayDirection(value:Vector3D):Vector3D {
+		_rayDirection = value;
+		return value;
+	}
 
-    /**
+	/**
 	 * Returns true if the current node is at least partly in the frustum. If so, the partition node knows to pass on the traverser to its children.
 	 *
 	 * @param node The Partition3DNode object to frustum-test.
 	 */
-    override public function enterNode(node:NodeBase):Bool {
-        return node.isIntersectingRay(_rayPosition, _rayDirection);
-    }
+	override public function enterNode(node:NodeBase):Bool {
+		return node.isIntersectingRay(_rayPosition, _rayDirection);
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function applySkyBox(renderable:IRenderable):Void {
-    }
+	override public function applySkyBox(renderable:IRenderable):Void {
+	}
 
-    /**
+	/**
 	 * Adds an IRenderable object to the potentially visible objects.
 	 * @param renderable The IRenderable object to add.
 	 */
-    override public function applyRenderable(renderable:IRenderable):Void {
-    }
+	override public function applyRenderable(renderable:IRenderable):Void {
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function applyUnknownLight(light:LightBase):Void {
-    }
+	override public function applyUnknownLight(light:LightBase):Void {
+	}
 }
 

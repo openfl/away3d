@@ -8,19 +8,19 @@ import away3d.core.traverse.PartitionTraverser;
 
 class CameraNode extends EntityNode {
 
-    /**
+	/**
 	 * Creates a new CameraNode object.
 	 * @param camera The camera to be contained in the node.
 	 */
-    public function new(camera:Camera3D) {
-        super(camera);
-    }
+	public function new(camera:Camera3D) {
+		super(camera);
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function acceptTraverser(traverser:PartitionTraverser):Void {
+	override public function acceptTraverser(traverser:PartitionTraverser):Void {
 // todo: dead end for now, if it has a debug mesh, then sure accept that
-    }
+	}
 }
 

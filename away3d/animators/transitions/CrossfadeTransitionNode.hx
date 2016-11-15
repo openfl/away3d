@@ -7,16 +7,16 @@ import away3d.animators.nodes.SkeletonBinaryLERPNode;
 
 class CrossfadeTransitionNode extends SkeletonBinaryLERPNode {
 
-    public var blendSpeed:Float;
-    public var startBlend:Int;
+	public var blendSpeed:Float;
+	public var startBlend:Int;
 	
 	/**
 	 * Creates a new <code>CrossfadeTransitionNode</code> object.
 	 */
-    public function new() {
-        super();
-        _stateClass = CrossfadeTransitionState;
-        
-    }
+	public function new() {
+		super();
+		_stateClass = CrossfadeTransitionState;
+		
+	}
 }
 

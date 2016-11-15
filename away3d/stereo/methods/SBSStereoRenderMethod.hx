@@ -7,14 +7,14 @@ import openfl.Vector;
 
 class SBSStereoRenderMethod extends StereoRenderMethodBase {
 
-    private var _sbsData:Vector<Float>;
+	private var _sbsData:Vector<Float>;
 
-    public function new() {
-        super();
-        _sbsData = Vector.ofArray( [ 5.0, 10.0, 15.0, 1.0, 10.0, 20.0, 30.0, 40.0 ] );
-    }
+	public function new() {
+		super();
+		_sbsData = Vector.ofArray( [ 5.0, 10.0, 15.0, 1.0, 10.0, 20.0, 30.0, 40.0 ] );
+	}
 
-    override public function activate(stage3DProxy:Stage3DProxy):Void {
+	override public function activate(stage3DProxy:Stage3DProxy):Void {
 		if (_textureSizeInvalid) {
 
 			var rttManager : RTTBufferManager;
@@ -39,15 +39,15 @@ class SBSStereoRenderMethod extends StereoRenderMethodBase {
 			_sbsData[ 7] = 0;
 		}
 					
-        stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _sbsData, 2);
-    }
+		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _sbsData, 2);
+	}
 
-    override public function deactivate(stage3DProxy:Stage3DProxy):Void {
-        stage3DProxy.context3D.setTextureAt(2, null);
-    }
+	override public function deactivate(stage3DProxy:Stage3DProxy):Void {
+		stage3DProxy.context3D.setTextureAt(2, null);
+	}
 
-    override public function getFragmentCode():String {
-        return  "add ft0, v1, fc1.xzzz				\n" +	// translate: ft0.x = ft0.x + (left offset); ft0.yzw = v1.yzw + 0;
+	override public function getFragmentCode():String {
+		return  "add ft0, v1, fc1.xzzz				\n" +	// translate: ft0.x = ft0.x + (left offset); ft0.yzw = v1.yzw + 0;
 				"tex ft1, ft0, fs0 <2d,linear,nomip>\n" +	// ft1 = getColorAt(texture=fs0, position=ft0)
 				"add ft0, v1, fc1.yzzz				\n" +	// translate: ft0.x = ft0.x - (right offset); ft0.yzw = v1.yzw + 0;
 				"tex ft2, ft0, fs1 <2d,linear,nomip>\n" +	// ft2 = getColorAt(texture=fs1, position=ft0)
@@ -58,6 +58,6 @@ class SBSStereoRenderMethod extends StereoRenderMethodBase {
 				"mul ft6, ft2, ft4 					\n" +	// ft6 = ft1 * ft4;		// ft6 = (right side of screen) ? texture_fs1 : transparent
 				"mul ft7, ft1, ft5 					\n" +	// ft7 = ft1 * ft4;		// ft7 = (left side of screen) ? texture_fs0 : transparent
 				"add oc, ft7, ft6 					\n"; 	// outputcolor = ft7 + ft6;		// merge two images
-    }
+	}
 }
 

@@ -54,9 +54,9 @@ class BitmapFont
 	/** The font name of the embedded minimal bitmap font. Use this e.g. for debug output. */
 	public static var MINI:String = "mini";
 	
-	private static var CHAR_SPACE:Int           = 32;
-	private static var CHAR_TAB:Int             =  9;
-	private static var CHAR_NEWLINE:Int         = 10;
+	private static var CHAR_SPACE:Int		   = 32;
+	private static var CHAR_TAB:Int			 =  9;
+	private static var CHAR_NEWLINE:Int		 = 10;
 	private static var CHAR_CARRIAGE_RETURN:Int = 13;
 	
 	private var mFontMaterial:TextureMaterial;
@@ -101,7 +101,7 @@ class BitmapFont
 	private function parseFontXml(fontXml:Xml):Void
 	{
 		var frameX:Float = 0;
-        var frameY:Float = 0;
+		var frameY:Float = 0;
 		var scale:Float = 1;
 		
 		for (font in fontXml.elementsNamed("font")) {
@@ -462,7 +462,7 @@ class BitmapFont
 		var bottom:Float = currentY + mLineHeight;
 		var yOffset:Int = 0;
 		
-		if (vAlign == VAlign.BOTTOM)      yOffset =  Std.int (containerHeight - bottom);
+		if (vAlign == VAlign.BOTTOM)	  yOffset =  Std.int (containerHeight - bottom);
 		else if (vAlign == VAlign.CENTER) yOffset = Std.int ((containerHeight - bottom) / 2);
 		
 		for (lineID in 0...numLines)
@@ -477,7 +477,7 @@ class BitmapFont
 			var right:Float = lastLocation.x - lastLocation.char.xOffset 
 											  + lastLocation.char.xAdvance;
 			
-			if (hAlign == HAlign.RIGHT)       xOffset = Std.int (containerWidth - right);
+			if (hAlign == HAlign.RIGHT)	   xOffset = Std.int (containerWidth - right);
 			else if (hAlign == HAlign.CENTER) xOffset = Std.int ((containerWidth - right) / 2);
 			
 			for (c in 0...numChars)

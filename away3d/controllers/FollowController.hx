@@ -11,16 +11,16 @@ import away3d.entities.Entity;
 
 class FollowController extends HoverController {
 
-    public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, tiltAngle:Float = 45, distance:Float = 700) {
-        super(targetObject, lookAtObject, 0, tiltAngle, distance);
-    }
+	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, tiltAngle:Float = 45, distance:Float = 700) {
+		super(targetObject, lookAtObject, 0, tiltAngle, distance);
+	}
 
-    override public function update(interpolate:Bool = true):Void {
+	override public function update(interpolate:Bool = true):Void {
 
 // unused: prevents warning
-        if (lookAtObject == null) return;
-        panAngle = _lookAtObject.rotationY - 180;
-        super.update();
-    }
+		if (lookAtObject == null) return;
+		panAngle = _lookAtObject.rotationY - 180;
+		super.update();
+	}
 }
 

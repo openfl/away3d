@@ -21,7 +21,7 @@ class ArrayUtils {
 	public static function reSize<T>( either:AcceptEither<Array<T>,Vector<T>>, count:Int, ?defaultValue:Dynamic = null) {
 		var t = Lib.getTimer();
 		switch either.type {
-        	case Left(arr):
+			case Left(arr):
 				var c = arr.length;		
 				while (c < count) {
 					arr.push(defaultValue);
@@ -31,7 +31,7 @@ class ArrayUtils {
 					arr.pop();
 					c--;
 				}			
-        	case Right(vec):
+			case Right(vec):
 				var c = vec.length;
 				vec.length = count;		
 				while (c < count) {
@@ -44,21 +44,21 @@ class ArrayUtils {
 	public static function Prefill<T>( either:AcceptEither<Array<T>,Vector<T>>, count:Int, ?elem:T ):Dynamic {
 		var t = Lib.getTimer();
 		switch either.type {
-        	case Left(arr):
+			case Left(arr):
 				arr.splice(0, arr.length);
 				var c:Int = 0;
 				while (c++ < count) {
 					arr.push(elem);
 				}
 				return arr;
-        	case Right(vec): 
+			case Right(vec): 
 				vec.length = count;
 				var c:Int = 0;
 				while (c < count) {
 					vec[c++] = elem;
 				}
 				return vec;
-     	}
+	 	}
 	}
 	#end
 }

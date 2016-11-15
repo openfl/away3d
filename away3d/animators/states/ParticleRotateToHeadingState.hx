@@ -16,19 +16,19 @@ import openfl.geom.Matrix3D;
 
 class ParticleRotateToHeadingState extends ParticleStateBase {
 
-    private var _matrix:Matrix3D;
+	private var _matrix:Matrix3D;
 
-    public function new(animator:ParticleAnimator, particleNode:ParticleNodeBase) {
-        _matrix = new Matrix3D();
-        super(animator, particleNode);
-    }
+	public function new(animator:ParticleAnimator, particleNode:ParticleNodeBase) {
+		_matrix = new Matrix3D();
+		super(animator, particleNode);
+	}
 
-    override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void {
-        if (animationRegisterCache.hasBillboard) {
-            _matrix.copyFrom(renderable.sceneTransform);
-            _matrix.append(camera.inverseSceneTransform);
-            animationRegisterCache.setVertexConstFromMatrix(animationRegisterCache.getRegisterIndex(_animationNode, ParticleRotateToHeadingNode.MATRIX_INDEX), _matrix);
-        }
-    }
+	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void {
+		if (animationRegisterCache.hasBillboard) {
+			_matrix.copyFrom(renderable.sceneTransform);
+			_matrix.append(camera.inverseSceneTransform);
+			animationRegisterCache.setVertexConstFromMatrix(animationRegisterCache.getRegisterIndex(_animationNode, ParticleRotateToHeadingNode.MATRIX_INDEX), _matrix);
+		}
+	}
 }
 

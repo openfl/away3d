@@ -13,13 +13,13 @@ import away3d.cameras.Camera3D;
 import away3d.materials.passes.MaterialPassBase;
 
 interface IAnimator {
-    var animationSet(get, never):IAnimationSet;
+	var animationSet(get, never):IAnimationSet;
 
-    /**
+	/**
 	 * Returns the animation data set in use by the animator.
 	 */
-    private function get_animationSet():IAnimationSet;
-    /**
+	private function get_animationSet():IAnimationSet;
+	/**
 	 * Sets the GPU render state required by the animation that is dependent of the rendered object.
 	 *
 	 * @param stage3DProxy The Stage3DProxy object which is currently being used for rendering.
@@ -27,21 +27,21 @@ interface IAnimator {
 	 * @param vertexConstantOffset The first available vertex register to write data to if running on the gpu.
 	 * @param vertexStreamOffset The first available vertex stream to write vertex data to if running on the gpu.
 	 */
-    function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int, camera:Camera3D):Void;
-    function testGPUCompatibility(pass:MaterialPassBase):Void;
-    /**
+	function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int, camera:Camera3D):Void;
+	function testGPUCompatibility(pass:MaterialPassBase):Void;
+	/**
 	 * Used by the mesh object to which the animator is applied, registers the owner for internal use.
 	 *
 	 * @private
 	 */
-    function addOwner(mesh:Mesh):Void;
-    function removeOwner(mesh:Mesh):Void;
-    function getAnimationState(node:AnimationNodeBase):AnimationStateBase;
-    function getAnimationStateByName(name:String):AnimationStateBase;
-    /**
+	function addOwner(mesh:Mesh):Void;
+	function removeOwner(mesh:Mesh):Void;
+	function getAnimationState(node:AnimationNodeBase):AnimationStateBase;
+	function getAnimationStateByName(name:String):AnimationStateBase;
+	/**
 	 * Returns a shallow clone (re-using the same IAnimationSet) of this IAnimator.
 	 */
-    function clone():IAnimator;
-    function dispose():Void;
+	function clone():IAnimator;
+	function dispose():Void;
 }
 

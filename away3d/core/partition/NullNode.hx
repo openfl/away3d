@@ -7,11 +7,11 @@ package away3d.core.partition;
 
 class NullNode extends NodeBase {
 
-    /**
+	/**
 	 * Creates a new NullNode object.
 	 */
-    public function new() {
-        super();
-    }
+	public function new() {
+		super();
+	}
 }
 

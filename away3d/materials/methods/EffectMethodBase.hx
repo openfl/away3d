@@ -11,29 +11,29 @@ import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.library.assets.Asset3DType;
 import away3d.library.assets.IAsset;
 class EffectMethodBase extends ShadingMethodBase implements IAsset {
-    public var assetType(get, never):String;
+	public var assetType(get, never):String;
 
-    public function new() {
-        super();
-    }
+	public function new() {
+		super();
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    private function get_assetType():String {
-        return Asset3DType.EFFECTS_METHOD;
-    }
+	private function get_assetType():String {
+		return Asset3DType.EFFECTS_METHOD;
+	}
 
-    /**
+	/**
 	 * Get the fragment shader code that should be added after all per-light code. Usually composits everything to the target register.
 	 * @param vo The MethodVO object containing the method data for the currently compiled material pass.
 	 * @param regCache The register cache used during the compilation.
 	 * @param targetReg The register that will be containing the method's output.
 	 * @private
 	 */
-    public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
-        throw new AbstractMethodError();
-        return "";
-    }
+	public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+		throw new AbstractMethodError();
+		return "";
+	}
 }
 

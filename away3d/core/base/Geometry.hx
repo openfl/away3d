@@ -20,150 +20,150 @@ import openfl.geom.Matrix3D;
 import openfl.Vector;
 
 class Geometry extends NamedAssetBase implements IAsset {
-    public var assetType(get, never):String;
-    public var subGeometries(get, never):Vector<ISubGeometry>;
+	public var assetType(get, never):String;
+	public var subGeometries(get, never):Vector<ISubGeometry>;
 
-    private var _subGeometries:Vector<ISubGeometry>;
+	private var _subGeometries:Vector<ISubGeometry>;
 
-    private function get_assetType():String {
-        return Asset3DType.GEOMETRY;
-    }
+	private function get_assetType():String {
+		return Asset3DType.GEOMETRY;
+	}
 
-    /**
+	/**
 	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
 	 */
-    private function get_subGeometries():Vector<ISubGeometry> {
-        return _subGeometries;
-    }
+	private function get_subGeometries():Vector<ISubGeometry> {
+		return _subGeometries;
+	}
 
-    /**
+	/**
 	 * Creates a new Geometry object.
 	 */
-    public function new() {
+	public function new() {
 
-        super();
-        _subGeometries = new Vector<ISubGeometry>();
-    }
+		super();
+		_subGeometries = new Vector<ISubGeometry>();
+	}
 
-    public function applyTransformation(transform:Matrix3D):Void {
-        var len:Int = _subGeometries.length;
-        var i:Int = 0;
-        while (i < len) {
-            _subGeometries[i].applyTransformation(transform);
-            ++i;
-        }
-    }
+	public function applyTransformation(transform:Matrix3D):Void {
+		var len:Int = _subGeometries.length;
+		var i:Int = 0;
+		while (i < len) {
+			_subGeometries[i].applyTransformation(transform);
+			++i;
+		}
+	}
 
-    /**
+	/**
 	 * Adds a new SubGeometry object to the list.
 	 * @param subGeometry The SubGeometry object to be added.
 	 */
-    public function addSubGeometry(subGeometry:ISubGeometry):Void {
-        _subGeometries.push(subGeometry);
-        subGeometry.parentGeometry = this;
-        if (hasEventListener(GeometryEvent.SUB_GEOMETRY_ADDED)) dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_ADDED, subGeometry));
-        invalidateBounds(subGeometry);
-    }
+	public function addSubGeometry(subGeometry:ISubGeometry):Void {
+		_subGeometries.push(subGeometry);
+		subGeometry.parentGeometry = this;
+		if (hasEventListener(GeometryEvent.SUB_GEOMETRY_ADDED)) dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_ADDED, subGeometry));
+		invalidateBounds(subGeometry);
+	}
 
-    /**
+	/**
 	 * Removes a new SubGeometry object from the list.
 	 * @param subGeometry The SubGeometry object to be removed.
 	 */
-    public function removeSubGeometry(subGeometry:ISubGeometry):Void {
-        _subGeometries.splice(_subGeometries.indexOf(subGeometry), 1);
-        subGeometry.parentGeometry = null;
-        if (hasEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED)) dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_REMOVED, subGeometry));
-        invalidateBounds(subGeometry);
-    }
+	public function removeSubGeometry(subGeometry:ISubGeometry):Void {
+		_subGeometries.splice(_subGeometries.indexOf(subGeometry), 1);
+		subGeometry.parentGeometry = null;
+		if (hasEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED)) dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_REMOVED, subGeometry));
+		invalidateBounds(subGeometry);
+	}
 
-    /**
+	/**
 	 * Clones the geometry.
 	 * @return An exact duplicate of the current Geometry object.
 	 */
-    public function clone():Geometry {
-        var clone:Geometry = new Geometry();
-        var len:Int = _subGeometries.length;
-        var i:Int = 0;
-        while (i < len) {
-            clone.addSubGeometry(_subGeometries[i].clone());
-            ++i;
-        }
-        return clone;
-    }
+	public function clone():Geometry {
+		var clone:Geometry = new Geometry();
+		var len:Int = _subGeometries.length;
+		var i:Int = 0;
+		while (i < len) {
+			clone.addSubGeometry(_subGeometries[i].clone());
+			++i;
+		}
+		return clone;
+	}
 
-    /**
+	/**
 	 * Scales the geometry.
 	 * @param scale The amount by which to scale.
 	 */
-    public function scale(scale:Float):Void {
-        var numSubGeoms:Int = _subGeometries.length;
-        var i:Int = 0;
-        while (i < numSubGeoms) {
-            _subGeometries[i].scale(scale);
-            ++i;
-        }
-    }
+	public function scale(scale:Float):Void {
+		var numSubGeoms:Int = _subGeometries.length;
+		var i:Int = 0;
+		while (i < numSubGeoms) {
+			_subGeometries[i].scale(scale);
+			++i;
+		}
+	}
 
-    /**
+	/**
 	 * Clears all resources used by the Geometry object, including SubGeometries.
 	 */
-    public function dispose():Void {
-        var numSubGeoms:Int = _subGeometries.length;
-        var i:Int = 0;
-        while (i < numSubGeoms) {
-            var subGeom:ISubGeometry = _subGeometries[0];
-            removeSubGeometry(subGeom);
-            subGeom.dispose();
-            ++i;
-        }
-    }
+	public function dispose():Void {
+		var numSubGeoms:Int = _subGeometries.length;
+		var i:Int = 0;
+		while (i < numSubGeoms) {
+			var subGeom:ISubGeometry = _subGeometries[0];
+			removeSubGeometry(subGeom);
+			subGeom.dispose();
+			++i;
+		}
+	}
 
-    /**
+	/**
 	 * Scales the uv coordinates (tiling)
 	 * @param scaleU The amount by which to scale on the u axis. Default is 1;
 	 * @param scaleV The amount by which to scale on the v axis. Default is 1;
 	 */
-    public function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void {
-        var numSubGeoms:Int = _subGeometries.length;
-        var i:Int = 0;
-        while (i < numSubGeoms) {
-            _subGeometries[i].scaleUV(scaleU, scaleV);
-            ++i;
-        }
-    }
+	public function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void {
+		var numSubGeoms:Int = _subGeometries.length;
+		var i:Int = 0;
+		while (i < numSubGeoms) {
+			_subGeometries[i].scaleUV(scaleU, scaleV);
+			++i;
+		}
+	}
 
-    /**
+	/**
 	 * Updates the SubGeometries so all vertex data is represented in different buffers.
 	 * Use this for compatibility with Pixel Bender and PBPickingCollider
 	 */
-    public function convertToSeparateBuffers():Void {
-        var subGeom:ISubGeometry;
-        var numSubGeoms:Int = _subGeometries.length;
-        var _removableCompactSubGeometries:Vector<ISubGeometry> = new Vector<ISubGeometry>();
-        var i:Int = 0;
-        while (i < numSubGeoms) {
-            subGeom = _subGeometries[i];
-            if (Std.is(subGeom, SubGeometry)) {
-                ++i;
-                continue;
-            }
-            _removableCompactSubGeometries.push(subGeom);
-            addSubGeometry(subGeom.cloneWithSeperateBuffers());
-            ++i;
-        }
-        for (s in _removableCompactSubGeometries) {
-            removeSubGeometry(s);
-            s.dispose();
-        }
+	public function convertToSeparateBuffers():Void {
+		var subGeom:ISubGeometry;
+		var numSubGeoms:Int = _subGeometries.length;
+		var _removableCompactSubGeometries:Vector<ISubGeometry> = new Vector<ISubGeometry>();
+		var i:Int = 0;
+		while (i < numSubGeoms) {
+			subGeom = _subGeometries[i];
+			if (Std.is(subGeom, SubGeometry)) {
+				++i;
+				continue;
+			}
+			_removableCompactSubGeometries.push(subGeom);
+			addSubGeometry(subGeom.cloneWithSeperateBuffers());
+			++i;
+		}
+		for (s in _removableCompactSubGeometries) {
+			removeSubGeometry(s);
+			s.dispose();
+		}
 
-    }
+	}
 
-    public function validate():Void {
-        // To be overridden when necessary
-    }
+	public function validate():Void {
+		// To be overridden when necessary
+	}
 
-    public function invalidateBounds(subGeom:ISubGeometry):Void {
-        if (hasEventListener(GeometryEvent.BOUNDS_INVALID)) dispatchEvent(new GeometryEvent(GeometryEvent.BOUNDS_INVALID, subGeom));
-    }
+	public function invalidateBounds(subGeom:ISubGeometry):Void {
+		if (hasEventListener(GeometryEvent.BOUNDS_INVALID)) dispatchEvent(new GeometryEvent(GeometryEvent.BOUNDS_INVALID, subGeom));
+	}
 }
 

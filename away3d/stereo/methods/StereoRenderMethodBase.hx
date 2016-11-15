@@ -5,25 +5,25 @@ import away3d.errors.AbstractMethodError;
 
 class StereoRenderMethodBase {
 
-    private var _textureSizeInvalid:Bool;
+	private var _textureSizeInvalid:Bool;
 
-    public function new() {
-        _textureSizeInvalid = true;
-    }
+	public function new() {
+		_textureSizeInvalid = true;
+	}
 
-    public function activate(stage3DProxy:Stage3DProxy):Void {
-    }
+	public function activate(stage3DProxy:Stage3DProxy):Void {
+	}
 
-    public function deactivate(stage3DProxy:Stage3DProxy):Void {
-    }
+	public function deactivate(stage3DProxy:Stage3DProxy):Void {
+	}
 
-    public function getFragmentCode():String {
-        throw new AbstractMethodError("Concrete implementation of StereoRenderMethodBase must be used and extend getFragmentCode().");
-        return "";
-    }
+	public function getFragmentCode():String {
+		throw new AbstractMethodError("Concrete implementation of StereoRenderMethodBase must be used and extend getFragmentCode().");
+		return "";
+	}
 
-    public function invalidateTextureSize():Void {
-        _textureSizeInvalid = true;
-    }
+	public function invalidateTextureSize():Void {
+		_textureSizeInvalid = true;
+	}
 }
 

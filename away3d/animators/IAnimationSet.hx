@@ -12,28 +12,28 @@ import away3d.animators.nodes.AnimationNodeBase;
 import openfl.Vector;
 
 interface IAnimationSet {
-    var usesCPU(get, never):Bool;
+	var usesCPU(get, never):Bool;
 
 	/**
 	 * Check to determine whether a state is registered in the animation set under the given name.
 	 *
 	 * @param stateName The name of the animation state object to be checked.
 	 */
-    function hasAnimation(name:String):Bool;
+	function hasAnimation(name:String):Bool;
 
 	/**
 	 * Retrieves the animation state object registered in the animation data set under the given name.
 	 *
 	 * @param stateName The name of the animation state object to be retrieved.
 	 */
-    function getAnimation(name:String):AnimationNodeBase;
+	function getAnimation(name:String):AnimationNodeBase;
 	
 	/**
 	 * Indicates whether the properties of the animation data contained within the set combined with
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
-    private function get_usesCPU():Bool;
+	private function get_usesCPU():Bool;
 	
 	/**
 	 * Called by the material to reset the GPU indicator before testing whether register space in the shader
@@ -41,7 +41,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function resetGPUCompatibility():Void;
+	function resetGPUCompatibility():Void;
 	
 	/**
 	 * Called by the animator to void the GPU indicator when register space in the shader
@@ -49,7 +49,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function cancelGPUCompatibility():Void;
+	function cancelGPUCompatibility():Void;
 	
 	/**
 	 * Generates the AGAL Vertex code for the animation, tailored to the material pass's requirements.
@@ -61,7 +61,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String;
+	function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String;
 	
 	/**
 	 * Generates the AGAL Fragment code for the animation, tailored to the material pass's requirements.
@@ -71,7 +71,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String;
+	function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String;
 
 	/**
 	 * Generates the extra AGAL Fragment code for the animation when UVs are required, tailored to the material pass's requirements.
@@ -83,7 +83,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function getAGALUVCode(pass:MaterialPassBase, UVSource:String, UVTarget:String):String;
+	function getAGALUVCode(pass:MaterialPassBase, UVSource:String, UVTarget:String):String;
 
 	/**
 	 * Resets any constants used in the creation of AGAL for the vertex and fragment shaders.
@@ -92,7 +92,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function doneAGALCode(pass:MaterialPassBase):Void;
+	function doneAGALCode(pass:MaterialPassBase):Void;
 
 	/**
 	 * Sets the GPU render state required by the animation that is independent of the rendered mesh.
@@ -102,7 +102,7 @@ interface IAnimationSet {
 	 *
 	 * @private
 	 */
-    function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
-    function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
+	function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
+	function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 }
 

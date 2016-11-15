@@ -4,14 +4,14 @@ import openfl.events.Event;
 
 class LightEvent extends Event {
 
-    static public var CASTS_SHADOW_CHANGE:String = "castsShadowChange";
+	static public var CASTS_SHADOW_CHANGE:String = "castsShadowChange";
 
-    public function new(type:String) {
-        super(type);
-    }
+	public function new(type:String) {
+		super(type);
+	}
 
-    override public function clone():Event {
-        return new LightEvent(type);
-    }
+	override public function clone():Event {
+		return new LightEvent(type);
+	}
 }
 

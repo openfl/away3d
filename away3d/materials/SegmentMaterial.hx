@@ -10,17 +10,17 @@ import away3d.materials.passes.SegmentPass;
 
 class SegmentMaterial extends MaterialBase {
 
-    private var _screenPass:SegmentPass;
-    /**
+	private var _screenPass:SegmentPass;
+	/**
 	 * Creates a new SegmentMaterial object.
 	 *
 	 * @param thickness The thickness of the wireframe lines.
 	 */
-    public function new(thickness:Float = 1.25) {
-        super();
-        bothSides = true;
-        addPass(_screenPass = new SegmentPass(thickness));
-        _screenPass.material = this;
-    }
+	public function new(thickness:Float = 1.25) {
+		super();
+		bothSides = true;
+		addPass(_screenPass = new SegmentPass(thickness));
+		_screenPass.material = this;
+	}
 }
 

@@ -10,25 +10,25 @@ import away3d.entities.Entity;
 
 class RenderableNode extends EntityNode {
 
-    private var _renderable:IRenderable;
-    /**
+	private var _renderable:IRenderable;
+	/**
 	 * Creates a new RenderableNode object.
 	 * @param mesh The mesh to be contained in the node.
 	 */
-    public function new(renderable:IRenderable) {
-        super(cast((renderable), Entity));
-        _renderable = renderable;
+	public function new(renderable:IRenderable) {
+		super(cast((renderable), Entity));
+		_renderable = renderable;
 // also keep a stronger typed reference
-    }
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function acceptTraverser(traverser:PartitionTraverser):Void {
-        if (traverser.enterNode(this)) {
-            super.acceptTraverser(traverser);
-            traverser.applyRenderable(_renderable);
-        }
-    }
+	override public function acceptTraverser(traverser:PartitionTraverser):Void {
+		if (traverser.enterNode(this)) {
+			super.acceptTraverser(traverser);
+			traverser.applyRenderable(_renderable);
+		}
+	}
 }
 

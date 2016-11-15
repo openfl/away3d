@@ -174,20 +174,20 @@ class MaterialPassBase extends EventDispatcher {
 		return _mipmap;
 	}
 	
-    /**
+	/**
      * Indicates the number of Anisotropic filtering samples to take for mipmapping
      */
-    private function get_anisotropy():Anisotropy {
-        return _anisotropy;
-    }
+	private function get_anisotropy():Anisotropy {
+		return _anisotropy;
+	}
 
-    private function set_anisotropy(value:Anisotropy):Anisotropy {
-        if (_anisotropy == value)
-        	return _anisotropy;
-        _anisotropy = value;
-        invalidateShaderProgram();
-        return _anisotropy;
-    }
+	private function set_anisotropy(value:Anisotropy):Anisotropy {
+		if (_anisotropy == value)
+			return _anisotropy;
+		_anisotropy = value;
+		invalidateShaderProgram();
+		return _anisotropy;
+	}
 
 	/**
 	 * Defines whether smoothing should be applied to any used textures.

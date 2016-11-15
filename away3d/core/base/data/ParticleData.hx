@@ -4,12 +4,12 @@ import away3d.core.base.CompactSubGeometry;
 
 class ParticleData {
 
-    public var particleIndex:Int;
-    public var numVertices:Int;
-    public var startVertexIndex:Int;
-    public var subGeometry:CompactSubGeometry;
+	public var particleIndex:Int;
+	public var numVertices:Int;
+	public var startVertexIndex:Int;
+	public var subGeometry:CompactSubGeometry;
 
-    public function new() {
-    }
+	public function new() {
+	}
 }
 

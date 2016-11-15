@@ -10,29 +10,29 @@ import openfl.Vector;
 
 class SkyBoxNode extends EntityNode {
 
-    private var _skyBox:SkyBox;
-    /**
+	private var _skyBox:SkyBox;
+	/**
 	 * Creates a new SkyBoxNode object.
 	 * @param skyBox The SkyBox to be contained in the node.
 	 */
-    public function new(skyBox:SkyBox) {
-        super(skyBox);
-        _skyBox = skyBox;
-    }
+	public function new(skyBox:SkyBox) {
+		super(skyBox);
+		_skyBox = skyBox;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function acceptTraverser(traverser:PartitionTraverser):Void {
-        if (traverser.enterNode(this)) {
-            super.acceptTraverser(traverser);
-            traverser.applySkyBox(_skyBox);
-        }
-    }
+	override public function acceptTraverser(traverser:PartitionTraverser):Void {
+		if (traverser.enterNode(this)) {
+			super.acceptTraverser(traverser);
+			traverser.applySkyBox(_skyBox);
+		}
+	}
 
-    override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
+	override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool {
 
-        return true;
-    }
+		return true;
+	}
 }
 

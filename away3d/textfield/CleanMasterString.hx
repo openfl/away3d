@@ -12,7 +12,7 @@ package away3d.textfield;
 
 class CleanMasterString
 {
-    /** Replaces a string's "master string" — the string it was built from —
+	/** Replaces a string's "master string" — the string it was built from —
      *  with a single character to save memory. Find more information about this AS3 oddity
      *  <a href="http://jacksondunstan.com/articles/2260">here</a>.
      *
@@ -25,8 +25,8 @@ class CleanMasterString
 		
 	}
 	
-    public function call(str:String):String
-    {
-        return ("_" + str).substr(1);
-    }
+	public function call(str:String):String
+	{
+		return ("_" + str).substr(1);
+	}
 }

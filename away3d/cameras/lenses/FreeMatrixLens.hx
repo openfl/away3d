@@ -7,41 +7,41 @@ package away3d.cameras.lenses;
 
 class FreeMatrixLens extends LensBase {
 
-    /**
+	/**
 	 * Creates a new FreeMatrixLens object.
 	 */
-    public function new() {
-        super();
-        _matrix.copyFrom(new PerspectiveLens().matrix);
-    }
+	public function new() {
+		super();
+		_matrix.copyFrom(new PerspectiveLens().matrix);
+	}
 
-    override private function set_near(value:Float):Float {
-        _near = value;
-        return value;
-    }
+	override private function set_near(value:Float):Float {
+		_near = value;
+		return value;
+	}
 
-    override private function set_far(value:Float):Float {
-        _far = value;
-        return value;
-    }
+	override private function set_far(value:Float):Float {
+		_far = value;
+		return value;
+	}
 
-    override private function set_aspectRatio(value:Float):Float {
-        _aspectRatio = value;
-        return value;
-    }
+	override private function set_aspectRatio(value:Float):Float {
+		_aspectRatio = value;
+		return value;
+	}
 
-    override public function clone():LensBase {
-        var clone:FreeMatrixLens = new FreeMatrixLens();
-        clone._matrix.copyFrom(_matrix);
-        clone._near = _near;
-        clone._far = _far;
-        clone._aspectRatio = _aspectRatio;
-        clone.invalidateMatrix();
-        return clone;
-    }
+	override public function clone():LensBase {
+		var clone:FreeMatrixLens = new FreeMatrixLens();
+		clone._matrix.copyFrom(_matrix);
+		clone._near = _near;
+		clone._far = _far;
+		clone._aspectRatio = _aspectRatio;
+		clone.invalidateMatrix();
+		return clone;
+	}
 
-    override private function updateMatrix():Void {
-        _matrixInvalid = false;
-    }
+	override private function updateMatrix():Void {
+		_matrixInvalid = false;
+	}
 }
 

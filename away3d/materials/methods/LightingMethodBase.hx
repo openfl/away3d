@@ -10,28 +10,28 @@ import away3d.materials.compilation.ShaderRegisterElement;
 
 class LightingMethodBase extends ShadingMethodBase {
 
-    /**
+	/**
 	 * A method that is exposed to wrappers in case the strength needs to be controlled
 	 */
-    private var _modulateMethod:Dynamic ;
-    /**
+	private var _modulateMethod:Dynamic ;
+	/**
 	 * Creates a new LightingMethodBase.
 	 */
-    public function new() {
-        super();
-    }
+	public function new() {
+		super();
+	}
 
-    /**
+	/**
 	 * Get the fragment shader code that will be needed before any per-light code is added.
 	 * @param vo The MethodVO object containing the method data for the currently compiled material pass.
 	 * @param regCache The register cache used during the compilation.
 	 * @private
 	 */
-    public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String {
-        return "";
-    }
+	public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String {
+		return "";
+	}
 
-    /**
+	/**
 	 * Get the fragment shader code that will generate the code relevant to a single light.
 	 *
 	 * @param vo The MethodVO object containing the method data for the currently compiled material pass.
@@ -39,11 +39,11 @@ class LightingMethodBase extends ShadingMethodBase {
 	 * @param lightColReg The register containing the light colour.
 	 * @param regCache The register cache used during the compilation.
 	 */
-    public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
-        return "";
-    }
+	public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+		return "";
+	}
 
-    /**
+	/**
 	 * Get the fragment shader code that will generate the code relevant to a single light probe object.
 	 *
 	 * @param vo The MethodVO object containing the method data for the currently compiled material pass.
@@ -51,11 +51,11 @@ class LightingMethodBase extends ShadingMethodBase {
 	 * @param weightRegister A string representation of the register + component containing the current weight
 	 * @param regCache The register cache providing any necessary registers to the shader
 	 */
-    public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String {
-        return "";
-    }
+	public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String {
+		return "";
+	}
 
-    /**
+	/**
 	 * Get the fragment shader code that should be added after all per-light code. Usually composits everything to the target register.
 	 *
 	 * @param vo The MethodVO object containing the method data for the currently compiled material pass.
@@ -63,8 +63,8 @@ class LightingMethodBase extends ShadingMethodBase {
 	 * @param targetReg The register containing the final shading output.
 	 * @private
 	 */
-    public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
-        return "";
-    }
+	public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+		return "";
+	}
 }
 

@@ -18,166 +18,166 @@ import openfl.display3D.Context3DMipFilter;
 import openfl.Vector;
 
 class BasicAmbientMethod extends ShadingMethodBase {
-    public var ambient(get, set):Float;
-    public var ambientColor(get, set):Int;
-    public var texture(get, set):Texture2DBase;
+	public var ambient(get, set):Float;
+	public var ambientColor(get, set):Int;
+	public var texture(get, set):Texture2DBase;
 
-    private var _useTexture:Bool;
-    private var _texture:Texture2DBase;
-    private var _ambientInputRegister:ShaderRegisterElement;
-    private var _ambientColor:Int;
-    private var _ambientR:Float;
-    private var _ambientG:Float;
-    private var _ambientB:Float;
-    private var _ambient:Float;
-    public var _lightAmbientR:Float;
-    public var _lightAmbientG:Float;
-    public var _lightAmbientB:Float;
-    
-    /**
+	private var _useTexture:Bool;
+	private var _texture:Texture2DBase;
+	private var _ambientInputRegister:ShaderRegisterElement;
+	private var _ambientColor:Int;
+	private var _ambientR:Float;
+	private var _ambientG:Float;
+	private var _ambientB:Float;
+	private var _ambient:Float;
+	public var _lightAmbientR:Float;
+	public var _lightAmbientG:Float;
+	public var _lightAmbientB:Float;
+	
+	/**
 	 * Creates a new BasicAmbientMethod object.
 	 */
-    public function new() {
-        _ambientColor = 0xffffff;
-        _ambientR = 0;
-        _ambientG = 0;
-        _ambientB = 0;
-        _ambient = 1;
-        _lightAmbientR = 0;
-        _lightAmbientG = 0;
-        _lightAmbientB = 0;
-        super();
-    }
+	public function new() {
+		_ambientColor = 0xffffff;
+		_ambientR = 0;
+		_ambientG = 0;
+		_ambientB = 0;
+		_ambient = 1;
+		_lightAmbientR = 0;
+		_lightAmbientG = 0;
+		_lightAmbientB = 0;
+		super();
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function initVO(vo:MethodVO):Void {
-        vo.needsUV = _useTexture;
-    }
+	override public function initVO(vo:MethodVO):Void {
+		vo.needsUV = _useTexture;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function initConstants(vo:MethodVO):Void {
-        vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
-    }
+	override public function initConstants(vo:MethodVO):Void {
+		vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
+	}
 
-    /**
+	/**
 	 * The strength of the ambient reflection of the surface.
 	 */
-    private function get_ambient():Float {
-        return _ambient;
-    }
+	private function get_ambient():Float {
+		return _ambient;
+	}
 
-    private function set_ambient(value:Float):Float {
-        _ambient = value;
-        return value;
-    }
+	private function set_ambient(value:Float):Float {
+		_ambient = value;
+		return value;
+	}
 
-    /**
+	/**
 	 * The colour of the ambient reflection of the surface.
 	 */
-    private function get_ambientColor():Int {
-        return _ambientColor;
-    }
+	private function get_ambientColor():Int {
+		return _ambientColor;
+	}
 
-    private function set_ambientColor(value:Int):Int {
-        _ambientColor = value;
-        return value;
-    }
+	private function set_ambientColor(value:Int):Int {
+		_ambientColor = value;
+		return value;
+	}
 
-    /**
+	/**
 	 * The bitmapData to use to define the diffuse reflection color per texel.
 	 */
-    private function get_texture():Texture2DBase {
-        return _texture;
-    }
+	private function get_texture():Texture2DBase {
+		return _texture;
+	}
 
-    private function set_texture(value:Texture2DBase):Texture2DBase {
-        if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
-            invalidateShaderProgram();
-        }
-        _useTexture = cast((value), Bool);
-        _texture = value;
-        return value;
-    }
+	private function set_texture(value:Texture2DBase):Texture2DBase {
+		if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
+			invalidateShaderProgram();
+		}
+		_useTexture = cast((value), Bool);
+		_texture = value;
+		return value;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function copyFrom(method:ShadingMethodBase):Void {
-        var diff:BasicAmbientMethod = cast((method), BasicAmbientMethod);
-        ambient = diff.ambient;
-        ambientColor = diff.ambientColor;
-    }
+	override public function copyFrom(method:ShadingMethodBase):Void {
+		var diff:BasicAmbientMethod = cast((method), BasicAmbientMethod);
+		ambient = diff.ambient;
+		ambientColor = diff.ambientColor;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function cleanCompilationData():Void {
-        super.cleanCompilationData();
-        _ambientInputRegister = null;
-    }
+	override public function cleanCompilationData():Void {
+		super.cleanCompilationData();
+		_ambientInputRegister = null;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
-        var code:String = "";
-        if (_useTexture) {
-            _ambientInputRegister = regCache.getFreeTextureReg();
-            vo.texturesIndex = _ambientInputRegister.index;
-            code += getTex2DSampleCode(vo, targetReg, _ambientInputRegister, _texture) + // apparently, still needs to un-premultiply :s
+	public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+		var code:String = "";
+		if (_useTexture) {
+			_ambientInputRegister = regCache.getFreeTextureReg();
+			vo.texturesIndex = _ambientInputRegister.index;
+			code += getTex2DSampleCode(vo, targetReg, _ambientInputRegister, _texture) + // apparently, still needs to un-premultiply :s
 
-            "div " + targetReg + ".xyz, " + targetReg + ".xyz, " + targetReg + ".w\n";
-        }
+			"div " + targetReg + ".xyz, " + targetReg + ".xyz, " + targetReg + ".w\n";
+		}
 
-        else {
-            _ambientInputRegister = regCache.getFreeFragmentConstant();
-            vo.fragmentConstantsIndex = _ambientInputRegister.index * 4;
-            code += "mov " + targetReg + ", " + _ambientInputRegister + "\n";
-        }
+		else {
+			_ambientInputRegister = regCache.getFreeFragmentConstant();
+			vo.fragmentConstantsIndex = _ambientInputRegister.index * 4;
+			code += "mov " + targetReg + ", " + _ambientInputRegister + "\n";
+		}
 
-        return code;
-    }
+		return code;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
-        if (_useTexture) {
-            #if !flash 
-            stage3DProxy.context3D.setSamplerStateAt(
-                    vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, 
-                    getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 
-                    vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE );
-            #end
-            stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
-        }
-    }
+	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
+		if (_useTexture) {
+			#if !flash 
+			stage3DProxy.context3D.setSamplerStateAt(
+					vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, 
+					getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 
+					vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE );
+			#end
+			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
+		}
+	}
 
-    /**
+	/**
 	 * Updates the ambient color data used by the render state.
 	 */
-    private function updateAmbient():Void {
-        _ambientR = ((_ambientColor >> 16) & 0xff) / 0xff * _ambient * _lightAmbientR;
-        _ambientG = ((_ambientColor >> 8) & 0xff) / 0xff * _ambient * _lightAmbientG;
-        _ambientB = (_ambientColor & 0xff) / 0xff * _ambient * _lightAmbientB;
-    }
+	private function updateAmbient():Void {
+		_ambientR = ((_ambientColor >> 16) & 0xff) / 0xff * _ambient * _lightAmbientR;
+		_ambientG = ((_ambientColor >> 8) & 0xff) / 0xff * _ambient * _lightAmbientG;
+		_ambientB = (_ambientColor & 0xff) / 0xff * _ambient * _lightAmbientB;
+	}
 
-    /**
+	/**
 	 * @inheritDoc
 	 */
-    override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
-        updateAmbient();
-        if (!_useTexture) {
-            var index:Int = vo.fragmentConstantsIndex;
-            var data:Vector<Float> = vo.fragmentData;
-            data[index] = _ambientR;
-            data[index + 1] = _ambientG;
-            data[index + 2] = _ambientB;
-        }
-    }
+	override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
+		updateAmbient();
+		if (!_useTexture) {
+			var index:Int = vo.fragmentConstantsIndex;
+			var data:Vector<Float> = vo.fragmentData;
+			data[index] = _ambientR;
+			data[index + 1] = _ambientG;
+			data[index + 2] = _ambientB;
+		}
+	}
 }
 

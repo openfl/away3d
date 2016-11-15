@@ -9,11 +9,11 @@ import away3d.core.base.data.ParticleData;
 
 class ParticleGeometry extends Geometry {
 
-    public var particles:Vector<ParticleData>;
-    public var numParticles:Int;
+	public var particles:Vector<ParticleData>;
+	public var numParticles:Int;
 
-    public function new() {
-        super();
-    }
+	public function new() {
+		super();
+	}
 }
 

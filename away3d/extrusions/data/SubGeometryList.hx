@@ -6,13 +6,13 @@ import openfl.Vector;
 
 class SubGeometryList {
 
-    public var id:Int;
-    public var uvs:Vector<Float>;
-    public var vertices:Vector<Float>;
-    public var normals:Vector<Float>;
-    public var indices:Vector<UInt>;
-    public var subGeometry:SubGeometry;
-    public var material:MaterialBase;
+	public var id:Int;
+	public var uvs:Vector<Float>;
+	public var vertices:Vector<Float>;
+	public var normals:Vector<Float>;
+	public var indices:Vector<UInt>;
+	public var subGeometry:SubGeometry;
+	public var material:MaterialBase;
 
-    public function new() {}
+	public function new() {}
 }

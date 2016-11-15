@@ -6,18 +6,18 @@ import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.textures.TextureBase;
 
 class CubeTextureBase extends TextureProxyBase {
-    public var size(get, never):Int;
+	public var size(get, never):Int;
 
-    public function new() {
-        super();
-    }
+	public function new() {
+		super();
+	}
 
-    private function get_size():Int {
-        return _width;
-    }
+	private function get_size():Int {
+		return _width;
+	}
 
-    override private function createTexture(context:Context3D):TextureBase {
-        return context.createCubeTexture(width, Context3DTextureFormat.BGRA, false);
-    }
+	override private function createTexture(context:Context3D):TextureBase {
+		return context.createCubeTexture(width, Context3DTextureFormat.BGRA, false);
+	}
 }
 
