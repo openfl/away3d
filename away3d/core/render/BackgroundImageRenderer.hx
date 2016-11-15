@@ -82,22 +82,22 @@ class BackgroundImageRenderer {
 	public function render():Void {
 		//todo
 		/*
-        var context:Context3D = _stage3DProxy.context3D;
-        if (context != _context) {
-            removeBuffers();
-            _context = context;
-        }
-        if (context == null) return;
-        if (_vertexBuffer == null) initBuffers(context);
+		var context:Context3D = _stage3DProxy.context3D;
+		if (context != _context) {
+			removeBuffers();
+			_context = context;
+		}
+		if (context == null) return;
+		if (_vertexBuffer == null) initBuffers(context);
 
-        context.setProgram(_program3d);
-        context.setTextureAt(0, _texture.getTextureForStage3D(_stage3DProxy));
-        context.setVertexBufferAt(0, _vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
-        context.setVertexBufferAt(1, _vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
-        context.drawTriangles(_indexBuffer, 0, 2);
-        context.setVertexBufferAt(0, null);
-        context.setVertexBufferAt(1, null);
-        context.setTextureAt(0, null);
+		context.setProgram(_program3d);
+		context.setTextureAt(0, _texture.getTextureForStage3D(_stage3DProxy));
+		context.setVertexBufferAt(0, _vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
+		context.setVertexBufferAt(1, _vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
+		context.drawTriangles(_indexBuffer, 0, 2);
+		context.setVertexBufferAt(0, null);
+		context.setVertexBufferAt(1, null);
+		context.setTextureAt(0, null);
 		*/
 	}
 

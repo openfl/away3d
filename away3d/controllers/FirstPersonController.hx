@@ -1,7 +1,7 @@
 /**
  * Extended camera used to hover round a specified target object.
  *
- * @see    away3d.containers.View3D
+ * @see	away3d.containers.View3D
  */
 package away3d.controllers;
 
@@ -32,8 +32,8 @@ class FirstPersonController extends ControllerBase {
 	 *
 	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
 	 *
-	 * @see    #tiltAngle
-	 * @see    #panAngle
+	 * @see	#tiltAngle
+	 * @see	#panAngle
 	 */
 	private function get_steps():Int {
 		return _steps;
@@ -79,7 +79,7 @@ class FirstPersonController extends ControllerBase {
 	/**
 	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
 	 *
-	 * @see    #tiltAngle
+	 * @see	#tiltAngle
 	 */
 	private function get_minTiltAngle():Float {
 		return _minTiltAngle;
@@ -95,7 +95,7 @@ class FirstPersonController extends ControllerBase {
 	/**
 	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
 	 *
-	 * @see    #tiltAngle
+	 * @see	#tiltAngle
 	 */
 	private function get_maxTiltAngle():Float {
 		return _maxTiltAngle;
@@ -156,9 +156,9 @@ class FirstPersonController extends ControllerBase {
 	 *
 	 * @param interpolate   If the update to a target pan- or tiltAngle is interpolated. Default is true.
 	 *
-	 * @see    #tiltAngle
-	 * @see    #panAngle
-	 * @see    #steps
+	 * @see	#tiltAngle
+	 * @see	#panAngle
+	 * @see	#steps
 	 */
 	override public function update(interpolate:Bool = true):Void {
 		if (_tiltAngle != _currentTiltAngle || _panAngle != _currentPanAngle) {

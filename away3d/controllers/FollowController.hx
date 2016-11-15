@@ -2,7 +2,7 @@
  * Controller used to follow behind an object on the XZ plane, with an optional
  * elevation (tiltAngle).
  *
- * @see    away3d.containers.View3D
+ * @see	away3d.containers.View3D
  */
 package away3d.controllers;
 

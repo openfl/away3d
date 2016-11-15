@@ -31,7 +31,7 @@ class Ray {
 
 	/**
 	 * Defines the origin point of the Ray object
-	 * @return    Vector3D        The origin point of the Ray object
+	 * @return	Vector3D		The origin point of the Ray object
 	 */
 	private function set_orig(o:Vector3D):Vector3D {
 		_orig.x = o.x;
@@ -46,7 +46,7 @@ class Ray {
 
 	/**
 	 * Defines the directional vector of the Ray object
-	 * @return    Vector3D        The directional vector
+	 * @return	Vector3D		The directional vector
 	 */
 	private function set_dir(n:Vector3D):Vector3D {
 		_dir.x = n.x;
@@ -61,7 +61,7 @@ class Ray {
 
 	/**
 	 * Defines the directional normal of the Ray object
-	 * @return    Vector3D        The normal of the plane
+	 * @return	Vector3D		The normal of the plane
 	 */
 	private function get_planeNormal():Vector3D {
 		return _pn;
@@ -69,12 +69,12 @@ class Ray {
 
 	/**
 	 * Checks if a ray intersects a sphere.
-	 *@param        pOrig            Vector3D.    The origin vector of the ray.
-	 *@param        dir                Vector3D. The normalized direction vector of the ray.
-	 *@param        sPos            Vector3D. The position of the sphere.
-	 *@param        radius        Number. The radius of the sphere.
+	 *@param		pOrig			Vector3D.	The origin vector of the ray.
+	 *@param		dir				Vector3D. The normalized direction vector of the ray.
+	 *@param		sPos			Vector3D. The position of the sphere.
+	 *@param		radius		Number. The radius of the sphere.
 	 *
-	 * @return        Boolean        If the ray intersects the sphere
+	 * @return		Boolean		If the ray intersects the sphere
 	 */
 	public function intersectsSphere(pOrig:Vector3D, dir:Vector3D, sPos:Vector3D, radius:Float):Bool {
 		return cast((hasSphereIntersection(pOrig, dir, sPos, radius) > 0), Bool );
@@ -83,14 +83,14 @@ class Ray {
 	/**
 	 * Returns a Vector3D where the ray intersects a sphere. Return null if the ray misses the sphere
 	 *
-	 *@param        pOrig            Vector3D.        The origin of the ray.
-	 *@param        dir                Vector3D.        The direction of the ray.
-	 *@param        sPos            Vector3D.        The position of the sphere.
-	 *@param        radius        Number.        The radius of the sphere.
-	 *@param        bNearest    [optional] Boolean. If the ray traverses the sphere and if true the returned hit is the nearest to ray origin. Default is true.
-	 *@param        bNormal        [optional] Boolean. If the returned vector is the normal of the hitpoint. Default is false.
+	 *@param		pOrig			Vector3D.		The origin of the ray.
+	 *@param		dir				Vector3D.		The direction of the ray.
+	 *@param		sPos			Vector3D.		The position of the sphere.
+	 *@param		radius		Number.		The radius of the sphere.
+	 *@param		bNearest	[optional] Boolean. If the ray traverses the sphere and if true the returned hit is the nearest to ray origin. Default is true.
+	 *@param		bNormal		[optional] Boolean. If the returned vector is the normal of the hitpoint. Default is false.
 	 *
-	 * @return        Vector3D    The intersection vector3D or the normal vector3D of the hitpoint. Default is false.
+	 * @return		Vector3D	The intersection vector3D or the normal vector3D of the hitpoint. Default is false.
 	 *
 	 * example of a ray triggered from mouse
 	 var pMouse:Vector3D = _view.unproject(_view.mouseX, _view.mouseY, 1);
@@ -132,12 +132,12 @@ class Ray {
 	 * Returns a Vector3D where the ray intersects a plane inside a triangle
 	 * Returns null if no hit is found.
 	 *
-	 *@param        p0            Vector3D.        The origin of the ray.
-	 *@param        p1            Vector3D.        The end of the ray.
-	 *@param        v0            Vector3D.        The first scenespace vertex of the face.
-	 *@param        v1            Vector3D.        The second scenespace vertex of the face.
-	 *@param        v2            Vector3D.        The third scenespace vertex of the face.
-	 *@param        outVector3D    Vector3D.        Optional user defined Vector3D returned with result values
+	 *@param		p0			Vector3D.		The origin of the ray.
+	 *@param		p1			Vector3D.		The end of the ray.
+	 *@param		v0			Vector3D.		The first scenespace vertex of the face.
+	 *@param		v1			Vector3D.		The second scenespace vertex of the face.
+	 *@param		v2			Vector3D.		The third scenespace vertex of the face.
+	 *@param		outVector3D	Vector3D.		Optional user defined Vector3D returned with result values
 	 *
 	 * example: fire a ray from camera position to 0,0,0 and test if it hits the triangle.
 	
@@ -155,7 +155,7 @@ class Ray {
 	 trace("intersect ray: "+intersect);
 	
 	 *
-	 * @return    Vector3D    The intersection point
+	 * @return	Vector3D	The intersection point
 	 */
 	public function getRayToTriangleIntersection(p0:Vector3D, p1:Vector3D, v0:Vector3D, v1:Vector3D, v2:Vector3D, outVector3D:Vector3D = null):Vector3D {
 		_tu.x = v1.x - v0.x;

@@ -27,7 +27,7 @@ class Matrix3DUtils {
 	/**
 	 * Fills the 3d matrix object with values representing the transformation made by the given quaternion.
 	 *
-	 * @param    quarternion    The quarterion object to convert.
+	 * @param	quarternion	The quarterion object to convert.
 	 */
 	static public function quaternion2matrix(quarternion:Quaternion, m:Matrix3D = null):Matrix3D {
 		var x:Float = quarternion.x;
@@ -65,9 +65,9 @@ class Matrix3DUtils {
 
 	/**
 	 * Returns a normalised <code>Vector3D</code> object representing the forward vector of the given matrix.
-	 * @param    m        The Matrix3D object to use to get the forward vector
-	 * @param    v        [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
-	 * @return            The forward vector
+	 * @param	m		The Matrix3D object to use to get the forward vector
+	 * @param	v		[optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
+	 * @return			The forward vector
 	 */
 	static public function getForward(m:Matrix3D, v:Vector3D = null):Vector3D {
 		if (v == null)
@@ -79,9 +79,9 @@ class Matrix3DUtils {
 
 	/**
 	 * Returns a normalised <code>Vector3D</code> object representing the up vector of the given matrix.
-	 * @param    m        The Matrix3D object to use to get the up vector
-	 * @param    v        [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
-	 * @return            The up vector
+	 * @param	m		The Matrix3D object to use to get the up vector
+	 * @param	v		[optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
+	 * @return			The up vector
 	 */
 	static public function getUp(m:Matrix3D, v:Vector3D = null):Vector3D {
 		if (v == null)
@@ -93,9 +93,9 @@ class Matrix3DUtils {
 
 	/**
 	 * Returns a normalised <code>Vector3D</code> object representing the right vector of the given matrix.
-	 * @param    m        The Matrix3D object to use to get the right vector
-	 * @param    v        [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
-	 * @return            The right vector
+	 * @param	m		The Matrix3D object to use to get the right vector
+	 * @param	v		[optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
+	 * @return			The right vector
 	 */
 	static public function getRight(m:Matrix3D, v:Vector3D = null):Vector3D {
 		if (v == null)

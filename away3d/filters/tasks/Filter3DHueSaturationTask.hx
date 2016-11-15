@@ -114,27 +114,27 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase {
 		//_____________________________________________________________________
 		//	Intensity * Saturation
 		//_____________________________________________________________________
-		"mul ft1, ft0.x, fc0.x          \n" + // 0.3 * red
+		"mul ft1, ft0.x, fc0.x		  \n" + // 0.3 * red
 
-		"mul ft2, ft0.y, fc0.y          \n" + // 0.59 * green
+		"mul ft2, ft0.y, fc0.y		  \n" + // 0.59 * green
 
-		"add ft1, ft1, ft2              \n" + // add red and green results
+		"add ft1, ft1, ft2			  \n" + // add red and green results
 
-		"mul ft2, ft0.z, fc0.z          \n" + // 0.11 * blue
+		"mul ft2, ft0.z, fc0.z		  \n" + // 0.11 * blue
 
-		"add ft1, ft1, ft2              \n" + // add (red*green) and blue results
+		"add ft1, ft1, ft2			  \n" + // add (red*green) and blue results
 
-		"mul ft1, ft1, fc1.x            \n" + // multiply intensity and saturation
+		"mul ft1, ft1, fc1.x			\n" + // multiply intensity and saturation
 
 		//_____________________________________________________________________
 		//	RGB Value
 		//_____________________________________________________________________
-		"mul ft0.xyz, ft0.xyz, fc1.y    \n" + // rgb * (1-saturation)
+		"mul ft0.xyz, ft0.xyz, fc1.y	\n" + // rgb * (1-saturation)
 
-		"add ft0.xyz, ft0.xyz, ft1      \n" + // rgb + intensity
+		"add ft0.xyz, ft0.xyz, ft1	  \n" + // rgb + intensity
 
 		// output the color
-		"mov oc, ft0			        \n";
+		"mov oc, ft0					\n";
 	}
 
 	override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void {

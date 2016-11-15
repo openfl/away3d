@@ -108,10 +108,10 @@ class FaceHelper {
 
 	/**
 	 * Remove a face from a mesh
-	 * @param mesh                        Mesh. The mesh to remove a face from
-	 * @param index                        uint. Index of the face in vertices. The value represents the position in indices vector divided by 3.
+	 * @param mesh						Mesh. The mesh to remove a face from
+	 * @param index						uint. Index of the face in vertices. The value represents the position in indices vector divided by 3.
 	 * For instance, to edit face [1], the parameter indice will be 1. The x value of the v0 at position 3 in vertice vector is then extracted from vertices[indices[indice]]
-	 * @param subGeomIndice        uint. Index of vertex 1 of the face
+	 * @param subGeomIndice		uint. Index of vertex 1 of the face
 	 */
 
 	static public function removeFace(mesh:Mesh, index:Int, subGeomIndice:Int):Void {
@@ -217,9 +217,9 @@ class FaceHelper {
 	 * The geomIndices vector will then contain only zeros.
 	 * IMPORTANT: the code considers the indices as location in the mesh subgemeometry indices vector, not the value at the pointer location.
 	 *
-	 * @param mesh                Mesh. The mesh to remove a face from
-	 * @param indices            A vector with a series of uints indices: the indices of the faces to be removed.
-	 * @param subGeomIndices        A vector with a series of uints indices representing the subgeometries of the faces to be removed.
+	 * @param mesh				Mesh. The mesh to remove a face from
+	 * @param indices			A vector with a series of uints indices: the indices of the faces to be removed.
+	 * @param subGeomIndices		A vector with a series of uints indices representing the subgeometries of the faces to be removed.
 	 */
 
 	static public function removeFaces(mesh:Mesh, indices:Vector<UInt>, subGeomIndices:Vector<UInt>):Void {
@@ -232,13 +232,13 @@ class FaceHelper {
 
 	/**
 	 * Adds a series of faces from a mesh. All vectors must have the same length.
-	 * @param mesh    Mesh. The mesh to remove a face from
-	 * @param v0s    A vector with a series of Vertex Objects representing the v0 of a face.
-	 * @param v1s    A vector with a series of Vertex Objects representing the v1 of a face.
-	 * @param v2s    A vector with a series of Vertex Objects representing the v2 of a face.
-	 * @param uv0s    A vector with a series of UV Objects representing the uv0 of a face.
-	 * @param uv1s    A vector with a series of UV Objects representing the uv1 of a face.
-	 * @param uv2s    A vector with a series of UV Objects representing the uv2 of a face.
+	 * @param mesh	Mesh. The mesh to remove a face from
+	 * @param v0s	A vector with a series of Vertex Objects representing the v0 of a face.
+	 * @param v1s	A vector with a series of Vertex Objects representing the v1 of a face.
+	 * @param v2s	A vector with a series of Vertex Objects representing the v2 of a face.
+	 * @param uv0s	A vector with a series of UV Objects representing the uv0 of a face.
+	 * @param uv1s	A vector with a series of UV Objects representing the uv1 of a face.
+	 * @param uv2s	A vector with a series of UV Objects representing the uv2 of a face.
 	 */
 
 	static public function addFaces(mesh:Mesh, v0s:Vector<Vertex>, v1s:Vector<Vertex>, v2s:Vector<Vertex>, uv0s:Vector<UV>, uv1s:Vector<UV>, uv2s:Vector<UV>, subGeomIndices:Vector<UInt>):Void {
@@ -251,11 +251,11 @@ class FaceHelper {
 
 	/**
 	 * Divides a face into 2 faces.
-	 * @param    mesh            The mesh holding the face to split in 2
-	 * @param    indice            The face index. The value represents the position in indices vector divided by 3.
+	 * @param	mesh			The mesh holding the face to split in 2
+	 * @param	indice			The face index. The value represents the position in indices vector divided by 3.
 	 * For instance, to edit face [1], the parameter indice will be 1. The x value of the v0 at position 9 in vertices vector is then extracted from vertices[indices[indice*3]]
-	 * @param    subGeomIndice    The index of the subgeometry holder this face.
-	 * @param    side            [optional] The side of the face to split in two. 0 , 1 or 2. (clockwize).
+	 * @param	subGeomIndice	The index of the subgeometry holder this face.
+	 * @param	side			[optional] The side of the face to split in two. 0 , 1 or 2. (clockwize).
 	 */
 
 	static public function splitFace(mesh:Mesh, indice:Int, subGeomIndice:Int, side:Int = 0):Void {
@@ -352,10 +352,10 @@ class FaceHelper {
 
 	/**
 	 * Divides a face into 3 faces.
-	 * @param    mesh            The mesh holding the face to split in 3.
-	 * @param    indice        The face index. The value represents the position in indices vector divided by 3.
+	 * @param	mesh			The mesh holding the face to split in 3.
+	 * @param	indice		The face index. The value represents the position in indices vector divided by 3.
 	 * For instance, to edit face [1], the parameter indice will be 1. The x value of the v0 at position 9 in vertices vector is then extracted from vertices[indices[indice*3]]
-	 * @param    subGeomIndice            The index of the subgeometry holder this face.
+	 * @param	subGeomIndice			The index of the subgeometry holder this face.
 	 */
 
 	static public function triFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
@@ -416,10 +416,10 @@ class FaceHelper {
 
 	/**
 	 * Divides a face into 4 faces.
-	 * @param    mesh            The mesh holding the face to split in 4.
-	 * @param    indice        The face index. The value represents the position in indices vector divided by 3.
+	 * @param	mesh			The mesh holding the face to split in 4.
+	 * @param	indice		The face index. The value represents the position in indices vector divided by 3.
 	 * For instance, to edit face [1], the parameter indice will be 1. The x value of the v0 at position 9 in vertices vector is then extracted from vertices[indices[indice*3]]
-	 * @param    subGeomIndice            The index of the subgeometry holder this face.
+	 * @param	subGeomIndice			The index of the subgeometry holder this face.
 	 */
 
 	static public function quarterFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
@@ -508,9 +508,9 @@ class FaceHelper {
 
 	/**
 	 * Divides all the faces of a mesh in 2 faces.
-	 * @param    mesh        The mesh holding the faces to split in 2
-	 * @param    face        The face index. The value represents the position in indices vector divided by 3.
-	 * @param    side        The side of the face to split in two. 0 , 1 or 2. (clockwize).
+	 * @param	mesh		The mesh holding the faces to split in 2
+	 * @param	face		The face index. The value represents the position in indices vector divided by 3.
+	 * @param	side		The side of the face to split in two. 0 , 1 or 2. (clockwize).
 	 * At this time of dev, splitFaces method will abort if a subgeometry reaches max buffer limit of 65k
 	 */
 
@@ -520,7 +520,7 @@ class FaceHelper {
 
 	/**
 	 * Divides all the faces of a mesh in 3 faces.
-	 * @param    mesh        The mesh holding the faces to split in 3
+	 * @param	mesh		The mesh holding the faces to split in 3
 	 * At this time of dev, triFaces method will abort if a subgeometry reaches max buffer limit of 65k
 	 */
 
@@ -530,7 +530,7 @@ class FaceHelper {
 
 	/**
 	 * Divides all the faces of a mesh in 4 faces.
-	 * @param    mesh        The mesh holding the faces to split in 4
+	 * @param	mesh		The mesh holding the faces to split in 4
 	 * At this time of dev, quarterFaces method will abort if a subgeometry reaches max buffer limit of 65k
 	 */
 

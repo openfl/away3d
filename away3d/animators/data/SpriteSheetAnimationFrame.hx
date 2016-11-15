@@ -30,11 +30,11 @@ class SpriteSheetAnimationFrame {
 	/**
 	 * Creates a new <code>SpriteSheetAnimationFrame</code> object.
 	 *
-	 * @param offsetU    The u-component offset of the spritesheet frame.
-	 * @param offsetV    The v-component offset of the spritesheet frame.
-	 * @param scaleU    The u-component scale of the spritesheet frame.
-	 * @param scaleV    The v-component scale of the spritesheet frame.
-	 * @param mapID    The v-component scale of the spritesheet frame.
+	 * @param offsetU	The u-component offset of the spritesheet frame.
+	 * @param offsetV	The v-component offset of the spritesheet frame.
+	 * @param scaleU	The u-component scale of the spritesheet frame.
+	 * @param scaleV	The v-component scale of the spritesheet frame.
+	 * @param mapID	The v-component scale of the spritesheet frame.
 	 */
 	public function new(offsetU:Float = 0, offsetV:Float = 0, scaleU:Float = 1, scaleV:Float = 1, mapID:Int = 0) {
 		this.offsetU = offsetU;

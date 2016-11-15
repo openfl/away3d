@@ -400,10 +400,10 @@ class CubeGeometry extends PrimitiveBase {
 		// the top-left UV coordinate for both planes, and then loop
 		// over the points, calculating the UVs from these numbers.
 		// When tile6 is true, the layout is as follows:
-		//       .-----.-----.-----. (1,1)
-		//       | Bot |  T  | Bak |
-		//       |-----+-----+-----|
-		//       |  L  |  F  |  R  |
+		//	   .-----.-----.-----. (1,1)
+		//	   | Bot |  T  | Bak |
+		//	   |-----+-----+-----|
+		//	   |  L  |  F  |  R  |
 		// (0,0)'-----'-----'-----'
 		uidx = target.UVOffset;
 

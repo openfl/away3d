@@ -33,16 +33,16 @@ class Elevation extends Mesh {
 	private var _uvDirty:Bool;
 	private var _subGeometry:SubGeometry;
 	/**
-	 * @param    material        MaterialBase. The Mesh (Elevation) material
-	 * @param    heightMap        BitmapData. The heightmap to generate the mesh from
-	 * @param    width                [optional] Number. The width of the mesh. Default is 1000.
-	 * @param    height            [optional] Number. The height of the mesh. Default is 100.
-	 * @param    depth            [optional] Number. The depth of the mesh. Default is 1000.
-	 * @param    segmentsW    [optional] uint. The subdivision of the mesh along the x axis. Default is 30.
-	 * @param    segmentsH        [optional] uint. The subdivision of the mesh along the y axis. Default is 30.
-	 * @param    maxElevation    [optional] uint. The maximum color value to be used. Allows canyon like elevations instead of mountainious. Default is 255.
-	 * @param    minElevation    [optional] uint. The minimum color value to be used. Default is 0.
-	 * @param    smoothMap    [optional] Boolean. If surface tracking is used, an internal smoothed version of the map is generated,
+	 * @param	material		MaterialBase. The Mesh (Elevation) material
+	 * @param	heightMap		BitmapData. The heightmap to generate the mesh from
+	 * @param	width				[optional] Number. The width of the mesh. Default is 1000.
+	 * @param	height			[optional] Number. The height of the mesh. Default is 100.
+	 * @param	depth			[optional] Number. The depth of the mesh. Default is 1000.
+	 * @param	segmentsW	[optional] uint. The subdivision of the mesh along the x axis. Default is 30.
+	 * @param	segmentsH		[optional] uint. The subdivision of the mesh along the y axis. Default is 30.
+	 * @param	maxElevation	[optional] uint. The maximum color value to be used. Allows canyon like elevations instead of mountainious. Default is 255.
+	 * @param	minElevation	[optional] uint. The minimum color value to be used. Default is 0.
+	 * @param	smoothMap	[optional] Boolean. If surface tracking is used, an internal smoothed version of the map is generated,
 	 * prevents irregular height readings if original map is blowed up or is having noise. Default is false.
 	 */
 	public function new(material:MaterialBase, heightMap:BitmapData, width:Float = 1000, height:Float = 100, depth:Float = 1000, segmentsW:Int = 30, segmentsH:Int = 30, maxElevation:Int = 255, minElevation:Int = 0, smoothMap:Bool = false) {

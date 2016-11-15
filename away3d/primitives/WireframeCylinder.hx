@@ -54,7 +54,7 @@ class WireframeCylinder extends WireframePrimitiveBase {
 		while (j <= _segmentsH) {
 			lastLayer[j] = new Vector<Vector3D>(_segmentsW + 1, true);
 			// for (s in 0..._segmentsW + 1)
-			//     lastLayer[j][s] = new Vector3D();
+			//	 lastLayer[j][s] = new Vector3D();
 
 			radius = _topRadius - ((j / _segmentsH) * (_topRadius - _bottomRadius));
 			z = -(_height / 2) + (j / _segmentsH * _height);

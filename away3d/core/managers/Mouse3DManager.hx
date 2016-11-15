@@ -253,24 +253,24 @@ class Mouse3DManager {
 		//why 
 		//todo
 		/*
-        var childCount:Int = container.numChildren;
-        var c:Int = 0;
-        var child:DisplayObject;
-        for (c in 0...childCount) {
-            child = container.getChildAt(c);
-            var keys:Iterator<View3D> = _view3Ds.keys();
-            for (v in keys) {
-                if (child == v) {
-                    _view3Ds.set(cast(child, View3D), _childDepth);
-                    _view3DLookup[_childDepth] = v;
-                    _childDepth++;
-                }
-            }
+		var childCount:Int = container.numChildren;
+		var c:Int = 0;
+		var child:DisplayObject;
+		for (c in 0...childCount) {
+			child = container.getChildAt(c);
+			var keys:Iterator<View3D> = _view3Ds.keys();
+			for (v in keys) {
+				if (child == v) {
+					_view3Ds.set(cast(child, View3D), _childDepth);
+					_view3DLookup[_childDepth] = v;
+					_childDepth++;
+				}
+			}
 
-            if (Std.is(child, DisplayObjectContainer)) {
-                traverseDisplayObjects(cast(child, DisplayObjectContainer));
-            }
-        }
+			if (Std.is(child, DisplayObjectContainer)) {
+				traverseDisplayObjects(cast(child, DisplayObjectContainer));
+			}
+		}
 		*/
 	}
 

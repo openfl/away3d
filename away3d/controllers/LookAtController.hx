@@ -31,8 +31,8 @@ class LookAtController extends ControllerBase {
 	}
 
 /**
-        * The vector representing the up direction of the target object.
-        */
+		* The vector representing the up direction of the target object.
+		*/
 
 	private function get_upAxis():Vector3D {
 		return _upAxis;

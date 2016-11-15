@@ -13,7 +13,7 @@ package away3d.textfield;
 
 /** A BitmapChar contains the information about one char of a bitmap font.  
  *  <em>You don't have to use this class directly in most cases. 
- *  The TextField class contains methods that handle bitmap fonts for you.</em>    
+ *  The TextField class contains methods that handle bitmap fonts for you.</em>	
  */ 
 class BitmapChar
 {

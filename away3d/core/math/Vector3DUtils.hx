@@ -12,9 +12,9 @@ class Vector3DUtils {
 	/**
 	 * Returns the angle in radians made between the 3d number obejct and the given <code>Vector3D</code> object.
 	 *
-	 * @param    w                The first 3d number object to use in the calculation.
-	 * @param    q                The first 3d number object to use in the calculation.
-	 * @return                    An angle in radians representing the angle between the two <code>Vector3D</code> objects.
+	 * @param	w				The first 3d number object to use in the calculation.
+	 * @param	q				The first 3d number object to use in the calculation.
+	 * @return					An angle in radians representing the angle between the two <code>Vector3D</code> objects.
 	 */
 
 	static public function getAngle(w:Vector3D, q:Vector3D):Float {
@@ -24,8 +24,8 @@ class Vector3DUtils {
 	/**
 	 * Returns a <code>Vector3D</code> object with the euler angles represented by the 3x3 matrix rotation of the given <code>Matrix3D</code> object.
 	 *
-	 * @param    m1    The 3d matrix object to use in the calculation.
-	 * @return        A 3d vector representing the euler angles extracted from the 3d matrix.
+	 * @param	m1	The 3d matrix object to use in the calculation.
+	 * @return		A 3d vector representing the euler angles extracted from the 3d matrix.
 	 */
 
 	static public function matrix2euler(m1:Matrix3D):Vector3D {
@@ -86,8 +86,8 @@ class Vector3DUtils {
 	/**
 	 * Returns a <code>Vector3D</code> object containing the euler angles represented by the given <code>Quaternion</code> object.
 	 *
-	 * @param    quaternion    The quaternion object to use in the calculation.
-	 * @return                A 3d vector representing the euler angles extracted from the quaternion.
+	 * @param	quaternion	The quaternion object to use in the calculation.
+	 * @return				A 3d vector representing the euler angles extracted from the quaternion.
 	 */
 
 	static public function quaternion2euler(quarternion:Quaternion):Vector3D {
@@ -119,8 +119,8 @@ class Vector3DUtils {
 	/**
 	 * Returns a <code>Vector3D</code> object containing the scale values represented by the given <code>Matrix3D</code> object.
 	 *
-	 * @param    m    The 3d matrix object to use in the calculation.
-	 * @return        A 3d vector representing the axis scale values extracted from the 3d matrix.
+	 * @param	m	The 3d matrix object to use in the calculation.
+	 * @return		A 3d vector representing the axis scale values extracted from the 3d matrix.
 	 */
 
 	static public function matrix2scale(m:Matrix3D):Vector3D {

@@ -21,8 +21,8 @@ class Explode {
 
 	/**
 	 *  Apply the explode code to a given ObjectContainer3D.
-	 * @param     object                ObjectContainer3D. The target Object3d object.
-	 * @param     keepNormals        Boolean. If the vertexNormals of the object are preserved. Default is true.
+	 * @param	 object				ObjectContainer3D. The target Object3d object.
+	 * @param	 keepNormals		Boolean. If the vertexNormals of the object are preserved. Default is true.
 	 */
 	public function applyToContainer(ctr:ObjectContainer3D, keepNormals:Bool = true):Void {
 		_keepNormals = keepNormals;

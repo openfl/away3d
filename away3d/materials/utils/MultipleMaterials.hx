@@ -20,12 +20,12 @@ class MultipleMaterials {
 	 * Creates a new <code>MultipleMaterials</code> object.
 	 * Class can hold up to 6 materials. Class is designed to work as typed object for materials setters in a multitude of classes such as Cube, LatheExtrude (with thickness) etc...
 	 *
-	 * @param    front:MaterialBase        [optional] The front material.
-	 * @param    back:MaterialBase        [optional] The back material.
-	 * @param    left:MaterialBase        [optional] The left material.
-	 * @param    right:MaterialBase        [optional] The right material.
-	 * @param    top:MaterialBase        [optional] The top material.
-	 * @param    down:MaterialBase        [optional] The down material.
+	 * @param	front:MaterialBase		[optional] The front material.
+	 * @param	back:MaterialBase		[optional] The back material.
+	 * @param	left:MaterialBase		[optional] The left material.
+	 * @param	right:MaterialBase		[optional] The right material.
+	 * @param	top:MaterialBase		[optional] The top material.
+	 * @param	down:MaterialBase		[optional] The down material.
 	 */
 	public function new(front:MaterialBase = null, back:MaterialBase = null, left:MaterialBase = null, right:MaterialBase = null, top:MaterialBase = null) {
 		_left = left;

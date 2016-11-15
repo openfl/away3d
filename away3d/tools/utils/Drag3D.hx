@@ -56,9 +56,9 @@ class Drag3D {
 // private var _inverse:Matrix3D = new Matrix3D();
 	/**
 	 * Class Drag3D allows to drag 3d objects with the mouse.<code>Drag3D</code>
-	 * @param    view            View3D. The view3d where the object to drag is or will be addChilded.
-	 * @param    object3d    [optional] ObjectContainer3D. The object3D to drag.
-	 * @param    plane            [optional] String. The plane to drag on.
+	 * @param	view			View3D. The view3d where the object to drag is or will be addChilded.
+	 * @param	object3d	[optional] ObjectContainer3D. The object3D to drag.
+	 * @param	plane			[optional] String. The plane to drag on.
 	 */
 	public function new(view:View3D, object3d:ObjectContainer3D = null, plane:String = PLANE_XZ) {
 		EPS = 0.000001;
@@ -83,7 +83,7 @@ class Drag3D {
 	/**
 	 * Defines if the target object3d plane will be aligned to object rotations or not
 	 *
-	 * @param    b        Boolean. Defines if the target object3d planes will be aligned to object rotations or not. Default is false.
+	 * @param	b		Boolean. Defines if the target object3d planes will be aligned to object rotations or not. Default is false.
 	 */
 	private function set_useRotations(b:Bool):Bool {
 		_useRotations = b;
@@ -141,7 +141,7 @@ class Drag3D {
 	/**
 	 * Displays the planes for debug/visual aid purposes
 	 *
-	 * @param    b                Boolean. Display the planes of the dragged object3d. Default is false;
+	 * @param	b				Boolean. Display the planes of the dragged object3d. Default is false;
 	 */
 	private function set_debug(b:Bool):Bool {
 		_debug = b;
@@ -189,7 +189,7 @@ class Drag3D {
 	/**
 	 * Changes the plane the object will be considered on.
 	 * If class debug is set to true. It display the selected plane for debug/visual aid purposes with a brighter color.
-	 * @param    planeid                String. Plane to drag the object3d on.
+	 * @param	planeid				String. Plane to drag the object3d on.
 	 * Possible strings are Drag3D.PLANE_XZ ("xz"), Drag3D.PLANE_XY ("xy") or Drag3D.PLANE_ZY ("zy"). Default is Drag3D.PLANE_XZ;
 	 */
 	private function set_plane(planeid:String):String {
@@ -204,10 +204,10 @@ class Drag3D {
 	/**
 	 * Returns the Vector3D where mouse to scene ray hits the plane set for the class.
 	 *
-	 *    @return Vector3D    The intersection Vector3D
+	 *	@return Vector3D	The intersection Vector3D
 	 *  If both x and y params are NaN, the class will return the hit from mouse coordinates
-	 *    @param     x        [optional] Number. x coordinate.
-	 *    @param     y        [optional] Number. y coordinate.
+	 *	@param	 x		[optional] Number. x coordinate.
+	 *	@param	 y		[optional] Number. y coordinate.
 	 */
 	public function getIntersect(?x:Float, ? y:Float):Vector3D {
 		intersect(x, y);
@@ -242,7 +242,7 @@ class Drag3D {
 	/**
 	 * Sets the target ObjectContainer3D to the class. The ObjectContainer3D that will be dragged
 	 *
-	 * @param    object3d        ObjectContainer3D. The ObjectContainer3D that will be dragged. Default is null. When null planes will be considered at 0,0,0 world
+	 * @param	object3d		ObjectContainer3D. The ObjectContainer3D that will be dragged. Default is null. When null planes will be considered at 0,0,0 world
 	 */
 	private function set_object3d(object3d:ObjectContainer3D):ObjectContainer3D {
 		_object3d = object3d;
@@ -253,7 +253,7 @@ class Drag3D {
 	/**
 	 * Defines planes as the position of a given ObjectContainer3D
 	 *
-	 * @param    object3d        ObjectContainer3D. The object3d that will be used to define the planes
+	 * @param	object3d		ObjectContainer3D. The object3d that will be used to define the planes
 	 */
 	private function set_planeObject3d(object3d:ObjectContainer3D):ObjectContainer3D {
 		updateNormalPlanes(object3d);
@@ -264,7 +264,7 @@ class Drag3D {
 	/**
 	 * Defines planes position by a postion Vector3D
 	 *
-	 * @param    pos        Vector3D. The Vector3D that will be used to define the planes position
+	 * @param	pos		Vector3D. The Vector3D that will be used to define the planes position
 	 */
 	private function set_planePosition(pos:Vector3D):Vector3D {
 		switch(_planeid) {

@@ -26,9 +26,9 @@ class ParticleFollowNode extends ParticleNodeBase {
 	/**
 	 * Creates a new <code>ParticleFollowNode</code>
 	 *
-	 * @param    [optional] usesPosition     Defines wehether the individual particle reacts to the position of the target.
-	 * @param    [optional] usesRotation     Defines wehether the individual particle reacts to the rotation of the target.
-	 * @param    [optional] smooth     Defines wehether the state calculate the interpolated value.
+	 * @param	[optional] usesPosition	 Defines wehether the individual particle reacts to the position of the target.
+	 * @param	[optional] usesRotation	 Defines wehether the individual particle reacts to the rotation of the target.
+	 * @param	[optional] smooth	 Defines wehether the state calculate the interpolated value.
 	 */
 	public function new(usesPosition:Bool = true, usesRotation:Bool = true, smooth:Bool = false) {
 		_stateClass = ParticleFollowState;

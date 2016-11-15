@@ -69,15 +69,15 @@ class ParticleColorNode extends ParticleNodeBase {
 	/**
 	 * Creates a new <code>ParticleColorNode</code>
 	 *
-	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
-	 * @param    [optional] usesMultiplier  Defines whether the node uses multiplier data in the shader for its color transformations. Defaults to true.
-	 * @param    [optional] usesOffset      Defines whether the node uses offset data in the shader for its color transformations. Defaults to true.
-	 * @param    [optional] usesCycle       Defines whether the node uses the <code>cycleDuration</code> property in the shader to calculate the period of the animation independent of particle duration. Defaults to false.
-	 * @param    [optional] usesPhase       Defines whether the node uses the <code>cyclePhase</code> property in the shader to calculate a starting offset to the cycle rotation of the particle. Defaults to false.
-	 * @param    [optional] startColor      Defines the default start color transform of the node, when in global mode.
-	 * @param    [optional] endColor        Defines the default end color transform of the node, when in global mode.
-	 * @param    [optional] cycleDuration   Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
-	 * @param    [optional] cyclePhase      Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
+	 * @param			   mode			Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
+	 * @param	[optional] usesMultiplier  Defines whether the node uses multiplier data in the shader for its color transformations. Defaults to true.
+	 * @param	[optional] usesOffset	  Defines whether the node uses offset data in the shader for its color transformations. Defaults to true.
+	 * @param	[optional] usesCycle	   Defines whether the node uses the <code>cycleDuration</code> property in the shader to calculate the period of the animation independent of particle duration. Defaults to false.
+	 * @param	[optional] usesPhase	   Defines whether the node uses the <code>cyclePhase</code> property in the shader to calculate a starting offset to the cycle rotation of the particle. Defaults to false.
+	 * @param	[optional] startColor	  Defines the default start color transform of the node, when in global mode.
+	 * @param	[optional] endColor		Defines the default end color transform of the node, when in global mode.
+	 * @param	[optional] cycleDuration   Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
+	 * @param	[optional] cyclePhase	  Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
 	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, startColor:ColorTransform = null, endColor:ColorTransform = null, cycleDuration:Float = 1, cyclePhase:Float = 0) {
 		_stateClass = ParticleColorState;

@@ -175,8 +175,8 @@ class MaterialPassBase extends EventDispatcher {
 	}
 	
 	/**
-     * Indicates the number of Anisotropic filtering samples to take for mipmapping
-     */
+	 * Indicates the number of Anisotropic filtering samples to take for mipmapping
+	 */
 	private function get_anisotropy():Anisotropy {
 		return _anisotropy;
 	}

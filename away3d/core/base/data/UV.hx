@@ -12,8 +12,8 @@ class UV {
 	/**
 	 * Creates a new <code>UV</code> object.
 	 *
-	 * @param    u        [optional]    The horizontal coordinate of the texture value. Defaults to 0.
-	 * @param    v        [optional]    The vertical coordinate of the texture value. Defaults to 0.
+	 * @param	u		[optional]	The horizontal coordinate of the texture value. Defaults to 0.
+	 * @param	v		[optional]	The vertical coordinate of the texture value. Defaults to 0.
 	 */
 	public function new(u:Float = 0, v:Float = 0) {
 		_u = u;

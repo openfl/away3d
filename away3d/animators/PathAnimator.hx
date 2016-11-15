@@ -46,12 +46,12 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Creates a new <code>PathAnimator</code>
 	 *
-	 * @param                 [optional] path                The QuadraticPath to animate onto.
-	 * @param                 [optional] target              An Object3D, the object to animate along the path. It can be Mesh, Camera, ObjectContainer3D...
-	 * @param                 [optional] offset              A Vector3D to define the target offset to its location on the path.
-	 * @param                 [optional] alignToPath         Defines if the object animated along the path is orientated to the path. Default is true.
-	 * @param                 [optional] lookAtTarget        An Object3D that the target will constantly look at during animation.
-	 * @param                 [optional] rotations           A Vector.&lt;Vector3D&gt; to define rotations per pathsegments. If PathExtrude is used to simulate the "road", use the very same rotations vector.
+	 * @param				 [optional] path				The QuadraticPath to animate onto.
+	 * @param				 [optional] target			  An Object3D, the object to animate along the path. It can be Mesh, Camera, ObjectContainer3D...
+	 * @param				 [optional] offset			  A Vector3D to define the target offset to its location on the path.
+	 * @param				 [optional] alignToPath		 Defines if the object animated along the path is orientated to the path. Default is true.
+	 * @param				 [optional] lookAtTarget		An Object3D that the target will constantly look at during animation.
+	 * @param				 [optional] rotations		   A Vector.&lt;Vector3D&gt; to define rotations per pathsegments. If PathExtrude is used to simulate the "road", use the very same rotations vector.
 	 */
 	public function new(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Bool = true, lookAtTarget:Object3D = null, rotations:Vector<Vector3D> = null) {
 		_index = 0;
@@ -94,7 +94,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Calculates the new position and set the object on the path accordingly
 	 *
-	 * @param t     A Number  from 0 to 1  (less than one to allow alignToPath)
+	 * @param t	 A Number  from 0 to 1  (less than one to allow alignToPath)
 	 */
 	public function updateProgress(t:Float):Void {
 		if (_path == null) throw new Error("No Path object set for this class");
@@ -160,8 +160,8 @@ class PathAnimator extends EventDispatcher {
 	 * Updates a position Vector3D on the path at a given time. Do not use this handler to animate, it's in there to add dummy's or place camera before or after
 	 * the animated object. Use the update() or the automatic tweened animateOnPath() handlers instead.
 	 *
-	 * @param t      Number. A Number  from 0 to 1
-	 * @param out    Vector3D. The Vector3D to update according to the "t" time parameter.
+	 * @param t	  Number. A Number  from 0 to 1
+	 * @param out	Vector3D. The Vector3D to update according to the "t" time parameter.
 	 */
 	public function getPositionOnPath(t:Float, out:Vector3D):Vector3D {
 		if (_path == null) throw new Error("No Path object set for this class");
@@ -175,9 +175,9 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Returns a position on the path according to duration/elapsed time. Duration variable must be set.
 	 *
-	 * @param        ms            Number. A number representing milliseconds.
-	 * @param        duration        Number. The total duration in milliseconds.
-	 * @param        out            [optional] Vector3D. A Vector3D that will be used to return the position. If none provided, method returns a new Vector3D with this data.
+	 * @param		ms			Number. A number representing milliseconds.
+	 * @param		duration		Number. The total duration in milliseconds.
+	 * @param		out			[optional] Vector3D. A Vector3D that will be used to return the position. If none provided, method returns a new Vector3D with this data.
 	 *
 	 * An example of use of this handler would be cases where a given "lap" must be done in a given amount of time and you would want to retrieve the "ideal" time
 	 * based on elapsed time since start of the race. By comparing actual progress to ideal time, you could extract their classement, calculate distance/time between competitors,
@@ -242,7 +242,7 @@ class PathAnimator extends EventDispatcher {
 
 	/**
 	 * returns the segment index that is used at a given time;
-	 * @param     t        [Number]. A Number between 0 and 1. If no params, actual pathanimator time segment index is returned.
+	 * @param	 t		[Number]. A Number between 0 and 1. If no params, actual pathanimator time segment index is returned.
 	 */
 	public function getTimeSegment(?t:Float = null):Float {
 		t = ((Math.isNaN(t))) ? _time : t;
@@ -308,7 +308,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Default method for adding a cycle event listener. Event fired when the time reaches 1.
 	 *
-	 * @param    listener        The listener function
+	 * @param	listener		The listener function
 	 */
 	public function addOnCycle(listener:Dynamic -> Void):Void {
 		_lastTime = 0;
@@ -319,7 +319,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Default method for removing a cycle event listener
 	 *
-	 * @param        listener        The listener function
+	 * @param		listener		The listener function
 	 */
 	public function removeOnCycle(listener:Dynamic -> Void):Void {
 		_bCycle = false;
@@ -329,7 +329,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Default method for adding a range event listener. Event fired when the time is &gt;= from and &lt;= to variables.
 	 *
-	 * @param        listener        The listener function
+	 * @param		listener		The listener function
 	 */
 	//note: If there are requests for this, it could be extended to more than one rangeEvent per path.
 	public function addOnRange(listener:Dynamic -> Void, __from:Float = 0, __to:Float = 0):Void {
@@ -342,7 +342,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Default method for removing a range event listener
 	 *
-	 * @param        listener        The listener function
+	 * @param		listener		The listener function
 	 */
 	public function removeOnRange(listener:Dynamic -> Void):Void {
 		_from = 0;
@@ -354,7 +354,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Default method for adding a segmentchange event listener. Event fired when the time pointer enters another PathSegment.
 	 *
-	 * @param        listener        The listener function
+	 * @param		listener		The listener function
 	 */
 	public function addOnChangeSegment(listener:Dynamic -> Void):Void {
 		_bSegment = true;
@@ -365,7 +365,7 @@ class PathAnimator extends EventDispatcher {
 	/**
 	 * Default method for removing a range event listener
 	 *
-	 * @param        listener        The listener function
+	 * @param		listener		The listener function
 	 */
 	public function removeOnChangeSegment(listener:Dynamic -> Void):Void {
 		_bSegment = false;

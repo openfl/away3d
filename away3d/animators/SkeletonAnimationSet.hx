@@ -56,7 +56,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
 			var j:Int = 0;
 			while (j < _jointsPerVertex) {
 				code += dot + " " + temp1 + ".x, " + src + ", vc[" + indices[j] + "+" + indexOffset0 + "]		\n" +
-				dot + " " + temp1 + ".y, " + src + ", vc[" + indices[j] + "+" + indexOffset1 + "]    	\n" +
+				dot + " " + temp1 + ".y, " + src + ", vc[" + indices[j] + "+" + indexOffset1 + "]		\n" +
 				dot + " " + temp1 + ".z, " + src + ", vc[" + indices[j] + "+" + indexOffset2 + "]		\n" +
 				"mov " + temp1 + ".w, " + src + ".w		\n" +
 				"mul " + temp1 + ", " + temp1 + ", " + weights[j] + "\n";

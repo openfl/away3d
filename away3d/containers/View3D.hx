@@ -103,7 +103,7 @@ class View3D extends Sprite
 	// {
 	//  var request:URLRequest = new URLRequest(_sourceURL);
 	//  try {
-	//      Lib.getURL(request, "_blank");
+	//	  Lib.getURL(request, "_blank");
 	//  } catch (error:Error) {
 			
 	//  }
@@ -127,7 +127,7 @@ class View3D extends Sprite
 	//  var url:String = Away3D.WEBSITE_URL;
 	//  var request:URLRequest = new URLRequest(url);
 	//  try {
-	//      Lib.getURL(request);
+	//	  Lib.getURL(request);
 	//  } catch (error:Error) {
 			
 	//  }
@@ -147,9 +147,9 @@ class View3D extends Sprite
 	// private function updateRightClickMenu():Void
 	// {
 	//  if (_rightClickMenuEnabled)
-	//      _ViewContextMenu.customItems = _sourceURL!="" ? [_menu0, _menu1] : [_menu0];
+	//	  _ViewContextMenu.customItems = _sourceURL!="" ? [_menu0, _menu1] : [_menu0];
 	//  else
-	//      _ViewContextMenu.customItems = [];
+	//	  _ViewContextMenu.customItems = [];
 		
 	//  //TODO Not sure atm why contextMenu is not avaialble - maybe not in OpenFL
 	//  //contextMenu = _ViewContextMenu;
@@ -260,9 +260,9 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Forces mouse-move related events even when the mouse hasn't moved. This allows mouseOver and mouseOut events
-     * etc to be triggered due to changes in the scene graph. Defaults to false.
-     */
+	 * Forces mouse-move related events even when the mouse hasn't moved. This allows mouseOver and mouseOut events
+	 * etc to be triggered due to changes in the scene graph. Defaults to false.
+	 */
 	public var forceMouseMove(get, set) : Bool;
 	private function get_forceMouseMove() : Bool
 	{
@@ -291,11 +291,11 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Used in a sharedContext. When true, clears the depth buffer prior to rendering this particular
-     * view to avoid depth sorting with lower layers. When false, the depth buffer is not cleared
-     * from the previous (lower) view's render so objects in this view may be occluded by the lower
-     * layer. Defaults to false.
-     */
+	 * Used in a sharedContext. When true, clears the depth buffer prior to rendering this particular
+	 * view to avoid depth sorting with lower layers. When false, the depth buffer is not cleared
+	 * from the previous (lower) view's render so objects in this view may be occluded by the lower
+	 * layer. Defaults to false.
+	 */
 	public var layeredView(get, set) : Bool;
 	private function get_layeredView() : Bool
 	{
@@ -351,8 +351,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The renderer used to draw the scene.
-     */
+	 * The renderer used to draw the scene.
+	 */
 	public var renderer(get, set) : RendererBase;
 	private function get_renderer() : RendererBase
 	{
@@ -378,8 +378,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The background color of the screen. This value is only used when clearAll is set to true.
-     */
+	 * The background color of the screen. This value is only used when clearAll is set to true.
+	 */
 	public var backgroundColor(get, set) : UInt;
 	private function get_backgroundColor() : UInt
 	{
@@ -414,8 +414,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The camera that's used to render the scene for this viewport
-     */
+	 * The camera that's used to render the scene for this viewport
+	 */
 	public var camera(get, set) : Camera3D;
 	private function get_camera() : Camera3D
 	{
@@ -423,8 +423,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Set camera that's used to render the scene for this viewport
-     */
+	 * Set camera that's used to render the scene for this viewport
+	 */
 	private function set_camera(camera:Camera3D) : Camera3D
 	{
 		_camera.removeEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
@@ -443,8 +443,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The scene that's used to render for this viewport
-     */
+	 * The scene that's used to render for this viewport
+	 */
 	public var scene(get, set) : Scene3D;
 	private function get_scene() : Scene3D
 	{
@@ -452,8 +452,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Set the scene that's used to render for this viewport
-     */
+	 * Set the scene that's used to render for this viewport
+	 */
 	private function set_scene(scene:Scene3D) : Scene3D
 	{
 		_scene.removeEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
@@ -467,8 +467,8 @@ class View3D extends Sprite
 	
 	// todo: probably temporary:
 	/**
-     * The amount of milliseconds the last render call took
-     */
+	 * The amount of milliseconds the last render call took
+	 */
 	public var deltaTime(get, null) : UInt;
 	private function get_deltaTime() : UInt
 	{
@@ -478,8 +478,8 @@ class View3D extends Sprite
 	#if flash
 
 	/**
-     * Not supported. Use filters3d instead.
-     */
+	 * Not supported. Use filters3d instead.
+	 */
 	@:getter(filters)
 	private function get_filters() : Array<BitmapFilter>
 	{
@@ -488,8 +488,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Not supported. Use filters3d instead.
-     */
+	 * Not supported. Use filters3d instead.
+	 */
 	@:setter(filters)
 	private function set_filters(value:Array<BitmapFilter>) : Void
 	{
@@ -497,9 +497,9 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The width of the viewport. When software rendering is used, this is limited by the
-     * platform to 2048 pixels.
-     */
+	 * The width of the viewport. When software rendering is used, this is limited by the
+	 * platform to 2048 pixels.
+	 */
 	@:getter(width)
 	private function get_width() : Float
 	{
@@ -534,9 +534,9 @@ class View3D extends Sprite
 	}
 
 	/**
-     * The height of the viewport. When software rendering is used, this is limited by the
-     * platform to 2048 pixels.
-     */
+	 * The height of the viewport. When software rendering is used, this is limited by the
+	 * platform to 2048 pixels.
+	 */
 	@:getter(height)
 	private function get_height() : Float
 	{
@@ -610,9 +610,9 @@ class View3D extends Sprite
 	#else
 	
 	/**
-     * The width of the viewport. When software rendering is used, this is limited by the
-     * platform to 2048 pixels.
-     */
+	 * The width of the viewport. When software rendering is used, this is limited by the
+	 * platform to 2048 pixels.
+	 */
 	override private function get_width() : Float
 	{
 		return _width;
@@ -646,9 +646,9 @@ class View3D extends Sprite
 	}
 
 	/**
-     * The height of the viewport. When software rendering is used, this is limited by the
-     * platform to 2048 pixels.
-     */
+	 * The height of the viewport. When software rendering is used, this is limited by the
+	 * platform to 2048 pixels.
+	 */
 	override private function get_height() : Float
 	{
 		return _height;
@@ -717,8 +717,8 @@ class View3D extends Sprite
 	#end	  
 	
 	/**
-     * The amount of anti-aliasing to be used.
-     */
+	 * The amount of anti-aliasing to be used.
+	 */
 	public var antiAlias(get, set) : UInt;
 	private function get_antiAlias() : UInt
 	{
@@ -735,8 +735,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The amount of faces that were pushed through the render pipeline on the last frame render.
-     */
+	 * The amount of faces that were pushed through the render pipeline on the last frame render.
+	 */
 	public var renderedFacesCount(get, null) : UInt;
 	private function get_renderedFacesCount() : UInt
 	{
@@ -744,9 +744,9 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
-     * to share the same Context3D object.
-     */
+	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
+	 * to share the same Context3D object.
+	 */
 	public var shareContext(get, set) : Bool;
 	private function get_shareContext() : Bool
 	{
@@ -764,8 +764,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Updates the backbuffer dimensions.
-     */
+	 * Updates the backbuffer dimensions.
+	 */
 	private function updateBackBuffer():Void
 	{
 		// No reason trying to configure back buffer if there is no context available.
@@ -800,9 +800,9 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Defines the enter frame/render method to be used for rendering across platforms
-     *
-     */
+	 * Defines the enter frame/render method to be used for rendering across platforms
+	 *
+	 */
 	public function setRenderCallback(func : Event -> Void) : Void {
 		if (_stage3DProxy != null)
 			_stage3DProxy.setRenderCallback(func);
@@ -812,12 +812,12 @@ class View3D extends Sprite
 
 
 	/**
-     * Defines a source url string that can be accessed though a View Source option in the right-click menu.
-     *
-     * Requires the stats panel to be enabled.
-     *
-     * @param    url        The url to the source files.
-     */
+	 * Defines a source url string that can be accessed though a View Source option in the right-click menu.
+	 *
+	 * Requires the stats panel to be enabled.
+	 *
+	 * @param	url		The url to the source files.
+	 */
 	// public function addSourceURL(url:String):Void
 	// {
 	//  _sourceURL = url;
@@ -826,8 +826,8 @@ class View3D extends Sprite
 	// }
 	
 	/**
-     * Renders the view.
-     */
+	 * Renders the view.
+	 */
 	public function render():Void
 	{
 		// stage3DProxy.context3D.clear(1,1, 0,1);
@@ -994,8 +994,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Disposes all memory occupied by the view. This will also dispose the renderer.
-     */
+	 * Disposes all memory occupied by the view. This will also dispose the renderer.
+	 */
 	public function dispose():Void
 	{
 		_stage3DProxy.removeEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
@@ -1026,11 +1026,11 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Calculates the projected position in screen space of the given scene position.
-     *
-     * @param point3d the position vector of the point to be projected.
-     * @return The absolute screen position of the given scene coordinates.
-     */
+	 * Calculates the projected position in screen space of the given scene position.
+	 *
+	 * @param point3d the position vector of the point to be projected.
+	 * @return The absolute screen position of the given scene coordinates.
+	 */
 	public function project(point3d:Vector3D):Vector3D
 	{
 		var v:Vector3D = _camera.project(point3d);
@@ -1042,30 +1042,30 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * Calculates the scene position of the given screen coordinates.
-     *
-     * eg. unproject(view.mouseX, view.mouseY, 500) returns the scene position of the mouse 500 units into the screen.
-     *
-     * @param sX The absolute x coordinate in 2D relative to View3D, representing the screenX coordinate.
-     * @param sY The absolute y coordinate in 2D relative to View3D, representing the screenY coordinate.
-     * @param sZ The distance into the screen, representing the screenZ coordinate.
-     * @return The scene position of the given screen coordinates.
-     */
+	 * Calculates the scene position of the given screen coordinates.
+	 *
+	 * eg. unproject(view.mouseX, view.mouseY, 500) returns the scene position of the mouse 500 units into the screen.
+	 *
+	 * @param sX The absolute x coordinate in 2D relative to View3D, representing the screenX coordinate.
+	 * @param sY The absolute y coordinate in 2D relative to View3D, representing the screenY coordinate.
+	 * @param sZ The distance into the screen, representing the screenZ coordinate.
+	 * @return The scene position of the given screen coordinates.
+	 */
 	public function unproject(sX:Float, sY:Float, sZ:Float):Vector3D
 	{
 		return _camera.unproject((sX*2 - _width)/_stage3DProxy.width, (sY*2 - _height)/_stage3DProxy.height, sZ);
 	}
 	
 	/**
-     * Calculates the ray in scene space from the camera to the given screen coordinates.
-     *
-     * eg. getRay(view.mouseX, view.mouseY, 500) returns the ray from the camera to a position under the mouse, 500 units into the screen.
-     *
-     * @param sX The absolute x coordinate in 2D relative to View3D, representing the screenX coordinate.
-     * @param sY The absolute y coordinate in 2D relative to View3D, representing the screenY coordinate.
-     * @param sZ The distance into the screen, representing the screenZ coordinate.
-     * @return The ray from the camera to the scene space position of the given screen coordinates.
-     */
+	 * Calculates the ray in scene space from the camera to the given screen coordinates.
+	 *
+	 * eg. getRay(view.mouseX, view.mouseY, 500) returns the ray from the camera to a position under the mouse, 500 units into the screen.
+	 *
+	 * @param sX The absolute x coordinate in 2D relative to View3D, representing the screenX coordinate.
+	 * @param sY The absolute y coordinate in 2D relative to View3D, representing the screenY coordinate.
+	 * @param sZ The distance into the screen, representing the screenZ coordinate.
+	 * @return The ray from the camera to the scene space position of the given screen coordinates.
+	 */
 	public function getRay(sX:Float, sY:Float, sZ:Float):Vector3D
 	{
 		return _camera.getRay((sX*2 - _width)/_width, (sY*2 - _height)/_height, sZ);
@@ -1098,11 +1098,11 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * The EntityCollector object that will collect all potentially visible entities in the partition tree.
-     *
-     * @see away3d.core.traverse.EntityCollector
-     * @private
-     */
+	 * The EntityCollector object that will collect all potentially visible entities in the partition tree.
+	 *
+	 * @see away3d.core.traverse.EntityCollector
+	 * @private
+	 */
 	public var entityCollector(get, null) : EntityCollector;
 	private function get_entityCollector() : EntityCollector
 	{
@@ -1116,8 +1116,8 @@ class View3D extends Sprite
 	}
 	
 	/**
-     * When added to the stage, retrieve a Stage3D instance
-     */
+	 * When added to the stage, retrieve a Stage3D instance
+	 */
 	private function onAddedToStage(event:Event):Void
 	{
 		if (_addedToStage)

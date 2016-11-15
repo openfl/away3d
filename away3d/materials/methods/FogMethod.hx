@@ -116,7 +116,7 @@ class FogMethod extends EffectMethodBase {
 		var temp2:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		var code:String = "";
 		vo.fragmentConstantsIndex = fogColor.index * 4;
-		code += "sub " + temp2 + ".w, " + _sharedRegisters.projectionFragment + ".z, " + fogData + ".x          \n" + "mul " + temp2 + ".w, " + temp2 + ".w, " + fogData + ".y					\n" + "sat " + temp2 + ".w, " + temp2 + ".w										\n" + "sub " + temp + ", " + fogColor + ", " + targetReg + "\n" + // (fogColor- col)
+		code += "sub " + temp2 + ".w, " + _sharedRegisters.projectionFragment + ".z, " + fogData + ".x		  \n" + "mul " + temp2 + ".w, " + temp2 + ".w, " + fogData + ".y					\n" + "sat " + temp2 + ".w, " + temp2 + ".w										\n" + "sub " + temp + ", " + fogColor + ", " + targetReg + "\n" + // (fogColor- col)
 
 		"mul " + temp + ", " + temp + ", " + temp2 + ".w					\n" + // (fogColor- col)*fogRatio
 

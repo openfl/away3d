@@ -28,8 +28,8 @@ class ParticleVelocityNode extends ParticleNodeBase {
 	/**
 	 * Creates a new <code>ParticleVelocityNode</code>
 	 *
-	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
-	 * @param    [optional] velocity        Defines the default velocity vector of the node, used when in global mode.
+	 * @param			   mode			Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
+	 * @param	[optional] velocity		Defines the default velocity vector of the node, used when in global mode.
 	 */
 	public function new(mode:Int, velocity:Vector3D = null) {
 		super("ParticleVelocity", mode, 3);

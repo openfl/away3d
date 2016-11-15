@@ -29,9 +29,9 @@ class Align {
 	/**
 	 * Aligns a series of meshes to their bounds along a given axis.
 	 *
-	 * @param     meshes        A Vector of Mesh objects
-	 * @param     axis        Represent the axis to align on.
-	 * @param     condition    Can be POSITIVE ('+') or NEGATIVE ('-'), Default is POSITIVE ('+')
+	 * @param	 meshes		A Vector of Mesh objects
+	 * @param	 axis		Represent the axis to align on.
+	 * @param	 condition	Can be POSITIVE ('+') or NEGATIVE ('-'), Default is POSITIVE ('+')
 	 */
 
 	static public function alignMeshes(meshes:Vector<Mesh>, axis:String, condition:String = POSITIVE):Void {
@@ -96,9 +96,9 @@ class Align {
 	 * "" align to a given axis on 0; This is the default.
 	 * "av" align to average of all values on a given axis
 	 *
-	 * @param     aObjs        Array. An array with elements with x,y and z public properties such as Mesh, Object3D, ObjectContainer3D,Vector3D or Vertex
-	 * @param     axis            String. Represent the axis to align on.
-	 * @param     condition    [optional]. String. Can be '+", "-", "av" or "", Default is "", aligns to given axis at 0.
+	 * @param	 aObjs		Array. An array with elements with x,y and z public properties such as Mesh, Object3D, ObjectContainer3D,Vector3D or Vertex
+	 * @param	 axis			String. Represent the axis to align on.
+	 * @param	 condition	[optional]. String. Can be '+", "-", "av" or "", Default is "", aligns to given axis at 0.
 	 */
 
 	static public function align(aObjs:Vector<Dynamic>, axis:String, condition:String = ""):Void {
@@ -125,8 +125,8 @@ class Align {
 	/**
 	 * Applies to array elements a distributed alignment according to axis, x,y or z. In case elements are meshes only their positions is affected. Method doesn't take in account their respective bounds
 	 * each element must have public x,y and z  properties
-	 * @param     aObjs        Array. An array with elements with x,y and z public properties such as Mesh, Object3D, ObjectContainer3D,Vector3D or Vertex
-	 * @param     axis            String. Represent the axis to align on.
+	 * @param	 aObjs		Array. An array with elements with x,y and z public properties such as Mesh, Object3D, ObjectContainer3D,Vector3D or Vertex
+	 * @param	 axis			String. Represent the axis to align on.
 	 */
 
 	static public function distribute(aObjs:Vector<Dynamic>, axis:String):Void {

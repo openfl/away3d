@@ -97,7 +97,7 @@ class SingleObjectDepthPass extends MaterialPassBase {
 	override public function getFragmentCode(animationCode:String):String {
 		var code:String = "";
 		// encode float -> rgba
-		code += "mul ft0, fc0, v0.z     \n" + "frc ft0, ft0           \n" + "mul ft1, ft0.yzww, fc1 \n" + "sub ft0, ft0, ft1      \n" + "mov oc, ft0            \n";
+		code += "mul ft0, fc0, v0.z	 \n" + "frc ft0, ft0		   \n" + "mul ft1, ft0.yzww, fc1 \n" + "sub ft0, ft0, ft1	  \n" + "mov oc, ft0			\n";
 		return code;
 	}
 

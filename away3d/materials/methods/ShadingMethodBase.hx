@@ -208,8 +208,8 @@ class ShadingMethodBase extends NamedAssetBase {
 	}
 
 	/*
-     * Set the smoothing dependent on smooth property and anisotropy property from the VO
-     */
+	 * Set the smoothing dependent on smooth property and anisotropy property from the VO
+	 */
 	private function getSmoothingFilter(smooth:Bool, anisotropy:Anisotropy) {
 		#if flash
 		return smooth ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST;

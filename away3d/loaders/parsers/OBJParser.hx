@@ -670,285 +670,285 @@ class OBJParser extends ParserBase {
 							case "map_Kd":
 								mapkd = parseMapKdString(trunk);
 								mapkd = StringTools.replace(mapkd, "\\", "/");
-                        }
-                    }
-                }
-            }
+						}
+					}
+				}
+			}
 
-            if (mapkd != "") {
+			if (mapkd != "") {
 
-                if (useSpecular) {
+				if (useSpecular) {
 
-                    basicSpecularMethod = new BasicSpecularMethod();
-                    basicSpecularMethod.specularColor = specularColor;
-                    basicSpecularMethod.specular = specular;
+					basicSpecularMethod = new BasicSpecularMethod();
+					basicSpecularMethod.specularColor = specularColor;
+					basicSpecularMethod.specular = specular;
 
-                    var specularData:SpecularData = new SpecularData();
-                    specularData.alpha = alpha;
-                    specularData.basicSpecularMethod = basicSpecularMethod;
-                    specularData.materialID = _lastMtlID;
+					var specularData:SpecularData = new SpecularData();
+					specularData.alpha = alpha;
+					specularData.basicSpecularMethod = basicSpecularMethod;
+					specularData.materialID = _lastMtlID;
 
-                    if (_materialSpecularData == null)
-                        _materialSpecularData = new Array<SpecularData>();
+					if (_materialSpecularData == null)
+						_materialSpecularData = new Array<SpecularData>();
 
-                    _materialSpecularData.push(specularData);
-                }
+					_materialSpecularData.push(specularData);
+				}
 
-                addDependency(_lastMtlID, new URLRequest(mapkd));
+				addDependency(_lastMtlID, new URLRequest(mapkd));
 
 
-            }
-            else if (useColor && !Math.isNaN(diffuseColor)) {
+			}
+			else if (useColor && !Math.isNaN(diffuseColor)) {
 
-                var lm:LoadedMaterial = new LoadedMaterial();
-                lm.materialID = _lastMtlID;
+				var lm:LoadedMaterial = new LoadedMaterial();
+				lm.materialID = _lastMtlID;
 
-                if (alpha == 0)
-                    Debug.trace("Warning: an alpha value of 0 was found in mtl color tag (Tr or d) ref:" + _lastMtlID + ", mesh(es) using it will be invisible!");
+				if (alpha == 0)
+					Debug.trace("Warning: an alpha value of 0 was found in mtl color tag (Tr or d) ref:" + _lastMtlID + ", mesh(es) using it will be invisible!");
 
-                var cm:MaterialBase;
-                if (materialMode < 2) {
-                    cm = new ColorMaterial(diffuseColor);
-                    cast(cm, ColorMaterial).alpha = alpha;
-                    cast(cm, ColorMaterial).ambientColor = ambientColor;
-                    cast(cm, ColorMaterial).repeat = true;
-                    if (useSpecular) {
-                        cast(cm, ColorMaterial).specularColor = specularColor;
-                        cast(cm, ColorMaterial).specular = specular;
-                    }
-                }
-                else {
-                    cm = new ColorMultiPassMaterial(diffuseColor);
-                    cast(cm, ColorMultiPassMaterial).ambientColor = ambientColor;
-                    cast(cm, ColorMultiPassMaterial).repeat = true;
-                    if (useSpecular) {
-                        cast(cm, ColorMultiPassMaterial).specularColor = specularColor;
-                        cast(cm, ColorMultiPassMaterial).specular = specular;
-                    }
-                }
+				var cm:MaterialBase;
+				if (materialMode < 2) {
+					cm = new ColorMaterial(diffuseColor);
+					cast(cm, ColorMaterial).alpha = alpha;
+					cast(cm, ColorMaterial).ambientColor = ambientColor;
+					cast(cm, ColorMaterial).repeat = true;
+					if (useSpecular) {
+						cast(cm, ColorMaterial).specularColor = specularColor;
+						cast(cm, ColorMaterial).specular = specular;
+					}
+				}
+				else {
+					cm = new ColorMultiPassMaterial(diffuseColor);
+					cast(cm, ColorMultiPassMaterial).ambientColor = ambientColor;
+					cast(cm, ColorMultiPassMaterial).repeat = true;
+					if (useSpecular) {
+						cast(cm, ColorMultiPassMaterial).specularColor = specularColor;
+						cast(cm, ColorMultiPassMaterial).specular = specular;
+					}
+				}
 
-                lm.cm = cm;
-                _materialLoaded.push(lm);
+				lm.cm = cm;
+				_materialLoaded.push(lm);
 
-                if (_meshes.length > 0)
-                    applyMaterial(lm);
+				if (_meshes.length > 0)
+					applyMaterial(lm);
 
-            }
-        }
+			}
+		}
 
-        _mtlLibLoaded = true;
-    }
+		_mtlLibLoaded = true;
+	}
 
-    private function toColor(r:String, g:String, b:String):UInt {
-        return Std.int(Std.parseFloat(r) * 255) << 16 | Std.int(Std.parseFloat(g) * 255) << 8 | Std.int(Std.parseFloat(b) * 255);
-    }
+	private function toColor(r:String, g:String, b:String):UInt {
+		return Std.int(Std.parseFloat(r) * 255) << 16 | Std.int(Std.parseFloat(g) * 255) << 8 | Std.int(Std.parseFloat(b) * 255);
+	}
 
-    private function parseMapKdString(trunk:Array<String>):String {
-        var url:String = "";
-        var i:Int;
-        var breakflag:Bool = false;
+	private function parseMapKdString(trunk:Array<String>):String {
+		var url:String = "";
+		var i:Int;
+		var breakflag:Bool = false;
 
-        i = 1;
-        while (i < trunk.length) {
-            switch (trunk[i])
-            {
-                case "-blendu", "-blendv", "-cc", "-clamp", "-texres":
-                    i += 2; //Skip ahead 1 attribute
-                case "-mm":
-                    i += 3; //Skip ahead 2 attributes
-                case "-o", "-s", "-t":
-                    i += 4; //Skip ahead 3 attributes
-                    continue;
-                default:
-                    breakflag = true;
-            }
+		i = 1;
+		while (i < trunk.length) {
+			switch (trunk[i])
+			{
+				case "-blendu", "-blendv", "-cc", "-clamp", "-texres":
+					i += 2; //Skip ahead 1 attribute
+				case "-mm":
+					i += 3; //Skip ahead 2 attributes
+				case "-o", "-s", "-t":
+					i += 4; //Skip ahead 3 attributes
+					continue;
+				default:
+					breakflag = true;
+			}
 
-            if (breakflag)
-                break;
-        }
+			if (breakflag)
+				break;
+		}
 
-        //Reconstruct URL/filename
-        while (i < trunk.length) {
-            url += trunk[i];
-            url += " ";
-            i++;
-        }
+		//Reconstruct URL/filename
+		while (i < trunk.length) {
+			url += trunk[i];
+			url += " ";
+			i++;
+		}
 
-        //Remove the extraneous space and/or newline from the right side
-        url = ~/\s+$/.replace(url, "");
+		//Remove the extraneous space and/or newline from the right side
+		url = ~/\s+$/.replace(url, "");
 
-        return url;
-    }
+		return url;
+	}
 
-    private function loadMtl(mtlurl:String):Void {
-        // Add raw-data dependency to queue and load dependencies now,
-        // which will pause the parsing in the meantime.
-        addDependency('mtl', new URLRequest(mtlurl), true);
-        pauseAndRetrieveDependencies();
-    }
+	private function loadMtl(mtlurl:String):Void {
+		// Add raw-data dependency to queue and load dependencies now,
+		// which will pause the parsing in the meantime.
+		addDependency('mtl', new URLRequest(mtlurl), true);
+		pauseAndRetrieveDependencies();
+	}
 
-    private function applyMaterial(lm:LoadedMaterial):Void {
-        var decomposeID:Array<String> = null;
-        var mesh:Mesh = null;
-        var mat:MaterialBase = null;
-        var specularData:SpecularData = null;
+	private function applyMaterial(lm:LoadedMaterial):Void {
+		var decomposeID:Array<String> = null;
+		var mesh:Mesh = null;
+		var mat:MaterialBase = null;
+		var specularData:SpecularData = null;
 
-        var i:Int = 0;
-        while (i < _meshes.length) {
-            mesh = _meshes[i];
-            decomposeID = mesh.material.name.split("~");
+		var i:Int = 0;
+		while (i < _meshes.length) {
+			mesh = _meshes[i];
+			decomposeID = mesh.material.name.split("~");
 
-            if (decomposeID[0] == lm.materialID) {
-                if (lm.cm != null) {
-                    if (mesh.material != null)
-                        mesh.material = null;
-                    mesh.material = lm.cm;
+			if (decomposeID[0] == lm.materialID) {
+				if (lm.cm != null) {
+					if (mesh.material != null)
+						mesh.material = null;
+					mesh.material = lm.cm;
 
-                }
-                else if (lm.texture != null) {
-                    if (materialMode < 2) {
-                        // if materialMode is 0 or 1, we create a SinglePass
-                        mat = cast(mesh.material, TextureMaterial);
-                        cast(mat, TextureMaterial).texture = lm.texture;
-                        cast(mat, TextureMaterial).ambientColor = lm.ambientColor;
-                        cast(mat, TextureMaterial).alpha = lm.alpha;
-                        cast(mat, TextureMaterial).repeat = true;
+				}
+				else if (lm.texture != null) {
+					if (materialMode < 2) {
+						// if materialMode is 0 or 1, we create a SinglePass
+						mat = cast(mesh.material, TextureMaterial);
+						cast(mat, TextureMaterial).texture = lm.texture;
+						cast(mat, TextureMaterial).ambientColor = lm.ambientColor;
+						cast(mat, TextureMaterial).alpha = lm.alpha;
+						cast(mat, TextureMaterial).repeat = true;
 
-                        if (lm.specularMethod != null) {
-                            // By setting the specularMethod property to null before assigning
-                            // the actual method instance, we avoid having the properties of
-                            // the new method being overridden with the settings from the old
-                            // one, which is default behavior of the setter.
-                            cast(mat, TextureMaterial).specularMethod = null;
-                            cast(mat, TextureMaterial).specularMethod = lm.specularMethod;
-                        }
-                        else if (_materialSpecularData != null) {
-                            for (j in 0..._materialSpecularData.length) {
-                                specularData = _materialSpecularData[j];
-                                if (specularData.materialID == lm.materialID) {
-                                    cast(mat, TextureMaterial).specularMethod = null; // Prevent property overwrite (see above)
-                                    cast(mat, TextureMaterial).specularMethod = specularData.basicSpecularMethod;
-                                    cast(mat, TextureMaterial).ambientColor = specularData.ambientColor;
-                                    cast(mat, TextureMaterial).alpha = specularData.alpha;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        //if materialMode==2 this is a MultiPassTexture
-                        mat = cast(mesh.material, TextureMultiPassMaterial);
-                        cast(mat, TextureMultiPassMaterial).texture = lm.texture;
-                        cast(mat, TextureMultiPassMaterial).ambientColor = lm.ambientColor;
-                        cast(mat, TextureMultiPassMaterial).repeat = true;
+						if (lm.specularMethod != null) {
+							// By setting the specularMethod property to null before assigning
+							// the actual method instance, we avoid having the properties of
+							// the new method being overridden with the settings from the old
+							// one, which is default behavior of the setter.
+							cast(mat, TextureMaterial).specularMethod = null;
+							cast(mat, TextureMaterial).specularMethod = lm.specularMethod;
+						}
+						else if (_materialSpecularData != null) {
+							for (j in 0..._materialSpecularData.length) {
+								specularData = _materialSpecularData[j];
+								if (specularData.materialID == lm.materialID) {
+									cast(mat, TextureMaterial).specularMethod = null; // Prevent property overwrite (see above)
+									cast(mat, TextureMaterial).specularMethod = specularData.basicSpecularMethod;
+									cast(mat, TextureMaterial).ambientColor = specularData.ambientColor;
+									cast(mat, TextureMaterial).alpha = specularData.alpha;
+									break;
+								}
+							}
+						}
+					}
+					else {
+						//if materialMode==2 this is a MultiPassTexture
+						mat = cast(mesh.material, TextureMultiPassMaterial);
+						cast(mat, TextureMultiPassMaterial).texture = lm.texture;
+						cast(mat, TextureMultiPassMaterial).ambientColor = lm.ambientColor;
+						cast(mat, TextureMultiPassMaterial).repeat = true;
 
-                        if (lm.specularMethod != null) {
-                            // By setting the specularMethod property to null before assigning
-                            // the actual method instance, we avoid having the properties of
-                            // the new method being overridden with the settings from the old
-                            // one, which is default behavior of the setter.
-                            cast(mat, TextureMultiPassMaterial).specularMethod = null;
-                            cast(mat, TextureMultiPassMaterial).specularMethod = lm.specularMethod;
-                        }
-                        else if (_materialSpecularData != null) {
-                            for (j in 0..._materialSpecularData.length) {
-                                specularData = _materialSpecularData[j];
-                                if (specularData.materialID == lm.materialID) {
-                                    cast(mat, TextureMultiPassMaterial).specularMethod = null; // Prevent property overwrite (see above)
-                                    cast(mat, TextureMultiPassMaterial).specularMethod = specularData.basicSpecularMethod;
-                                    cast(mat, TextureMultiPassMaterial).ambientColor = specularData.ambientColor;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+						if (lm.specularMethod != null) {
+							// By setting the specularMethod property to null before assigning
+							// the actual method instance, we avoid having the properties of
+							// the new method being overridden with the settings from the old
+							// one, which is default behavior of the setter.
+							cast(mat, TextureMultiPassMaterial).specularMethod = null;
+							cast(mat, TextureMultiPassMaterial).specularMethod = lm.specularMethod;
+						}
+						else if (_materialSpecularData != null) {
+							for (j in 0..._materialSpecularData.length) {
+								specularData = _materialSpecularData[j];
+								if (specularData.materialID == lm.materialID) {
+									cast(mat, TextureMultiPassMaterial).specularMethod = null; // Prevent property overwrite (see above)
+									cast(mat, TextureMultiPassMaterial).specularMethod = specularData.basicSpecularMethod;
+									cast(mat, TextureMultiPassMaterial).ambientColor = specularData.ambientColor;
+									break;
+								}
+							}
+						}
+					}
+				}
 
-                mesh.material.name = decomposeID[1] != "" ? decomposeID[1] : decomposeID[0];
-                _meshes.splice(i, 1);
-                --i;
-            }
+				mesh.material.name = decomposeID[1] != "" ? decomposeID[1] : decomposeID[0];
+				_meshes.splice(i, 1);
+				--i;
+			}
 
-            i++;
-        }
+			i++;
+		}
 
-        if (lm.cm != null || mat != null) {
-            var m:MaterialBase = lm.cm != null ? lm.cm : mat;
-            finalizeAsset(m);
-        }
-    }
+		if (lm.cm != null || mat != null) {
+			var m:MaterialBase = lm.cm != null ? lm.cm : mat;
+			finalizeAsset(m);
+		}
+	}
 
-    private function applyMaterials():Void {
-        if (_materialLoaded.length == 0)
-            return;
+	private function applyMaterials():Void {
+		if (_materialLoaded.length == 0)
+			return;
 
-        for (i in 0..._materialLoaded.length)
-            applyMaterial(_materialLoaded[i]);
-    }
+		for (i in 0..._materialLoaded.length)
+			applyMaterial(_materialLoaded[i]);
+	}
 }
 
 class ObjectGroup {
-    public var name:String;
-    public var groups:Array<Group>;
+	public var name:String;
+	public var groups:Array<Group>;
 
-    public function new() {
-        groups = new Array<Group>();
-    }
+	public function new() {
+		groups = new Array<Group>();
+	}
 }
 
 class Group {
-    public var name:String;
-    public var materialID:String;
-    public var materialGroups:Array<MaterialGroup>;
+	public var name:String;
+	public var materialID:String;
+	public var materialGroups:Array<MaterialGroup>;
 
-    public function new() {
-        materialGroups = new Array<MaterialGroup>();
-    }
+	public function new() {
+		materialGroups = new Array<MaterialGroup>();
+	}
 }
 
 class MaterialGroup {
-    public var url:String;
-    public var faces:Array<FaceData>;
+	public var url:String;
+	public var faces:Array<FaceData>;
 
-    public function new() {
-        faces = new Array<FaceData>();
-    }
+	public function new() {
+		faces = new Array<FaceData>();
+	}
 }
 
 class SpecularData {
-    public var materialID:String;
-    public var basicSpecularMethod:BasicSpecularMethod;
-    public var ambientColor:UInt = 0xFFFFFF;
-    public var alpha:Float = 1;
+	public var materialID:String;
+	public var basicSpecularMethod:BasicSpecularMethod;
+	public var ambientColor:UInt = 0xFFFFFF;
+	public var alpha:Float = 1;
 
-    public function new() {
-    }
+	public function new() {
+	}
 }
 
 class LoadedMaterial {
 
-    public var materialID:String;
-    public var texture:Texture2DBase;
-    public var cm:MaterialBase;
-    public var specularMethod:BasicSpecularMethod;
-    public var ambientColor:UInt = 0xFFFFFF;
-    public var alpha:Float = 1;
+	public var materialID:String;
+	public var texture:Texture2DBase;
+	public var cm:MaterialBase;
+	public var specularMethod:BasicSpecularMethod;
+	public var ambientColor:UInt = 0xFFFFFF;
+	public var alpha:Float = 1;
 
-    public function new() {
-    }
+	public function new() {
+	}
 }
 
 class FaceData {
-    public var vertexIndices:Vector<UInt>;
-    public var uvIndices:Vector<UInt>;
-    public var normalIndices:Vector<UInt>;
-    public var indexIds:Vector<String>; // used for real index lookups
+	public var vertexIndices:Vector<UInt>;
+	public var uvIndices:Vector<UInt>;
+	public var normalIndices:Vector<UInt>;
+	public var indexIds:Vector<String>; // used for real index lookups
 
-    public function new() {
-        vertexIndices = new Vector<UInt>();
-        uvIndices = new Vector<UInt>();
-        normalIndices = new Vector<UInt>();
-        indexIds = new Vector<String>();
-    }
+	public function new() {
+		vertexIndices = new Vector<UInt>();
+		uvIndices = new Vector<UInt>();
+		normalIndices = new Vector<UInt>();
+		indexIds = new Vector<String>();
+	}
 }
 

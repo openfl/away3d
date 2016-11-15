@@ -67,17 +67,17 @@ class LoaderEvent extends Event {
 	 * @inheritDoc
 	 */
 /*
-    override public function preventDefault():Void {
-        _isDefaultPrevented = true;
-    }
+	override public function preventDefault():Void {
+		_isDefaultPrevented = true;
+	}
 */
 	/**
 	 * @inheritDoc
 	 */
 /*
-    override public function isDefaultPrevented():Bool {
-        return _isDefaultPrevented;
-    }
+	override public function isDefaultPrevented():Bool {
+		return _isDefaultPrevented;
+	}
 */
 	/**
 	 * Clones the current event.

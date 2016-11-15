@@ -1,7 +1,7 @@
 /**
  * Extended camera used to hover round a specified target object.
  *
- * @see    away3d.containers.View3D
+ * @see	away3d.containers.View3D
  */
 package away3d.controllers;
 
@@ -42,8 +42,8 @@ class HoverController extends LookAtController {
 	 *
 	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
 	 *
-	 * @see    #tiltAngle
-	 * @see    #panAngle
+	 * @see	#tiltAngle
+	 * @see	#panAngle
 	 */
 	private function get_steps():Int {
 		return _steps;
@@ -106,7 +106,7 @@ class HoverController extends LookAtController {
 	/**
 	 * Minimum bounds for the <code>panAngle</code>. Defaults to -Infinity.
 	 *
-	 * @see    #panAngle
+	 * @see	#panAngle
 	 */
 	private function get_minPanAngle():Float {
 		return _minPanAngle;
@@ -122,7 +122,7 @@ class HoverController extends LookAtController {
 	/**
 	 * Maximum bounds for the <code>panAngle</code>. Defaults to Infinity.
 	 *
-	 * @see    #panAngle
+	 * @see	#panAngle
 	 */
 	private function get_maxPanAngle():Float {
 		return _maxPanAngle;
@@ -138,7 +138,7 @@ class HoverController extends LookAtController {
 	/**
 	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
 	 *
-	 * @see    #tiltAngle
+	 * @see	#tiltAngle
 	 */
 	private function get_minTiltAngle():Float {
 		return _minTiltAngle;
@@ -154,7 +154,7 @@ class HoverController extends LookAtController {
 	/**
 	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
 	 *
-	 * @see    #tiltAngle
+	 * @see	#tiltAngle
 	 */
 	private function get_maxTiltAngle():Float {
 		return _maxTiltAngle;
@@ -170,7 +170,7 @@ class HoverController extends LookAtController {
 	/**
 	 * Fractional difference in distance between the horizontal camera orientation and vertical camera orientation. Defaults to 2.
 	 *
-	 * @see    #distance
+	 * @see	#distance
 	 */
 	private function get_yFactor():Float {
 		return _yFactor;
@@ -237,9 +237,9 @@ class HoverController extends LookAtController {
 	 *
 	 * @param interpolate   If the update to a target pan- or tiltAngle is interpolated. Default is true.
 	 *
-	 * @see    #tiltAngle
-	 * @see    #panAngle
-	 * @see    #steps
+	 * @see	#tiltAngle
+	 * @see	#panAngle
+	 * @see	#steps
 	 */
 	override public function update(interpolate:Bool = true):Void {
 		if (_tiltAngle != _currentTiltAngle || _panAngle != _currentPanAngle) {

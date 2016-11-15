@@ -85,9 +85,9 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
 	/**
 	 * Creates a new <code>ParticleAnimationSet</code>
 	 *
-	 * @param    [optional] usesDuration    Defines whether the animation set uses the <code>duration</code> data in its static properties function to determine how long a particle is visible for. Defaults to false.
-	 * @param    [optional] usesLooping     Defines whether the animation set uses a looping timeframe for each particle determined by the <code>startTime</code>, <code>duration</code> and <code>delay</code> data in its static properties function. Defaults to false. Requires <code>usesDuration</code> to be true.
-	 * @param    [optional] usesDelay       Defines whether the animation set uses the <code>delay</code> data in its static properties function to determine how long a particle is hidden for. Defaults to false. Requires <code>usesLooping</code> to be true.
+	 * @param	[optional] usesDuration	Defines whether the animation set uses the <code>duration</code> data in its static properties function to determine how long a particle is visible for. Defaults to false.
+	 * @param	[optional] usesLooping	 Defines whether the animation set uses a looping timeframe for each particle determined by the <code>startTime</code>, <code>duration</code> and <code>delay</code> data in its static properties function. Defaults to false. Requires <code>usesDuration</code> to be true.
+	 * @param	[optional] usesDelay	   Defines whether the animation set uses the <code>delay</code> data in its static properties function to determine how long a particle is hidden for. Defaults to false. Requires <code>usesLooping</code> to be true.
 	 */
 	public function new(usesDuration:Bool = false, usesLooping:Bool = false, usesDelay:Bool = false) {
 		_animationSubGeometries = new ObjectMap<ISubGeometry, AnimationSubGeometry>();
@@ -155,7 +155,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
 
 	/**
 	 * @inheritDoc
-     */
+	 */
 	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String {
 		
 		//grab animationRegisterCache from the materialpassbase or create a new one if the first time

@@ -324,8 +324,8 @@ class CompiledPass extends MaterialPassBase {
 	}
 
 	/**
-     * @inheritDoc
-     */
+	 * @inheritDoc
+	 */
 	override private function set_anisotropy(value:Anisotropy):Anisotropy {
 		if (_anisotropy == value) return value;
 		super.anisotropy = value;

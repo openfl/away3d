@@ -87,8 +87,8 @@ class DAEParser extends ParserBase {
 	private var _defaultColorMaterialMulti:ColorMultiPassMaterial;
 
 	/**
-     * @param    configFlags    Bitfield to configure the parser. @see DAEParser.CONFIG_USE_GPU etc.
-     */
+	 * @param	configFlags	Bitfield to configure the parser. @see DAEParser.CONFIG_USE_GPU etc.
+	 */
 	public function new(configFlags:Int = 0) {
 		_parseState = DAEParserState.LOAD_XML;
 		_configFlags = configFlags > 0 ? configFlags : CONFIG_DEFAULT;
@@ -115,20 +115,20 @@ class DAEParser extends ParserBase {
 	}
 
 	/**
-     * Indicates whether or not a given file extension is supported by the parser.
-     * @param extension The file extension of a potential file to be parsed.
-     * @return Whether or not the given file type is supported.
-     */
+	 * Indicates whether or not a given file extension is supported by the parser.
+	 * @param extension The file extension of a potential file to be parsed.
+	 * @return Whether or not the given file type is supported.
+	 */
 	public static function supportsType(extension:String):Bool {
 		extension = extension.toLowerCase();
 		return extension == "dae";
 	}
 
 	/**
-     * Tests whether a data block can be parsed by the parser.
-     * @param data The data block to potentially be parsed.
-     * @return Whether or not the given data is supported.
-     */
+	 * Tests whether a data block can be parsed by the parser.
+	 * @param data The data block to potentially be parsed.
+	 * @return Whether or not the given data is supported.
+	 */
 	public static function supportsData(data:Dynamic):Bool {
 		var text:String = Std.is(data, String) ? data : (Std.is(data, ByteArrayData) ? data.readUTFBytes(data.length) : "");
 		if (text.indexOf("COLLADA") != -1 ||
@@ -662,7 +662,7 @@ class DAEParser extends ParserBase {
 					if (effects.length == geometry.subGeometries.length) {
 						for (j in 0...mesh.subMeshes.length) {
 							// for( ff in Reflect.fields(effects[j].material) )
-							//     trace("  effects[j].material." + ff + " = " + Reflect.field(effects[j].material, ff));
+							//	 trace("  effects[j].material." + ff + " = " + Reflect.field(effects[j].material, ff));
 
 							mesh.subMeshes[j].material = effects[j].material;
 						}

@@ -13,13 +13,13 @@ package away3d.textfield;
 class CleanMasterString
 {
 	/** Replaces a string's "master string" — the string it was built from —
-     *  with a single character to save memory. Find more information about this AS3 oddity
-     *  <a href="http://jacksondunstan.com/articles/2260">here</a>.
-     *
-     *  @param str String to clean
-     *  @return The input string, but with a master string only one character larger than it.
-     *  @author Jackson Dunstan, JacksonDunstan.com
-     */
+	 *  with a single character to save memory. Find more information about this AS3 oddity
+	 *  <a href="http://jacksondunstan.com/articles/2260">here</a>.
+	 *
+	 *  @param str String to clean
+	 *  @return The input string, but with a master string only one character larger than it.
+	 *  @author Jackson Dunstan, JacksonDunstan.com
+	 */
 	public function new()
 	{
 		

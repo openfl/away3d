@@ -604,7 +604,7 @@ class AWD2Parser extends ParserBase {
 				trace("  (!)(!)(!) Error while reading AWDBlock ID " + _cur_block_id + " = skip to next block");
 				if (block.errorMessages != null) {
 					while (msgCnt < block.errorMessages.length) {
-						trace("        (!) Error: " + block.errorMessages[msgCnt] + " (!)");
+						trace("		(!) Error: " + block.errorMessages[msgCnt] + " (!)");
 						msgCnt++;
 					}
 				}
@@ -2331,11 +2331,11 @@ class AWD2Parser extends ParserBase {
 	private function parseMetaData(blockID:UInt):Void {
 		var props:AWDProperties = parseProperties({"1": UINT32, "2": AWDSTRING, "3": AWDSTRING, "4": AWDSTRING, "5": AWDSTRING});
 		if (_debug) {
-			trace("Parsed a MetaDataBlock: TimeStamp         = " + props.getValue(1, 0));
-			trace("                        EncoderName       = " + props.getValue(2, "unknown"));
-			trace("                        EncoderVersion    = " + props.getValue(3, "unknown"));
-			trace("                        GeneratorName     = " + props.getValue(4, "unknown"));
-			trace("                        GeneratorVersion  = " + props.getValue(5, "unknown"));
+			trace("Parsed a MetaDataBlock: TimeStamp		 = " + props.getValue(1, 0));
+			trace("						EncoderName	   = " + props.getValue(2, "unknown"));
+			trace("						EncoderVersion	= " + props.getValue(3, "unknown"));
+			trace("						GeneratorName	 = " + props.getValue(4, "unknown"));
+			trace("						GeneratorVersion  = " + props.getValue(5, "unknown"));
 		}
 
 	}
@@ -2443,7 +2443,7 @@ class AWD2Parser extends ParserBase {
 				attr_len = _newBlockBytes.readUnsignedInt();
 
 				if ((_newBlockBytes.position + attr_len) > list_end) {
-					trace("           Error in reading attribute # " + attibuteCnt + " = skipped to end of attribute-list");
+					trace("		   Error in reading attribute # " + attibuteCnt + " = skipped to end of attribute-list");
 					_newBlockBytes.position = list_end;
 					return attributes;
 				}

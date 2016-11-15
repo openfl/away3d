@@ -82,20 +82,20 @@ class LinearExtrude extends Mesh {
 	/**
 	 *  Class LinearExtrusion generates walls like meshes with or without thickness from a series of Vector3D's
 	 *
-	 *@param        material                        [optional] MaterialBase. The LatheExtrude (Mesh) material. Optional in constructor, material must be set before LatheExtrude object is render.
-	 * @param        vectors                        [optional] Vector.&lt;Vector3D&gt;. A series of Vector3D's representing the profile information to be repeated/rotated around a given axis.
-	 * @param        axis                            [optional] String. The axis to elevate along: X_AXIS, Y_AXIS or Z_AXIS. Default is LinearExtrusion.Y_AXIS.
-	 * @param        offset                            [optional] Number. The elevation offset along the defined axis.
-	 * @param        subdivision                    [optional] uint. The subdivision of the geometry between 2 vector3D. Default is 32.
-	 * @param        coverAll                        [optional] Boolean. The way the uv mapping is spreaded across the shape. True covers an entire side of the geometry while false covers per segments. Default is false.
-	 * @param        thickness                    [optional] Number. If the shape must simulate a thickness. Default is 0.
-	 * @param        thicknessSubdivision    [optional] uint. If thickness is higher than 0. Defines the subdivision of the thickness (top, left, right, bottom). Default is 3;
-	 * @param        materials                    [optional] MultipleMaterials. Allows multiple material support when thickness is set higher to 1. Default is null.
+	 *@param		material						[optional] MaterialBase. The LatheExtrude (Mesh) material. Optional in constructor, material must be set before LatheExtrude object is render.
+	 * @param		vectors						[optional] Vector.&lt;Vector3D&gt;. A series of Vector3D's representing the profile information to be repeated/rotated around a given axis.
+	 * @param		axis							[optional] String. The axis to elevate along: X_AXIS, Y_AXIS or Z_AXIS. Default is LinearExtrusion.Y_AXIS.
+	 * @param		offset							[optional] Number. The elevation offset along the defined axis.
+	 * @param		subdivision					[optional] uint. The subdivision of the geometry between 2 vector3D. Default is 32.
+	 * @param		coverAll						[optional] Boolean. The way the uv mapping is spreaded across the shape. True covers an entire side of the geometry while false covers per segments. Default is false.
+	 * @param		thickness					[optional] Number. If the shape must simulate a thickness. Default is 0.
+	 * @param		thicknessSubdivision	[optional] uint. If thickness is higher than 0. Defines the subdivision of the thickness (top, left, right, bottom). Default is 3;
+	 * @param		materials					[optional] MultipleMaterials. Allows multiple material support when thickness is set higher to 1. Default is null.
 	 * properties as MaterialBase are: bottom, top, left, right, front and back.
-	 * @param        centerMesh                [optional] Boolean. If the geometry needs to be recentered in its own object space. If the position after generation is set to 0,0,0, the object would be centered in worldspace. Default is false.
-	 * @param        closePath                    [optional] Boolean. Defines if the last entered vector needs to be linked with the first one to form a closed shape. Default is false.
-	 * @param        ignoreSides                [optional] String. To prevent the generation of sides if thickness is set higher than 0. To avoid the bottom ignoreSides = "bottom", avoiding both top and bottom: ignoreSides = "bottom, top". Strings options: bottom, top, left, right, front and back. Default is "".
-	 * @param        flip                            [optional] Boolean. If the faces must be reversed depending on Vector3D's orientation. Default is false.
+	 * @param		centerMesh				[optional] Boolean. If the geometry needs to be recentered in its own object space. If the position after generation is set to 0,0,0, the object would be centered in worldspace. Default is false.
+	 * @param		closePath					[optional] Boolean. Defines if the last entered vector needs to be linked with the first one to form a closed shape. Default is false.
+	 * @param		ignoreSides				[optional] String. To prevent the generation of sides if thickness is set higher than 0. To avoid the bottom ignoreSides = "bottom", avoiding both top and bottom: ignoreSides = "bottom, top". Strings options: bottom, top, left, right, front and back. Default is "".
+	 * @param		flip							[optional] Boolean. If the faces must be reversed depending on Vector3D's orientation. Default is false.
 	 */
 	public function new(material:MaterialBase = null, vectors:Vector<Vector3D> = null, axis:String = LinearExtrude.Y_AXIS, offset:Float = 10, subdivision:Int = 3, coverAll:Bool = false, thickness:Float = 0, thicknessSubdivision:Int = 3, materials:MultipleMaterials = null, centerMesh:Bool = false, closePath:Bool = false, ignoreSides:String = "", flip:Bool = false) {
 		LIMIT = 196605;

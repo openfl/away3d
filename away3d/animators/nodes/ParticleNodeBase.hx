@@ -72,9 +72,9 @@ class ParticleNodeBase extends AnimationNodeBase {
 
 	/**
 	 *
-	 * @param    particleNodeClass - class of ParticleNodeBase child e.g ParticleBillboardNode, ParticleFollowNode...
-	 * @param    particleNodeMode  - mode of particle node ParticlePropertiesMode.GLOBAL, ParticlePropertiesMode.LOCAL_DYNAMIC or ParticlePropertiesMode.LOCAL_STATIC
-	 * @return    particle node name
+	 * @param	particleNodeClass - class of ParticleNodeBase child e.g ParticleBillboardNode, ParticleFollowNode...
+	 * @param	particleNodeMode  - mode of particle node ParticlePropertiesMode.GLOBAL, ParticlePropertiesMode.LOCAL_DYNAMIC or ParticlePropertiesMode.LOCAL_STATIC
+	 * @return	particle node name
 	 */
 	static public function getParticleNodeName(particleNodeClass:Dynamic, particleNodeMode:Int):String {
 		var nodeName:String = particleNodeClass.node.get("ANIMATION_NODE_NAME");
@@ -89,10 +89,10 @@ class ParticleNodeBase extends AnimationNodeBase {
 	/**
 	 * Creates a new <code>ParticleNodeBase</code> object.
 	 *
-	 * @param               name            Defines the generic name of the particle animation node.
-	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
-	 * @param               dataLength      Defines the length of the data used by the node when in <code>LOCAL_STATIC</code> mode.
-	 * @param    [optional] priority        the priority of the particle animation node, used to order the agal generated in a particle animation set. Defaults to 1.
+	 * @param			   name			Defines the generic name of the particle animation node.
+	 * @param			   mode			Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
+	 * @param			   dataLength	  Defines the length of the data used by the node when in <code>LOCAL_STATIC</code> mode.
+	 * @param	[optional] priority		the priority of the particle animation node, used to order the agal generated in a particle animation set. Defaults to 1.
 	 */
 	public function new(name:String, mode:Int, dataLength:Int, priority:Int = 1) {
 		super();

@@ -73,7 +73,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset {
 		// a) it is assumed that it will be called once for each joint
 		// b) it is assumed that it will be called only during load, and not during main loop
 		// c) maintaining a dictionary (for safety) would dictate an interface to access JointPoses,
-		//    rather than direct array access.  this would be sub-optimal.
+		//	rather than direct array access.  this would be sub-optimal.
 		var jointPoseIndex:Int = 0;
 		for (jointPose in jointPoses) {
 			if (jointPose.name == jointName) return jointPoseIndex;

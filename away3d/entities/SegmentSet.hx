@@ -112,15 +112,15 @@ class SegmentSet extends Entity implements IRenderable {
 	/**
 	 * Removes a segment from the SegmentSet by its index in the set.
 	 *
-	 * @param index        The index of the segment to remove
-	 * @param dispose    If the segment must be disposed as well. Default is false;
+	 * @param index		The index of the segment to remove
+	 * @param dispose	If the segment must be disposed as well. Default is false;
 	 *
-	 *    Removing a Segment by an index when segment is unknown
-	 *    index of the segment is relative to the order it was added to the segmentSet.
-	 *    If a segment was removed from or added to the segmentSet, a segment index may have changed.
-	 *    The index of each Segment is updated when one is added or removed.
-	 *    If 2 segments are added, segment #1 has index 0, segment #2 has index 1
-	 *    if segment #1 is removed, segment#2 will get index 0 instead of 1.
+	 *	Removing a Segment by an index when segment is unknown
+	 *	index of the segment is relative to the order it was added to the segmentSet.
+	 *	If a segment was removed from or added to the segmentSet, a segment index may have changed.
+	 *	The index of each Segment is updated when one is added or removed.
+	 *	If 2 segments are added, segment #1 has index 0, segment #2 has index 1
+	 *	if segment #1 is removed, segment#2 will get index 0 instead of 1.
 	 */
 	public function removeSegmentByIndex(index:Int, dispose:Bool = false):Void {
 		var segRef:SegRef;
@@ -189,8 +189,8 @@ class SegmentSet extends Entity implements IRenderable {
 	/**
 	 * Removes a segment from the SegmentSet.
 	 *
-	 * @param segment        The segment to remove
-	 * @param dispose        If the segment must be disposed as well. Default is false;
+	 * @param segment		The segment to remove
+	 * @param dispose		If the segment must be disposed as well. Default is false;
 	 */
 	public function removeSegment(segment:Segment, dispose:Bool = false):Void {
 		if (segment.index == -1) return;

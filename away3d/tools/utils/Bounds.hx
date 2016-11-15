@@ -39,7 +39,7 @@ class Bounds {
 	static private var _containers:ObjectMap<ObjectContainer3D, Vector<Float>>;
 	/**
 	 * Calculate the bounds of a Mesh object
-	 * @param mesh        Mesh. The Mesh to get the bounds from.
+	 * @param mesh		Mesh. The Mesh to get the bounds from.
 	 * Use the getters of this class to retrieve the results
 	 */
 
@@ -49,7 +49,7 @@ class Bounds {
 
 	/**
 	 * Calculate the bounds of an ObjectContainer3D object
-	 * @param container        ObjectContainer3D. The ObjectContainer3D to get the bounds from.
+	 * @param container		ObjectContainer3D. The ObjectContainer3D to get the bounds from.
 	 * Use the getters of this class to retrieve the results
 	 */
 
@@ -74,7 +74,7 @@ class Bounds {
 
 	/**
 	 * Calculate the bounds from a vector of number representing the vertices. &lt;x,y,z,x,y,z.....&gt;
-	 * @param vertices        Vector.&lt;Number&gt;. The vertices to get the bounds from.
+	 * @param vertices		Vector.&lt;Number&gt;. The vertices to get the bounds from.
 	 * Use the getters of this class to retrieve the results
 	 */
 
@@ -101,7 +101,7 @@ class Bounds {
 	}
 
 	/**
-	 * @param outCenter        Vector3D. Optional Vector3D, if provided the same Vector3D is returned with the bounds center.
+	 * @param outCenter		Vector3D. Optional Vector3D, if provided the same Vector3D is returned with the bounds center.
 	 * @return the center of the bound
 	 */
 

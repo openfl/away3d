@@ -135,38 +135,38 @@ class AwayStats extends Sprite {
 	static private var _INSTANCE:AwayStats;
 	
 	/**
-     * <p>Create an Away3D stats widget. The widget can be added to the stage
-     * and positioned like any other display object. Once on the stage, you
-     * can drag the widget to re-position it at runtime.</p>
-     *
-     * <p>If you pass a View3D instance, the widget will be able to display
-     * the total number of faces in your scene, and the amount of faces that
-     * were rendered during the last render() call. Views can also be registered
-     * after construction using the registerView() method. Omit the view
-     * constructor parameter to disable this feature altogether.</p>
-     *
-     * @param view A reference to your Away3D view. This is required if you
-     * want the stats widget to display polycounts.
-     *
-     * @param minimized Defines whether the widget should start up in minimized
-     * mode. By default, it is shown in full-size mode on launch.
-     *
-     * @param transparent Defines whether to omit the background plate and print
-     * statistics directly on top of the underlying stage.
-     *
-     * @param meanDataLength The number of frames on which to base the average
-     * frame rate calculation. The default value of zero indicates that all
-     * frames since the last reset will be used.
-     *
-     * @param enableClickToReset Enables interaction allowing you to reset all
-     * counters by clicking the bottom bar of the widget. When activated, you
-     * can also click the average frame rate trace-out to reset just that one
-     * value.
-     *
-     * @param enableModifyFramerate When enabled, allows you to click the upper
-     * and lower parts of the graph area to increase and decrease SWF frame rate
-     * respectively.
-     */
+	 * <p>Create an Away3D stats widget. The widget can be added to the stage
+	 * and positioned like any other display object. Once on the stage, you
+	 * can drag the widget to re-position it at runtime.</p>
+	 *
+	 * <p>If you pass a View3D instance, the widget will be able to display
+	 * the total number of faces in your scene, and the amount of faces that
+	 * were rendered during the last render() call. Views can also be registered
+	 * after construction using the registerView() method. Omit the view
+	 * constructor parameter to disable this feature altogether.</p>
+	 *
+	 * @param view A reference to your Away3D view. This is required if you
+	 * want the stats widget to display polycounts.
+	 *
+	 * @param minimized Defines whether the widget should start up in minimized
+	 * mode. By default, it is shown in full-size mode on launch.
+	 *
+	 * @param transparent Defines whether to omit the background plate and print
+	 * statistics directly on top of the underlying stage.
+	 *
+	 * @param meanDataLength The number of frames on which to base the average
+	 * frame rate calculation. The default value of zero indicates that all
+	 * frames since the last reset will be used.
+	 *
+	 * @param enableClickToReset Enables interaction allowing you to reset all
+	 * counters by clicking the bottom bar of the widget. When activated, you
+	 * can also click the average frame rate trace-out to reset just that one
+	 * value.
+	 *
+	 * @param enableModifyFramerate When enabled, allows you to click the upper
+	 * and lower parts of the graph area to increase and decrease SWF frame rate
+	 * respectively.
+	 */
 	public function new(view3d:View3D = null, meanDataLength:Int = 0) {
 		super();
 		
@@ -225,32 +225,32 @@ class AwayStats extends Sprite {
 	}
 
 	/**
-     * Holds a reference to the stats widget (or if several have been created
-     * during session, the one that was last instantiated.) Allows you to set
-     * properties and register views from anywhere in your code.
-     */
+	 * Holds a reference to the stats widget (or if several have been created
+	 * during session, the one that was last instantiated.) Allows you to set
+	 * properties and register views from anywhere in your code.
+	 */
 
 	static private function get_instance():AwayStats {
 		return (_INSTANCE != null) ? _INSTANCE : _INSTANCE = new AwayStats();
 	}
 
 	/**
-     * Add a view to the list of those that are taken into account when
-     * calculating on-screen and total poly counts. Use this method when the
-     * stats widget is not instantiated in the same place as where you create
-     * your view, or when using several views, or when views are created and
-     * destroyed dynamically at runtime.
-     */
+	 * Add a view to the list of those that are taken into account when
+	 * calculating on-screen and total poly counts. Use this method when the
+	 * stats widget is not instantiated in the same place as where you create
+	 * your view, or when using several views, or when views are created and
+	 * destroyed dynamically at runtime.
+	 */
 	public function registerView(view3d:View3D):Void {
 		if (view3d != null && _views.indexOf(view3d) < 0) _views.push(view3d);
 	}
 
 	/**
-     * Remove a view from the list of those that are taken into account when
-     * calculating on-screen and total poly counts. If the supplied view is
-     * the only one known to the stats widget, calling this will leave the
-     * list empty, disabling poly count statistics altogether.
-     */
+	 * Remove a view from the list of those that are taken into account when
+	 * calculating on-screen and total poly counts. If the supplied view is
+	 * the only one known to the stats widget, calling this will leave the
+	 * list empty, disabling poly count statistics altogether.
+	 */
 	public function unregisterView(view3d:View3D):Void {
 		if (view3d != null) {
 			var idx:Int = _views.indexOf(view3d);
@@ -282,9 +282,9 @@ class AwayStats extends Sprite {
 	 }
 
 	/**
-     * @private
-     * Draw logo and create title textfield.
-     */
+	 * @private
+	 * Draw logo and create title textfield.
+	 */
 	private function initStats():Void {
 		
 		_stats_panel = new Sprite();   
@@ -394,7 +394,7 @@ class AwayStats extends Sprite {
 	}
 
 	private function onLogoData( e:Event ) {
-		//var logoBmp = new Bitmap( e.currentTarget.content, PixelSnapping.AUTO, true );    
+		//var logoBmp = new Bitmap( e.currentTarget.content, PixelSnapping.AUTO, true );	
 		_logo.addChild( cast (e.currentTarget, Loader).content );
 	}
 
@@ -655,9 +655,9 @@ class AwayStats extends Sprite {
 	}
 
 	/**
-     * @private
-     * Reset just the average FPS counter.
-     */
+	 * @private
+	 * Reset just the average FPS counter.
+	 */
 	private function onResetAvgFPS(ev:MouseEvent):Void {
 		if (!_dragging) {
 			var i:Int;

@@ -24,15 +24,15 @@ class SpriteSheetHelper {
 	/**
 	 * Generates and returns one or more "sprite sheets" BitmapTexture from a given movieClip
 	 *
-	 * @param sourceMC                MovieClip: A movieclip with timeline animation
-	 * @param cols                    uint: Howmany cells along the u axis.
-	 * @param rows                    uint: Howmany cells along the v axis.
-	 * @param width                uint: The result bitmapData(s) width.
-	 * @param height                uint: The result bitmapData(s) height.
-	 * @param transparent                Boolean: if the bitmapData(s) must be transparent.
-	 * @param backgroundColor            uint: the bitmapData(s) background color if not transparent.
+	 * @param sourceMC				MovieClip: A movieclip with timeline animation
+	 * @param cols					uint: Howmany cells along the u axis.
+	 * @param rows					uint: Howmany cells along the v axis.
+	 * @param width				uint: The result bitmapData(s) width.
+	 * @param height				uint: The result bitmapData(s) height.
+	 * @param transparent				Boolean: if the bitmapData(s) must be transparent.
+	 * @param backgroundColor			uint: the bitmapData(s) background color if not transparent.
 	 *
-	 * @return Vector.&lt;Texture2DBase&gt;    The generated Texture2DBase vector for the SpriteSheetMaterial.
+	 * @return Vector.&lt;Texture2DBase&gt;	The generated Texture2DBase vector for the SpriteSheetMaterial.
 	 */
 	public function generateFromMovieClip(sourceMC:MovieClip, cols:Int, rows:Int, width:Int, height:Int, transparent:Bool = false, backgroundColor:Int = 0):Vector<Texture2DBase> {
 		var spriteSheets:Vector<Texture2DBase> = new Vector<Texture2DBase>();
@@ -94,14 +94,14 @@ class SpriteSheetHelper {
 
 	/**
 	 * Returns a SpriteSheetClipNode to pass to animator from animation id , cols and rows.
-	 * @param animID                String:The name of the animation
-	 * @param cols                    uint: Howmany cells along the u axis.
-	 * @param rows                    uint: Howmany cells along the v axis.
-	 * @param mapCount                uint: If the same animation is spread over more bitmapDatas. Howmany bimapDatas. Default is 1.
-	 * @param from                    uint: The offset start if the animation first frame isn't in first cell top left on the map. zero based. Default is 0.
-	 * @param to                    uint: The last cell if the animation last frame cell isn't located down right on the map. zero based. Default is 0.
+	 * @param animID				String:The name of the animation
+	 * @param cols					uint: Howmany cells along the u axis.
+	 * @param rows					uint: Howmany cells along the v axis.
+	 * @param mapCount				uint: If the same animation is spread over more bitmapDatas. Howmany bimapDatas. Default is 1.
+	 * @param from					uint: The offset start if the animation first frame isn't in first cell top left on the map. zero based. Default is 0.
+	 * @param to					uint: The last cell if the animation last frame cell isn't located down right on the map. zero based. Default is 0.
 	 *
-	 * @return SpriteSheetClipNode        SpriteSheetClipNode: The SpriteSheetClipNode filled with the data
+	 * @return SpriteSheetClipNode		SpriteSheetClipNode: The SpriteSheetClipNode filled with the data
 	 */
 	public function generateSpriteSheetClipNode(animID:String, cols:Int, rows:Int, mapCount:Int = 1, __from:Int = 0, __to:Int = 0):SpriteSheetClipNode {
 		var spriteSheetClipNode:SpriteSheetClipNode = new SpriteSheetClipNode();

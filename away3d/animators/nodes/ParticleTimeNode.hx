@@ -30,9 +30,9 @@ class ParticleTimeNode extends ParticleNodeBase {
 	/**
 	 * Creates a new <code>ParticleTimeNode</code>
 	 *
-	 * @param    [optional] usesDuration    Defines whether the node uses the <code>duration</code> data in the static properties function to determine how long a particle is visible for. Defaults to false.
-	 * @param    [optional] usesDelay       Defines whether the node uses the <code>delay</code> data in the static properties function to determine how long a particle is hidden for. Defaults to false. Requires <code>usesDuration</code> to be true.
-	 * @param    [optional] usesLooping     Defines whether the node creates a looping timeframe for each particle determined by the <code>startTime</code>, <code>duration</code> and <code>delay</code> data in the static properties function. Defaults to false. Requires <code>usesLooping</code> to be true.
+	 * @param	[optional] usesDuration	Defines whether the node uses the <code>duration</code> data in the static properties function to determine how long a particle is visible for. Defaults to false.
+	 * @param	[optional] usesDelay	   Defines whether the node uses the <code>delay</code> data in the static properties function to determine how long a particle is hidden for. Defaults to false. Requires <code>usesDuration</code> to be true.
+	 * @param	[optional] usesLooping	 Defines whether the node creates a looping timeframe for each particle determined by the <code>startTime</code>, <code>duration</code> and <code>delay</code> data in the static properties function. Defaults to false. Requires <code>usesLooping</code> to be true.
 	 */
 	public function new(usesDuration:Bool = false, usesLooping:Bool = false, usesDelay:Bool = false) {
 		_stateClass = ParticleTimeState;

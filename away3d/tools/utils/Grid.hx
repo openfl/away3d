@@ -19,8 +19,8 @@ class Grid {
 	private var _objectSpace:Bool;
 	/**
 	 *  Grid snaps vertexes according to a given grid unit
-	 * @param     unit                        [optional] Number. The grid unit. Default is 1.
-	 * @param     objectSpace            [optional] Boolean. Apply only to vertexes in geometry objectspace when Object3D are considered. Default is false.
+	 * @param	 unit						[optional] Number. The grid unit. Default is 1.
+	 * @param	 objectSpace			[optional] Boolean. Apply only to vertexes in geometry objectspace when Object3D are considered. Default is false.
 	 */
 
 	function new(unit:Float = 1, objectSpace:Bool = false) {
@@ -30,8 +30,8 @@ class Grid {
 
 	/**
 	 *  Apply the grid code to a given object3D. If type ObjectContainer3D, all children Mesh vertices will be affected.
-	 * @param     object3d        Object3D. The Object3d to snap to grid.
-	 * @param     dovert            [optional]. If the vertices must be handled or not. When false only object position is snapped to grid. Default is false.
+	 * @param	 object3d		Object3D. The Object3d to snap to grid.
+	 * @param	 dovert			[optional]. If the vertices must be handled or not. When false only object position is snapped to grid. Default is false.
 	 */
 	public function snapObject(object3d:ObjectContainer3D, dovert:Bool = false):Void {
 		parse(object3d, dovert);
@@ -39,7 +39,7 @@ class Grid {
 
 	/**
 	 *  Snaps to grid a given Vector.&lt;Number&gt; of vertices
-	 * @param     vertices        Vector.&lt;Number&gt;. The vertices vector
+	 * @param	 vertices		Vector.&lt;Number&gt;. The vertices vector
 	 */
 	public function snapVertices(vertices:Vector<Float>):Vector<Float> {
 		var i:Int = 0;
@@ -52,7 +52,7 @@ class Grid {
 
 	/**
 	 *  Apply the grid code to a single mesh
-	 * @param     mesh        Mesh. The mesh to snap to grid. Vertices are affected by default. Mesh position is snapped if grid.objectSpace is true;
+	 * @param	 mesh		Mesh. The mesh to snap to grid. Vertices are affected by default. Mesh position is snapped if grid.objectSpace is true;
 	 */
 	public function snapMesh(mesh:Mesh):Void {
 		if (!_objectSpace) {

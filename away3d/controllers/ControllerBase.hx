@@ -51,7 +51,7 @@ class ControllerBase {
 	/**
 	 * Base controller class for dynamically adjusting the propeties of a 3D object.
 	 *
-	 * @param    targetObject    The 3D object on which to act.
+	 * @param	targetObject	The 3D object on which to act.
 	 */
 	public function new(targetObject:Entity = null) {
 		_autoUpdate = true;

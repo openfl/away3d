@@ -39,8 +39,8 @@ class Object3DEvent extends Event {
 	/**
 	 * Creates a new <code>MaterialEvent</code> object.
 	 *
-	 * @param    type        The type of the event. Possible values are: <code>Object3DEvent.TRANSFORM_CHANGED</code>, <code>Object3DEvent.SCENETRANSFORM_CHANGED</code>, <code>Object3DEvent.SCENE_CHANGED</code>, <code>Object3DEvent.RADIUS_CHANGED</code> and <code>Object3DEvent.DIMENSIONS_CHANGED</code>.
-	 * @param    object        A reference to the 3d object that is relevant to the event.
+	 * @param	type		The type of the event. Possible values are: <code>Object3DEvent.TRANSFORM_CHANGED</code>, <code>Object3DEvent.SCENETRANSFORM_CHANGED</code>, <code>Object3DEvent.SCENE_CHANGED</code>, <code>Object3DEvent.RADIUS_CHANGED</code> and <code>Object3DEvent.DIMENSIONS_CHANGED</code>.
+	 * @param	object		A reference to the 3d object that is relevant to the event.
 	 */
 	public function new(type:String, object:Object3D) {
 		super(type);

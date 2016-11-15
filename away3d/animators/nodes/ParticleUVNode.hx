@@ -35,10 +35,10 @@ class ParticleUVNode extends ParticleNodeBase {
 	/**
 	 * Creates a new <code>ParticleTimeNode</code>
 	 *
-	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
-	 * @param    [optional] cycle           Defines whether the time track is in loop mode. Defaults to false.
-	 * @param    [optional] scale           Defines whether the time track is in loop mode. Defaults to false.
-	 * @param    [optional] axis            Defines whether the time track is in loop mode. Defaults to false.
+	 * @param			   mode			Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
+	 * @param	[optional] cycle		   Defines whether the time track is in loop mode. Defaults to false.
+	 * @param	[optional] scale		   Defines whether the time track is in loop mode. Defaults to false.
+	 * @param	[optional] axis			Defines whether the time track is in loop mode. Defaults to false.
 	 */
 	public function new(mode:Int, cycle:Float = 1, scale:Float = 1, axis:String = "x") {
 		super("ParticleUV", mode, 4, ParticleAnimationSet.POST_PRIORITY + 1);

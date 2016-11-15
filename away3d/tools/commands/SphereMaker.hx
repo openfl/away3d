@@ -25,10 +25,10 @@ class SphereMaker {
 
 	/**
 	 *  Apply the SphereMaker code to a given ObjectContainer3D.
-	 * @param     container            Mesh. The target ObjectContainer3D.
-	 * @param     weight                Number. The Strength of the effect between 0 and 1. Default is 1.
-	 * @param     radiusMode            int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
-	 * @param     radius                Number. The Radius to use if radiusMode is RADIUS. Default is 100.
+	 * @param	 container			Mesh. The target ObjectContainer3D.
+	 * @param	 weight				Number. The Strength of the effect between 0 and 1. Default is 1.
+	 * @param	 radiusMode			int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
+	 * @param	 radius				Number. The Radius to use if radiusMode is RADIUS. Default is 100.
 	 */
 	public function applyToContainer(ctr:ObjectContainer3D, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void {
 		_weight = weight;
@@ -39,10 +39,10 @@ class SphereMaker {
 
 	/**
 	 *  Apply the SphereMaker code to a given Mesh.
-	 * @param     mesh                Mesh. The target Mesh object.
-	 * @param     weight                Number. The Strength of the effect between 0 and 1. Default is 1.
-	 * @param     radiusMode            int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
-	 * @param     radius                Number. The Radius to use if radiusMode is RADIUS. Default is 100.
+	 * @param	 mesh				Mesh. The target Mesh object.
+	 * @param	 weight				Number. The Strength of the effect between 0 and 1. Default is 1.
+	 * @param	 radiusMode			int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
+	 * @param	 radius				Number. The Radius to use if radiusMode is RADIUS. Default is 100.
 	 */
 	public function apply(mesh:Mesh, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void {
 		var i:Int = 0;

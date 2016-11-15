@@ -55,8 +55,8 @@ class Quaternion {
 	/**
 	 * Fills the quaternion object with the result from a multiplication of two quaternion objects.
 	 *
-	 * @param    qa    The first quaternion in the multiplication.
-	 * @param    qb    The second quaternion in the multiplication.
+	 * @param	qa	The first quaternion in the multiplication.
+	 * @param	qb	The second quaternion in the multiplication.
 	 */
 	public function multiply(qa:Quaternion, qb:Quaternion):Void {
 		var w1:Float = qa.w;
@@ -89,8 +89,8 @@ class Quaternion {
 	/**
 	 * Fills the quaternion object with values representing the given rotation around a vector.
 	 *
-	 * @param    axis    The axis around which to rotate
-	 * @param    angle    The angle in radians of the rotation.
+	 * @param	axis	The axis around which to rotate
+	 * @param	angle	The angle in radians of the rotation.
 	 */
 	public function fromAxisAngle(axis:Vector3D, angle:Float):Void {
 		var sin_a:Float = Math.sin(angle / 2);
@@ -192,9 +192,9 @@ class Quaternion {
 	/**
 	 * Fills the quaternion object with values representing the given euler rotation.
 	 *
-	 * @param    ax        The angle in radians of the rotation around the ax axis.
-	 * @param    ay        The angle in radians of the rotation around the ay axis.
-	 * @param    az        The angle in radians of the rotation around the az axis.
+	 * @param	ax		The angle in radians of the rotation around the ax axis.
+	 * @param	ay		The angle in radians of the rotation around the ay axis.
+	 * @param	az		The angle in radians of the rotation around the az axis.
 	 */
 	public function fromEulerAngles(ax:Float, ay:Float, az:Float):Void {
 		var halfX:Float = ax * .5;

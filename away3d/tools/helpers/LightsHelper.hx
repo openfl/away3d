@@ -19,11 +19,11 @@ class LightsHelper {
 	static private var _state:Int;
 	
 	/**
-     * Applys a series of lights to all materials found into an objectcontainer and its children.
-     * The lights eventually set previously are replaced by the new ones.
-     * @param     objectContainer3D    ObjectContainer3D. The target ObjectContainer3D object to be inspected.
-     * @param     lights                        Vector.&lt;LightBase&gt;. A series of lights to be set to all materials found during parsing of the target ObjectContainer3D.
-     */
+	 * Applys a series of lights to all materials found into an objectcontainer and its children.
+	 * The lights eventually set previously are replaced by the new ones.
+	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
+	 * @param	 lights						Vector.&lt;LightBase&gt;. A series of lights to be set to all materials found during parsing of the target ObjectContainer3D.
+	 */
 	static public function addStaticLightsToMaterials(objectContainer3D:ObjectContainer3D, lights:Array<LightBase>):Void {
 		
 		if (lights.length == 0) return;
@@ -41,20 +41,20 @@ class LightsHelper {
 	}
 
 	/**
-     * Adds one light to all materials found into an objectcontainer and its children.
-     * The lights eventually set previously on a material are kept unchanged. The new light is added to the lights array of the materials found during parsing.
-     * @param     objectContainer3D    ObjectContainer3D. The target ObjectContainer3D object to be inspected.
-     * @param     light                            LightBase. The light to add to all materials found during the parsing of the target ObjectContainer3D.
-     */
+	 * Adds one light to all materials found into an objectcontainer and its children.
+	 * The lights eventually set previously on a material are kept unchanged. The new light is added to the lights array of the materials found during parsing.
+	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
+	 * @param	 light							LightBase. The light to add to all materials found during the parsing of the target ObjectContainer3D.
+	 */
 	static public function addStaticLightToMaterials(objectContainer3D:ObjectContainer3D, light:LightBase):Void {
 		parse(objectContainer3D, light, 1);
 	}
 
 	/**
-     * Removes a given light from all materials found into an objectcontainer and its children.
-     * @param     objectContainer3D    ObjectContainer3D. The target ObjectContainer3D object to be inspected.
-     * @param     light                            LightBase. The light to be removed from all materials found during the parsing of the target ObjectContainer3D.
-     */
+	 * Removes a given light from all materials found into an objectcontainer and its children.
+	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
+	 * @param	 light							LightBase. The light to be removed from all materials found during the parsing of the target ObjectContainer3D.
+	 */
 	static public function removeStaticLightFromMaterials(objectContainer3D:ObjectContainer3D, light:LightBase):Void {
 		parse(objectContainer3D, light, 2);
 	}

@@ -264,13 +264,13 @@ class NURBSGeometry extends PrimitiveBase {
 	 * Return a 3d point representing the surface point at the required U(0-1) and V(0-1) across the
 	 * NURBS curved surface.
 	 *
-	 * @param uS                U position on the surface
-	 * @param vS                V position on the surface
-	 * @param vecOffset            Offset the point on the surface by this vector
-	 * @param scale                Scale of the surface point - should match the Mesh scaling
-	 * @param uTol                U tolerance for adjacent surface sample to calculate normal
-	 * @param vTol                V tolerance for adjacent surface sample to calculate normal
-	 * @return                    The offset surface point being returned
+	 * @param uS				U position on the surface
+	 * @param vS				V position on the surface
+	 * @param vecOffset			Offset the point on the surface by this vector
+	 * @param scale				Scale of the surface point - should match the Mesh scaling
+	 * @param uTol				U tolerance for adjacent surface sample to calculate normal
+	 * @param vTol				V tolerance for adjacent surface sample to calculate normal
+	 * @return					The offset surface point being returned
 	 *
 	 */
 	public function getSurfacePoint(uS:Float, vS:Float, vecOffset:Float = 0, scale:Float = 1, uTol:Float = 0.01, vTol:Float = 0.01):Vector3D {

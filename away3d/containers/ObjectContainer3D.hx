@@ -471,7 +471,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
 	/**
 	 * Adds an array of 3d objects to the scene as children of the container
 	 *
-	 * @param    ...childarray        An array of 3d objects to be added
+	 * @param	...childarray		An array of 3d objects to be added
 	 */
 	public function addChildren(childarray:Vector<ObjectContainer3D>):Void {
 		for (child in childarray)addChild(child);
@@ -480,8 +480,8 @@ class ObjectContainer3D extends Object3D implements IAsset {
 	/**
 	 * Removes a 3d object from the child array of the container
 	 *
-	 * @param    child    The 3d object to be removed
-	 * @throws    Error    ObjectContainer3D.removeChild(null)
+	 * @param	child	The 3d object to be removed
+	 * @throws	Error	ObjectContainer3D.removeChild(null)
 	 */
 	public function removeChild(child:ObjectContainer3D):Void {
 		if (child == null) throw new Error("Parameter child cannot be null");
@@ -493,7 +493,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
 	/**
 	 * Removes a 3d object from the child array of the container
 	 *
-	 * @param    index    Index of 3d object to be removed
+	 * @param	index	Index of 3d object to be removed
 	 */
 	public function removeChildAt(index:Int):Void {
 		var child:ObjectContainer3D = _children[index];

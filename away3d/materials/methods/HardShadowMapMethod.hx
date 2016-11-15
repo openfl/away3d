@@ -34,8 +34,8 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase {
 		vo.fragmentConstantsIndex = decReg.index * 4;
 		vo.texturesIndex = depthMapRegister.index;
 		code += "tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" + 
-				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "                               \n" + 
-				"slt " + targetReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z               \n";
+				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "							   \n" + 
+				"slt " + targetReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z			   \n";
 		
 		// 0 if in shadow
 		return code;
@@ -57,13 +57,13 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase {
 		vo.fragmentConstantsIndex = decReg.index * 4;
 		vo.texturesIndex = depthMapRegister.index;
 		code += "sub " + lightDir + ", " + _sharedRegisters.globalPositionVarying + ", " + posReg + "   \n" + 
-				"dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz                     \n" + 
-				"mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w                           \n" + 
-				"nrm " + lightDir + ".xyz, " + lightDir + ".xyz                                         \n" + 
+				"dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz					 \n" + 
+				"mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w						   \n" + 
+				"nrm " + lightDir + ".xyz, " + lightDir + ".xyz										 \n" + 
 				"tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" + 
-				"dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "                   \n" + 
-				"add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x                          \n" + // offset by epsilon
-				"slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z                 \n";
+				"dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "				   \n" + 
+				"add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x						  \n" + // offset by epsilon
+				"slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z				 \n";
 		// 0 if in shadow
 		regCache.removeFragmentTempUsage(depthSampleCol);
 		return code;
@@ -75,8 +75,8 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase {
 	override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement, targetRegister:ShaderRegisterElement):String {
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		return  "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>   \n" + 
-				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "                               \n" + 
-				"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z                \n";
+				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "							   \n" + 
+				"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z				\n";
 		// 0 if in shadow
 	}
 

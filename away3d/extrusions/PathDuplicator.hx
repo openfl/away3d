@@ -38,14 +38,14 @@ class PathDuplicator {
 	 * Creates a new <code>PathDuplicator</code>
 	 * Class replicates and distribute one or more mesh(es) along a path. The offsets are defined by the position of the object. 0,0,0 would place the center of the mesh exactly on Path.
 	 *
-	 * @param    path                [optional]    A Path object. The _path definition. either Cubic or Quadratic path
-	 * @param    meshes                [optional]    Vector.&lt;Mesh&gt;. One or more meshes to repeat along the path.
-	 * @param    scene                [optional]    Scene3D. The scene where to addchild the meshes if no ObjectContainer3D is provided.
-	 * @param    repeat                [optional]    uint. How many times a mesh is cloned per PathSegment. Default is 1.
-	 * @param    alignToPath            [optional]    Boolean. If the alignment of the clones must follow the path. Default is true.
-	 * @param    segmentSpread        [optional]    Boolean. If more than one Mesh is passed, it defines if the clones alternate themselves per PathSegment or each repeat. Default is false.
-	 * @param container                [optional]    ObjectContainer3D. If an ObjectContainer3D is provided, the meshes are addChilded to it instead of directly into the scene. The container is NOT addChilded to the scene by default.
-	 * @param    randomRotationY    [optional]    Boolean. If the clones must have a random rotationY added to them.
+	 * @param	path				[optional]	A Path object. The _path definition. either Cubic or Quadratic path
+	 * @param	meshes				[optional]	Vector.&lt;Mesh&gt;. One or more meshes to repeat along the path.
+	 * @param	scene				[optional]	Scene3D. The scene where to addchild the meshes if no ObjectContainer3D is provided.
+	 * @param	repeat				[optional]	uint. How many times a mesh is cloned per PathSegment. Default is 1.
+	 * @param	alignToPath			[optional]	Boolean. If the alignment of the clones must follow the path. Default is true.
+	 * @param	segmentSpread		[optional]	Boolean. If more than one Mesh is passed, it defines if the clones alternate themselves per PathSegment or each repeat. Default is false.
+	 * @param container				[optional]	ObjectContainer3D. If an ObjectContainer3D is provided, the meshes are addChilded to it instead of directly into the scene. The container is NOT addChilded to the scene by default.
+	 * @param	randomRotationY	[optional]	Boolean. If the clones must have a random rotationY added to them.
 	 *
 	 */
 
@@ -146,7 +146,7 @@ class PathDuplicator {
 	 * Defines an optional Vector.&lt;Mesh&gt;. One or more meshes to repeat along the path.
 	 * When the last in the vector is reached, the first in the array will be used, this process go on and on until the last segment.
 	 *
-	 * @param    ms    A Vector.<Mesh>. One or more meshes to repeat along the path. Required for this class.
+	 * @param	ms	A Vector.<Mesh>. One or more meshes to repeat along the path. Required for this class.
 	 */
 	private function set_meshes(ms:Vector<Mesh>):Vector<Mesh> {
 		_meshes = ms;

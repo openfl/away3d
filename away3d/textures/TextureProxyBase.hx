@@ -117,8 +117,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
 	}
 
 	/**
-     * @inheritDoc
-     */
+	 * @inheritDoc
+	 */
 	public function dispose():Void {
 		var i:Int = 0;
 		while (i < 8) {

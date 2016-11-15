@@ -33,11 +33,11 @@ class Weld {
 	/**
 	 * Perfoms a weld operation on a specified mesh geometry.
 	 *
-	 * @param mesh            The mesh to weld
-	 * @param keepUVs            If the uvs should be kept as defined. Default is true.
-	 * @param normalAngleDegree    Threshold to compair the normals. Default is 180.
-	 * @param useNormalMode        If the face normals or vertex normals are used for comparison. VERTEXNORMALS keeps intact the original data. Default uses USE_FACENORMALS.
-	 * @param smoothNormals        Smooth. Default is true.
+	 * @param mesh			The mesh to weld
+	 * @param keepUVs			If the uvs should be kept as defined. Default is true.
+	 * @param normalAngleDegree	Threshold to compair the normals. Default is 180.
+	 * @param useNormalMode		If the face normals or vertex normals are used for comparison. VERTEXNORMALS keeps intact the original data. Default uses USE_FACENORMALS.
+	 * @param smoothNormals		Smooth. Default is true.
 	 */
 	public function apply(mesh:Mesh, keepUvs:Bool = true, normalAngleDegree:Float = 180, useNormalMode:String = USE_FACENORMALS, smoothNormals:Bool = true):Void {
 		_keepUvs = keepUvs;
@@ -50,11 +50,11 @@ class Weld {
 	/**
 	 * Perfoms a weld operation on all children Mesh object geometries of the specified ObjectContainer3D.
 	 *
-	 * @param obj                The ObjectContainer3D to weld
-	 * @param keepUVs            If the uvs should be kept as defined. Default is true.
-	 * @param normalAngleDegree    Threshold to compair the normals. Default is 180.
-	 * @param useNormalMode        If the face normals or vertex normals are used for comparison. VERTEXNORMALS keeps intact the original data. Default uses USE_FACENORMALS.
-	 * @param smoothNormals        Smooth. Default is true.
+	 * @param obj				The ObjectContainer3D to weld
+	 * @param keepUVs			If the uvs should be kept as defined. Default is true.
+	 * @param normalAngleDegree	Threshold to compair the normals. Default is 180.
+	 * @param useNormalMode		If the face normals or vertex normals are used for comparison. VERTEXNORMALS keeps intact the original data. Default uses USE_FACENORMALS.
+	 * @param smoothNormals		Smooth. Default is true.
 	 */
 	public function applyToContainer(obj:ObjectContainer3D, keepUVs:Bool = true, normalAngleDegree:Float = 180, useNormalMode:String = USE_FACENORMALS, smoothNormals:Bool = true):Void {
 		_keepUvs = keepUVs;

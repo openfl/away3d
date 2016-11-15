@@ -1,11 +1,11 @@
 /**
  * Class WireframeAxesGrid generates a grid of lines on a given plane<code>WireframeAxesGrid</code>
- * @param    subDivision            [optional] uint . Default is 10;
- * @param    gridSize            [optional] uint . Default is 100;
- * @param    thickness            [optional] Number . Default is 1;
- * @param    colorXY                [optional] uint. Default is 0x0000FF.
- * @param    colorZY                [optional] uint. Default is 0xFF0000.
- * @param    colorXZ                [optional] uint. Default is 0x00FF00.
+ * @param	subDivision			[optional] uint . Default is 10;
+ * @param	gridSize			[optional] uint . Default is 100;
+ * @param	thickness			[optional] Number . Default is 1;
+ * @param	colorXY				[optional] uint. Default is 0x0000FF.
+ * @param	colorZY				[optional] uint. Default is 0xFF0000.
+ * @param	colorXZ				[optional] uint. Default is 0x00FF00.
  */
 package away3d.debug;
 

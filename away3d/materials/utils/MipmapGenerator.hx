@@ -52,7 +52,7 @@ class MipmapGenerator {
 		}
 
 		//if (!regen) 
-		//    mipmap.dispose();
+		//	mipmap.dispose();
 	}
 }
 

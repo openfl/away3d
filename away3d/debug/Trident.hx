@@ -1,8 +1,8 @@
 /**
  * Creates a new <code>Trident</code> object.
  *
- * @param     length                The length of the trident axes. Default is 1000.
- * @param     showLetters        If the Trident should display the letters X, Y and Z at each axis arrows. Default is true.
+ * @param	 length				The length of the trident axes. Default is 1000.
+ * @param	 showLetters		If the Trident should display the letters X, Y and Z at each axis arrows. Default is true.
  */
 package away3d.debug;
 

@@ -42,11 +42,11 @@ class Projector {
 	/**
 	 * Class remaps the uv data of a mesh
 	 *
-	 * @param     orientation    String. Defines the projection direction and methods.
+	 * @param	 orientation	String. Defines the projection direction and methods.
 	 * Note: As we use triangles, cylindrical and spherical projections might require correction,
 	 * as some faces, may have vertices pointing at other side of the map, causing some faces to be rendered as a whole reverted map.
 	 *
-	 * @param     obj        ObjectContainer3D. The ObjectContainer3D to remap.
+	 * @param	 obj		ObjectContainer3D. The ObjectContainer3D to remap.
 	 */
 
 	static public function project(orientation:String, obj:ObjectContainer3D):Void {

@@ -25,10 +25,10 @@ class Stage3DManager {
 	private var _stage:Stage;
 
 	/**
-     * Creates a new Stage3DManager class.
-     * @param stage The Stage object that contains the Stage3D objects to be managed.
-     * @private
-     */
+	 * Creates a new Stage3DManager class.
+	 * @param stage The Stage object that contains the Stage3D objects to be managed.
+	 * @private
+	 */
 	private var stage3DsLength:Int;
 
 	public function new(stage:Stage, Stage3DManagerSingletonEnforcer:Stage3DManagerSingletonEnforcer) {
@@ -48,10 +48,10 @@ class Stage3DManager {
 	}
 
 	/**
-     * Gets a Stage3DManager instance for the given Stage object.
-     * @param stage The Stage object that contains the Stage3D objects to be managed.
-     * @return The Stage3DManager instance for the given Stage object.
-     */
+	 * Gets a Stage3DManager instance for the given Stage object.
+	 * @param stage The Stage object that contains the Stage3D objects to be managed.
+	 * @return The Stage3DManager instance for the given Stage object.
+	 */
 	static public function getInstance(stage:Stage):Stage3DManager {
 		if (_instances == null)
 			_instances = new ObjectMap();
@@ -65,12 +65,12 @@ class Stage3DManager {
 	}
 
 	/**
-     * Requests the Stage3DProxy for the given index.
-     * @param index The index of the requested Stage3D.
-     * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
-     * @param profile The compatibility profile, an enumeration of Context3DProfile
-     * @return The Stage3DProxy for the given index.
-     */
+	 * Requests the Stage3DProxy for the given index.
+	 * @param index The index of the requested Stage3D.
+	 * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
+	 * @param profile The compatibility profile, an enumeration of Context3DProfile
+	 * @return The Stage3DProxy for the given index.
+	 */
 	public function getStage3DProxy(index:Int, forceSoftware:Bool = false, profile:String = "baseline"):Stage3DProxy {
 		//why
 		if (_stageProxies[index] == null) {
@@ -82,21 +82,21 @@ class Stage3DManager {
 	}
 
 	/**
-     * Removes a Stage3DProxy from the manager.
-     * @param stage3DProxy
-     * @private
-     */
+	 * Removes a Stage3DProxy from the manager.
+	 * @param stage3DProxy
+	 * @private
+	 */
 	public function removeStage3DProxy(stage3DProxy:Stage3DProxy):Void {
 		_numStageProxies--;
 		_stageProxies[stage3DProxy.stage3DIndex] = null;
 	}
 
 	/**
-     * Get the next available stage3DProxy. An error is thrown if there are no Stage3DProxies available
-     * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
-     * @param profile The compatibility profile, an enumeration of Context3DProfile
-     * @return The allocated stage3DProxy
-     */
+	 * Get the next available stage3DProxy. An error is thrown if there are no Stage3DProxies available
+	 * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
+	 * @param profile The compatibility profile, an enumeration of Context3DProfile
+	 * @return The allocated stage3DProxy
+	 */
 	public function getFreeStage3DProxy(forceSoftware:Bool = false, profile:String = "baseline"):Stage3DProxy {
 		var i:Int = 0;
 		var len:Int = stage3DsLength;
@@ -115,33 +115,33 @@ class Stage3DManager {
 	}
 
 	/**
-     * Checks if a new stage3DProxy can be created and managed by the class.
-     * @return true if there is one slot free for a new stage3DProxy
-     */
+	 * Checks if a new stage3DProxy can be created and managed by the class.
+	 * @return true if there is one slot free for a new stage3DProxy
+	 */
 	private function get_hasFreeStage3DProxy():Bool {
 		return Std.int(_numStageProxies) < (_stageProxies.length) ? true : false;
 	}
 
 	/**
-     * Returns the amount of stage3DProxy objects that can be created and managed by the class
-     * @return the amount of free slots
-     */
+	 * Returns the amount of stage3DProxy objects that can be created and managed by the class
+	 * @return the amount of free slots
+	 */
 	private function get_numProxySlotsFree():Int {
 		return _stageProxies.length - _numStageProxies;
 	}
 
 	/**
-     * Returns the amount of Stage3DProxy objects currently managed by the class.
-     * @return the amount of slots used
-     */
+	 * Returns the amount of Stage3DProxy objects currently managed by the class.
+	 * @return the amount of slots used
+	 */
 	private function get_numProxySlotsUsed():Int {
 		return _numStageProxies;
 	}
 
 	/**
-     * Returns the maximum amount of Stage3DProxy objects that can be managed by the class
-     * @return the maximum amount of Stage3DProxy objects that can be managed by the class
-     */
+	 * Returns the maximum amount of Stage3DProxy objects that can be managed by the class
+	 * @return the maximum amount of Stage3DProxy objects that can be managed by the class
+	 */
 	private function get_numProxySlotsTotal():Int {
 		return _stageProxies.length;
 	}

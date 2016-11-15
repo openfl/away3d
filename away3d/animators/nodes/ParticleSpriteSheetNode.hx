@@ -77,13 +77,13 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
 	/**
 	 * Creates a new <code>ParticleSpriteSheetNode</code>
 	 *
-	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
-	 * @param    [optional] numColumns      Defines the number of columns in the spritesheet, when in global mode. Defaults to 1.
-	 * @param    [optional] numRows         Defines the number of rows in the spritesheet, when in global mode. Defaults to 1.
-	 * @param    [optional] cycleDuration   Defines the default cycle duration in seconds, when in global mode. Defaults to 1.
-	 * @param    [optional] cyclePhase      Defines the default cycle phase, when in global mode. Defaults to 0.
-	 * @param    [optional] totalFrames     Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows.
-	 * @param    [optional] looping         Defines whether the spritesheet animation is set to loop indefinitely. Defaults to true.
+	 * @param			   mode			Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
+	 * @param	[optional] numColumns	  Defines the number of columns in the spritesheet, when in global mode. Defaults to 1.
+	 * @param	[optional] numRows		 Defines the number of rows in the spritesheet, when in global mode. Defaults to 1.
+	 * @param	[optional] cycleDuration   Defines the default cycle duration in seconds, when in global mode. Defaults to 1.
+	 * @param	[optional] cyclePhase	  Defines the default cycle phase, when in global mode. Defaults to 0.
+	 * @param	[optional] totalFrames	 Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows.
+	 * @param	[optional] looping		 Defines whether the spritesheet animation is set to loop indefinitely. Defaults to true.
 	 */
 	public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:Int = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Float =0) {
 		//todo totalFrames= Math.POSITIVE_INFINITY;

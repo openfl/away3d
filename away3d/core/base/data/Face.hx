@@ -47,8 +47,8 @@ class Face {
 	/**
 	 * Creates a new <code>Face</code> value object.
 	 *
-	 * @param    vertices        [optional] 9 entries long Vector.&lt;Number&gt; representing the x, y and z of v0, v1, and v2 of a face
-	 * @param    uvs            [optional] 6 entries long Vector.&lt;Number&gt; representing the u and v of uv0, uv1, and uv2 of a face
+	 * @param	vertices		[optional] 9 entries long Vector.&lt;Number&gt; representing the x, y and z of v0, v1, and v2 of a face
+	 * @param	uvs			[optional] 6 entries long Vector.&lt;Number&gt; representing the u and v of uv0, uv1, and uv2 of a face
 	 */
 	public function new(vertices:Vector<Float> = null, uvs:Vector<Float> = null) {
 		_vertices = vertices ;
@@ -60,9 +60,9 @@ class Face {
 	//uvs
 	/**
 	 * To set uv values for either uv0, uv1 or uv2.
-	 * @param    index        The id of the uv (0, 1 or 2)
-	 * @param    u            The horizontal coordinate of the texture value.
-	 * @param    v            The vertical coordinate of the texture value.
+	 * @param	index		The id of the uv (0, 1 or 2)
+	 * @param	u			The horizontal coordinate of the texture value.
+	 * @param	v			The vertical coordinate of the texture value.
 	 */
 	public function setUVat(index:Int, u:Float, v:Float):Void {
 		var ind:Int = (index * 2);
@@ -72,7 +72,7 @@ class Face {
 
 	/**
 	 * To store a temp index of a face during a loop
-	 * @param    ind        The index
+	 * @param	ind		The index
 	 */
 	private function set_faceIndex(ind:Int):Int {
 		_faceIndex = ind;
@@ -80,7 +80,7 @@ class Face {
 	}
 
 	/**
-	 * @return            Returns the tmp index set for this Face object
+	 * @return			Returns the tmp index set for this Face object
 	 */
 	private function get_faceIndex():Int {
 		return _faceIndex;
@@ -89,7 +89,7 @@ class Face {
 //uv0
 	/**
 	 * the index set for uv0 in this Face value object
-	 * @param    ind        The index
+	 * @param	ind		The index
 	 */
 	private function set_uv0Index(ind:Int):Int {
 		_uv0Index = ind;
@@ -105,8 +105,8 @@ class Face {
 
 	/**
 	 * uv0 u and v values
-	 * @param    u        The u value
-	 * @param    v        The v value
+	 * @param	u		The u value
+	 * @param	v		The v value
 	 */
 	public function setUv0Value(u:Float, v:Float):Void {
 		_uvs[0] = u;
@@ -130,7 +130,7 @@ class Face {
 //uv1
 	/**
 	 * the index set for uv1 in this Face value object
-	 * @param    ind        The index
+	 * @param	ind		The index
 	 */
 	private function set_uv1Index(ind:Int):Int {
 		_uv1Index = ind;
@@ -146,8 +146,8 @@ class Face {
 
 	/**
 	 * uv1 u and v values
-	 * @param    u        The u value
-	 * @param    v        The v value
+	 * @param	u		The u value
+	 * @param	v		The v value
 	 */
 	public function setUv1Value(u:Float, v:Float):Void {
 		_uvs[2] = u;
@@ -171,7 +171,7 @@ class Face {
 //uv2
 	/**
 	 * the index set for uv2 in this Face value object
-	 * @param    ind        The index
+	 * @param	ind		The index
 	 */
 	private function set_uv2Index(ind:Int):Int {
 		_uv2Index = ind;
@@ -187,8 +187,8 @@ class Face {
 
 	/**
 	 * uv2 u and v values
-	 * @param    u        The u value
-	 * @param    v        The v value
+	 * @param	u		The u value
+	 * @param	v		The v value
 	 */
 	public function setUv2Value(u:Float, v:Float):Void {
 		_uvs[4] = u;
@@ -212,10 +212,10 @@ class Face {
 //vertices
 	/**
 	 * To set uv values for either v0, v1 or v2.
-	 * @param    index        The id of the uv (0, 1 or 2)
-	 * @param    x            The x value of the vertex.
-	 * @param    y            The y value of the vertex.
-	 * @param    z            The z value of the vertex.
+	 * @param	index		The id of the uv (0, 1 or 2)
+	 * @param	x			The x value of the vertex.
+	 * @param	y			The y value of the vertex.
+	 * @param	z			The z value of the vertex.
 	 */
 	public function setVertexAt(index:Int, x:Float, y:Float, z:Float):Void {
 		var ind:Int = (index * 3);
@@ -227,7 +227,7 @@ class Face {
 //v0
 	/**
 	 * set the index value for v0
-	 * @param    ind            The index value to store
+	 * @param	ind			The index value to store
 	 */
 	private function set_v0Index(ind:Int):Int {
 		_v0Index = ind;
@@ -272,7 +272,7 @@ class Face {
 //v1
 	/**
 	 * set the index value for v1
-	 * @param    ind            The index value to store
+	 * @param	ind			The index value to store
 	 */
 	private function set_v1Index(ind:Int):Int {
 		_v1Index = ind;
@@ -317,7 +317,7 @@ class Face {
 //v2
 	/**
 	 * set the index value for v2
-	 * @param    ind            The index value to store
+	 * @param	ind			The index value to store
 	 */
 	private function set_v2Index(ind:Int):Int {
 		_v2Index = ind;

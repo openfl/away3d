@@ -48,7 +48,7 @@ class SegmentedPathBase implements IPath {
 	/**
 	 * returns the Vector.&lt;PathSegment&gt; holding the elements (PathSegment) of the path
 	 *
-	 * @return    a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
+	 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
 	 */
 	private function get_segments():Vector<IPathSegment> {
 		return _segments;
@@ -57,8 +57,8 @@ class SegmentedPathBase implements IPath {
 	/**
 	 * returns a given PathSegment from the path (PathSegment holds 3 Vector3D's)
 	 *
-	 * @param     indice uint. the indice of a given PathSegment
-	 * @return    given PathSegment from the path
+	 * @param	 indice uint. the indice of a given PathSegment
+	 * @return	given PathSegment from the path
 	 */
 	public function getSegmentAt(index:Int):IPathSegment {
 		return _segments[index];
@@ -71,8 +71,8 @@ class SegmentedPathBase implements IPath {
 	/**
 	 * removes a segment in the path according to id.
 	 *
-	 * @param     index    int. The index in path of the to be removed curvesegment
-	 * @param     join        Boolean. If true previous and next segments coordinates are reconnected
+	 * @param	 index	int. The index in path of the to be removed curvesegment
+	 * @param	 join		Boolean. If true previous and next segments coordinates are reconnected
 	 */
 	public function removeSegment(index:Int, join:Bool = false):Void {
 		if (_segments.length == 0 || index >= _segments.length - 1) return;

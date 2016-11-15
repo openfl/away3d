@@ -16,10 +16,10 @@ class Vertex {
 	/**
 	 * Creates a new <code>Vertex</code> value object.
 	 *
-	 * @param    x            [optional]    The x value. Defaults to 0.
-	 * @param    y            [optional]    The y value. Defaults to 0.
-	 * @param    z            [optional]    The z value. Defaults to 0.
-	 * @param    index        [optional]    The index value. Defaults is NaN.
+	 * @param	x			[optional]	The x value. Defaults to 0.
+	 * @param	y			[optional]	The y value. Defaults to 0.
+	 * @param	z			[optional]	The z value. Defaults to 0.
+	 * @param	index		[optional]	The index value. Defaults is NaN.
 	 */
 	public function new(x:Float = 0, y:Float = 0, z:Float = 0, index:Int = 0) {
 		_x = x;
@@ -30,7 +30,7 @@ class Vertex {
 
 	/**
 	 * To define/store the index of value object
-	 * @param    ind        The index
+	 * @param	ind		The index
 	 */
 	private function set_index(ind:Int):Int {
 		_index = ind;
@@ -43,7 +43,7 @@ class Vertex {
 
 	/**
 	 * To define/store the x value of the value object
-	 * @param    value        The x value
+	 * @param	value		The x value
 	 */
 	private function get_x():Float {
 		return _x;
@@ -56,7 +56,7 @@ class Vertex {
 
 	/**
 	 * To define/store the y value of the value object
-	 * @param    value        The y value
+	 * @param	value		The y value
 	 */
 	private function get_y():Float {
 		return _y;
@@ -69,7 +69,7 @@ class Vertex {
 
 	/**
 	 * To define/store the z value of the value object
-	 * @param    value        The z value
+	 * @param	value		The z value
 	 */
 	private function get_z():Float {
 		return _z;

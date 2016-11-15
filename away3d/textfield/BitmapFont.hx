@@ -24,18 +24,18 @@ import openfl.Vector;
  *
  *  <pre> 
  *  &lt;font&gt;
- *    &lt;info face="BranchingMouse" size="40" /&gt;
- *    &lt;common lineHeight="40" /&gt;
- *    &lt;pages&gt;  &lt;!-- currently, only one page is supported --&gt;
- *      &lt;page id="0" file="texture.png" /&gt;
- *    &lt;/pages&gt;
- *    &lt;chars&gt;
- *      &lt;char id="32" x="60" y="29" width="1" height="1" xoffset="0" yoffset="27" xadvance="8" /&gt;
- *      &lt;char id="33" x="155" y="144" width="9" height="21" xoffset="0" yoffset="6" xadvance="9" /&gt;
- *    &lt;/chars&gt;
- *    &lt;kernings&gt; &lt;!-- Kerning is optional --&gt;
- *      &lt;kerning first="83" second="83" amount="-4"/&gt;
- *    &lt;/kernings&gt;
+ *	&lt;info face="BranchingMouse" size="40" /&gt;
+ *	&lt;common lineHeight="40" /&gt;
+ *	&lt;pages&gt;  &lt;!-- currently, only one page is supported --&gt;
+ *	  &lt;page id="0" file="texture.png" /&gt;
+ *	&lt;/pages&gt;
+ *	&lt;chars&gt;
+ *	  &lt;char id="32" x="60" y="29" width="1" height="1" xoffset="0" yoffset="27" xadvance="8" /&gt;
+ *	  &lt;char id="33" x="155" y="144" width="9" height="21" xoffset="0" yoffset="6" xadvance="9" /&gt;
+ *	&lt;/chars&gt;
+ *	&lt;kernings&gt; &lt;!-- Kerning is optional --&gt;
+ *	  &lt;kerning first="83" second="83" amount="-4"/&gt;
+ *	&lt;/kernings&gt;
  *  &lt;/font&gt;
  *  </pre>
  *  

@@ -94,22 +94,22 @@ class LatheExtrude extends Mesh {
 	/**
 	 *  Class LatheExtrude generates circular meshes such as donuts, pipes, pyramids etc.. from a series of Vector3D's
 	 *
-	 *@param        material                [optional] MaterialBase. The LatheExtrude (Mesh) material. Optional in constructor, material must be set before LatheExtrude object is render.
-	 * @param        profile                [optional] Vector.&lt;Vector3D&gt;. A series of Vector3D's representing the profile information to be repeated/rotated around a given axis.
-	 * @param        axis                    [optional] String. The axis to rotate around: X_AXIS, Y_AXIS or Z_AXIS. Default is LatheExtrude.Y_AXIS.
-	 * @param        revolutions            [optional] Number. The LatheExtrude object can have less than one revolution, like 0.6 for a piechart or greater than 1 if a tweek object is passed. Minimum is 0.01. Default is 1.
-	 * @param        subdivision            [optional] uint. Howmany segments will compose the mesh in its rotational construction. Minimum is 3. Default is 10.
-	 * @param        coverall                [optional] Boolean. The way the uv mapping is spreaded across the shape. True covers an entire side of the geometry while false covers per segments. Default is true.
-	 * @param        flip                    [optional] Boolean. If the faces must be reversed depending on Vector3D's orientation. Default is false.
-	 * @param        thickness            [optional] Number. If the shape must simulate a thickness. Default is 0.
-	 * @param        preciseThickness    [optional] Boolean. If the thickness must be repected along the entire volume profile. Default is true.
-	 * @param        centerMesh        [optional] Boolean. If the geometry needs to be recentered in its own object space. If the position after generation is set to 0,0,0, the object would be centered in worldspace. Default is false.
-	 * @param        offsetRadius        [optional] Number. An offset radius if the profile data is not to be updated but the radius expected to be different. Default is 0.
-	 * @param        materials            [optional] MultipleMaterials. Allows multiple material support when thickness is set higher to 1. Default is null.
+	 *@param		material				[optional] MaterialBase. The LatheExtrude (Mesh) material. Optional in constructor, material must be set before LatheExtrude object is render.
+	 * @param		profile				[optional] Vector.&lt;Vector3D&gt;. A series of Vector3D's representing the profile information to be repeated/rotated around a given axis.
+	 * @param		axis					[optional] String. The axis to rotate around: X_AXIS, Y_AXIS or Z_AXIS. Default is LatheExtrude.Y_AXIS.
+	 * @param		revolutions			[optional] Number. The LatheExtrude object can have less than one revolution, like 0.6 for a piechart or greater than 1 if a tweek object is passed. Minimum is 0.01. Default is 1.
+	 * @param		subdivision			[optional] uint. Howmany segments will compose the mesh in its rotational construction. Minimum is 3. Default is 10.
+	 * @param		coverall				[optional] Boolean. The way the uv mapping is spreaded across the shape. True covers an entire side of the geometry while false covers per segments. Default is true.
+	 * @param		flip					[optional] Boolean. If the faces must be reversed depending on Vector3D's orientation. Default is false.
+	 * @param		thickness			[optional] Number. If the shape must simulate a thickness. Default is 0.
+	 * @param		preciseThickness	[optional] Boolean. If the thickness must be repected along the entire volume profile. Default is true.
+	 * @param		centerMesh		[optional] Boolean. If the geometry needs to be recentered in its own object space. If the position after generation is set to 0,0,0, the object would be centered in worldspace. Default is false.
+	 * @param		offsetRadius		[optional] Number. An offset radius if the profile data is not to be updated but the radius expected to be different. Default is 0.
+	 * @param		materials			[optional] MultipleMaterials. Allows multiple material support when thickness is set higher to 1. Default is null.
 	 * properties as MaterialBase are: bottom, top, left, right, front and back.
-	 * @param        ignoreSides        [optional] String. To prevent the generation of sides if thickness is set higher than 0. To avoid the bottom ignoreSides = "bottom", avoiding both top and bottom: ignoreSides = "bottom, top". Strings options: bottom, top, left, right, front and back. Default is "".
-	 * @param        tweek                [optional] Object. To build springs like shapes, rotation must be higher than 1. Properties of the tweek object are x,y,z, radius and rotation. Default is null.
-	 * @param        smoothSurface    [optional]    An optional Boolean. Defines if the surface of the mesh must be smoothed or not.
+	 * @param		ignoreSides		[optional] String. To prevent the generation of sides if thickness is set higher than 0. To avoid the bottom ignoreSides = "bottom", avoiding both top and bottom: ignoreSides = "bottom, top". Strings options: bottom, top, left, right, front and back. Default is "".
+	 * @param		tweek				[optional] Object. To build springs like shapes, rotation must be higher than 1. Properties of the tweek object are x,y,z, radius and rotation. Default is null.
+	 * @param		smoothSurface	[optional]	An optional Boolean. Defines if the surface of the mesh must be smoothed or not.
 	 */
 	public function new(material:MaterialBase = null, profile:Vector<Vector3D> = null, axis:String = LatheExtrude.Y_AXIS, revolutions:Float = 1, subdivision:Int = 10, coverall:Bool = true, centerMesh:Bool = false, flip:Bool = false, thickness:Float = 0, preciseThickness:Bool = true, offsetRadius:Float = 0, materials:MultipleMaterials = null, ignoreSides:String = "", tweek:Dynamic = null, smoothSurface:Bool = true) {
 		EPS = .0001;

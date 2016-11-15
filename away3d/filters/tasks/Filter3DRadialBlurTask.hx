@@ -85,7 +85,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase {
 			code += "add ft3.x, ft3.x, fc2.y \n";
 			i++;
 		}
-/*     blurred /= nsamples;
+/*	 blurred /= nsamples;
 		 blurred.rgb = pow(blurred.rgb,GlowGamma);
 		 blurred.rgb *= Intensity;
 		 blurred.rgb = saturate(blurred.rgb);
