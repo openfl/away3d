@@ -45,12 +45,12 @@ class SkinnedSubGeometry extends CompactSubGeometry {
 	 * @param jointsPerVertex The amount of joints that can be assigned per vertex.
 	 */
     public function new(jointsPerVertex:Int) {
-        _jointWeightsBuffer = ArrayUtils.Prefill( new Vector<VertexBuffer3D>(), 8);
-        _jointIndexBuffer = ArrayUtils.Prefill( new Vector<VertexBuffer3D>(), 8);
-        _jointWeightsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8, false);
-        _jointIndicesInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8, false);
-        _jointWeightContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8);
-        _jointIndexContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8);
+        _jointWeightsBuffer = new Vector<VertexBuffer3D>(8);
+        _jointIndexBuffer = new Vector<VertexBuffer3D>(8);
+        _jointWeightsInvalid = new Vector<Bool>(8);
+        _jointIndicesInvalid = new Vector<Bool>(8);
+        _jointWeightContext = new Vector<Context3D>(8);
+        _jointIndexContext = new Vector<Context3D>(8);
 
         super();
 
@@ -184,7 +184,7 @@ class SkinnedSubGeometry extends CompactSubGeometry {
         var oldIndex:Int;
         var newIndex:Int = 0;
         var dic:IntMap<Int> = new IntMap<Int>();
-        _condensedJointIndexData = ArrayUtils.Prefill( new Vector<UInt>(), len, 0 );
+        _condensedJointIndexData = new Vector<UInt>(len);
         _condensedIndexLookUp = new Vector<UInt>();
         var i:Int = 0;
         while (i < len) {

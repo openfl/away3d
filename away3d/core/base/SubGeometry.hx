@@ -53,11 +53,11 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry {
     public function new() {
         super();
 
-        _verticesInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
-        _uvsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
-        _secondaryUvsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
-        _normalsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
-        _tangentsInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8);
+        _verticesInvalid = new Vector<Bool>(8);
+        _uvsInvalid = new Vector<Bool>(8);
+        _secondaryUvsInvalid = new Vector<Bool>(8);
+        _normalsInvalid = new Vector<Bool>(8);
+        _tangentsInvalid = new Vector<Bool>(8);
 
         _vertexBuffer = new Vector<VertexBuffer3D>(8);
         _uvBuffer = new Vector<VertexBuffer3D>(8);

@@ -13,7 +13,7 @@ package away3d.materials.passes;
 	import away3d.materials.methods.ColorTransformMethod;
 	import away3d.materials.methods.EffectMethodBase;
 	import away3d.materials.methods.MethodVOSet;
-	import openfl.Vector.Vector;
+	import openfl.Vector;
 	
 	import openfl.display3D.Context3D;
 	
@@ -394,7 +394,7 @@ package away3d.materials.passes;
 		{
 			var probe:LightProbe;
 			var lightProbes:Array<LightProbe> = _lightPicker.lightProbes;
-			var weights:Array<Float> = _lightPicker.lightProbeWeights;
+			var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 			var len:Int = lightProbes.length;
 			var addDiff:Bool = usesProbesForDiffuse();
 			var addSpec:Bool = (_methodSetup._specularMethod!=null && usesProbesForSpecular());

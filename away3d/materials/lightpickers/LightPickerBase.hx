@@ -33,7 +33,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     public var castingPointLights(get, never):Array<PointLight>;
     public var castingDirectionalLights(get, never):Array<DirectionalLight>;
     public var lightProbes(get, never):Array<LightProbe>;
-    public var lightProbeWeights(get, never):Array<Float>;
+    public var lightProbeWeights(get, never):Vector<Float>;
     public var allPickedLights(get, never):Vector<LightBase>;
 
     private var _numPointLights:Int;
@@ -47,7 +47,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     private var _directionalLights:Array<DirectionalLight>;
     private var _castingDirectionalLights:Array<DirectionalLight>;
     private var _lightProbes:Array<LightProbe>;
-    private var _lightProbeWeights:Array<Float>;
+    private var _lightProbeWeights:Vector<Float>;
     /**
 	 * Creates a new LightPickerBase object.
 	 */
@@ -141,7 +141,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset {
     /**
 	 * The weights for each light probe, defining their influence on the object.
 	 */
-    private function get_lightProbeWeights():Array<Float> {
+    private function get_lightProbeWeights():Vector<Float> {
         return _lightProbeWeights;
     }
 

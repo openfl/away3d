@@ -23,7 +23,7 @@ class BitmapCubeTexture extends CubeTextureBase {
     public function new(posX:BitmapData, negX:BitmapData, posY:BitmapData, negY:BitmapData, posZ:BitmapData, negZ:BitmapData) {
         super();
         
-        _bitmapDatas = ArrayUtils.Prefill(new Vector<BitmapData>(), 6);
+        _bitmapDatas = new Vector<BitmapData>(6);
         testSize(_bitmapDatas[0] = posX);
         testSize(_bitmapDatas[1] = negX);
         testSize(_bitmapDatas[2] = posY);

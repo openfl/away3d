@@ -3,16 +3,18 @@
  */
 package away3d.materials.compilation;
 
+import openfl.Vector;
+
 import away3d.utils.ArrayUtils;
 
 class LightingShaderCompiler extends ShaderCompiler {
     public var lightVertexConstantIndex(get, never):Int;
     public var tangentSpace(get, never):Bool;
 
-    public var _pointLightFragmentConstants:Array<ShaderRegisterElement>;
-    public var _pointLightVertexConstants:Array<ShaderRegisterElement>;
-    public var _dirLightFragmentConstants:Array<ShaderRegisterElement>;
-    public var _dirLightVertexConstants:Array<ShaderRegisterElement>;
+    public var _pointLightFragmentConstants:Vector<ShaderRegisterElement>;
+    public var _pointLightVertexConstants:Vector<ShaderRegisterElement>;
+    public var _dirLightFragmentConstants:Vector<ShaderRegisterElement>;
+    public var _dirLightVertexConstants:Vector<ShaderRegisterElement>;
     private var _lightVertexConstantIndex:Int;
     private var _shadowRegister:ShaderRegisterElement;
 
@@ -75,13 +77,13 @@ class LightingShaderCompiler extends ShaderCompiler {
 	 */
     override private function initLightData():Void {
         super.initLightData();
-        _pointLightVertexConstants = ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), _numPointLights );
-        _pointLightFragmentConstants = ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), _numPointLights * 2 );
+        _pointLightVertexConstants = new Vector<ShaderRegisterElement>(_numPointLights);
+        _pointLightFragmentConstants = new Vector<ShaderRegisterElement>(_numPointLights * 2);
         if (tangentSpace) {
-            _dirLightVertexConstants = ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), _numDirectionalLights);
-            _dirLightFragmentConstants = ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), _numDirectionalLights * 2 );
+            _dirLightVertexConstants = new Vector<ShaderRegisterElement>(_numDirectionalLights);
+            _dirLightFragmentConstants = new Vector<ShaderRegisterElement>(_numDirectionalLights * 2);
         } else 
-            _dirLightFragmentConstants = ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), _numDirectionalLights * 3 );
+            _dirLightFragmentConstants = new Vector<ShaderRegisterElement>(_numDirectionalLights * 3);
     }
 
     /**
@@ -106,7 +108,7 @@ class LightingShaderCompiler extends ShaderCompiler {
         }
         if (tangentSpace) compileTangentSpaceNormalMapCode()
         else {
-            var normalMatrix:Array<ShaderRegisterElement> = ArrayUtils.Prefill(new Array<ShaderRegisterElement>(), 3);
+            var normalMatrix:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>(3);
             normalMatrix[0] = _registerCache.getFreeVertexConstant();
             normalMatrix[1] = _registerCache.getFreeVertexConstant();
             normalMatrix[2] = _registerCache.getFreeVertexConstant();

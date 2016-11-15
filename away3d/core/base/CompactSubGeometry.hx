@@ -28,7 +28,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
 
     public function new() {
         super();
-        _vertexDataInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8, false );
+        _vertexDataInvalid = new Vector<Bool>(8);
         _vertexBuffer = new Vector<VertexBuffer3D>(8);
         _bufferContext = new Vector<Context3D>(8);
         _autoDeriveVertexNormals = false;
@@ -292,7 +292,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
 	 * - stripBuffer(11, 2): return only the secondary uv's
 	 */
     public function stripBuffer(offset:Int, numEntries:Int):Vector<Float> {
-        var data:Vector<Float> = ArrayUtils.Prefill( new Vector<Float>(), _numVertices * numEntries);
+        var data:Vector<Float> = new Vector<Float>(_numVertices * numEntries);
         var i:Int = 0;
         var j:Int = offset;
         var skip:Int = 13 - numEntries;
@@ -316,7 +316,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry {
         var n:Int = 0;
         var t:Int = 0;
         var u:Int = 0;
-        var data:Vector<Float> = new Vector<Float>(vertLen); //ArrayUtils.Prefill( new Vector<Float>(), vertLen, 0);
+        var data:Vector<Float> = new Vector<Float>(vertLen);
 
         while (index < vertLen) {
             data[index++] = verts[v++];

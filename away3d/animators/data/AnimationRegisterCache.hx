@@ -43,7 +43,7 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public var needUVAnimation:Bool;
     public var sourceRegisters:Vector<String>;
     public var targetRegisters:Vector<String>;
-    private var indexDictionary:ObjectMap<AnimationNodeBase, Array<Int>>;
+    private var indexDictionary:ObjectMap<AnimationNodeBase, Vector<Int>>;
 
     //set true if has an node which will change UV
     public var hasUVNode:Bool;
@@ -62,7 +62,7 @@ class AnimationRegisterCache extends ShaderRegisterCache {
 
     public function new(profile:String) {
         super(profile);
-        indexDictionary = new ObjectMap<AnimationNodeBase, Array<Int>>();
+        indexDictionary = new ObjectMap<AnimationNodeBase, Vector<Int>>();
         vertexConstantData = new Vector<Float>();
         fragmentConstantData = new Vector<Float>();
     }
@@ -120,7 +120,7 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public function setRegisterIndex(node:AnimationNodeBase, parameterIndex:Int, registerIndex:Int):Void {
         
         //8 should be enough for any node.
-        var aNode = indexDictionary.exists(node) ? indexDictionary.get( node ) : ArrayUtils.Prefill( new Array<Int>(), 8, 0 );
+        var aNode = indexDictionary.exists(node) ? indexDictionary.get( node ) : new Vector<Int>(8);
         aNode[parameterIndex] = registerIndex;
         indexDictionary.set( node, aNode );
     }
@@ -207,8 +207,8 @@ class AnimationRegisterCache extends ShaderRegisterCache {
     public function setDataLength():Void {
         _numVertexConstant = _numUsedVertexConstants - _vertexConstantOffset;
         _numFragmentConstant = _numUsedFragmentConstants - _fragmentConstantOffset;
-        ArrayUtils.reSize( vertexConstantData,  _numVertexConstant * 4);
-        ArrayUtils.reSize( fragmentConstantData,  _numFragmentConstant * 4);
+        vertexConstantData.length = _numVertexConstant * 4;
+        fragmentConstantData.length = _numFragmentConstant * 4;
     }
 
     public function setVertexConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void {

@@ -181,10 +181,10 @@ class CubeGeometry extends PrimitiveBase {
             indices = target.indexData;
             
             if (indices == null)
-                indices = ArrayUtils.Prefill( new Vector<UInt>(), Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12), 0 );
+                indices = new Vector<UInt>(Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12));
         } else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), numVerts * stride, 0 );
-            indices = ArrayUtils.Prefill( new Vector<UInt>(), Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12), 0);
+            data = new Vector<Float>(numVerts * stride);
+            indices = new Vector<UInt>(Std.int((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12));
 
             invalidateUVs();  
         }
@@ -381,7 +381,7 @@ class CubeGeometry extends PrimitiveBase {
         var skip:Int = stride - 2;
         if (target.UVData != null && numUvs == target.UVData.length) data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0 );
+            data = new Vector<Float>(numUvs);
             invalidateGeometry();
         }
 

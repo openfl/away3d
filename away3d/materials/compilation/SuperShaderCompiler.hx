@@ -4,12 +4,14 @@
  */
 package away3d.materials.compilation;
 
+import openfl.Vector;
+
 import away3d.utils.ArrayUtils;
 
 class SuperShaderCompiler extends ShaderCompiler {
 
-    public var _pointLightRegisters:Array<ShaderRegisterElement>;
-    public var _dirLightRegisters:Array<ShaderRegisterElement>;
+    public var _pointLightRegisters:Vector<ShaderRegisterElement>;
+    public var _dirLightRegisters:Vector<ShaderRegisterElement>;
 
     /**
 	 * Creates a new SuperShaderCompiler object.
@@ -24,8 +26,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 */
     override private function initLightData():Void {
         super.initLightData();   
-        _pointLightRegisters = ArrayUtils.Prefill(new Array<ShaderRegisterElement>(), _numPointLights * 3);
-        _dirLightRegisters = ArrayUtils.Prefill(new Array<ShaderRegisterElement>(), _numDirectionalLights * 3);
+        _pointLightRegisters = new Vector<ShaderRegisterElement>(_numPointLights * 3);
+        _dirLightRegisters = new Vector<ShaderRegisterElement>(_numDirectionalLights * 3);
     }
 
     /**
@@ -40,7 +42,7 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 * @inheritDoc
 	 */
     override private function compileNormalCode():Void {
-        var normalMatrix:Array<ShaderRegisterElement> = ArrayUtils.Prefill( new Array<ShaderRegisterElement>(), 3 );
+        var normalMatrix:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>(3);
         _sharedRegisters.normalFragment = _registerCache.getFreeFragmentVectorTemp();
         _registerCache.addFragmentTempUsages(_sharedRegisters.normalFragment, _dependencyCounter.normalDependencies);
         
@@ -102,7 +104,7 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 * Compiles the vertex shader code for tangent-space normal maps.
 	 * @param matrix The register containing the scene transformation matrix for normals.
 	 */
-    private function compileTangentVertexCode(matrix:Array<ShaderRegisterElement>):Void {
+    private function compileTangentVertexCode(matrix:Vector<ShaderRegisterElement>):Void {
         _sharedRegisters.tangentVarying = _registerCache.getFreeVarying();
         _sharedRegisters.bitangentVarying = _registerCache.getFreeVarying();
         _vertexCode += "m33 " + _sharedRegisters.animatedNormal + ".xyz, " + _sharedRegisters.animatedNormal + ", " + matrix[0] + "\n" + "nrm " + _sharedRegisters.animatedNormal + ".xyz, " + _sharedRegisters.animatedNormal + "\n";

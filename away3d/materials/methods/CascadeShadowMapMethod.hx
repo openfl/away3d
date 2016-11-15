@@ -131,8 +131,8 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
 	 */
  
     private function initProjectionsRegs(regCache:ShaderRegisterCache):Void {
-        _cascadeProjections = ArrayUtils.Prefill(new Vector<ShaderRegisterElement>(), _cascadeShadowMapper.numCascades);
-        _depthMapCoordVaryings =ArrayUtils.Prefill( new Vector<ShaderRegisterElement>(), _cascadeShadowMapper.numCascades);
+        _cascadeProjections = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
+        _depthMapCoordVaryings = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
         var i:Int = 0;
         while (i < _cascadeShadowMapper.numCascades) {
             _depthMapCoordVaryings[i] = regCache.getFreeVarying();

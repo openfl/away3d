@@ -35,10 +35,10 @@ class DirectionalShadowMapper extends ShadowMapperBase {
 
         super();
         
-        _cullPlanes = new Vector<Plane3D>();
+        _cullPlanes = new Vector<Plane3D>(4);
         _overallDepthLens = new FreeMatrixLens();
         _overallDepthCamera = new Camera3D(_overallDepthLens);
-        _localFrustum = ArrayUtils.Prefill( new Vector<Float>(24), 24, 0 );
+        _localFrustum = new Vector<Float>(24);
         _matrix = new Matrix3D();
     }
 
@@ -86,7 +86,6 @@ class DirectionalShadowMapper extends ShadowMapperBase {
     private function updateCullPlanes(viewCamera:Camera3D):Void {
         var lightFrustumPlanes:Vector<Plane3D> = _overallDepthCamera.frustumPlanes;
         var viewFrustumPlanes:Vector<Plane3D> = viewCamera.frustumPlanes;
-        ArrayUtils.Prefill( _cullPlanes, 4 );
         _cullPlanes[0] = lightFrustumPlanes[0];
         _cullPlanes[1] = lightFrustumPlanes[1];
         _cullPlanes[2] = lightFrustumPlanes[2];

@@ -89,13 +89,13 @@ class TorusGeometry extends PrimitiveBase {
 
             _rawIndices = target.indexData ;
             if (_rawIndices == null)
-                _rawIndices = ArrayUtils.Prefill( new Vector<UInt>(), numTriangles * 3, 0);
+                _rawIndices = new Vector<UInt>(numTriangles * 3);
         }
 
         else {
             var numVertComponents:Int = _numVertices * _vertexStride;
-            _rawVertexData = ArrayUtils.Prefill( new Vector<Float>(), numVertComponents, 0);
-            _rawIndices = ArrayUtils.Prefill( new Vector<UInt>(), numTriangles * 3, 0);
+            _rawVertexData = new Vector<Float>(numVertComponents);
+            _rawIndices = new Vector<UInt>(numTriangles);
             
             invalidateUVs();
         }
@@ -196,7 +196,7 @@ class TorusGeometry extends PrimitiveBase {
         // need to initialize raw array or can be reused?
         if (target.UVData != null && numUvs == target.UVData.length) data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0);
+            data = new Vector<Float>(numUvs);
             invalidateGeometry();
         }
 

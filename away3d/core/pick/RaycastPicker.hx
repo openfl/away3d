@@ -26,7 +26,7 @@ class RaycastPicker implements IPicker {
     var _ignoredEntities:Array<Entity>;
     var _onlyMouseEnabled:Bool;
     
-    var _entities:Array<Entity>;
+    var _entities:Vector<Entity>;
     var _numEntities:Int;
     var _hasCollisions:Bool;
     
@@ -54,7 +54,7 @@ class RaycastPicker implements IPicker {
         _onlyMouseEnabled = true;
         
         _findClosestCollision = findClosestCollision;
-        _entities = new Array<Entity>();
+        _entities = new Vector<Entity>();
     }
 
     /**
@@ -170,7 +170,7 @@ class RaycastPicker implements IPicker {
 
     private function getPickingCollisionVO():PickingCollisionVO {
         // trim before sorting
-        away3d.utils.ArrayUtils.reSize( _entities, _numEntities);
+        _entities.length = _numEntities;
         
         // Sort entities from closest to furthest.
         // _entities =

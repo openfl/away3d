@@ -30,7 +30,7 @@ class Mouse3DManager {
     static var _viewCount:Int = 0;
     static var _collidingObject:PickingCollisionVO;
     static var _previousCollidingObject:PickingCollisionVO;
-    static var _collidingViewObjects:Array<PickingCollisionVO>;
+    static var _collidingViewObjects:Vector<PickingCollisionVO>;
     static var _queuedEvents:Array<MouseEvent3D> = new Array<MouseEvent3D>();
     static var _mouseUp:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_UP);
     static var _mouseClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.CLICK);
@@ -79,7 +79,7 @@ class Mouse3DManager {
         if (view != null) {
             // Clear the current colliding objects for multiple views if backBuffer just cleared
             if (view.stage3DProxy.bufferClear)
-                _collidingViewObjects = ArrayUtils.Prefill( new Array<PickingCollisionVO>(), _viewCount);
+                _collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
             
             if (!view.shareContext) {
                 if (view == _activeView && (_forceMouseMove || _updateDirty)) {
@@ -89,7 +89,7 @@ class Mouse3DManager {
             } else {
                 if (view.parent.getBounds(null).contains(view.mouseX + view.x, view.mouseY + view.y)) {
                     if (_collidingViewObjects == null) 
-                        _collidingViewObjects = ArrayUtils.Prefill( new Array<PickingCollisionVO>(), _viewCount);
+                        _collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
                     _collidingObject = _collidingViewObjects[_view3Ds.get(view)] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
                 }
             }

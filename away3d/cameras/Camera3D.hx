@@ -51,7 +51,7 @@ class Camera3D extends Entity {
         _lens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
 
         //setup default frustum planes
-        _frustumPlanes = ArrayUtils.Prefill( new Vector<Plane3D>(), 6);
+        _frustumPlanes = new Vector<Plane3D>(6);
         
         var i:Int = 0;
         while (i < 6) {

@@ -49,10 +49,10 @@ class SphereGeometry extends PrimitiveBase {
             vertices = target.vertexData;
             indices = target.indexData ;
             if (indices == null)
-                indices = ArrayUtils.Prefill( new Vector<UInt>(), (_segmentsH - 1) * _segmentsW * 6, 0 );
+                indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6);
         } else {
-            vertices = ArrayUtils.Prefill( new Vector<Float>(), numVerts * stride, 0 );
-            indices = ArrayUtils.Prefill( new Vector<UInt>(), (_segmentsH - 1) * _segmentsW * 6, 0 );
+            vertices = new Vector<Float>(numVerts * stride);
+            indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6);
             
             invalidateGeometry();
         }
@@ -160,7 +160,7 @@ class SphereGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) 
             data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0 );
+            data = new Vector<Float>(numUvs);
             invalidateGeometry();
         }
 

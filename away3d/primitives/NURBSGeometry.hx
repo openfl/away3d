@@ -321,7 +321,6 @@ class NURBSGeometry extends PrimitiveBase {
         var nplusc:Int = n + c;
         var nplus2:Int = n + 2;
         var x:Vector<Float> = new Vector<Float>(36);
-        ArrayUtils.Prefill(x,36,0);
         x[1] = 0;
         var i:Int = 2;
         while (i <= nplusc) {
@@ -341,7 +340,6 @@ class NURBSGeometry extends PrimitiveBase {
         var d:Float;
         var e:Float;
         var temp:Vector<Float> = new Vector<Float>(36);
-        ArrayUtils.Prefill(temp,36,0);
         nPlusO = numPoints + nurbOrder;
 // calculate the first order basis functions n[i][1]
         i = 1;
@@ -400,8 +398,6 @@ class NURBSGeometry extends PrimitiveBase {
             data = new Vector<Float>(numVertices * stride, true);
             numIndices = (_uSegments) * (_vSegments) * 6;
             indices = new Vector<UInt>(numIndices, true);
-            ArrayUtils.Prefill(data,numVertices * stride,0);
-            ArrayUtils.Prefill(indices,numIndices,0);
             invalidateUVs();
         }
 
@@ -473,7 +469,6 @@ class NURBSGeometry extends PrimitiveBase {
         if (target.UVData != null && uvLen == target.UVData.length) data = target.UVData
         else {
             data = new Vector<Float>(uvLen, true);
-            ArrayUtils.Prefill(data,uvLen,0);
             invalidateGeometry();
         }
 

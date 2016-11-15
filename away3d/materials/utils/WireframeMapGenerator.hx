@@ -70,7 +70,7 @@ class WireframeMapGenerator {
         var w:Float = bitmapData.width;
         var h:Float = bitmapData.height;
         var texSpaceUV:Vector<Float> = new Vector<Float>(len, true);
-        ArrayUtils.Prefill(texSpaceUV,len,0);
+ 
         var indices:Vector<UInt> = subGeom.indexData;
         var indexClone:Vector<Int>;
         do {
@@ -81,7 +81,6 @@ class WireframeMapGenerator {
         while ((++i < len));
         len = indices.length;
         indexClone = new Vector<Int>(len, true);
-		ArrayUtils.Prefill(indexClone,len,0);
         i = 0;
 // awesome, just to convert from uint to int vector -_-
         do {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
-
-	<sample path="${haxelib:away3d-examples}" if="create"/>
-
+	
+	<sample path="${haxelib:away3d-samples}" if="create"/>
+	
 </extension>

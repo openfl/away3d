@@ -28,8 +28,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset {
     public function new() {
         _format = Context3DTextureFormat.BGRA;
         _hasMipmaps = true;
-        _textures = ArrayUtils.Prefill( new Vector<TextureBase>(), 8 );
-        _dirty = ArrayUtils.Prefill( new Vector<Context3D>(), 8 );
+        _textures = new Vector<TextureBase>(8);
+        _dirty = new Vector<Context3D>(8);
         super();
     }
 

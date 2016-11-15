@@ -22,7 +22,7 @@ class CubeMapShadowMapper extends ShadowMapperBase {
     public function new() {
         super();
         _depthMapSize = 512;
-        _needsRender = ArrayUtils.Prefill( new Vector<Bool>(), 6, false );
+        _needsRender = new Vector<Bool>(6);
         initCameras();
     }
 

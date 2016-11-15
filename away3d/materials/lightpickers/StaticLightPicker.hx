@@ -80,7 +80,7 @@ class StaticLightPicker extends LightPickerBase {
         _numLightProbes = numLightProbes;
         
         // MUST HAVE MULTIPLE OF 4 ELEMENTS!
-        _lightProbeWeights = ArrayUtils.Prefill(new Array<Float>(), Math.ceil(numLightProbes / 4) * 4,0);
+        _lightProbeWeights = new Vector<Float>(Math.ceil(numLightProbes / 4) * 4);
 
         // notify material lights have changed
         dispatchEvent(new Event(Event.CHANGE));

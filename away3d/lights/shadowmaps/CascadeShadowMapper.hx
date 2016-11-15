@@ -23,7 +23,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
     public var numCascades(get, set):Int;
     public var nearPlaneDistances(get, never):Array<Float>;
 
-    private var _scissorRects:Array<Rectangle>;
+    private var _scissorRects:Vector<Rectangle>;
     private var _scissorRectsInvalid:Bool;
     private var _splitRatios:Array<Float>;
     private var _numCascades:Int;
@@ -69,9 +69,9 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
     }
 
     private function init():Void {
-        _splitRatios = ArrayUtils.Prefill(new Array<Float>(), _numCascades, 0);
+        _splitRatios = new Array<Float>(_numCascades);
         
-        _nearPlaneDistances = ArrayUtils.Prefill(new Array<Float>(), _numCascades, 0);
+        _nearPlaneDistances = new Array<Float>(_numCascades);
         
         var s:Float = 1;
         var i:Int = _numCascades - 1;
@@ -82,7 +82,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
         }
         _texOffsetsX = [-1., 1, -1, 1];
         _texOffsetsY = [1., 1, -1, -1];
-        _scissorRects = ArrayUtils.Prefill(new Array<Rectangle>(), 4, new Rectangle());
+        _scissorRects = new Vector<Rectangle>(4);
         
         _depthLenses = new Array<FreeMatrixLens>();
         _depthCameras = new Array<Camera3D>();

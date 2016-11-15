@@ -3,6 +3,7 @@ package away3d.materials.compilation;
 import away3d.utils.ArrayUtils;
 import haxe.ds.StringMap;
 import openfl.errors.Error;
+import openfl.Vector;
 
 /**
  * RegisterPool is used by the shader compilation process to keep track of which registers of a certain type are
@@ -21,8 +22,8 @@ class RegisterPool
 	var _registerComponents:Array<Dynamic>;
 	
 	var _regName:String;
-	var _usedSingleCount:Array<Array<UInt>>;
-	var _usedVectorCount:Array<UInt>;
+	var _usedSingleCount:Vector<Vector<UInt>>;
+	var _usedVectorCount:Vector<UInt>;
 	var _regCount:Int;
 	
 	var _persistent:Bool;
@@ -51,7 +52,7 @@ class RegisterPool
 		for (i in 0..._regCount) {
 			if (!isRegisterUsed(i)) {
 				if (_persistent)
-					_usedVectorCount[i]++;
+					_usedVectorCount[i] += 1;
 				return _vectorRegisters[i];
 			}
 		}
@@ -75,7 +76,7 @@ class RegisterPool
 			for (j in 0...4) {
 				if (_usedSingleCount[j][i] == 0) {
 					if (_persistent)
-						_usedSingleCount[j][i]++;
+						_usedSingleCount[j][i] += 1;
 					return _registerComponents[j][i];
 				}
 			}
@@ -106,10 +107,12 @@ class RegisterPool
 	public function removeUsage(register:ShaderRegisterElement):Void
 	{
 		if (register._component > -1) {
-			if (--_usedSingleCount[register._component][register.index] < 0)
+			var count = _usedSingleCount[register._component][register.index] -= 1;
+			if (count < 0)
 				throw new Error("More usages removed than exist!");
 		} else {
-			if (--_usedVectorCount[register.index] < 0)
+			var count = _usedVectorCount[register.index] -= 1;
+			if (count < 0)
 				throw new Error("More usages removed than exist!");
 		}
 	}
@@ -151,18 +154,13 @@ class RegisterPool
 		_vectorRegisters = _regPool.get(hash);
 		_registerComponents = _regCompsPool.get(hash);
 		
-		_usedVectorCount = new Array<UInt>();
-		_usedSingleCount = new Array<Array<UInt>>();
+		_usedVectorCount = new Vector<UInt>(regCount);
+		_usedSingleCount = new Vector<Vector<UInt>>();
 		
-		_usedSingleCount[0] = new Array<UInt>();
-		_usedSingleCount[1] = new Array<UInt>();
-		_usedSingleCount[2] = new Array<UInt>();
-		_usedSingleCount[3] = new Array<UInt>();
-		ArrayUtils.Prefill(_usedVectorCount, regCount,0);
-		ArrayUtils.Prefill(_usedSingleCount[0],regCount, 0);
-		ArrayUtils.Prefill(_usedSingleCount[1], regCount, 0);
-		ArrayUtils.Prefill(_usedSingleCount[2], regCount, 0);
-		ArrayUtils.Prefill(_usedSingleCount[3], regCount, 0);
+		_usedSingleCount[0] = new Vector<UInt>(regCount);
+		_usedSingleCount[1] = new Vector<UInt>(regCount);
+		_usedSingleCount[2] = new Vector<UInt>(regCount);
+		_usedSingleCount[3] = new Vector<UInt>(regCount);
 	 
 	
 	}

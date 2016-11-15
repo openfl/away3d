@@ -58,13 +58,13 @@ class CapsuleGeometry extends PrimitiveBase {
             data = target.vertexData;
             indices = target.indexData ;
             if (indices == null) {
-                indices = ArrayUtils.Prefill( new Vector<UInt>(),(_segmentsH - 1) * _segmentsW * 6,0 );
+                indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6);
             }
         }
 
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(),numVerts * stride,0);
-            indices = ArrayUtils.Prefill( new Vector<UInt>(),(_segmentsH - 1) * _segmentsW * 6,0);
+            data = new Vector<Float>(numVerts * stride);
+            indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6);
             invalidateUVs();
         }
 
@@ -175,7 +175,7 @@ class CapsuleGeometry extends PrimitiveBase {
         var skip:Int = stride - 2;
         if (target.UVData != null && UVlen == target.UVData.length) data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), UVlen, 0 );
+            data = new Vector<Float>(UVlen);
             invalidateGeometry();
         }
 

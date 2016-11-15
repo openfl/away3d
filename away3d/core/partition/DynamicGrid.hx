@@ -61,7 +61,6 @@ class DynamicGrid {
 
     private function createLevel(numCellsX:Int, numCellsY:Int, numCellsZ:Int, cellWidth:Float, cellHeight:Float, cellDepth:Float):Vector<InvertedOctreeNode> {
         var nodes:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>(numCellsX * numCellsY * numCellsZ);
-        ArrayUtils.Prefill(nodes,numCellsX * numCellsY * numCellsZ,null);
         var parents:Vector<InvertedOctreeNode> = null;
         var node:InvertedOctreeNode;
         var i:Int = 0;

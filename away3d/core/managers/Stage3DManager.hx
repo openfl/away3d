@@ -43,7 +43,7 @@ class Stage3DManager {
         #end
         
         if (_stageProxies == null) 
-            _stageProxies = ArrayUtils.Prefill( new Vector<Stage3DProxy>(), stage3DsLength);
+            _stageProxies = new Vector<Stage3DProxy>(stage3DsLength);
 
     }
 

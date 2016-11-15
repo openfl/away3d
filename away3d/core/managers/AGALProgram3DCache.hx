@@ -5,6 +5,7 @@ import haxe.ds.StringMap;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Program3D;
 import openfl.errors.Error;
+import openfl.Vector;
 
 #if (openfl >= "4.0.0")
 	import openfl.utils.AGALMiniAssembler;
@@ -17,7 +18,7 @@ import away3d.utils.ArrayUtils;
 
 class AGALProgram3DCache {
 
-    static private var _instances:Array<AGALProgram3DCache>;
+    static private var _instances:Vector<AGALProgram3DCache>;
     private var _stage3DProxy:Stage3DProxy;
 
     private var _program3Ds:StringMap<Program3D>;
@@ -43,7 +44,7 @@ class AGALProgram3DCache {
         var index:Int = stage3DProxy.stage3DIndex;
 
         if (_instances == null)
-            _instances = ArrayUtils.Prefill( new Array<AGALProgram3DCache>(), 8 );
+            _instances = new Vector<AGALProgram3DCache>(8);
 
         if (_instances[index] == null) {
             _instances[index] = new AGALProgram3DCache(stage3DProxy);

@@ -46,9 +46,9 @@ class OutlinePass extends MaterialPassBase {
     public function new(outlineColor:Int = 0x000000, outlineSize:Float = 20, showInnerLines:Bool = true, dedicatedMeshes:Bool = false) {
         super();
         mipmap = false;
-        _colorData = ArrayUtils.Prefill(new Vector<Float>(),4,0);
+        _colorData = new Vector<Float>(4);
         _colorData[3] = 1;
-        _offsetData = ArrayUtils.Prefill(new Vector<Float>(),4,0);
+        _offsetData = new Vector<Float>(4);
         this.outlineColor = outlineColor;
         this.outlineSize = outlineSize;
         _defaultCulling = Context3DTriangleFace.FRONT;

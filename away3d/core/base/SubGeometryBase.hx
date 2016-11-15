@@ -63,9 +63,9 @@ class SubGeometryBase {
     public function new() {
         _faceNormalsDirty = true;
         _faceTangentsDirty = true;
-        _indexBuffer = ArrayUtils.Prefill( new Vector<IndexBuffer3D>(), 8 );
-        _indexBufferContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8 );
-        _indicesInvalid = ArrayUtils.Prefill( new Vector<Bool>(), 8 );
+        _indexBuffer = new Vector<IndexBuffer3D>(8);
+        _indexBufferContext = new Vector<Context3D>(8);
+        _indicesInvalid = new Vector<Bool>(8);
         _autoDeriveVertexNormals = true;
         _autoDeriveVertexTangents = true;
         _autoGenerateUVs = false;
@@ -185,7 +185,7 @@ class SubGeometryBase {
         var texOffset:Int = UVOffset;
 
         if (_faceTangents == null)
-            _faceTangents = ArrayUtils.Prefill(new Vector<Float>(), _indices.length);
+            _faceTangents = new Vector<Float>(_indices.length);
 
         while (i < len) {
             index1 = _indices[i];
@@ -254,11 +254,10 @@ class SubGeometryBase {
         var posOffset:Int = vertexOffset;
 
         if (_faceNormals == null)
-            _faceNormals = ArrayUtils.Prefill( new Vector<Float>(), len, 0);
+            _faceNormals = new Vector<Float>(len);
 
         if (_faceWeights == null)
-            _faceWeights = ArrayUtils.Prefill( new Vector<Float>(), Std.int(len / 3), 0);
-
+            _faceWeights = new Vector<Float>(Std.int(len / 3));
         while (i < len) {
             index = posOffset + _indices[i++] * posStride;
             x1 = vertices[index];
@@ -312,7 +311,7 @@ class SubGeometryBase {
         var normalOffset:Int = vertexNormalOffset;
 
         if (target == null)
-            target = ArrayUtils.Prefill( new Vector<Float>(), lenV, 0 );
+            target = new Vector<Float>(lenV);
 
         v1 = normalOffset;
         while (v1 < lenV) {
@@ -373,7 +372,7 @@ class SubGeometryBase {
         var tangentOffset:Int = vertexTangentOffset;
 
         if (target == null)
-            target = ArrayUtils.Prefill(new Vector<Float>(), lenV, 0);
+            target = new Vector<Float>(lenV);
 
         i = tangentOffset;
         while (i < lenV) {
@@ -739,7 +738,10 @@ class SubGeometryBase {
         var skip:Int = stride - 2;
         var len:Int = Std.int(_vertexData.length / vertexStride * stride);
         if (target == null) target = new Vector<Float>();
-        ArrayUtils.reSize( target, len, 0);
+        target.fixed = false;
+        target.length = len;
+        target.fixed = true;
+        
         idx = UVOffset;
         uvIdx = 0;
         while (idx < len) {

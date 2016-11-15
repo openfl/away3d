@@ -50,7 +50,7 @@ class CharLocation
     public static function vectorFromPool():Vector<CharLocation>
     {
         var vector:Vector<CharLocation> = sVectorPool.length > 0 ?
-			sVectorPool.pop() : [];
+			sVectorPool.pop() : new Vector<CharLocation> ();
 
 		vector.length = 0;
 		sVectorLoan[sVectorLoan.length] = vector;

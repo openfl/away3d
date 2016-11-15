@@ -86,7 +86,6 @@ class ParticleSpriteSheetState extends ParticleStateBase {
 
     private function updateSpriteSheetData():Void {
         _spriteSheetData = new Vector<Float>(8, true);
-        ArrayUtils.Prefill(_spriteSheetData,8,0);
         var uTotal:Float = _totalFrames / _numColumns;
         _spriteSheetData[0] = uTotal;
         _spriteSheetData[1] = 1 / _numColumns;

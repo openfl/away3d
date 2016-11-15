@@ -501,7 +501,7 @@ class Object3D extends NamedAssetBase {
 
         // Cached vector of transformation components used when
         // recomposing the transform matrix in updateTransform()
-        _transformComponents = ArrayUtils.Prefill( new Vector<Vector3D>(3), 3);
+        _transformComponents = new Vector<Vector3D>(3);
         _transformComponents[0] = _pos;
         _transformComponents[1] = _rot;
         _transformComponents[2] = _sca;

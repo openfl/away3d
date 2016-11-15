@@ -99,11 +99,11 @@ class ShaderPicker implements IPicker {
         _localHitNormal = new Vector3D();
         _rayPos = new Vector3D();
         _rayDir = new Vector3D();
-        _id = ArrayUtils.Prefill( new Vector<Float>(), 4, 0 );
-        _viewportData = ArrayUtils.Prefill( new Vector<Float>(), 4, 0 );
+        _id = new Vector<Float>(4);
+        _viewportData = new Vector<Float>(4);
         
         // first 2 contain scale, last 2 translation
-        _boundOffsetScale = ArrayUtils.Prefill( new Vector<Float>(), 8, 0 );
+        _boundOffsetScale = new Vector<Float>(8);
         
         // first 2 contain scale, last 2 translation
         _boundOffsetScale[3] = 0;

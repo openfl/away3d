@@ -28,7 +28,7 @@ class SegmentPass extends MaterialPassBase {
      * @param thickness the thickness of the segments to be drawn.
      */
     public function new(thickness:Float) {
-        _constants = ArrayUtils.Prefill( new Vector<Float>(), 4, 0 );
+        _constants = new Vector<Float>(4);
         _calcMatrix = new Matrix3D();
         _thickness = thickness;
         _constants[1] = 1 / 255;

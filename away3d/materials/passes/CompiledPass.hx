@@ -192,8 +192,8 @@ class CompiledPass extends MaterialPassBase {
     private function initConstantData():Void {
         //_vertexConstantDatalength = _numUsedVertexConstants*4;
 		//_fragmentConstantData.length = _numUsedFragmentConstants*4; 
-        ArrayUtils.reSize( _vertexConstantData, _numUsedVertexConstants * 4, 0 );
-		ArrayUtils.reSize( _fragmentConstantData, _numUsedFragmentConstants * 4, 0 );
+       _vertexConstantData.length =  _numUsedVertexConstants * 4;
+        _fragmentConstantData.length =  _numUsedFragmentConstants * 4;
         initCommonsData();
         if (_uvTransformIndex >= 0) initUVTransformData();
         if (_uvTransformIndex2 >= 0) initUVTransformData2();

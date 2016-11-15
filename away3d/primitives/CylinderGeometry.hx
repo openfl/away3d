@@ -107,14 +107,14 @@ class CylinderGeometry extends PrimitiveBase {
             _rawData = target.vertexData;
             _rawIndices = target.indexData;
             if (_rawIndices == null){
-                _rawIndices = ArrayUtils.Prefill( new Vector<UInt>(),numTriangles * 3,0);
+                _rawIndices = new Vector<UInt>(numTriangles * 3);
             }
         }
 
         else {
             var numVertComponents:Int = _numVertices * _stride;
-            _rawData = ArrayUtils.Prefill( new Vector<Float>(), numVertComponents, 0 );
-            _rawIndices = ArrayUtils.Prefill( new Vector<UInt>(), numTriangles * 3, 0 );
+            _rawData = new Vector<Float>(numVertComponents);
+            _rawIndices = new Vector<UInt>(numTriangles * 3);
         }
 
         // evaluate revolution steps
@@ -298,7 +298,7 @@ class CylinderGeometry extends PrimitiveBase {
         // need to initialize raw array or can be reused?
         if (target.UVData != null && numUvs == target.UVData.length) UVData = target.UVData
         else {
-            UVData = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0 );
+            UVData = new Vector<Float>(numUvs);
             invalidateGeometry();
         }
 

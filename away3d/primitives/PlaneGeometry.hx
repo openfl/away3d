@@ -143,13 +143,13 @@ class PlaneGeometry extends PrimitiveBase {
             data = target.vertexData;
             indices = target.indexData ;
             if (indices == null) {
-                indices = ArrayUtils.Prefill( new Vector<UInt>(), numIndices, 0 );
+                indices = new Vector<UInt>(numIndices);
             }
         }
 
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), numVertices * stride, 0 );
-            indices = ArrayUtils.Prefill( new Vector<UInt>(), numIndices, 0 );
+            data = new Vector<Float>(numVertices * stride);
+            indices = new Vector<UInt>(numIndices);
             invalidateUVs();
         }
 
@@ -248,7 +248,7 @@ class PlaneGeometry extends PrimitiveBase {
         if (target.UVData != null && numUvs == target.UVData.length) 
             data = target.UVData
         else {
-            data = ArrayUtils.Prefill( new Vector<Float>(), numUvs, 0);
+            data = new Vector<Float>(numUvs);
             invalidateGeometry();
         }
 

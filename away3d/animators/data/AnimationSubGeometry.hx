@@ -27,9 +27,9 @@ class AnimationSubGeometry {
     public var animationParticles:Vector<ParticleAnimationData>;
 
     public function new() {
-        _vertexBuffer = ArrayUtils.Prefill( new Vector<VertexBuffer3D>(), 8 );
-        _bufferContext = ArrayUtils.Prefill( new Vector<Context3D>(), 8 );
-        _bufferDirty = ArrayUtils.Prefill( new Vector<Bool>(), 8 );
+        _vertexBuffer = new Vector<VertexBuffer3D>(8);
+        _bufferContext = new Vector<Context3D>(8);
+        _bufferDirty = new Vector<Bool>(8);
         numProcessedVertices = 0;
         previousTime = Math.NEGATIVE_INFINITY;
         animationParticles = new Vector<ParticleAnimationData>();

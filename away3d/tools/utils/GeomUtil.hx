@@ -35,7 +35,7 @@ class GeomUtil {
             var splitTangents:Vector<Float> = ((tangents != null)) ? new Vector<Float>() : null;
             var splitWeights:Vector<Float> = ((weights != null)) ? new Vector<Float>() : null;
             var splitJointIndices:Vector<UInt> = ((jointIndices != null)) ? new Vector<UInt>() : null;
-            var mappings:Vector<Int> = ArrayUtils.Prefill( new Vector<Int>(), Std.int(verts.length / 3), 0 );
+            var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length / 3));
             i = mappings.length;
             while (i-- > 0)mappings[i] = -1;
             var originalIndex:Int;

@@ -67,7 +67,7 @@ class TextField extends Mesh {
 		geometry.addSubGeometry(_subGeometry);
 		
 		textureMaterial = bitmapFont.fontMaterial;
-		var rgb:Array<UInt> = HexToRGB(color);
+		var rgb:Vector<UInt> = HexToRGB(color);
 		if (textureMaterial.colorTransform == null) {
 			textureMaterial.colorTransform = new ColorTransform();
 		}

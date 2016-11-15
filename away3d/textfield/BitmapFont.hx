@@ -69,7 +69,7 @@ class BitmapFont
 	private var mOffsetY:Float;
 
 	/** Helper objects. */
-	private static var sLines = new Vector<Array<CharLocation>>();
+	private static var sLines = new Vector<Vector<CharLocation>>();
 	
 	/** Creates a bitmap font by parsing an Xml file and uses the specified texture. 
 	 *  If you don't pass any data, the "mini" font will be created. */
@@ -176,7 +176,7 @@ class BitmapFont
 	/** Returns a vector containing all the character IDs that are contained in this font. */
 	public function getCharIDs(result:Vector<Int>=null):Vector<Int>
 	{
-		if (result == null) result = new Array<Int>();
+		if (result == null) result = new Vector<Int>();
 		
 		var keys = mChars.keys();
 		for (k in keys) {
@@ -359,7 +359,7 @@ class BitmapFont
 		
 		while (!finished)
 		{
-			sLines = new Vector<Array<CharLocation>>();
+			sLines = new Vector<Vector<CharLocation>>();
 			
 			scale = fontSize / mSize;
 			containerWidth  = width / scale;
@@ -371,7 +371,7 @@ class BitmapFont
 				var lastCharID:Int = -1;
 				currentX = 0;
 				currentY = 0;
-				var currentLine:Array<CharLocation> = CharLocation.vectorFromPool();
+				var currentLine:Vector<CharLocation> = CharLocation.vectorFromPool();
 				
 				numChars = text.length;
 				for (i in 0...numChars) 
@@ -457,7 +457,7 @@ class BitmapFont
 				finished = true; 
 		} // while (!finished)
 		
-		var finalLocations:Array<CharLocation> = CharLocation.vectorFromPool();
+		var finalLocations:Vector<CharLocation> = CharLocation.vectorFromPool();
 		var numLines:Int = sLines.length;
 		var bottom:Float = currentY + mLineHeight;
 		var yOffset:Int = 0;
@@ -467,7 +467,7 @@ class BitmapFont
 		
 		for (lineID in 0...numLines)
 		{
-			var line:Array<CharLocation> = sLines[lineID];
+			var line:Vector<CharLocation> = sLines[lineID];
 			numChars = line.length;
 			
 			if (numChars == 0) continue;
