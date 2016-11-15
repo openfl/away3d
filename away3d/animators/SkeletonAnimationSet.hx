@@ -44,8 +44,8 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet {
         var indexOffset2:Int = indexOffset0 + 2;
         var indexStream:String = "va" + pass.numUsedStreams;
         var weightStream:String = "va" + (pass.numUsedStreams + 1);
-        var indices:Vector<Dynamic> = [indexStream + ".x", indexStream + ".y", indexStream + ".z", indexStream + ".w"];
-        var weights:Vector<Dynamic> = [weightStream + ".x", weightStream + ".y", weightStream + ".z", weightStream + ".w"];
+        var indices:Vector<String> = Vector.ofArray([indexStream + ".x", indexStream + ".y", indexStream + ".z", indexStream + ".w"]);
+        var weights:Vector<String> = Vector.ofArray([weightStream + ".x", weightStream + ".y", weightStream + ".z", weightStream + ".w"]);
         var temp1:String = findTempReg(targetRegisters);
         var temp2:String = findTempReg(targetRegisters, temp1);
         var dot:String = "dp4";

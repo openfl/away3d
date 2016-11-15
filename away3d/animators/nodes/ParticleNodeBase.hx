@@ -3,6 +3,8 @@
  */
 package away3d.animators.nodes;
 
+import openfl.Vector;
+
 import away3d.utils.ArrayUtils;
 import away3d.animators.data.ParticleProperties;
 import away3d.animators.ParticleAnimationSet;
@@ -13,12 +15,12 @@ class ParticleNodeBase extends AnimationNodeBase {
     public var mode(get, never):Int;
     public var priority(get, never):Int;
     public var dataLength(get, never):Int;
-    public var oneData(get, never):Array<Float>;
+    public var oneData(get, never):Vector<Float>;
 
     private var _mode:Int;
     private var _priority:Int;
     private var _dataLength:Int;
-    private var _oneData:Array<Float>;
+    private var _oneData:Vector<Float>;
     public var dataOffset:Int;
 
     /**
@@ -56,7 +58,7 @@ class ParticleNodeBase extends AnimationNodeBase {
 	 * @see away3d.animators.ParticleAnimationSet
 	 * @see #generatePropertyOfOneParticle
 	 */
-    private function get_oneData():Array<Float> {
+    private function get_oneData():Vector<Float> {
         return _oneData;
     }
 
@@ -101,7 +103,7 @@ class ParticleNodeBase extends AnimationNodeBase {
         _mode = mode;
         _priority = priority;
         _dataLength = dataLength;
-        _oneData = ArrayUtils.Prefill(new Array<Float>(), _dataLength, 0);
+        _oneData = new Vector<Float>(_dataLength);
     }
 
     /**

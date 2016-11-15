@@ -3,13 +3,14 @@
  */
 package away3d.animators.nodes;
 import openfl.geom.Vector3D;
+import openfl.Vector;
 import away3d.animators.states.SkeletonClipState;
 import away3d.animators.data.SkeletonPose;
 
 class SkeletonClipNode extends AnimationClipNodeBase {
-    public var frames(get, never):Array<SkeletonPose>;
+    public var frames(get, never):Vector<SkeletonPose>;
 
-    private var _frames:Array<SkeletonPose>;
+    private var _frames:Vector<SkeletonPose>;
     
     /**
 	 * Determines whether to use SLERP equations (true) or LERP equations (false) in the calculation
@@ -20,7 +21,7 @@ class SkeletonClipNode extends AnimationClipNodeBase {
     /**
 	 * Returns a vector of skeleton poses representing the pose of each animation frame in the clip.
 	 */
-    private function get_frames():Array<SkeletonPose> {
+    private function get_frames():Vector<SkeletonPose> {
         return _frames;
     }
 
@@ -28,7 +29,7 @@ class SkeletonClipNode extends AnimationClipNodeBase {
 	 * Creates a new <code>SkeletonClipNode</code> object.
 	 */
     public function new() {
-        _frames = new Array<SkeletonPose>();
+        _frames = new Vector<SkeletonPose>();
         highQuality = false;
         _stateClass = SkeletonClipState;
         super();

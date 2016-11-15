@@ -157,7 +157,7 @@ class Max3DSParser extends ParserBase {
                         _cur_obj_end = end;
                         _cur_obj = new ObjectVO();
                         _cur_obj.name = readNulTermString();
-                        _cur_obj.materials = new Array<String>();
+                        _cur_obj.materials = new Vector<String>();
                         _cur_obj.materialFaces = new StringMap();
 
 
@@ -478,8 +478,8 @@ class Max3DSParser extends ParserBase {
             var mat:MaterialBase = null;
             var mesh:Mesh = null;
             var mtx:Matrix3D = null;
-            var vertices:Array<VertexVO> = null;
-            var faces:Array<FaceVO> = null;
+            var vertices:Vector<VertexVO> = null;
+            var faces:Vector<FaceVO> = null;
 
             if (obj.materials.length > 1)
                 Debug.trace('The a3d 3DS parser does not support multiple materials per mesh at this point.');
@@ -578,7 +578,7 @@ class Max3DSParser extends ParserBase {
         return null;
     }
 
-    private function prepareData(vertices:Array<VertexVO>, faces:Array<FaceVO>, obj:ObjectVO):Void {
+    private function prepareData(vertices:Vector<VertexVO>, faces:Vector<FaceVO>, obj:ObjectVO):Void {
         // convert raw ObjectVO's data to structured VertexVO and FaceVO
         var i:Int;
         var j:Int;
@@ -612,7 +612,7 @@ class Max3DSParser extends ParserBase {
         }
     }
 
-    private function applySmoothGroups(vertices:Array<VertexVO>, faces:Array<FaceVO>):Void {
+    private function applySmoothGroups(vertices:Vector<VertexVO>, faces:Vector<FaceVO>):Void {
         // clone vertices according to following rule:
         // clone if vertex's in faces from groups 1+2 and 3
         // don't clone if vertex's in faces from groups 1+2, 3 and 1+3
@@ -625,9 +625,9 @@ class Max3DSParser extends ParserBase {
         var numVerts:Int = vertices.length;
         var numFaces:Int = faces.length;
         var face:FaceVO;
-        var groups:Array<UInt>;
+        var groups:Vector<UInt>;
         var group:UInt;
-        var clones:Array<UInt>;
+        var clones:Vector<UInt>;
 
         // extract groups data for vertices
         var vGroups:Vector<Vector<UInt>> = new Vector<Vector<UInt>>(numVerts);
@@ -656,7 +656,7 @@ class Max3DSParser extends ParserBase {
                 
         // clone vertices
         var vClones:Vector<Vector<Int>> = new Vector<Vector<Int>>(numVerts);
-        var clones:Array<Int>;
+        var clones:Vector<Int>;
         for (i in 0...numVerts) {
             if ((len = vGroups[i].length) < 1)
                 continue;
@@ -856,8 +856,8 @@ class ObjectVO {
     public var indices:Vector<UInt>;
     public var uvs:Vector<Float>;
     public var materialFaces:StringMap<Array<Int>>;
-    public var materials:Array<String>;
-    public var smoothingGroups:Array<Int>;
+    public var materials:Vector<String>;
+    public var smoothingGroups:Vector<Int>;
 
     public function new() {
     }

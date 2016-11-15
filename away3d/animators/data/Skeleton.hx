@@ -5,6 +5,8 @@
  */
 package away3d.animators.data;
 
+import openfl.Vector;
+
 import away3d.library.assets.Asset3DType;
 import away3d.library.assets.NamedAssetBase;
 import away3d.library.assets.IAsset;
@@ -18,7 +20,7 @@ class Skeleton extends NamedAssetBase implements IAsset {
 	 * property that is an index into this list.
 	 * A child joint should always have a higher index than its parent.
 	 */
-    public var joints:Array<SkeletonJoint>;
+    public var joints:Vector<SkeletonJoint>;
 
     /**
 	 * The total number of joints in the skeleton.
@@ -32,7 +34,7 @@ class Skeleton extends NamedAssetBase implements IAsset {
 	 */
     public function new() {
         // in the long run, it might be a better idea to not store Joint objects, but keep all data in Vectors, that we can upload easily?
-        joints = new Array<SkeletonJoint>();
+        joints = new Vector<SkeletonJoint>();
         super();
     }
 
@@ -78,7 +80,7 @@ class Skeleton extends NamedAssetBase implements IAsset {
 	 * @inheritDoc
 	 */
     public function dispose():Void {
-        joints = [];
+        joints = new Vector<SkeletonJoint>();
     }
 
     /**

@@ -21,18 +21,18 @@ import openfl.Vector;
 class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher {
     
     public var numCascades(get, set):Int;
-    public var nearPlaneDistances(get, never):Array<Float>;
+    public var nearPlaneDistances(get, never):Vector<Float>;
 
     private var _scissorRects:Vector<Rectangle>;
     private var _scissorRectsInvalid:Bool;
-    private var _splitRatios:Array<Float>;
+    private var _splitRatios:Vector<Float>;
     private var _numCascades:Int;
-    private var _depthCameras:Array<Camera3D>;
-    private var _depthLenses:Array<FreeMatrixLens>;
-    private var _texOffsetsX:Array<Float>;
-    private var _texOffsetsY:Array<Float>;
+    private var _depthCameras:Vector<Camera3D>;
+    private var _depthLenses:Vector<FreeMatrixLens>;
+    private var _texOffsetsX:Vector<Float>;
+    private var _texOffsetsY:Vector<Float>;
     private var _changeDispatcher:EventDispatcher;
-    private var _nearPlaneDistances:Array<Float>;
+    private var _nearPlaneDistances:Vector<Float>;
 
     public function new(numCascades:Int = 3) {
         _scissorRectsInvalid = true;
@@ -69,9 +69,9 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
     }
 
     private function init():Void {
-        _splitRatios = new Array<Float>(_numCascades);
+        _splitRatios = new Vector<Float>(_numCascades);
         
-        _nearPlaneDistances = new Array<Float>(_numCascades);
+        _nearPlaneDistances = new Vector<Float>(_numCascades);
         
         var s:Float = 1;
         var i:Int = _numCascades - 1;
@@ -80,12 +80,12 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
             s *= .4;
             --i;
         }
-        _texOffsetsX = [-1., 1, -1, 1];
-        _texOffsetsY = [1., 1, -1, -1];
+        _texOffsetsX = Vector.ofArray([-1., 1, -1, 1]);
+        _texOffsetsY = Vector.ofArray([1., 1, -1, -1]);
         _scissorRects = new Vector<Rectangle>(4);
         
-        _depthLenses = new Array<FreeMatrixLens>();
-        _depthCameras = new Array<Camera3D>();
+        _depthLenses = new Vector<FreeMatrixLens>();
+        _depthCameras = new Vector<Camera3D>();
         i = 0;
         while (i < _numCascades) {
             _depthLenses[i] = new FreeMatrixLens();
@@ -279,7 +279,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
         return _changeDispatcher.willTrigger(type);
     }
 
-    private function get_nearPlaneDistances():Array<Float> {
+    private function get_nearPlaneDistances():Vector<Float> {
         return _nearPlaneDistances;
     }
 }

@@ -1,5 +1,6 @@
 package away3d.lights.shadowmaps;
 
+import openfl.Vector;
 
 import away3d.cameras.Camera3D;
 
@@ -28,7 +29,7 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper {
     }
 
     override private function updateDepthProjection(viewCamera:Camera3D):Void {
-        var corners:Array<Float> = viewCamera.lens.frustumCorners;
+        var corners:Vector<Float> = viewCamera.lens.frustumCorners;
         var i:Int = 0;
         while (i < 12) {
             var v:Float = corners[i];

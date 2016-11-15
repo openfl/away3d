@@ -59,7 +59,7 @@ class DepthRenderer extends RendererBase {
         return value;
     }
 
-    public function renderCascades(entityCollector:EntityCollector, target:TextureBase, numCascades:Int, scissorRects:Array<Rectangle>, cameras:Array<Camera3D>):Void {
+    public function renderCascades(entityCollector:EntityCollector, target:TextureBase, numCascades:Int, scissorRects:Vector<Rectangle>, cameras:Vector<Camera3D>):Void {
         _renderTarget = target;
         _renderTargetSurface = 0;
         _renderableSorter.sort(entityCollector);

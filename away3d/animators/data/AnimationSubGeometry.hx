@@ -43,7 +43,7 @@ class AnimationSubGeometry {
     public function createVertexData(numVertices:Int, totalLenOfOneVertex:Int):Void {
         _numVertices = numVertices;
         _totalLenOfOneVertex = totalLenOfOneVertex;
-        _vertexData = ArrayUtils.Prefill( new Vector<Float>(), numVertices * totalLenOfOneVertex, 0 );
+        _vertexData = new Vector<Float>(numVertices * totalLenOfOneVertex);
     }
 
     public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:Context3DVertexBufferFormat):Void {

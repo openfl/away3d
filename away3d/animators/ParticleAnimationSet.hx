@@ -302,7 +302,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
         var oneDataOffset:Int;
         var counterForVertex:Int;
         var counterForOneData:Int;
-        var oneData:Array<Float>;
+        var oneData:Vector<Float>;
         var numVertices:Int;
         var vertexData:Vector<Float>;
         var vertexLength:Int;

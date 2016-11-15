@@ -30,7 +30,7 @@ class AWD1Parser extends ParserBase {
     private var _geos:Vector<Dynamic>;
     private var _oList:Vector<Dynamic>;
     private var _aC:Vector<Dynamic>;
-    private var _dline:Vector<String>;
+    private var _dline:Array<String>;
     private var _container:ObjectContainer3D;
     private var _meshList:Vector<Mesh>;
     private var _inited:Bool;
@@ -143,11 +143,11 @@ class AWD1Parser extends ParserBase {
             _stringLength = _textData.length;
             _charIndex = _textData.indexOf(creturn, 0);
             _oldIndex = _charIndex;
-            _objs = [];
-            _geos = [];
-            _oList = [];
+            _objs = new Vector();
+            _geos = new Vector();
+            _oList = new Vector();
             _dline = [];
-            _aC = [];
+            _aC = new Vector();
 
             _container = new ObjectContainer3D();
         }

@@ -38,10 +38,10 @@ class SingleObjectDepthPass extends MaterialPassBase {
         _textureSize = textureSize;
         _numUsedStreams = 2;
         _numUsedVertexConstants = 7;
-        _polyOffset = [ polyOffset, 0, 0, 0 ];
-        _enc = [ 1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0 ];
-        _animatableAttributes = [ "va0", "va1" ];
-        _animationTargetRegisters = [ "vt0", "vt1" ];
+        _polyOffset = Vector.ofArray([ polyOffset, 0, 0, 0 ]);
+        _enc = Vector.ofArray([ 1.0, 255.0, 65025.0, 16581375.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0 ]);
+        _animatableAttributes = Vector.ofArray([ "va0", "va1" ]);
+        _animationTargetRegisters = Vector.ofArray([ "vt0", "vt1" ]);
     }
 
     /**

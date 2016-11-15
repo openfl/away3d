@@ -5,6 +5,8 @@
  */
 package away3d.animators.data;
 
+import openfl.Vector;
+
 class SkeletonJoint {
 
 	/**
@@ -23,7 +25,7 @@ class SkeletonJoint {
 	/**
 	 * The inverse bind pose matrix, as raw data, used to transform vertices to bind joint space in preparation for transformation using the joint matrix.
 	 */
-    public var inverseBindPose:Array<Float>;
+    public var inverseBindPose:Vector<Float>;
 
 	/**
 	 * Creates a new <code>SkeletonJoint</code> object

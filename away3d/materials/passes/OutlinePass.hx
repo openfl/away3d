@@ -57,8 +57,8 @@ class OutlinePass extends MaterialPassBase {
         _showInnerLines = showInnerLines;
         _dedicatedMeshes = dedicatedMeshes;
         if (dedicatedMeshes) _outlineMeshes = new ObjectMap<IRenderable, Mesh>();
-        _animatableAttributes = ["va0", "va1"];
-        _animationTargetRegisters = ["vt0", "vt1"];
+        _animatableAttributes = Vector.ofArray(["va0", "va1"]);
+        _animationTargetRegisters = Vector.ofArray(["vt0", "vt1"]);
     }
 
     /**

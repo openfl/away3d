@@ -153,7 +153,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase {
         var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
         var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
         var planeDistanceReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-        var planeDistances:Vector<String> = [planeDistanceReg + ".x", planeDistanceReg + ".y", planeDistanceReg + ".z", planeDistanceReg + ".w"];
+        var planeDistances:Vector<String> = Vector.ofArray([planeDistanceReg + ".x", planeDistanceReg + ".y", planeDistanceReg + ".z", planeDistanceReg + ".w"]);
         var code:String;
         vo.fragmentConstantsIndex = decReg.index * 4;
         vo.texturesIndex = depthMapRegister.index;

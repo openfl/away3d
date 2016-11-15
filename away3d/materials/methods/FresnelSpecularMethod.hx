@@ -3,6 +3,8 @@
  */
 package away3d.materials.methods;
 
+import openfl.Vector;
+
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterData;
@@ -93,7 +95,7 @@ class FresnelSpecularMethod extends CompositeSpecularMethod {
 	 */
     override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
         super.activate(vo, stage3DProxy);
-        var fragmentData:Array<Float> = vo.fragmentData;
+        var fragmentData:Vector<Float> = vo.fragmentData;
         var index:Int = vo.secondaryFragmentConstantsIndex;
         fragmentData[index] = _normalReflectance;
         fragmentData[index + 1] = _fresnelPower;

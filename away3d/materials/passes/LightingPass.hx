@@ -432,7 +432,7 @@ class LightingPass extends CompiledPass
 		var context:Context3D = stage3DProxy.context3D;
 		var probe:LightProbe;
 		var lightProbes:Array<LightProbe> = _lightPicker.lightProbes;
-		var weights:Array<Float> = _lightPicker.lightProbeWeights;
+		var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 		var len:Int = lightProbes.length - _lightProbesOffset;
 		var addDiff:Bool = usesProbesForDiffuse();
 		var addSpec:Bool = _methodSetup._specularMethod!=null && usesProbesForSpecular();
