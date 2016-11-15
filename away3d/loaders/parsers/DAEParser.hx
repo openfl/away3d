@@ -81,7 +81,7 @@ class DAEParser extends ParserBase {
     private var _geometries:Vector<Geometry>;
     private var _animationInfo:DAEAnimationInfo;
     //private var _animators : Vector.<IAnimator>;
-    private var _rootNodes:Array<AnimationNodeBase>;
+    private var _rootNodes:Vector<AnimationNodeBase>;
     private var _defaultBitmapMaterial:MaterialBase;
     private var _defaultColorMaterial:ColorMaterial;
     private var _defaultColorMaterialMulti:ColorMultiPassMaterial;
@@ -1026,7 +1026,7 @@ class DAEElement {
     }
 
     private function convertMatrix(matrix:Matrix3D):Void {
-        var indices:Vector<Int> = [2, 6, 8, 9, 11, 14];
+        var indices:Array<Int> = [2, 6, 8, 9, 11, 14];
         var raw:Vector<Float> = matrix.rawData;
         for (i in 0...indices.length)
             raw[indices[i]] *= -1.0;
@@ -1044,7 +1044,7 @@ class DAEElement {
 
     private function readFloatArray(element:Fast):Vector<Float> {
         var raw:String = readText(element);
-        var parts:Vector<String> = ~/\s+/g.split(raw);
+        var parts:Array<String> = ~/\s+/g.split(raw);
         var floats:Vector<Float> = new Vector<Float>();
         for (i in 0...parts.length)
             floats.push(Std.parseFloat(parts[i]));
@@ -1054,7 +1054,7 @@ class DAEElement {
 
     private function readIntArray(element:Fast):Vector<Int> {
         var raw:String = readText(element);
-        var parts:Vector<String> = ~/\s+/g.split(raw);
+        var parts:Array<String> = ~/\s+/g.split(raw);
         var ints:Vector<Int> = new Vector<Int>();
 
         for (i in 0...parts.length)
@@ -1065,7 +1065,7 @@ class DAEElement {
 
     private function readStringArray(element:Fast):Vector<String> {
         var raw:String = readText(element);
-        var parts:Vector<String> = ~/\s+/g.split(raw);
+        var parts:Array<String> = ~/\s+/g.split(raw);
         var strings:Vector<String> = new Vector<String>();
 
         for (i in 0...parts.length)
@@ -2471,13 +2471,13 @@ class DAEController extends DAEElement {
 }
 
 class DAESampler extends DAEElement {
-    public var input:Array<Float>;
-    public var output:Array<Array<Float>>;
+    public var input:Vector<Float>;
+    public var output:Vector<Vector<Float>>;
     public var dataType:String;
-    public var interpolation:Array<String>;
+    public var interpolation:Vector<String>;
     public var minTime:Float;
     public var maxTime:Float;
-    private var _inputs:Array<DAEInput>;
+    private var _inputs:Vector<DAEInput>;
 
     public function new(element:Fast = null) {
         super(element);
@@ -2486,7 +2486,7 @@ class DAESampler extends DAEElement {
     override public function deserialize(element:Fast):Void {
         super.deserialize(element);
         var list:List<Fast> = element.nodes.resolve("input");
-        _inputs = new Array<DAEInput>();
+        _inputs = new Vector<DAEInput>();
 
         for (item in list.iterator())
             _inputs.push(new DAEInput(item));
@@ -2496,9 +2496,9 @@ class DAESampler extends DAEElement {
         var input:DAEInput;
         var source:DAESource;
         var j:Int;
-        this.input = new Array<Float>();
-        this.output = new Array<Array<Float>>();
-        this.interpolation = new Array<String>();
+        this.input = new Vector<Float>();
+        this.output = new Vector<Vector<Float>>();
+        this.interpolation = new Vector<String>();
         this.minTime = 0;
         this.maxTime = 0;
 
@@ -2575,7 +2575,7 @@ class DAESampler extends DAEElement {
 class DAEFrameData {
     public var frame:Int;
     public var time:Float;
-    public var data:Array<Float>;
+    public var data:Vector<Float>;
     public var dt:Float;
     public var valid:Bool;
 
@@ -2608,7 +2608,7 @@ class DAEChannel extends DAEElement {
         this.source = ~/^#/.replace(element.att.source, "");
         this.target = element.att.target.toString();
         this.sampler = null;
-        var parts:Vector<String> = this.target.split("/");
+        var parts:Array<String> = this.target.split("/");
         this.targetId = parts.shift();
         this.arrayAccess = this.dotAccess = false;
         var tmp:String = parts.shift();
@@ -2638,8 +2638,8 @@ class DAEChannel extends DAEElement {
 }
 
 class DAEAnimation extends DAEElement {
-    public var samplers:Array<DAESampler>;
-    public var channels:Array<DAEChannel>;
+    public var samplers:Vector<DAESampler>;
+    public var channels:Vector<DAEChannel>;
     public var sources:Map<String, DAESource>;
 
     public function new(element:Fast = null) {
@@ -2648,8 +2648,8 @@ class DAEAnimation extends DAEElement {
 
     override public function deserialize(element:Fast):Void {
         super.deserialize(element);
-        this.samplers = new Array<DAESampler>();
-        this.channels = new Array<DAEChannel>();
+        this.samplers = new Vector<DAESampler>();
+        this.channels = new Vector<DAEChannel>();
         this.sources = new Map<String, DAESource>();
         traverseChildren(element);
         setupChannels(this.sources);
@@ -2699,7 +2699,7 @@ class DAELightType extends DAEElement {
 
     override private function traverseChildHandler(child:Fast, nodeName:String):Void {
         if (nodeName == "color") {
-            var f:Array<Float> = readFloatArray(child);
+            var f:Vector<Float> = readFloatArray(child);
             this.color = new DAEColor();
             color.r = f[0];
             color.g = f[1];

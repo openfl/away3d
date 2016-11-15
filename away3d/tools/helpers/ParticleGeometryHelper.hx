@@ -23,7 +23,7 @@ class ParticleGeometryHelper {
         var verticesVector:Vector<Vector<Float>> = new Vector<Vector<Float>>();
         var indicesVector:Vector<Vector<UInt>> = new Vector<Vector<UInt>>();
         var vertexCounters:Vector<UInt> = new Vector<UInt>();
-        var particles:Array<ParticleData> = new Array<ParticleData>();
+        var particles:Vector<ParticleData> = new Vector<ParticleData>();
         var subGeometries:Vector<CompactSubGeometry> = new Vector<CompactSubGeometry>();
         var numParticles:Int = geometries.length;
         var sourceSubGeometries:Vector<ISubGeometry>;

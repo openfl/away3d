@@ -395,7 +395,7 @@ class AwayStats extends Sprite {
 
     private function onLogoData( e:Event ) {
         //var logoBmp = new Bitmap( e.currentTarget.content, PixelSnapping.AUTO, true );    
-        _logo.addChild( e.currentTarget.content );
+        _logo.addChild( cast (e.currentTarget, Loader).content );
     }
 
     private function addText( label:String, txtFld:TextField, col:UInt = 0xffffff ) {

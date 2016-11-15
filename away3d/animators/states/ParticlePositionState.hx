@@ -16,6 +16,7 @@ import away3d.core.managers.Stage3DProxy;
 import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.geom.Vector3D;
 import haxe.ds.ObjectMap;
+import openfl.Vector;
 
 class ParticlePositionState extends ParticleStateBase {
     public var position(get, set):Vector3D;
@@ -38,11 +39,11 @@ class ParticlePositionState extends ParticleStateBase {
     /**
 	 *
 	 */
-    public function getPositions():Array<Vector3D> {
+    public function getPositions():Vector<Vector3D> {
         return _dynamicProperties;
     }
 
-    public function setPositions(value:Array<Vector3D>):Void {
+    public function setPositions(value:Vector<Vector3D>):Void {
         _dynamicProperties = value;
         _dynamicPropertiesDirty = new ObjectMap<AnimationSubGeometry, Bool>();
     }

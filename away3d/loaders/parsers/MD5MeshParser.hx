@@ -271,7 +271,7 @@ class MD5MeshParser extends ParserBase {
         var ch:String = null;
         var vertexData:Array<VertexData> = null;
         var weights:Array<JointData> = null;
-        var indices:Array<UInt> = null;
+        var indices:Vector<UInt> = null;
 
         if (token != "{")
             sendUnknownKeywordError();
@@ -293,7 +293,7 @@ class MD5MeshParser extends ParserBase {
                     vertexData = new Array<VertexData>();
 
                 case MESH_NUM_TRIS_TOKEN:
-                    indices = new Array<UInt>();
+                    indices = new Vector<UInt>();
 
                 case MESH_NUM_WEIGHTS_TOKEN:
                     weights = new Array<JointData>();
@@ -326,7 +326,7 @@ class MD5MeshParser extends ParserBase {
 	 * @param indices The indices for the faces.
 	 * @return A SkinnedSubGeometry instance containing all geometrical data for the current mesh.
 	 */
-    private function translateGeom(vertexData:Array<VertexData>, weights:Array<JointData>, indices:Array<UInt>):SkinnedSubGeometry {
+    private function translateGeom(vertexData:Array<VertexData>, weights:Array<JointData>, indices:Vector<UInt>):SkinnedSubGeometry {
         var len:Int = vertexData.length;
         var v1:Int, v2:Int, v3:Int;
         var vertex:VertexData;
@@ -395,7 +395,7 @@ class MD5MeshParser extends ParserBase {
 	 * Retrieve the next triplet of vertex indices that form a face.
 	 * @param indices The index list in which to store the read data.
 	 */
-    private function parseTri(indices:Array<UInt>):Void {
+    private function parseTri(indices:Vector<UInt>):Void {
         var index:Int = getNextInt() * 3;
         indices[index] = getNextInt();
         indices[index + 1] = getNextInt();
@@ -656,7 +656,7 @@ class JointData {
 class MeshData {
     public var vertexData:Array<VertexData>;
     public var weightData:Array<JointData>;
-    public var indices:Array<UInt>;
+    public var indices:Vector<UInt>;
 
     public function new() {
     }

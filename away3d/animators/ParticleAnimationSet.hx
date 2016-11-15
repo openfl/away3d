@@ -293,7 +293,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet {
         
         if (newAnimationSubGeometry == false) return;
         
-        var particles:Array<ParticleData> = geometry.particles;
+        var particles:Vector<ParticleData> = geometry.particles;
         var particlesLength:Int = particles.length;
         var numParticles:Int = geometry.numParticles;
         var particleProperties:ParticleProperties = new ParticleProperties();
