@@ -76,7 +76,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 		scaleAndRotateTarget = getRegisterFromString(targetRegisters[0]);
 		addVertexTempUsages(scaleAndRotateTarget, 1);
 		
-		for (i in 0...targetRegisters.length) {
+		for (i in 1...targetRegisters.length) {
 			rotationRegisters.push(getRegisterFromString(targetRegisters[i]));
 			addVertexTempUsages(rotationRegisters[i - 1], 1);
 		}
