@@ -1,8 +1,8 @@
 package away3d.stereo;
 
-import openfl.display3D._shaders.AGLSLShaderUtils;
 import away3d.core.managers.RTTBufferManager;
 import away3d.core.managers.Stage3DProxy;
+import away3d.debug.Debug;
 import away3d.stereo.methods.InterleavedStereoRenderMethod;
 import away3d.stereo.methods.StereoRenderMethodBase;
 import openfl.display3D.Context3D;
@@ -17,7 +17,8 @@ import openfl.display3D.textures.Texture;
 import openfl.events.Event;
 import openfl.utils.AGALMiniAssembler;
 
-class StereoRenderer {
+class StereoRenderer
+{
 	public var renderMethod(get, set):StereoRenderMethodBase;
 
 	private var _leftTexture:Texture;
@@ -29,7 +30,8 @@ class StereoRenderer {
 	private var _leftTextureInvalid:Bool;
 	private var _rightTextureInvalid:Bool;
 
-	public function new(renderMethod:StereoRenderMethodBase = null) {
+	public function new(renderMethod:StereoRenderMethodBase = null)
+	{
 		_program3DInvalid = true;
 		_leftTextureInvalid = true;
 		_rightTextureInvalid = true;
@@ -39,18 +41,21 @@ class StereoRenderer {
 			_method = new InterleavedStereoRenderMethod();
 	}
 
-	private function get_renderMethod():StereoRenderMethodBase {
+	private function get_renderMethod():StereoRenderMethodBase
+	{
 		return _method;
 	}
 
-	private function set_renderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase {
+	private function set_renderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase
+	{
 		_method = value;
 		_program3DInvalid = true;
 		
 		return value;
 	}
 
-	public function getLeftInputTexture(stage3DProxy:Stage3DProxy):Texture {
+	public function getLeftInputTexture(stage3DProxy:Stage3DProxy):Texture
+	{
 		if (_leftTextureInvalid) {
 			if (_rttManager == null) 
 				setupRTTManager(stage3DProxy);
@@ -62,7 +67,8 @@ class StereoRenderer {
 		return _leftTexture;
 	}
 
-	public function getRightInputTexture(stage3DProxy:Stage3DProxy):Texture {
+	public function getRightInputTexture(stage3DProxy:Stage3DProxy):Texture
+	{
 		if (_rightTextureInvalid) {
 			if (_rttManager == null) 
 				setupRTTManager(stage3DProxy);
@@ -74,7 +80,8 @@ class StereoRenderer {
 		return _rightTexture;
 	}
 
-	public function render(stage3DProxy:Stage3DProxy):Void {
+	public function render(stage3DProxy:Stage3DProxy):Void
+	{
 		var vertexBuffer:VertexBuffer3D;
 		var indexBuffer:IndexBuffer3D;
 		var context:Context3D;
@@ -109,14 +116,16 @@ class StereoRenderer {
 		context.setVertexBufferAt(1, null, 2, null);
 	}
 
-	private function setupRTTManager(stage3DProxy:Stage3DProxy):Void {
+	private function setupRTTManager(stage3DProxy:Stage3DProxy):Void
+	{
 		_rttManager = RTTBufferManager.getInstance(stage3DProxy);
 		_rttManager.addEventListener(Event.RESIZE, onRttBufferManagerResize);
 	}
 
-	private function getProgram3D(stage3DProxy:Stage3DProxy):Program3D {
+	private function getProgram3D(stage3DProxy:Stage3DProxy):Program3D
+	{
 		if (_program3DInvalid) {
-
+			var assembler:AGALMiniAssembler;
 			var vertexCode:String;
 			var fragmentCode:String;
 			vertexCode = "mov op, va0\n" + "mov v0, va0\n" + "mov v1, va1\n";
@@ -124,18 +133,20 @@ class StereoRenderer {
 			
 			if (_program3D != null) 
 				_program3D.dispose();
-
+			
+			assembler = new AGALMiniAssembler(Debug.active);
+			
 			_program3D = stage3DProxy.context3D.createProgram();
-			_program3D.upload(
-				AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
-				AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
-			);
+			_program3D.upload(assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
+					assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode));
+			
 			_program3DInvalid = false;
 		}
 		return _program3D;
 	}
 
-	private function onRttBufferManagerResize(ev:Event):Void {
+	private function onRttBufferManagerResize(ev:Event):Void
+	{
 		_leftTextureInvalid = true;
 		_rightTextureInvalid = true;
 		_method.invalidateTextureSize();

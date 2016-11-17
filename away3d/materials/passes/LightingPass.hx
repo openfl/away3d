@@ -291,7 +291,7 @@ class LightingPass extends CompiledPass
 		k = _lightFragmentConstantIndex;
 		
 		var caster:Int = 0;
-		var dirLights:Array<DirectionalLight> = _lightPicker.directionalLights;
+		var dirLights:Vector<DirectionalLight> = _lightPicker.directionalLights;
 		offset = _directionalLightsOffset;
 		len = _lightPicker.directionalLights.length;
 		if (offset > len) {
@@ -359,7 +359,7 @@ class LightingPass extends CompiledPass
 		
 		total = 0;
 		
-		var pointLights:Array<PointLight> = _lightPicker.pointLights;
+		var pointLights:Vector<PointLight> = _lightPicker.pointLights;
 		offset = _pointLightsOffset;
 		len = _lightPicker.pointLights.length;
 		if (offset > len) {
@@ -431,7 +431,7 @@ class LightingPass extends CompiledPass
 	{
 		var context:Context3D = stage3DProxy.context3D;
 		var probe:LightProbe;
-		var lightProbes:Array<LightProbe> = _lightPicker.lightProbes;
+		var lightProbes:Vector<LightProbe> = _lightPicker.lightProbes;
 		var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 		var len:Int = lightProbes.length - _lightProbesOffset;
 		var addDiff:Bool = usesProbesForDiffuse();

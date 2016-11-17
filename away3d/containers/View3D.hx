@@ -607,7 +607,7 @@ class View3D extends Sprite
 		return;
 	}
 
-	#else
+	#elseif !display
 	
 	/**
 	 * The width of the viewport. When software rendering is used, this is limited by the

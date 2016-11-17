@@ -14,7 +14,7 @@ import openfl.Vector;
 
 class LightsHelper {
 
-	static private var _lightsArray:Vector<Dynamic>;
+	static private var _lightsArray:Array<LightBase>;
 	static private var _light:LightBase;
 	static private var _state:Int;
 	
@@ -24,11 +24,11 @@ class LightsHelper {
 	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
 	 * @param	 lights						Vector.&lt;LightBase&gt;. A series of lights to be set to all materials found during parsing of the target ObjectContainer3D.
 	 */
-	static public function addStaticLightsToMaterials(objectContainer3D:ObjectContainer3D, lights:Array<LightBase>):Void {
+	static public function addStaticLightsToMaterials(objectContainer3D:ObjectContainer3D, lights:Vector<LightBase>):Void {
 		
 		if (lights.length == 0) return;
 		
-		_lightsArray = Vector.ofArray([]);
+		_lightsArray = [];
 		for (i in 0...lights.length) {
 			_lightsArray[i] = lights[i];
 	   }
@@ -82,7 +82,7 @@ class LightsHelper {
 	static private function apply(materialOwner:IMaterialOwner):Void {
 		
 		var picker:StaticLightPicker;
-		var aLights:Vector<LightBase>;
+		var aLights:Array<LightBase>;
 		var hasLight:Bool = false;
 		var i:Int = 0;
 
@@ -94,11 +94,11 @@ class LightsHelper {
 					picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
 					
 					if (picker == null || picker.lights != _lightsArray) 
-						materialOwner.material.lightPicker = new StaticLightPicker(Vector.ofArray(_lightsArray));
+						materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
 				
 				case 1:
 					if (materialOwner.material.lightPicker == null)
-						materialOwner.material.lightPicker = new StaticLightPicker(Vector.ofArray([]));
+						materialOwner.material.lightPicker = new StaticLightPicker([]);
 					
 					picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
 					

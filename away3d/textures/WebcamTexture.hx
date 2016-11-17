@@ -4,14 +4,14 @@ import away3d.tools.utils.TextureUtils;
 import openfl.display.BitmapData;
 import openfl.display3D.textures.TextureBase;
 import openfl.geom.Matrix;
-#if !js
-import openfl.media.Camera;
+#if flash
+import flash.media.Camera;
 #end
 import openfl.media.Video;
 
 class WebcamTexture extends BitmapTexture
 {	
-	#if !js
+	#if flash
 	public var autoUpdate(get, set):Bool;
 	public var camera(get, never):Camera;
 	public var smoothing(get, set):Bool;

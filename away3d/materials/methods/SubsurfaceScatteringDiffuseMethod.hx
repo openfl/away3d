@@ -18,7 +18,8 @@ import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.Vector;
 
-class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
+class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
+{
 	public var scattering(get, set):Float;
 	public var translucency(get, set):Float;
 	public var scatterColor(get, set):Int;
@@ -41,14 +42,15 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	 * @param depthMapSize The size of the depth map used.
 	 * @param depthMapOffset The amount by which the rendered object will be inflated, to prevent depth map rounding errors.
 	 */
-	public function new(depthMapSize:Int = 512, depthMapOffset:Float = 15) {
+	public function new(depthMapSize:Int = 512, depthMapOffset:Float = 15)
+	{
 		_translucency = 1;
 		_scatterColor = 0xffffff;
 		_scatterR = 1.0;
 		_scatterG = 1.0;
 		_scatterB = 1.0;
 		super(scatterLight);
-		_passes = new Array<MaterialPassBase>();
+		_passes = new Vector<MaterialPassBase>();
 		_depthPass = new SingleObjectDepthPass(depthMapSize, depthMapOffset);
 		_passes.push(_depthPass);
 		_scattering = 0.2;
@@ -58,7 +60,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function initConstants(vo:MethodVO):Void {
+	override public function initConstants(vo:MethodVO):Void
+	{
 		super.initConstants(vo);
 		var data:Vector<Float> = vo.vertexData;
 		var index:Int = vo.secondaryVertexConstantsIndex;
@@ -77,7 +80,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 		data[index + 11] = -.1;
 	}
 
-	override public function cleanCompilationData():Void {
+	override public function cleanCompilationData():Void
+	{
 		super.cleanCompilationData();
 		_lightProjVarying = null;
 		_propReg = null;
@@ -91,11 +95,13 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	 * The amount by which the light scatters. It can be used to set the translucent surface's thickness. Use low
 	 * values for skin.
 	 */
-	private function get_scattering():Float {
+	private function get_scattering():Float
+	{
 		return _scattering;
 	}
 
-	private function set_scattering(value:Float):Float {
+	private function set_scattering(value:Float):Float
+	{
 		_scattering = value;
 		return value;
 	}
@@ -103,11 +109,13 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * The translucency of the object.
 	 */
-	private function get_translucency():Float {
+	private function get_translucency():Float
+	{
 		return _translucency;
 	}
 
-	private function set_translucency(value:Float):Float {
+	private function set_translucency(value:Float):Float
+	{
 		_translucency = value;
 		return value;
 	}
@@ -115,11 +123,13 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * The colour of the "insides" of the object, ie: the colour the light becomes after leaving the object.
 	 */
-	private function get_scatterColor():Int {
+	private function get_scatterColor():Int
+	{
 		return _scatterColor;
 	}
 
-	private function set_scatterColor(scatterColor:Int):Int {
+	private function set_scatterColor(scatterColor:Int):Int
+	{
 		_scatterColor = scatterColor;
 		_scatterR = ((scatterColor >> 16) & 0xff) / 0xff;
 		_scatterG = ((scatterColor >> 8) & 0xff) / 0xff;
@@ -130,7 +140,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String {
+	override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+	{
 		var code:String = super.getVertexCode(vo, regCache);
 		var lightProjection:ShaderRegisterElement;
 		var toTexRegister:ShaderRegisterElement;
@@ -149,7 +160,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String {
+	override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+	{
 		_colorReg = regCache.getFreeFragmentConstant();
 		_decReg = regCache.getFreeFragmentConstant();
 		_propReg = regCache.getFreeFragmentConstant();
@@ -160,7 +172,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+	{
 		_isFirstLight = true;
 		_lightColorReg = lightColReg;
 		return super.getFragmentCodePerLight(vo, lightDirReg, lightColReg, regCache);
@@ -169,7 +182,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+	override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	{
 		var code:String = super.getFragmentPostLightingCode(vo, regCache, targetReg);
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		code += "mul " + temp + ".xyz, " + _lightColorReg + ".xyz, " + _targetReg + ".w\n" + "mul " + temp + ".xyz, " + temp + ".xyz, " + _colorReg + ".xyz\n" + "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz\n";
@@ -180,7 +194,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
+	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	{
 		super.activate(vo, stage3DProxy);
 		var index:Int = vo.secondaryFragmentConstantsIndex;
 		var data:Vector<Float> = vo.fragmentData;
@@ -194,7 +209,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
+	override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	{
 		var depthMap:Texture = _depthPass.getDepthMap(renderable, stage3DProxy);
 		var projection:Matrix3D = _depthPass.getProjection(renderable);
 		stage3DProxy.context3D.setTextureAt(vo.secondaryTexturesIndex, depthMap);
@@ -205,7 +221,8 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod {
 	 * Generates the code for this method
 	 */
 
-	private function scatterLight(vo:MethodVO, targetReg:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String {
+	private function scatterLight(vo:MethodVO, targetReg:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
+	{
 // only scatter first light
 		if (!_isFirstLight) return "";
 		_isFirstLight = false;

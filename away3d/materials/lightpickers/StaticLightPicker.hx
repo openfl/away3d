@@ -14,16 +14,18 @@ import away3d.lights.LightProbe;
 import away3d.lights.PointLight;
 import openfl.Vector;
 
-class StaticLightPicker extends LightPickerBase {
-	public var lights(get, set):Vector<LightBase>;
+class StaticLightPicker extends LightPickerBase
+{
+	public var lights(get, set):Array<LightBase>;
 
-	private var _lights:Vector<LightBase>;
+	private var _lights:Array<LightBase>;
 
 	/**
 	 * Creates a new StaticLightPicker object.
 	 * @param lights The lights to be used for shading.
 	 */
-	public function new(lights:Vector<LightBase>) {
+	public function new(lights:Array<LightBase>)
+	{
 		this.lights = lights;
 		super();
 	}
@@ -31,11 +33,13 @@ class StaticLightPicker extends LightPickerBase {
 	/**
 	 * The lights used for shading.
 	 */
-	private function get_lights():Vector<LightBase> {
+	private function get_lights():Array<LightBase>
+	{
 		return _lights;
 	}
 
-	private function set_lights(value:Vector<LightBase>):Vector<LightBase> {
+	private function set_lights(value:Array<LightBase>):Array<LightBase>
+	{
 		var numPointLights:Int = 0;
 		var numDirectionalLights:Int = 0;
 		var numCastingPointLights:Int = 0;
@@ -46,12 +50,12 @@ class StaticLightPicker extends LightPickerBase {
 			clearListeners();
 		
 		_lights = value;
-		_allPickedLights = value;
-		_pointLights = new Array<PointLight>();
-		_castingPointLights = new Array<PointLight>();
-		_directionalLights = new Array<DirectionalLight>();
-		_castingDirectionalLights = new Array<DirectionalLight>();
-		_lightProbes = new Array<LightProbe>();
+		_allPickedLights = Vector.ofArray(value);
+		_pointLights = new Vector<PointLight>();
+		_castingPointLights = new Vector<PointLight>();
+		_directionalLights = new Vector<DirectionalLight>();
+		_castingDirectionalLights = new Vector<DirectionalLight>();
+		_lightProbes = new Vector<LightProbe>();
 		var len:Int = value.length;
 		var i:Int = 0;
 		while (i < len) {
@@ -91,7 +95,8 @@ class StaticLightPicker extends LightPickerBase {
 	 * Remove configuration change listeners on the lights.
 	 */
 
-	private function clearListeners():Void {
+	private function clearListeners():Void
+	{
 		var len:Int = _lights.length;
 		var i:Int = 0;
 		while (i < len) {
@@ -104,7 +109,8 @@ class StaticLightPicker extends LightPickerBase {
 	 * Notifies the material of a configuration change.
 	 */
 
-	private function onCastShadowChange(event:LightEvent):Void {
+	private function onCastShadowChange(event:LightEvent):Void
+	{
 		// TODO: Assign to special caster collections, just append it to the lights in SinglePass
 		// But keep seperated in multipass
 		var light:LightBase = cast((event.target), LightBase);
@@ -117,7 +123,8 @@ class StaticLightPicker extends LightPickerBase {
 	 * Called when a directional light's shadow casting configuration changes.
 	 */
 
-	private function updateDirectionalCasting(light:DirectionalLight):Void {
+	private function updateDirectionalCasting(light:DirectionalLight):Void
+	{
 		if (light.castsShadows) {
 			--_numDirectionalLights;
 			++_numCastingDirectionalLights;
@@ -140,7 +147,8 @@ class StaticLightPicker extends LightPickerBase {
 	 * Called when a point light's shadow casting configuration changes.
 	 */
 
-	private function updatePointCasting(light:PointLight):Void {
+	private function updatePointCasting(light:PointLight):Void
+	{
 		if (light.castsShadows) {
 			--_numPointLights;
 			++_numCastingPointLights;

@@ -52,9 +52,9 @@ class Face {
 	 */
 	public function new(vertices:Vector<Float> = null, uvs:Vector<Float> = null) {
 		_vertices = vertices ;
-		if (_vertices == null) _vertices = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
+		if (_vertices == null) _vertices = Vector.ofArray([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]);
 		_uvs = uvs;
-		if (_uvs == null) _uvs = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
+		if (_uvs == null) _uvs = Vector.ofArray([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]);
 	}
 
 	//uvs
@@ -363,8 +363,8 @@ class Face {
 	 * returns a new Face value Object
 	 */
 	public function clone():Face {
-		var nVertices:Vector<Float> = [ _vertices[0], _vertices[1], _vertices[2], _vertices[3], _vertices[4], _vertices[5], _vertices[6], _vertices[7], _vertices[8] ];
-		var nUvs:Vector<Float> = [ _uvs[0], _uvs[1], _uvs[2], _uvs[3], _uvs[4], _uvs[5] ];
+		var nVertices:Vector<Float> = Vector.ofArray([ _vertices[0], _vertices[1], _vertices[2], _vertices[3], _vertices[4], _vertices[5], _vertices[6], _vertices[7], _vertices[8] ]);
+		var nUvs:Vector<Float> = Vector.ofArray([ _uvs[0], _uvs[1], _uvs[2], _uvs[3], _uvs[4], _uvs[5] ]);
 		return new Face(nVertices, nUvs);
 	}
 

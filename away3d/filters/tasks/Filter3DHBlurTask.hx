@@ -6,7 +6,8 @@ import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
 import openfl.Vector;
 
-class Filter3DHBlurTask extends Filter3DTaskBase {
+class Filter3DHBlurTask extends Filter3DTaskBase
+{
 	public var amount(get, set):Int;
 	public var stepSize(get, set):Int;
 
@@ -21,19 +22,22 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
 	 * @param amount The maximum amount of blur to apply in pixels at the most out-of-focus areas
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function new(amount:Int, stepSize:Int = -1) {
+	public function new(amount:Int, stepSize:Int = -1)
+	{
 		_stepSize = 1;
 		super();
 		_amount = amount;
-		_data = [ 0.0, 0.0, 0.0, 1.0 ];
+		_data = Vector.ofArray([ 0.0, 0.0, 0.0, 1.0 ]);
 		this.stepSize = stepSize;
 	}
 
-	private function get_amount():Int {
+	private function get_amount():Int
+	{
 		return _amount;
 	}
 
-	private function set_amount(value:Int):Int {
+	private function set_amount(value:Int):Int
+	{
 		if (value == _amount) return value;
 		
 		_amount = value;
@@ -44,11 +48,13 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
 		return value;
 	}
 
-	private function get_stepSize():Int {
+	private function get_stepSize():Int
+	{
 		return _stepSize;
 	}
 
-	private function set_stepSize(value:Int):Int {
+	private function set_stepSize(value:Int):Int
+	{
 		if (value == _stepSize) return value;
 		
 		_stepSize = value;
@@ -59,7 +65,8 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
 		return value;
 	}
 
-	override public function getFragmentCode():String {
+	override public function getFragmentCode():String
+	{
 		var code:String;
 		var numSamples:Int = 1;
 		code = "mov ft0, v0	\n" + "sub ft0.x, v0.x, fc0.x\n";
@@ -78,23 +85,27 @@ class Filter3DHBlurTask extends Filter3DTaskBase {
 		return code;
 	}
 
-	override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void {
+	override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void
+	{
 		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
 	}
 
-	override private function updateTextures(stage:Stage3DProxy):Void {
+	override private function updateTextures(stage:Stage3DProxy):Void
+	{
 		super.updateTextures(stage);
 		updateBlurData();
 	}
 
-	private function updateBlurData():Void {
+	private function updateBlurData():Void
+	{
 		// todo: must be normalized using view size ratio instead of texture
 		var invW:Float = 1 / _textureWidth;
 		_data[0] = _amount * .5 * invW;
 		_data[1] = _realStepSize * invW;
 	}
 
-	private function calculateStepSize():Void {
+	private function calculateStepSize():Void
+	{
 		_realStepSize = _stepSize > (0) ? _stepSize : _amount > (MAX_AUTO_SAMPLES) ? _amount / MAX_AUTO_SAMPLES : 1;
 	}
 }

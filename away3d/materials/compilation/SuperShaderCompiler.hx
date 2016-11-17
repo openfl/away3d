@@ -6,9 +6,8 @@ package away3d.materials.compilation;
 
 import openfl.Vector;
 
-import away3d.utils.ArrayUtils;
-
-class SuperShaderCompiler extends ShaderCompiler {
+class SuperShaderCompiler extends ShaderCompiler
+{
 
 	public var _pointLightRegisters:Vector<ShaderRegisterElement>;
 	public var _dirLightRegisters:Vector<ShaderRegisterElement>;
@@ -17,14 +16,16 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 * Creates a new SuperShaderCompiler object.
 	 * @param profile The compatibility profile used by the renderer.
 	 */
-	public function new(profile:String) {
+	public function new(profile:String)
+	{
 		super(profile);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private function initLightData():Void {
+	override private function initLightData():Void
+	{
 		super.initLightData();   
 		_pointLightRegisters = new Vector<ShaderRegisterElement>(_numPointLights * 3);
 		_dirLightRegisters = new Vector<ShaderRegisterElement>(_numDirectionalLights * 3);
@@ -33,7 +34,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function calculateDependencies():Void {
+	override private function calculateDependencies():Void
+	{
 		super.calculateDependencies();
 		_dependencyCounter.addWorldSpaceDependencies(true);
 	}
@@ -41,7 +43,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function compileNormalCode():Void {
+	override private function compileNormalCode():Void
+	{
 		var normalMatrix:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>(3);
 		_sharedRegisters.normalFragment = _registerCache.getFreeFragmentVectorTemp();
 		_registerCache.addFragmentTempUsages(_sharedRegisters.normalFragment, _dependencyCounter.normalDependencies);
@@ -81,7 +84,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function createNormalRegisters():Void {
+	override private function createNormalRegisters():Void
+	{
 		if (_dependencyCounter.normalDependencies > 0) {
 			_sharedRegisters.normalInput = _registerCache.getFreeVertexAttribute();
 			_normalBufferIndex = _sharedRegisters.normalInput.index;
@@ -104,7 +108,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	 * Compiles the vertex shader code for tangent-space normal maps.
 	 * @param matrix The register containing the scene transformation matrix for normals.
 	 */
-	private function compileTangentVertexCode(matrix:Vector<ShaderRegisterElement>):Void {
+	private function compileTangentVertexCode(matrix:Vector<ShaderRegisterElement>):Void
+	{
 		_sharedRegisters.tangentVarying = _registerCache.getFreeVarying();
 		_sharedRegisters.bitangentVarying = _registerCache.getFreeVarying();
 		_vertexCode += "m33 " + _sharedRegisters.animatedNormal + ".xyz, " + _sharedRegisters.animatedNormal + ", " + matrix[0] + "\n" + "nrm " + _sharedRegisters.animatedNormal + ".xyz, " + _sharedRegisters.animatedNormal + "\n";
@@ -117,7 +122,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * Compiles the fragment shader code for tangent-space normal maps.
 	 */
-	private function compileTangentNormalMapFragmentCode():Void {
+	private function compileTangentNormalMapFragmentCode():Void
+	{
 		var t:ShaderRegisterElement;
 		var b:ShaderRegisterElement;
 		var n:ShaderRegisterElement;
@@ -142,7 +148,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function compileViewDirCode():Void {
+	override private function compileViewDirCode():Void
+	{
 		var cameraPositionReg:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
 		_sharedRegisters.viewDirVarying = _registerCache.getFreeVarying();
 		_sharedRegisters.viewDirFragment = _registerCache.getFreeFragmentVectorTemp();
@@ -156,7 +163,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function compileLightingCode():Void {
+	override private function compileLightingCode():Void
+	{
 		var shadowReg:ShaderRegisterElement = null;
 		_sharedRegisters.shadedTarget = _registerCache.getFreeFragmentVectorTemp();
 		_registerCache.addFragmentTempUsages(_sharedRegisters.shadedTarget, 1);
@@ -227,7 +235,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 	/**
 	 * Initializes the registers containing the lighting data.
 	 */
-	private function initLightRegisters():Void {
+	private function initLightRegisters():Void
+	{
 		// init these first so we're sure they're in sequence
 		var i:Int = 0;
 		var len:Int;
@@ -249,7 +258,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 		}
 	}
 
-	private function compileDirectionalLightCode():Void {
+	private function compileDirectionalLightCode():Void
+	{
 		var diffuseColorReg:ShaderRegisterElement;
 		var specularColorReg:ShaderRegisterElement;
 		var lightDirReg:ShaderRegisterElement;
@@ -268,7 +278,8 @@ class SuperShaderCompiler extends ShaderCompiler {
 		}
 	}
 
-	private function compilePointLightCode():Void {
+	private function compilePointLightCode():Void
+	{
 		var diffuseColorReg:ShaderRegisterElement;
 		var specularColorReg:ShaderRegisterElement;
 		var lightPosReg:ShaderRegisterElement;
@@ -310,10 +321,11 @@ class SuperShaderCompiler extends ShaderCompiler {
 		}
 	}
 
-	private function compileLightProbeCode():Void {
+	private function compileLightProbeCode():Void
+	{
 		var weightReg:String;
 		var weightComponents:Array<Dynamic> = [".x", ".y", ".z", ".w"];
-		var weightRegisters:Array<ShaderRegisterElement> = new Array<ShaderRegisterElement>();
+		var weightRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>();
 		var i:Int = 0;
 		var texReg:ShaderRegisterElement;
 		var addSpec:Bool = _usingSpecularMethod && usesProbesForSpecular();
@@ -322,10 +334,10 @@ class SuperShaderCompiler extends ShaderCompiler {
 		if (!(addSpec || addDiff)) return;
 		
 		if (addDiff) 
-			_lightProbeDiffuseIndices = new Array<UInt>();
+			_lightProbeDiffuseIndices = new Vector<UInt>();
 		
 		if (addSpec) 
-			_lightProbeSpecularIndices = new Array<UInt>();
+			_lightProbeSpecularIndices = new Vector<UInt>();
 		
 		i = 0;
 		while (i < _numProbeRegisters) {

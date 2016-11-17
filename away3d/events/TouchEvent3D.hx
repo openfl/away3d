@@ -9,7 +9,8 @@ import openfl.events.Event;
 import openfl.geom.Point;
 import openfl.geom.Vector3D;
 
-class TouchEvent3D extends Event {
+class TouchEvent3D extends Event
+{
 	public var scenePosition(get, never):Vector3D;
 	public var sceneNormal(get, never):Vector3D;
 
@@ -82,7 +83,8 @@ class TouchEvent3D extends Event {
 	 * Create a new TouchEvent3D object.
 	 * @param type The type of the TouchEvent3D.
 	 */
-	public function new(type:String) {
+	public function new(type:String)
+	{
 		_allowedToPropagate = true;
 		super(type, true, true);
 	}
@@ -91,16 +93,18 @@ class TouchEvent3D extends Event {
 	 * @inheritDoc
 	 */
 #if flash
-	@:getter(bubbles) function get_bubbles():Bool {
+	@:getter(bubbles) function get_bubbles():Bool
+	{
 // Don't bubble if propagation has been stopped.
-		return super.bubbles && _allowedToPropagate;
+		return this.bubbles && _allowedToPropagate;
 	}
 #end
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function stopPropagation():Void {
+	override public function stopPropagation():Void
+	{
 		super.stopPropagation();
 		_allowedToPropagate = false;
 		if (_parentEvent != null) _parentEvent._allowedToPropagate = false;
@@ -109,7 +113,8 @@ class TouchEvent3D extends Event {
 	/**
 	 * @inheritDoc
 	 */
-	override public function stopImmediatePropagation():Void {
+	override public function stopImmediatePropagation():Void
+	{
 		super.stopImmediatePropagation();
 		_allowedToPropagate = false;
 		if (_parentEvent != null) _parentEvent._allowedToPropagate = false;
@@ -118,7 +123,8 @@ class TouchEvent3D extends Event {
 	/**
 	 * Creates a copy of the TouchEvent3D object and sets the value of each property to match that of the original.
 	 */
-	override public function clone():Event {
+	override public function clone():Event
+	{
 		var result:TouchEvent3D = new TouchEvent3D(type);
 #if flash
 		if (isDefaultPrevented()) result.preventDefault();
@@ -143,7 +149,8 @@ class TouchEvent3D extends Event {
 	/**
 	 * The position in scene space where the event took place
 	 */
-	private function get_scenePosition():Vector3D {
+	private function get_scenePosition():Vector3D
+	{
 		if (Std.is(object, ObjectContainer3D)) return cast((object), ObjectContainer3D).sceneTransform.transformVector(localPosition)
 		else return localPosition;
 	}
@@ -151,7 +158,8 @@ class TouchEvent3D extends Event {
 	/**
 	 * The normal in scene space where the event took place
 	 */
-	private function get_sceneNormal():Vector3D {
+	private function get_sceneNormal():Vector3D
+	{
 		if (Std.is(object, ObjectContainer3D)) {
 			var sceneNormal:Vector3D = cast((object), ObjectContainer3D).sceneTransform.deltaTransformVector(localNormal);
 			sceneNormal.normalize();

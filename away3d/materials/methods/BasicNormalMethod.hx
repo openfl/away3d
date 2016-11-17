@@ -13,7 +13,8 @@ import openfl.display3D.Context3DWrapMode;
 import openfl.display3D.Context3DTextureFilter;
 import openfl.display3D.Context3DMipFilter;
 
-class BasicNormalMethod extends ShadingMethodBase {
+class BasicNormalMethod extends ShadingMethodBase
+{
 	public var tangentSpace(get, never):Bool;
 	public var hasOutput(get, never):Bool;
 	public var normalMap(get, set):Texture2DBase;
@@ -24,14 +25,16 @@ class BasicNormalMethod extends ShadingMethodBase {
 	/**
 	 * Creates a new BasicNormalMethod object.
 	 */
-	public function new() {
+	public function new()
+	{
 		super();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function initVO(vo:MethodVO):Void {
+	override public function initVO(vo:MethodVO):Void
+	{
 		vo.needsUV = cast((_texture!=null), Bool);
 	}
 
@@ -39,7 +42,8 @@ class BasicNormalMethod extends ShadingMethodBase {
 	 * Indicates whether or not this method outputs normals in tangent space. Override for object-space normals.
 	 */
 
-	private function get_tangentSpace():Bool {
+	private function get_tangentSpace():Bool
+	{
 		return true;
 	}
 
@@ -48,25 +52,29 @@ class BasicNormalMethod extends ShadingMethodBase {
 	 * Override if subclasses are different.
 	 */
 
-	private function get_hasOutput():Bool {
+	private function get_hasOutput():Bool
+	{
 		return _useTexture;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function copyFrom(method:ShadingMethodBase):Void {
+	override public function copyFrom(method:ShadingMethodBase):Void
+	{
 		normalMap = cast((method), BasicNormalMethod).normalMap;
 	}
 
 	/**
 	 * The texture containing the normals per pixel.
 	 */
-	private function get_normalMap():Texture2DBase {
+	private function get_normalMap():Texture2DBase
+	{
 		return _texture;
 	}
 
-	private function set_normalMap(value:Texture2DBase):Texture2DBase {
+	private function set_normalMap(value:Texture2DBase):Texture2DBase
+	{
 		if (cast((value != null), Bool) != _useTexture || (value != null && _texture != null && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
 			invalidateShaderProgram();
 		}
@@ -78,7 +86,8 @@ class BasicNormalMethod extends ShadingMethodBase {
 	/**
 	 * @inheritDoc
 	 */
-	override public function cleanCompilationData():Void {
+	override public function cleanCompilationData():Void
+	{
 		super.cleanCompilationData();
 		_normalTextureRegister = null;
 	}
@@ -86,14 +95,16 @@ class BasicNormalMethod extends ShadingMethodBase {
 	/**
 	 * @inheritDoc
 	 */
-	override public function dispose():Void {
+	override public function dispose():Void
+	{
 		if (_texture != null) _texture = null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
+	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	{
 		if (vo.texturesIndex >= 0) {
 			#if !flash 
 			stage3DProxy.context3D.setSamplerStateAt(
@@ -108,7 +119,8 @@ class BasicNormalMethod extends ShadingMethodBase {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+	public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	{
 		_normalTextureRegister = regCache.getFreeTextureReg();
 		vo.texturesIndex = _normalTextureRegister.index;
 		return getTex2DSampleCode(vo, targetReg, _normalTextureRegister, _texture) + "sub " + targetReg + ".xyz, " + targetReg + ".xyz, " + _sharedRegisters.commons + ".xxx	\n" + "nrm " + targetReg + ".xyz, " + targetReg + ".xyz							\n";

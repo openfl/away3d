@@ -33,8 +33,10 @@ import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
 import openfl.events.Event;
 import openfl.geom.Matrix3D;
+import openfl.Vector;
 
-class MaterialBase extends NamedAssetBase implements IAsset {
+class MaterialBase extends NamedAssetBase implements IAsset
+{
 	public var assetType(get, never):String;
 	public var lightPicker(get, set):LightPickerBase;
 	public var mipmap(get, set):Bool;
@@ -48,7 +50,7 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	public var requiresBlending(get, never):Bool;
 	public var uniqueId(get, never):Int;
 	public var numPasses(get, never):Int;
-	public var owners(get, never):Array<IMaterialOwner>;
+	public var owners(get, never):Vector<IMaterialOwner>;
 
 	/**
 	 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
@@ -92,11 +94,11 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * A list of material owners, renderables or custom Entities.
 	 */
-	private var _owners:Array<IMaterialOwner>;
+	private var _owners:Vector<IMaterialOwner>;
 	private var _alphaPremultiplied:Bool;
 	private var _blendMode:BlendMode;
 	private var _numPasses:Int;
-	private var _passes:Array<MaterialPassBase>;
+	private var _passes:Vector<MaterialPassBase>;
 	private var _mipmap:Bool;
 	private var _smooth:Bool;
 	private var _repeat:Bool;
@@ -110,14 +112,15 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Creates a new MaterialBase object.
 	 */
-	public function new() {
+	public function new()
+	{
 		_blendMode = BlendMode.NORMAL;
 		_mipmap = true;
 		_smooth = true;
 		_anisotropy = Anisotropy.ANISOTROPIC2X;
 		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
-		_owners = new Array<IMaterialOwner>();
-		_passes = new Array<MaterialPassBase>();
+		_owners = new Vector<IMaterialOwner>();
+		_passes = new Vector<MaterialPassBase>();
 		_depthPass = new DepthMapPass();
 		_distancePass = new DistanceMapPass();
 		_depthPass.addEventListener(Event.CHANGE, onDepthPassChange);
@@ -134,7 +137,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * @inheritDoc
 	 */
-	private function get_assetType():String {
+	private function get_assetType():String
+	{
 		return Asset3DType.MATERIAL;
 	}
 
@@ -144,11 +148,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @see away3d.materials.lightpickers.LightPickerBase
 	 * @see away3d.materials.lightpickers.StaticLightPicker
 	 */
-	private function get_lightPicker():LightPickerBase {
+	private function get_lightPicker():LightPickerBase
+	{
 		return _lightPicker;
 	}
 
-	private function set_lightPicker(value:LightPickerBase):LightPickerBase {
+	private function set_lightPicker(value:LightPickerBase):LightPickerBase
+	{
 		if (value != _lightPicker) {
 			_lightPicker = value;
 			var len:Int = _passes.length;
@@ -164,11 +170,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Indicates whether or not any used textures should use mipmapping. Defaults to true.
 	 */
-	private function get_mipmap():Bool {
+	private function get_mipmap():Bool
+	{
 		return _mipmap;
 	}
 
-	private function set_mipmap(value:Bool):Bool {
+	private function set_mipmap(value:Bool):Bool
+	{
 		_mipmap = value;
 		var i:Int = 0;
 		while (i < _numPasses) {
@@ -181,11 +189,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Indicates whether or not any used textures should use smoothing.
 	 */
-	private function get_smooth():Bool {
+	private function get_smooth():Bool
+	{
 		return _smooth;
 	}
 
-	private function set_smooth(value:Bool):Bool {
+	private function set_smooth(value:Bool):Bool
+	{
 		_smooth = value;
 		var i:Int = 0;
 		while (i < _numPasses) {
@@ -200,11 +210,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @see openfl.display3D.Context3DCompareMode
 	 */
-	private function get_depthCompareMode():Context3DCompareMode {
+	private function get_depthCompareMode():Context3DCompareMode
+	{
 		return _depthCompareMode;
 	}
 
-	private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode {
+	private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
+	{
 		_depthCompareMode = value;
 		return value;
 	}
@@ -213,11 +225,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * Indicates whether or not any used textures should be tiled. If set to false, texture samples are clamped to
 	 * the texture's borders when the uv coordinates are outside the [0, 1] interval.
 	 */
-	private function get_repeat():Bool {
+	private function get_repeat():Bool
+	{
 		return _repeat;
 	}
 
-	private function set_repeat(value:Bool):Bool {
+	private function set_repeat(value:Bool):Bool
+	{
 		_repeat = value;
 		var i:Int = 0;
 		while (i < _numPasses) {
@@ -230,11 +244,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Indicates the number of Anisotropic filtering samples to take for mipmapping
 	 */
-	private function get_anisotropy():Anisotropy {
+	private function get_anisotropy():Anisotropy
+	{
 		return _anisotropy;
 	}
 
-	private function set_anisotropy(value:Anisotropy):Anisotropy {
+	private function set_anisotropy(value:Anisotropy):Anisotropy
+	{
 		_anisotropy = value;
 		var i:Int = 0;
 		while (i < _numPasses) {
@@ -248,7 +264,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * Cleans up resources owned by the material, including passes. Textures are not owned by the material since they
 	 * could be used by other materials and will not be disposed.
 	 */
-	public function dispose():Void {
+	public function dispose():Void
+	{
 		var i:Int = 0;
 		i = 0;
 		while (i < _numPasses) {
@@ -264,11 +281,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Defines whether or not the material should cull triangles facing away from the camera.
 	 */
-	private function get_bothSides():Bool {
+	private function get_bothSides():Bool
+	{
 		return _bothSides;
 	}
 
-	private function set_bothSides(value:Bool):Bool {
+	private function set_bothSides(value:Bool):Bool
+	{
 		_bothSides = value;
 		var i:Int = 0;
 		while (i < _numPasses) {
@@ -290,11 +309,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * <li>BlendMode.ALPHA</li>
 	 * </ul>
 	 */
-	private function get_blendMode():BlendMode {
+	private function get_blendMode():BlendMode
+	{
 		return _blendMode;
 	}
 
-	private function set_blendMode(value:BlendMode):BlendMode {
+	private function set_blendMode(value:BlendMode):BlendMode
+	{
 		_blendMode = value;
 		return value;
 	}
@@ -304,11 +325,13 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * already been premultiplied. Toggle this if you are seeing black halos around your
 	 * blended alpha edges.
 	 */
-	private function get_alphaPremultiplied():Bool {
+	private function get_alphaPremultiplied():Bool
+	{
 		return _alphaPremultiplied;
 	}
 
-	private function set_alphaPremultiplied(value:Bool):Bool {
+	private function set_alphaPremultiplied(value:Bool):Bool
+	{
 		_alphaPremultiplied = value;
 		var i:Int = 0;
 		while (i < _numPasses) {
@@ -321,7 +344,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Indicates whether or not the material requires alpha blending during rendering.
 	 */
-	private function get_requiresBlending():Bool {
+	private function get_requiresBlending():Bool
+	{
 		return _blendMode != BlendMode.NORMAL;
 	}
 
@@ -329,7 +353,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * An id for this material used to sort the renderables by material, which reduces render state changes across
 	 * materials using the same Program3D.
 	 */
-	private function get_uniqueId():Int {
+	private function get_uniqueId():Int
+	{
 		return _uniqueId;
 	}
 
@@ -338,7 +363,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	private function get_numPasses():Int {
+	private function get_numPasses():Int
+	{
 		return _numPasses;
 	}
 
@@ -347,7 +373,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function hasDepthAlphaThreshold():Bool {
+	public function hasDepthAlphaThreshold():Bool
+	{
 		return _depthPass.alphaThreshold > 0;
 	}
 
@@ -362,7 +389,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Bool = false):Void {
+	public function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Bool = false):Void
+	{
 		_distanceBasedDepthRender = distanceBased;
 		if (distanceBased) _distancePass.activate(stage3DProxy, camera)
 		else _depthPass.activate(stage3DProxy, camera);
@@ -375,7 +403,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function deactivateForDepth(stage3DProxy:Stage3DProxy):Void {
+	public function deactivateForDepth(stage3DProxy:Stage3DProxy):Void
+	{
 		if (_distanceBasedDepthRender) _distancePass.deactivate(stage3DProxy)
 		else _depthPass.deactivate(stage3DProxy);
 	}
@@ -391,7 +420,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function renderDepth(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void {
+	public function renderDepth(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
+	{
 		if (_distanceBasedDepthRender) {
 			if (renderable.animator != null) _distancePass.updateAnimationState(renderable, stage3DProxy, camera);
 			_distancePass.render(renderable, stage3DProxy, camera, viewProjection);
@@ -411,7 +441,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function passRendersToTexture(index:Int):Bool {
+	public function passRendersToTexture(index:Int):Bool
+	{
 		return _passes[index].renderToTexture;
 	}
 
@@ -423,7 +454,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @param camera The camera from which the scene is viewed.
 	 * @private
 	 */
-	public function activatePass(index:Int, stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
+	public function activatePass(index:Int, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	{
 		_passes[index].activate(stage3DProxy, camera);
 	}
 
@@ -434,7 +466,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function deactivatePass(index:Int, stage3DProxy:Stage3DProxy):Void {
+	public function deactivatePass(index:Int, stage3DProxy:Stage3DProxy):Void
+	{
 		_passes[index].deactivate(stage3DProxy);
 	}
 
@@ -447,7 +480,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @param viewProjection The view-projection matrix used to project to the screen. This is not the same as
 	 * camera.viewProjection as it includes the scaling factors when rendering to textures.
 	 */
-	public function renderPass(index:Int, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):Void {
+	public function renderPass(index:Int, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):Void
+	{
 		if (_lightPicker != null) _lightPicker.collectLights(renderable, entityCollector);
 		var pass:MaterialPassBase = _passes[index];
 		if (renderable.animator != null) pass.updateAnimationState(renderable, stage3DProxy, entityCollector.camera);
@@ -466,7 +500,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function addOwner(owner:IMaterialOwner):Void {
+	public function addOwner(owner:IMaterialOwner):Void
+	{
 		_owners.push(owner);
 		if (owner.animator != null) {
 			if (_animationSet != null && owner.animator.animationSet != _animationSet) throw new Error("A Material instance cannot be shared across renderables with different animator libraries")
@@ -492,7 +527,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * @param owner
 	 * @private
 	 */
-	public function removeOwner(owner:IMaterialOwner):Void {
+	public function removeOwner(owner:IMaterialOwner):Void
+	{
 	  	_owners.splice(Lambda.indexOf(_owners, owner), 1);
 		if (_owners.length == 0) {
 			_animationSet = null;
@@ -512,7 +548,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	private function get_owners():Array<IMaterialOwner> {
+	private function get_owners():Vector<IMaterialOwner>
+	{
 		return _owners;
 	}
 
@@ -521,7 +558,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function updateMaterial(context:Context3D):Void {
+	public function updateMaterial(context:Context3D):Void
+	{
 	}
 
 	/**
@@ -529,7 +567,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function deactivate(stage3DProxy:Stage3DProxy):Void {
+	public function deactivate(stage3DProxy:Stage3DProxy):Void
+	{
 		_passes[_numPasses - 1].deactivate(stage3DProxy);
 	}
 
@@ -540,7 +579,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 *
 	 * @private
 	 */
-	public function invalidatePasses(triggerPass:MaterialPassBase):Void {
+	public function invalidatePasses(triggerPass:MaterialPassBase):Void
+	{
 		var owner:IMaterialOwner;
 			
 		_depthPass.invalidateShaderProgram();
@@ -587,7 +627,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * Removes a pass from the material.
 	 * @param pass The pass to be removed.
 	 */
-	private function removePass(pass:MaterialPassBase):Void {
+	private function removePass(pass:MaterialPassBase):Void
+	{
 		_passes.splice(_passes.indexOf( pass), 1);
 		--_numPasses;
 	}
@@ -595,13 +636,14 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Removes all passes from the material
 	 */
-	private function clearPasses():Void {
+	private function clearPasses():Void
+	{
 		var i:Int = 0;
 		while (i < _numPasses) {
 			_passes[i].removeEventListener(Event.CHANGE, onPassChange);
 			++i;
 		}
-		_passes = [];
+		_passes.length = 0;
 		_numPasses = 0;
 	}
 
@@ -609,7 +651,8 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	 * Adds a pass to the material
 	 * @param pass
 	 */
-	private function addPass(pass:MaterialPassBase):Void {
+	private function addPass(pass:MaterialPassBase):Void
+	{
 		_passes[_numPasses++] = pass;
 		pass.animationSet = _animationSet;
 		pass.alphaPremultiplied = _alphaPremultiplied;
@@ -626,9 +669,10 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Listener for when a pass's shader code changes. It recalculates the render order id.
 	 */
-	private function onPassChange(event:Event):Void {
+	private function onPassChange(event:Event):Void
+	{
 		var mult:Float = 1;
-		var ids:Array<Int>;
+		var ids:Vector<Int>;
 		var len:Int;
 		_renderOrderId = 0;
 		var i:Int = 0;
@@ -651,8 +695,9 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Listener for when the distance pass's shader code changes. It recalculates the depth pass id.
 	 */
-	private function onDistancePassChange(event:Event):Void {
-		var ids:Array<Int> = _distancePass._program3Dids;
+	private function onDistancePassChange(event:Event):Void
+	{
+		var ids:Vector<Int> = _distancePass._program3Dids;
 		var len:Int = ids.length;
 		_depthPassId = 0;
 		var j:Int = 0;
@@ -668,8 +713,9 @@ class MaterialBase extends NamedAssetBase implements IAsset {
 	/**
 	 * Listener for when the depth pass's shader code changes. It recalculates the depth pass id.
 	 */
-	private function onDepthPassChange(event:Event):Void {
-		var ids:Array<Int> = _depthPass._program3Dids;
+	private function onDepthPassChange(event:Event):Void
+	{
+		var ids:Vector<Int> = _depthPass._program3Dids;
 		var len:Int = ids.length;
 		_depthPassId = 0;
 		var j:Int = 0;

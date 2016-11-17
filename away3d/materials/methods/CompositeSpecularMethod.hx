@@ -12,6 +12,9 @@ import away3d.materials.compilation.ShaderRegisterData;
 import away3d.textures.Texture2DBase;
 import away3d.materials.passes.MaterialPassBase;
 import away3d.events.ShadingMethodEvent;
+
+import openfl.Vector;
+
 class CompositeSpecularMethod extends BasicSpecularMethod {
 	public var baseMethod(get, set):BasicSpecularMethod;
 
@@ -86,7 +89,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override private function get_passes():Array<MaterialPassBase> {
+	override private function get_passes():Vector<MaterialPassBase> {
 		return _baseMethod.passes;
 	}
 

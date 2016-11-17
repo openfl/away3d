@@ -8,7 +8,8 @@ import openfl.display3D.Context3DProgramType;
 import openfl.display3D.textures.Texture;
 import openfl.Vector;
 
-class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
+class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
+{
 	public var stepSize(get, set):Int;
 	public var range(get, set):Float;
 	public var focusDistance(get, set):Float;
@@ -26,19 +27,22 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
 	 * @param amount The maximum amount of blur to apply in pixels at the most out-of-focus areas
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function new(maxBlur:Int, stepSize:Int = -1) {
+	public function new(maxBlur:Int, stepSize:Int = -1)
+	{
 		_range = 1000;
 		super(true);
 		_maxBlur = maxBlur;
-		_data = [ 0.0, 0.0, 0.0, _focusDistance, 0.0, 0.0, 0.0, 0.0, _range, 0.0, 0.0, 0.0, 1.0, 1.0 / 255.0, 1 / 65025.0, 1 / 16581375.0 ];
+		_data = Vector.ofArray([ 0.0, 0.0, 0.0, _focusDistance, 0.0, 0.0, 0.0, 0.0, _range, 0.0, 0.0, 0.0, 1.0, 1.0 / 255.0, 1 / 65025.0, 1 / 16581375.0 ]);
 		this.stepSize = stepSize;
 	}
 
-	private function get_stepSize():Int {
+	private function get_stepSize():Int
+	{
 		return _stepSize;
 	}
 
-	private function set_stepSize(value:Int):Int {
+	private function set_stepSize(value:Int):Int
+	{
 		if (value == _stepSize) return value;
 		_stepSize = value;
 		calculateStepSize();
@@ -47,30 +51,36 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
 		return value;
 	}
 
-	private function get_range():Float {
+	private function get_range():Float
+	{
 		return _range;
 	}
 
-	private function set_range(value:Float):Float {
+	private function set_range(value:Float):Float
+	{
 		_range = value;
 		_data[8] = 1 / value;
 		return value;
 	}
 
-	private function get_focusDistance():Float {
+	private function get_focusDistance():Float
+	{
 		return _focusDistance;
 	}
 
-	private function set_focusDistance(value:Float):Float {
+	private function set_focusDistance(value:Float):Float
+	{
 		_data[3] = _focusDistance = value;
 		return value;
 	}
 
-	private function get_maxBlur():Int {
+	private function get_maxBlur():Int
+	{
 		return _maxBlur;
 	}
 
-	private function set_maxBlur(value:Int):Int {
+	private function set_maxBlur(value:Int):Int
+	{
 		if (_maxBlur == value) return value;
 		_maxBlur = value;
 		invalidateProgram3D();
@@ -79,7 +89,8 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
 		return value;
 	}
 
-	override public function getFragmentCode():String {
+	override public function getFragmentCode():String
+	{
 		var code:String;
 		var numSamples:Int = 1;
 // sample depth, unpack & get blur amount (offset point + step size)
@@ -103,7 +114,8 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
 		return code;
 	}
 
-	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D, depthTexture:Texture):Void {
+	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D, depthTexture:Texture):Void
+	{
 		var context:Context3D = stage3DProxy.context3D;
 		var n:Float = camera.lens.near;
 		var f:Float = camera.lens.far;
@@ -113,23 +125,27 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase {
 		context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 4);
 	}
 
-	override public function deactivate(stage3DProxy:Stage3DProxy):Void {
+	override public function deactivate(stage3DProxy:Stage3DProxy):Void
+	{
 		stage3DProxy.context3D.setTextureAt(1, null);
 	}
 
-	override private function updateTextures(stage:Stage3DProxy):Void {
+	override private function updateTextures(stage:Stage3DProxy):Void
+	{
 		super.updateTextures(stage);
 		updateBlurData();
 	}
 
-	private function updateBlurData():Void {
+	private function updateBlurData():Void
+	{
 // todo: replace with view width once texture rendering is scissored?
 		var invH:Float = 1 / _textureHeight;
 		_data[0] = _maxBlur * .5 * invH;
 		_data[1] = _realStepSize * invH;
 	}
 
-	private function calculateStepSize():Void {
+	private function calculateStepSize():Void
+	{
 		_realStepSize = _stepSize > (0) ? _stepSize : _maxBlur > (MAX_AUTO_SAMPLES) ? _maxBlur / MAX_AUTO_SAMPLES : 1;
 	}
 }

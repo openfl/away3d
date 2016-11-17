@@ -5,17 +5,20 @@ import away3d.primitives.LineSegment;
 import openfl.geom.Vector3D;
 import openfl.Vector;
 
-class TridentLines extends SegmentSet {
+class TridentLines extends SegmentSet
+{
 
-	public function new(vectors:Array<Array<Vector3D>>, colors:Array<UInt>) {
+	public function new(vectors:Vector<Vector<Vector3D>>, colors:Vector<UInt>)
+	{
 		super();
 		
 		build(vectors, colors);
 	}
 
-	private function build(vectors:Array<Array<Vector3D>>, colors:Array<UInt>):Void {
+	private function build(vectors:Vector<Vector<Vector3D>>, colors:Vector<UInt>):Void
+	{
 		
-		var letter:Array<Vector3D>;
+		var letter:Vector<Vector3D>;
 		var v0:Vector3D;
 		var v1:Vector3D;
 		var color:Int;

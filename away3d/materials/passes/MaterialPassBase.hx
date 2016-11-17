@@ -51,7 +51,7 @@ class MaterialPassBase extends EventDispatcher {
 	private var _material:MaterialBase;
 	private var _animationSet:IAnimationSet;
 	public var _program3Ds:Vector<Program3D>;
-	public var _program3Dids:Array<Int>;
+	public var _program3Dids:Vector<Int>;
 	private var _context3Ds:Vector<Context3D>;
 	
 	// agal props. these NEED to be set by subclasses!
@@ -76,8 +76,8 @@ class MaterialPassBase extends EventDispatcher {
 	private var _shadedTarget:String;
 	
 	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-	static private var _previousUsedStreams:Array<Int> = [ 0, 0, 0, 0, 0, 0, 0, 0 ];
-	static private var _previousUsedTexs:Array<Int> = [ 0, 0, 0, 0, 0, 0, 0, 0 ];
+	static private var _previousUsedStreams:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	static private var _previousUsedTexs:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
 	private var _defaultCulling:Context3DTriangleFace;
 	private var _renderToTexture:Bool;
 	
@@ -105,7 +105,7 @@ class MaterialPassBase extends EventDispatcher {
 		super();
  
 		_program3Ds = new Vector<Program3D>(8); 
-		_program3Dids = [ -1, -1, -1, -1, -1, -1, -1, -1 ];
+		_program3Dids = Vector.ofArray([ -1, -1, -1, -1, -1, -1, -1, -1 ]);
 		_context3Ds = new Vector<Context3D>(8);
 		_smooth = true;
 		_repeat = false;

@@ -3,11 +3,11 @@
  */
 package away3d.core.render;
 
-import openfl.display3D._shaders.AGLSLShaderUtils;
 import away3d.core.base.IRenderable;
 import away3d.core.data.RenderableListItem;
 import away3d.core.math.Matrix3DUtils;
 import away3d.core.traverse.EntityCollector;
+import away3d.debug.Debug;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DBlendFactor;
 import openfl.display3D.Context3DCompareMode;
@@ -17,7 +17,8 @@ import openfl.display3D.textures.TextureBase;
 import openfl.geom.Matrix3D;
 import openfl.utils.AGALMiniAssembler;
 
-class PositionRenderer extends RendererBase {
+class PositionRenderer extends RendererBase
+{
 
 	private var _program3D:Program3D;
 	private var _renderBlended:Bool;
@@ -27,7 +28,8 @@ class PositionRenderer extends RendererBase {
 	 * @param antiAlias The amount of anti-aliasing to be used
 	 * @param renderMode The render mode to be used.
 	 */
-	public function new(renderBlended:Bool = false) {
+	public function new(renderBlended:Bool = false)
+	{
 // todo: request context in here
 		_renderBlended = renderBlended;
 		super();
@@ -36,7 +38,8 @@ class PositionRenderer extends RendererBase {
 	/**
 	 * @inheritDoc
 	 */
-	override private function draw(entityCollector:EntityCollector, target:TextureBase):Void {
+	override private function draw(entityCollector:EntityCollector, target:TextureBase):Void
+	{
 		var item:RenderableListItem;
 		var renderable:IRenderable;
 		var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
@@ -75,17 +78,21 @@ class PositionRenderer extends RendererBase {
 	 * @param context The Context3D object for which the Program3D needs to be created.
 	 */
 
-	private function initProgram3D(context:Context3D):Void {
+	private function initProgram3D(context:Context3D):Void
+	{
 		var vertexCode:String;
 		var fragmentCode:String;
+		
 		_program3D = context.createProgram();
-		vertexCode = "m44 vt0, va0, vc0	\n" + "mov op, vt0		\n" + "rcp vt1.x, vt0.w	\n" + "mul v0, vt0, vt1.x	\n";
+		
+		vertexCode = "m44 vt0, va0, vc0	\n" + 
+			"mov op, vt0		\n" + 
+			"rcp vt1.x, vt0.w	\n" + 
+			"mul v0, vt0, vt1.x	\n";
 		fragmentCode = "mov oc, v0\n";
 		
-		_program3D.upload(
-			AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, vertexCode), 
-			AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, fragmentCode)
-		);
+		_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode),
+				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode));
 	}
 }
 

@@ -7,7 +7,8 @@ import openfl.Vector;
 
 import away3d.utils.ArrayUtils;
 
-class LightingShaderCompiler extends ShaderCompiler {
+class LightingShaderCompiler extends ShaderCompiler
+{
 	public var lightVertexConstantIndex(get, never):Int;
 	public var tangentSpace(get, never):Bool;
 
@@ -22,21 +23,24 @@ class LightingShaderCompiler extends ShaderCompiler {
 	 * Create a new LightingShaderCompiler object.
 	 * @param profile The compatibility profile of the renderer.
 	 */
-	public function new(profile:String) {
+	public function new(profile:String)
+	{
 		super(profile);
 	}
 
 	/**
 	 * The starting index if the vertex constant to which light data needs to be uploaded.
 	 */
-	private function get_lightVertexConstantIndex():Int {
+	private function get_lightVertexConstantIndex():Int
+	{
 		return _lightVertexConstantIndex;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private function initRegisterIndices():Void {
+	override private function initRegisterIndices():Void
+	{
 		super.initRegisterIndices();
 		_lightVertexConstantIndex = -1;
 	}
@@ -44,7 +48,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function createNormalRegisters():Void {
+	override private function createNormalRegisters():Void
+	{
 		// need to be created FIRST and in this order
 		if (tangentSpace) {
 			_sharedRegisters.animatedTangent = _registerCache.getFreeVertexVectorTemp();
@@ -68,14 +73,16 @@ class LightingShaderCompiler extends ShaderCompiler {
 	 * Indicates whether or not lighting happens in tangent space. This is only the case if no world-space
 	 * dependencies exist.
 	 */
-	private function get_tangentSpace():Bool {
+	private function get_tangentSpace():Bool
+	{
 		return _numLightProbes == 0 && methodSetup._normalMethod.hasOutput && _methodSetup._normalMethod.tangentSpace;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private function initLightData():Void {
+	override private function initLightData():Void
+	{
 		super.initLightData();
 		_pointLightVertexConstants = new Vector<ShaderRegisterElement>(_numPointLights);
 		_pointLightFragmentConstants = new Vector<ShaderRegisterElement>(_numPointLights * 2);
@@ -89,7 +96,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function calculateDependencies():Void {
+	override private function calculateDependencies():Void
+	{
 		super.calculateDependencies();
 		if (!tangentSpace)
 			_dependencyCounter.addWorldSpaceDependencies(false);
@@ -98,7 +106,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function compileNormalCode():Void {
+	override private function compileNormalCode():Void
+	{
 		_sharedRegisters.normalFragment = _registerCache.getFreeFragmentVectorTemp();
 		_registerCache.addFragmentTempUsages(_sharedRegisters.normalFragment, _dependencyCounter.normalDependencies);
 		if (_methodSetup._normalMethod.hasOutput && !_methodSetup._normalMethod.tangentSpace) {
@@ -131,7 +140,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * Generates code to retrieve the tangent space normal from the normal map
 	 */
-	private function compileTangentSpaceNormalMapCode():Void {
+	private function compileTangentSpaceNormalMapCode():Void
+	{
 		// normalize normal + tangent vector and generate (approximated) bitangent
 		_vertexCode += "nrm " + _sharedRegisters.animatedNormal + ".xyz, " + _sharedRegisters.animatedNormal + "\n" + "nrm " + _sharedRegisters.animatedTangent + ".xyz, " + _sharedRegisters.animatedTangent + "\n";
 		_vertexCode += "crs " + _sharedRegisters.bitangent + ".xyz, " + _sharedRegisters.animatedNormal + ", " + _sharedRegisters.animatedTangent + "\n";
@@ -143,7 +153,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function compileViewDirCode():Void {
+	override private function compileViewDirCode():Void
+	{
 		var cameraPositionReg:ShaderRegisterElement = _registerCache.getFreeVertexConstant();
 		_sharedRegisters.viewDirVarying = _registerCache.getFreeVarying();
 		_sharedRegisters.viewDirFragment = _registerCache.getFreeFragmentVectorTemp();
@@ -165,7 +176,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * @inheritDoc
 	 */
-	override private function compileLightingCode():Void {
+	override private function compileLightingCode():Void
+	{
 		if (_methodSetup._shadowMethod != null) compileShadowCode();
 		_methodSetup._diffuseMethod.shadowRegister = _shadowRegister;
 		_sharedRegisters.shadedTarget = _registerCache.getFreeFragmentVectorTemp();
@@ -204,7 +216,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * Provides the code to provide shadow mapping.
 	 */
-	private function compileShadowCode():Void {
+	private function compileShadowCode():Void
+	{
 		if (_sharedRegisters.normalFragment != null) _shadowRegister = _sharedRegisters.normalFragment
 		else _shadowRegister = _registerCache.getFreeFragmentVectorTemp();
 		_registerCache.addFragmentTempUsages(_shadowRegister, 1);
@@ -215,7 +228,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * Initializes constant registers to contain light data.
 	 */
-	private function initLightRegisters():Void {
+	private function initLightRegisters():Void
+	{
 		// init these first so we're sure they're in sequence
 		var i:Int = 0;
 		var len:Int;
@@ -254,7 +268,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * Compiles the shading code for directional lights.
 	 */
-	private function compileDirectionalLightCode():Void {
+	private function compileDirectionalLightCode():Void
+	{
 		var diffuseColorReg:ShaderRegisterElement;
 		var specularColorReg:ShaderRegisterElement;
 		var lightDirReg:ShaderRegisterElement;
@@ -288,7 +303,8 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * Compiles the shading code for point lights.
 	 */
-	private function compilePointLightCode():Void {
+	private function compilePointLightCode():Void
+	{
 		var diffuseColorReg:ShaderRegisterElement;
 		var specularColorReg:ShaderRegisterElement;
 		var lightPosReg:ShaderRegisterElement;
@@ -337,17 +353,18 @@ class LightingShaderCompiler extends ShaderCompiler {
 	/**
 	 * Compiles shading code for light probes.
 	 */
-	private function compileLightProbeCode():Void {
+	private function compileLightProbeCode():Void
+	{
 		var weightReg:String;
 		var weightComponents:Array<Dynamic> = [".x", ".y", ".z", ".w"];
-		var weightRegisters:Array<ShaderRegisterElement> = new Array<ShaderRegisterElement>();
+		var weightRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>();
 		var i:Int = 0;
 		var texReg:ShaderRegisterElement;
 		var addSpec:Bool = _usingSpecularMethod && usesProbesForSpecular();
 		var addDiff:Bool = usesProbesForDiffuse();
 		if (!(addSpec || addDiff)) return;
-		if (addDiff) _lightProbeDiffuseIndices = new Array<UInt>();
-		if (addSpec) _lightProbeSpecularIndices = new Array<UInt>();
+		if (addDiff) _lightProbeDiffuseIndices = new Vector<UInt>();
+		if (addSpec) _lightProbeSpecularIndices = new Vector<UInt>();
 		i = 0;
 		while (i < _numProbeRegisters) {
 			weightRegisters[i] = _registerCache.getFreeFragmentConstant();
