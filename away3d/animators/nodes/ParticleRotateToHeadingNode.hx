@@ -13,7 +13,7 @@ import away3d.materials.compilation.ShaderRegisterElement;
 class ParticleRotateToHeadingNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var MATRIX_INDEX:Int = 0;
+	@:allow(away3d) private static var MATRIX_INDEX:Int = 0;
 	/**
 	 * Creates a new <code>ParticleBillboardNode</code>
 	 */

@@ -15,56 +15,56 @@ import openfl.geom.ColorTransform;
 class ParticleColorNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var START_MULTIPLIER_INDEX:Int = 0;
+	@:allow(away3d) private static var START_MULTIPLIER_INDEX:Int = 0;
 
 	/** @private */
-	static public var DELTA_MULTIPLIER_INDEX:Int = 1;
+	@:allow(away3d) private static var DELTA_MULTIPLIER_INDEX:Int = 1;
 
 	/** @private */
-	static public var START_OFFSET_INDEX:Int = 2;
+	@:allow(away3d) private static var START_OFFSET_INDEX:Int = 2;
 
 	/** @private */
-	static public var DELTA_OFFSET_INDEX:Int = 3;
+	@:allow(away3d) private static var DELTA_OFFSET_INDEX:Int = 3;
 
 	/** @private */
-	static public var CYCLE_INDEX:Int = 4;
+	@:allow(away3d) private static var CYCLE_INDEX:Int = 4;
 
 	//default values used when creating states
 	/** @private */
-	public var _usesMultiplier:Bool;
+	@:allow(away3d) private var _usesMultiplier:Bool;
 
 	/** @private */
-	public var _usesOffset:Bool;
+	@:allow(away3d) private var _usesOffset:Bool;
 
 	/** @private */
-	public var _usesCycle:Bool;
+	@:allow(away3d) private var _usesCycle:Bool;
 
 	/** @private */
-	public var _usesPhase:Bool;
+	@:allow(away3d) private var _usesPhase:Bool;
 
 	/** @private */
-	public var _startColor:ColorTransform;
+	@:allow(away3d) private var _startColor:ColorTransform;
 
 	/** @private */
-	public var _endColor:ColorTransform;
+	@:allow(away3d) private var _endColor:ColorTransform;
 
 	/** @private */
-	public var _cycleDuration:Float;
+	@:allow(away3d) private var _cycleDuration:Float;
 
 	/** @private */
-	public var _cyclePhase:Float;
+	@:allow(away3d) private var _cyclePhase:Float;
 
 	/**
 	 * Reference for color node properties on a single particle (when in local property mode).
 	 * Expects a <code>ColorTransform</code> object representing the start color transform applied to the particle.
 	 */
-	static public var COLOR_START_COLORTRANSFORM:String = "ColorStartColorTransform";
+	public static var COLOR_START_COLORTRANSFORM:String = "ColorStartColorTransform";
 
 	/**
 	 * Reference for color node properties on a single particle (when in local property mode).
 	 * Expects a <code>ColorTransform</code> object representing the end color transform applied to the particle.
 	 */
-	static public var COLOR_END_COLORTRANSFORM:String = "ColorEndColorTransform";
+	public static var COLOR_END_COLORTRANSFORM:String = "ColorEndColorTransform";
 
 	/**
 	 * Creates a new <code>ParticleColorNode</code>

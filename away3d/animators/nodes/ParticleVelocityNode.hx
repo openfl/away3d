@@ -12,18 +12,19 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.animators.data.ParticlePropertiesMode;
 import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.geom.Vector3D;
+
 class ParticleVelocityNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var VELOCITY_INDEX:Int = 0;
+	@:allow(away3d) private static var VELOCITY_INDEX:Int = 0;
 	/** @private */
-	public var _velocity:Vector3D;
+	@:allow(away3d) private var _velocity:Vector3D;
 
 	/**
 	 * Reference for velocity node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the direction of movement on the particle.
 	 */
-	static public var VELOCITY_VECTOR3D:String = "VelocityVector3D";
+	public static var VELOCITY_VECTOR3D:String = "VelocityVector3D";
 
 	/**
 	 * Creates a new <code>ParticleVelocityNode</code>

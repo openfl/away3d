@@ -39,7 +39,7 @@ class SingleFileLoader extends EventDispatcher
 	var _data:Dynamic;
 	
 	// Image parser only parser that is added by default, to save file size.
-	private static var _parsers:Vector<Class<ParserBase>> = Vector.ofArray([ ImageParser ]);
+	private static var _parsers:Vector<Class<ParserBase>> = new Vector([ ImageParser ]);
 	
 	/**
 	 * Creates a new SingleFileLoader object.

@@ -12,8 +12,8 @@ import openfl.display3D.textures.TextureBase;
 
 class MipmapGenerator {
 
-	static private var _matrix:Matrix = new Matrix();
-	static private var _rect:Rectangle = new Rectangle();
+	private static var _matrix:Matrix = new Matrix();
+	private static var _rect:Rectangle = new Rectangle();
 	
 	/**
 	 * Uploads a BitmapData with mip maps to a target Texture object.
@@ -22,7 +22,7 @@ class MipmapGenerator {
 	 * @param mipmap An optional mip map holder to avoids creating new instances for fe animated materials.
 	 * @param alpha Indicate whether or not the uploaded bitmapData is transparent.
 	 */
-	static public function generateMipMaps(source:BitmapData, target:TextureBase, mipmap:BitmapData = null, alpha:Bool = false, side:Int = -1):Void {
+	public static function generateMipMaps(source:BitmapData, target:TextureBase, mipmap:BitmapData = null, alpha:Bool = false, side:Int = -1):Void {
 		
 		var w = source.width;
 		var h = source.height;

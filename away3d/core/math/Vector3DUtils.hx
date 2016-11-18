@@ -8,7 +8,7 @@ import openfl.geom.Vector3D;
 import openfl.Vector;
 class Vector3DUtils {
 
-	static private var MathPI:Float = Math.PI;
+	private static var MathPI:Float = Math.PI;
 	/**
 	 * Returns the angle in radians made between the 3d number obejct and the given <code>Vector3D</code> object.
 	 *
@@ -17,7 +17,7 @@ class Vector3DUtils {
 	 * @return					An angle in radians representing the angle between the two <code>Vector3D</code> objects.
 	 */
 
-	static public function getAngle(w:Vector3D, q:Vector3D):Float {
+	public static function getAngle(w:Vector3D, q:Vector3D):Float {
 		return Math.acos(w.dotProduct(q) / (w.length * q.length));
 	}
 
@@ -28,7 +28,7 @@ class Vector3DUtils {
 	 * @return		A 3d vector representing the euler angles extracted from the 3d matrix.
 	 */
 
-	static public function matrix2euler(m1:Matrix3D):Vector3D {
+	public static function matrix2euler(m1:Matrix3D):Vector3D {
 		var m2:Matrix3D = new Matrix3D();
 		var result:Vector3D = new Vector3D();
 		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
@@ -90,7 +90,7 @@ class Vector3DUtils {
 	 * @return				A 3d vector representing the euler angles extracted from the quaternion.
 	 */
 
-	static public function quaternion2euler(quarternion:Quaternion):Vector3D {
+	public static function quaternion2euler(quarternion:Quaternion):Vector3D {
 		var result:Vector3D = new Vector3D();
 		var test:Float = quarternion.x * quarternion.y + quarternion.z * quarternion.w;
 		if (test > 0.499) {
@@ -123,7 +123,7 @@ class Vector3DUtils {
 	 * @return		A 3d vector representing the axis scale values extracted from the 3d matrix.
 	 */
 
-	static public function matrix2scale(m:Matrix3D):Vector3D {
+	public static function matrix2scale(m:Matrix3D):Vector3D {
 		var result:Vector3D = new Vector3D();
 		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
 		m.copyRawDataTo(raw);
@@ -133,7 +133,7 @@ class Vector3DUtils {
 		return result;
 	}
 
-	static public function rotatePoint(aPoint:Vector3D, rotation:Vector3D):Vector3D {
+	public static function rotatePoint(aPoint:Vector3D, rotation:Vector3D):Vector3D {
 		if (rotation.x != 0 || rotation.y != 0 || rotation.z != 0) {
 			var x1:Float;
 			var y1:Float;
@@ -166,7 +166,7 @@ class Vector3DUtils {
 		return aPoint;
 	}
 
-	static public function subdivide(startVal:Vector3D, endVal:Vector3D, numSegments:Int):Vector<Vector3D> {
+	public static function subdivide(startVal:Vector3D, endVal:Vector3D, numSegments:Int):Vector<Vector3D> {
 		var points:Vector<Vector3D> = new Vector<Vector3D>();
 		var numPoints:Int = 0;
 		var stepx:Float = (endVal.x - startVal.x) / numSegments;

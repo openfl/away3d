@@ -29,7 +29,7 @@ import openfl.geom.Rectangle;
 import openfl.Vector;
 
 class Stage3DProxy extends EventDispatcher {
-	static private var _frameEventDriver:Shape = new Shape();
+	private static var _frameEventDriver:Shape = new Shape();
 	
 	public var profile(get, never):String;
 	public var enableDepthAndStencil(get, set):Bool;
@@ -53,7 +53,8 @@ class Stage3DProxy extends EventDispatcher {
 	public var mouse3DManager(get, set):Mouse3DManager;
 	public var touch3DManager(get, set):Touch3DManager;
 	
-	private var _context3D:Context3D;
+	/** @private */
+	@:allow(away3d) private var _context3D:Context3D;
 	private var _stage3DIndex:Int;
 	private var _usesSoftwareRendering:Bool;
 	private var _profile:String;

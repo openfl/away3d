@@ -15,9 +15,9 @@ import openfl.geom.Vector3D;
 
 class WireframeAxesGrid extends SegmentSet {
 
-	static public var PLANE_ZY:String = "zy";
-	static public var PLANE_XY:String = "xy";
-	static public var PLANE_XZ:String = "xz";
+	public static var PLANE_ZY:String = "zy";
+	public static var PLANE_XY:String = "xy";
+	public static var PLANE_XZ:String = "xz";
 
 	public function new(subDivision:Int = 10, gridSize:Int = 100, thickness:Float = 1, colorXY:Int = 0x0000FF, colorZY:Int = 0xFF0000, colorXZ:Int = 0x00FF00) {
 		super();

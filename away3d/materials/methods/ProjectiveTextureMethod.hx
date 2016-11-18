@@ -21,9 +21,9 @@ class ProjectiveTextureMethod extends EffectMethodBase {
 	public var mode(get, set):BlendMode;
 	public var projector(get, set):TextureProjector;
 
-	static public var MULTIPLY:BlendMode = BlendMode.MULTIPLY;
-	static public var ADD:BlendMode = BlendMode.ADD;
-	static public var MIX:BlendMode = BlendMode.DIFFERENCE;
+	public static var MULTIPLY:BlendMode = BlendMode.MULTIPLY;
+	public static var ADD:BlendMode = BlendMode.ADD;
+	public static var MIX:BlendMode = BlendMode.DIFFERENCE;
 	private var _projector:TextureProjector;
 	private var _uvVarying:ShaderRegisterElement;
 	private var _projMatrix:Matrix3D;

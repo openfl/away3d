@@ -7,9 +7,9 @@ import openfl.Vector;
 
 class SceneIterator {
 
-	static private var PRE:Int = 0;
-	static private var IN:Int = 1;
-	static private var POST:Int = 2;
+	private static var PRE:Int = 0;
+	private static var IN:Int = 1;
+	private static var POST:Int = 2;
 	private var _childIndex:Int;
 	private var _scene:Scene3D;
 	private var _node:ObjectContainer3D;

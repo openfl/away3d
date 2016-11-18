@@ -18,14 +18,14 @@ import away3d.tools.utils.Bounds;
 
 class Align {
 
-	inline static public var X_AXIS:String = "x";
-	inline static public var Y_AXIS:String = "y";
-	inline static public var Z_AXIS:String = "z";
-	inline static public var POSITIVE:String = "+";
-	inline static public var NEGATIVE:String = "-";
-	inline static public var AVERAGE:String = "av";
-	static private var _axis:String;
-	static private var _condition:String;
+	inline public static var X_AXIS:String = "x";
+	inline public static var Y_AXIS:String = "y";
+	inline public static var Z_AXIS:String = "z";
+	inline public static var POSITIVE:String = "+";
+	inline public static var NEGATIVE:String = "-";
+	inline public static var AVERAGE:String = "av";
+	private static var _axis:String;
+	private static var _condition:String;
 	/**
 	 * Aligns a series of meshes to their bounds along a given axis.
 	 *
@@ -34,7 +34,7 @@ class Align {
 	 * @param	 condition	Can be POSITIVE ('+') or NEGATIVE ('-'), Default is POSITIVE ('+')
 	 */
 
-	static public function alignMeshes(meshes:Vector<Mesh>, axis:String, condition:String = POSITIVE):Void {
+	public static function alignMeshes(meshes:Vector<Mesh>, axis:String, condition:String = POSITIVE):Void {
 		checkAxis(axis);
 		checkCondition(condition);
 		var base:Float;
@@ -77,7 +77,7 @@ class Align {
 	 * Place one or more meshes at y 0 using their min bounds
 	 */
 
-	static public function alignToFloor(meshes:Vector<Mesh>):Void {
+	public static function alignToFloor(meshes:Vector<Mesh>):Void {
 		if (meshes.length == 0) return;
 		var i:Int = 0;
 		while (i < meshes.length) {
@@ -101,7 +101,7 @@ class Align {
 	 * @param	 condition	[optional]. String. Can be '+", "-", "av" or "", Default is "", aligns to given axis at 0.
 	 */
 
-	static public function align(aObjs:Vector<Dynamic>, axis:String, condition:String = ""):Void {
+	public static function align(aObjs:Vector<Dynamic>, axis:String, condition:String = ""):Void {
 		checkAxis(axis);
 		checkCondition(condition);
 		var base:Float = 0;
@@ -129,7 +129,7 @@ class Align {
 	 * @param	 axis			String. Represent the axis to align on.
 	 */
 
-	static public function distribute(aObjs:Vector<Dynamic>, axis:String):Void {
+	public static function distribute(aObjs:Vector<Dynamic>, axis:String):Void {
 		checkAxis(axis);
 		var max:Float = getMax(aObjs, _axis);
 		var min:Float = getMin(aObjs, _axis);
@@ -146,7 +146,7 @@ class Align {
 		}
 	}
 
-	static private function checkAxis(axis:String):Void {
+	private static function checkAxis(axis:String):Void {
 		axis = axis.substring(0, 1).toLowerCase();
 		if (axis == X_AXIS || axis == Y_AXIS || axis == Z_AXIS) {
 			_axis = axis;
@@ -155,7 +155,7 @@ class Align {
 		throw new Error("Invalid axis: string value must be 'x', 'y' or 'z'");
 	}
 
-	static private function checkCondition(condition:String):Void {
+	private static function checkCondition(condition:String):Void {
 		condition = condition.toLowerCase();
 		var aConds:Vector<Dynamic> = Vector.ofArray([POSITIVE, NEGATIVE, "", AVERAGE]);
 		var i:Int = 0;
@@ -169,7 +169,7 @@ class Align {
 		throw new Error("Invalid condition: possible string value are '+', '-', 'av' or '' ");
 	}
 
-	static private function getMin(a:Vector<Dynamic>, prop:String):Float {
+	private static function getMin(a:Vector<Dynamic>, prop:String):Float {
 		var min:Float = Math.POSITIVE_INFINITY;
 		var i:Int = 0;
 		while (i < a.length) {
@@ -179,7 +179,7 @@ class Align {
 		return min;
 	}
 
-	static private function getMax(a:Vector<Dynamic>, prop:String):Float {
+	private static function getMax(a:Vector<Dynamic>, prop:String):Float {
 		var max:Float = Math.NEGATIVE_INFINITY;
 		var i:Int = 0;
 		while (i < a.length) {
@@ -189,7 +189,7 @@ class Align {
 		return max;
 	}
 
-	static private function getAverage(a:Vector<Dynamic>, prop:String):Float {
+	private static function getAverage(a:Vector<Dynamic>, prop:String):Float {
 		var av:Float = 0;
 		var loop:Int = a.length;
 		var i:Int = 0;
@@ -200,7 +200,7 @@ class Align {
 		return av / loop;
 	}
 
-	static private function getMeshesBounds(meshes:Vector<Mesh>):Vector<MeshBound> {
+	private static function getMeshesBounds(meshes:Vector<Mesh>):Vector<MeshBound> {
 		var mbs:Vector<MeshBound> = new Vector<MeshBound>();
 		var mb:MeshBound;
 		var i:Int = 0;
@@ -220,7 +220,7 @@ class Align {
 		return mbs;
 	}
 
-	static private function getProp():String {
+	private static function getProp():String {
 		var prop:String = "";
 		switch(_axis) {
 			case X_AXIS:
@@ -233,7 +233,7 @@ class Align {
 		return prop;
 	}
 
-	static private function getMinBounds(bounds:Vector<MeshBound>):Float {
+	private static function getMinBounds(bounds:Vector<MeshBound>):Float {
 		var min:Float = Math.POSITIVE_INFINITY;
 		var mb:MeshBound;
 		var i:Int = 0;
@@ -252,7 +252,7 @@ class Align {
 		return min;
 	}
 
-	static private function getMaxBounds(bounds:Vector<MeshBound>):Float {
+	private static function getMaxBounds(bounds:Vector<MeshBound>):Float {
 		var max:Float = Math.NEGATIVE_INFINITY;
 		var mb:MeshBound;
 		var i:Int = 0;

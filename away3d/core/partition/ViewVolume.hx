@@ -47,7 +47,7 @@ class ViewVolume extends NodeBase {
 	private var _maxY:Float;
 	private var _maxZ:Float;
 	public var _active:Bool;
-	static private var _entityWorldBounds:Vector<Float>;
+	private static var _entityWorldBounds:Vector<Float>;
 	/**
 	 * Creates a new ViewVolume with given dimensions. A ViewVolume is a region where the camera or a shadow casting light could reside in.
 	 *

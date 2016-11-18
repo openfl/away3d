@@ -19,9 +19,9 @@ class Stage3DManager {
 	public var numProxySlotsUsed(get, never):Int;
 	public var numProxySlotsTotal(get, never):Int;
 
-	static private var _instances:ObjectMap<Stage, Stage3DManager>;
-	static private var _stageProxies:Vector<Stage3DProxy>;
-	static private var _numStageProxies:Int = 0;
+	private static var _instances:ObjectMap<Stage, Stage3DManager>;
+	private static var _stageProxies:Vector<Stage3DProxy>;
+	private static var _numStageProxies:Int = 0;
 	private var _stage:Stage;
 
 	/**
@@ -52,7 +52,7 @@ class Stage3DManager {
 	 * @param stage The Stage object that contains the Stage3D objects to be managed.
 	 * @return The Stage3DManager instance for the given Stage object.
 	 */
-	static public function getInstance(stage:Stage):Stage3DManager {
+	public static function getInstance(stage:Stage):Stage3DManager {
 		if (_instances == null)
 			_instances = new ObjectMap();
 

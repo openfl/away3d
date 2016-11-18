@@ -17,16 +17,16 @@ class LightSources {
 	 * Defines normal lights are to be used as the source for the lighting
 	 * component.
 	 */
-	static public var LIGHTS:Int = 0x01;
+	public static var LIGHTS:Int = 0x01;
 	/**
 	 * Defines that global lighting probes are to be used as the source for the
 	 * lighting component.
 	 */
-	static public var PROBES:Int = 0x02;
+	public static var PROBES:Int = 0x02;
 	/**
 	 * Defines that both normal and global lighting probes  are to be used as the
 	 * source for the lighting component. This is equivalent to LIGHTS | PROBES.
 	 */
-	static public var ALL:Int = 0x03;
+	public static var ALL:Int = 0x03;
 }
 

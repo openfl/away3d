@@ -10,22 +10,24 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.animators.data.ParticlePropertiesMode;
 import away3d.materials.compilation.ShaderRegisterElement;
 
+@:allow(away3d)
+
 class ParticleTimeNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var TIME_STREAM_INDEX:Int = 0;
+	@:allow(away3d) private static var TIME_STREAM_INDEX:Int = 0;
 
 	/** @private */
-	static public var TIME_CONSTANT_INDEX:Int = 1;
+	@:allow(away3d) private static var TIME_CONSTANT_INDEX:Int = 1;
 
 	/** @private */
-	private var _usesDuration:Bool;
+	@:allow(away3d) private var _usesDuration:Bool;
 
 	/** @private */
-	private var _usesDelay:Bool;
+	@:allow(away3d) private var _usesDelay:Bool;
 
 	/** @private */
-	private var _usesLooping:Bool;
+	@:allow(away3d) private var _usesLooping:Bool;
 
 	/**
 	 * Creates a new <code>ParticleTimeNode</code>

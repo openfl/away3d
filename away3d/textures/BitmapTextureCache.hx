@@ -13,7 +13,7 @@ import haxe.ds.WeakMap;
 
 class BitmapTextureCache {
 
-	static private var _instance:BitmapTextureCache;
+	private static var _instance:BitmapTextureCache;
 	private var _textures:WeakMap<BitmapData, BitmapTexture>;
 	private var _usages:WeakMap<BitmapTexture, Int>;
 
@@ -24,7 +24,7 @@ class BitmapTextureCache {
 
 	}
 
-	static public function getInstance():BitmapTextureCache {
+	public static function getInstance():BitmapTextureCache {
 		if (_instance == null) _instance = new BitmapTextureCache(new SingletonEnforcer());
 		return _instance ;
 	}

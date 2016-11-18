@@ -15,16 +15,16 @@ import openfl.geom.Vector3D;
 class ParticleAccelerationNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var ACCELERATION_INDEX:Int = 0;
+	@:allow(away3d) private static var ACCELERATION_INDEX:Int = 0;
 
 	/** @private */
-	public var _acceleration:Vector3D;
+	@:allow(away3d) private var _acceleration:Vector3D;
 
 	/**
 	 * Reference for acceleration node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the direction of acceleration on the particle.
 	 */
-	static public var ACCELERATION_VECTOR3D:String = "AccelerationVector3D";
+	public static var ACCELERATION_VECTOR3D:String = "AccelerationVector3D";
 
 	/**
 	 * Creates a new <code>ParticleAccelerationNode</code>

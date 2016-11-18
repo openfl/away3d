@@ -19,8 +19,8 @@ class Weld {
 	public var verticesRemovedCount(get, never):Int;
 	public var verticesAddedCount(get, never):Int;
 
-	inline static public var USE_VERTEXNORMALS:String = "UseVertexNormals";
-	inline static public var USE_FACENORMALS:String = "UseFaceNormals";
+	inline public static var USE_VERTEXNORMALS:String = "UseVertexNormals";
+	inline public static var USE_FACENORMALS:String = "UseFaceNormals";
 	private var _keepUvs:Bool;
 	private var _normalThreshold:Float;
 	private var _useNormalMode:String;

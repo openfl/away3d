@@ -14,9 +14,9 @@ import openfl.Vector;
 
 class LightsHelper {
 
-	static private var _lightsArray:Array<LightBase>;
-	static private var _light:LightBase;
-	static private var _state:Int;
+	private static var _lightsArray:Array<LightBase>;
+	private static var _light:LightBase;
+	private static var _state:Int;
 	
 	/**
 	 * Applys a series of lights to all materials found into an objectcontainer and its children.
@@ -24,7 +24,7 @@ class LightsHelper {
 	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
 	 * @param	 lights						Vector.&lt;LightBase&gt;. A series of lights to be set to all materials found during parsing of the target ObjectContainer3D.
 	 */
-	static public function addStaticLightsToMaterials(objectContainer3D:ObjectContainer3D, lights:Vector<LightBase>):Void {
+	public static function addStaticLightsToMaterials(objectContainer3D:ObjectContainer3D, lights:Vector<LightBase>):Void {
 		
 		if (lights.length == 0) return;
 		
@@ -46,7 +46,7 @@ class LightsHelper {
 	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
 	 * @param	 light							LightBase. The light to add to all materials found during the parsing of the target ObjectContainer3D.
 	 */
-	static public function addStaticLightToMaterials(objectContainer3D:ObjectContainer3D, light:LightBase):Void {
+	public static function addStaticLightToMaterials(objectContainer3D:ObjectContainer3D, light:LightBase):Void {
 		parse(objectContainer3D, light, 1);
 	}
 
@@ -55,11 +55,11 @@ class LightsHelper {
 	 * @param	 objectContainer3D	ObjectContainer3D. The target ObjectContainer3D object to be inspected.
 	 * @param	 light							LightBase. The light to be removed from all materials found during the parsing of the target ObjectContainer3D.
 	 */
-	static public function removeStaticLightFromMaterials(objectContainer3D:ObjectContainer3D, light:LightBase):Void {
+	public static function removeStaticLightFromMaterials(objectContainer3D:ObjectContainer3D, light:LightBase):Void {
 		parse(objectContainer3D, light, 2);
 	}
 
-	static private function parse(objectContainer3D:ObjectContainer3D, light:LightBase, id:Int):Void {
+	private static function parse(objectContainer3D:ObjectContainer3D, light:LightBase, id:Int):Void {
 		_light = light;
 		
 		if (_light == null) return;
@@ -69,7 +69,7 @@ class LightsHelper {
 		parseContainer(objectContainer3D);
 	}
 
-	static private function parseContainer(objectContainer3D:ObjectContainer3D):Void {
+	private static function parseContainer(objectContainer3D:ObjectContainer3D):Void {
 		
 		if (Std.is(objectContainer3D, Mesh) && objectContainer3D.numChildren == 0) 
 			parseMesh(cast((objectContainer3D), Mesh));
@@ -79,7 +79,7 @@ class LightsHelper {
 		}
 	}
 
-	static private function apply(materialOwner:IMaterialOwner):Void {
+	private static function apply(materialOwner:IMaterialOwner):Void {
 		
 		var picker:StaticLightPicker;
 		var aLights:Array<LightBase>;
@@ -145,7 +145,7 @@ class LightsHelper {
 		}
 	}
 
-	static private function parseMesh(mesh:Mesh):Void {
+	private static function parseMesh(mesh:Mesh):Void {
 		var i:Int = 0;
 		var subMeshes:Vector<SubMesh> = mesh.subMeshes;
 

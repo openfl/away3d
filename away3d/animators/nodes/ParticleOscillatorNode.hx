@@ -15,16 +15,16 @@ import openfl.geom.Vector3D;
 class ParticleOscillatorNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var OSCILLATOR_INDEX:Int = 0;
+	@:allow(away3d) private static var OSCILLATOR_INDEX:Int = 0;
 
 	/** @private */
-	public var _oscillator:Vector3D;
+	@:allow(away3d) private var _oscillator:Vector3D;
 
 	/**
 	 * Reference for ocsillator node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the axis (x,y,z) and cycle speed (w) of the motion on the particle.
 	 */
-	static public var OSCILLATOR_VECTOR3D:String = "OscillatorVector3D";
+	public static var OSCILLATOR_VECTOR3D:String = "OscillatorVector3D";
 
 	/**
 	 * Creates a new <code>ParticleOscillatorNode</code>

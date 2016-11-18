@@ -68,7 +68,7 @@ class AwayStats extends Sprite {
 	public var max_fps(get, never):Float;
 	public var fps(get, never):Float;
 	
-	static public var instance(get, never):AwayStats;
+	public static var instance(get, never):AwayStats;
 
 	private var _views:Array<View3D>;
 	private var _timer:Timer;
@@ -116,23 +116,23 @@ class AwayStats extends Sprite {
 	private var _logo:Sprite;
 	private var _lastTextY:Int;
 
-	static private var _WIDTH:Int = 200;
-	static private var _HEIGHT:Int = 105;
-	static private var _DIAG_X:Int = 80;
-	static private var _DIAG_WIDTH:Int = _WIDTH - _DIAG_X;
-	static private var _DIAG_HEIGHT:Int = 50;
-	static private var _UPPER_Y:Float = -1;
-	static private var _MID_Y:Float = 9;
-	static private var _LOWER_Y:Float = 19;
-	static private var _LOWEST_Y:Float = 29;
-	static private var _BOTTOM_BAR_HEIGHT:Int = 41;
-	static private var _POLY_COL:Int = 0xffcc00;
-	static private var _MEM_COL:Int = 0xff00cc;
-	static private var _PT:Point = new Point();
-	static private var _DPT:Point = new Point(1, 0);
+	private static var _WIDTH:Int = 200;
+	private static var _HEIGHT:Int = 105;
+	private static var _DIAG_X:Int = 80;
+	private static var _DIAG_WIDTH:Int = _WIDTH - _DIAG_X;
+	private static var _DIAG_HEIGHT:Int = 50;
+	private static var _UPPER_Y:Float = -1;
+	private static var _MID_Y:Float = 9;
+	private static var _LOWER_Y:Float = 19;
+	private static var _LOWEST_Y:Float = 29;
+	private static var _BOTTOM_BAR_HEIGHT:Int = 41;
+	private static var _POLY_COL:Int = 0xffcc00;
+	private static var _MEM_COL:Int = 0xff00cc;
+	private static var _PT:Point = new Point();
+	private static var _DPT:Point = new Point(1, 0);
 
 	// Singleton instance reference
-	static private var _INSTANCE:AwayStats;
+	private static var _INSTANCE:AwayStats;
 	
 	/**
 	 * <p>Create an Away3D stats widget. The widget can be added to the stage
@@ -230,7 +230,7 @@ class AwayStats extends Sprite {
 	 * properties and register views from anywhere in your code.
 	 */
 
-	static private function get_instance():AwayStats {
+	private static function get_instance():AwayStats {
 		return (_INSTANCE != null) ? _INSTANCE : _INSTANCE = new AwayStats();
 	}
 

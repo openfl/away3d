@@ -8,27 +8,28 @@ import away3d.materials.passes.MaterialPassBase;
 import away3d.animators.data.AnimationRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 import openfl.geom.Vector3D;
+
 class ParticleUVNode extends ParticleNodeBase {
 	public var cycle(get, set):Float;
 	public var scale(get, set):Float;
 	public var axis(get, set):String;
 
 	/** @private */
-	static public var UV_INDEX:Int = 0;
+	@:allow(away3d) private static var UV_INDEX:Int = 0;
 	/** @private */
-	public var _uvData:Vector3D;
+	@:allow(away3d) private var _uvData:Vector3D;
 	/**
 	 * Used to set the time node into global property mode.
 	 */
-	static public var GLOBAL:Int = 1;
+	public static var GLOBAL:Int = 1;
 	/**
 	 *
 	 */
-	static public var U_AXIS:String = "x";
+	public static var U_AXIS:String = "x";
 	/**
 	 *
 	 */
-	static public var V_AXIS:String = "y";
+	public static var V_AXIS:String = "y";
 	private var _cycle:Float;
 	private var _scale:Float;
 	private var _axis:String;

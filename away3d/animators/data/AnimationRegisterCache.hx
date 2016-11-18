@@ -1,9 +1,10 @@
 package away3d.animators.data;
 
-import away3d.utils.ArrayUtils;
 import away3d.animators.nodes.AnimationNodeBase;
+import away3d.core.math.Matrix3DUtils;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
+
 import openfl.geom.Matrix3D;
 import openfl.Vector;
 
@@ -35,15 +36,19 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public var colorMulVary:ShaderRegisterElement;
 	
 	//fragment
+	
 	public var uvVar:ShaderRegisterElement;
 	
 	//these are targets only need to rotate ( normal and tangent )
 	public var rotationRegisters:Vector<ShaderRegisterElement>;
+	
 	public var needFragmentAnimation:Bool;
 	public var needUVAnimation:Bool;
+	
 	public var sourceRegisters:Vector<String>;
 	public var targetRegisters:Vector<String>;
-	private var indexDictionary:Map<AnimationNodeBase, Vector<Int>>;
+	
+	private var indexDictionary:Map<AnimationNodeBase, Vector<Int>> = new Map();
 	
 	//set true if has an node which will change UV
 	public var hasUVNode:Bool;
@@ -63,14 +68,12 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public function new(profile:String)
 	{
 		super(profile);
-		indexDictionary = new Map<AnimationNodeBase, Vector<Int>>();
-		vertexConstantData = new Vector<Float>();
-		fragmentConstantData = new Vector<Float>();
 	}
 	
 	override public function reset():Void
 	{
 		super.reset();
+		
 		rotationRegisters = new Vector<ShaderRegisterElement>();
 		positionAttribute = getRegisterFromString(sourceRegisters[0]);
 		scaleAndRotateTarget = getRegisterFromString(targetRegisters[0]);
@@ -81,10 +84,10 @@ class AnimationRegisterCache extends ShaderRegisterCache
 			addVertexTempUsages(rotationRegisters[i - 1], 1);
 		}
 		
-		scaleAndRotateTarget = new ShaderRegisterElement(scaleAndRotateTarget.regName, scaleAndRotateTarget.index);
+		scaleAndRotateTarget = new ShaderRegisterElement(scaleAndRotateTarget.regName, scaleAndRotateTarget.index); //only use xyz, w is used as vertexLife
 		
-		//only use xyz, w is used as vertexLife
 		//allot const register
+		
 		vertexZeroConst = getFreeVertexConstant();
 		vertexZeroConst = new ShaderRegisterElement(vertexZeroConst.regName, vertexZeroConst.index, 0);
 		vertexOneConst = new ShaderRegisterElement(vertexZeroConst.regName, vertexZeroConst.index, 1);
@@ -107,13 +110,13 @@ class AnimationRegisterCache extends ShaderRegisterCache
 			vertexTime = new ShaderRegisterElement(tempTime.regName, tempTime.index, 0);
 			vertexLife = new ShaderRegisterElement(tempTime.regName, tempTime.index, 1);
 		}
+		
 	}
 	
 	public function setUVSourceAndTarget(UVAttribute:String, UVVaring:String):Void
 	{
 		uvVar = getRegisterFromString(UVVaring);
 		uvAttribute = getRegisterFromString(UVAttribute);
-		
 		//uv action is processed after normal actions,so use offsetTarget as uvTarget
 		uvTarget = new ShaderRegisterElement(positionTarget.regName, positionTarget.index);
 	}
@@ -121,27 +124,28 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public function setRegisterIndex(node:AnimationNodeBase, parameterIndex:Int, registerIndex:Int):Void
 	{
 		//8 should be enough for any node.
-		var aNode = indexDictionary.exists(node) ? indexDictionary.get( node ) : new Vector<Int>(8);
-		aNode[parameterIndex] = registerIndex;
-		indexDictionary.set( node, aNode );
+		var t:Vector<Int> = indexDictionary.exists(node) ? indexDictionary.get(node) : new Vector<Int>(8, true);
+		t[parameterIndex] = registerIndex;
+		indexDictionary.set(node, t);
 	}
 	
 	public function getRegisterIndex(node:AnimationNodeBase, parameterIndex:Int):Int
 	{
-		return indexDictionary.get( node )[parameterIndex];
+		return indexDictionary[node][parameterIndex];
 	}
 	
 	public function getInitCode():String
 	{
 		var len:Int = sourceRegisters.length;
 		var code:String = "";
-		var i:Int = 0;
-		while (i < len) {
+		for (i in 0...len)
 			code += "mov " + targetRegisters[i] + "," + sourceRegisters[i] + "\n";
-			i++;
-		}
+		
 		code += "mov " + positionTarget + ".xyz," + vertexZeroConst.toString() + "\n";
-		if (needVelocity) code += "mov " + velocityTarget + ".xyz," + vertexZeroConst.toString() + "\n";
+		
+		if (needVelocity)
+			code += "mov " + velocityTarget + ".xyz," + vertexZeroConst.toString() + "\n";
+		
 		return code;
 	}
 	
@@ -172,8 +176,10 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	{
 		var code:String = "";
 		if (needFragmentAnimation && (hasColorAddNode || hasColorMulNode)) {
-			if (hasColorMulNode) code += "mov " + colorMulVary + "," + colorMulTarget + "\n";
-			if (hasColorAddNode) code += "mov " + colorAddVary + "," + colorAddTarget + "\n";
+			if (hasColorMulNode)
+				code += "mov " + colorMulVary + "," + colorMulTarget + "\n";
+			if (hasColorAddNode)
+				code += "mov " + colorAddVary + "," + colorAddTarget + "\n";
 		}
 		return code;
 	}
@@ -184,9 +190,9 @@ class AnimationRegisterCache extends ShaderRegisterCache
 		if (needFragmentAnimation && (hasColorAddNode || hasColorMulNode)) {
 			var colorTarget:ShaderRegisterElement = getRegisterFromString(shadedTarget);
 			addFragmentTempUsages(colorTarget, 1);
-			if (hasColorMulNode) 
+			if (hasColorMulNode)
 				code += "mul " + colorTarget + "," + colorTarget + "," + colorMulVary + "\n";
-			if (hasColorAddNode) 
+			if (hasColorAddNode)
 				code += "add " + colorTarget + "," + colorTarget + "," + colorAddVary + "\n";
 		}
 		return code;
@@ -194,13 +200,13 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	
 	private function getRegisterFromString(code:String):ShaderRegisterElement
 	{
-		var er = ~/([a-z]+)([\d]+)/;
-		er.match(code);
-		return new ShaderRegisterElement(er.matched(1), Std.parseInt(er.matched(2)));
+		var ereg = ~/([a-z]+)([\d]+)/;
+		ereg.match(code);
+		return new ShaderRegisterElement(ereg.matched(1), Std.parseInt(ereg.matched(2)));
 	}
 	
-	public var vertexConstantData:Vector<Float>;
-	public var fragmentConstantData:Vector<Float>;
+	public var vertexConstantData:Vector<Float> = new Vector<Float>();
+	public var fragmentConstantData:Vector<Float> = new Vector<Float>();
 	
 	private var _numVertexConstant:Int;
 	private var _numFragmentConstant:Int;
@@ -219,13 +225,13 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	{
 		_numVertexConstant = _numUsedVertexConstants - _vertexConstantOffset;
 		_numFragmentConstant = _numUsedFragmentConstants - _fragmentConstantOffset;
-		vertexConstantData.length = _numVertexConstant * 4;
-		fragmentConstantData.length = _numFragmentConstant * 4;
+		vertexConstantData.length = _numVertexConstant*4;
+		fragmentConstantData.length = _numFragmentConstant*4;
 	}
 	
 	public function setVertexConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void
 	{
-		var _index:Int = (index - _vertexConstantOffset) * 4;
+		var _index:Int = (index - _vertexConstantOffset)*4;
 		vertexConstantData[_index++] = x;
 		vertexConstantData[_index++] = y;
 		vertexConstantData[_index++] = z;
@@ -234,18 +240,16 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	
 	public function setVertexConstFromVector(index:Int, data:Vector<Float>):Void
 	{
-		var _index:Int = (index - _vertexConstantOffset) * 4;
-		var i:Int = 0;
-		while (i < data.length) {
+		var _index:Int = (index - _vertexConstantOffset)*4;
+		for (i in 0...data.length)
 			vertexConstantData[_index++] = data[i];
-			i++;
-		}
 	}
 	
 	public function setVertexConstFromMatrix(index:Int, matrix:Matrix3D):Void
 	{
-		var rawData:Vector<Float> = matrix.rawData;
-		var _index:Int = (index - _vertexConstantOffset) * 4;
+		var rawData:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		matrix.copyRawDataTo(rawData);
+		var _index:Int = (index - _vertexConstantOffset)*4;
 		vertexConstantData[_index++] = rawData[0];
 		vertexConstantData[_index++] = rawData[4];
 		vertexConstantData[_index++] = rawData[8];
@@ -266,7 +270,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	
 	public function setFragmentConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void
 	{
-		var _index:Int = (index - _fragmentConstantOffset) * 4;
+		var _index:Int = (index - _fragmentConstantOffset)*4;
 		fragmentConstantData[_index++] = x;
 		fragmentConstantData[_index++] = y;
 		fragmentConstantData[_index++] = z;

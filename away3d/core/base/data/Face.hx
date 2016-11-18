@@ -34,7 +34,7 @@ class Face {
 	public var v2y(get, never):Float;
 	public var v2z(get, never):Float;
 
-	static private var _calcPoint:Point;
+	private static var _calcPoint:Point;
 	private var _vertices:Vector<Float>;
 	private var _uvs:Vector<Float>;
 	private var _faceIndex:Int;

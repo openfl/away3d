@@ -36,7 +36,7 @@ class ObjectContainer3D extends Object3D implements IAsset {
 	public var numChildren(get, never):Int;
 
 	/** @private */
-	public var _ancestorsAllowMouseEnabled:Bool;
+	@:allow(away3d) private var _ancestorsAllowMouseEnabled:Bool;
 	public var _isRoot:Bool;
 	private var _scene:Scene3D;
 	private var _parent:ObjectContainer3D;
@@ -112,12 +112,12 @@ class ObjectContainer3D extends Object3D implements IAsset {
 	}
 
 	/** @private */
-	private function get_isVisible():Bool {
+	@:allow(away3d) private function get_isVisible():Bool {
 		return _implicitVisibility && _explicitVisibility;
 	}
 
 	/** @private */
-	private function setParent(value:ObjectContainer3D):Void {
+	@:allow(away3d) private function setParent(value:ObjectContainer3D):Void {
 		_parent = value;
 		updateMouseChildren();
 		if (value == null) {

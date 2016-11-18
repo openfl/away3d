@@ -17,9 +17,9 @@ import openfl.Vector;
 
 class ParticleGeometryHelper {
 
-	static public var MAX_VERTEX:Int = 65535;
+	public static var MAX_VERTEX:Int = 65535;
 
-	static public function generateGeometry(geometries:Vector<Geometry>, transforms:Vector<ParticleGeometryTransform> = null):ParticleGeometry {
+	public static function generateGeometry(geometries:Vector<Geometry>, transforms:Vector<ParticleGeometryTransform> = null):ParticleGeometry {
 		var verticesVector:Vector<Vector<Float>> = new Vector<Vector<Float>>();
 		var indicesVector:Vector<Vector<UInt>> = new Vector<Vector<UInt>>();
 		var vertexCounters:Vector<UInt> = new Vector<UInt>();

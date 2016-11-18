@@ -21,12 +21,12 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod {
 	 * Indicates the light map should be multiplied with the calculated shading result.
 	 * This can be used to add pre-calculated shadows or occlusion.
 	 */
-	static public var MULTIPLY:BlendMode = BlendMode.MULTIPLY;
+	public static var MULTIPLY:BlendMode = BlendMode.MULTIPLY;
 	/**
 	 * Indicates the light map should be added into the calculated shading result.
 	 * This can be used to add pre-calculated lighting or global illumination.
 	 */
-	static public var ADD:BlendMode = BlendMode.ADD;
+	public static var ADD:BlendMode = BlendMode.ADD;
 //private var _texture:Texture2DBase;
 	private var _blendMode:BlendMode;
 	private var _useSecondaryUV:Bool;

@@ -5,9 +5,9 @@ import openfl.events.Event;
 
 class Scene3DEvent extends Event {
 
-	static public var ADDED_TO_SCENE:String = "addedToScene";
-	static public var REMOVED_FROM_SCENE:String = "removedFromScene";
-	static public var PARTITION_CHANGED:String = "partitionChanged";
+	public static var ADDED_TO_SCENE:String = "addedToScene";
+	public static var REMOVED_FROM_SCENE:String = "removedFromScene";
+	public static var PARTITION_CHANGED:String = "partitionChanged";
 	public var objectContainer3D:ObjectContainer3D;
 //@:getter(target)
 #if flash

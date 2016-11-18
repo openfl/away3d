@@ -15,31 +15,31 @@ import openfl.geom.Vector3D;
 class ParticleScaleNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var SCALE_INDEX:Int = 0;
+	@:allow(away3d) private static var SCALE_INDEX:Int = 0;
 	
 	/** @private */
-	public var _usesCycle:Bool;
+	@:allow(away3d) private var _usesCycle:Bool;
 	
 	/** @private */
-	public var _usesPhase:Bool;
+	@:allow(away3d) private var _usesPhase:Bool;
 	
 	/** @private */
-	public var _minScale:Float;
+	@:allow(away3d) private var _minScale:Float;
 	
 	/** @private */
-	public var _maxScale:Float;
+	@:allow(away3d) private var _maxScale:Float;
 	
 	/** @private */
-	public var _cycleDuration:Float;
+	@:allow(away3d) private var _cycleDuration:Float;
 	
 	/** @private */
-	public var _cyclePhase:Float;
+	@:allow(away3d) private var _cyclePhase:Float;
 	
 	/**
 	 * Reference for scale node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> representing the min scale (x), max scale(y), optional cycle speed (z) and phase offset (w) applied to the particle.
 	 */
-	static public var SCALE_VECTOR3D:String = "ScaleVector3D";
+	public static var SCALE_VECTOR3D:String = "ScaleVector3D";
 	
 	/**
 	 * Creates a new <code>ParticleScaleNode</code>

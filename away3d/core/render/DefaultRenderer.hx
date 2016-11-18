@@ -24,9 +24,9 @@ import openfl.geom.Vector3D;
 
 class DefaultRenderer extends RendererBase {
 
-	static private var RTT_PASSES:Int = 1;
-	static private var SCREEN_PASSES:Int = 2;
-	static private var ALL_PASSES:Int = 3;
+	private static var RTT_PASSES:Int = 1;
+	private static var SCREEN_PASSES:Int = 2;
+	private static var ALL_PASSES:Int = 3;
 	private var _activeMaterial:MaterialBase;
 	private var _distanceRenderer:DepthRenderer;
 	private var _depthRenderer:DepthRenderer;

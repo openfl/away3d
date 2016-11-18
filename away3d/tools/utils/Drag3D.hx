@@ -26,9 +26,9 @@ class Drag3D {
 	public var planeObject3d(never, set):ObjectContainer3D;
 	public var planePosition(never, set):Vector3D;
 
-	inline static public var PLANE_XZ:String = "xz";
-	inline static public var PLANE_XY:String = "xy";
-	inline static public var PLANE_ZY:String = "zy";
+	inline public static var PLANE_XZ:String = "xz";
+	inline public static var PLANE_XY:String = "xy";
+	inline public static var PLANE_ZY:String = "zy";
 	private var EPS:Float;
 	private var _view:View3D;
 	private var _debug:Bool;

@@ -12,26 +12,26 @@ import away3d.animators.states.ParticleInitialColorState;
 class ParticleInitialColorNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var MULTIPLIER_INDEX:Int = 0;
+	@:allow(away3d) private static var MULTIPLIER_INDEX:Int = 0;
 
 	/** @private */
-	static public var OFFSET_INDEX:Int = 1;
+	@:allow(away3d) private static var OFFSET_INDEX:Int = 1;
 
 	//default values used when creating states
 	/** @private */
-	public var _usesMultiplier:Bool;
+	@:allow(away3d) private var _usesMultiplier:Bool;
 
 	/** @private */
-	public var _usesOffset:Bool;
+	@:allow(away3d) private var _usesOffset:Bool;
 
 	/** @private */
-	public var _initialColor:ColorTransform;
+	@:allow(away3d) private var _initialColor:ColorTransform;
 
 	/**
 	 * Reference for color node properties on a single particle (when in local property mode).
 	 * Expects a <code>ColorTransform</code> object representing the color transform applied to the particle.
 	 */
-	static public var COLOR_INITIAL_COLORTRANSFORM:String = "ColorInitialColorTransform";
+	public static var COLOR_INITIAL_COLORTRANSFORM:String = "ColorInitialColorTransform";
 
 	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = false, initialColor:ColorTransform = null) {
 		_stateClass = ParticleInitialColorState;

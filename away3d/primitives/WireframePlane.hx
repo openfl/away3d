@@ -13,9 +13,9 @@ class WireframePlane extends WireframePrimitiveBase {
 	public var segmentsW(get, set):Int;
 	public var segmentsH(get, set):Int;
 
-	static public var ORIENTATION_YZ:String = "yz";
-	static public var ORIENTATION_XY:String = "xy";
-	static public var ORIENTATION_XZ:String = "xz";
+	public static var ORIENTATION_YZ:String = "yz";
+	public static var ORIENTATION_XY:String = "xy";
+	public static var ORIENTATION_XZ:String = "xz";
 	private var _width:Float;
 	private var _height:Float;
 	private var _segmentsW:Int;

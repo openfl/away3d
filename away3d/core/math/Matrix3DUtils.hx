@@ -14,22 +14,18 @@ class Matrix3DUtils {
 	/**
 	 * A reference to a Vector to be used as a temporary raw data container, to prevent object creation.
 	 */
-	static public var RAW_DATA_CONTAINER(get, null):Vector<Float>;
-	static private function get_RAW_DATA_CONTAINER():Vector<Float> {
-		 return Vector.ofArray([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]);
-	}
+	public static var RAW_DATA_CONTAINER:Vector<Float> = new Vector<Float>(16);
 
-	static public var CALCULATION_MATRIX(get, null):Matrix3D;
-	static private function get_CALCULATION_MATRIX():Matrix3D {
-		 return new Matrix3D();
-	}
+	public static var CALCULATION_MATRIX:Matrix3D = new Matrix3D();
+	public static var CALCULATION_VECTOR3D:Vector3D = new Vector3D();
+	public static var CALCULATION_DECOMPOSE:Vector<Vector3D> = Vector.ofArray([new Vector3D(), new Vector3D(), new Vector3D()]);
 
 	/**
 	 * Fills the 3d matrix object with values representing the transformation made by the given quaternion.
 	 *
 	 * @param	quarternion	The quarterion object to convert.
 	 */
-	static public function quaternion2matrix(quarternion:Quaternion, m:Matrix3D = null):Matrix3D {
+	public static function quaternion2matrix(quarternion:Quaternion, m:Matrix3D = null):Matrix3D {
 		var x:Float = quarternion.x;
 		var y:Float = quarternion.y;
 		var z:Float = quarternion.z;
@@ -69,7 +65,7 @@ class Matrix3DUtils {
 	 * @param	v		[optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
 	 * @return			The forward vector
 	 */
-	static public function getForward(m:Matrix3D, v:Vector3D = null):Vector3D {
+	public static function getForward(m:Matrix3D, v:Vector3D = null):Vector3D {
 		if (v == null)
 			v = new Vector3D(0.0, 0.0, 0.0);
 		m.copyColumnTo(2, v);
@@ -83,7 +79,7 @@ class Matrix3DUtils {
 	 * @param	v		[optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
 	 * @return			The up vector
 	 */
-	static public function getUp(m:Matrix3D, v:Vector3D = null):Vector3D {
+	public static function getUp(m:Matrix3D, v:Vector3D = null):Vector3D {
 		if (v == null)
 			v = new Vector3D(0.0, 0.0, 0.0);
 		m.copyColumnTo(1, v);
@@ -97,7 +93,7 @@ class Matrix3DUtils {
 	 * @param	v		[optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
 	 * @return			The right vector
 	 */
-	static public function getRight(m:Matrix3D, v:Vector3D = null):Vector3D {
+	public static function getRight(m:Matrix3D, v:Vector3D = null):Vector3D {
 		if (v == null)
 			v = new Vector3D(0.0, 0.0, 0.0);
 		m.copyColumnTo(0, v);
@@ -108,7 +104,7 @@ class Matrix3DUtils {
 	/**
 	 * Returns a boolean value representing whether there is any significant difference between the two given 3d matrices.
 	 */
-	static public function compare(m1:Matrix3D, m2:Matrix3D):Bool {
+	public static function compare(m1:Matrix3D, m2:Matrix3D):Bool {
 		var r1:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
 		var r2:Vector<Float> = m2.rawData;
 		m1.copyRawDataTo(r1);
@@ -120,7 +116,7 @@ class Matrix3DUtils {
 		return true;
 	}
 
-	static public function lookAt(matrix:Matrix3D, pos:Vector3D, dir:Vector3D, up:Vector3D):Void {
+	public static function lookAt(matrix:Matrix3D, pos:Vector3D, dir:Vector3D, up:Vector3D):Void {
 		var dirN:Vector3D;
 		var upN:Vector3D;
 		var lftN:Vector3D;
@@ -150,7 +146,7 @@ class Matrix3DUtils {
 		matrix.copyRawDataFrom(raw);
 	}
 
-	static public function reflection(plane:Plane3D, target:Matrix3D = null):Matrix3D {
+	public static function reflection(plane:Plane3D, target:Matrix3D = null):Matrix3D {
 		if (target == null)
 			target = new Matrix3D();
 		var a:Float = plane.a;

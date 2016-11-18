@@ -16,7 +16,7 @@ import openfl.errors.Error;
 class HAlign
 {
 	/** @private */
-	public function new() { throw new Error(); }
+	@:allow(away3d) private function new() { throw new Error(); }
 	
 	/** Left alignment. */
 	public static var LEFT:String   = "left";

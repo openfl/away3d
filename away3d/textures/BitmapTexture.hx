@@ -12,8 +12,8 @@ import openfl.utils.ByteArray;
 
 class BitmapTexture extends Texture2DBase {
 
-	static private var _mipMaps:Array<Dynamic> = [];
-	static private var _mipMapUses:Array<Dynamic> = [];
+	private static var _mipMaps:Array<Dynamic> = [];
+	private static var _mipMapUses:Array<Dynamic> = [];
 	private var _bitmapData:BitmapData;
 	private var _mipMapHolder:BitmapData;
 	private var _generateMipmaps:Bool;

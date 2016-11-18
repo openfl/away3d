@@ -51,7 +51,7 @@ class RTTBufferManager extends EventDispatcher {
 		super();
 	}
 
-	static public function getInstance(stage3DProxy:Stage3DProxy):RTTBufferManager {
+	public static function getInstance(stage3DProxy:Stage3DProxy):RTTBufferManager {
 		if (stage3DProxy == null) throw new Error("stage3DProxy key cannot be null!");
 		if (_instances == null)_instances = new ObjectMap<Stage3DProxy, RTTBufferManager>();
 		var rttb:RTTBufferManager = _instances.get(stage3DProxy);

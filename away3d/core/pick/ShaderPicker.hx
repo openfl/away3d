@@ -71,7 +71,7 @@ class ShaderPicker implements IPicker {
 	private var _rayPos:Vector3D;
 	private var _rayDir:Vector3D;
 	private var _potentialFound:Bool;
-	static private var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
+	private static var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
 	
 	#if (openfl >= "4.0.0")
 	private static var assembler = new AGALMiniAssembler();

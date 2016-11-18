@@ -13,15 +13,15 @@ class AnimatorEvent extends Event {
 	/**
 	 * Defines the value of the type property of a start event object.
 	 */
-	static public var START:String = "start";
+	public static var START:String = "start";
 	/**
 	 * Defines the value of the type property of a stop event object.
 	 */
-	static public var STOP:String = "stop";
+	public static var STOP:String = "stop";
 	/**
 	 * Defines the value of the type property of a cycle complete event object.
 	 */
-	static public var CYCLE_COMPLETE:String = "cycle_complete";
+	public static var CYCLE_COMPLETE:String = "cycle_complete";
 	private var _animator:AnimatorBase;
 	/**
 	 * Create a new <code>AnimatorEvent</code> object.

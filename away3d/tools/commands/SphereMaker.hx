@@ -14,8 +14,8 @@ import openfl.Vector;
 
 class SphereMaker {
 
-	inline static public var RADIUS:Int = 1;
-	inline static public var USE_BOUNDS_MAX:Int = 2;
+	inline public static var RADIUS:Int = 1;
+	inline public static var USE_BOUNDS_MAX:Int = 2;
 	private var _weight:Float;
 	private var _radius:Float;
 	private var _radiusMode:Int;

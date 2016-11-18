@@ -12,7 +12,7 @@ class WireframeCylinder extends WireframePrimitiveBase {
 	public var bottomRadius(get, set):Float;
 	public var height(get, set):Float;
 
-	static private var TWO_PI:Float = 2 * Math.PI;
+	private static var TWO_PI:Float = 2 * Math.PI;
 	private var _topRadius:Float;
 	private var _bottomRadius:Float;
 	private var _height:Float;

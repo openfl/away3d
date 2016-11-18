@@ -15,37 +15,37 @@ import openfl.geom.Vector3D;
 class ParticleOrbitNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var ORBIT_INDEX:Int = 0;
+	@:allow(away3d) private static var ORBIT_INDEX:Int = 0;
 
 	/** @private */
-	static public var EULERS_INDEX:Int = 1;
+	@:allow(away3d) private static var EULERS_INDEX:Int = 1;
 
 	/** @private */
-	public var _usesEulers:Bool;
+	@:allow(away3d) private var _usesEulers:Bool;
 
 	/** @private */
-	public var _usesCycle:Bool;
+	@:allow(away3d) private var _usesCycle:Bool;
 
 	/** @private */
-	public var _usesPhase:Bool;
+	@:allow(away3d) private var _usesPhase:Bool;
 
 	/** @private */
-	public var _radius:Float;
+	@:allow(away3d) private var _radius:Float;
 
 	/** @private */
-	public var _cycleDuration:Float;
+	@:allow(away3d) private var _cycleDuration:Float;
 
 	/** @private */
-	public var _cyclePhase:Float;
+	@:allow(away3d) private var _cyclePhase:Float;
 
 	/** @private */
-	public var _eulers:Vector3D;
+	@:allow(away3d) private var _eulers:Vector3D;
 
 	/**
 	 * Reference for orbit node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the radius (x), cycle speed (y) and cycle phase (z) of the motion on the particle.
 	 */
-	static public var ORBIT_VECTOR3D:String = "OrbitVector3D";
+	public static var ORBIT_VECTOR3D:String = "OrbitVector3D";
 
 	/**
 	 * Creates a new <code>ParticleOrbitNode</code> object.

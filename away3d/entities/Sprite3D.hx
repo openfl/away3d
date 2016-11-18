@@ -48,7 +48,7 @@ class Sprite3D extends Entity implements IRenderable {
 	public var vertexTangentOffset(get, never):Int;
 
 	// TODO: Replace with CompactSubGeometry
-	static private var _geometry:SubGeometry;
+	private static var _geometry:SubGeometry;
 	//private static var _pickingSubMesh:SubGeometry;
 	private var _material:MaterialBase;
 	private var _spriteMatrix:Matrix3D;

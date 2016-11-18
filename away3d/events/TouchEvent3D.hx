@@ -17,11 +17,11 @@ class TouchEvent3D extends Event
 // Private.
 	private var _allowedToPropagate:Bool;
 	private var _parentEvent:TouchEvent3D;
-	static public var TOUCH_END:String = "touchEnd3d";
-	static public var TOUCH_BEGIN:String = "touchBegin3d";
-	static public var TOUCH_MOVE:String = "touchMove3d";
-	static public var TOUCH_OUT:String = "touchOut3d";
-	static public var TOUCH_OVER:String = "touchOver3d";
+	public static var TOUCH_END:String = "touchEnd3d";
+	public static var TOUCH_BEGIN:String = "touchBegin3d";
+	public static var TOUCH_MOVE:String = "touchMove3d";
+	public static var TOUCH_OUT:String = "touchOut3d";
+	public static var TOUCH_OVER:String = "touchOver3d";
 	/**
 	 * The horizontal coordinate at which the event occurred in view coordinates.
 	 */

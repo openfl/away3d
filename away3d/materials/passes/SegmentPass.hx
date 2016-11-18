@@ -16,8 +16,8 @@ import openfl.Vector;
 
 class SegmentPass extends MaterialPassBase {
 
-	static private var ONE_VECTOR:Vector<Float> = Vector.ofArray( [ 1.0, 1.0, 1.0, 1.0 ] );
-	static private var FRONT_VECTOR:Vector<Float> = Vector.ofArray( [ 0.0, 0.0, -1.0, 0.0 ] );
+	private static var ONE_VECTOR:Vector<Float> = Vector.ofArray( [ 1.0, 1.0, 1.0, 1.0 ] );
+	private static var FRONT_VECTOR:Vector<Float> = Vector.ofArray( [ 0.0, 0.0, -1.0, 0.0 ] );
 	private var _constants:Vector<Float>;
 	private var _calcMatrix:Matrix3D;
 	private var _thickness:Float;

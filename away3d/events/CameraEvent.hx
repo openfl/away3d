@@ -9,7 +9,7 @@ import away3d.cameras.Camera3D;
 class CameraEvent extends Event {
 	public var camera(get, never):Camera3D;
 
-	static public var LENS_CHANGED:String = "lensChanged";
+	public static var LENS_CHANGED:String = "lensChanged";
 	private var _camera:Camera3D;
 
 	public function new(type:String, camera:Camera3D, bubbles:Bool = false, cancelable:Bool = false) {

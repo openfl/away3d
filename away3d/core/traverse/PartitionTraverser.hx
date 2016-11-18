@@ -28,7 +28,7 @@ class PartitionTraverser {
 	/**
 	 * A property that can be used to avoid processing a partition more than once.
 	 */
-	static public var _collectionMark:Int=0;
+	public static var _collectionMark:Int=0;
 
 	public function new() {
 	}

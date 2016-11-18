@@ -15,16 +15,16 @@ import openfl.geom.Vector3D;
 class ParticlePositionNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var POSITION_INDEX:Int = 0;
+	@:allow(away3d) private static var POSITION_INDEX:Int = 0;
 
 	/** @private */
-	public var _position:Vector3D;
+	@:allow(away3d) private var _position:Vector3D;
 
 	/**
 	 * Reference for position node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing position of the particle.
 	 */
-	static public var POSITION_VECTOR3D:String = "PositionVector3D";
+	public static var POSITION_VECTOR3D:String = "PositionVector3D";
 
 	/**
 	 * Creates a new <code>ParticlePositionNode</code>

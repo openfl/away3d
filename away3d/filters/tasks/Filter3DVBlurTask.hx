@@ -11,7 +11,7 @@ class Filter3DVBlurTask extends Filter3DTaskBase
 	public var amount(get, set):Int;
 	public var stepSize(get, set):Int;
 
-	static private var MAX_AUTO_SAMPLES:Int = 15;
+	private static var MAX_AUTO_SAMPLES:Int = 15;
 	private var _amount:Int;
 	private var _data:Vector<Float>;
 	private var _stepSize:Int;

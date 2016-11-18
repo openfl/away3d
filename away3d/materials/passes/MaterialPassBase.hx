@@ -76,8 +76,8 @@ class MaterialPassBase extends EventDispatcher {
 	private var _shadedTarget:String;
 	
 	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-	static private var _previousUsedStreams:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
-	static private var _previousUsedTexs:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	private static var _previousUsedStreams:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	private static var _previousUsedTexs:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
 	private var _defaultCulling:Context3DTriangleFace;
 	private var _renderToTexture:Bool;
 	

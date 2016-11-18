@@ -6,8 +6,8 @@ import openfl.utils.ByteArray;
 
 class ATFData {
 
-	static public var TYPE_NORMAL:Int = 0x0;
-	static public var TYPE_CUBE:Int = 0x1;
+	public static var TYPE_NORMAL:Int = 0x0;
+	public static var TYPE_CUBE:Int = 0x1;
 	public var type:Int;
 	public var format:Context3DTextureFormat;
 	public var width:Int;

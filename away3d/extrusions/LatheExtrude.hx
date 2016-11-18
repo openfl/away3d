@@ -88,9 +88,9 @@ class LatheExtrude extends Mesh
 	private var _normal0:Vector3D;
 	private var _normal1:Vector3D;
 	private var _normal2:Vector3D;
-	inline static public var X_AXIS:String = "x";
-	inline static public var Y_AXIS:String = "y";
-	inline static public var Z_AXIS:String = "z";
+	inline public static var X_AXIS:String = "x";
+	inline public static var Y_AXIS:String = "y";
+	inline public static var Z_AXIS:String = "z";
 
 	/**
 	 *  Class LatheExtrude generates circular meshes such as donuts, pipes, pyramids etc.. from a series of Vector3D's

@@ -15,9 +15,9 @@ class RimLightMethod extends EffectMethodBase {
 	public var strength(get, set):Float;
 	public var power(get, set):Float;
 
-	static public var ADD:String = "add";
-	static public var MULTIPLY:String = "multiply";
-	static public var MIX:String = "mix";
+	public static var ADD:String = "add";
+	public static var MULTIPLY:String = "multiply";
+	public static var MIX:String = "mix";
 	private var _color:Int;
 	private var _blendMode:String;
 	private var _colorR:Float;

@@ -21,37 +21,37 @@ class ParticleSpriteSheetNode extends ParticleNodeBase {
 
 	
 	/** @private */
-	static public var UV_INDEX_0:Int = 0;
+	@:allow(away3d) private static var UV_INDEX_0:Int = 0;
 	
 	/** @private */
-	static public var UV_INDEX_1:Int = 1;
+	@:allow(away3d) private static var UV_INDEX_1:Int = 1;
 
 	/** @private */
-	public var _usesCycle:Bool;
+	@:allow(away3d) private var _usesCycle:Bool;
 
 	/** @private */
-	public var _usesPhase:Bool;
+	@:allow(away3d) private var _usesPhase:Bool;
 
 	/** @private */
-	public var _totalFrames:Int;
+	@:allow(away3d) private var _totalFrames:Int;
 
 	/** @private */
-	public var _numColumns:Int;
+	@:allow(away3d) private var _numColumns:Int;
 
 	/** @private */
-	public var _numRows:Int;
+	@:allow(away3d) private var _numRows:Int;
 
 	/** @private */
-	public var _cycleDuration:Float;
+	@:allow(away3d) private var _cycleDuration:Float;
 
 	/** @private */
-	public var _cyclePhase:Float;
+	@:allow(away3d) private var _cyclePhase:Float;
 
 	/**
 	 * Reference for spritesheet node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> representing the cycleDuration (x), optional phaseTime (y).
 	 */
-	static public var UV_VECTOR3D:String = "UVVector3D";
+	public static var UV_VECTOR3D:String = "UVVector3D";
 	
 	/**
 	 * Defines the number of columns in the spritesheet, when in global mode. Defaults to 1. Read only.

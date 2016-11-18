@@ -29,7 +29,7 @@ class AwayFont
 	 * meaning that color transforms will affect all of them.
 	 * @return
 	 */
-	static public function type(type:Class<FontSize>, cacheMaterial:Bool=false, mipmap:Bool=true):BitmapFont 
+	public static function type(type:Class<FontSize>, cacheMaterial:Bool=false, mipmap:Bool=true):BitmapFont 
 	{
 		//try {
 			

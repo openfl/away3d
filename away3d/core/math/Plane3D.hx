@@ -23,10 +23,10 @@ class Plane3D {
 	public var d:Float;
 	private var _alignment:Int;
 // indicates the alignment of the plane
-	static public var ALIGN_ANY:Int = 0;
-	static public var ALIGN_XY_AXIS:Int = 1;
-	static public var ALIGN_YZ_AXIS:Int = 2;
-	static public var ALIGN_XZ_AXIS:Int = 3;
+	public static var ALIGN_ANY:Int = 0;
+	public static var ALIGN_XY_AXIS:Int = 1;
+	public static var ALIGN_YZ_AXIS:Int = 2;
+	public static var ALIGN_XZ_AXIS:Int = 3;
 	/**
 	 * Create a Plane3D with ABCD coefficients
 	 */

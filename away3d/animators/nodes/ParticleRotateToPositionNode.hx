@@ -15,19 +15,19 @@ import openfl.geom.Vector3D;
 class ParticleRotateToPositionNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var MATRIX_INDEX:Int = 0;
+	@:allow(away3d) private static var MATRIX_INDEX:Int = 0;
 
 	/** @private */
-	static public var POSITION_INDEX:Int = 1;
+	@:allow(away3d) private static var POSITION_INDEX:Int = 1;
 
 	/** @private */
-	public var _position:Vector3D;
+	@:allow(away3d) private var _position:Vector3D;
 
 	/**
 	 * Reference for the position the particle will rotate to face for a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the position that the particle must face.
 	 */
-	static public var POSITION_VECTOR3D:String = "RotateToPositionVector3D";
+	public static var POSITION_VECTOR3D:String = "RotateToPositionVector3D";
 
 	/**
 	 * Creates a new <code>ParticleRotateToPositionNode</code>

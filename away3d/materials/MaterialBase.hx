@@ -56,7 +56,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
 	 * This reduces state changes.
 	 */
-	static private var MATERIAL_ID_COUNT:Int = 0;
+	private static var MATERIAL_ID_COUNT:Int = 0;
 	
 	/**
 	 * An object to contain any extra data.

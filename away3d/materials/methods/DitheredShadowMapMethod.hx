@@ -17,9 +17,9 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase {
 	public var numSamples(get, set):Int;
 	public var range(get, set):Float;
 
-	static private var _grainTexture:BitmapTexture;
-	static private var _grainUsages:Int;
-	static private var _grainBitmapData:BitmapData;
+	private static var _grainTexture:BitmapTexture;
+	private static var _grainUsages:Int;
+	private static var _grainBitmapData:BitmapData;
 	private var _depthMapSize:Int;
 	private var _range:Float;
 	private var _numSamples:Int;

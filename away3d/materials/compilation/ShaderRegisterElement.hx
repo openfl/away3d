@@ -12,7 +12,7 @@ class ShaderRegisterElement {
 	private var _regName:String;
 	private var _index:Int;
 	private var _toStr:String;
-	static private var COMPONENTS:Array<Dynamic> = ["x", "y", "z", "w"];
+	private static var COMPONENTS:Array<Dynamic> = ["x", "y", "z", "w"];
 	public var _component:Int;
 	/**
 	 * Creates a new ShaderRegisterElement object.

@@ -15,15 +15,15 @@ import openfl.Vector;
 
 class FaceHelper {
 
-	static private var LIMIT:Int = 196605;
-	static private var SPLIT:Int = 2;
-	static private var TRI:Int = 3;
-	static private var QUARTER:Int = 4;
-	static private var _n:Vertex = new Vertex();
-	static private var _t:Vertex = new Vertex();
+	private static var LIMIT:Int = 196605;
+	private static var SPLIT:Int = 2;
+	private static var TRI:Int = 3;
+	private static var QUARTER:Int = 4;
+	private static var _n:Vertex = new Vertex();
+	private static var _t:Vertex = new Vertex();
 /*Adding a face*/
 
-	static public function addFace(mesh:Mesh, v0:Vertex, v1:Vertex, v2:Vertex, uv0:UV, uv1:UV, uv2:UV, subGeomIndice:Int):Void {
+	public static function addFace(mesh:Mesh, v0:Vertex, v1:Vertex, v2:Vertex, uv0:UV, uv1:UV, uv2:UV, subGeomIndice:Int):Void {
 		var subGeom:SubGeometry;
 		if (mesh.geometry.subGeometries.length == 0) {
 			subGeom = new SubGeometry();
@@ -114,7 +114,7 @@ class FaceHelper {
 	 * @param subGeomIndice		uint. Index of vertex 1 of the face
 	 */
 
-	static public function removeFace(mesh:Mesh, index:Int, subGeomIndice:Int):Void {
+	public static function removeFace(mesh:Mesh, index:Int, subGeomIndice:Int):Void {
 		var pointer:Int = index * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
@@ -222,7 +222,7 @@ class FaceHelper {
 	 * @param subGeomIndices		A vector with a series of uints indices representing the subgeometries of the faces to be removed.
 	 */
 
-	static public function removeFaces(mesh:Mesh, indices:Vector<UInt>, subGeomIndices:Vector<UInt>):Void {
+	public static function removeFaces(mesh:Mesh, indices:Vector<UInt>, subGeomIndices:Vector<UInt>):Void {
 		var i:Int = 0;
 		while (i < indices.length) {
 			removeFace(mesh, indices[i], subGeomIndices[i]);
@@ -241,7 +241,7 @@ class FaceHelper {
 	 * @param uv2s	A vector with a series of UV Objects representing the uv2 of a face.
 	 */
 
-	static public function addFaces(mesh:Mesh, v0s:Vector<Vertex>, v1s:Vector<Vertex>, v2s:Vector<Vertex>, uv0s:Vector<UV>, uv1s:Vector<UV>, uv2s:Vector<UV>, subGeomIndices:Vector<UInt>):Void {
+	public static function addFaces(mesh:Mesh, v0s:Vector<Vertex>, v1s:Vector<Vertex>, v2s:Vector<Vertex>, uv0s:Vector<UV>, uv1s:Vector<UV>, uv2s:Vector<UV>, subGeomIndices:Vector<UInt>):Void {
 		var i:Int = 0;
 		while (i < v0s.length) {
 			addFace(mesh, v0s[i], v1s[i], v2s[i], uv0s[i], uv1s[i], uv2s[i], subGeomIndices[i]);
@@ -258,7 +258,7 @@ class FaceHelper {
 	 * @param	side			[optional] The side of the face to split in two. 0 , 1 or 2. (clockwize).
 	 */
 
-	static public function splitFace(mesh:Mesh, indice:Int, subGeomIndice:Int, side:Int = 0):Void {
+	public static function splitFace(mesh:Mesh, indice:Int, subGeomIndice:Int, side:Int = 0):Void {
 		var pointer:Int = indice * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
@@ -358,7 +358,7 @@ class FaceHelper {
 	 * @param	subGeomIndice			The index of the subgeometry holder this face.
 	 */
 
-	static public function triFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
+	public static function triFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
 		var pointer:Int = indice * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
@@ -422,7 +422,7 @@ class FaceHelper {
 	 * @param	subGeomIndice			The index of the subgeometry holder this face.
 	 */
 
-	static public function quarterFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
+	public static function quarterFace(mesh:Mesh, indice:Int, subGeomIndice:Int):Void {
 		var pointer:Int = indice * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
@@ -514,7 +514,7 @@ class FaceHelper {
 	 * At this time of dev, splitFaces method will abort if a subgeometry reaches max buffer limit of 65k
 	 */
 
-	static public function splitFaces(mesh:Mesh):Void {
+	public static function splitFaces(mesh:Mesh):Void {
 		applyMethod(SPLIT, mesh);
 	}
 
@@ -524,7 +524,7 @@ class FaceHelper {
 	 * At this time of dev, triFaces method will abort if a subgeometry reaches max buffer limit of 65k
 	 */
 
-	static public function triFaces(mesh:Mesh):Void {
+	public static function triFaces(mesh:Mesh):Void {
 		applyMethod(TRI, mesh);
 	}
 
@@ -534,11 +534,11 @@ class FaceHelper {
 	 * At this time of dev, quarterFaces method will abort if a subgeometry reaches max buffer limit of 65k
 	 */
 
-	static public function quarterFaces(mesh:Mesh):Void {
+	public static function quarterFaces(mesh:Mesh):Void {
 		applyMethod(QUARTER, mesh);
 	}
 
-	static public function getFaceNormal(v0:Vertex, v1:Vertex, v2:Vertex, out:Vertex = null):Vertex {
+	public static function getFaceNormal(v0:Vertex, v1:Vertex, v2:Vertex, out:Vertex = null):Vertex {
 		var dx1:Float = v2.x - v0.x;
 		var dy1:Float = v2.y - v0.y;
 		var dz1:Float = v2.z - v0.z;
@@ -557,7 +557,7 @@ class FaceHelper {
 		return normal;
 	}
 
-	static public function getFaceTangent(v0:Vertex, v1:Vertex, v2:Vertex, uv0V:Float, uv1V:Float, uv2V:Float, uvScaleV:Float = 1, out:Vertex = null):Vertex {
+	public static function getFaceTangent(v0:Vertex, v1:Vertex, v2:Vertex, uv0V:Float, uv1V:Float, uv2V:Float, uvScaleV:Float = 1, out:Vertex = null):Vertex {
 		var invScale:Float = 1 / uvScaleV;
 		var dv0:Float = uv0V;
 		var dv1:Float = (uv1V - dv0) * invScale;
@@ -583,7 +583,7 @@ class FaceHelper {
 		return tangent;
 	}
 
-	static private function applyMethod(methodID:Int, mesh:Mesh, value:Float = 0):Void {
+	private static function applyMethod(methodID:Int, mesh:Mesh, value:Float = 0):Void {
 		var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
 		if (Std.is(subGeoms[0], CompactSubGeometry)) throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
 		var indices:Vector<UInt>;
@@ -612,7 +612,7 @@ class FaceHelper {
 		}
 	}
 
-	static private function updateSubGeometryData(subGeometry:SubGeometry, vertices:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float> = null, tangents:Vector<Float> = null):Void {
+	private static function updateSubGeometryData(subGeometry:SubGeometry, vertices:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float> = null, tangents:Vector<Float> = null):Void {
 		subGeometry.updateVertexData(vertices);
 		subGeometry.updateIndexData(indices);
 		if (normals != null) subGeometry.updateVertexNormalData(normals);
@@ -620,14 +620,14 @@ class FaceHelper {
 		subGeometry.updateUVData(uvs);
 	}
 
-	static private function getSubGeometry(mesh:Mesh, subGeomIndice:Int):SubGeometry {
+	private static function getSubGeometry(mesh:Mesh, subGeomIndice:Int):SubGeometry {
 		var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
 		if (Std.is(subGeoms[0], CompactSubGeometry)) throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
 		if (subGeomIndice > subGeoms.length - 1) throw new Error("ERROR >> subGeomIndice is out of range!");
 		return cast((subGeoms[subGeomIndice]), SubGeometry);
 	}
 
-	static private function getUsedIndice(vertices:Vector<Float>, x:Float, y:Float, z:Float):Int {
+	private static function getUsedIndice(vertices:Vector<Float>, x:Float, y:Float, z:Float):Int {
 		var i:Int = 0;
 		while (i < vertices.length) {
 			if (vertices[i] == x && vertices[i + 1] == y && vertices[i + 1] == z) return Std.int(i / 3);

@@ -29,9 +29,9 @@ class DelaunayMesh extends Mesh {
 	public var flip(get, set):Bool;
 	public var centerMesh(get, set):Bool;
 
-	inline static public var PLANE_XZ:String = "xz";
-	inline static public var PLANE_XY:String = "xy";
-	inline static public var PLANE_ZY:String = "zy";
+	inline public static var PLANE_XZ:String = "xz";
+	inline public static var PLANE_XY:String = "xy";
+	inline public static var PLANE_ZY:String = "zy";
 	private var LIMIT:Int;
 	private var EPS:Float;
 	private var MAXRAD:Float;

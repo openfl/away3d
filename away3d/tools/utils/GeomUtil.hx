@@ -14,7 +14,7 @@ class GeomUtil {
 	 * Build a list of sub-geometries from raw data vectors, splitting them up in
 	 * such a way that they won't exceed buffer length limits.
 	 */
-	static public function fromVectors(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int = 0):Vector<ISubGeometry> {
+	public static function fromVectors(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int = 0):Vector<ISubGeometry> {
 		var LIMIT_VERTS:Int = 3 * 0xffff;
 		var LIMIT_INDICES:Int = 15 * 0xffff;
 		var subs:Vector<ISubGeometry> = new Vector<ISubGeometry>();
@@ -141,7 +141,7 @@ class GeomUtil {
 	/**
 	 * Build a sub-geometry from data vectors.
 	 */
-	static public function constructSubGeometry(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int):CompactSubGeometry {
+	public static function constructSubGeometry(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int):CompactSubGeometry {
 		var sub:CompactSubGeometry;
 		if (weights != null && jointIndices != null) {
 			// If there were weights and joint indices defined, this
@@ -162,7 +162,7 @@ class GeomUtil {
 	 * with CompactSubGeometry. SubGeometry uses separate buffers, whereas CompactSubGeometry
 	 * uses a single, combined buffer.
 	 */
-	static public function interleaveBuffers(numVertices:Int, vertices:Vector<Float> = null, normals:Vector<Float> = null, tangents:Vector<Float> = null, uvs:Vector<Float> = null, suvs:Vector<Float> = null):Vector<Float> {
+	public static function interleaveBuffers(numVertices:Int, vertices:Vector<Float> = null, normals:Vector<Float> = null, tangents:Vector<Float> = null, uvs:Vector<Float> = null, suvs:Vector<Float> = null):Vector<Float> {
 		var i:Int = 0;
 		var compIndex:Int;
 		var uvCompIndex:Int;
@@ -203,7 +203,7 @@ class GeomUtil {
 	/*
 	 * returns the subGeometry index in its parent mesh subgeometries vector
 	 */
-	static public function getMeshSubgeometryIndex(subGeometry:ISubGeometry):Int {
+	public static function getMeshSubgeometryIndex(subGeometry:ISubGeometry):Int {
 		var index:Int = 0;
 		var subGeometries:Vector<ISubGeometry> = subGeometry.parentGeometry.subGeometries;
 		var i:Int = 0;
@@ -220,7 +220,7 @@ class GeomUtil {
 	/*
 	 * returns the subMesh index in its parent mesh subMeshes vector
 	 */
-	static public function getMeshSubMeshIndex(subMesh:SubMesh):Int {
+	public static function getMeshSubMeshIndex(subMesh:SubMesh):Int {
 		var index:Int = 0;
 		var subMeshes:Vector<SubMesh> = subMesh.parentMesh.subMeshes;
 		var i:Int = 0;

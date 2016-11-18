@@ -16,8 +16,8 @@ class AnimationStateEvent extends Event {
 	/**
 	 * Dispatched when a non-looping clip node inside an animation state reaches the end of its timeline.
 	 */
-	static public var PLAYBACK_COMPLETE:String = "playbackComplete";
-	static public var TRANSITION_COMPLETE:String = "transitionComplete";
+	public static var PLAYBACK_COMPLETE:String = "playbackComplete";
+	public static var TRANSITION_COMPLETE:String = "transitionComplete";
 	private var _animator:IAnimator;
 	private var _animationState:IAnimationState;
 	private var _animationNode:AnimationNodeBase;

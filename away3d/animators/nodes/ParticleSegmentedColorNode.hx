@@ -15,23 +15,23 @@ import openfl.Vector;
 class ParticleSegmentedColorNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var START_MULTIPLIER_INDEX:Int = 0;
+	@:allow(away3d) private static var START_MULTIPLIER_INDEX:Int = 0;
 	/** @private */
-	static public var START_OFFSET_INDEX:Int = 1;
+	@:allow(away3d) private static var START_OFFSET_INDEX:Int = 1;
 	/** @private */
-	static public var TIME_DATA_INDEX:Int = 2;
+	@:allow(away3d) private static var TIME_DATA_INDEX:Int = 2;
 	/** @private */
-	public var _usesMultiplier:Bool;
+	@:allow(away3d) private var _usesMultiplier:Bool;
 	/** @private */
-	public var _usesOffset:Bool;
+	@:allow(away3d) private var _usesOffset:Bool;
 	/** @private */
-	public var _startColor:ColorTransform;
+	@:allow(away3d) private var _startColor:ColorTransform;
 	/** @private */
-	public var _endColor:ColorTransform;
+	@:allow(away3d) private var _endColor:ColorTransform;
 	/** @private */
-	public var _numSegmentPoint:Int;
+	@:allow(away3d) private var _numSegmentPoint:Int;
 	/** @private */
-	public var _segmentPoints:Vector<ColorSegmentPoint>;
+	@:allow(away3d) private var _segmentPoints:Vector<ColorSegmentPoint>;
 
 	public function new(usesMultiplier:Bool, usesOffset:Bool, numSegmentPoint:Int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector<ColorSegmentPoint>) {
 		_stateClass = ParticleSegmentedColorState;

@@ -16,7 +16,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase {
 	public var cx(get, set):Float;
 	public var cy(get, set):Float;
 
-	static private var LAYERS:Int = 15;
+	private static var LAYERS:Int = 15;
 	private var _data:Vector<Float>;
 	private var _intensity:Float;
 	private var _glowGamma:Float;

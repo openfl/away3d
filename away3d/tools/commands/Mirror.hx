@@ -14,15 +14,15 @@ class Mirror {
 	public var recenter(get, set):Bool;
 	public var duplicate(get, set):Bool;
 
-	inline static public var X_AXIS:Int = 1;
+	inline public static var X_AXIS:Int = 1;
 // 001
-	inline static public var Y_AXIS:Int = 2;
+	inline public static var Y_AXIS:Int = 2;
 // 010
-	inline static public var Z_AXIS:Int = 4;
+	inline public static var Z_AXIS:Int = 4;
 // 100
-	inline static public var MIN_BOUND:String = "min";
-	inline static public var MAX_BOUND:String = "max";
-	inline static public var CENTER:String = "center";
+	inline public static var MIN_BOUND:String = "min";
+	inline public static var MAX_BOUND:String = "max";
+	inline public static var CENTER:String = "center";
 	private var _recenter:Bool;
 	private var _duplicate:Bool;
 	private var _axis:Int;

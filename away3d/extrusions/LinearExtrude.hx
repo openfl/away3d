@@ -40,9 +40,9 @@ class LinearExtrude extends Mesh {
 	public var thicknessSubdivision(get, set):Int;
 	public var ignoreSides(get, set):String;
 
-	inline static public var X_AXIS:String = "x";
-	inline static public var Y_AXIS:String = "y";
-	inline static public var Z_AXIS:String = "z";
+	inline public static var X_AXIS:String = "x";
+	inline public static var Y_AXIS:String = "y";
+	inline public static var Z_AXIS:String = "z";
 	private var LIMIT:Int;
 	private var EPS:Float;
 	private var _varr:Vector<Vertex>;

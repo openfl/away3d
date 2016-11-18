@@ -17,7 +17,7 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 	public var blendWeight(get, set):Float;
 
 	private var _blendWeight:Float;
-	static private var _tempQuat:Quaternion = new Quaternion();
+	private static var _tempQuat:Quaternion = new Quaternion();
 	private var _skeletonAnimationNode:SkeletonDifferenceNode;
 	private var _skeletonPose:SkeletonPose;
 	private var _skeletonPoseDirty:Bool;

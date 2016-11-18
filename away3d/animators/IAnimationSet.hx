@@ -1,26 +1,25 @@
+package away3d.animators;
+
+import away3d.animators.nodes.*;
+import away3d.core.managers.*;
+import away3d.materials.passes.*;
+
+import openfl.Vector;
+
 /**
  * Provides an interface for data set classes that hold animation data for use in animator classes.
  *
  * @see away3d.animators.IAnimator
  */
-package away3d.animators;
-
-
-import away3d.core.managers.Stage3DProxy;
-import away3d.materials.passes.MaterialPassBase;
-import away3d.animators.nodes.AnimationNodeBase;
-import openfl.Vector;
-
-interface IAnimationSet {
-	var usesCPU(get, never):Bool;
-
+interface IAnimationSet
+{
 	/**
 	 * Check to determine whether a state is registered in the animation set under the given name.
 	 *
 	 * @param stateName The name of the animation state object to be checked.
 	 */
 	function hasAnimation(name:String):Bool;
-
+	
 	/**
 	 * Retrieves the animation state object registered in the animation data set under the given name.
 	 *
@@ -33,7 +32,7 @@ interface IAnimationSet {
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
-	private function get_usesCPU():Bool;
+	var usesCPU(get, never):Bool;
 	
 	/**
 	 * Called by the material to reset the GPU indicator before testing whether register space in the shader
@@ -72,7 +71,7 @@ interface IAnimationSet {
 	 * @private
 	 */
 	function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String;
-
+	
 	/**
 	 * Generates the extra AGAL Fragment code for the animation when UVs are required, tailored to the material pass's requirements.
 	 *
@@ -84,7 +83,7 @@ interface IAnimationSet {
 	 * @private
 	 */
 	function getAGALUVCode(pass:MaterialPassBase, UVSource:String, UVTarget:String):String;
-
+	
 	/**
 	 * Resets any constants used in the creation of AGAL for the vertex and fragment shaders.
 	 *
@@ -93,7 +92,7 @@ interface IAnimationSet {
 	 * @private
 	 */
 	function doneAGALCode(pass:MaterialPassBase):Void;
-
+	
 	/**
 	 * Sets the GPU render state required by the animation that is independent of the rendered mesh.
 	 *
@@ -105,4 +104,3 @@ interface IAnimationSet {
 	function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 	function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 }
-

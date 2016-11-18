@@ -11,15 +11,15 @@ import openfl.Vector;
 class ParticleSegmentedScaleNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var START_INDEX:Int = 0;
+	@:allow(away3d) private static var START_INDEX:Int = 0;
 	/** @private */
-	public var _startScale:Vector3D;
+	@:allow(away3d) private var _startScale:Vector3D;
 	/** @private */
-	public var _endScale:Vector3D;
+	@:allow(away3d) private var _endScale:Vector3D;
 	/** @private */
-	public var _numSegmentPoint:Int;
+	@:allow(away3d) private var _numSegmentPoint:Int;
 	/** @private */
-	public var _segmentScales:Vector<Vector3D>;
+	@:allow(away3d) private var _segmentScales:Vector<Vector3D>;
 	
 	/**
 	 *

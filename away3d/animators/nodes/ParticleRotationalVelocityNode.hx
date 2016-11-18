@@ -15,16 +15,16 @@ import openfl.geom.Vector3D;
 class ParticleRotationalVelocityNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var ROTATIONALVELOCITY_INDEX:Int = 0;
+	@:allow(away3d) private static var ROTATIONALVELOCITY_INDEX:Int = 0;
 
 	/** @private */
-	public var _rotationalVelocity:Vector3D;
+	@:allow(away3d) private var _rotationalVelocity:Vector3D;
 
 	/**
 	 * Reference for rotational velocity node properties on a single particle (when in local property mode).
 	 * Expects a <code>Vector3D</code> object representing the rotational velocity around an axis of the particle.
 	 */
-	static public var ROTATIONALVELOCITY_VECTOR3D:String = "RotationalVelocityVector3D";
+	public static var ROTATIONALVELOCITY_VECTOR3D:String = "RotationalVelocityVector3D";
 	
 	/**
 	 * Creates a new <code>ParticleRotationalVelocityNode</code>

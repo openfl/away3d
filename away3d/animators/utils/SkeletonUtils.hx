@@ -12,7 +12,7 @@ import openfl.Vector;
 
 class SkeletonUtils {
 
-	static public function generateDifferenceClip(source:SkeletonClipNode, referencePose:SkeletonPose):SkeletonClipNode {
+	public static function generateDifferenceClip(source:SkeletonClipNode, referencePose:SkeletonPose):SkeletonClipNode {
 		var diff:SkeletonClipNode = new SkeletonClipNode();
 		var numFrames:Int = source.frames.length;
 		var i:Int = 0;
@@ -23,7 +23,7 @@ class SkeletonUtils {
 		return diff;
 	}
 
-	static public function generateDifferencePose(source:SkeletonPose, reference:SkeletonPose):SkeletonPose {
+	public static function generateDifferencePose(source:SkeletonPose, reference:SkeletonPose):SkeletonPose {
 		if (source.numJointPoses != reference.numJointPoses) throw new Error("joint counts don't match!");
 		var numJoints:Int = source.numJointPoses;
 		var diff:SkeletonPose = new SkeletonPose();

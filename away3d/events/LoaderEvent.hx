@@ -14,15 +14,15 @@ class LoaderEvent extends Event {
 	 * Dispatched when loading of a asset failed.
 	 * Such as wrong parser type, unsupported extensions, parsing errors, malformated or unsupported 3d file etc..
 	 */
-	static public var LOAD_ERROR:String = "loadError";
+	public static var LOAD_ERROR:String = "loadError";
 	/**
 	 * Dispatched when a resource and all of its dependencies is retrieved.
 	 */
-	static public var RESOURCE_COMPLETE:String = "resourceComplete";
+	public static var RESOURCE_COMPLETE:String = "resourceComplete";
 	/**
 	 * Dispatched when a resource's dependency is retrieved and resolved.
 	 */
-	static public var DEPENDENCY_COMPLETE:String = "dependencyComplete";
+	public static var DEPENDENCY_COMPLETE:String = "dependencyComplete";
 	private var _url:String;
 	private var _message:String;
 	private var _isDependency:Bool;

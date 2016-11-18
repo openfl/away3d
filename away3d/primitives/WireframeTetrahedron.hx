@@ -12,9 +12,9 @@ class WireframeTetrahedron extends WireframePrimitiveBase {
 	public var width(get, set):Float;
 	public var height(get, set):Float;
 
-	static public var ORIENTATION_YZ:String = "yz";
-	static public var ORIENTATION_XY:String = "xy";
-	static public var ORIENTATION_XZ:String = "xz";
+	public static var ORIENTATION_YZ:String = "yz";
+	public static var ORIENTATION_XY:String = "xy";
+	public static var ORIENTATION_XZ:String = "xz";
 	private var _width:Float;
 	private var _height:Float;
 	private var _orientation:String;

@@ -63,12 +63,12 @@ class ParticleNodeBase extends AnimationNodeBase {
 	}
 
 	//modes alias
-	static private var GLOBAL:String = "Global";
-	static private var LOCAL_STATIC:String = "LocalStatic";
-	static private var LOCAL_DYNAMIC:String = "LocalDynamic";
+	private static var GLOBAL:String = "Global";
+	private static var LOCAL_STATIC:String = "LocalStatic";
+	private static var LOCAL_DYNAMIC:String = "LocalDynamic";
 
 	//modes list
-	static private var MODES:Array<String> = [ GLOBAL, LOCAL_STATIC, LOCAL_DYNAMIC];
+	private static var MODES:Array<String> = [ GLOBAL, LOCAL_STATIC, LOCAL_DYNAMIC];
 
 	/**
 	 *
@@ -76,13 +76,13 @@ class ParticleNodeBase extends AnimationNodeBase {
 	 * @param	particleNodeMode  - mode of particle node ParticlePropertiesMode.GLOBAL, ParticlePropertiesMode.LOCAL_DYNAMIC or ParticlePropertiesMode.LOCAL_STATIC
 	 * @return	particle node name
 	 */
-	static public function getParticleNodeName(particleNodeClass:Dynamic, particleNodeMode:Int):String {
+	public static function getParticleNodeName(particleNodeClass:Dynamic, particleNodeMode:Int):String {
 		var nodeName:String = particleNodeClass.node.get("ANIMATION_NODE_NAME");
 		if (nodeName == null) nodeName = getNodeNameFromClass(particleNodeClass);
 		return nodeName + MODES[particleNodeMode];
 	}
 
-	static private function getNodeNameFromClass(particleNodeClass:Dynamic):String {
+	private static function getNodeNameFromClass(particleNodeClass:Dynamic):String {
 		return StringTools.replace(Type.getClassName(particleNodeClass), "Node", "").split("::")[1];
 	}
 

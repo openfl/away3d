@@ -13,10 +13,10 @@ import openfl.geom.Vector3D;
 class ParticleBillboardNode extends ParticleNodeBase {
 
 	/** @private */
-	static public var MATRIX_INDEX:Int = 0;
+	@:allow(away3d) private static var MATRIX_INDEX:Int = 0;
 
 	/** @private */
-	public var _billboardAxis:Vector3D;
+	@:allow(away3d) private var _billboardAxis:Vector3D;
 
 	/**
 	 * Creates a new <code>ParticleBillboardNode</code>

@@ -10,9 +10,9 @@ class WireframeRegularPolygon extends WireframePrimitiveBase {
 	public var radius(get, set):Float;
 	public var sides(get, set):Int;
 
-	static public var ORIENTATION_YZ:String = "yz";
-	static public var ORIENTATION_XY:String = "xy";
-	static public var ORIENTATION_XZ:String = "xz";
+	public static var ORIENTATION_YZ:String = "yz";
+	public static var ORIENTATION_XY:String = "xy";
+	public static var ORIENTATION_XZ:String = "xz";
 	private var _radius:Float;
 	private var _sides:Int;
 	private var _orientation:String;

@@ -13,32 +13,32 @@ import away3d.containers.ObjectContainer3D;
 import openfl.Vector;
 class Projector {
 
-	static public var FRONT:String = "front";
-	static public var BACK:String = "back";
-	static public var TOP:String = "top";
-	static public var BOTTOM:String = "bottom";
-	static public var LEFT:String = "left";
-	static public var RIGHT:String = "right";
-	static public var CYLINDRICAL_X:String = "cylindricalx";
-	static public var CYLINDRICAL_Y:String = "cylindricaly";
-	static public var CYLINDRICAL_Z:String = "cylindricalz";
-	static public var SPHERICAL:String = "spherical";
-	static private var _width:Float;
-	static private var _height:Float;
-	static private var _depth:Float;
-	static private var _offsetW:Float;
-	static private var _offsetH:Float;
-	static private var _offsetD:Float;
-	static private var _orientation:String;
-	static private var _center:Vector3D;
-	static private var _vn:Vector3D;
-	static private var _ve:Vector3D;
-	static private var _vp:Vector3D;
-	static private var _dir:Vector3D;
-	static private var _radius:Float;
-	static private var _uv:UV;
-	static private var PI:Float = Math.PI;
-	static private var DOUBLEPI:Float = Math.PI * 2;
+	public static var FRONT:String = "front";
+	public static var BACK:String = "back";
+	public static var TOP:String = "top";
+	public static var BOTTOM:String = "bottom";
+	public static var LEFT:String = "left";
+	public static var RIGHT:String = "right";
+	public static var CYLINDRICAL_X:String = "cylindricalx";
+	public static var CYLINDRICAL_Y:String = "cylindricaly";
+	public static var CYLINDRICAL_Z:String = "cylindricalz";
+	public static var SPHERICAL:String = "spherical";
+	private static var _width:Float;
+	private static var _height:Float;
+	private static var _depth:Float;
+	private static var _offsetW:Float;
+	private static var _offsetH:Float;
+	private static var _offsetD:Float;
+	private static var _orientation:String;
+	private static var _center:Vector3D;
+	private static var _vn:Vector3D;
+	private static var _ve:Vector3D;
+	private static var _vp:Vector3D;
+	private static var _dir:Vector3D;
+	private static var _radius:Float;
+	private static var _uv:UV;
+	private static var PI:Float = Math.PI;
+	private static var DOUBLEPI:Float = Math.PI * 2;
 	/**
 	 * Class remaps the uv data of a mesh
 	 *
@@ -49,12 +49,12 @@ class Projector {
 	 * @param	 obj		ObjectContainer3D. The ObjectContainer3D to remap.
 	 */
 
-	static public function project(orientation:String, obj:ObjectContainer3D):Void {
+	public static function project(orientation:String, obj:ObjectContainer3D):Void {
 		_orientation = orientation.toLowerCase();
 		parse(obj);
 	}
 
-	static private function parse(obj:ObjectContainer3D):Void {
+	private static function parse(obj:ObjectContainer3D):Void {
 		var child:ObjectContainer3D;
 		if (Std.is(obj, Mesh) && obj.numChildren == 0) remapMesh(cast((obj), Mesh));
 		var i:Int = 0;
@@ -65,7 +65,7 @@ class Projector {
 		}
 	}
 
-	static private function remapMesh(mesh:Mesh):Void {
+	private static function remapMesh(mesh:Mesh):Void {
 		var minX:Float = Math.POSITIVE_INFINITY;
 		var minY:Float = Math.POSITIVE_INFINITY;
 		var minZ:Float = Math.POSITIVE_INFINITY;
@@ -121,7 +121,7 @@ class Projector {
 		else remapLinear(geometries, mesh.scenePosition);
 	}
 
-	static private function remapLinear(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
+	private static function remapLinear(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
 		var numSubGeoms:Int = geometries.length;
 		var sub_geom:ISubGeometry;
 		var vertices:Vector<Float>;
@@ -223,7 +223,7 @@ class Projector {
 		}
 	}
 
-	static private function remapCylindrical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
+	private static function remapCylindrical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
 		var numSubGeoms:Int = geometries.length;
 		var sub_geom:ISubGeometry;
 		var vertices:Vector<Float>;
@@ -288,7 +288,7 @@ class Projector {
 		}
 	}
 
-	static private function remapSpherical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
+	private static function remapSpherical(geometries:Vector<ISubGeometry>, position:Vector3D):Void {
 
 		var numSubGeoms:Int = geometries.length;
 		var sub_geom:ISubGeometry;
@@ -331,7 +331,7 @@ class Projector {
 		}
 	}
 
-	static private function projectVertex(x:Float, y:Float, z:Float):Void {
+	private static function projectVertex(x:Float, y:Float, z:Float):Void {
 		if (_dir == null) {
 			_dir = new Vector3D(x, y, z);
 			_uv = new UV();

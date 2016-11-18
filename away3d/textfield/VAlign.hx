@@ -16,7 +16,7 @@ import openfl.errors.Error;
 class VAlign
 {
 	/** @private */
-	public function new() { throw new Error(); }
+	@:allow(away3d) private function new() { throw new Error(); }
 	
 	/** Top alignment. */
 	public static var TOP:String = "top";

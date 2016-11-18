@@ -22,7 +22,7 @@ class WireframeMapGenerator {
 	 * @param lineColor The wireframe's line colour.
 	 * @param lineThickness The wireframe's line thickness.
 	 */
-	static public function generateTexturedMap(mesh:Mesh, bitmapData:BitmapData, lineColor:Int = 0xffffff, lineThickness:Float = 2):BitmapData {
+	public static function generateTexturedMap(mesh:Mesh, bitmapData:BitmapData, lineColor:Int = 0xffffff, lineThickness:Float = 2):BitmapData {
 		bitmapData = bitmapData.clone();
 		var i:Int = 0;
 		while (i < mesh.subMeshes.length) {
@@ -44,7 +44,7 @@ class WireframeMapGenerator {
 	 * @return A BitmapData containing the texture underneath the wireframe.
 	 */
 
-	static public function generateSolidMap(mesh:Mesh, lineColor:Int = 0xffffff, lineThickness:Float = 2, fillColor:Int = 0, fillAlpha:Float = 0, width:Int = 512, height:Int = 512):BitmapData {
+	public static function generateSolidMap(mesh:Mesh, lineColor:Int = 0xffffff, lineThickness:Float = 2, fillColor:Int = 0, fillAlpha:Float = 0, width:Int = 512, height:Int = 512):BitmapData {
 		var bitmapData:BitmapData;
 		if (fillAlpha > 1) fillAlpha = 1
 		else if (fillAlpha < 0) fillAlpha = 0;
@@ -61,7 +61,7 @@ class WireframeMapGenerator {
 	 * Draws the actual lines.
 	 */
 
-	static private function drawLines(lineColor:Int, lineThickness:Float, bitmapData:BitmapData, subGeom:ISubGeometry):Void {
+	private static function drawLines(lineColor:Int, lineThickness:Float, bitmapData:BitmapData, subGeom:ISubGeometry):Void {
 		var sprite:Sprite = new Sprite();
 		var g:Graphics = sprite.graphics;
 		var uvs:Vector<Float> = subGeom.UVData;

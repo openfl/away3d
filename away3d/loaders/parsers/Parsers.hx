@@ -38,7 +38,7 @@ package away3d.loaders.parsers;
 		 *
 		 * @see away3d.loading.Asset3DLibrary.enableParser
 		 */
-		public static var ALL_BUNDLED:Vector<Class<ParserBase>> = Vector.ofArray([
+		public static var ALL_BUNDLED:Vector<Class<ParserBase>> = new Vector([
 			//AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
 			//MD2Parser, MD5AnimParser, MD5MeshParser, OBJParser,
 			//DAEParser

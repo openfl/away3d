@@ -18,14 +18,14 @@ import away3d.utils.ArrayUtils;
 
 class AGALProgram3DCache {
 
-	static private var _instances:Vector<AGALProgram3DCache>;
+	private static var _instances:Vector<AGALProgram3DCache>;
 	private var _stage3DProxy:Stage3DProxy;
 
 	private var _program3Ds:StringMap<Program3D>;
 	private var _ids:StringMap<Int>;
 	private var _usages:Array<Int>;
 	private var _keys:Array<String>;
-	static private var _currentId:Int = 0;
+	private static var _currentId:Int = 0;
 	
 	#if (openfl >= "4.0.0")
 	private static var assembler = new AGALMiniAssembler();

@@ -9,7 +9,7 @@ import openfl.events.Event;
 class LensEvent extends Event {
 	public var lens(get, never):LensBase;
 
-	static public var MATRIX_CHANGED:String = "matrixChanged";
+	public static var MATRIX_CHANGED:String = "matrixChanged";
 	private var _lens:LensBase;
 
 	public function new(type:String, lens:LensBase, bubbles:Bool = false, cancelable:Bool = false) {

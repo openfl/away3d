@@ -13,30 +13,30 @@ import away3d.textures.BitmapTexture;
 
 class Cast {
 
-	static private var _colorNames:StringMap<UInt>;
-	static private var _hexChars:String = "0123456789abcdefABCDEF";
-	static private var _notClasses:StringMap<Bool> = new StringMap<Bool>();
-	static private var _classes:StringMap<Dynamic> = new StringMap<Dynamic>();
+	private static var _colorNames:StringMap<UInt>;
+	private static var _hexChars:String = "0123456789abcdefABCDEF";
+	private static var _notClasses:StringMap<Bool> = new StringMap<Bool>();
+	private static var _classes:StringMap<Dynamic> = new StringMap<Dynamic>();
 
-	static public function string(data:Dynamic):String {
+	public static function string(data:Dynamic):String {
 		if (Std.is(data, Class)) data = Type.createInstance(data, []);
 		if (Std.is(data, String)) return data;
 		return Std.string(data);
 	}
 
-	static public function byteArray(data:Dynamic):ByteArray { 
+	public static function byteArray(data:Dynamic):ByteArray { 
 		if (Std.is(data, Class)) data = Type.createInstance(data, []);
 		if (Std.is(data, ByteArrayData)) return data;
 		return cast((data), ByteArray);
 	}
 /*
-	static public function xml(data:Dynamic):XML {
+	public static function xml(data:Dynamic):XML {
 		if (Std.is(data, Class)) data = Type.createInstance(data, []);
 		if (Std.is(data, XML)) return data;
 		return cast((data), XML);
 	}
 */
-	static private function isHex(string:String):Bool {
+	private static function isHex(string:String):Bool {
 		var length:Int = string.length;
 		var i:Int = 0;
 		while (i < length) {
@@ -46,7 +46,7 @@ class Cast {
 		return true;
 	}
 
-	static public function tryColor(data:Dynamic):Int {
+	public static function tryColor(data:Dynamic):Int {
 		if (Std.is(data, Int)) return data;
 		if (Std.is(data, String)) {
 			if (data == "random") return Std.int(Math.random() * 0x1000000);
@@ -204,7 +204,7 @@ class Cast {
 		return 0xFFFFFF;
 	}
 
-	static public function color(data:Dynamic):Int {
+	public static function color(data:Dynamic):Int {
 		var result:Int = tryColor(data);
 		if (result == 0xFFFFFFFF) throw new CastError("Can't cast to color: " + data);
 		return result;
@@ -232,7 +232,7 @@ class Cast {
 		return name;
 	}
 
-	static public function bitmapData(data:Dynamic):BitmapData {
+	public static function bitmapData(data:Dynamic):BitmapData {
 
 		if (data == null) return null;
 		if (Std.is(data, String)) data = openfl.Assets.getBitmapData(data);
@@ -262,7 +262,7 @@ class Cast {
 		throw new CastError("Can't cast to BitmapData: " + data);
 	}
 
-	static public function bitmapTexture(data:Dynamic):BitmapTexture {
+	public static function bitmapTexture(data:Dynamic):BitmapTexture {
 		if (data == null) return null;
 		if (Std.is(data, String)) data = openfl.Assets.getBitmapData(data);
 		if (Std.is(data, Class)) {

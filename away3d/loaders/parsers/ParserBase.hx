@@ -24,7 +24,7 @@ import openfl.errors.Error;
  * <code>ParserBase</code> provides an abstract base class for objects that convert blocks of data to data structures
  * supported by Away3D.
  *
- * If used by <code>AssetLoader</code> to automatically determine the parser type, two static public methods should
+ * If used by <code>AssetLoader</code> to automatically determine the parser type, two public static methods should
  * be implemented, with the following signatures:
  *
  * <code>public static function supportsType(extension : String) : Bool</code>

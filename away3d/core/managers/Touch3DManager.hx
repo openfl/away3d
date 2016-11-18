@@ -25,7 +25,7 @@ class Touch3DManager {
 	private var _previousCollidingObject:PickingCollisionVO;
 	private static var _collidingObjectFromTouchId:IntMap<PickingCollisionVO> = new IntMap<PickingCollisionVO>();
 	private static var _previousCollidingObjectFromTouchId:IntMap<PickingCollisionVO> = new IntMap<PickingCollisionVO>();
-	static private var _queuedEvents:Vector<TouchEvent3D> = new Vector<TouchEvent3D>();
+	private static var _queuedEvents:Vector<TouchEvent3D> = new Vector<TouchEvent3D>();
 	private var _touchPoints:Vector<TouchPoint>;
 	private var _touchPointFromId:IntMap<TouchPoint>;
 	private var _touchMoveEvent:TouchEvent;

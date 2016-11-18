@@ -94,7 +94,7 @@ class Object3D extends NamedAssetBase {
 	public var zOffset(get, set):Int;
 
 	/** @private */
-	public var _controller:ControllerBase;
+	@:allow(away3d) private var _controller:ControllerBase;
 	private var _smallestNumber:Float;
 	private var _transformDirty:Bool;
 	private var _positionDirty:Bool;
