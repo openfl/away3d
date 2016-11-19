@@ -18,7 +18,7 @@ class PhongSpecularMethod extends BasicSpecularMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+	override private function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
 		var code:String = "";
 		var t:ShaderRegisterElement;
 		if (_isFirstLight) t = _totalLightColorReg

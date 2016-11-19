@@ -798,17 +798,6 @@ class View3D extends Sprite
 			}
 		}
 	}
-	
-	/**
-	 * Defines the enter frame/render method to be used for rendering across platforms
-	 *
-	 */
-	public function setRenderCallback(func : Event -> Void) : Void {
-		if (_stage3DProxy != null)
-			_stage3DProxy.setRenderCallback(func);
-
-		_callbackMethod = func;
-	}
 
 
 	/**
@@ -1128,10 +1117,7 @@ class View3D extends Sprite
 		if (_stage3DProxy==null) {
 			if (_contextIndex == -1) _stage3DProxy = Stage3DManager.getInstance(stage).getFreeStage3DProxy(_forceSoftware, _profile);
 			else _stage3DProxy = Stage3DManager.getInstance(stage).getStage3DProxy(_contextIndex, _forceSoftware, _profile);
-			_stage3DProxy.addEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
-			if (_callbackMethod!=null) {
-				_stage3DProxy.setRenderCallback(_callbackMethod);
-			}	   
+			_stage3DProxy.addEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);  
 		}
 		
 		_globalPosDirty = true;

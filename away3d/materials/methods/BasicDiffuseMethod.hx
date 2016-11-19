@@ -183,7 +183,7 @@ class BasicDiffuseMethod extends LightingMethodBase {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+	override private function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
 		var code:String = "";
 		var t:ShaderRegisterElement;
 // write in temporary if not first light, so we can add to total diffuse colour

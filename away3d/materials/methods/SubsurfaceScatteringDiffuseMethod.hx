@@ -172,7 +172,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+	override private function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 	{
 		_isFirstLight = true;
 		_lightColorReg = lightColReg;

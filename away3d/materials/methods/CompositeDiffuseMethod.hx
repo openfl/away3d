@@ -134,7 +134,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+	override private function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
 		var code:String = _baseMethod.getFragmentCodePerLight(vo, lightDirReg, lightColReg, regCache);
 		_totalLightColorReg = _baseMethod._totalLightColorReg;
 		return code;

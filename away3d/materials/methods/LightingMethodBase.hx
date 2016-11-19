@@ -39,7 +39,7 @@ class LightingMethodBase extends ShadingMethodBase {
 	 * @param lightColReg The register containing the light colour.
 	 * @param regCache The register cache used during the compilation.
 	 */
-	public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+	@:allow(away3d) private function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
 		return "";
 	}
 

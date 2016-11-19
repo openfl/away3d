@@ -52,16 +52,12 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	
 	//set true if has an node which will change UV
 	public var hasUVNode:Bool;
-	
 	//set if the other nodes need to access the velocity
 	public var needVelocity:Bool;
-	
 	//set if has a billboard node.
 	public var hasBillboard:Bool;
-	
 	//set if has an node which will apply color multiple operation
 	public var hasColorMulNode:Bool;
-	
 	//set if has an node which will apply color add operation
 	public var hasColorAddNode:Bool;
 	

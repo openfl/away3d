@@ -152,7 +152,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod {
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
+	override private function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String {
 		return _baseMethod.getFragmentCodePerLight(vo, lightDirReg, lightColReg, regCache);
 	}
 
