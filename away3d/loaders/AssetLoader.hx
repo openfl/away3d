@@ -5,9 +5,9 @@ import away3d.events.*;
 import away3d.loaders.misc.*;
 import away3d.loaders.parsers.*;
 
+import openfl.errors.Error;
 import openfl.events.*;
 import openfl.net.*;
-import openfl.errors.Error;
 import openfl.Vector;
 
 /**
@@ -24,23 +24,24 @@ import openfl.Vector;
  */
 class AssetLoader extends EventDispatcher
 {
-	var _context:AssetLoaderContext;
-	var _token:AssetLoaderToken;
-	var _uri:String;
+	private var _context:AssetLoaderContext;
+	private var _token:AssetLoaderToken;
+	private var _uri:String;
 	
-	var _errorHandlers:Array<Dynamic -> Void>;
-	var _parseErrorHandlers:Array<Dynamic -> Void>;
+	private var _errorHandlers:Vector<Dynamic->Void>;
+	private var _parseErrorHandlers:Vector<Dynamic->Void>;
 	
-	var _stack:Array<ResourceDependency>;
-	var _baseDependency:ResourceDependency;
-	var _loadingDependency:ResourceDependency;
-	var _namespace:String;
+	private var _stack:Vector<ResourceDependency>;
+	private var _baseDependency:ResourceDependency;
+	private var _loadingDependency:ResourceDependency;
+	private var _namespace:String;
 	
 	/**
 	 * Returns the base dependency of the loader
 	 */
-	public var baseDependency(get, null) : ResourceDependency;
-	private function get_baseDependency() : ResourceDependency
+	public var baseDependency(get, null):ResourceDependency;
+	
+	private function get_baseDependency():ResourceDependency
 	{
 		return _baseDependency;
 	}
@@ -51,9 +52,9 @@ class AssetLoader extends EventDispatcher
 	public function new()
 	{
 		super();
-		_stack = new Array<ResourceDependency>();
-		_errorHandlers = new Array<Dynamic -> Void>();
-		_parseErrorHandlers = new Array<Dynamic -> Void>();
+		_stack = new Vector<ResourceDependency>();
+		_errorHandlers = new Vector<Dynamic->Void>();
+		_parseErrorHandlers = new Vector<Dynamic->Void>();
 	}
 	
 	/**
@@ -98,7 +99,7 @@ class AssetLoader extends EventDispatcher
 		if (_token==null) {
 			_token = new AssetLoaderToken(this);
 			
-			var r : EReg = ~/\\/g;
+			var r:EReg = ~/\\/g;
 			_uri = req.url = r.replace(req.url, "/");
 			_context = context;
 			_namespace = ns;
@@ -125,7 +126,7 @@ class AssetLoader extends EventDispatcher
 	{
 		if (_token==null) {
 			_token = new AssetLoaderToken(this);
-
+			
 			_uri = id;
 			_context = context;
 			_namespace = ns;
@@ -198,9 +199,8 @@ class AssetLoader extends EventDispatcher
 				
 				// Move on to next dependency
 				retrieveNext();
-			} else {
+			} else
 				_loadingDependency.loader.parseData(data, parser, _loadingDependency.request);
-			}
 		} else {
 			// Resolve URL and start loading
 			dependency.request.url = resolveDependencyUrl(dependency);
@@ -226,6 +226,7 @@ class AssetLoader extends EventDispatcher
 	{
 		var base:String;
 		var url:String = dependency.request.url;
+		
 		// Has the user re-mapped this URL?
 		if (_context!=null && _context.hasMappingForUrl(url))
 			return _context.getRemappedUrl(url);
@@ -275,14 +276,12 @@ class AssetLoader extends EventDispatcher
 		}
 		var i:Int, len:Int = loader.dependencies.length;
 		
-		// For loop conversion - 						for (i = 0; i < len; i++)
-		
 		for (i in 0...len)
 			_loadingDependency.dependencies[i] = loader.dependencies[i];
 		
 		// Since more dependencies might be added eventually, empty this
 		// list so that the same dependency isn't retrieved more than once.
-		loader.dependencies = [];//.length = 0;
+		loader.dependencies.length = 0;
 		
 		_stack.push(_loadingDependency);
 		
@@ -310,18 +309,14 @@ class AssetLoader extends EventDispatcher
 			// TODO: Consider not doing this even when AssetLoader does
 			// have it's own LOAD_ERROR listener
 			var i:UInt, len:UInt = _errorHandlers.length;
-			// For loop conversion - 				for (i = 0; i < len; i++)
 			for (i in 0...len) {
 				var handlerFunction:LoaderEvent->Void = _errorHandlers[i];
 				if (!handled) handled = (handlerFunction!=null);
-
 			}
 		}
 		
 		if (handled) {
-			//why 
-			//todo
-			if (isDependency ){//&& !event.isDefaultPrevented()) {
+			if (isDependency && !event.isDefaultPrevented()) {
 				_loadingDependency.resolveFailure();
 				retrieveNext();
 			} else {
@@ -359,7 +354,6 @@ class AssetLoader extends EventDispatcher
 			// TODO: Consider not doing this even when AssetLoader does
 			// have it's own LOAD_ERROR listener
 			var i:UInt, len:UInt = _parseErrorHandlers.length;
-			// For loop conversion - 				for (i = 0; i < len; i++)
 			for (i in 0...len) {
 				var handlerFunction:ParserEvent->Void = _parseErrorHandlers[i];
 				if (!handled) handled = (handlerFunction!=null);
@@ -512,17 +506,16 @@ class AssetLoader extends EventDispatcher
 	 * return true, the AssetLoader knows that the event wasn't handled and will throw an RTE.
 	 */
 	
-	public function addParseErrorHandler(handler:Dynamic -> Void):Void
+	@:allow(away3d) private function addParseErrorHandler(handler:Dynamic -> Void):Void
 	{
-		if (Lambda.indexOf(_parseErrorHandlers, handler) < 0)
+		if (_parseErrorHandlers.indexOf(handler) < 0)
 			_parseErrorHandlers.push(handler);
 	
 	}
 	
-	public function addErrorHandler(handler:Dynamic -> Void):Void
+	@:allow(away3d) private function addErrorHandler(handler:Dynamic -> Void):Void
 	{
-		if (Lambda.indexOf(_errorHandlers, handler) < 0)
+		if (_errorHandlers.indexOf(handler) < 0)
 			_errorHandlers.push(handler);
 	}
 }
-

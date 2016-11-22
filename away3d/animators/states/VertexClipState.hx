@@ -26,6 +26,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	{
 		if (_framesDirty)
 			updateFrames();
+		
 		return _currentGeometry;
 	}
 	
@@ -36,6 +37,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	{
 		if (_framesDirty)
 			updateFrames();
+		
 		return _nextGeometry;
 	}
 	

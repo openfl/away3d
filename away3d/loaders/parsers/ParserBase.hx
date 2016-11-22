@@ -10,15 +10,14 @@ import away3d.loaders.parsers.utils.ParserUtil;
 import away3d.tools.utils.TextureUtils;
 
 import openfl.display.BitmapData;
+import openfl.errors.Error;
 import openfl.events.EventDispatcher;
 import openfl.events.TimerEvent;
 import openfl.net.URLRequest;
 import openfl.utils.ByteArray;
 import openfl.utils.Timer;
 import openfl.Lib;
-
-import openfl.errors.Error;
-
+import openfl.Vector;
 
 /**
  * <code>ParserBase</code> provides an abstract base class for objects that convert blocks of data to data structures
@@ -42,11 +41,11 @@ import openfl.errors.Error;
  */
 class ParserBase extends EventDispatcher
 {
-	/*arcane*/ public var _fileName:String;
-	var _dataFormat:String;
-	var _data:Dynamic;
-	var _frameLimit:UInt;
-	var _lastFrameTime:UInt;
+	@:allow(away3d) private var _fileName:String;
+	private var _dataFormat:String;
+	private var _data:Dynamic;
+	private var _frameLimit:UInt;
+	private var _lastFrameTime:UInt;
 	
 	private function getTextData():String
 	{
@@ -59,23 +58,22 @@ class ParserBase extends EventDispatcher
 		return ParserUtil.toByteArray(_data);
 	}
 	
-	var _dependencies:Array<ResourceDependency>;
-	var _parsingPaused:Bool;
-	var _parsingComplete:Bool;
-	var _parsingFailure:Bool;
-	var _timer:Timer;
-	var _materialMode:UInt;
+	private var _dependencies:Vector<ResourceDependency>;
+	private var _parsingPaused:Bool;
+	private var _parsingComplete:Bool;
+	private var _parsingFailure:Bool;
+	private var _timer:Timer;
+	private var _materialMode:UInt;
 	
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate no more parsing is needed.
 	 */
-	public static var PARSING_DONE:Bool = true;
+	public static inline var PARSING_DONE:Bool = true;
 	
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate more parsing is needed, allowing asynchronous parsing.
 	 */
-	public static var MORE_TO_PARSE:Bool = false;
-
+	public static inline var MORE_TO_PARSE:Bool = false;
 	
 	/**
 	 * Creates a new ParserBase object
@@ -88,7 +86,7 @@ class ParserBase extends EventDispatcher
 		super();
 		_materialMode = 0;
 		_dataFormat = format;
-		_dependencies = new Array<ResourceDependency>();
+		_dependencies = new Vector<ResourceDependency>();
 	}
 	
 	/**
@@ -103,15 +101,15 @@ class ParserBase extends EventDispatcher
 		return isValid;
 	}
 	
-	private function set_parsingFailure(b:Bool) : Bool
+	public var parsingFailure(get, set):Bool;
+	
+	private function set_parsingFailure(b:Bool):Bool
 	{
 		_parsingFailure = b;
 		return b;
 	}
 	
-	public var parsingFailure(get, set) : Bool;
-	
-	private function get_parsingFailure() : Bool
+	private function get_parsingFailure():Bool
 	{
 		return _parsingFailure;
 	}
@@ -122,15 +120,16 @@ class ParserBase extends EventDispatcher
 	 * parsingPaused will be true, if the parser is paused 
 	 * (e.g. it is waiting for dependencys to be loadet and parsed before it will continue)
 	 */
-	public var parsingPaused(get, null) : Bool;
-	private function get_parsingPaused() : Bool
+	public var parsingPaused(get, null):Bool;
+	
+	private function get_parsingPaused():Bool
 	{
 		return _parsingPaused;
 	}
 	
-	public var parsingComplete(get, null) : Bool;
+	public var parsingComplete(get, null):Bool;
 	
-	private function get_parsingComplete() : Bool
+	private function get_parsingComplete():Bool
 	{
 		return _parsingComplete;
 	}
@@ -143,15 +142,15 @@ class ParserBase extends EventDispatcher
 	 * 2 (Force MultiPass) - All Parsers will create MultiPassMaterials
 	 * 
 	 */
-	private function set_materialMode(newMaterialMode:UInt) : UInt
+	public var materialMode(get, set):UInt;
+	
+	private function set_materialMode(newMaterialMode:UInt):UInt
 	{
 		_materialMode = newMaterialMode;
 		return _materialMode;
 	}
 	
-	public var materialMode(get, set) : UInt;
-	
-	private function get_materialMode() : UInt
+	private function get_materialMode():UInt
 	{
 		return _materialMode;
 	}
@@ -159,8 +158,9 @@ class ParserBase extends EventDispatcher
 	/**
 	 * The data format of the file data to be parsed. Can be either <code>ParserDataFormat.BINARY</code> or <code>ParserDataFormat.PLAIN_TEXT</code>.
 	 */
-	public var dataFormat(get, null) : String;
-	private function get_dataFormat() : String
+	public var dataFormat(get, null):String;
+	
+	private function get_dataFormat():String
 	{
 		return _dataFormat;
 	}
@@ -184,12 +184,14 @@ class ParserBase extends EventDispatcher
 	/**
 	 * A list of dependencies that need to be loaded and resolved for the object being parsed.
 	 */
-	public var dependencies(get, set) : Array<ResourceDependency>;
-	private function get_dependencies() : Array<ResourceDependency>
+	public var dependencies(get, set):Vector<ResourceDependency>;
+	
+	private function get_dependencies():Vector<ResourceDependency>
 	{
 		return _dependencies;
 	}
-	private function set_dependencies(val : Array<ResourceDependency>) : Array<ResourceDependency>
+	
+	private function set_dependencies(val:Vector<ResourceDependency>):Vector<ResourceDependency>
 	{
 		_dependencies = val;
 		return _dependencies;
@@ -202,7 +204,7 @@ class ParserBase extends EventDispatcher
 	 *
 	 * @param resourceDependency The dependency to be resolved.
 	 */
-	public function resolveDependency(resourceDependency:ResourceDependency):Void
+	@:allow(away3d) private function resolveDependency(resourceDependency:ResourceDependency):Void
 	{
 		throw new AbstractMethodError();
 	}
@@ -212,7 +214,7 @@ class ParserBase extends EventDispatcher
 	 *
 	 * @param resourceDependency The dependency to be resolved.
 	 */
-	public function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
+	@:allow(away3d) private function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
 	{
 		throw new AbstractMethodError();
 	}
@@ -222,7 +224,7 @@ class ParserBase extends EventDispatcher
 	 *
 	 * @param resourceDependency The dependency to be resolved.
 	 */
-	public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+	@:allow(away3d) private function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 	{
 		return asset.name;
 	}
@@ -230,7 +232,7 @@ class ParserBase extends EventDispatcher
 	/**
 	 * After Dependencys has been loaded and parsed, continue to parse
 	 */
-	public function resumeParsingAfterDependencies():Void
+	@:allow(away3d) private function resumeParsingAfterDependencies():Void
 	{
 		_parsingPaused = false;
 		if (_timer!=null)
@@ -244,7 +246,7 @@ class ParserBase extends EventDispatcher
 	 * @param asset The asset to finalize
 	 * @param name The name of the asset. The name will be applied to the asset
 	 */
-	private function finalizeAsset(asset:IAsset, name:String = null):Void
+	@:allow(away3d) private function finalizeAsset(asset:IAsset, name:String = null):Void
 	{
 		var type_event:String;
 		var type_name:String;
@@ -375,10 +377,9 @@ class ParserBase extends EventDispatcher
 	 * Tests whether or not there is still time left for parsing within the maximum allowed time frame per session.
 	 * @return True if there is still time left, false if the maximum allotted time was exceeded and parsing should be interrupted.
 	 */
-	public var bazinga = false;
 	private function hasTime():Bool
 	{
-		if (bazinga) trace("hasTime: getTimer="+Lib.getTimer()+" last="+_lastFrameTime+" limit="+_frameLimit);
+		//if (bazinga) trace("hasTime: getTimer="+Lib.getTimer()+" last="+_lastFrameTime+" limit="+_frameLimit);
 		return ((Lib.getTimer() - _lastFrameTime) < _frameLimit);
 	}
 	
@@ -413,12 +414,10 @@ class ParserBase extends EventDispatcher
 			_timer.removeEventListener(TimerEvent.TIMER, onInterval);
 			_timer.stop();
 		}
-
+		
 		_timer = null;
 		_parsingComplete = true;
 		
 		dispatchEvent(new ParserEvent(ParserEvent.PARSE_COMPLETE));
 	}
 }
-
-

@@ -5,7 +5,7 @@ import away3d.events.Asset3DEvent;
 import away3d.events.ParserEvent;
 import away3d.loaders.misc.ResourceDependency;
 
-//use namespace arcane;
+import openfl.Vector;
 
 /**
  * The AWDParser class is a wrapper for both AWD1Parser and AWD2Parser, and will
@@ -13,7 +13,7 @@ import away3d.loaders.misc.ResourceDependency;
  */
 class AWDParser extends ParserBase
 {
-	var _parser:ParserBase;
+	private var _parser:ParserBase;
 	
 	public function new()
 	{
@@ -43,7 +43,7 @@ class AWDParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	public override function get_dependencies() : Array<ResourceDependency>
+	public override function get_dependencies():Vector<ResourceDependency>
 	{
 		return _parser!=null? _parser.dependencies : super.dependencies;
 	}
@@ -51,7 +51,7 @@ class AWDParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	public override function get_parsingComplete() : Bool
+	public override function get_parsingComplete():Bool
 	{
 		return _parser!=null? _parser.parsingComplete : false;
 	}
@@ -59,7 +59,7 @@ class AWDParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	public override function get_parsingPaused() : Bool
+	public override function get_parsingPaused():Bool
 	{
 		return _parser!=null? _parser.parsingPaused : false;
 	}
@@ -88,14 +88,14 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Delagate to the concrete parser.
 	 */
-	override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+	override private function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 	{
 		if (_parser!=null)
 			return _parser.resolveDependencyName(resourceDependency, asset);
 		return asset.name;
 	}
 	
-	override function resumeParsingAfterDependencies():Void
+	override private function resumeParsingAfterDependencies():Void
 	{
 		if (_parser!=null)
 			_parser.resumeParsingAfterDependencies();
@@ -115,7 +115,7 @@ class AWDParser extends ParserBase
 			else
 				_parser = new AWD1Parser();
 			_parser.materialMode = materialMode;
-
+			
 			// Listen for events that need to be bubbled
 			_parser.addEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);
 			_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
@@ -196,5 +196,3 @@ class AWDParser extends ParserBase
 		finishParsing();
 	}
 }
-
-

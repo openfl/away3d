@@ -23,6 +23,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 	{
 		if (_framesDirty)
 			updateFrames();
+		
 		return _currentUVFrame;
 	}
 	
@@ -33,6 +34,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 	{
 		if (_framesDirty)
 			updateFrames();
+		
 		return _nextUVFrame;
 	}
 	
@@ -63,7 +65,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 				_currentUVFrame = _frames[_currentFrame];
 				
 				if (_uvClipNode.looping && _nextFrame >= _uvClipNode.lastFrame)
-					_nextUVFrame = _frames[0]
+					_nextUVFrame = _frames[0];
 				else
 					_nextUVFrame = _frames[_nextFrame];
 				

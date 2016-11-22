@@ -102,5 +102,14 @@ interface IAnimationSet
 	 * @private
 	 */
 	function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
+	
+	/**
+	 * Clears the GPU render state that has been set by the current animation.
+	 *
+	 * @param stage3DProxy The proxy currently performing the rendering.
+	 * @param pass The material pass currently being used to render the geometry.
+	 *
+	 * @private
+	 */
 	function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 }

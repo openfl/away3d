@@ -1,30 +1,30 @@
 package away3d.animators.utils;
 
+import away3d.animators.data.*;
+import away3d.animators.nodes.*;
 
-import openfl.geom.Orientation3D;
-import openfl.geom.Vector3D;
-import openfl.geom.Matrix3D;
-import away3d.animators.data.JointPose;
 import openfl.errors.Error;
-import away3d.animators.data.SkeletonPose;
-import away3d.animators.nodes.SkeletonClipNode;
+import openfl.geom.*;
 import openfl.Vector;
 
-class SkeletonUtils {
-
-	public static function generateDifferenceClip(source:SkeletonClipNode, referencePose:SkeletonPose):SkeletonClipNode {
+class SkeletonUtils
+{
+	public static function generateDifferenceClip(source:SkeletonClipNode, referencePose:SkeletonPose):SkeletonClipNode
+	{
 		var diff:SkeletonClipNode = new SkeletonClipNode();
 		var numFrames:Int = source.frames.length;
-		var i:Int = 0;
-		while (i < numFrames) {
+		
+		for (i in 0...numFrames)
 			diff.addFrame(generateDifferencePose(source.frames[i], referencePose), source.durations[i]);
-			++i;
-		}
+		
 		return diff;
 	}
-
-	public static function generateDifferencePose(source:SkeletonPose, reference:SkeletonPose):SkeletonPose {
-		if (source.numJointPoses != reference.numJointPoses) throw new Error("joint counts don't match!");
+	
+	public static function generateDifferencePose(source:SkeletonPose, reference:SkeletonPose):SkeletonPose
+	{
+		if (source.numJointPoses != reference.numJointPoses)
+			throw new Error("joint counts don't match!");
+		
 		var numJoints:Int = source.numJointPoses;
 		var diff:SkeletonPose = new SkeletonPose();
 		var srcPose:JointPose;
@@ -33,13 +33,14 @@ class SkeletonUtils {
 		var mtx:Matrix3D = new Matrix3D();
 		var tempMtx:Matrix3D = new Matrix3D();
 		var vec:Vector<Vector3D>;
-		var i:Int = 0;
-		while (i < numJoints) {
+		
+		for (i in 0...numJoints) {
 			srcPose = source.jointPoses[i];
 			refPose = reference.jointPoses[i];
 			diffPose = new JointPose();
 			diff.jointPoses[i] = diffPose;
 			diffPose.name = srcPose.name;
+			
 			refPose.toMatrix3D(mtx);
 			mtx.invert();
 			mtx.append(srcPose.toMatrix3D(tempMtx));
@@ -49,9 +50,8 @@ class SkeletonUtils {
 			diffPose.orientation.y = vec[1].y;
 			diffPose.orientation.z = vec[1].z;
 			diffPose.orientation.w = vec[1].w;
-			++i;
 		}
+		
 		return diff;
 	}
 }
-

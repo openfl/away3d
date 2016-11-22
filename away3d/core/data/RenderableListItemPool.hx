@@ -1,34 +1,38 @@
 package away3d.core.data;
 
-class RenderableListItemPool {
+import openfl.Vector;
 
-	private var _pool:Array<RenderableListItem>;
+class RenderableListItemPool
+{
+	private var _pool:Vector<RenderableListItem>;
 	private var _index:Int;
 	private var _poolSize:Int;
-
-	public function new() {
+	
+	public function new()
+	{
 		_index = 0;
 		_poolSize = 0;
-		_pool = new Array<RenderableListItem>();
+		_pool = new Vector<RenderableListItem>();
 	}
-
-	public function getItem():RenderableListItem {
+	
+	public function getItem():RenderableListItem
+	{
 		if (_index == _poolSize) {
 			var item:RenderableListItem = new RenderableListItem();
 			_pool[_index++] = item;
 			++_poolSize;
 			return item;
-		}
-
-		else return _pool[_index++];
+		} else
+			return _pool[_index++];
 	}
-
-	public function freeAll():Void {
+	
+	public function freeAll():Void
+	{
 		_index = 0;
 	}
-
-	public function dispose():Void {
-		_pool = [];
+	
+	public function dispose():Void
+	{
+		_pool.length = 0;
 	}
 }
-

@@ -7,14 +7,13 @@ import away3d.loaders.parsers.ImageParser;
 import away3d.loaders.parsers.ParserBase;
 import away3d.loaders.parsers.ParserDataFormat;
 
+import openfl.errors.Error;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.events.IOErrorEvent;
 import openfl.net.URLLoader;
 import openfl.net.URLLoaderDataFormat;
 import openfl.net.URLRequest;
-
-import openfl.errors.Error;
 import openfl.Vector;
 
 /**
@@ -30,16 +29,16 @@ import openfl.Vector;
  */
 class SingleFileLoader extends EventDispatcher
 {
-	var _parser:ParserBase;
-	var _req:URLRequest;
-	var _fileExtension:String;
-	var _fileName:String;
-	var _loadAsRawData:Bool;
-	var _materialMode:UInt;
-	var _data:Dynamic;
+	private var _parser:ParserBase;
+	private var _req:URLRequest;
+	private var _fileExtension:String;
+	private var _fileName:String;
+	private var _loadAsRawData:Bool;
+	private var _materialMode:UInt;
+	private var _data:Dynamic;
 	
 	// Image parser only parser that is added by default, to save file size.
-	private static var _parsers:Vector<Class<ParserBase>> = new Vector([ ImageParser ]);
+	private static var _parsers:Vector<Class<ParserBase>> = new Vector<Class<ParserBase>>([ ImageParser ]);
 	
 	/**
 	 * Creates a new SingleFileLoader object.
@@ -50,36 +49,35 @@ class SingleFileLoader extends EventDispatcher
 		_materialMode = materialMode;
 	}
 	
-	public var url(get, null) : String;
+	public var url(get, null):String;
 	
-	private function get_url() : String
+	private function get_url():String
 	{
 		return _req!=null? _req.url : '';
 	}
 	
-	public var data(get, null) : Dynamic ;
+	public var data(get, null):Dynamic;
 	
-	private function get_data() : Dynamic
+	private function get_data():Dynamic
 	{
 		return _data;
 	}
 	
-	public var loadAsRawData(get, null) : Bool;
+	public var loadAsRawData(get, null):Bool;
 	
-	private function get_loadAsRawData() : Bool
+	private function get_loadAsRawData():Bool
 	{
 		return _loadAsRawData;
 	}
 	
 	public static function enableParser(parser):Void
 	{
-		if (Lambda.indexOf(_parsers, parser) < 0)
+		if (_parsers.indexOf(parser) < 0)
 			_parsers.push(parser);
 	}
 	
 	public static function enableParsers(parsers:Vector<Class<ParserBase>>):Void
 	{
-		var pc;
 		for (pc in parsers)
 			enableParser(pc);
 	}
@@ -154,8 +152,9 @@ class SingleFileLoader extends EventDispatcher
 	/**
 	 * A reference to the parser that will translate the loaded data into a usable resource.
 	 */
-	public var parser(get, null) : ParserBase;
-	private function get_parser() : ParserBase
+	public var parser(get, null):ParserBase;
+	
+	private function get_parser():ParserBase
 	{
 		return _parser;
 	}
@@ -163,13 +162,14 @@ class SingleFileLoader extends EventDispatcher
 	/**
 	 * A list of dependencies that need to be loaded and resolved for the loaded object.
 	 */
-	public var dependencies(get, set) : Array<ResourceDependency>;
-	private function get_dependencies() : Array<ResourceDependency>
+	public var dependencies(get, set):Vector<ResourceDependency>;
+	
+	private function get_dependencies():Vector<ResourceDependency>
 	{
-		return _parser!=null? _parser.dependencies : new Array<ResourceDependency>();
+		return _parser!=null? _parser.dependencies : new Vector<ResourceDependency>();
 	}
-
-	private function set_dependencies(value : Array<ResourceDependency>) : Array<ResourceDependency>
+	
+	private function set_dependencies(value:Vector<ResourceDependency>):Vector<ResourceDependency>
 	{
 		if (_parser!=null) _parser.dependencies = value;
 		return value;
@@ -198,7 +198,6 @@ class SingleFileLoader extends EventDispatcher
 		var len:UInt = _parsers.length;
 		
 		// go in reverse order to allow application override of default parser added in Away3D proper
-		// For loop conversion - 			for (var i:Int = len - 1; i >= 0; i--)
 		var i:Int = len-1;
 		while (i >= 0) {
 			if ((cast _parsers[i]).supportsType(_fileExtension))
@@ -220,7 +219,6 @@ class SingleFileLoader extends EventDispatcher
 		var len:UInt = _parsers.length;
 		
 		// go in reverse order to allow application override of default parser added in Away3D proper
-		// For loop conversion - 			for (var i:Int = len - 1; i >= 0; i--)
 		var i:Int = len-1;
 		while (i >= 0) {
 			if ((cast _parsers[i]).supportsData(data))
@@ -279,7 +277,7 @@ class SingleFileLoader extends EventDispatcher
 		// all plugged in parsers inspect the actual data.
 		if (_parser==null)
 			_parser = getParserFromData(data);
-
+		
 		if (_parser!=null) {
 			_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 			_parser.addEventListener(ParserEvent.PARSE_ERROR, onParseError);
@@ -359,5 +357,3 @@ class SingleFileLoader extends EventDispatcher
 		_parser.removeEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 	}
 }
-
-

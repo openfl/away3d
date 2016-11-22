@@ -1,8 +1,5 @@
 package away3d.materials.passes; 
 
-import away3d.utils.ArrayUtils;
-import openfl.errors.ArgumentError;
-import openfl.errors.Error;
 import away3d.animators.data.AnimationRegisterCache;
 import away3d.animators.IAnimationSet;
 import away3d.cameras.Camera3D;
@@ -22,13 +19,20 @@ import openfl.display3D.Context3DCompareMode;
 import openfl.display3D.Context3DTriangleFace;
 import openfl.display3D.Program3D;
 import openfl.display3D.textures.TextureBase;
+import openfl.errors.ArgumentError;
+import openfl.errors.Error;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.geom.Matrix3D;
 import openfl.geom.Rectangle;
 import openfl.Vector;
 
-class MaterialPassBase extends EventDispatcher {
+/**
+ * MaterialPassBase provides an abstract base class for material shader passes. A material pass constitutes at least
+ * a render call per required renderable.
+ */
+class MaterialPassBase extends EventDispatcher
+{
 	public var material(get, set):MaterialBase;
 	public var writeDepth(get, set):Bool;
 	public var mipmap(get, set):Bool;
@@ -45,14 +49,15 @@ class MaterialPassBase extends EventDispatcher {
 	public var numUsedFragmentConstants(get, never):Int;
 	public var needFragmentAnimation(get, never):Bool;
 	public var needUVAnimation(get, never):Bool;
-	public var lightPicker(get, set):LightPickerBase;
+	@:allow(away3d) private var lightPicker(get, set):LightPickerBase;
 	public var alphaPremultiplied(get, set):Bool;
-
+	
 	private var _material:MaterialBase;
 	private var _animationSet:IAnimationSet;
-	public var _program3Ds:Vector<Program3D>;
-	public var _program3Dids:Vector<Int>;
-	private var _context3Ds:Vector<Context3D>;
+	
+	@:allow(away3d) private var _program3Ds:Vector<Program3D> = new Vector<Program3D>(8);
+	@:allow(away3d) private var _program3Dids:Vector<Int> = new Vector<Int>([-1, -1, -1, -1, -1, -1, -1, -1]);
+	private var _context3Ds:Vector<Context3D> = new Vector<Context3D>(8);
 	
 	// agal props. these NEED to be set by subclasses!
 	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
@@ -61,24 +66,30 @@ class MaterialPassBase extends EventDispatcher {
 	private var _numUsedVertexConstants:Int;
 	private var _numUsedFragmentConstants:Int;
 	private var _numUsedVaryings:Int;
-	private var _smooth:Bool;
-	private var _repeat:Bool;
-	private var _mipmap:Bool;
-	private var _anisotropy:Anisotropy;
-	private var _depthCompareMode:Context3DCompareMode;
-	private var _blendFactorSource:Context3DBlendFactor;
-	private var _blendFactorDest:Context3DBlendFactor;
+	
+	private var _smooth:Bool = true;
+	private var _repeat:Bool = false;
+	private var _mipmap:Bool = true;
+	private var _anisotropy:Anisotropy = Anisotropy.ANISOTROPIC2X;
+	private var _depthCompareMode:Context3DCompareMode = Context3DCompareMode.LESS_EQUAL;
+	
+	private var _blendFactorSource:Context3DBlendFactor = Context3DBlendFactor.ONE;
+	private var _blendFactorDest:Context3DBlendFactor = Context3DBlendFactor.ZERO;
+	
 	private var _enableBlending:Bool;
+	
 	private var _bothSides:Bool;
+	
 	private var _lightPicker:LightPickerBase;
-	private var _animatableAttributes:Vector<String>;
-	private var _animationTargetRegisters:Vector<String>;
-	private var _shadedTarget:String;
+	private var _animatableAttributes:Vector<String> = new Vector<String>(["va0"]);
+	private var _animationTargetRegisters:Vector<String> = new Vector<String>(["vt0"]);
+	private var _shadedTarget:String = "ft0";
 	
 	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-	private static var _previousUsedStreams:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
-	private static var _previousUsedTexs:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
-	private var _defaultCulling:Context3DTriangleFace;
+	private static var _previousUsedStreams:Vector<Int> = new Vector<Int>([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	private static var _previousUsedTexs:Vector<Int> = new Vector<Int>([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	private var _defaultCulling:Context3DTriangleFace = Context3DTriangleFace.BACK;
+	
 	private var _renderToTexture:Bool;
 	
 	// render state mementos for render-to-texture passes
@@ -86,12 +97,14 @@ class MaterialPassBase extends EventDispatcher {
 	private var _oldSurface:Int;
 	private var _oldDepthStencil:Bool;
 	private var _oldRect:Rectangle;
+	
 	private var _alphaPremultiplied:Bool;
 	private var _needFragmentAnimation:Bool;
 	private var _needUVAnimation:Bool;
 	private var _UVTarget:String;
 	private var _UVSource:String;
-	private var _writeDepth:Bool;
+	
+	private var _writeDepth:Bool = true;
 	
 	public var animationRegisterCache:AnimationRegisterCache;
 	
@@ -103,27 +116,6 @@ class MaterialPassBase extends EventDispatcher {
 	public function new(renderToTexture:Bool = false)
 	{
 		super();
- 
-		_program3Ds = new Vector<Program3D>(8); 
-		_program3Dids = Vector.ofArray([ -1, -1, -1, -1, -1, -1, -1, -1 ]);
-		_context3Ds = new Vector<Context3D>(8);
-		_smooth = true;
-		_repeat = false;
-		_mipmap = true;
-		_anisotropy = Anisotropy.ANISOTROPIC2X;
-		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
-		
-		_blendFactorSource = Context3DBlendFactor.ONE;
-		_blendFactorDest = Context3DBlendFactor.ZERO;
-
-		_animatableAttributes = Vector.ofArray([ "va0" ]);
-		_animationTargetRegisters = Vector.ofArray([ "vt0" ]);
-		_shadedTarget = "ft0";
-		
-		_defaultCulling = Context3DTriangleFace.BACK;
-		
-		_writeDepth = true;
-
 		_renderToTexture = renderToTexture;
 		_numUsedStreams = 1;
 		_numUsedVertexConstants = 5;
@@ -131,13 +123,13 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * The material to which this pass belongs.
-	 */ 
-	private function get_material() : MaterialBase
+	 */
+	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 	
-	private function set_material(value:MaterialBase) : MaterialBase
+	private function set_material(value:MaterialBase):MaterialBase
 	{
 		_material = value;
 		return _material;
@@ -145,13 +137,13 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * Indicate whether this pass should write to the depth buffer or not. Ignored when blending is enabled.
-	 */ 
-	private function get_writeDepth() : Bool
+	 */
+	private function get_writeDepth():Bool
 	{
 		return _writeDepth;
 	}
 	
-	private function set_writeDepth(value:Bool) : Bool
+	private function set_writeDepth(value:Bool):Bool
 	{
 		_writeDepth = value;
 		return _writeDepth;
@@ -159,13 +151,13 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * Defines whether any used textures should use mipmapping.
-	 */ 
-	private function get_mipmap() : Bool
+	 */
+	private function get_mipmap():Bool
 	{
 		return _mipmap;
 	}
 	
-	private function set_mipmap(value:Bool) : Bool
+	private function set_mipmap(value:Bool):Bool
 	{
 		if (_mipmap == value)
 			return _mipmap;
@@ -177,27 +169,29 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Indicates the number of Anisotropic filtering samples to take for mipmapping
 	 */
-	private function get_anisotropy():Anisotropy {
+	private function get_anisotropy():Anisotropy
+	{
 		return _anisotropy;
 	}
 
-	private function set_anisotropy(value:Anisotropy):Anisotropy {
+	private function set_anisotropy(value:Anisotropy):Anisotropy
+	{
 		if (_anisotropy == value)
 			return _anisotropy;
 		_anisotropy = value;
 		invalidateShaderProgram();
 		return _anisotropy;
 	}
-
+	
 	/**
 	 * Defines whether smoothing should be applied to any used textures.
-	 */ 
-	private function get_smooth() : Bool
+	 */
+	private function get_smooth():Bool
 	{
 		return _smooth;
 	}
 	
-	private function set_smooth(value:Bool) : Bool
+	private function set_smooth(value:Bool):Bool
 	{
 		if (_smooth == value)
 			return _smooth;
@@ -208,13 +202,13 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * Defines whether textures should be tiled.
-	 */ 
-	private function get_repeat() : Bool
+	 */
+	private function get_repeat():Bool
 	{
 		return _repeat;
 	}
 	
-	private function set_repeat(value:Bool) : Bool
+	private function set_repeat(value:Bool):Bool
 	{
 		if (_repeat == value)
 			return _repeat;
@@ -225,13 +219,13 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * Defines whether or not the material should perform backface culling.
-	 */ 
-	private function get_bothSides() : Bool
+	 */
+	private function get_bothSides():Bool
 	{
 		return _bothSides;
 	}
 	
-	private function set_bothSides(value:Bool) : Bool
+	private function set_bothSides(value:Bool):Bool
 	{
 		_bothSides = value;
 		return _bothSides;
@@ -241,27 +235,28 @@ class MaterialPassBase extends EventDispatcher {
 	 * The depth compare mode used to render the renderables using this material.
 	 *
 	 * @see openfl.display3D.Context3DCompareMode
-	 */ 
-	private function get_depthCompareMode() : Context3DCompareMode
+	 */
+	private function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
 	}
 	
-	private function set_depthCompareMode(value:Context3DCompareMode) : Context3DCompareMode
+	private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
+		if (value == null) value = LESS_EQUAL;
 		_depthCompareMode = value;
 		return _depthCompareMode;
 	}
 
 	/**
 	 * Returns the animation data set adding animations to the material.
-	 */ 
-	private function get_animationSet() : IAnimationSet
+	 */
+	private function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
 	}
 	
-	private function set_animationSet(value:IAnimationSet) : IAnimationSet
+	private function set_animationSet(value:IAnimationSet):IAnimationSet
 	{
 		if (_animationSet == value)
 			return _animationSet;
@@ -274,8 +269,8 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * Specifies whether this pass renders to texture
-	 */ 
-	private function get_renderToTexture() : Bool
+	 */
+	private function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
 	}
@@ -289,10 +284,6 @@ class MaterialPassBase extends EventDispatcher {
 		if (_lightPicker!=null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 		
-		// For loop conversion - 						for (var i:UInt = 0; i < 8; ++i)
-		
-		var i:UInt = 0;
-		
 		for (i in 0...8) {
 			if (_program3Ds[i]!=null) {
 				AGALProgram3DCache.getInstanceFromIndex(i).freeProgram3D(_program3Dids[i]);
@@ -303,44 +294,42 @@ class MaterialPassBase extends EventDispatcher {
 	
 	/**
 	 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
-	 */ 
-	private function get_numUsedStreams() : UInt
+	 */
+	private function get_numUsedStreams():UInt
 	{
 		return _numUsedStreams;
 	}
 	
 	/**
 	 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
-	 */ 
-	private function get_numUsedVertexConstants() : UInt
+	 */
+	private function get_numUsedVertexConstants():UInt
 	{
 		return _numUsedVertexConstants;
 	}
-	 
 	
-	private function get_numUsedVaryings() : UInt
+	private function get_numUsedVaryings():UInt
 	{
 		return _numUsedVaryings;
 	}
 
 	/**
 	 * The amount of used fragment constants in the fragment code. Used by the animation code generation to know from which index on registers are available.
-	 */ 
-	private function get_numUsedFragmentConstants() : UInt
+	 */
+	private function get_numUsedFragmentConstants():UInt
 	{
 		return _numUsedFragmentConstants;
 	}
-	 
 	
-	private function get_needFragmentAnimation() : Bool
+	private function get_needFragmentAnimation():Bool
 	{
 		return _needFragmentAnimation;
 	}
 
 	/**
 	 * Indicates whether the pass requires any UV animatin code.
-	 */ 
-	private function get_needUVAnimation() : Bool
+	 */
+	private function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
 	}
@@ -350,7 +339,7 @@ class MaterialPassBase extends EventDispatcher {
 	 *
 	 * @private
 	 */
-	public function updateAnimationState(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	@:allow(away3d) private function updateAnimationState(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
 		renderable.animator.setRenderState(stage3DProxy, renderable, _numUsedVertexConstants, _numUsedStreams, camera);
 	}
@@ -360,7 +349,7 @@ class MaterialPassBase extends EventDispatcher {
 	 *
 	 * @private
 	 */
-	public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
+	@:allow(away3d) private function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
 		throw new AbstractMethodError();
 	}
@@ -368,19 +357,19 @@ class MaterialPassBase extends EventDispatcher {
 	/**
 	 * Returns the vertex AGAL code for the material.
 	 */
-	public function getVertexCode():String
+	@:allow(away3d) private function getVertexCode():String
 	{
 		throw new AbstractMethodError();
-		return "";
+		return null;
 	}
 
 	/**
 	 * Returns the fragment AGAL code for the material.
 	 */
-	public function getFragmentCode(fragmentAnimatorCode:String):String
+	@:allow(away3d) private function getFragmentCode(fragmentAnimatorCode:String):String
 	{
 		throw new AbstractMethodError();
-		return "";
+		return null;
 	}
 
 	/**
@@ -417,7 +406,7 @@ class MaterialPassBase extends EventDispatcher {
 				_blendFactorDest = Context3DBlendFactor.SOURCE_ALPHA;
 				_enableBlending = true;
 			default:
-				throw new Error("Unsupported blend mode!");  
+				throw new ArgumentError("Unsupported blend mode!");
 		}
 	}
 
@@ -428,7 +417,7 @@ class MaterialPassBase extends EventDispatcher {
 	 * @param camera The camera from which the scene is viewed.
 	 * @private
 	 */
-	public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	@:allow(away3d) private function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
@@ -436,7 +425,6 @@ class MaterialPassBase extends EventDispatcher {
 		context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 		if (_enableBlending)
 			context.setBlendFactors(_blendFactorSource, _blendFactorDest);
-
 		
 		if ( _context3Ds[contextIndex] != context || _program3Ds[contextIndex]==null) {
 			_context3Ds[contextIndex] = context;
@@ -445,12 +433,10 @@ class MaterialPassBase extends EventDispatcher {
 		}
 		
 		var prevUsed:Int = _previousUsedStreams[contextIndex];
-		// For loop conversion - 			for (i = _numUsedStreams; i < prevUsed; ++i)
 		for (i in _numUsedStreams...prevUsed)
 			context.setVertexBufferAt(i, null);
 		
 		prevUsed = _previousUsedTexs[contextIndex];
-		// For loop conversion - 						for (i = _numUsedTextures; i < prevUsed; ++i)			
 		for (i in _numUsedTextures...prevUsed)
 			context.setTextureAt(i, null);
 		
@@ -458,8 +444,8 @@ class MaterialPassBase extends EventDispatcher {
 			_animationSet.activate(stage3DProxy, this);
 		
 		context.setProgram(_program3Ds[contextIndex]);
-
-		context.setCulling(_bothSides ? Context3DTriangleFace.NONE : _defaultCulling);
+		
+		context.setCulling(_bothSides? Context3DTriangleFace.NONE : _defaultCulling);
 		
 		if (_renderToTexture) {
 			_oldTarget = stage3DProxy.renderTarget;
@@ -475,9 +461,9 @@ class MaterialPassBase extends EventDispatcher {
 	 *
 	 * @private
 	 */
-	public function deactivate(stage3DProxy:Stage3DProxy):Void
+	@:allow(away3d) private function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		var index:UInt = stage3DProxy.stage3DIndex;
+		var index:UInt = stage3DProxy._stage3DIndex;
 		_previousUsedStreams[index] = _numUsedStreams;
 		_previousUsedTexs[index] = _numUsedTextures;
 		
@@ -489,8 +475,12 @@ class MaterialPassBase extends EventDispatcher {
 			stage3DProxy.setRenderTarget(_oldTarget, _oldDepthStencil, _oldSurface);
 			stage3DProxy.scissorRect = _oldRect;
 		}
-		
-		stage3DProxy.context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
+
+		if(_enableBlending) {
+			stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+		}
+
+		stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 	}
 	
 	/**
@@ -498,10 +488,8 @@ class MaterialPassBase extends EventDispatcher {
 	 *
 	 * @param updateMaterial Indicates whether the invalidation should be performed on the entire material. Should always pass "true" unless it's called from the material itself.
 	 */
-	public function invalidateShaderProgram(updateMaterial:Bool = true):Void
+	@:allow(away3d) private function invalidateShaderProgram(updateMaterial:Bool = true):Void
 	{
-		// For loop conversion - 			for (var i:UInt = 0; i < 8; ++i)
-		var i:UInt = 0;
 		for (i in 0...8)
 			_program3Ds[i] = null;
 		
@@ -513,7 +501,7 @@ class MaterialPassBase extends EventDispatcher {
 	 * Compiles the shader program.
 	 * @param polyOffsetReg An optional register that contains an amount by which to inflate the model (used in single object depth map rendering).
 	 */
-	public function updateProgram(stage3DProxy:Stage3DProxy):Void
+	@:allow(away3d) private function updateProgram(stage3DProxy:Stage3DProxy):Void
 	{
 		var animatorCode:String = "";
 		var UVAnimatorCode:String = "";
@@ -532,8 +520,6 @@ class MaterialPassBase extends EventDispatcher {
 			
 			// simply write attributes to targets, do not animate them
 			// projection will pick up on targets[0] to do the projection
-			// For loop conversion - 				for (var i:UInt = 0; i < len; ++i)
-			var i:UInt = 0;
 			for (i in 0...len)
 				animatorCode += "mov " + _animationTargetRegisters[i] + ", " + _animatableAttributes[i] + "\n";
 			if (_needUVAnimation)
@@ -541,8 +527,8 @@ class MaterialPassBase extends EventDispatcher {
 		}
 		
 		vertexCode = animatorCode + UVAnimatorCode + vertexCode;
+		
 		var fragmentCode:String = getFragmentCode(fragmentAnimatorCode);
-
 		if (Debug.active) {
 			trace("Compiling AGAL Code:");
 			trace("--------------------");
@@ -558,13 +544,13 @@ class MaterialPassBase extends EventDispatcher {
 	 *
 	 * @see away3d.materials.lightpickers.LightPickerBase
 	 * @see away3d.materials.lightpickers.StaticLightPicker
-	 */ 
-	private function get_lightPicker() : LightPickerBase
+	 */
+	@:allow(away3d) private function get_lightPicker():LightPickerBase
 	{
 		return _lightPicker;
 	}
 	
-	private function set_lightPicker(value:LightPickerBase) : LightPickerBase
+	@:allow(away3d) private function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
 		if (_lightPicker!=null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
@@ -596,16 +582,15 @@ class MaterialPassBase extends EventDispatcher {
 	 * already been premultiplied. Toggle this if you are seeing black halos around your
 	 * blended alpha edges.
 	 */ 
-	private function get_alphaPremultiplied() : Bool
+	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
 	}
 	
-	private function set_alphaPremultiplied(value:Bool) : Bool
+	private function set_alphaPremultiplied(value:Bool):Bool
 	{
 		_alphaPremultiplied = value;
 		invalidateShaderProgram(false);
 		return _alphaPremultiplied;
 	}
 }
-

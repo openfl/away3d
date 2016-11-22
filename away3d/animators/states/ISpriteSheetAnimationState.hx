@@ -1,23 +1,22 @@
+package away3d.animators.states;
+
 /**
  * Provides an interface for animation node classes that hold animation data for use in the SpriteSheetAnimator class.
  *
  * @see away3d.animators.SpriteSheetAnimator
  */
-package away3d.animators.states;
 
+import away3d.animators.data.*;
 
-import away3d.animators.data.SpriteSheetAnimationFrame;
-interface ISpriteSheetAnimationState extends IAnimationState {
-	var currentFrameData(get, never):SpriteSheetAnimationFrame;
-	var currentFrameNumber(get, never):Int;
-
+interface ISpriteSheetAnimationState extends IAnimationState
+{
 	/**
 	 * Returns the current SpriteSheetAnimationFrame of animation in the clip based on the internal playhead position.
 	 */
-	private function get_currentFrameData():SpriteSheetAnimationFrame;
+	var currentFrameData(get, never):SpriteSheetAnimationFrame;
+	
 	/**
 	 * Returns the current frame number.
 	 */
-	private function get_currentFrameNumber():Int;
+	var currentFrameNumber(get, never):Int;
 }
-

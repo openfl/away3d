@@ -1,43 +1,44 @@
-/**
- * ShaderMethodSetup contains the method configuration for an entire material.
- */
 package away3d.materials.methods;
 
-
 import away3d.events.ShadingMethodEvent;
+
 import openfl.events.EventDispatcher;
 import openfl.Vector;
 
+/**
+ * ShaderMethodSetup contains the method configuration for an entire material.
+ */
 class ShaderMethodSetup extends EventDispatcher
 {
 	public var normalMethod(get, set):BasicNormalMethod;
-	public var ambientMethod(get, set):BasicAmbientMethod;
+	@:allow(away3d) private var ambientMethod(get, set):BasicAmbientMethod;
 	public var shadowMethod(get, set):ShadowMapMethodBase;
-	public var diffuseMethod(get, set):BasicDiffuseMethod;
-	public var specularMethod(get, set):BasicSpecularMethod;
-	public var colorTransformMethod(get, set):ColorTransformMethod;
-	public var numMethods(get, never):Int;
-
-	public var _colorTransformMethod:ColorTransformMethod;
-	public var _colorTransformMethodVO:MethodVO;
-	public var _normalMethod:BasicNormalMethod;
-	public var _normalMethodVO:MethodVO;
-	public var _ambientMethod:BasicAmbientMethod;
-	public var _ambientMethodVO:MethodVO;
-	public var _shadowMethod:ShadowMapMethodBase;
-	public var _shadowMethodVO:MethodVO;
-	public var _diffuseMethod:BasicDiffuseMethod;
-	public var _diffuseMethodVO:MethodVO;
-	public var _specularMethod:BasicSpecularMethod;
-	public var _specularMethodVO:MethodVO;
-	public var _methods:Vector<MethodVOSet>;
+	@:allow(away3d) private var diffuseMethod(get, set):BasicDiffuseMethod;
+	@:allow(away3d) private var specularMethod(get, set):BasicSpecularMethod;
+	@:allow(away3d) private var colorTransformMethod(get, set):ColorTransformMethod;
+	@:allow(away3d) private var numMethods(get, never):Int;
+	
+	@:allow(away3d) private var _colorTransformMethod:ColorTransformMethod;
+	@:allow(away3d) private var _colorTransformMethodVO:MethodVO;
+	@:allow(away3d) private var _normalMethod:BasicNormalMethod;
+	@:allow(away3d) private var _normalMethodVO:MethodVO;
+	@:allow(away3d) private var _ambientMethod:BasicAmbientMethod;
+	@:allow(away3d) private var _ambientMethodVO:MethodVO;
+	@:allow(away3d) private var _shadowMethod:ShadowMapMethodBase;
+	@:allow(away3d) private var _shadowMethodVO:MethodVO;
+	@:allow(away3d) private var _diffuseMethod:BasicDiffuseMethod;
+	@:allow(away3d) private var _diffuseMethodVO:MethodVO;
+	@:allow(away3d) private var _specularMethod:BasicSpecularMethod;
+	@:allow(away3d) private var _specularMethodVO:MethodVO;
+	@:allow(away3d) private var _methods:Vector<MethodVOSet>;
+	
 	/**
 	 * Creates a new ShaderMethodSetup object.
 	 */
 	public function new()
 	{
 		_methods = new Vector<MethodVOSet>();
-
+		
 		_normalMethod = new BasicNormalMethod();
 		_ambientMethod = new BasicAmbientMethod();
 		_diffuseMethod = new BasicDiffuseMethod();
@@ -56,7 +57,6 @@ class ShaderMethodSetup extends EventDispatcher
 	/**
 	 * Called when any method's code is invalidated.
 	 */
-
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void
 	{
 		invalidateShaderProgram();
@@ -65,7 +65,6 @@ class ShaderMethodSetup extends EventDispatcher
 	/**
 	 * Invalidates the material's shader code.
 	 */
-
 	private function invalidateShaderProgram():Void
 	{
 		dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
@@ -78,17 +77,23 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return _normalMethod;
 	}
-
+	
 	private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
 	{
-		if (_normalMethod != null) _normalMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		if (_normalMethod != null)
+			_normalMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		
 		if (value != null) {
-			if (_normalMethod != null) value.copyFrom(_normalMethod);
+			if (_normalMethod != null)
+				value.copyFrom(_normalMethod);
 			_normalMethodVO = value.createMethodVO();
 			value.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		}
+		
 		_normalMethod = value;
-		if (value != null) invalidateShaderProgram();
+		
+		if (value != null)
+			invalidateShaderProgram();
 		return value;
 	}
 
@@ -99,17 +104,21 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return _ambientMethod;
 	}
-
+	
 	private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
 	{
-		if (_ambientMethod != null) _ambientMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		if (_ambientMethod != null)
+			_ambientMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		if (value != null) {
-			if (_ambientMethod != null) value.copyFrom(_ambientMethod);
+			if (_ambientMethod != null)
+				value.copyFrom(_ambientMethod);
 			value.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			_ambientMethodVO = value.createMethodVO();
 		}
 		_ambientMethod = value;
-		if (value != null) invalidateShaderProgram();
+		
+		if (value != null)
+			invalidateShaderProgram();
 		return value;
 	}
 
@@ -128,9 +137,8 @@ class ShaderMethodSetup extends EventDispatcher
 		if (_shadowMethod != null) {
 			_shadowMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			_shadowMethodVO = _shadowMethod.createMethodVO();
-		}
-
-		else _shadowMethodVO = null;
+		} else
+			_shadowMethodVO = null;
 		invalidateShaderProgram();
 		return value;
 	}
@@ -142,20 +150,26 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return _diffuseMethod;
 	}
-
+	
 	private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
 	{
-		if (_diffuseMethod != null) _diffuseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		if (_diffuseMethod != null)
+			_diffuseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		
 		if (value != null) {
-			if (_diffuseMethod != null) value.copyFrom(_diffuseMethod);
+			if (_diffuseMethod != null)
+				value.copyFrom(_diffuseMethod);
 			value.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			_diffuseMethodVO = value.createMethodVO();
 		}
+		
 		_diffuseMethod = value;
-		if (value != null) invalidateShaderProgram();
+		
+		if (value != null)
+			invalidateShaderProgram();
 		return value;
 	}
-
+	
 	/**
 	 * The method to perform specular shading.
 	 */
@@ -163,45 +177,49 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return _specularMethod;
 	}
-
+	
 	private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
 		if (_specularMethod != null) {
 			_specularMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
-			if (value != null) value.copyFrom(_specularMethod);
+			if (value != null)
+				value.copyFrom(_specularMethod);
 		}
+		
 		_specularMethod = value;
 		if (_specularMethod != null) {
 			_specularMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			_specularMethodVO = _specularMethod.createMethodVO();
-		}
-
-		else _specularMethodVO = null;
+		} else
+			_specularMethodVO = null;
+		
 		invalidateShaderProgram();
 		return value;
 	}
-
+	
 	/**
 	 * @private
 	 */
-
 	private function get_colorTransformMethod():ColorTransformMethod
 	{
 		return _colorTransformMethod;
 	}
-
+	
 	private function set_colorTransformMethod(value:ColorTransformMethod):ColorTransformMethod
 	{
-		if (_colorTransformMethod == value) return value;
-		if (_colorTransformMethod != null) _colorTransformMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
-		if (_colorTransformMethod == null || value == null) invalidateShaderProgram();
+		if (_colorTransformMethod == value)
+			return value;
+		if (_colorTransformMethod != null)
+			_colorTransformMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		if (_colorTransformMethod == null || value == null)
+			invalidateShaderProgram();
+		
 		_colorTransformMethod = value;
 		if (_colorTransformMethod != null) {
 			_colorTransformMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			_colorTransformMethodVO = _colorTransformMethod.createMethodVO();
-		}
-
-		else _colorTransformMethodVO = null;
+		} else
+			_colorTransformMethodVO = null;
 		return value;
 	}
 
@@ -215,23 +233,22 @@ class ShaderMethodSetup extends EventDispatcher
 		clearListeners(_shadowMethod);
 		clearListeners(_ambientMethod);
 		clearListeners(_specularMethod);
-		var i:Int = 0;
-		while (i < _methods.length) {
+		
+		for (i in 0..._methods.length)
 			clearListeners(_methods[i].method);
-			++i;
-		}
+		
 		_methods = null;
 	}
 
 	/**
 	 * Removes all listeners from a method.
 	 */
-
 	private function clearListeners(method:ShadingMethodBase):Void
 	{
-		if (method != null) method.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		if (method != null)
+			method.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 	}
-
+	
 	/**
 	 * Adds a method to change the material after all lighting is performed.
 	 * @param method The method to be added.
@@ -253,7 +270,7 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return getMethodSetForMethod(method) != null;
 	}
-
+	
 	/**
 	 * Inserts a method to change the material after all lighting is performed at the given index.
 	 * @param method The method to be added.
@@ -273,7 +290,9 @@ class ShaderMethodSetup extends EventDispatcher
 	 */
 	public function getMethodAt(index:Int):EffectMethodBase
 	{
-		if (index > _methods.length - 1) return null;
+		if (index > _methods.length - 1)
+			return null;
+		
 		return _methods[index].method;
 	}
 
@@ -284,7 +303,7 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return _methods.length;
 	}
-
+	
 	/**
 	 * Removes a method from the pass.
 	 * @param method The method to be removed.
@@ -293,7 +312,7 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		var methodSet:MethodVOSet = getMethodSetForMethod(method);
 		if (methodSet != null) {
-		  	var index:Int = Lambda.indexOf(_methods, methodSet);
+		  	var index:Int = _methods.indexOf(methodSet);
 				_methods.splice(index, 1);
 			method.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			invalidateShaderProgram();
@@ -303,12 +322,11 @@ class ShaderMethodSetup extends EventDispatcher
 	private function getMethodSetForMethod(method:EffectMethodBase):MethodVOSet
 	{
 		var len:Int = _methods.length;
-		var i:Int = 0;
-		while (i < len) {
-			if (_methods[i].method == method) return _methods[i];
-			++i;
+		for (i in 0...len) {
+			if (_methods[i].method == method)
+				return _methods[i];
 		}
+		
 		return null;
 	}
 }
-

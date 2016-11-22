@@ -1,25 +1,25 @@
 package away3d.core.render;
 
-import openfl.Vector;
 import away3d.core.managers.Stage3DProxy;
+import away3d.debug.Debug;
 import away3d.textures.Texture2DBase;
+
 import openfl.display3D.Context3D;
+import openfl.display3D.Context3DBlendFactor;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.display3D.IndexBuffer3D;
 import openfl.display3D.Program3D;
 import openfl.display3D.VertexBuffer3D;
-#if (openfl >= "4.0.0")
-	import openfl.utils.AGALMiniAssembler;
-#else
-	import openfl.display3D._shaders.AGLSLShaderUtils;
-#end
+import openfl.utils.AGALMiniAssembler;
+import openfl.Vector;
 
-class BackgroundImageRenderer {
+class BackgroundImageRenderer
+{
 	public var stage3DProxy(get, set):Stage3DProxy;
 	public var texture(get, set):Texture2DBase;
-
+	
 	private var _program3d:Program3D;
 	private var _texture:Texture2DBase;
 	private var _indexBuffer:IndexBuffer3D;
@@ -27,26 +27,28 @@ class BackgroundImageRenderer {
 	private var _stage3DProxy:Stage3DProxy;
 	private var _context:Context3D;
 	
-	#if (openfl >= "4.0.0")
-	private static var assembler = new AGALMiniAssembler();
-	#end
-	
-	public function new(stage3DProxy:Stage3DProxy) {
+	public function new(stage3DProxy:Stage3DProxy)
+	{
 		this.stage3DProxy = stage3DProxy;
 	}
-
-	private function get_stage3DProxy():Stage3DProxy {
+	
+	private function get_stage3DProxy():Stage3DProxy
+	{
 		return _stage3DProxy;
 	}
-
-	private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy {
-		if (value == _stage3DProxy) return value;
+	
+	private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
+	{
+		if (value == _stage3DProxy)
+			return value;
 		_stage3DProxy = value;
+		
 		removeBuffers();
 		return value;
 	}
-
-	private function removeBuffers():Void {
+	
+	private function removeBuffers():Void
+	{
 		if (_vertexBuffer != null) {
 			Stage3DProxy.disposeVertexBuffer(_vertexBuffer);
 			_vertexBuffer = null;
@@ -56,12 +58,15 @@ class BackgroundImageRenderer {
 			_indexBuffer = null;
 		}
 	}
-
-	public function getVertexCode():String {
-		return "mov op, va0\n" + "mov v0, va1";
+	
+	private function getVertexCode():String
+	{
+		return "mov op, va0\n" +
+			"mov v0, va1";
 	}
-
-	public function getFragmentCode():String {
+	
+	private function getFragmentCode():String
+	{
 		var format:String;
 		var _sw0_ = (_texture.format);
 		switch(_sw0_) {
@@ -72,24 +77,31 @@ class BackgroundImageRenderer {
 			default:
 				format = "";
 		}
-		return "tex ft0, v0, fs0 <2d, " + format + "linear>	\n" + "mov oc, ft0";
+		return "tex ft0, v0, fs0 <2d, " + format + "linear>	\n" +
+			"mov oc, ft0";
 	}
-
-	public function dispose():Void {
+	
+	public function dispose():Void
+	{
 		removeBuffers();
 	}
-
-	public function render():Void {
-		//todo
-		/*
+	
+	public function render():Void
+	{
 		var context:Context3D = _stage3DProxy.context3D;
+		
 		if (context != _context) {
 			removeBuffers();
 			_context = context;
 		}
-		if (context == null) return;
-		if (_vertexBuffer == null) initBuffers(context);
-
+		
+		if (context == null)
+			return;
+		
+		if (_vertexBuffer == null)
+			initBuffers(context);
+		
+		context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 		context.setProgram(_program3d);
 		context.setTextureAt(0, _texture.getTextureForStage3D(_stage3DProxy));
 		context.setVertexBufferAt(0, _vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
@@ -98,46 +110,44 @@ class BackgroundImageRenderer {
 		context.setVertexBufferAt(0, null);
 		context.setVertexBufferAt(1, null);
 		context.setTextureAt(0, null);
-		*/
 	}
-
-	private function initBuffers(context:Context3D):Void {
+	
+	private function initBuffers(context:Context3D):Void
+	{
 		_vertexBuffer = _stage3DProxy.createVertexBuffer(4, 4);
 		_program3d = context.createProgram();
 		_indexBuffer = _stage3DProxy.createIndexBuffer(6);
-		var inds:Vector<UInt> = Vector.ofArray(cast [ 2, 1, 0, 3, 2, 0 ]);
-		_indexBuffer.uploadFromVector(inds, 0, 6);
-		#if (openfl >= "4.0.0")
-			_program3d.upload(
-				assembler.assemble(Context3DProgramType.VERTEX, getVertexCode()),
-				assembler.assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
+		_indexBuffer.uploadFromVector(new Vector<UInt>([ 2, 1, 0, 3, 2, 0 ]), 0, 6);
+		_program3d.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
+			new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
 			);
-		#else
-			_program3d.upload(
-				AGLSLShaderUtils.createShader(Context3DProgramType.VERTEX, getVertexCode()), 
-				AGLSLShaderUtils.createShader(Context3DProgramType.FRAGMENT, getFragmentCode())
-			);
-		#end
 		
 		var w:Float = 2;
 		var h:Float = 2;
 		var x:Float = -1;
 		var y:Float = 1;
+		
 		if (_stage3DProxy.scissorRect != null) {
 			x = (_stage3DProxy.scissorRect.x * 2 - _stage3DProxy.viewPort.width) / _stage3DProxy.viewPort.width;
 			y = (_stage3DProxy.scissorRect.y * 2 - _stage3DProxy.viewPort.height) / _stage3DProxy.viewPort.height * -1;
 			w = 2 / (_stage3DProxy.viewPort.width / _stage3DProxy.scissorRect.width);
 			h = 2 / (_stage3DProxy.viewPort.height / _stage3DProxy.scissorRect.height);
 		}
-		var verts:Vector<Float> = Vector.ofArray( [ x, y - h, 0, 1, x + w, y - h, 1, 1, x + w, y, 1, 0, x, y, 0, 0 ] );
-		_vertexBuffer.uploadFromVector(verts, 0, 4);
+		
+		_vertexBuffer.uploadFromVector(new Vector<Float>([x, y-h, 0, 1,
+		x+w, y-h, 1, 1,
+		x+w, y, 1, 0,
+		x, y, 0, 0
+		]), 0, 4);
 	}
-
-	private function get_texture():Texture2DBase {
+	
+	private function get_texture():Texture2DBase
+	{
 		return _texture;
 	}
-
-	private function set_texture(value:Texture2DBase):Texture2DBase {
+	
+	private function set_texture(value:Texture2DBase):Texture2DBase
+	{
 		_texture = value;
 		return value;
 	}
