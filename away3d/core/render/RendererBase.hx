@@ -304,10 +304,7 @@ class RendererBase
 		draw(entityCollector, target);
 		
 		//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
-		#if starling
-		trace ("Debug: Is this depth test correct?"); // TODO
 		_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
-		#end
 		
 		if (!_shareContext) {
 			if (_snapshotRequired && _snapshotBitmapData != null) {
