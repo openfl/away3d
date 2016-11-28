@@ -1,3 +1,32 @@
+package away3d.debug;
+
+import away3d.core.managers.Stage3DProxy;
+import away3d.containers.View3D;
+
+import haxe.Timer;
+import openfl.display.BitmapData;
+import openfl.display.Bitmap;
+import openfl.display.PixelSnapping;
+import openfl.display.CapsStyle;
+import openfl.display.Graphics;
+import openfl.display.LineScaleMode;
+import openfl.display.Loader;
+import openfl.display.Shape;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.events.MouseEvent;
+import openfl.geom.Matrix;
+import openfl.geom.Point;
+import openfl.system.System;
+import openfl.text.TextField;
+import openfl.text.TextFieldAutoSize;
+import openfl.text.TextFormat;
+import openfl.text.TextFormatAlign;
+import openfl.utils.ByteArray;
+import openfl.Assets;
+import openfl.Lib;
+import openfl.Vector;
+
 /**
  * <p>Stats monitor for Away3D or general use in any project. The widget was designed to
  * display all the necessary data in ways that are easily readable, while maintaining a
@@ -33,35 +62,8 @@
  * impact on CPU usage, which is the reason why the default number is zero, denoting that
  * the average is calculated from a running sum since the widget was last reset.</p>
  */
-package away3d.debug;
-
-import away3d.core.math.MathConsts;
-import openfl.Lib;
-import away3d.containers.View3D;
-import openfl.display.BitmapData;
-import openfl.display.Bitmap;
-import openfl.display.PixelSnapping;
-import openfl.display.CapsStyle;
-import openfl.display.Graphics;
-import openfl.display.LineScaleMode;
-import openfl.display.Loader;
-import openfl.display.Shape;
-import openfl.display.Sprite;
-import openfl.events.Event;
-import openfl.events.MouseEvent;
-import openfl.geom.Point;
-import openfl.system.System;
-import openfl.text.TextField;
-import openfl.text.TextFieldAutoSize;
-import openfl.text.TextFormat;
-import openfl.text.TextFormatAlign;
-import haxe.Timer;
-import openfl.geom.Matrix;
-import away3d.core.managers.Stage3DProxy;
-import openfl.utils.ByteArray;
-import openfl.Assets;
-
-class AwayStats extends Sprite {
+class AwayStats extends Sprite
+{
 	public var max_ram(get, never):Float;
 	public var ram(get, never):Float;
 	public var avg_fps(get, never):Float;
@@ -69,10 +71,11 @@ class AwayStats extends Sprite {
 	public var fps(get, never):Float;
 	
 	public static var instance(get, never):AwayStats;
-
-	private var _views:Array<View3D>;
+	
+	private var _views:Vector<View3D>;
 	private var _timer:Timer;
 	private var _last_frame__timestamp:Float;
+	
 	private var _fps:Float;
 	private var _ram:Float;
 	private var _max_ram:Float;
@@ -81,12 +84,16 @@ class AwayStats extends Sprite {
 	private var _max_fps:Float;
 	private var _tfaces:Int;
 	private var _rfaces:Int;
+	
 	private var _num_frames:Int;
 	private var _fps_sum:Float;
+	
 	private var _stats_panel:Sprite;
 	private var _btm_bar:Sprite;
 	private var _dragOverlay:Sprite;
+	
 	private var _data_format:TextFormat;
+	
 	private var _fps_bar:Shape;
 	private var _afps_bar:Shape;
 	private var _lfps_bar:Shape;
@@ -97,17 +104,21 @@ class AwayStats extends Sprite {
 	private var _mem_points:Array<Dynamic>;
 	private var _mem_graph:Shape;
 	private var _updates:Int;
+	
 	private var _fps_tf:TextField;
 	private var _afps_tf:TextField;
 	private var _ram_tf:TextField;
 	private var _poly_tf:TextField;
 	private var _vb_ib_tf:TextField;
 	private var _draw_tf:TextField;
+	
 	private var _drag_dx:Float;
 	private var _drag_dy:Float;
 	private var _dragging:Bool;
+	
 	private var _mean_data:Array<Dynamic>;
 	private var _mean_data_length:Int;
+	
 	private var _transparent:Bool;
 	private var _currentFPS:Float;
 	private var _cacheCount:Int;
@@ -115,7 +126,7 @@ class AwayStats extends Sprite {
 	private var _counters:Sprite;
 	private var _logo:Sprite;
 	private var _lastTextY:Int;
-
+	
 	private static var _WIDTH:Int = 200;
 	private static var _HEIGHT:Int = 105;
 	private static var _DIAG_X:Int = 80;
@@ -130,7 +141,7 @@ class AwayStats extends Sprite {
 	private static var _MEM_COL:Int = 0xff00cc;
 	private static var _PT:Point = new Point();
 	private static var _DPT:Point = new Point(1, 0);
-
+	
 	// Singleton instance reference
 	private static var _INSTANCE:AwayStats;
 	
@@ -167,19 +178,21 @@ class AwayStats extends Sprite {
 	 * and lower parts of the graph area to increase and decrease SWF frame rate
 	 * respectively.
 	 */
-	public function new(view3d:View3D = null, meanDataLength:Int = 0) {
+	public function new(view3d:View3D = null, meanDataLength:Int = 0)
+	{
 		super();
 		
 		_mean_data_length = meanDataLength;
-		_views = new Array<View3D>();
+		_views = new Vector<View3D>();
 		
-		if (view3d != null) 
+		if (view3d != null)
 			_views.push(view3d);
 		
-		if (_INSTANCE != null) 
+		if (_INSTANCE != null)
 			trace("Creating several statistics windows in one project. Is this intentional?");
 		
 		_INSTANCE = this;
+		
 		_fps = 0;
 		_num_frames = 0;
 		_avg_fps = 0;
@@ -192,48 +205,54 @@ class AwayStats extends Sprite {
 		
 		init();
 	}
-
-	private function get_max_ram():Float {
+	
+	private function get_max_ram():Float
+	{
 		return _max_ram;
 	}
-
-	private function get_ram():Float {
+	
+	private function get_ram():Float
+	{
 		return _ram;
 	}
-
-	private function get_avg_fps():Float {
+	
+	private function get_avg_fps():Float
+	{
 		return _avg_fps;
 	}
-
-	private function get_max_fps():Float {
+	
+	private function get_max_fps():Float
+	{
 		return _max_fps;
 	}
-
-	private function get_fps():Float {
+	
+	private function get_fps():Float
+	{
 		return _fps;
 	}
-
-	private function init():Void {
+	
+	private function init():Void
+	{
 		initMisc();
 		initStats();
 		initInteraction();
 		
 		reset();
-
+		
 		addEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
 		addEventListener(Event.REMOVED_FROM_STAGE, _onRemovedFromStage);
 	}
-
+	
 	/**
 	 * Holds a reference to the stats widget (or if several have been created
 	 * during session, the one that was last instantiated.) Allows you to set
 	 * properties and register views from anywhere in your code.
 	 */
-
-	private static function get_instance():AwayStats {
+	private static function get_instance():AwayStats
+	{
 		return (_INSTANCE != null) ? _INSTANCE : _INSTANCE = new AwayStats();
 	}
-
+	
 	/**
 	 * Add a view to the list of those that are taken into account when
 	 * calculating on-screen and total poly counts. Use this method when the
@@ -241,57 +260,60 @@ class AwayStats extends Sprite {
 	 * your view, or when using several views, or when views are created and
 	 * destroyed dynamically at runtime.
 	 */
-	public function registerView(view3d:View3D):Void {
-		if (view3d != null && _views.indexOf(view3d) < 0) _views.push(view3d);
+	public function registerView(view3d:View3D):Void
+	{
+		if (view3d != null && _views.indexOf(view3d) < 0)
+			_views.push(view3d);
 	}
-
+	
 	/**
 	 * Remove a view from the list of those that are taken into account when
 	 * calculating on-screen and total poly counts. If the supplied view is
 	 * the only one known to the stats widget, calling this will leave the
 	 * list empty, disabling poly count statistics altogether.
 	 */
-	public function unregisterView(view3d:View3D):Void {
+	public function unregisterView(view3d:View3D):Void
+	{
 		if (view3d != null) {
 			var idx:Int = _views.indexOf(view3d);
-			if (idx >= 0) _views.splice(idx, 1);
+			if (idx >= 0)
+				_views.splice(idx, 1);
 		}
 	}
-
-	private function initMisc():Void {
+	
+	private function initMisc():Void
+	{
 		_currentFPS = 0;
 		_cacheCount = 0;
 		_times = [];
 		_timer = new Timer(200);
 		_timer.run = onTimer;
+		
 		_data_format = new TextFormat("_sans", 9, 0xffffff, false);
 		
 		if (_mean_data_length > 0) {
-			var i:Int;
 			_mean_data = [];
-			i = 0;
-			while (i < _mean_data_length) {
+			for (i in 0..._mean_data_length) {
 				_mean_data[i] = 0.0;
-				i++;
 			}
 		}
-
+		
 		_dia_bmp = new BitmapData(_DIAG_WIDTH, _DIAG_HEIGHT, true, 0);
 		_tmp_bmp = new BitmapData(_DIAG_WIDTH, _DIAG_HEIGHT, true, 0);
-		
-	 }
-
+	}
+	
 	/**
 	 * @private
 	 * Draw logo and create title textfield.
 	 */
-	private function initStats():Void {
+	private function initStats():Void
+	{
 		
 		_stats_panel = new Sprite();   
 		_stats_panel.graphics.beginFill(0x555555, 0.4);
 		_stats_panel.graphics.drawRect(0, 0, _WIDTH, _HEIGHT);
 		_stats_panel.graphics.endFill();
-
+		
 		_stats_panel.graphics.lineStyle(1, 0xaaaaaa);
 		_stats_panel.graphics.moveTo( _DIAG_X, 0 );
 		_stats_panel.graphics.lineTo( _DIAG_X, _DIAG_HEIGHT + 5 );
@@ -299,42 +321,42 @@ class AwayStats extends Sprite {
 		_stats_panel.graphics.lineTo( _DIAG_X + _DIAG_WIDTH, _DIAG_HEIGHT );
 		
 		addChild(_stats_panel);
-  
+  		
 		// Add the counters
 		_counters = new Sprite();
 		_counters.x = _DIAG_X;
 		_counters.y = _DIAG_HEIGHT;
 		addChild(_counters);
-
+		
 		_afps_tf = new TextField();
 		addText( "AV/TRG", _afps_tf, 0x3388dd );
-
+		
 		_ram_tf = new TextField();
 		addText( "RAM", _ram_tf, _MEM_COL );
-
+		
 		_poly_tf = new TextField();
 		addText( "POLY", _poly_tf, _POLY_COL );
-
+		
 		_vb_ib_tf = new TextField();
 		addText( "VB/IB", _vb_ib_tf, 0xffffff );
-
+		
 		_draw_tf = new TextField();
 		addText( "DRAWS", _draw_tf, 0xffffff );
-	   
+	   	
 		// Graph
 		var graph = new Bitmap( _dia_bmp );
 		_mem_graph = new Shape();
 		graph.x = _mem_graph.x = _DIAG_X;
 		_stats_panel.addChild( graph );
 		_stats_panel.addChild( _mem_graph );
-
+		
 		// Hit area for bottom bar (to avoid having textfields
 		// affect interaction badly.)
 		_dragOverlay = new Sprite();
 		_dragOverlay.graphics.beginFill(0, 0);
 		_dragOverlay.graphics.drawRect(0, 1, _WIDTH, _HEIGHT);
 		_stats_panel.addChild(_dragOverlay);
-
+		
 		// Current FPS
 		_fps_tf = new TextField();
 		_fps_tf.defaultTextFormat = new TextFormat("_sans", 40, 0xffffff, true, false, false, null, null, TextFormatAlign.CENTER);
@@ -343,7 +365,7 @@ class AwayStats extends Sprite {
 		_fps_tf.y = 55;
 		_fps_tf.selectable = false;
 		_stats_panel.addChild(_fps_tf);
-
+		
 		var logoData = 
 			"iVBORw0KGgoAAAANSUhEUgAAAIAAAABuBAMAAAAdXgYKAAAAD1BMVEUAAAAbq8FN" + 
 			"v9B61+O76fBSwR2CAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAA" + 
@@ -371,34 +393,31 @@ class AwayStats extends Sprite {
 			"1J+JWGCfMkU8XFy+foc47K8igPbD2AWyEKA+qD+IWI4Adf96jlgOab/SPFcwKAVU" + 
 			"qN+JKNO+qn49a6XKJGcbR66CoVyttnlsuYoJbbvG5m3/ABGuVkEUmYMPAAAAAElF" + 
 			"TkSuQmCC";
-
+		
 		_logo = new Sprite();
 		_logo.mouseEnabled = true;
 		_logo.x = _logo.y = 5;
 		_logo.scaleX = _logo.scaleY = 0.5;
 		_stats_panel.addChild(_logo);
-
+		
 		#if flash
 		var logoLdr:Loader = new Loader();
 		logoLdr.contentLoaderInfo.addEventListener(Event.COMPLETE, onLogoData);
 		logoLdr.loadBytes( haxe.crypto.Base64.decode( logoData ).getData() );
 		#else 
-			#if !openfl_legacy
-			var logoBmp = new Bitmap( BitmapData.fromBytes( ByteArray.fromBytes( haxe.crypto.Base64.decode( logoData ) ) ), PixelSnapping.AUTO, true );
-			#else
-			var logoBmp = new Bitmap( BitmapData.loadFromHaxeBytes( haxe.crypto.Base64.decode( logoData ) ), PixelSnapping.AUTO, true );
-			#end
-
-			_logo.addChild( logoBmp );
+		var logoBmp = new Bitmap( BitmapData.fromBytes( ByteArray.fromBytes( haxe.crypto.Base64.decode( logoData ) ) ), PixelSnapping.AUTO, true );
+		_logo.addChild( logoBmp );
 		#end
 	}
-
-	private function onLogoData( e:Event ) {
+	
+	private function onLogoData( e:Event )
+	{
 		//var logoBmp = new Bitmap( e.currentTarget.content, PixelSnapping.AUTO, true );	
 		_logo.addChild( cast (e.currentTarget, Loader).content );
 	}
-
-	private function addText( label:String, txtFld:TextField, col:UInt = 0xffffff ) {
+	
+	private function addText( label:String, txtFld:TextField, col:UInt = 0xffffff )
+	{
 		var lbl = new TextField();
 		lbl.defaultTextFormat = new TextFormat("_sans", 9, col, false);
 		lbl.autoSize = TextFieldAutoSize.LEFT;
@@ -415,22 +434,24 @@ class AwayStats extends Sprite {
 		txtFld.selectable = false;
 		txtFld.mouseEnabled = false;
 		_counters.addChild(txtFld);
-
+		
 		_lastTextY += 10;
 	}
-
-	private function initInteraction():Void {
+	
+	private function initInteraction():Void
+	{
 		// Mouse down to drag on the title
 		_dragOverlay.addEventListener(MouseEvent.MOUSE_DOWN, onDragOverlayMouseDown);
-
+		
 		// Reset functionality
 		_logo.addEventListener(MouseEvent.CLICK, onResetCounters);
 		_fps_tf.addEventListener(MouseEvent.MOUSE_UP, onResetAvgFPS, false, 1);
 	}
-
-	private function redrawStats():Void {
+	
+	private function redrawStats():Void
+	{
 		var dia_y:Int;
-
+		
 		// Redraw counters
 		_fps_tf.text = Std.string(_fps);
 		_afps_tf.text = Std.string(Math.round(_avg_fps)) + ("/" + Std.string(stage.frameRate));
@@ -447,81 +468,87 @@ class AwayStats extends Sprite {
 		if (_views.length > 0) {
 			//_poly_tf.text = _rfaces.toString().concat(' / ', _tfaces); // TODO: Total faces not yet available in 4.x
 			_poly_tf.text = _rfaces + "";
-
+			
 			// Plot rendered faces
 			dia_y = _dia_bmp.height - Math.floor(_rfaces / _tfaces * _dia_bmp.height);
 			_dia_bmp.setPixel32(1, dia_y, _POLY_COL + 0xff000000);
 		} else
 			_poly_tf.text = "n/a (no view)";
-
+		
 		_vb_ib_tf.text = Stage3DProxy.vertexBufferCount + " / " + Stage3DProxy.indexBufferCount;
-	   
+		
 		_draw_tf.text = Std.string( Stage3DProxy.drawTriangleCount );
-
+		
 		dia_y = _dia_bmp.height - Math.floor(_fps / stage.frameRate * _dia_bmp.height);
 		_dia_bmp.setPixel32(1, dia_y, 0xffffffff);
-
+		
 		// Plot average framerate
 		dia_y = _dia_bmp.height - Math.floor(_avg_fps / stage.frameRate * _dia_bmp.height);
 		_dia_bmp.setPixel32(1, dia_y, 0xff33bbff);
-
+		
 		// Redraw diagrams
 		//if (_updates % 5 == 0)
 			//redrawMemGraph();
-
+		
 		_mem_graph.x = _updates % 5;
 		_updates++;
-
+		
 		//_dia_bmp.draw( _tmp_bmp );
 	}
-
-	private function redrawMemGraph():Void {
+	
+	private function redrawMemGraph():Void
+	{
 		var i:Int;
 		var g:Graphics;
 		var max_val:Float = 0;
-
+		
 		// Redraw memory graph (only every 5th update)
 		_mem_graph.scaleY = 1;
 		g = _mem_graph.graphics;
 		g.clear();
 		g.lineStyle(1, _MEM_COL, 1, true, LineScaleMode.NONE);
-		g.moveTo(5 * (_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
+		g.moveTo(5*(_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
 		i = _mem_points.length - 1;
 		
 		while (i >= 0) {
 			trace(" - "+(i * 5)+":"+_mem_points[i]+" "+_mem_points[i + 1]);
 			if (_mem_points[i + 1] == 0 || _mem_points[i] == 0) {
-				g.moveTo(i * 5, -_mem_points[i]);
+				g.moveTo(i*5, -_mem_points[i]);
 				{
 					--i;
 					continue;
 				}
 
 			}
-			g.lineTo(i * 5, -_mem_points[i]);
-			if (_mem_points[i] > max_val) max_val = _mem_points[i];
+			
+			g.lineTo(i*5, -_mem_points[i]);
+			
+			if (_mem_points[i] > max_val)
+				max_val = _mem_points[i];
 			--i;
 		}
-		_mem_graph.scaleY = _dia_bmp.height / max_val;
+		_mem_graph.scaleY = _dia_bmp.height/max_val;
 	}
-
-	private function getRamString(ram:Float):String {
-		var ram_unit:String = "B";
+	
+	private function getRamString(ram:Float):String
+	{
+		var ram_unit:String = 'B';
+		
 		if (ram > 1048576) {
 			ram /= 1048576;
-			ram_unit = "M";
-		}
-
-		else if (ram > 1024) {
+			ram_unit = 'M';
+		} else if (ram > 1024) {
 			ram /= 1024;
-			ram_unit = "K";
+			ram_unit = 'K';
 		}
+		
 		return Math.round(ram*10)/10 + ram_unit;
 	}
-
-	public function reset():Void {
+	
+	public function reset():Void
+	{
 		var i:Int;
-
+		
 		// Reset all values
 		_updates = 0;
 		_num_frames = 0;
@@ -530,15 +557,15 @@ class AwayStats extends Sprite {
 		_avg_fps = 0;
 		_fps_sum = 0;
 		_max_ram = 0;
-
-		// // Reset RAM usage log
+		
+		// Reset RAM usage log
 		i = 0;
 		_mem_points = [];
 		while (i < _WIDTH / 5) {
 			_mem_points[i] = 0;
 			i++;
 		}
-
+		
 		// Reset FPS log if any
 		if (_mean_data != null) {
 			i = 0;
@@ -547,70 +574,75 @@ class AwayStats extends Sprite {
 				i++;
 			}
 		}
-
+		
 		_dia_bmp.fillRect(_dia_bmp.rect, 0);
 	}
-
-	private function _endDrag():Void {
+	
+	private function _endDrag():Void
+	{
 		if (this.x < -_WIDTH)
-			this.x = -(_WIDTH - 20)
+			this.x = -(_WIDTH - 20);
 		else if (this.x > stage.stageWidth)
 			this.x = stage.stageWidth - 20;
-
+		
 		if (this.y < 0)
-			this.y = 0
+			this.y = 0;
 		else if (this.y > stage.stageHeight)
 			this.y = stage.stageHeight - 15;
-
+		
+		// Round x/y position to make sure it's on
+		// whole pixels to avoid weird anti-aliasing
 		this.x = Math.round(this.x);
 		this.y = Math.round(this.y);
+		
 		_dragging = false;
-
 		stage.removeEventListener(Event.MOUSE_LEAVE, onMouseUpOrLeave);
 		stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUpOrLeave);
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 	}
-
-	private function _onAddedToStage(ev:Event):Void {
+	
+	private function _onAddedToStage(ev:Event):Void
+	{
 		_timer = new Timer(200);
 		_timer.run = onTimer;
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
-
-	private function _onRemovedFromStage(ev:Event):Void {
+	
+	private function _onRemovedFromStage(ev:Event):Void
+	{
 		_timer.stop();
 		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
-
-	private function onTimer():Void {
+	
+	private function onTimer():Void
+	{
 		// Store current and max RAM
 		_ram = System.totalMemory;
 		if (_ram > _max_ram)
 			_max_ram = _ram;
-
+		
+		// Remove first, add last
 		if (_updates % 5 == 0) {
-			_mem_points.unshift(_ram / 1024);
+			_mem_points.unshift(_ram/1024);
 			_mem_points.pop();
 		}
+		
 		_tfaces = _rfaces = 0;
-
+		
 		// Update polycount if views are available
 		if (_views.length > 0) {
-			var i:Int;
-
 			// Sum up poly counts across all registered views
-			i = 0;
-			while (i < _views.length) {
+			for (i in 0..._views.length) {
 				_rfaces += _views[i].renderedFacesCount;
-
-				//_tfaces += 0;// TODO: total faces
-				i++;
+					//_tfaces += 0;// TODO: total faces
 			}
 		}
+		
 		redrawStats();
 	}
-
-	private function onEnterFrame(ev:Event):Void {
+	
+	private function onEnterFrame(ev:Event):Void
+	{
 		var currentTime = Timer.stamp ();
 		_times.push (currentTime);
 		
@@ -631,67 +663,78 @@ class AwayStats extends Sprite {
 		
 		_cacheCount = _currentCount;
 		_fps_sum += _fps;
-
+		
 		// Update min/max fps
 		if (_fps > _max_fps)
-			_max_fps = _fps
+			_max_fps = _fps;
 		else if (_fps != 0 && _fps < _min_fps)
 			_min_fps = _fps;
-
+		
+		// If using a limited length log of frames
+		// for the average, push the latest recorded
+		// framerate onto fifo, shift one off and
+		// subtract it from the running sum, to keep
+		// the sum reflecting the log entries.
 		if (_mean_data != null) {
 			_mean_data.push(_fps);
 			_fps_sum -= Std.parseInt(_mean_data.shift()) /* WARNING check type */;
-
+			
 			// Average = sum of all log entries over
 			// number of log entries.
-			_avg_fps = _fps_sum / _mean_data_length;
+			_avg_fps = _fps_sum/_mean_data_length;
 		} else {
 			// Regular average calculation, i.e. using
 			// a running sum since last reset
 			_num_frames++;
-			_avg_fps = _fps_sum / _num_frames;
+			_avg_fps = _fps_sum/_num_frames;
 		}
+		
 		_last_frame__timestamp = Lib.getTimer();
 	}
-
+	
 	/**
 	 * @private
 	 * Reset just the average FPS counter.
 	 */
-	private function onResetAvgFPS(ev:MouseEvent):Void {
+	private function onResetAvgFPS(ev:MouseEvent):Void
+	{
 		if (!_dragging) {
 			var i:Int;
+			
 			_num_frames = 0;
 			_fps_sum = 0;
 			if (_mean_data != null) {
-				i = 0;
-				while (i < _mean_data.length) {
+				for (i in 0..._mean_data.length) {
 					_mean_data[i] = 0.0;
-					i++;
 				}
 			}
 		}
 	}
-
-	private function onResetCounters(ev:MouseEvent):Void {
+	
+	private function onResetCounters(ev:MouseEvent):Void
+	{
 		reset();
 	}
-
-	private function onDragOverlayMouseDown(ev:MouseEvent):Void {
+	
+	private function onDragOverlayMouseDown(ev:MouseEvent):Void
+	{
 		_drag_dx = this.mouseX;
 		_drag_dy = this.mouseY;
+		
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUpOrLeave);
 		stage.addEventListener(Event.MOUSE_LEAVE, onMouseUpOrLeave);
 	}
-
-	private function onMouseMove(ev:MouseEvent):Void {
+	
+	private function onMouseMove(ev:MouseEvent):Void
+	{
 		_dragging = true;
 		this.x = stage.mouseX - _drag_dx;
 		this.y = stage.mouseY - _drag_dy;
 	}
-
-	private function onMouseUpOrLeave(ev:Event):Void {
+	
+	private function onMouseUpOrLeave(ev:Event):Void
+	{
 		_endDrag();
 	}
 }
