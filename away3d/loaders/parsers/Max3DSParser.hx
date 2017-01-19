@@ -368,7 +368,7 @@ class Max3DSParser extends ParserBase {
 			_byteData.position += 2;
 		}
 
-		_cur_obj.smoothingGroups = new Vector<UInt>(count);
+		_cur_obj.smoothingGroups = new Vector<Int>(count);
 	}
 
 	private function parseSmoothingGroups():Void {
