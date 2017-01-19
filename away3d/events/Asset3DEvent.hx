@@ -65,10 +65,5 @@ class Asset3DEvent extends Event
 	override public function clone():Event
 	{
 		return new Asset3DEvent(type, asset, assetPrevName);
-		#if !flash 
-		a.target = this.target;
-		a.currentTarget = this.currentTarget;
-		#end
-		return a;
 	}
 }

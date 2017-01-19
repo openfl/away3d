@@ -303,7 +303,7 @@ class Sprite3D extends Entity implements IRenderable
 
 	public function getRenderSceneTransform(camera:Camera3D):Matrix3D
 	{
-		var comps:Vector.<Vector3D> = Matrix3DUtils.decompose(camera.sceneTransform);
+		var comps:Vector<Vector3D> = Matrix3DUtils.decompose(camera.sceneTransform);
 		var scale:Vector3D = comps[2];
 		comps[0].x = scenePosition.x;
 		comps[0].y = scenePosition.y;

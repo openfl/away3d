@@ -56,7 +56,7 @@ class MaterialPassBase extends EventDispatcher
 	private var _animationSet:IAnimationSet;
 	
 	@:allow(away3d) private var _program3Ds:Vector<Program3D> = new Vector<Program3D>(8);
-	@:allow(away3d) private var _program3Dids:Vector<Int> = new Vector<Int>([-1, -1, -1, -1, -1, -1, -1, -1]);
+	@:allow(away3d) private var _program3Dids:Vector<Int> = Vector.ofArray([-1, -1, -1, -1, -1, -1, -1, -1]);
 	private var _context3Ds:Vector<Context3D> = new Vector<Context3D>(8);
 	
 	// agal props. these NEED to be set by subclasses!
@@ -81,13 +81,13 @@ class MaterialPassBase extends EventDispatcher
 	private var _bothSides:Bool;
 	
 	private var _lightPicker:LightPickerBase;
-	private var _animatableAttributes:Vector<String> = new Vector<String>(["va0"]);
-	private var _animationTargetRegisters:Vector<String> = new Vector<String>(["vt0"]);
+	private var _animatableAttributes:Vector<String> = Vector.ofArray(["va0"]);
+	private var _animationTargetRegisters:Vector<String> = Vector.ofArray(["vt0"]);
 	private var _shadedTarget:String = "ft0";
 	
 	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-	private static var _previousUsedStreams:Vector<Int> = new Vector<Int>([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
-	private static var _previousUsedTexs:Vector<Int> = new Vector<Int>([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	private static var _previousUsedStreams:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
+	private static var _previousUsedTexs:Vector<Int> = Vector.ofArray([ 0, 0, 0, 0, 0, 0, 0, 0 ]);
 	private var _defaultCulling:Context3DTriangleFace = Context3DTriangleFace.BACK;
 	
 	private var _renderToTexture:Bool;

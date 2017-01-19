@@ -3,6 +3,7 @@ package away3d.events;
 import away3d.containers.ObjectContainer3D;
 import away3d.containers.View3D;
 import away3d.core.base.IRenderable;
+import away3d.core.math.Matrix3DUtils;
 import away3d.materials.MaterialBase;
 
 import openfl.events.Event;
@@ -230,7 +231,7 @@ class MouseEvent3D extends Event
 	 */
 	private function get_scenePosition():Vector3D
 	{
-		if (object is ObjectContainer3D)
+		if (Std.is(object, ObjectContainer3D))
 			return Matrix3DUtils.transformVector(cast(object, ObjectContainer3D).sceneTransform,localPosition);
 		else
 			return localPosition;
@@ -258,7 +259,7 @@ class MouseEvent3D extends Event
 	 */
 	private function get_sceneNormal():Vector3D
 	{
-		if (object is ObjectContainer3D) {
+		if (Std.is(object, ObjectContainer3D)) {
 			var sceneNormal:Vector3D = Matrix3DUtils.deltaTransformVector(cast(object, ObjectContainer3D).sceneTransform,localNormal);
 			sceneNormal.normalize();
 			return sceneNormal;

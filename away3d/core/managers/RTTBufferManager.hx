@@ -212,7 +212,8 @@ class RTTBufferManager extends EventDispatcher
 		
 		if (_indexBuffer == null) {
 			_indexBuffer = _stage3DProxy.createIndexBuffer(6);
-			_indexBuffer.uploadFromVector(new Vector<UInt>([2, 1, 0, 3, 2, 0]), 0, 6);
+			var v:Vector<UInt> = Vector.ofArray([2, 1, 0, 3, 2, 0]);
+			_indexBuffer.uploadFromVector(v, 0, 6);
 		}
 		
 		_textureRatioX = x = Math.min(_viewWidth/_textureWidth, 1);
@@ -224,12 +225,12 @@ class RTTBufferManager extends EventDispatcher
 		var v2:Float = (1 - y)*.5;
 		
 		// last element contains indices for data per vertex that can be passed to the vertex shader if necessary (ie: frustum corners for deferred rendering)
-		textureVerts = new Vector<Float>([    -x, -y, u1, v1, 0,
+		textureVerts = Vector.ofArray([    -x, -y, u1, v1, 0,
 			x, -y, u2, v1, 1,
 			x, y, u2, v2, 2,
 			-x, y, u1, v2, 3 ]);
 		
-		screenVerts = new Vector<Float>([        -1, -1, u1, v1, 0,
+		screenVerts = Vector.ofArray([        -1, -1, u1, v1, 0,
 			1, -1, u2, v1, 1,
 			1, 1, u2, v2, 2,
 			-1, 1, u1, v2, 3 ]);

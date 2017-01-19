@@ -179,7 +179,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 	{
 		var uvReg:ShaderRegisterElement = null;
 		var code:String = "";
-		var offsets:Vector<String> = new Vector([ dataReg + ".zw" ]);
+		var offsets:Vector<String> = Vector.ofArray([ dataReg + ".zw" ]);
 		uvReg = regCache.getFreeFragmentVectorTemp();
 		regCache.addFragmentTempUsages(uvReg, 1);
 		

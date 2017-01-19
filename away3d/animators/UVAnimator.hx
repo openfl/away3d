@@ -50,8 +50,8 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		super(uvAnimationSet);
 		
 		_uvTransform = new Matrix();
-		_matrix2d = new Vector([1, 0, 0, 0, 1, 0, 0, 0.0]);
-		_translate = new Vector([0, 0, 0.5, 0.5]);
+		_matrix2d = Vector.ofArray([1, 0, 0, 0, 1, 0, 0, 0.0]);
+		_translate = Vector.ofArray([0, 0, 0.5, 0.5]);
 		_uvAnimationSet = uvAnimationSet;
 	}
 	
@@ -88,7 +88,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	{
 		_autoTranslate = b;
 		if (b && _translateIncrease == null)
-			_translateIncrease = new Vector([0, 0.0]);
+			_translateIncrease = Vector.ofArray([0, 0.0]);
 		return b;
 	}
 	
@@ -104,7 +104,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	public function setTranslateIncrease(u:Float, v:Float):Void
 	{
 		if (_translateIncrease == null)
-			_translateIncrease = new Vector([0, 0.0]);
+			_translateIncrease = Vector.ofArray([0, 0.0]);
 		_translateIncrease[0] = u;
 		_translateIncrease[1] = v;
 	}

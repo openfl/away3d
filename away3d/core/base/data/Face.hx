@@ -56,9 +56,9 @@ class Face
 	public function new(vertices:Vector<Float> = null, uvs:Vector<Float> = null)
 	{
 		_vertices = vertices;
-		if (_vertices == null) _vertices = new Vector<Float>([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+		if (_vertices == null) _vertices = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
 		_uvs = uvs;
-		if (_uvs == null) _uvs = new Vector<Float>([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+		if (_uvs == null) _uvs = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
 	}
 	
 	//uvs
@@ -271,7 +271,7 @@ class Face
 	 */
 	private function get_v0():Vector<Float>
 	{
-		return new Vector<Float>([_vertices[0], _vertices[1], _vertices[2]]);
+		return Vector.ofArray([_vertices[0], _vertices[1], _vertices[2]]);
 	}
 	
 	/**
@@ -322,7 +322,7 @@ class Face
 	 */
 	private function get_v1():Vector<Float>
 	{
-		return new Vector<Float>([_vertices[3], _vertices[4], _vertices[5]]);
+		return Vector.ofArray([_vertices[3], _vertices[4], _vertices[5]]);
 	}
 	
 	/**
@@ -373,7 +373,7 @@ class Face
 	 */
 	private function get_v2():Vector<Float>
 	{
-		return new Vector<Float>([_vertices[6], _vertices[7], _vertices[8]]);
+		return Vector.ofArray([_vertices[6], _vertices[7], _vertices[8]]);
 	}
 	
 	/**
@@ -405,11 +405,11 @@ class Face
 	 */
 	public function clone():Face
 	{
-		var nVertices:Vector<Float> = new Vector<Float>([	 _vertices[0], _vertices[1], _vertices[2],
+		var nVertices:Vector<Float> = Vector.ofArray([	 _vertices[0], _vertices[1], _vertices[2],
 			_vertices[3], _vertices[4], _vertices[5],
 			_vertices[6], _vertices[7], _vertices[8]]);
 		
-		var nUvs:Vector<Float> = new Vector<Float>([_uvs[0], _uvs[1],
+		var nUvs:Vector<Float> = Vector.ofArray([_uvs[0], _uvs[1],
 			_uvs[2], _uvs[3],
 			_uvs[4], _uvs[5]]);
 		
