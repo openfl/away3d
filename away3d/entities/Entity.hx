@@ -1,6 +1,5 @@
 package away3d.entities;
 
-import away3d.arcane;
 import away3d.bounds.*;
 import away3d.containers.*;
 import away3d.core.math.Matrix3DUtils;
