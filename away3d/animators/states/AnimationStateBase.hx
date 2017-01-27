@@ -13,8 +13,8 @@ class AnimationStateBase implements IAnimationState
 	private var _rootDelta:Vector3D = new Vector3D();
 	private var _positionDeltaDirty:Bool = true;
 	
-	private var _time:Int;
-	private var _startTime:Int;
+	private var _time:Int = 0;
+	private var _startTime:Int = 0;
 	private var _animator:IAnimator;
 	
 	/**
