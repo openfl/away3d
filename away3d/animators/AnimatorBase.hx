@@ -33,7 +33,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	private var _startEvent:AnimatorEvent;
 	private var _stopEvent:AnimatorEvent;
 	private var _cycleEvent:AnimatorEvent;
-	private var _time:Int;
+	private var _time:Int = 0;
 	private var _playbackSpeed:Float = 1;
 	
 	private var _animationSet:IAnimationSet;
