@@ -26,7 +26,7 @@ class PartitionTraverser
 	 */
 	public var scene:Scene3D;
 	
-	private var _entryPoint:Vector3D;
+	@:allow(away3d) private var _entryPoint:Vector3D;
 	
 	/**
 	 * A property that can be used to avoid processing a partition more than once.

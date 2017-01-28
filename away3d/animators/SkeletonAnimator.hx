@@ -242,8 +242,9 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		//invalidate pose matrices
 		_globalPropertiesDirty = true;
 		
-		for (state in _animationStates)
-			cast(state, SubGeomAnimationState).dirty = true;
+		// TODO: Faster data structure?
+		for (state in _skeletonAnimationStates)
+			state.dirty = true;
 	}
 
 	private function updateCondensedMatrices(condensedIndexLookUp:Vector<UInt>, numJoints:Int):Void
@@ -308,7 +309,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 			yz2 = 2.0*oy*oz;
 			yw2 = 2.0*oy*ow;
 			zw2 = 2.0*oz*ow;
-			
 			ox *= ox;
 			oy *= oy;
 			oz *= oz;
@@ -368,7 +368,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		var jointIndices:Vector<UInt> = subGeom.jointIndexData;
 		var jointWeights:Vector<Float> = subGeom.jointWeightsData;
 		var index:Int = 0;
-		var j:Int = 0, k:Int = 0;
+		var j:UInt = 0, k:Int = 0;
 		var vx:Float, vy:Float, vz:Float;
 		var nx:Float, ny:Float, nz:Float;
 		var tx:Float, ty:Float, tz:Float;
@@ -432,7 +432,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 					j += _jointsPerVertex - k;
 					k = _jointsPerVertex;
 				}
-				
 			}
 			
 			targetData[index] = vx;
@@ -551,7 +550,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	{
 		if (event.type == AnimationStateEvent.TRANSITION_COMPLETE) {
 			event.animationNode.removeEventListener(AnimationStateEvent.TRANSITION_COMPLETE, onTransitionComplete);
-			
 			//if this is the current active state transition, revert control to the active node
 			if (_activeState == event.animationState) {
 				_activeNode = _animationSet.getAnimation(_activeAnimationName);
