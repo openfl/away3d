@@ -3,6 +3,7 @@
 	
 	<window depth-buffer="true" stencil-buffer="true" />
 	
+	<haxelib name="away3d-samples" if="setup" />
 	<include haxelib="away3d-samples" if="create" />
 	
 </extension>
