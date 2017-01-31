@@ -1,11 +1,15 @@
-#Away3D for OpenFL
+[![Apache 2.0 License](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](LICENSE.md) [![Build Status](https://img.shields.io/travis/openfl/away3d.svg?style=flat)](https://travis-ci.org/openfl/away3d)
 
-##Introduction
-Away3D for OpenFl is a port of the Flash Away3D engine, enabling targetting Flash, Neko, HTML5 and native CPP builds for OSX, Windows, iOS, Android, etc. 
+Away3D
+======
 
-##Features
-- AGLSL conversion of AGAL code to support OpenGLES.
-- Targets cross platform - web, mobile, desktop
+Away3D is an open source platform for developing interactive 3D graphics for video games and applications.
+
+
+Features
+--------
+
+- Cross-platform target support (Flash, HTML5, iOS, Android, Windows, Mac, Linux)
 - Texture mapping with mipmapping
 - Lighting
 - Shadow mapping (in most cases)
@@ -15,60 +19,39 @@ Away3D for OpenFl is a port of the Flash Away3D engine, enabling targetting Flas
 - 3D particle system
 - Line drawing (Segments & SegmentSets)
 
-##Installation
 
-    haxelib install away3d
-    
-##Getting Started
+Installation
+------------
 
-    lime create away3d      // To list all of the available examples
-    lime create away3d:Basic_View      // To install the Basic_View example
-    lime create away3d:Basic_View /destinationFolder  // To install the example to a specific location
-    
-A typical project.xml file would look as follows. Each example in the away3d-examples repository has it's own project.xml.
+You can easily install Away3D with OpenFL:
 
-    <?xml version="1.0" encoding="utf-8"?>
-    <project>
-        
-        <meta title="Basic View Away3D OpenFL" package="away3d.examples.BasicView" version="1.0.0" />
-        <app main="Basic_View" file="Basic_View" path="Export" />
-        
-        <window width="1024" height="700" if="desktop"/>
-        <window width="0" height="0" if="html5" />
-        <window orientation="landscape" vsync="true" if="cpp"/>
-        <window fps="60" hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="true" stencil-buffer="true"  background="#000000"  />
-            
-        <source path="src" />
-        
-        <haxelib name="format" if="html5" />
-        <haxelib name="away3d" />
-        <haxelib name="openfl" />
-        
-        <assets path="embeds" exclude="away3d.svg" />
+    openfl install away3d
 
-        <icon path="embeds/away3d.svg" />
-        
-        <haxedef name="source-map-content" if="html5" />
-        <haxedef name="dom" if="html5" />
+To add it to an OpenFL project, add this to your project file:
 
-        <android minimum-sdk-version="10" />
+```xml
+<haxelib name="away3d" />
+```
 
-    </project>
+To list available samples, run:
 
-##Building Examples
-To build an example, 'cd' to the example's folder e.g. Basic_View and use the following.
+    openfl create away3d
 
-	openfl test <target>     - where target is html5, windows, mac, neko, ios, android, etc
-	
-NOTE: When using OpenFL 3.x and the non-html5 targets, please add the -Dlegacy option as Away3D doesn't fully support OpenFL-next for CPP targets as yet.
 
-	openfl test mac -Dlegacy
-	
-##Dependencies
-Requires OpenFL 3.x & Lime 2.x (ideally OpenFL 3.5.3 & Lime 2.8.3 or later for both).
+Development Builds
+------------------
 
-##License
+Clone the Away3D repository:
 
-Copyright 2014 The Away3D Team
+    git clone https://github.com/openfl/away3d
 
-The Away3D OpenFL port is free, open-source software under the MIT license.
+
+Tell haxelib where your development copy of Away3D is installed:
+
+    haxelib dev away3d away3d
+
+
+To return to release builds:
+
+    haxelib dev away3d
+
