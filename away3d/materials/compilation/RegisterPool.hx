@@ -1,7 +1,5 @@
 package away3d.materials.compilation;
 
-import away3d.utils.ArrayUtils;
-import haxe.ds.StringMap;
 import openfl.errors.Error;
 import openfl.Vector;
 
@@ -15,18 +13,18 @@ import openfl.Vector;
  */
 class RegisterPool
 {
-	public static var _regPool:StringMap<Array<ShaderRegisterElement>> = new StringMap<Array<ShaderRegisterElement>>();
-	public static var _regCompsPool:StringMap<Array<Dynamic>> = new StringMap<Array<Dynamic>>();
+	private static var _regPool:Map<String, Vector<ShaderRegisterElement>> = new Map<String, Vector<ShaderRegisterElement>>();
+	private static var _regCompsPool:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
 	
-	var _vectorRegisters:Array<ShaderRegisterElement>;
-	var _registerComponents:Array<Dynamic>;
+	private var _vectorRegisters:Vector<ShaderRegisterElement>;
+	private var _registerComponents:Array<Dynamic>;
 	
-	var _regName:String;
-	var _usedSingleCount:Vector<Vector<UInt>>;
-	var _usedVectorCount:Vector<UInt>;
-	var _regCount:Int;
+	private var _regName:String;
+	private var _usedSingleCount:Vector<Vector<UInt>>;
+	private var _usedVectorCount:Vector<UInt>;
+	private var _regCount:Int;
 	
-	var _persistent:Bool;
+	private var _persistent:Bool;
 	
 	/**
 	 * Creates a new RegisterPool object.
@@ -47,8 +45,6 @@ class RegisterPool
 	 */
 	public function requestFreeVectorReg():ShaderRegisterElement
 	{
-		// For loop conversion - 			for (var i:Int = 0; i < _regCount; ++i)
-		var i:Int;
 		for (i in 0..._regCount) {
 			if (!isRegisterUsed(i)) {
 				if (_persistent)
@@ -66,13 +62,9 @@ class RegisterPool
 	 */
 	public function requestFreeRegComponent():ShaderRegisterElement
 	{
-		// For loop conversion - 			for (var i:Int = 0; i < _regCount; ++i)
-		var i:Int;
 		for (i in 0..._regCount) {
 			if (_usedVectorCount[i] > 0)
 				continue;
-			// For loop conversion - 				for (var j:Int = 0; j < 4; ++j)
-			var j:Int;
 			for (j in 0...4) {
 				if (_usedSingleCount[j][i] == 0) {
 					if (_persistent)
@@ -133,8 +125,6 @@ class RegisterPool
 	 */
 	public function hasRegisteredRegs():Bool
 	{
-		// For loop conversion - 			for (var i:Int = 0; i < _regCount; ++i)
-		var i:Int;
 		for (i in 0..._regCount) {
 			if (isRegisterUsed(i))
 				return true;
@@ -146,52 +136,47 @@ class RegisterPool
 	/**
 	 * Initializes all registers.
 	 */
-	public function initRegisters(regName:String, regCount:Int):Void
+	private function initRegisters(regName:String, regCount:Int):Void
 	{
 		
-		var hash:String = _initPool(regName, regCount);
+		var hash:String = RegisterPool._initPool(regName, regCount);
 		
-		_vectorRegisters = _regPool.get(hash);
-		_registerComponents = _regCompsPool.get(hash);
+		_vectorRegisters = RegisterPool._regPool.get(hash);
+		_registerComponents = RegisterPool._regCompsPool.get(hash);
 		
-		_usedVectorCount = new Vector<UInt>(regCount);
-		_usedSingleCount = new Vector<Vector<UInt>>();
+		_usedVectorCount = new Vector<UInt>(regCount, true);
+		_usedSingleCount = new Vector<Vector<UInt>>(4, true);
 		
-		_usedSingleCount[0] = new Vector<UInt>(regCount);
-		_usedSingleCount[1] = new Vector<UInt>(regCount);
-		_usedSingleCount[2] = new Vector<UInt>(regCount);
-		_usedSingleCount[3] = new Vector<UInt>(regCount);
-	 
+		_usedSingleCount[0] = new Vector<UInt>(regCount, true);
+		_usedSingleCount[1] = new Vector<UInt>(regCount, true);
+		_usedSingleCount[2] = new Vector<UInt>(regCount, true);
+		_usedSingleCount[3] = new Vector<UInt>(regCount, true);
 	
 	}
 	
-	public static function _initPool(regName:String, regCount:Int):String
+	private static function _initPool(regName:String, regCount:Int):String
 	{
 		var hash:String = regName + regCount;
 		
-		if (_regPool.get(hash) != null)
+		if (_regPool.exists(hash))
 			return hash;
 		
-		var vectorRegisters:Array<ShaderRegisterElement> = new Array<ShaderRegisterElement>();
-		_regPool.set(hash, vectorRegisters);
+		var vectorRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>(regCount, true);
+		_regPool[hash] = vectorRegisters;
 		
-		var registerComponents:Array<Array<ShaderRegisterElement>> = new Array<Array<ShaderRegisterElement>>();
-		_regCompsPool.set(hash, registerComponents);
-		
-		// For loop conversion - 						for (var i:Int = 0; i < regCount; ++i)
-		
-		var i:Int;
+		var registerComponents = [
+			[],
+			[],
+			[],
+			[]
+			];
+		_regCompsPool[hash] = registerComponents;
 		
 		for (i in 0...regCount) {
 			vectorRegisters[i] = new ShaderRegisterElement(regName, i);
 			
-			// For loop conversion - 								for (var j:Int = 0; j < 4; ++j)
-			
-			var j:Int;
-			for (j in 0...4) {
-				if (registerComponents[j]==null) registerComponents[j] = new Array<ShaderRegisterElement>();
+			for (j in 0...4)
 				registerComponents[j][i] = new ShaderRegisterElement(regName, i, j);
-			}
 		}
 		return hash;
 	}
@@ -203,8 +188,6 @@ class RegisterPool
 	{
 		if (_usedVectorCount[index] > 0)
 			return true;
-		// For loop conversion - 			for (var i:Int = 0; i < 4; ++i)
-		var i:Int;
 		for (i in 0...4) {
 			if (_usedSingleCount[i][index] > 0)
 				return true;
@@ -213,4 +196,3 @@ class RegisterPool
 		return false;
 	}
 }
-

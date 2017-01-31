@@ -473,13 +473,11 @@ class View3D extends Sprite
 		return _deltaTime;
 	}
 	
-	#if flash
-
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
 	@:getter(filters)
-	private function get_filters():Array<BitmapFilter>
+	private #if !flash override #end function get_filters():Array<BitmapFilter>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return null;
@@ -489,9 +487,10 @@ class View3D extends Sprite
 	 * Not supported. Use filters3d instead.
 	 */
 	@:setter(filters)
-	private function set_filters(value:Array<BitmapFilter>):Void
+	private #if !flash override #end function set_filters(value:Array<BitmapFilter>)
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
+		#if !flash return value; #end
 	}
 	
 	/**
@@ -499,22 +498,22 @@ class View3D extends Sprite
 	 * platform to 2048 pixels.
 	 */
 	@:getter(width)
-	private function get_width():Float
+	private #if !flash override #end function get_width():Float
 	{
 		return _width;
 	}
 
 	@:setter(width)
-	private function set_width(value:Float):Void
+	private #if !flash override #end function set_width(value:Float)
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
-		if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
+		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
 			value = 2048;
 		
 		if (_width == value)
-			return;
+			#if flash return #else return value #end;
 		
-		if (_rttBufferManager!=null)
+		if (_rttBufferManager != null)
 			_rttBufferManager.viewWidth = Std.int(value);
 		
 		_hitField.width = value;
@@ -529,29 +528,31 @@ class View3D extends Sprite
 		
 		_backBufferInvalid = true;
 		_scissorRectDirty = true;
+		
+		#if !flash return value; #end
 	}
-
+	
 	/**
 	 * The height of the viewport. When software rendering is used, this is limited by the
 	 * platform to 2048 pixels.
 	 */
 	@:getter(height)
-	private function get_height():Float
+	private #if !flash override #end function get_height():Float
 	{
 		return _height;
 	}
-
+	
 	@:setter(height)
-	private function set_height(value:Float):Void
+	private #if !flash override #end function set_height(value:Float)
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
-		if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
+		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
 			value = 2048;
 		
 		if (_height == value)
-			return;
+			#if flash return #else return value #end;
 		
-		if (_rttBufferManager!=null)
+		if (_rttBufferManager != null)
 			_rttBufferManager.viewHeight = Std.int(value);
 		
 		_hitField.height = value;
@@ -566,153 +567,50 @@ class View3D extends Sprite
 		
 		_backBufferInvalid = true;
 		_scissorRectDirty = true;
-		return;
+		
+		#if !flash return value; #end
 	}
-
+	
 	@:setter(x)
-	private function set_x(value:Float):Void
+	private #if !flash override #end function set_x(value:Float)
 	{
 		if (x == value)
-			return;
+			#if flash return #else return value #end;
 		
+		super.x = value;
 		_localPos.x = value;
 		
-		_globalPos.x = parent!=null ? parent.localToGlobal(_localPos).x:value;
+		_globalPos.x = parent != null ? parent.localToGlobal(_localPos).x : value;
 		_globalPosDirty = true;
-		return;
+		
+		#if !flash return value; #end
 	}
-
+	
 	@:setter(x)
-	private function set_y(value:Float):Void
+	private #if !flash override #end function set_y(value:Float)
 	{
 		if (y == value)
-			return;
+			#if flash return #else return value #end;
 		
+		super.y = value;
 		_localPos.y = value;
 		
-		_globalPos.y = parent!=null ? parent.localToGlobal(_localPos).y:value;
+		_globalPos.y = parent != null ? parent.localToGlobal(_localPos).y : value;
 		_globalPosDirty = true;
-		return;
-	}
-
-	@:setter(visible)
-	private function set_visible(value:Bool):Void
-	{
-		super.visible = value;
 		
-		if (_stage3DProxy!=null && !_shareContext)
-			_stage3DProxy.visible = value;
-		return;
+		#if !flash return value; #end
 	}
-
-	#elseif !display
 	
-	/**
-	 * The width of the viewport. When software rendering is used, this is limited by the
-	 * platform to 2048 pixels.
-	 */
-	override private function get_width():Float
-	{
-		return _width;
-	}
-
-	override private function set_width(value:Float):Float
-	{
-		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
-		if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
-			value = 2048;
-		
-		if (_width == value)
-			return value;
-		
-		if (_rttBufferManager!=null)
-			_rttBufferManager.viewWidth = Std.int(value);
-		
-		_hitField.width = value;
-		_width = value;
-		_aspectRatio = _width/_height;
-		_camera.lens.aspectRatio = _aspectRatio;
-		_depthTextureInvalid = true;
-		
-		_renderer.viewWidth = value;
-		
-		_scissorRect.width = value;
-		
-		_backBufferInvalid = true;
-		_scissorRectDirty = true;
-		return value;
-	}
-
-	/**
-	 * The height of the viewport. When software rendering is used, this is limited by the
-	 * platform to 2048 pixels.
-	 */
-	override private function get_height():Float
-	{
-		return _height;
-	}
-
-	override private function set_height(value:Float):Float
-	{
-		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
-		if (_stage3DProxy!=null && _stage3DProxy.usesSoftwareRendering && value > 2048)
-			value = 2048;
-		
-		if (_height == value)
-			return value;
-		
-		if (_rttBufferManager!=null)
-			_rttBufferManager.viewHeight = Std.int(value);
-		
-		_hitField.height = value;
-		_height = value;
-		_aspectRatio = _width/_height;
-		_camera.lens.aspectRatio = _aspectRatio;
-		_depthTextureInvalid = true;
-		
-		_renderer.viewHeight = value;
-		
-		_scissorRect.height = value;
-		
-		_backBufferInvalid = true;
-		_scissorRectDirty = true;
-		return value;
-	}
-
-	override private function set_x(value:Float):Float
-	{
-		if (x == value)
-			return x;
-		
-		_localPos.x = super.x = value;
-		
-		_globalPos.x = parent!=null ? parent.localToGlobal(_localPos).x:value;
-		_globalPosDirty = true;
-		return x;
-	}
-
-	override private function set_y(value:Float):Float
-	{
-		if (y == value)
-			return y;
-		
-		_localPos.y = super.y = value;
-		
-		_globalPos.y = parent!=null ? parent.localToGlobal(_localPos).y:value;
-		_globalPosDirty = true;
-		return y;
-	}
-
-	override private function set_visible(value:Bool):Bool
+	@:setter(visible)
+	private #if !flash override #end function set_visible(value:Bool)
 	{
 		super.visible = value;
 		
 		if (_stage3DProxy!=null && !_shareContext)
 			_stage3DProxy.visible = value;
-		return value;
+		
+		#if !flash return value; #end
 	}
-
-	#end	  
 	
 	/**
 	 * The amount of anti-aliasing to be used.

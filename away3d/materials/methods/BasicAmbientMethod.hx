@@ -147,12 +147,12 @@ class BasicAmbientMethod extends ShadingMethodBase {
 	 */
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
 		if (_useTexture) {
-			#if !flash 
-			stage3DProxy.context3D.setSamplerStateAt(
-					vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, 
-					getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 
-					vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE );
-			#end
+			//#if !flash 
+			//stage3DProxy.context3D.setSamplerStateAt(
+					//vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP, 
+					//getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 
+					//vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE );
+			//#end
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 		}
 	}

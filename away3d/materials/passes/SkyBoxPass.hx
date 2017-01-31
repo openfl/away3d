@@ -95,9 +95,9 @@ class SkyBoxPass extends MaterialPassBase {
 	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void {
 		super.activate(stage3DProxy, camera);
 		var context:Context3D = stage3DProxy.context3D;
-		#if !flash 
-		context.setSamplerStateAt(0, Context3DWrapMode.CLAMP, Context3DTextureFilter.LINEAR, _cubeTexture.hasMipMaps ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE);
-		#end
+		//#if !flash 
+		//context.setSamplerStateAt(0, Context3DWrapMode.CLAMP, Context3DTextureFilter.LINEAR, _cubeTexture.hasMipMaps ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE);
+		//#end
 		context.setDepthTest(false, Context3DCompareMode.LESS);
 		context.setTextureAt(0, _cubeTexture.getTextureForStage3D(stage3DProxy));
 	}
