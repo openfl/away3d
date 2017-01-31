@@ -477,7 +477,7 @@ class View3D extends Sprite
 	 * Not supported. Use filters3d instead.
 	 */
 	@:getter(filters)
-	private #if !flash override #end function get_filters():Array<BitmapFilter>
+	private #if (!flash && !display) override #end function get_filters():Array<BitmapFilter>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return null;
@@ -487,7 +487,7 @@ class View3D extends Sprite
 	 * Not supported. Use filters3d instead.
 	 */
 	@:setter(filters)
-	private #if !flash override #end function set_filters(value:Array<BitmapFilter>)
+	private #if (!flash && !display) override #end function set_filters(value:Array<BitmapFilter>)
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		#if !flash return value; #end
@@ -498,13 +498,13 @@ class View3D extends Sprite
 	 * platform to 2048 pixels.
 	 */
 	@:getter(width)
-	private #if !flash override #end function get_width():Float
+	private #if (!flash && !display) override #end function get_width():Float
 	{
 		return _width;
 	}
 
 	@:setter(width)
-	private #if !flash override #end function set_width(value:Float)
+	private #if (!flash && !display) override #end function set_width(value:Float)
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
 		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -537,13 +537,13 @@ class View3D extends Sprite
 	 * platform to 2048 pixels.
 	 */
 	@:getter(height)
-	private #if !flash override #end function get_height():Float
+	private #if (!flash && !display) override #end function get_height():Float
 	{
 		return _height;
 	}
 	
 	@:setter(height)
-	private #if !flash override #end function set_height(value:Float)
+	private #if (!flash && !display) override #end function set_height(value:Float)
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
 		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -572,7 +572,7 @@ class View3D extends Sprite
 	}
 	
 	@:setter(x)
-	private #if !flash override #end function set_x(value:Float)
+	private #if (!flash && !display) override #end function set_x(value:Float)
 	{
 		if (x == value)
 			#if flash return #else return value #end;
@@ -587,7 +587,7 @@ class View3D extends Sprite
 	}
 	
 	@:setter(x)
-	private #if !flash override #end function set_y(value:Float)
+	private #if (!flash && !display) override #end function set_y(value:Float)
 	{
 		if (y == value)
 			#if flash return #else return value #end;
@@ -602,7 +602,7 @@ class View3D extends Sprite
 	}
 	
 	@:setter(visible)
-	private #if !flash override #end function set_visible(value:Bool)
+	private #if (!flash && !display) override #end function set_visible(value:Bool)
 	{
 		super.visible = value;
 		
