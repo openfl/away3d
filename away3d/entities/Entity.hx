@@ -312,6 +312,10 @@ class Entity extends ObjectContainer3D
 
 	public function isIntersectingRay(rayPosition:Vector3D, rayDirection:Vector3D):Bool
 	{
+		if (pickingCollisionVO.localRayPosition == null) pickingCollisionVO.localRayPosition = new Vector3D();
+		if (pickingCollisionVO.localRayDirection == null) pickingCollisionVO.localRayDirection = new Vector3D();
+		if (pickingCollisionVO.localNormal == null) pickingCollisionVO.localNormal = new Vector3D();
+
 		// convert ray to entity space
 		var localRayPosition:Vector3D = pickingCollisionVO.localRayPosition;
 		var localRayDirection:Vector3D = pickingCollisionVO.localRayDirection;
@@ -319,11 +323,7 @@ class Entity extends ObjectContainer3D
 		Matrix3DUtils.deltaTransformVector(inverseSceneTransform, rayDirection, localRayDirection);
 
 		// check for ray-bounds collision
-		if (pickingCollisionVO.localNormal == null)
-			pickingCollisionVO.localNormal = new Vector3D();
-		
 		var rayEntryDistance:Float = bounds.rayIntersection(localRayPosition, localRayDirection, pickingCollisionVO.localNormal);
-		
 		if (rayEntryDistance < 0)
 			return false;
 		
@@ -418,7 +418,7 @@ class Entity extends ObjectContainer3D
 	private function notifyPartitionAssigned():Void
 	{
 		if (_scene != null)
-			_scene.registerPartition(this);
+			_scene.registerPartition(this); //_onAssignPartitionCallback(this);
 	}
 	
 	/**

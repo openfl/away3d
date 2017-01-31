@@ -163,7 +163,7 @@ class MouseEvent3D extends Event
 	#if flash
 	@:getter(bubbles) function get_bubbles():Bool
 	{
-		var doesBubble:Bool = this.bubbles && _allowedToPropagate;
+		var doesBubble:Bool = super.bubbles && _allowedToPropagate;
 		_allowedToPropagate = true;
 		// Don't bubble if propagation has been stopped.
 		return doesBubble;
@@ -266,7 +266,7 @@ class MouseEvent3D extends Event
 		} else
 			return localNormal;
 	}
-	
+
 	/**
 	 * The normal in scene space where the event took place
 	 * @param v destination Vector3D
