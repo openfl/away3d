@@ -298,7 +298,7 @@ class BasicDiffuseMethod extends LightingMethodBase {
 	 */
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
 		if (_useTexture) {
-			#if !flash 
+			#if (!flash || flash11_6)
 			stage3DProxy.context3D.setSamplerStateAt(
 				vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP,
 				getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 

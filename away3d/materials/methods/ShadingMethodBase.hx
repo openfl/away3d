@@ -244,9 +244,9 @@ class ShadingMethodBase extends NamedAssetBase
 	 */
 	private function getSmoothingFilter(smooth:Bool, anisotropy:Anisotropy)
 	{
-		//#if flash
-		//return smooth ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST;
-		//#else
+		#if (flash && !flash14)
+		return smooth ? Context3DTextureFilter.LINEAR : Context3DTextureFilter.NEAREST;
+		#else
 		if (smooth) {
 			switch (anisotropy) {
 				case Anisotropy.ANISOTROPIC2X : return Context3DTextureFilter.ANISOTROPIC2X;
@@ -257,6 +257,6 @@ class ShadingMethodBase extends NamedAssetBase
 			}
 		} else
 			return Context3DTextureFilter.NEAREST;
-		//#end
+		#end
 	}
 }
