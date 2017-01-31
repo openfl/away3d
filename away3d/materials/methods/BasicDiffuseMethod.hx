@@ -1,8 +1,4 @@
-/**
- * BasicDiffuseMethod provides the default shading method for Lambert (dot3) diffuse lighting.
- */
 package away3d.materials.methods;
-
 
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.compilation.ShaderRegisterCache;
@@ -14,6 +10,9 @@ import openfl.display3D.Context3DTextureFilter;
 import openfl.display3D.Context3DMipFilter;
 import openfl.Vector;
 
+/**
+ * BasicDiffuseMethod provides the default shading method for Lambert (dot3) diffuse lighting.
+ */
 class BasicDiffuseMethod extends LightingMethodBase {
 	public var useAmbientTexture(get, set):Bool;
 	public var diffuseAlpha(get, set):Float;
@@ -299,12 +298,12 @@ class BasicDiffuseMethod extends LightingMethodBase {
 	 */
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
 		if (_useTexture) {
-			//#if !flash 
-			//stage3DProxy.context3D.setSamplerStateAt(
-				//vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP,
-				//getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 
-				//vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE );
-			//#end
+			#if !flash 
+			stage3DProxy.context3D.setSamplerStateAt(
+				vo.texturesIndex, vo.repeatTextures ? Context3DWrapMode.REPEAT : Context3DWrapMode.CLAMP,
+				getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy), 
+				vo.useMipmapping ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNONE );
+			#end
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 			if (_alphaThreshold > 0) vo.fragmentData[vo.fragmentConstantsIndex] = _alphaThreshold;
 		} else {
