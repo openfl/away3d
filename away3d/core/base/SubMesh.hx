@@ -45,7 +45,7 @@ class SubMesh implements IRenderable
 	public var animator(get, never):IAnimator;
 	public var mouseEnabled(get, never):Bool;
 	public var castsShadows(get, never):Bool;
-	public var parentMesh(get, set):Mesh;
+	@:allow(away3d) private var parentMesh(get, set):Mesh;
 	public var uvTransform(get, never):Matrix;
 	public var uvTransform2(get, never):Matrix;
 	public var vertexData(get, never):Vector<Float>;
