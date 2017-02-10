@@ -67,7 +67,7 @@ class AssetLoader extends EventDispatcher
 	 * 
 	 * @see away3d.loaders.parsers.Parsers
 	 */
-	public static function enableParser(parserClass:Dynamic):Void
+	public static function enableParser(parserClass:Class<ParserBase>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
@@ -81,7 +81,7 @@ class AssetLoader extends EventDispatcher
 	 * @param parserClasses A Vector of parser classes to enable.
 	 * @see away3d.loaders.parsers.Parsers
 	 */
-	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
+	public static function enableParsers(parserClasses:Array<Dynamic>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -96,7 +96,7 @@ class AssetLoader extends EventDispatcher
 	 */
 	public function load(req:URLRequest, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
-		if (_token==null) {
+		if (_token == null) {
 			_token = new AssetLoaderToken(this);
 			
 			var r:EReg = ~/\\/g;
@@ -124,7 +124,7 @@ class AssetLoader extends EventDispatcher
 	 */
 	public function loadData(data:Dynamic, id:String, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
-		if (_token==null) {
+		if (_token == null) {
 			_token = new AssetLoaderToken(this);
 			
 			_uri = id;
@@ -148,15 +148,15 @@ class AssetLoader extends EventDispatcher
 	 */
 	private function retrieveNext(parser:ParserBase = null):Void
 	{
-		if (_loadingDependency.dependencies.length>0) {
+		if (_loadingDependency.dependencies.length > 0) {
 			var dep:ResourceDependency = _loadingDependency.dependencies.pop();
 			
 			_stack.push(_loadingDependency);
 			retrieveDependency(dep);
-		} else if (_loadingDependency.loader.parser!=null && _loadingDependency.loader.parser.parsingPaused) {
+		} else if (_loadingDependency.loader.parser != null && _loadingDependency.loader.parser.parsingPaused) {
 			_loadingDependency.loader.parser.resumeParsingAfterDependencies();
 			_stack.pop();
-		} else if (_stack.length>0) {
+		} else if (_stack.length > 0) {
 			var prev:ResourceDependency = _loadingDependency;
 			
 			_loadingDependency = _stack.pop();
@@ -178,7 +178,7 @@ class AssetLoader extends EventDispatcher
 		var data:Dynamic;
 		
 		var matMode:UInt = 0;
-		if (_context!=null && _context.materialMode != 0)
+		if (_context != null && _context.materialMode != 0)
 			matMode = _context.materialMode;
 		_loadingDependency = dependency;
 		_loadingDependency.loader = new SingleFileLoader(matMode);
@@ -186,10 +186,10 @@ class AssetLoader extends EventDispatcher
 		
 		// Get already loaded (or mapped) data if available
 		data = _loadingDependency.data;
-		if (_context!=null && _loadingDependency.request!=null && _context.hasDataForUrl(_loadingDependency.request.url))
+		if (_context != null && _loadingDependency.request != null && _context.hasDataForUrl(_loadingDependency.request.url))
 			data = _context.getDataForUrl(_loadingDependency.request.url);
 		
-		if (data!=null) {
+		if (data != null) {
 			if (_loadingDependency.retrieveAsRawData) {
 				// No need to parse. The parent parser is expecting this
 				// to be raw data so it can be passed directly.
@@ -224,11 +224,12 @@ class AssetLoader extends EventDispatcher
 	
 	private function resolveDependencyUrl(dependency:ResourceDependency):String
 	{
+		var scheme_re:EReg;
 		var base:String;
 		var url:String = dependency.request.url;
 		
 		// Has the user re-mapped this URL?
-		if (_context!=null && _context.hasMappingForUrl(url))
+		if (_context != null && _context.hasMappingForUrl(url))
 			return _context.getRemappedUrl(url);
 		
 		// This is the "base" dependency, i.e. the actual requested asset.
@@ -239,16 +240,16 @@ class AssetLoader extends EventDispatcher
 		
 		// Absolute URL? Check if starts with slash or a URL
 		// scheme definition (e.g. ftp://, http://, file://)
-		var scheme_re = ~/^[a-zA-Z]{3,4}:\/\//;
+		scheme_re = ~/^[a-zA-Z]{3,4}:\/\//;
 		if (url.charAt(0) == '/') {
-			if (_context!=null && _context.overrideAbsolutePaths)
+			if (_context != null && _context.overrideAbsolutePaths)
 				return joinUrl(_context.dependencyBaseUrl, url);
 			else
 				return url;
 		} else if (scheme_re.match(url)) {
 			// If overriding full URLs, get rid of scheme (e.g. "http://")
 			// and replace with the dependencyBaseUrl defined by user.
-			if (_context!=null && _context.overrideFullURLs) {
+			if (_context != null && _context.overrideFullURLs) {
 				var noscheme_url:String;
 				
 				noscheme_url = scheme_re.replace(url, "");
@@ -258,7 +259,7 @@ class AssetLoader extends EventDispatcher
 		
 		// Since not absolute, just get rid of base file name to find it's
 		// folder and then concatenate dynamic URL
-		if (_context!=null && _context.dependencyBaseUrl!="") {
+		if (_context != null && _context.dependencyBaseUrl!="") {
 			base = _context.dependencyBaseUrl;
 			return joinUrl(base, url);
 		} else {
@@ -269,7 +270,7 @@ class AssetLoader extends EventDispatcher
 	
 	private function retrieveLoaderDependencies(loader:SingleFileLoader):Void
 	{
-		if (_loadingDependency==null) {
+		if (_loadingDependency == null) {
 			//loader.parser = null;
 			//loader = null;
 			return;
@@ -379,7 +380,7 @@ class AssetLoader extends EventDispatcher
 			// Add loaded asset to list of assets retrieved as part
 			// of the current dependency. This list will be inspected
 			// by the parent parser when dependency is resolved
-			if (_loadingDependency!=null)
+			if (_loadingDependency != null)
 				_loadingDependency.assets.push(event.asset);
 			
 			event.asset.resetAssetPath(event.asset.name, _namespace);
@@ -393,7 +394,7 @@ class AssetLoader extends EventDispatcher
 	{
 		var loader:SingleFileLoader = cast(event.currentTarget, SingleFileLoader);
 		
-		if (_context!=null && !_context.includeDependencies)
+		if (_context != null && !_context.includeDependencies)
 			loader.parser.resumeParsingAfterDependencies();
 		else
 			retrieveLoaderDependencies(loader);
@@ -416,7 +417,7 @@ class AssetLoader extends EventDispatcher
 		
 		// Retrieve any last dependencies remaining on this loader, or
 		// if none exists, just move on.
-		if (loader.dependencies.length>0 && (_context==null || _context.includeDependencies)) { //context may be null
+		if (loader.dependencies.length > 0 && (_context == null || _context.includeDependencies)) { //context may be null
 			retrieveLoaderDependencies(loader);
 		} else
 			retrieveNext();
@@ -489,7 +490,7 @@ class AssetLoader extends EventDispatcher
 		_token = null;
 		_stack = null;
 		
-		if (_loadingDependency!=null && _loadingDependency.loader!=null)
+		if (_loadingDependency != null && _loadingDependency.loader != null)
 			removeEventListeners(_loadingDependency.loader);
 		_loadingDependency = null;
 	}

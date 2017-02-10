@@ -2,12 +2,13 @@ package away3d.paths;
 
 import openfl.geom.Vector3D;
 
-interface IPathSegment {
-
+interface IPathSegment
+{
 	/**
 	 * Destroys the segment
 	 */
-	function dispose():Void;
+	public function dispose():Void;
+	
 	/**
 	 * Calculates the position of the curve on this segment.
 	 *
@@ -15,6 +16,5 @@ interface IPathSegment {
 	 * @param target An optional target to store the calculation, to prevent creating a new Vector3D object.
 	 * @return
 	 */
-	function getPointOnSegment(phase:Float, target:Vector3D = null):Vector3D;
+	public function getPointOnSegment(phase:Float, target:Vector3D = null):Vector3D;
 }
-

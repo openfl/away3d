@@ -173,9 +173,9 @@ class ShadingMethodBase extends NamedAssetBase
 		var enableMipMaps:Bool = vo.useMipmapping && texture.hasMipMaps;
 		
 		if (vo.useSmoothTextures)
-			filter = (enableMipMaps) ? "linear,miplinear" : "linear"
+			filter = enableMipMaps? "linear,miplinear" : "linear";
 		else
-			filter = (enableMipMaps) ? "nearest,mipnearest" : "nearest";
+			filter = enableMipMaps? "nearest,mipnearest" : "nearest";
 		
 		if (uvReg == null)
 			uvReg = _sharedRegisters.uvVarying;
@@ -198,7 +198,7 @@ class ShadingMethodBase extends NamedAssetBase
 		var enableMipMaps:Bool = vo.useMipmapping && texture.hasMipMaps;
 		
 		if (vo.useSmoothTextures)
-			filter = enableMipMaps? "linear,miplinear" : "linear"
+			filter = enableMipMaps? "linear,miplinear" : "linear";
 		else
 			filter = enableMipMaps? "nearest,mipnearest" : "nearest";
 		
@@ -212,9 +212,7 @@ class ShadingMethodBase extends NamedAssetBase
 	 */
 	private function getFormatStringForTexture(texture:TextureProxyBase):String
 	{
-		var _sw0_ = (texture.format);
-		
-		switch (_sw0_) {
+		switch (texture.format) {
 			case Context3DTextureFormat.COMPRESSED:
 				return "dxt1,";
 			case Context3DTextureFormat.COMPRESSED_ALPHA:

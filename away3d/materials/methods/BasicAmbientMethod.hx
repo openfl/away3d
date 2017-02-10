@@ -66,7 +66,7 @@ class BasicAmbientMethod extends ShadingMethodBase
 	{
 		return _ambient;
 	}
-
+	
 	private function set_ambient(value:Float):Float
 	{
 		_ambient = value;

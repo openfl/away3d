@@ -34,17 +34,17 @@ import openfl.Vector;
  */
 class Loader3D extends ObjectContainer3D
 {
-	var _loadingSessions:Vector<AssetLoader>;
-	var _useAssetLib:Bool;
-	var _assetLibId:String;
+	private var _loadingSessions:Vector<AssetLoader>;
+	private var _useAssetLib:Bool;
+	private var _assetLibId:String;
 	
-	public function new(useAsset3DLibrary:Bool = true, Asset3DLibraryId:String = null)
+	public function new(useAsset3DLibrary:Bool = true, asset3DLibraryId:String = null)
 	{
 		super();
 		
 		_loadingSessions = new Vector<AssetLoader>();
 		_useAssetLib = useAsset3DLibrary;
-		_assetLibId = Asset3DLibraryId;
+		_assetLibId = asset3DLibraryId;
 	}
 	
 	/**
@@ -147,7 +147,6 @@ class Loader3D extends ObjectContainer3D
 		}
 		var i:Int;
 		var length:Int = _loadingSessions.length;
-		// For loop conversion - 			for (i = 0; i < length; i++)
 		for (i in 0...length) {
 			removeListeners(_loadingSessions[i]);
 			_loadingSessions[i].stop();
@@ -165,7 +164,7 @@ class Loader3D extends ObjectContainer3D
 	 * @param parserClass The parser class to enable.
 	 * @see away3d.loaders.parsers.Parsers
 	*/
-	public static function enableParser(parserClass):Void
+	public static function enableParser(parserClass:Class<ParserBase>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
@@ -179,7 +178,7 @@ class Loader3D extends ObjectContainer3D
 	 * @param parserClasses A Vector of parser classes to enable.
 	 * @see away3d.loaders.parsers.Parsers
 	 */
-	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
+	public static function enableParsers(parserClasses:Array<Dynamic>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -228,7 +227,7 @@ class Loader3D extends ObjectContainer3D
 			
 			// If asset was of fitting type, and doesn't
 			// already have a parent, add to loader container
-			if (obj!=null && obj.parent == null)
+			if (obj != null && obj.parent == null)
 				addChild(obj);
 		}
 		
@@ -260,4 +259,3 @@ class Loader3D extends ObjectContainer3D
 		this.dispatchEvent(ev.clone());
 	}
 }
-

@@ -68,7 +68,7 @@ class Trident extends Mesh
 		profileO[4] = new Vector3D(0, -rad, 0);
 		var origin:LatheExtrude = new LatheExtrude(matOrigin, profileO, LatheExtrude.Y_AXIS, 1, 10);
 		
-		merge.applyToMeshes(this, [ arrowX, arrowY, arrowZ, origin ]);
+		merge.applyToMeshes(this, Vector.ofArray(cast [arrowX, arrowY, arrowZ, origin]));
 		
 		if (showLetters) {
 			

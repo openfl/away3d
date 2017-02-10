@@ -173,14 +173,14 @@ class MaterialPassBase extends EventDispatcher
 	{
 		return _anisotropy;
 	}
-
+	
 	private function set_anisotropy(value:Anisotropy):Anisotropy
 	{
 		if (_anisotropy == value)
-			return _anisotropy;
+			return value;
 		_anisotropy = value;
 		invalidateShaderProgram();
-		return _anisotropy;
+		return value;
 	}
 	
 	/**
@@ -243,9 +243,8 @@ class MaterialPassBase extends EventDispatcher
 	
 	private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
-		if (value == null) value = LESS_EQUAL;
 		_depthCompareMode = value;
-		return _depthCompareMode;
+		return value;
 	}
 
 	/**
@@ -281,11 +280,11 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function dispose():Void
 	{
-		if (_lightPicker!=null)
+		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 		
 		for (i in 0...8) {
-			if (_program3Ds[i]!=null) {
+			if (_program3Ds[i] != null) {
 				AGALProgram3DCache.getInstanceFromIndex(i).freeProgram3D(_program3Dids[i]);
 				_program3Ds[i] = null;
 			}
@@ -405,6 +404,10 @@ class MaterialPassBase extends EventDispatcher
 				_blendFactorSource = Context3DBlendFactor.ZERO;
 				_blendFactorDest = Context3DBlendFactor.SOURCE_ALPHA;
 				_enableBlending = true;
+			case BlendMode.SCREEN:
+				_blendFactorSource = Context3DBlendFactor.ONE;
+				_blendFactorDest = Context3DBlendFactor.ONE_MINUS_SOURCE_COLOR;
+				_enableBlending = true;
 			default:
 				throw new ArgumentError("Unsupported blend mode!");
 		}
@@ -419,14 +422,14 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	@:allow(away3d) private function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var contextIndex:Int = stage3DProxy._stage3DIndex;
+		var context:Context3D = stage3DProxy._context3D;
 		
 		context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 		if (_enableBlending)
 			context.setBlendFactors(_blendFactorSource, _blendFactorDest);
 		
-		if ( _context3Ds[contextIndex] != context || _program3Ds[contextIndex]==null) {
+		if (_context3Ds[contextIndex] != context || _program3Ds[contextIndex] == null) {
 			_context3Ds[contextIndex] = context;
 			updateProgram(stage3DProxy);
 			dispatchEvent(new Event(Event.CHANGE));
@@ -440,7 +443,7 @@ class MaterialPassBase extends EventDispatcher
 		for (i in _numUsedTextures...prevUsed)
 			context.setTextureAt(i, null);
 		
-		if (_animationSet!=null && !_animationSet.usesCPU)
+		if (_animationSet != null && !_animationSet.usesCPU)
 			_animationSet.activate(stage3DProxy, this);
 		
 		context.setProgram(_program3Ds[contextIndex]);
@@ -467,7 +470,7 @@ class MaterialPassBase extends EventDispatcher
 		_previousUsedStreams[index] = _numUsedStreams;
 		_previousUsedTexs[index] = _numUsedTextures;
 		
-		if (_animationSet!=null && !_animationSet.usesCPU)
+		if (_animationSet != null && !_animationSet.usesCPU)
 			_animationSet.deactivate(stage3DProxy, this);
 		
 		if (_renderToTexture) {
@@ -493,7 +496,7 @@ class MaterialPassBase extends EventDispatcher
 		for (i in 0...8)
 			_program3Ds[i] = null;
 		
-		if (_material!=null && updateMaterial)
+		if (_material != null && updateMaterial)
 			_material.invalidatePasses(this);
 	}
 	
@@ -508,7 +511,7 @@ class MaterialPassBase extends EventDispatcher
 		var fragmentAnimatorCode:String = "";
 		var vertexCode:String = getVertexCode();
 		
-		if (_animationSet!=null && !_animationSet.usesCPU) {
+		if (_animationSet != null && !_animationSet.usesCPU) {
 			animatorCode = _animationSet.getAGALVertexCode(this, _animatableAttributes, _animationTargetRegisters, stage3DProxy.profile);
 			if (_needFragmentAnimation)
 				fragmentAnimatorCode = _animationSet.getAGALFragmentCode(this, _shadedTarget, stage3DProxy.profile);
@@ -552,10 +555,10 @@ class MaterialPassBase extends EventDispatcher
 	
 	@:allow(away3d) private function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
-		if (_lightPicker!=null)
+		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 		_lightPicker = value;
-		if (_lightPicker!=null)
+		if (_lightPicker != null)
 			_lightPicker.addEventListener(Event.CHANGE, onLightsChange);
 		updateLights();
 		return _lightPicker;
@@ -581,7 +584,7 @@ class MaterialPassBase extends EventDispatcher
 	 * Indicates whether visible textures (or other pixels) used by this material have
 	 * already been premultiplied. Toggle this if you are seeing black halos around your
 	 * blended alpha edges.
-	 */ 
+	 */
 	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;

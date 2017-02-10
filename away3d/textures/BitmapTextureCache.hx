@@ -1,56 +1,53 @@
 /**
  *
  */
+package away3d.textures;
+
+import away3d.textures.BitmapTexture;
+
+import openfl.display.BitmapData;
+import openfl.errors.Error;
+
 /**
  * DEPRECRATED along with BitmapMaterial. Will be removed along with BitmapMaterial
  */
-package away3d.textures;
-
-import openfl.errors.Error;
-import away3d.textures.BitmapTexture;
-import openfl.display.BitmapData;
-import haxe.ds.WeakMap;
-
-class BitmapTextureCache {
-
+@:deprecated class BitmapTextureCache
+{
 	private static var _instance:BitmapTextureCache;
-	private var _textures:WeakMap<BitmapData, BitmapTexture>;
-	private var _usages:WeakMap<BitmapTexture, Int>;
-
-	public function new(singletonEnforcer:SingletonEnforcer) {
-		if (singletonEnforcer == null) throw new Error("Cannot instantiate a singleton class. Use static getInstance instead.");
-		_textures = new WeakMap<BitmapData, BitmapTexture>();
-		_usages = new WeakMap<BitmapTexture, Int>();
-
+	
+	private var _textures:Map<BitmapData, BitmapTexture>;
+	private var _usages:Map<BitmapTexture, Int>;
+	
+	private function new()
+	{
+		_textures = new Map<BitmapData, BitmapTexture>();
+		_usages = new Map<BitmapTexture, Int>();
 	}
-
-	public static function getInstance():BitmapTextureCache {
-		if (_instance == null) _instance = new BitmapTextureCache(new SingletonEnforcer());
-		return _instance ;
+	
+	public static function getInstance():BitmapTextureCache
+	{
+		if (_instance == null) _instance = new BitmapTextureCache();
+		return _instance;
 	}
-
-	public function getTexture(bitmapData:BitmapData):BitmapTexture {
+	
+	public function getTexture(bitmapData:BitmapData):BitmapTexture
+	{
 		var texture:BitmapTexture = null;
-
 		if (!_textures.exists(bitmapData)) {
 			texture = new BitmapTexture(bitmapData);
-			_textures.set(bitmapData, texture);
-			_usages.set(texture, 0);
+			_textures[bitmapData] = texture;
+			_usages[texture] = 0;
 		}
-		_usages.set(texture, _usages.get(texture) + 1);
-		return _textures.get(bitmapData);
+		_usages[texture] += 1;
+		return _textures[bitmapData];
 	}
-
-	public function freeTexture(texture:BitmapTexture):Void {
-		_usages.set(texture, _usages.get(texture) - 1);
-		if (_usages.get(texture) == 0) {
-			_textures.set(cast((texture), BitmapTexture).bitmapData, null);
+	
+	public function freeTexture(texture:BitmapTexture):Void
+	{
+		_usages[texture] -= 1;
+		if (_usages[texture] == 0) {
+			_textures[cast(texture, BitmapTexture).bitmapData] = null;
 			texture.dispose();
 		}
 	}
 }
-
-class SingletonEnforcer {
-	public function new() {}
-}
-

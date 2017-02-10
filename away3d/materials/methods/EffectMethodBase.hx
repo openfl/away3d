@@ -1,26 +1,28 @@
+package away3d.materials.methods;
+
+import away3d.*;
+import away3d.errors.*;
+import away3d.library.assets.*;
+import away3d.materials.compilation.*;
+
 /**
  * EffectMethodBase forms an abstract base class for shader methods that are not dependent on light sources,
  * and are in essence post-process effects on the materials.
  */
-package away3d.materials.methods;
-
-
-import away3d.errors.AbstractMethodError;
-import away3d.materials.compilation.ShaderRegisterElement;
-import away3d.materials.compilation.ShaderRegisterCache;
-import away3d.library.assets.Asset3DType;
-import away3d.library.assets.IAsset;
-class EffectMethodBase extends ShadingMethodBase implements IAsset {
+class EffectMethodBase extends ShadingMethodBase implements IAsset
+{
 	public var assetType(get, never):String;
-
-	public function new() {
+	
+	public function new()
+	{
 		super();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	private function get_assetType():String {
+	private function get_assetType():String
+	{
 		return Asset3DType.EFFECTS_METHOD;
 	}
 
@@ -31,9 +33,9 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset {
 	 * @param targetReg The register that will be containing the method's output.
 	 * @private
 	 */
-	public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+	@:allow(away3d) private function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	{
 		throw new AbstractMethodError();
 		return "";
 	}
 }
-

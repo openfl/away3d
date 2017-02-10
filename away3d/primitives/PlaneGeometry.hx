@@ -148,7 +148,7 @@ class PlaneGeometry extends PrimitiveBase
 		var numIndices:Int;
 		var base:Int;
 		var tw:Int = _segmentsW + 1;
-		var numVertices:Int = (_segmentsH + 1) * tw;
+		var numVertices:Int = (_segmentsH + 1)*tw;
 		var stride:Int = target.vertexStride;
 		var skip:Int = stride - 9;
 		if (_doubleSided)
@@ -161,9 +161,8 @@ class PlaneGeometry extends PrimitiveBase
 		if (numVertices == target.numVertices) {
 			data = target.vertexData;
 			indices = target.indexData;
-			if (indices == null) {
+			if (indices == null)
 				indices = new Vector<UInt>(numIndices, true);
-			}
 		} else {
 			data = new Vector<Float>(numVertices*stride, true);
 			indices = new Vector<UInt>(numIndices, true);
@@ -252,7 +251,7 @@ class PlaneGeometry extends PrimitiveBase
 	{
 		var data:Vector<Float>;
 		var stride:Int = target.UVStride;
-		var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
+		var numUvs:Int = (_segmentsH + 1)*(_segmentsW + 1)*stride;
 		var skip:Int = stride - 2;
 		
 		if (_doubleSided)

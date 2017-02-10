@@ -44,7 +44,7 @@ class ParserBase extends EventDispatcher
 	@:allow(away3d) private var _fileName:String;
 	private var _dataFormat:String;
 	private var _data:Dynamic;
-	private var _frameLimit:UInt;
+	private var _frameLimit:Float;
 	private var _lastFrameTime:UInt;
 	
 	private function getTextData():String
@@ -184,16 +184,10 @@ class ParserBase extends EventDispatcher
 	/**
 	 * A list of dependencies that need to be loaded and resolved for the object being parsed.
 	 */
-	public var dependencies(get, set):Vector<ResourceDependency>;
+	public var dependencies(get, never):Vector<ResourceDependency>;
 	
 	private function get_dependencies():Vector<ResourceDependency>
 	{
-		return _dependencies;
-	}
-	
-	private function set_dependencies(val:Vector<ResourceDependency>):Vector<ResourceDependency>
-	{
-		_dependencies = val;
 		return _dependencies;
 	}
 	
@@ -235,7 +229,7 @@ class ParserBase extends EventDispatcher
 	@:allow(away3d) private function resumeParsingAfterDependencies():Void
 	{
 		_parsingPaused = false;
-		if (_timer!=null)
+		if (_timer != null)
 			_timer.start();
 	}
 	
@@ -324,7 +318,7 @@ class ParserBase extends EventDispatcher
 		
 		// If the asset has no name, give it
 		// a per-type default name.
-		if (asset.name=="")
+		if (asset.name == "")
 			asset.name = type_name;
 		
 		dispatchEvent(new Asset3DEvent(Asset3DEvent.ASSET_COMPLETE, asset));
@@ -349,7 +343,7 @@ class ParserBase extends EventDispatcher
 	 */
 	private function dieWithError(message:String = 'Unknown parsing error'):Void
 	{
-		if (_timer!=null) {
+		if (_timer != null) {
 			_timer.removeEventListener(TimerEvent.TIMER, onInterval);
 			_timer.stop();
 			_timer = null;
@@ -367,7 +361,7 @@ class ParserBase extends EventDispatcher
 	 */
 	private function pauseAndRetrieveDependencies():Void
 	{
-		if (_timer!=null)
+		if (_timer != null)
 			_timer.stop();
 		_parsingPaused = true;
 		dispatchEvent(new ParserEvent(ParserEvent.READY_FOR_DEPENDENCIES));
@@ -379,7 +373,6 @@ class ParserBase extends EventDispatcher
 	 */
 	private function hasTime():Bool
 	{
-		//if (bazinga) trace("hasTime: getTimer="+Lib.getTimer()+" last="+_lastFrameTime+" limit="+_frameLimit);
 		return ((Lib.getTimer() - _lastFrameTime) < _frameLimit);
 	}
 	
@@ -397,7 +390,7 @@ class ParserBase extends EventDispatcher
 	 * Initializes the parsing of data.
 	 * @param frameLimit The maximum duration of a parsing session.
 	 */
-	private function startParsing(frameLimit:UInt):Void
+	private function startParsing(frameLimit:Float):Void
 	{
 		_frameLimit = frameLimit;
 		_timer = new Timer(_frameLimit, 0);
@@ -410,14 +403,12 @@ class ParserBase extends EventDispatcher
 	 */
 	private function finishParsing():Void
 	{
-		if (_timer!=null) {
+		if (_timer != null) {
 			_timer.removeEventListener(TimerEvent.TIMER, onInterval);
 			_timer.stop();
 		}
-		
 		_timer = null;
 		_parsingComplete = true;
-		
 		dispatchEvent(new ParserEvent(ParserEvent.PARSE_COMPLETE));
 	}
 }

@@ -104,7 +104,7 @@ class ShadowMapperBase
 		_depthMapSize = value;
 		
 		if (_explicitDepthMap)
-			throw new Error("Cannot set depth map size for the current renderer.")
+			throw new Error("Cannot set depth map size for the current renderer.");
 		else if (_depthMap != null) {
 			_depthMap.dispose();
 			_depthMap = null;

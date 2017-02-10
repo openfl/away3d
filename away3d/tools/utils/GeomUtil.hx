@@ -9,8 +9,8 @@ import openfl.Vector;
 
 class GeomUtil
 {
-	private static inline var LIMIT_VERTS:Int = 3 * 0xffff;
-	private static inline var LIMIT_INDICES:Int = 15 * 0xffff;
+	private static inline var LIMIT_VERTS:Int = 3*0xffff;
+	private static inline var LIMIT_INDICES:Int = 15*0xffff;
 	
 	/**
 	 * Build a list of sub-geometries from raw data vectors, splitting them up in
@@ -41,13 +41,13 @@ class GeomUtil
 			var i:Int = 0, len:Int, outIndex:Int, j:Int;
 			var splitVerts:Vector<Float> = new Vector<Float>();
 			var splitIndices:Vector<UInt> = new Vector<UInt>();
-			var splitUvs:Vector<Float> = ((uvs != null)) ? new Vector<Float>() : null;
-			var splitNormals:Vector<Float> = ((normals != null)) ? new Vector<Float>() : null;
-			var splitTangents:Vector<Float> = ((tangents != null)) ? new Vector<Float>() : null;
-			var splitWeights:Vector<Float> = ((weights != null)) ? new Vector<Float>() : null;
-			var splitJointIndices:Vector<UInt> = ((jointIndices != null)) ? new Vector<UInt>() : null;
+			var splitUvs:Vector<Float> = (uvs != null)? new Vector<Float>() : null;
+			var splitNormals:Vector<Float> = (normals != null)? new Vector<Float>() : null;
+			var splitTangents:Vector<Float> = (tangents != null)? new Vector<Float>() : null;
+			var splitWeights:Vector<Float> = (weights != null)? new Vector<Float>() : null;
+			var splitJointIndices:Vector<UInt> = (jointIndices != null)? new Vector<UInt>() : null;
 			
-			var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length / 3), true);
+			var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length/3), true);
 			i = mappings.length;
 			while (i-- > 0)
 				mappings[i] = -1;
@@ -64,15 +64,15 @@ class GeomUtil
 			while (i < len) {
 				splitIndex = splitVerts.length + 6;
 				
-				if (((outIndex + 2) >= LIMIT_INDICES) || (splitIndex >= LIMIT_VERTS)) {
+				if (( (outIndex + 2) >= LIMIT_INDICES) || (splitIndex >= LIMIT_VERTS)) {
 					subs.push(constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, triangleOffset));
 					splitVerts = new Vector<Float>();
 					splitIndices = new Vector<UInt>();
-					splitUvs = ((uvs != null)) ? new Vector<Float>() : null;
-					splitNormals = ((normals != null)) ? new Vector<Float>() : null;
-					splitTangents = ((tangents != null)) ? new Vector<Float>() : null;
-					splitWeights = ((weights != null)) ? new Vector<Float>() : null;
-					splitJointIndices = ((jointIndices != null)) ? new Vector<UInt>() : null;
+					splitUvs = (uvs != null)? new Vector<Float>() : null;
+					splitNormals = (normals != null)? new Vector<Float>() : null;
+					splitTangents = (tangents != null)? new Vector<Float>() : null;
+					splitWeights = (weights != null)? new Vector<Float>() : null;
+					splitJointIndices = (jointIndices != null)? new Vector<UInt>() : null;
 					splitIndex = 0;
 					j = mappings.length;
 					while (j-- > 0)
@@ -97,20 +97,21 @@ class GeomUtil
 						
 						// This vertex does not yet exist in the split list and
 						// needs to be copied from the long list.
-						splitIndex = Std.int(splitVerts.length / 3);
+						splitIndex = Std.int(splitVerts.length/3);
 						
-						s0 = splitIndex * 3 + 0;
-						s1 = splitIndex * 3 + 1;
-						s2 = splitIndex * 3 + 2;
+						s0 = splitIndex*3 + 0;
+						s1 = splitIndex*3 + 1;
+						s2 = splitIndex*3 + 2;
+						
 						splitVerts[s0] = verts[o0];
 						splitVerts[s1] = verts[o1];
 						splitVerts[s2] = verts[o2];
 						
 						if (uvs != null) {
-							su = splitIndex * 2 + 0;
-							sv = splitIndex * 2 + 1;
-							ou = originalIndex * 2 + 0;
-							ov = originalIndex * 2 + 1;
+							su = splitIndex*2 + 0;
+							sv = splitIndex*2 + 1;
+							ou = originalIndex*2 + 0;
+							ov = originalIndex*2 + 1;
 							
 							splitUvs[su] = uvs[ou];
 							splitUvs[sv] = uvs[ov];

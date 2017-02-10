@@ -159,12 +159,12 @@ class Geometry extends NamedAssetBase implements IAsset
 		}
 	}
 	
-	public function validate():Void
+	@:allow(away3d) private function validate():Void
 	{
 		// To be overridden when necessary
 	}
 	
-	public function invalidateBounds(subGeom:ISubGeometry):Void
+	@:allow(away3d) private function invalidateBounds(subGeom:ISubGeometry):Void
 	{
 		if (hasEventListener(GeometryEvent.BOUNDS_INVALID))
 			dispatchEvent(new GeometryEvent(GeometryEvent.BOUNDS_INVALID, subGeom));

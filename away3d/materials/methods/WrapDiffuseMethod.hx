@@ -26,16 +26,16 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		super();
 		this.wrapFactor = wrapFactor;
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
-	override public function cleanCompilationData():Void
+	override private function cleanCompilationData():Void
 	{
 		super.cleanCompilationData();
 		_wrapDataRegister = null;
 	}
-	
+
 	/**
 	 * A factor to indicate the amount by which the light is allowed to wrap.
 	 */
@@ -50,19 +50,20 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		_wrapFactor = 1/(value + 1);
 		return value;
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+	override private function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
 		var code:String = super.getFragmentPreLightingCode(vo, regCache);
 		_isFirstLight = true;
 		_wrapDataRegister = regCache.getFreeFragmentConstant();
 		vo.secondaryFragmentConstantsIndex = _wrapDataRegister.index*4;
+		
 		return code;
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
@@ -73,7 +74,7 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		
 		// write in temporary if not first light, so we can add to total diffuse colour
 		if (_isFirstLight)
-			t = _totalLightColorReg
+			t = _totalLightColorReg;
 		else {
 			t = regCache.getFreeFragmentVectorTemp();
 			regCache.addFragmentTempUsages(t, 1);
@@ -99,11 +100,11 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		
 		return code;
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	override private function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
 		super.activate(vo, stage3DProxy);
 		var index:Int = vo.secondaryFragmentConstantsIndex;

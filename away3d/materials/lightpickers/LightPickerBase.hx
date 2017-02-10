@@ -1,3 +1,14 @@
+package away3d.materials.lightpickers;
+
+import away3d.*;
+import away3d.core.base.*;
+import away3d.core.traverse.*;
+import away3d.library.assets.*;
+import away3d.lights.*;
+
+import openfl.geom.Vector3D;
+import openfl.Vector;
+
 /**
  * LightPickerBase provides an abstract base clase for light picker classes. These classes are responsible for
  * feeding materials with relevant lights. Usually, StaticLightPicker can be used, but LightPickerBase can be
@@ -5,22 +16,6 @@
  *
  * @see StaticLightPicker
  */
-package away3d.materials.lightpickers;
-
-
-import openfl.geom.Vector3D;
-import away3d.core.traverse.EntityCollector;
-import away3d.core.base.IRenderable;
-import away3d.library.assets.Asset3DType;
-import away3d.lights.LightBase;
-import away3d.lights.LightProbe;
-import away3d.lights.DirectionalLight;
-import away3d.lights.PointLight;
-import away3d.library.assets.IAsset;
-import away3d.library.assets.NamedAssetBase;
-
-import openfl.Vector;
-
 class LightPickerBase extends NamedAssetBase implements IAsset
 {
 	public var assetType(get, never):String;
@@ -36,7 +31,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	public var lightProbes(get, never):Vector<LightProbe>;
 	public var lightProbeWeights(get, never):Vector<Float>;
 	public var allPickedLights(get, never):Vector<LightBase>;
-
+	
 	private var _numPointLights:Int;
 	private var _numDirectionalLights:Int;
 	private var _numCastingPointLights:Int;
@@ -49,6 +44,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	private var _castingDirectionalLights:Vector<DirectionalLight>;
 	private var _lightProbes:Vector<LightProbe>;
 	private var _lightProbeWeights:Vector<Float>;
+	
 	/**
 	 * Creates a new LightPickerBase object.
 	 */
@@ -71,7 +67,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 		return Asset3DType.LIGHT_PICKER;
 	}
-
+	
 	/**
 	 * The maximum amount of directional lights that will be provided.
 	 */
@@ -79,7 +75,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 		return _numDirectionalLights;
 	}
-
+	
 	/**
 	 * The maximum amount of point lights that will be provided.
 	 */
@@ -87,7 +83,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 		return _numPointLights;
 	}
-
+	
 	/**
 	 * The maximum amount of directional lights that cast shadows.
 	 */
@@ -95,7 +91,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 		return _numCastingDirectionalLights;
 	}
-
+	
 	/**
 	 * The amount of point lights that cast shadows.
 	 */
@@ -103,7 +99,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 		return _numCastingPointLights;
 	}
-
+	
 	/**
 	 * The maximum amount of light probes that will be provided.
 	 */
@@ -167,7 +163,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 		return _allPickedLights;
 	}
-
+	
 	/**
 	 * Updates set of lights for a given renderable and EntityCollector. Always call super.collectLights() after custom overridden code.
 	 */
@@ -180,43 +176,33 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	 * Updates the weights for the light probes, based on the renderable's position relative to them.
 	 * @param renderable The renderble for which to calculate the light probes' influence.
 	 */
-
 	private function updateProbeWeights(renderable:IRenderable):Void
 	{
-// todo: this will cause the same calculations to occur per SubMesh. See if this can be improved.
+		// todo: this will cause the same calculations to occur per SubMesh. See if this can be improved.
 		var objectPos:Vector3D = renderable.sourceEntity.scenePosition;
 		var lightPos:Vector3D;
-		var rx:Float = objectPos.x;
-		var ry:Float = objectPos.y;
-		var rz:Float = objectPos.z;
-		var dx:Float;
-		var dy:Float;
-		var dz:Float;
-		var w:Float;
-		var total:Float = 0;
-		var i:Int;
-// calculates weights for probes
-		i = 0;
-		while (i < _numLightProbes) {
+		var rx:Float = objectPos.x, ry:Float = objectPos.y, rz:Float = objectPos.z;
+		var dx:Float, dy:Float, dz:Float;
+		var w:Float, total:Float = 0;
+		
+		// calculates weights for probes
+		for (i in 0..._numLightProbes) {
 			lightPos = _lightProbes[i].scenePosition;
 			dx = rx - lightPos.x;
 			dy = ry - lightPos.y;
 			dz = rz - lightPos.z;
-// weight is inversely proportional to square of distance
-			w = dx * dx + dy * dy + dz * dz;
-// just... huge if at the same spot
-			w = w > (.00001) ? 1 / w : 50000000;
+			// weight is inversely proportional to square of distance
+			w = dx*dx + dy*dy + dz*dz;
+			
+			// just... huge if at the same spot
+			w = w > .00001? 1/w : 50000000;
 			_lightProbeWeights[i] = w;
 			total += w;
-			++i;
 		}
-// normalize
-		total = 1 / total;
-		i = 0;
-		while (i < _numLightProbes) {
+		
+		// normalize
+		total = 1/total;
+		for (i in 0..._numLightProbes)
 			_lightProbeWeights[i] *= total;
-			++i;
-		}
 	}
 }
-

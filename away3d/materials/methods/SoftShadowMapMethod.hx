@@ -53,7 +53,6 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		
 		_offsets = PoissonLookup.getDistribution(_numSamples);
 		invalidateShaderProgram();
-		
 		return value;
 	}
 
@@ -74,7 +73,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function initConstants(vo:MethodVO):Void
+	override private function initConstants(vo:MethodVO):Void
 	{
 		super.initConstants(vo);
 		
@@ -85,7 +84,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	override private function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
 		super.activate(vo, stage3DProxy);
 		var texRange:Float = .5*_range/_castingLight.shadowMapper.depthMapSize;

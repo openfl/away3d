@@ -56,12 +56,12 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * This reduces state changes.
 	 */
 	private static var MATERIAL_ID_COUNT:Int = 0;
-	
+
 	/**
 	 * An object to contain any extra data.
 	 */
 	public var extra:Dynamic;
-	
+
 	/**
 	 * A value that can be used by materials that only work with a given type of renderer. The renderer can test the
 	 * classification to choose which render path to use. For example, a deferred material could set this value so
@@ -70,7 +70,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * @private
 	 */
 	private var _classification:String;
-	
+
 	/**
 	 * An id for this material used to sort the renderables by material, which reduces render state changes across
 	 * materials using the same Program3D.
@@ -78,7 +78,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * @private
 	 */
 	@:allow(away3d) private var _uniqueId:Int;
-	
+
 	/**
 	 * An id for this material used to sort the renderables by shader program, which reduces Program3D state changes.
 	 *
@@ -92,7 +92,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * @private
 	 */
 	@:allow(away3d) private var _depthPassId:Int;
-	
+
 	private var _bothSides:Bool;
 	private var _animationSet:IAnimationSet;
 
@@ -113,13 +113,14 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private var _repeat:Bool;
 	
 	private var _anisotropy:Anisotropy = Anisotropy.ANISOTROPIC2X;
+	
 	private var _depthPass:DepthMapPass;
 	private var _distancePass:DistanceMapPass;
 	
 	private var _lightPicker:LightPickerBase;
 	private var _distanceBasedDepthRender:Bool;
 	private var _depthCompareMode:Context3DCompareMode;
-
+	
 	/**
 	 * Creates a new MaterialBase object.
 	 */
@@ -199,7 +200,6 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_smooth = value;
 		for (i in 0..._numPasses)
 			_passes[i].smooth = value;
-		
 		return value;
 	}
 
@@ -233,7 +233,6 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_repeat = value;
 		for (i in 0..._numPasses)
 			_passes[i].repeat = value;
-		
 		return value;
 	}
 	
@@ -244,14 +243,13 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		return _anisotropy;
 	}
-
+	
 	private function set_anisotropy(value:Anisotropy):Anisotropy
 	{
 		_anisotropy = value;
 		for (i in 0..._numPasses)
 			_passes[i].anisotropy = _anisotropy;
-		
-		return _anisotropy;
+		return value;
 	}
 
 	/**
@@ -280,6 +278,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function set_bothSides(value:Bool):Bool
 	{
 		_bothSides = value;
+		
 		for (i in 0..._numPasses)
 			_passes[i].bothSides = value;
 		
@@ -322,9 +321,9 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function set_alphaPremultiplied(value:Bool):Bool
 	{
 		_alphaPremultiplied = value;
+		
 		for (i in 0..._numPasses)
 			_passes[i].alphaPremultiplied = value;
-		
 		return value;
 	}
 	
@@ -379,7 +378,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	@:allow(away3d) private function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Bool = false):Void
 	{
 		_distanceBasedDepthRender = distanceBased;
-		
+
 		if (distanceBased)
 			_distancePass.activate(stage3DProxy, camera);
 		else
@@ -449,6 +448,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		_passes[index].activate(stage3DProxy, camera);
 	}
+
 
 	/**
 	 * Clears the render state for a pass. This needs to be called before activating another pass.
@@ -551,6 +551,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	@:allow(away3d) private function updateMaterial(context:Context3D):Void
 	{
+	
 	}
 	
 	/**
@@ -599,9 +600,9 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			// test if the pass supports animating the animation set in the vertex shader
 			// if any object using this material fails to support accelerated animations for any of the passes,
 			// we should do everything on cpu (otherwise we have the cost of both gpu + cpu animations)
-			if (_animationSet!=null) {
+			if (_animationSet != null) {
 				for (owner in _owners) {
-					if (owner.animator!=null)
+					if (owner.animator != null)
 						owner.animator.testGPUCompatibility(_passes[i]);
 				}
 			}

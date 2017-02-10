@@ -17,7 +17,7 @@ import openfl.Vector;
 class StaticLightPicker extends LightPickerBase
 {
 	public var lights(get, set):Array<LightBase>;
-
+	
 	private var _lights:Array<LightBase>;
 
 	/**
@@ -67,7 +67,7 @@ class StaticLightPicker extends LightPickerBase
 					_castingPointLights[numCastingPointLights++] = cast(light, PointLight)
 				else
 					_pointLights[numPointLights++] = cast(light, PointLight);
-			
+				
 			} else if (Std.is(light, DirectionalLight)) {
 				if (light.castsShadows)
 					_castingDirectionalLights[numCastingDirectionalLights++] = cast(light, DirectionalLight)
@@ -99,7 +99,6 @@ class StaticLightPicker extends LightPickerBase
 	/**
 	 * Remove configuration change listeners on the lights.
 	 */
-	
 	private function clearListeners():Void
 	{
 		var len:Int = _lights.length;

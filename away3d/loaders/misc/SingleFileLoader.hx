@@ -53,7 +53,7 @@ class SingleFileLoader extends EventDispatcher
 	
 	private function get_url():String
 	{
-		return _req!=null? _req.url : '';
+		return _req != null ? _req.url : '';
 	}
 	
 	public var data(get, null):Dynamic;
@@ -70,13 +70,13 @@ class SingleFileLoader extends EventDispatcher
 		return _loadAsRawData;
 	}
 	
-	public static function enableParser(parser):Void
+	public static function enableParser(parser:Class<ParserBase>):Void
 	{
 		if (_parsers.indexOf(parser) < 0)
 			_parsers.push(parser);
 	}
 	
-	public static function enableParsers(parsers:Vector<Class<ParserBase>>):Void
+	public static function enableParsers(parsers:Array<Dynamic>):Void
 	{
 		for (pc in parsers)
 			enableParser(pc);
@@ -101,13 +101,13 @@ class SingleFileLoader extends EventDispatcher
 			// Always use binary for raw data loading
 			dataFormat = URLLoaderDataFormat.BINARY;
 		} else {
-			if (parser!=null)
+			if (parser != null)
 				_parser = parser;
 			
-			if (_parser==null)
+			if (_parser == null)
 				_parser = getParserFromSuffix();
 			
-			if (_parser!=null) {
+			if (_parser != null) {
 				switch (_parser.dataFormat) {
 					case ParserDataFormat.BINARY:
 						dataFormat = URLLoaderDataFormat.BINARY;
@@ -141,7 +141,7 @@ class SingleFileLoader extends EventDispatcher
 		if (Std.is(data, Class))
 			data = Type.createInstance(data, []);
 		
-		if (parser!=null)
+		if (parser != null)
 			_parser = parser;
 		
 		_req = req;
@@ -162,17 +162,11 @@ class SingleFileLoader extends EventDispatcher
 	/**
 	 * A list of dependencies that need to be loaded and resolved for the loaded object.
 	 */
-	public var dependencies(get, set):Vector<ResourceDependency>;
+	public var dependencies(get, never):Vector<ResourceDependency>;
 	
 	private function get_dependencies():Vector<ResourceDependency>
 	{
-		return _parser!=null? _parser.dependencies : new Vector<ResourceDependency>();
-	}
-	
-	private function set_dependencies(value:Vector<ResourceDependency>):Vector<ResourceDependency>
-	{
-		if (_parser!=null) _parser.dependencies = value;
-		return value;
+		return _parser != null? _parser.dependencies : new Vector<ResourceDependency>();
 	}
 	
 	/**
@@ -198,9 +192,9 @@ class SingleFileLoader extends EventDispatcher
 		var len:UInt = _parsers.length;
 		
 		// go in reverse order to allow application override of default parser added in Away3D proper
-		var i:Int = len-1;
+		var i:Int = len - 1;
 		while (i >= 0) {
-			if ((cast _parsers[i]).supportsType(_fileExtension))
+			if (Reflect.callMethod(_parsers[i], Reflect.field(_parsers[i], "supportsType"), [_fileExtension]))
 				return Type.createInstance(_parsers[i], []);
 			i--;
 		}
@@ -219,9 +213,9 @@ class SingleFileLoader extends EventDispatcher
 		var len:UInt = _parsers.length;
 		
 		// go in reverse order to allow application override of default parser added in Away3D proper
-		var i:Int = len-1;
+		var i:Int = len - 1;
 		while (i >= 0) {
-			if ((cast _parsers[i]).supportsData(data))
+			if (Reflect.callMethod(_parsers[i], Reflect.field(_parsers[i], "supportsData"), [data]))
 				return Type.createInstance(_parsers[i],[]);
 			i--;
 		}
@@ -275,10 +269,10 @@ class SingleFileLoader extends EventDispatcher
 	{
 		// If no parser has been defined, try to find one by letting
 		// all plugged in parsers inspect the actual data.
-		if (_parser==null)
+		if (_parser == null)
 			_parser = getParserFromData(data);
 		
-		if (_parser!=null) {
+		if (_parser != null) {
 			_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 			_parser.addEventListener(ParserEvent.PARSE_ERROR, onParseError);
 			_parser.addEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);
@@ -297,7 +291,7 @@ class SingleFileLoader extends EventDispatcher
 			_parser.addEventListener(Asset3DEvent.SKELETON_COMPLETE, onAssetComplete);
 			_parser.addEventListener(Asset3DEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 			
-			if (_req!=null && _req.url!=null)
+			if (_req != null && _req.url != null)
 				_parser._fileName = _req.url;
 			_parser.materialMode = _materialMode;
 			_parser.parseAsync(data);

@@ -16,8 +16,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 	public var hasMipMaps(get, never):Bool;
 	public var format(get, never):Context3DTextureFormat;
 	public var assetType(get, never):String;
-	public var width(get, never):Int;
-	public var height(get, never):Int;
+	public var width(get, set):Int;
+	public var height(get, set):Int;
 	
 	private var _format:Context3DTextureFormat = BGRA;
 	private var _hasMipmaps:Bool = true;
@@ -55,23 +55,19 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		return _width;
 	}
 	
+	private function set_width(value:Int):Int
+	{
+		return value; // non-setter by default
+	}
+	
 	private function get_height():Int
 	{
 		return _height;
 	}
 	
-	private function set_width(value:Int):Int
-	{
-		if (value == _width) return value;
-		_width = value;
-		return value;
-	}
-	
 	private function set_height(value:Int):Int
 	{
-		if (value == _height) return value;
-		_height = value;
-		return value;
+		return value; // non-setter by default
 	}
 	
 	public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase

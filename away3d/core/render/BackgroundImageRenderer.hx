@@ -68,8 +68,7 @@ class BackgroundImageRenderer
 	private function getFragmentCode():String
 	{
 		var format:String;
-		var _sw0_ = (_texture.format);
-		switch(_sw0_) {
+		switch(_texture.format) {
 			case Context3DTextureFormat.COMPRESSED:
 				format = "dxt1,";
 			case Context3DTextureFormat.COMPRESSED_ALPHA:

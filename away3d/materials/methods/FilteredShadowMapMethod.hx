@@ -1,57 +1,57 @@
-/**
- * DitheredShadowMapMethod provides a softened shadowing technique by bilinearly interpolating shadow comparison
- * results of neighbouring pixels.
- */
 package away3d.materials.methods;
-
 
 import away3d.core.managers.Stage3DProxy;
 import away3d.lights.DirectionalLight;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
+
 import openfl.Vector;
 
-class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
-
+/**
+ * DitheredShadowMapMethod provides a softened shadowing technique by bilinearly interpolating shadow comparison
+ * results of neighbouring pixels.
+ */
+class FilteredShadowMapMethod extends SimpleShadowMapMethodBase
+{
 	/**
 	 * Creates a new BasicDiffuseMethod object.
 	 *
 	 * @param castingLight The light casting the shadow
 	 */
-	public function new(castingLight:DirectionalLight) {
+	public function new(castingLight:DirectionalLight)
+	{
 		super(castingLight);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function initConstants(vo:MethodVO):Void {
+	override private function initConstants(vo:MethodVO):Void
+	{
 		super.initConstants(vo);
 		
 		var fragmentData:Vector<Float> = vo.fragmentData;
 		var index:Int = vo.fragmentConstantsIndex;
 		fragmentData[index + 8] = .5;
-		
 		var size:Int = castingLight.shadowMapper.depthMapSize;
 		fragmentData[index + 9] = size;
-		fragmentData[index + 10] = 1 / size;
+		fragmentData[index + 10] = 1/size;
 	}
-
+	
 	/**
 	 * @inheritDoc
 	 */
-	override private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String {
+	override private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	{
 		var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
 		var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 		var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-		
 		// TODO: not used
 		var customDataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 		var depthCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		var uvReg:ShaderRegisterElement;
 		var code:String = "";
-		
-		vo.fragmentConstantsIndex = decReg.index * 4;
+		vo.fragmentConstantsIndex = decReg.index*4;
 		
 		regCache.addFragmentTempUsages(depthCol, 1);
 		
@@ -64,7 +64,7 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
 			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
 			"slt " + uvReg + ".z, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" +   // 0 if in shadow
 			
-			"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" +	 // (1, 0)
+			"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" + 	// (1, 0)
 			"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
 			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
 			"slt " + uvReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" +   // 0 if in shadow
@@ -76,12 +76,12 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
 			"add " + targetReg + ".w, " + uvReg + ".z, " + uvReg + ".w\n" +
 			
 			"mov " + uvReg + ".x, " + _depthMapCoordReg + ".x\n" +
-			"add " + uvReg + ".y, " + _depthMapCoordReg + ".y, " + customDataReg + ".z\n" + // (0, 1)
+			"add " + uvReg + ".y, " + _depthMapCoordReg + ".y, " + customDataReg + ".z\n" +	// (0, 1)
 			"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
 			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
 			"slt " + uvReg + ".z, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" +   // 0 if in shadow
 			
-			"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" + // (1, 1)
+			"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" +	// (1, 1)
 			"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
 			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
 			"slt " + uvReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" +   // 0 if in shadow
@@ -98,7 +98,7 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
 			"sub " + uvReg + ".w, " + uvReg + ".w, " + targetReg + ".w\n" +
 			"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
 			"add " + targetReg + ".w, " + targetReg + ".w, " + uvReg + ".w\n";
-
+		
 		regCache.removeFragmentTempUsage(depthCol);
 		regCache.removeFragmentTempUsage(uvReg);
 		
@@ -110,26 +110,28 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
 	/**
 	 * @inheritDoc
 	 */
-	override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):Void {
+	override private function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	{
 		var size:Int = _castingLight.shadowMapper.depthMapSize;
 		var index:Int = vo.secondaryFragmentConstantsIndex;
 		var data:Vector<Float> = vo.fragmentData;
 		data[index] = size;
-		data[index + 1] = 1 / size;
+		data[index + 1] = 1/size;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement, targetRegister:ShaderRegisterElement):String {
+	override private function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement, targetRegister:ShaderRegisterElement):String
+	{
 		var code:String;
 		var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-		vo.secondaryFragmentConstantsIndex = dataReg.index * 4;
+		vo.secondaryFragmentConstantsIndex = dataReg.index*4;
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		regCache.addFragmentTempUsages(temp, 1);
 		var predicate:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		regCache.addFragmentTempUsages(predicate, 1);
- 
+		
 		code = "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
 			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
 			"slt " + predicate + ".x, " + depthProjection + ".z, " + temp + ".z\n" +
@@ -161,10 +163,9 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase {
 			"sub " + predicate + ".y, " + predicate + ".y, " + predicate + ".x\n" +
 			"mul " + predicate + ".y, " + predicate + ".y, " + temp + ".y\n" +
 			"add " + targetRegister + ".w, " + predicate + ".x, " + predicate + ".y\n";
-
+		
 		regCache.removeFragmentTempUsage(temp);
 		regCache.removeFragmentTempUsage(predicate);
 		return code;
 	}
 }
-

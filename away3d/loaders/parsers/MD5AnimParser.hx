@@ -1,4 +1,5 @@
 package away3d.loaders.parsers;
+
 import away3d.animators.data.*;
 import away3d.animators.nodes.*;
 import away3d.core.math.*;
@@ -521,7 +522,7 @@ class MD5AnimParser extends ParserBase
 		quat.z = getNextNumber();
 		
 		// quat supposed to be unit length
-		var t:Float = 1 - (quat.x * quat.x) - (quat.y * quat.y) - (quat.z * quat.z);
+		var t:Float = 1 - (quat.x*quat.x) - (quat.y*quat.y) - (quat.z*quat.z);
 		quat.w = t < 0? 0 : -Math.sqrt(t);
 		
 		if (getNextToken() != ")")
@@ -625,7 +626,7 @@ class BaseFrameData
 }
 
 class FrameData
-	{
+{
 	public var index:Int;
 	public var components:Vector<Float>;
 	

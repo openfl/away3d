@@ -1,8 +1,4 @@
-/**
- * OutlineMethod provides a shading method to add outlines to an object.
- */
 package away3d.materials.methods;
-
 
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.passes.MaterialPassBase;
@@ -12,13 +8,17 @@ import away3d.materials.compilation.ShaderRegisterElement;
 
 import openfl.Vector;
 
+/**
+ * OutlineMethod provides a shading method to add outlines to an object.
+ */
 class OutlineMethod extends EffectMethodBase
 {
 	public var showInnerLines(get, set):Bool;
 	public var outlineColor(get, set):Int;
 	public var outlineSize(get, set):Float;
-
+	
 	private var _outlinePass:OutlinePass;
+	
 	/**
 	 * Creates a new OutlineMethod object.
 	 * @param outlineColor The colour of the outline stroke
@@ -37,11 +37,11 @@ class OutlineMethod extends EffectMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function initVO(vo:MethodVO):Void
+	override private function initVO(vo:MethodVO):Void
 	{
 		vo.needsNormals = true;
 	}
-
+	
 	/**
 	 * Indicates whether or not strokes should be potentially drawn over the existing model.
 	 * Set this to true to draw outlines for geometry overlapping in the view, useful to achieve a cel-shaded drawing outline.
@@ -51,13 +51,13 @@ class OutlineMethod extends EffectMethodBase
 	{
 		return _outlinePass.showInnerLines;
 	}
-
+	
 	private function set_showInnerLines(value:Bool):Bool
 	{
 		_outlinePass.showInnerLines = value;
 		return value;
 	}
-
+	
 	/**
 	 * The colour of the outline.
 	 */
@@ -65,13 +65,13 @@ class OutlineMethod extends EffectMethodBase
 	{
 		return _outlinePass.outlineColor;
 	}
-
+	
 	private function set_outlineColor(value:Int):Int
 	{
 		_outlinePass.outlineColor = value;
 		return value;
 	}
-
+	
 	/**
 	 * The size of the outline.
 	 */
@@ -79,7 +79,7 @@ class OutlineMethod extends EffectMethodBase
 	{
 		return _outlinePass.outlineSize;
 	}
-
+	
 	private function set_outlineSize(value:Float):Float
 	{
 		_outlinePass.outlineSize = value;
@@ -89,7 +89,7 @@ class OutlineMethod extends EffectMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function reset():Void
+	override private function reset():Void
 	{
 		super.reset();
 	}
@@ -97,16 +97,15 @@ class OutlineMethod extends EffectMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	override private function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	override private function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		return "";
 	}
 }
-

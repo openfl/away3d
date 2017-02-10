@@ -24,14 +24,14 @@ class Asset3DLibrary
 	 * Short-hand for conflictStrategy property on default asset library bundle.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.conflictStrategy
-	*/
+	 */
 	public static var conflictStrategy(get, set):ConflictStrategyBase;
 	
 	/**
 	 * Short-hand for conflictPrecedence property on default asset library bundle.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.conflictPrecedence
-	*/
+	 */
 	public static var conflictPrecedence(get, set):String;
 
 	
@@ -68,11 +68,13 @@ class Asset3DLibrary
 	/**
 	 *
 	 */
-	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void {
+	public static function enableParsers(parserClasses:Array<Dynamic>):Void
+	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
-
-	private static function get_conflictStrategy():ConflictStrategyBase {
+	
+	private static function get_conflictStrategy():ConflictStrategyBase
+	{
 		return getBundle().conflictStrategy;
 	}
 	
@@ -95,7 +97,7 @@ class Asset3DLibrary
 	 * Short-hand for createIterator() method on default asset library bundle.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.createIterator()
-	*/
+	 */
 	public static function createIterator(Asset3DTypeFilter:String = null, namespaceFilter:String = null, filterFunc:Dynamic = null):Asset3DLibraryIterator
 	{
 		return getBundle().createIterator(Asset3DTypeFilter, namespaceFilter, filterFunc);
@@ -169,7 +171,7 @@ class Asset3DLibrary
 	 * Short-hand for addAsset() method on default asset library bundle.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.addAsset()
-	*/
+	 */
 	public static function addAsset(asset:IAsset):Void
 	{
 		getBundle().addAsset(asset);
@@ -182,7 +184,7 @@ class Asset3DLibrary
 	 * @param dispose Defines whether the assets should also be disposed.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.removeAsset()
-	*/
+	 */
 	public static function removeAsset(asset:IAsset, dispose:Bool = true):Void
 	{
 		getBundle().removeAsset(asset, dispose);
@@ -196,7 +198,7 @@ class Asset3DLibrary
 	 * @param dispose Defines whether the assets should also be disposed.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.removeAssetByName()
-	*/
+	 */
 	public static function removeAssetByName(name:String, ns:String = null, dispose:Bool = true):IAsset
 	{
 		return getBundle().removeAssetByName(name, ns, dispose);
@@ -208,7 +210,7 @@ class Asset3DLibrary
 	 * @param dispose Defines whether the assets should also be disposed.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.removeAllAssets()
-	*/
+	 */
 	public static function removeAllAssets(dispose:Bool = true):Void
 	{
 		getBundle().removeAllAssets(dispose);
@@ -218,7 +220,7 @@ class Asset3DLibrary
 	 * Short-hand for removeNamespaceAssets() method on default asset library bundle.
 	 *
 	 * @see away3d.library.Asset3DLibraryBundle.removeNamespaceAssets()
-	*/
+	 */
 	public static function removeNamespaceAssets(ns:String = null, dispose:Bool = true):Void
 	{
 		getBundle().removeNamespaceAssets(ns, dispose);

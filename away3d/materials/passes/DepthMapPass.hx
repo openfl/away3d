@@ -1,6 +1,5 @@
 ﻿package away3d.materials.passes;
 
-//import away3d.arcane;
 import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
@@ -19,9 +18,9 @@ import openfl.Vector;
  */
 class DepthMapPass extends MaterialPassBase
 {
-	var _data:Vector<Float>;
-	var _alphaThreshold:Float = 0;
-	var _alphaMask:Texture2DBase;
+	private var _data:Vector<Float>;
+	private var _alphaThreshold:Float = 0;
+	private var _alphaMask:Texture2DBase;
 
 	/**
 	 * Creates a new DepthMapPass object.
@@ -29,7 +28,7 @@ class DepthMapPass extends MaterialPassBase
 	public function new()
 	{
 		super();
-		_data = Vector.ofArray([	1.0, 255.0, 65025.0, 16581375.0,
+		_data = Vector.ofArray([    1.0, 255.0, 65025.0, 16581375.0,
 			1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0,
 			0.0, 0.0, 0.0, 0.0]);
 	}
@@ -39,8 +38,9 @@ class DepthMapPass extends MaterialPassBase
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
-	public var alphaThreshold(get, set) : Float;
-	private function get_alphaThreshold() : Float
+	public var alphaThreshold(get, set):Float;
+	
+	private function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
 	}
@@ -66,13 +66,14 @@ class DepthMapPass extends MaterialPassBase
 	 * A texture providing alpha data to be able to prevent semi-transparent pixels to write to the alpha mask.
 	 * Usually the diffuse texture when alphaThreshold is used.
 	 */
-	public var alphaMask(get, set) : Texture2DBase;
-	private function get_alphaMask() : Texture2DBase
+	public var alphaMask(get, set):Texture2DBase;
+	
+	private function get_alphaMask():Texture2DBase
 	{
 		return _alphaMask;
 	}
 	
-	private function set_alphaMask(value:Texture2DBase) : Texture2DBase
+	private function set_alphaMask(value:Texture2DBase):Texture2DBase
 	{
 		_alphaMask = value;
 		return value;
@@ -81,7 +82,7 @@ class DepthMapPass extends MaterialPassBase
 	/**
 	 * @inheritDoc
 	 */
-	override function getVertexCode():String
+	private override function getVertexCode():String
 	{
 		var code:String;
 		// project
@@ -106,17 +107,8 @@ class DepthMapPass extends MaterialPassBase
 	/**
 	 * @inheritDoc
 	 */
-	override function getFragmentCode(code:String):String
+	private override function getFragmentCode(code:String):String
 	{
-		
-		var wrap:String = _repeat? "wrap" : "clamp";
-		var filter:String;
-		
-		if (_smooth)
-			filter = _mipmap? "linear,miplinear" : "linear";
-		else
-			filter = _mipmap? "nearest,mipnearest" : "nearest";
-		
 		var codeF:String =
 			"div ft2, v0, v0.w		\n" +
 			"mul ft0, fc0, ft2.z	\n" +
@@ -124,7 +116,15 @@ class DepthMapPass extends MaterialPassBase
 			"mul ft1, ft0.yzww, fc1	\n";
 		
 		if (_alphaThreshold > 0) {
-			var format:String;
+			var wrap:String = _repeat ? "wrap" : "clamp";
+			var filter:String, format:String;
+			var enableMipMaps:Bool = _mipmap && _alphaMask.hasMipMaps;
+			
+			if (_smooth)
+				filter = enableMipMaps ? "linear,miplinear" : "linear";
+			else
+				filter = enableMipMaps ? "nearest,mipnearest" : "nearest";
+			
 			switch (_alphaMask.format) {
 				case Context3DTextureFormat.COMPRESSED:
 					format = "dxt1,";
@@ -146,12 +146,12 @@ class DepthMapPass extends MaterialPassBase
 	/**
 	 * @inheritDoc
 	 */
-	override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
+	private override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
 		if (_alphaThreshold > 0)
 			renderable.activateUVBuffer(1, stage3DProxy);
 		
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3D = stage3DProxy._context3D;
 		var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 		matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 		matrix.append(viewProjection);
@@ -163,9 +163,9 @@ class DepthMapPass extends MaterialPassBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	override private function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3D = stage3DProxy._context3D;
 		super.activate(stage3DProxy, camera);
 		
 		if (_alphaThreshold > 0) {
@@ -175,4 +175,3 @@ class DepthMapPass extends MaterialPassBase
 			context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 2);
 	}
 }
-

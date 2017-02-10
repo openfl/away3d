@@ -108,7 +108,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		var j:Int = 4;
 		for (i in 0...6) {
 			var plane:Plane3D = viewFrustumPlanes[i];
-			if (plane.a * dirX + plane.b * dirY + plane.c * dirZ < 0)
+			if (plane.a*dirX + plane.b*dirY + plane.c*dirZ < 0)
 				_cullPlanes[j++] = plane;
 		}
 	}
@@ -183,15 +183,15 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		maxX = minX + w;
 		maxY = minY + h;
 		
-		w = 1 / w;
-		h = 1 / h;
+		w = 1/w;
+		h = 1/h;
 		
-		raw[0] = 2 * w;
-		raw[5] = 2 * h;
+		raw[0] = 2*w;
+		raw[5] = 2*h;
 		raw[10] = d;
-		raw[12] = -(maxX + minX) * w;
-		raw[13] = -(maxY + minY) * h;
-		raw[14] = -_minZ * d;
+		raw[12] = -(maxX + minX)*w;
+		raw[13] = -(maxY + minY)*h;
+		raw[14] = -_minZ*d;
 		raw[15] = 1;
 		raw[1] = raw[2] = raw[3] = raw[4] = raw[6] = raw[7] = raw[8] = raw[9] = raw[11] = 0;
 		

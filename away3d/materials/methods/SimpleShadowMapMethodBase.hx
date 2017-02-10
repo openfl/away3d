@@ -97,13 +97,14 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 	override private function cleanCompilationData():Void
 	{
 		super.cleanCompilationData();
+		
 		_depthMapCoordReg = null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+	override private function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
 		return _usePoint? getPointVertexCode(vo, regCache) : getPlanarVertexCode(vo, regCache);
 	}

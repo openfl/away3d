@@ -558,7 +558,7 @@ class MD5MeshParser extends ParserBase
 		quat.z = -getNextNumber();
 		
 		// quat supposed to be unit length
-		var t:Float = 1 - quat.x * quat.x - quat.y * quat.y - quat.z * quat.z;
+		var t:Float = 1 - quat.x*quat.x - quat.y*quat.y - quat.z*quat.z;
 		quat.w = t < 0? 0 : -Math.sqrt(t);
 		
 		if (getNextToken() != ")")

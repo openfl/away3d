@@ -45,7 +45,7 @@ class AWDParser extends ParserBase
 	 */
 	public override function get_dependencies():Vector<ResourceDependency>
 	{
-		return _parser!=null? _parser.dependencies : super.dependencies;
+		return _parser != null? _parser.dependencies : super.dependencies;
 	}
 	
 	/**
@@ -53,7 +53,7 @@ class AWDParser extends ParserBase
 	 */
 	public override function get_parsingComplete():Bool
 	{
-		return _parser!=null? _parser.parsingComplete : false;
+		return _parser != null? _parser.parsingComplete : false;
 	}
 	
 	/**
@@ -61,7 +61,7 @@ class AWDParser extends ParserBase
 	 */
 	public override function get_parsingPaused():Bool
 	{
-		return _parser!=null? _parser.parsingPaused : false;
+		return _parser != null? _parser.parsingPaused : false;
 	}
 	
 	/**
@@ -70,7 +70,7 @@ class AWDParser extends ParserBase
 	 */
 	override function resolveDependency(resourceDependency:ResourceDependency):Void
 	{
-		if (_parser!=null)
+		if (_parser != null)
 			_parser.resolveDependency(resourceDependency);
 	}
 	
@@ -80,7 +80,7 @@ class AWDParser extends ParserBase
 	 */
 	override function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
 	{
-		if (_parser!=null)
+		if (_parser != null)
 			_parser.resolveDependencyFailure(resourceDependency);
 	}
 	
@@ -90,14 +90,14 @@ class AWDParser extends ParserBase
 	 */
 	override private function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 	{
-		if (_parser!=null)
+		if (_parser != null)
 			return _parser.resolveDependencyName(resourceDependency, asset);
 		return asset.name;
 	}
 	
 	override private function resumeParsingAfterDependencies():Void
 	{
-		if (_parser!=null)
+		if (_parser != null)
 			_parser.resumeParsingAfterDependencies();
 	}
 	
@@ -107,7 +107,7 @@ class AWDParser extends ParserBase
 	 */
 	private override function proceedParsing():Bool
 	{
-		if (_parser==null) {
+		if (_parser == null) {
 			// Inspect data to find correct parser. AWD2 parser
 			// file inspection is the most reliable
 			if (AWD2Parser.supportsData(_data))
@@ -115,7 +115,6 @@ class AWDParser extends ParserBase
 			else
 				_parser = new AWD1Parser();
 			_parser.materialMode = materialMode;
-			
 			// Listen for events that need to be bubbled
 			_parser.addEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);
 			_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);

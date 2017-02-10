@@ -1,11 +1,5 @@
-/**
- * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by Away3D,
- * using material methods to define their appearance.
- */
 package away3d.materials;
 
-
-import openfl.errors.Error;
 import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
 import away3d.materials.lightpickers.LightPickerBase;
@@ -21,16 +15,21 @@ import away3d.materials.passes.LightingPass;
 import away3d.materials.passes.ShadowCasterPass;
 import away3d.materials.passes.SuperShaderPass;
 import away3d.textures.Texture2DBase;
+
 import openfl.display.BlendMode;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DBlendFactor;
 import openfl.display3D.Context3DCompareMode;
+import openfl.errors.Error;
 import openfl.events.Event;
 import openfl.Vector;
 
+/**
+ * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by Away3D,
+ * using material methods to define their appearance.
+ */
 class MultiPassMaterialBase extends MaterialBase
 {
-
 	public var enableLightFallOff(get, set):Bool;
 	public var alphaThreshold(get, set):Float;
 	public var specularLightSources(get, set):Int;
@@ -50,39 +49,32 @@ class MultiPassMaterialBase extends MaterialBase
 	public var specularColor(get, set):Int;
 	public var numLights(get, never):Int;
 	public var numNonCasters(get, never):Int;
-
+	
 	private var _casterLightPass:ShadowCasterPass;
-	private var _nonCasterLightPasses:Array<LightingPass>;
+	private var _nonCasterLightPasses:Vector<LightingPass>;
 	private var _effectsPass:SuperShaderPass;
-	private var _alphaThreshold:Float;
-	private var _specularLightSources:Int;
-	private var _diffuseLightSources:Int;
-	private var _ambientMethod:BasicAmbientMethod;
+	
+	private var _alphaThreshold:Float = 0;
+	private var _specularLightSources:Int = 0x01;
+	private var _diffuseLightSources:Int = 0x03;
+	
+	private var _ambientMethod:BasicAmbientMethod = new BasicAmbientMethod();
 	private var _shadowMethod:ShadowMapMethodBase;
-	private var _diffuseMethod:BasicDiffuseMethod;
-	private var _normalMethod:BasicNormalMethod;
-	private var _specularMethod:BasicSpecularMethod;
-	private var _screenPassesInvalid:Bool;
-	private var _enableLightFallOff:Bool;
+	private var _diffuseMethod:BasicDiffuseMethod = new BasicDiffuseMethod();
+	private var _normalMethod:BasicNormalMethod = new BasicNormalMethod();
+	private var _specularMethod:BasicSpecularMethod = new BasicSpecularMethod();
+	
+	private var _screenPassesInvalid:Bool = true;
+	private var _enableLightFallOff:Bool = true;
+	
 	/**
 	 * Creates a new MultiPassMaterialBase object.
 	 */
 	public function new()
 	{
-
-		_alphaThreshold = 0;
-		_specularLightSources = 0x01;
-		_diffuseLightSources = 0x03;
-		_ambientMethod = new BasicAmbientMethod();
-		_diffuseMethod = new BasicDiffuseMethod();
-		_normalMethod = new BasicNormalMethod();
-		_specularMethod = new BasicSpecularMethod();
-		_screenPassesInvalid = true;
-		_enableLightFallOff = true;
-		
 		super();
 	}
-
+	
 	/**
 	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
 	 * compatibility for constrained mode.
@@ -91,17 +83,15 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _enableLightFallOff;
 	}
-
+	
 	private function set_enableLightFallOff(value:Bool):Bool
 	{
-		if (_enableLightFallOff != value) 
+		if (_enableLightFallOff != value)
 			invalidateScreenPasses();
-		
 		_enableLightFallOff = value;
-		
 		return value;
 	}
-
+	
 	/**
 	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
@@ -111,14 +101,13 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _alphaThreshold;
 	}
-
+	
 	private function set_alphaThreshold(value:Float):Float
 	{
 		_alphaThreshold = value;
 		_diffuseMethod.alphaThreshold = value;
 		_depthPass.alphaThreshold = value;
 		_distancePass.alphaThreshold = value;
-		
 		return value;
 	}
 
@@ -128,9 +117,7 @@ class MultiPassMaterialBase extends MaterialBase
 	override private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
 		super.depthCompareMode = value;
-		
 		invalidateScreenPasses();
-		
 		return value;
 	}
 
@@ -140,20 +127,18 @@ class MultiPassMaterialBase extends MaterialBase
 	override private function set_blendMode(value:BlendMode):BlendMode
 	{
 		super.blendMode = value;
-		
 		invalidateScreenPasses();
-		
 		return value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Bool = false):Void
+	override private function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Bool = false):Void
 	{
-		if (distanceBased) 
-			_distancePass.alphaMask = _diffuseMethod.texture
-		else 
+		if (distanceBased)
+			_distancePass.alphaMask = _diffuseMethod.texture;
+		else
 			_depthPass.alphaMask = _diffuseMethod.texture;
 		
 		super.activateForDepth(stage3DProxy, camera, distanceBased);
@@ -169,7 +154,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _specularLightSources;
 	}
-
+	
 	private function set_specularLightSources(value:Int):Int
 	{
 		_specularLightSources = value;
@@ -186,7 +171,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _diffuseLightSources;
 	}
-
+	
 	private function set_diffuseLightSources(value:Int):Int
 	{
 		_diffuseLightSources = value;
@@ -198,18 +183,15 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	override private function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
-		if (_lightPicker != null) 
+		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
-		
 		super.lightPicker = value;
-		
-		if (_lightPicker != null) 
+		if (_lightPicker != null)
 			_lightPicker.addEventListener(Event.CHANGE, onLightsChange);
-		
 		invalidateScreenPasses();
 		return value;
 	}
-
+	
 	/**
 	 * @inheritDoc
 	 */
@@ -217,7 +199,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return false;
 	}
-
+	
 	/**
 	 * The method that provides the ambient lighting contribution. Defaults to BasicAmbientMethod.
 	 */
@@ -225,7 +207,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _ambientMethod;
 	}
-
+	
 	private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
 	{
 		value.copyFrom(_ambientMethod);
@@ -233,7 +215,7 @@ class MultiPassMaterialBase extends MaterialBase
 		invalidateScreenPasses();
 		return value;
 	}
-
+	
 	/**
 	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered. Defaults to null.
 	 */
@@ -241,19 +223,16 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _shadowMethod;
 	}
-
+	
 	private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
 	{
-		if (value != null && _shadowMethod != null) 
+		if (value != null && _shadowMethod != null)
 			value.copyFrom(_shadowMethod);
-		
 		_shadowMethod = value;
-		
 		invalidateScreenPasses();
-		
 		return value;
 	}
-
+	
 	/**
 	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
 	 */
@@ -261,14 +240,12 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _diffuseMethod;
 	}
-
+	
 	private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
 	{
 		value.copyFrom(_diffuseMethod);
 		_diffuseMethod = value;
-		
 		invalidateScreenPasses();
-		
 		return value;
 	}
 
@@ -285,12 +262,10 @@ class MultiPassMaterialBase extends MaterialBase
 		if (value != null && _specularMethod != null) 
 			value.copyFrom(_specularMethod);
 		_specularMethod = value;
-		
 		invalidateScreenPasses();
-		
 		return value;
 	}
-
+	
 	/**
 	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
 	 */
@@ -298,17 +273,15 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _normalMethod;
 	}
-
+	
 	private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
 	{
 		value.copyFrom(_normalMethod);
 		_normalMethod = value;
-	   
 		invalidateScreenPasses();
-		
 		return value;
 	}
-
+	
 	/**
 	 * Appends an "effect" shading method to the shader. Effect methods are those that do not influence the lighting
 	 * but modulate the shaded colour, used for fog, outlines, etc. The method will be applied to the result of the
@@ -318,9 +291,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		if (_effectsPass == null)
 			_effectsPass = new SuperShaderPass(this);
-		
 		_effectsPass.addMethod(method);
-		
 		invalidateScreenPasses();
 	}
 
@@ -329,7 +300,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	private function get_numMethods():Int
 	{
-		return (_effectsPass != null) ? _effectsPass.numMethods : 0;
+		return (_effectsPass != null)? _effectsPass.numMethods : 0;
 	}
 
 	/**
@@ -340,7 +311,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	public function hasMethod(method:EffectMethodBase):Bool
 	{
-		return (_effectsPass != null) ? _effectsPass.hasMethod(method) : false;
+		return (_effectsPass != null)? _effectsPass.hasMethod(method) : false;
 	}
 
 	/**
@@ -352,7 +323,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _effectsPass.getMethodAt(index);
 	}
-
+	
 	/**
 	 * Adds an effect method at the specified index amongst the methods already added to the material. Effect
 	 * methods are those that do not influence the lighting but modulate the shaded colour, used for fog, outlines,
@@ -372,29 +343,26 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	public function removeMethod(method:EffectMethodBase):Void
 	{
-		if (_effectsPass == null) 
+		if (_effectsPass == null)
 			return;
-	   
-	   _effectsPass.removeMethod(method);
+		_effectsPass.removeMethod(method);
 		
 		// reconsider
-		if (_effectsPass.numMethods == 0) 
+		if (_effectsPass.numMethods == 0)
 			invalidateScreenPasses();
 	}
-
+	
 	/**
 	 * @inheritDoc
 	 */
 	override private function set_mipmap(value:Bool):Bool
 	{
-		if (_mipmap == value) 
+		if (_mipmap == value)
 			return value;
-		
 		super.mipmap = value;
-		
 		return value;
 	}
-
+	
 	/**
 	 * The normal map to modulate the direction of the surface for each texel. The default normal method expects
 	 * tangent-space normal maps, but others could expect object-space maps.
@@ -403,13 +371,13 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _normalMethod.normalMap;
 	}
-
+	
 	private function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
 		_normalMethod.normalMap = value;
 		return value;
 	}
-
+	
 	/**
 	 * A specular map that defines the strength of specular reflections for each texel in the red channel,
 	 * and the gloss factor in the green channel. You can use SpecularBitmapTexture if you want to easily set
@@ -419,33 +387,31 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _specularMethod.texture;
 	}
-
+	
 	private function set_specularMap(value:Texture2DBase):Texture2DBase
 	{
-		if (_specularMethod != null) 
+		if (_specularMethod != null)
 			_specularMethod.texture = value;
-		else 
+		else
 			throw new Error("No specular method was set to assign the specularGlossMap to");
-		
 		return value;
 	}
-
+	
 	/**
 	 * The glossiness of the material (sharpness of the specular highlight).
 	 */
 	private function get_gloss():Float
 	{
-		return (_specularMethod != null) ? _specularMethod.gloss : 0;
+		return (_specularMethod != null)? _specularMethod.gloss : 0;
 	}
-
+	
 	private function set_gloss(value:Float):Float
 	{
-		if (_specularMethod != null) 
+		if (_specularMethod != null)
 			_specularMethod.gloss = value;
-		
 		return value;
 	}
-
+	
 	/**
 	 * The strength of the ambient reflection.
 	 */
@@ -453,29 +419,28 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _ambientMethod.ambient;
 	}
-
+	
 	private function set_ambient(value:Float):Float
 	{
 		_ambientMethod.ambient = value;
 		return value;
 	}
-
+	
 	/**
 	 * The overall strength of the specular reflection.
 	 */
 	private function get_specular():Float
 	{
-		return (_specularMethod != null) ? _specularMethod.specular : 0;
+		return (_specularMethod != null)? _specularMethod.specular : 0;
 	}
-
+	
 	private function set_specular(value:Float):Float
 	{
-		if (_specularMethod != null) 
+		if (_specularMethod != null)
 			_specularMethod.specular = value;
-		
 		return value;
 	}
-
+	
 	/**
 	 * The colour of the ambient reflection.
 	 */
@@ -483,13 +448,13 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _ambientMethod.ambientColor;
 	}
-
+	
 	private function set_ambientColor(value:Int):Int
 	{
 		_ambientMethod.ambientColor = value;
 		return value;
 	}
-
+	
 	/**
 	 * The colour of the specular reflection.
 	 */
@@ -497,49 +462,40 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		return _specularMethod.specularColor;
 	}
-
+	
 	private function set_specularColor(value:Int):Int
 	{
 		_specularMethod.specularColor = value;
 		return value;
 	}
-
+	
 	/**
 	 * @inheritDoc
 	 */
 	override public function updateMaterial(context:Context3D):Void
 	{
 		var passesInvalid:Bool = false;
-	   
-	   if (_screenPassesInvalid) {
+		
+		if (_screenPassesInvalid) {
 			updateScreenPasses();
 			passesInvalid = true;
 		}
-
-		var i:Int = 0;
+		
 		if (passesInvalid || isAnyScreenPassInvalid()) {
 			clearPasses();
+			
 			addChildPassesFor(_casterLightPass);
-			
 			if (_nonCasterLightPasses != null) {
-				i = 0;
-				while (i < _nonCasterLightPasses.length) {
+				for (i in 0..._nonCasterLightPasses.length)
 					addChildPassesFor(_nonCasterLightPasses[i]);
-					++i;
-				}
 			}
-			
 			addChildPassesFor(_effectsPass);
-			addScreenPass(_casterLightPass);
-		   
-			if (_nonCasterLightPasses != null) {
-				i = 0;
-				while (i < _nonCasterLightPasses.length) {
-					addScreenPass(_nonCasterLightPasses[i]);
-					++i;
-				}
-			}
 			
+			addScreenPass(_casterLightPass);
+			if (_nonCasterLightPasses != null) {
+				for (i in 0..._nonCasterLightPasses.length)
+					addScreenPass(_nonCasterLightPasses[i]);
+			}
 			addScreenPass(_effectsPass);
 		}
 	}
@@ -565,13 +521,14 @@ class MultiPassMaterialBase extends MaterialBase
 		if ((_casterLightPass != null && _casterLightPass._passesDirty) || (_effectsPass != null && _effectsPass._passesDirty)) {
 			return true;
 		}
+		
 		if (_nonCasterLightPasses != null) {
-			var i:Int = 0;
-			while (i < _nonCasterLightPasses.length) {
-				if (_nonCasterLightPasses[i]._passesDirty) return true;
-				++i;
+			for (i in 0..._nonCasterLightPasses.length) {
+				if (_nonCasterLightPasses[i]._passesDirty)
+					return true;
 			}
 		}
+		
 		return false;
 	}
 
@@ -581,45 +538,43 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	private function addChildPassesFor(pass:CompiledPass):Void
 	{
-		if (pass == null) 
+		if (pass == null)
 			return;
 		
 		if (pass._passes != null) {
 			var len:Int = pass._passes.length;
-			var i:Int = 0;
-			while (i < len) {
+			for (i in 0...len)
 				addPass(pass._passes[i]);
-				++i;
-			}
 		}
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function activatePass(index:Int, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	override private function activatePass(index:Int, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		if (index == 0) stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+		if (index == 0)
+			stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 		super.activatePass(index, stage3DProxy, camera);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override public function deactivate(stage3DProxy:Stage3DProxy):Void
+	override private function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
 		super.deactivate(stage3DProxy);
-		stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+		stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 	}
 
 	/**
 	 * Updates screen passes when they were found to be invalid.
 	 */
-
 	private function updateScreenPasses():Void
 	{
 		initPasses();
 		setBlendAndCompareModes();
+		
 		_screenPassesInvalid = false;
 	}
 
@@ -630,40 +585,41 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		// let the effects pass handle everything if there are no lights,
 		// or when there are effect methods applied after shading.
-		if (numLights == 0 || numMethods > 0) 
-			initEffectsPass()
-		else if (_effectsPass != null && numMethods == 0) 
+		if (numLights == 0 || numMethods > 0)
+			initEffectsPass();
+		else if (_effectsPass != null && numMethods == 0)
 			removeEffectsPass();
 
-		if (_shadowMethod != null) 
-			initCasterLightPass()
-		else 
+		// only use a caster light pass if shadows need to be rendered
+		if (_shadowMethod != null)
+			initCasterLightPass();
+		else
 			removeCasterLightPass();
-		
+
 		// only use non caster light passes if there are lights that don't cast
-		if (numNonCasters > 0) 
-			initNonCasterLightPasses()
-		else 
+		if (numNonCasters > 0)
+			initNonCasterLightPasses();
+		else
 			removeNonCasterLightPasses();
 	}
 
 	/**
 	 * Sets up the various blending modes for all screen passes, based on whether or not there are previous passes.
 	 */
-
 	private function setBlendAndCompareModes():Void
 	{
-		var forceSeparateMVP:Bool = cast((_casterLightPass != null || _effectsPass != null), Bool);
-		
+		var forceSeparateMVP:Bool = ((_casterLightPass != null || _effectsPass != null));
+
 		// caster light pass is always first if it exists, hence it uses normal blending
 		if (_casterLightPass != null) {
 			_casterLightPass.setBlendMode(BlendMode.NORMAL);
 			_casterLightPass.depthCompareMode = depthCompareMode;
 			_casterLightPass.forceSeparateMVP = forceSeparateMVP;
 		}
-		
+
 		if (_nonCasterLightPasses != null) {
 			var firstAdditiveIndex:Int = 0;
+
 			// if there's no caster light pass, the first non caster light pass will be the first
 			// and should use normal blending
 			if (_casterLightPass == null) {
@@ -672,27 +628,24 @@ class MultiPassMaterialBase extends MaterialBase
 				_nonCasterLightPasses[0].depthCompareMode = depthCompareMode;
 				firstAdditiveIndex = 1;
 			}
-			
-			var i:Int = firstAdditiveIndex;
-			while (i < _nonCasterLightPasses.length) {
+
+			// all lighting passes following the first light pass should use additive blending
+			for (i in 0..._nonCasterLightPasses.length) {
 				_nonCasterLightPasses[i].forceSeparateMVP = forceSeparateMVP;
 				_nonCasterLightPasses[i].setBlendMode(BlendMode.ADD);
 				_nonCasterLightPasses[i].depthCompareMode = Context3DCompareMode.LESS_EQUAL;
-				++i;
 			}
 		}
-		
+
 		if (_casterLightPass != null || _nonCasterLightPasses != null) {
 			// there are light passes, so this should be blended in
 			if (_effectsPass != null) {
 				_effectsPass.ignoreLights = true;
 				_effectsPass.depthCompareMode = Context3DCompareMode.LESS_EQUAL;
-				_effectsPass.setBlendMode(BlendMode.LAYER);
+				_effectsPass.setBlendMode(BlendMode.SCREEN);
 				_effectsPass.forceSeparateMVP = forceSeparateMVP;
 			}
-		}
-
-		else if (_effectsPass != null) {
+		} else if (_effectsPass != null) {
 			// effects pass is the only pass, so it should just blend normally
 			_effectsPass.ignoreLights = false;
 			_effectsPass.depthCompareMode = depthCompareMode;
@@ -705,14 +658,13 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		if (_casterLightPass == null)
 			_casterLightPass = new ShadowCasterPass(this);
-		
 		_casterLightPass.diffuseMethod = null;
 		_casterLightPass.ambientMethod = null;
 		_casterLightPass.normalMethod = null;
 		_casterLightPass.specularMethod = null;
 		_casterLightPass.shadowMethod = null;
 		_casterLightPass.enableLightFallOff = _enableLightFallOff;
-		_casterLightPass.lightPicker = new StaticLightPicker([ _shadowMethod.castingLight ]);
+		_casterLightPass.lightPicker = new StaticLightPicker([_shadowMethod.castingLight]);
 		_casterLightPass.shadowMethod = _shadowMethod;
 		_casterLightPass.diffuseMethod = _diffuseMethod;
 		_casterLightPass.ambientMethod = _ambientMethod;
@@ -721,24 +673,19 @@ class MultiPassMaterialBase extends MaterialBase
 		_casterLightPass.diffuseLightSources = _diffuseLightSources;
 		_casterLightPass.specularLightSources = _specularLightSources;
 	}
-
+	
 	private function removeCasterLightPass():Void
 	{
-		if (_casterLightPass == null) 
+		if (_casterLightPass == null)
 			return;
-		
 		_casterLightPass.dispose();
-		
 		removePass(_casterLightPass);
-		
 		_casterLightPass = null;
 	}
-
+	
 	private function initNonCasterLightPasses():Void
 	{
-		
 		removeNonCasterLightPasses();
-		
 		var pass:LightingPass;
 		var numDirLights:Int = _lightPicker.numDirectionalLights;
 		var numPointLights:Int = _lightPicker.numPointLights;
@@ -752,8 +699,7 @@ class MultiPassMaterialBase extends MaterialBase
 			numPointLights += _lightPicker.numCastingPointLights;
 		}
 		
-		_nonCasterLightPasses = new Array<LightingPass>();
-		
+		_nonCasterLightPasses = new Vector<LightingPass>();
 		while (dirLightOffset < numDirLights || pointLightOffset < numPointLights || probeOffset < numLightProbes) {
 			pass = new LightingPass(this);
 			pass.enableLightFallOff = _enableLightFallOff;
@@ -773,47 +719,38 @@ class MultiPassMaterialBase extends MaterialBase
 			pass.diffuseLightSources = _diffuseLightSources;
 			pass.specularLightSources = _specularLightSources;
 			_nonCasterLightPasses.push(pass);
-
+			
 			dirLightOffset += pass.numDirectionalLights;
 			pointLightOffset += pass.numPointLights;
 			probeOffset += pass.numLightProbes;
 		}
-
 	}
-
+	
 	private function removeNonCasterLightPasses():Void
 	{
 		if (_nonCasterLightPasses == null)
 			return;
-		
-		var i:Int = 0;
-		while (i < _nonCasterLightPasses.length) {
+		for (i in 0..._nonCasterLightPasses.length) {
 			removePass(_nonCasterLightPasses[i]);
 			_nonCasterLightPasses[i].dispose();
-			++i;
 		}
 		_nonCasterLightPasses = null;
 	}
-
+	
 	private function removeEffectsPass():Void
 	{
-		if (_effectsPass.diffuseMethod != _diffuseMethod) 
+		if (_effectsPass.diffuseMethod != _diffuseMethod)
 			_effectsPass.diffuseMethod.dispose();
-		
 		removePass(_effectsPass);
-		
 		_effectsPass.dispose();
-		
 		_effectsPass = null;
 	}
-
+	
 	private function initEffectsPass():SuperShaderPass
 	{
 		if (_effectsPass == null)
 			_effectsPass = new SuperShaderPass(this);
-		
 		_effectsPass.enableLightFallOff = _enableLightFallOff;
-		
 		if (numLights == 0) {
 			_effectsPass.diffuseMethod = null;
 			_effectsPass.diffuseMethod = _diffuseMethod;
@@ -823,7 +760,6 @@ class MultiPassMaterialBase extends MaterialBase
 			_effectsPass.diffuseMethod.diffuseColor = 0x000000;
 			_effectsPass.diffuseMethod.diffuseAlpha = 0;
 		}
-
 		_effectsPass.preserveAlpha = false;
 		_effectsPass.normalMethod = null;
 		_effectsPass.normalMethod = _normalMethod;
@@ -836,7 +772,8 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	private function get_numLights():Int
 	{
-		return (_lightPicker != null) ? _lightPicker.numLightProbes + _lightPicker.numDirectionalLights + _lightPicker.numPointLights + _lightPicker.numCastingDirectionalLights + _lightPicker.numCastingPointLights : 0;
+		return (_lightPicker != null)? _lightPicker.numLightProbes + _lightPicker.numDirectionalLights + _lightPicker.numPointLights +
+			_lightPicker.numCastingDirectionalLights + _lightPicker.numCastingPointLights : 0;
 	}
 
 	/**
@@ -844,7 +781,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 */
 	private function get_numNonCasters():Int
 	{
-		return (_lightPicker != null) ? _lightPicker.numLightProbes + _lightPicker.numDirectionalLights + _lightPicker.numPointLights : 0;
+		return (_lightPicker != null)? _lightPicker.numLightProbes + _lightPicker.numDirectionalLights + _lightPicker.numPointLights : 0;
 	}
 
 	/**
@@ -863,4 +800,3 @@ class MultiPassMaterialBase extends MaterialBase
 		invalidateScreenPasses();
 	}
 }
-

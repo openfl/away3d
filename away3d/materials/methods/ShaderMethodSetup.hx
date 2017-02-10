@@ -38,7 +38,6 @@ class ShaderMethodSetup extends EventDispatcher
 	public function new()
 	{
 		_methods = new Vector<MethodVOSet>();
-		
 		_normalMethod = new BasicNormalMethod();
 		_ambientMethod = new BasicAmbientMethod();
 		_diffuseMethod = new BasicDiffuseMethod();
@@ -129,10 +128,11 @@ class ShaderMethodSetup extends EventDispatcher
 	{
 		return _shadowMethod;
 	}
-
+	
 	private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
 	{
-		if (_shadowMethod != null) _shadowMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		if (_shadowMethod != null)
+			_shadowMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		_shadowMethod = value;
 		if (_shadowMethod != null) {
 			_shadowMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
@@ -313,12 +313,12 @@ class ShaderMethodSetup extends EventDispatcher
 		var methodSet:MethodVOSet = getMethodSetForMethod(method);
 		if (methodSet != null) {
 		  	var index:Int = _methods.indexOf(methodSet);
-				_methods.splice(index, 1);
+			_methods.splice(index, 1);
 			method.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			invalidateShaderProgram();
 		}
 	}
-
+	
 	private function getMethodSetForMethod(method:EffectMethodBase):MethodVOSet
 	{
 		var len:Int = _methods.length;

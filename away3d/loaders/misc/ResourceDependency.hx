@@ -4,6 +4,7 @@ import away3d.library.assets.IAsset;
 import away3d.loaders.parsers.ParserBase;
 
 import openfl.net.URLRequest;
+import openfl.Vector;
 
 /**
  * ResourceDependency represents the data required to load, parse and resolve additional files ("dependencies")
@@ -12,63 +13,63 @@ import openfl.net.URLRequest;
  */
 class ResourceDependency
 {
-	var _id:String;
-	var _req:URLRequest;
-	var _assets:Array<IAsset>;
-	var _parentParser:ParserBase;
-	var _data:Dynamic;
-	var _retrieveAsRawData:Bool;
-	var _suppressAsset3DEvents:Bool;
-	var _dependencies:Array<ResourceDependency>;
+	private var _id:String;
+	private var _req:URLRequest;
+	private var _assets:Vector<IAsset>;
+	private var _parentParser:ParserBase;
+	private var _data:Dynamic;
+	private var _retrieveAsRawData:Bool;
+	private var _suppressAsset3DEvents:Bool;
+	private var _dependencies:Vector<ResourceDependency>;
 	
-	/*arcane*/ public var loader:SingleFileLoader;
-	/*arcane*/ public var success:Bool;
+	@:allow(away3d) private var loader:SingleFileLoader;
+	@:allow(away3d) private var success:Bool;
 	
 	public function new(id:String, req:URLRequest, data:Dynamic, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAsset3DEvents:Bool = false)
 	{
 		_id = id;
-		_req = (req==null) ? new URLRequest("") : req;
+		_req = req;
 		_parentParser = parentParser;
 		_data = data;
 		_retrieveAsRawData = retrieveAsRawData;
 		_suppressAsset3DEvents = suppressAsset3DEvents;
 		
-		_assets = new Array<IAsset>();
-		_dependencies = new Array<ResourceDependency>();
+		_assets = new Vector<IAsset>();
+		_dependencies = new Vector<ResourceDependency>();
 	}
 	
-	public var id(get, null) : String;		
-	private function get_id() : String
+	public var id(get, null):String;		
+	private function get_id():String
 	{
 		return _id;
 	}
 	
-	public var assets(get, null) : Array<IAsset>;		
-	private function get_assets() : Array<IAsset>
+	public var assets(get, null):Vector<IAsset>;		
+	private function get_assets():Vector<IAsset>
 	{
 		return _assets;
 	}
 	
-	public var dependencies(get, null) : Array<ResourceDependency>;		
-	private function get_dependencies() : Array<ResourceDependency>
+	public var dependencies(get, null):Vector<ResourceDependency>;		
+	private function get_dependencies():Vector<ResourceDependency>
 	{
 		return _dependencies;
 	}
 	
-	public var request(get, null) : URLRequest;	
-	private function get_request() : URLRequest
+	public var request(get, null):URLRequest;	
+	private function get_request():URLRequest
 	{
 		return _req;
 	}
 	
-	public var retrieveAsRawData(get, null) : Bool;		
-	private function get_retrieveAsRawData() : Bool
+	public var retrieveAsRawData(get, null):Bool;		
+	private function get_retrieveAsRawData():Bool
 	{
 		return _retrieveAsRawData;
 	}
 	
-	public var suppresAsset3DEvents(get, null) : Bool;		
-	private function get_suppresAsset3DEvents() : Bool
+	public var suppresAsset3DEvents(get, null):Bool;		
+	private function get_suppresAsset3DEvents():Bool
 	{
 		return _suppressAsset3DEvents;
 	}
@@ -76,8 +77,8 @@ class ResourceDependency
 	/**
 	 * The data containing the dependency to be parsed, if the resource was already loaded.
 	 */
-	public var data(get, null) : Dynamic;
-	private function get_data() : Dynamic
+	public var data(get, null):Dynamic;
+	private function get_data():Dynamic
 	{
 		return _data;
 	}
@@ -86,7 +87,7 @@ class ResourceDependency
 	 * @private
 	 * Method to set data after having already created the dependency object, e.g. after load.
 	 */
-	public function setData(data:Dynamic):Void
+	@:allow(away3d) private function setData(data:Dynamic):Void
 	{
 		_data = data;
 	}
@@ -94,8 +95,8 @@ class ResourceDependency
 	/**
 	 * The parser which is dependent on this ResourceDependency object.
 	 */
-	public var parentParser(get, null) : ParserBase;
-	private function get_parentParser() : ParserBase
+	public var parentParser(get, null):ParserBase;
+	private function get_parentParser():ParserBase
 	{
 		return _parentParser;
 	}
@@ -107,7 +108,7 @@ class ResourceDependency
 	 */
 	public function resolve():Void
 	{
-		if (_parentParser!=null)
+		if (_parentParser != null)
 			_parentParser.resolveDependency(this);
 	}
 	
@@ -116,7 +117,7 @@ class ResourceDependency
 	 */
 	public function resolveFailure():Void
 	{
-		if (_parentParser!=null)
+		if (_parentParser != null)
 			_parentParser.resolveDependencyFailure(this);
 	}
 	
@@ -125,10 +126,9 @@ class ResourceDependency
 	 */
 	public function resolveName(asset:IAsset):String
 	{
-		if (_parentParser!=null)
+		if (_parentParser != null)
 			return _parentParser.resolveDependencyName(this, asset);
 		return asset.name;
 	}
 
 }
-

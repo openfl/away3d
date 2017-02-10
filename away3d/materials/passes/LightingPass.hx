@@ -1,6 +1,5 @@
 package away3d.materials.passes;
 
-//import away3d.arcane;
 import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
@@ -11,14 +10,11 @@ import away3d.materials.LightSources;
 import away3d.materials.MaterialBase;
 import away3d.materials.compilation.LightingShaderCompiler;
 import away3d.materials.compilation.ShaderCompiler;
-import openfl.Vector.Vector;
 
 import openfl.display3D.Context3D;
 import openfl.geom.Matrix3D;
 import openfl.geom.Vector3D;
 import openfl.Vector;
-
-//use namespace arcane;
 
 /**
  * LightingPass is a shader pass that uses shader methods to compile a complete program. It only includes the lighting
@@ -29,15 +25,15 @@ import openfl.Vector;
 
 class LightingPass extends CompiledPass
 {
-	var _includeCasters:Bool;
+	var _includeCasters:Bool = true;
 	var _tangentSpace:Bool;
 	var _lightVertexConstantIndex:Int;
-	var _inverseSceneMatrix:Vector<Float>;
+	var _inverseSceneMatrix:Vector<Float> = new Vector<Float>();
 	
 	var _directionalLightsOffset:UInt;
 	var _pointLightsOffset:UInt;
 	var _lightProbesOffset:UInt;
-	var _maxLights:Int;
+	var _maxLights:Int = 3;
 	
 	/**
 	 * Creates a new LightingPass objects.
@@ -47,22 +43,20 @@ class LightingPass extends CompiledPass
 	public function new(material:MaterialBase)
 	{
 		super(material);
-		_includeCasters = true;
-		_inverseSceneMatrix = new Vector<Float>();
-		_maxLights = 3;
 	}
 
 	/**
 	 * Indicates the offset in the light picker's directional light vector for which to start including lights.
 	 * This needs to be set before the light picker is assigned.
 	 */
-	public var directionalLightsOffset(get, set) : UInt;
-	private function get_directionalLightsOffset() : UInt
+	public var directionalLightsOffset(get, set):UInt;
+	
+	private function get_directionalLightsOffset():UInt
 	{
 		return _directionalLightsOffset;
 	}
 	
-	private function set_directionalLightsOffset(value:UInt) : UInt
+	private function set_directionalLightsOffset(value:UInt):UInt
 	{
 		_directionalLightsOffset = value;
 		return value;
@@ -72,13 +66,14 @@ class LightingPass extends CompiledPass
 	 * Indicates the offset in the light picker's point light vector for which to start including lights.
 	 * This needs to be set before the light picker is assigned.
 	 */
-	public var pointLightsOffset(get, set) : UInt;
-	private function get_pointLightsOffset() : UInt
+	public var pointLightsOffset(get, set):UInt;
+	
+	private function get_pointLightsOffset():UInt
 	{
 		return _pointLightsOffset;
 	}
 	
-	private function set_pointLightsOffset(value:UInt) : UInt
+	private function set_pointLightsOffset(value:UInt):UInt
 	{
 		_pointLightsOffset = value;
 		return value;
@@ -88,13 +83,14 @@ class LightingPass extends CompiledPass
 	 * Indicates the offset in the light picker's light probes vector for which to start including lights.
 	 * This needs to be set before the light picker is assigned.
 	 */
-	public var lightProbesOffset(get, set) : UInt;
-	private function get_lightProbesOffset() : UInt
+	public var lightProbesOffset(get, set):UInt;
+	
+	private function get_lightProbesOffset():UInt
 	{
 		return _lightProbesOffset;
 	}
 	
-	private function set_lightProbesOffset(value:UInt) : UInt
+	private function set_lightProbesOffset(value:UInt):UInt
 	{
 		_lightProbesOffset = value;
 		return value;
@@ -112,13 +108,14 @@ class LightingPass extends CompiledPass
 	/**
 	 * Indicates whether or not shadow casting lights need to be included.
 	 */
-	public var includeCasters(get, set) : Bool;
-	private function get_includeCasters() : Bool
+	public var includeCasters(get, set):Bool;
+	
+	private function get_includeCasters():Bool
 	{
 		return _includeCasters;
 	}
 	
-	private function set_includeCasters(value:Bool) : Bool
+	private function set_includeCasters(value:Bool):Bool
 	{
 		if (_includeCasters == value)
 			return value;
@@ -133,32 +130,27 @@ class LightingPass extends CompiledPass
 	override private function updateLights():Void
 	{
 		super.updateLights();
-		var numDirectionalLights:Int;
-		var numPointLights:Int;
-		var numLightProbes:Int;
+		var numDirectionalLights:Int = _numDirectionalLights;
+		var numPointLights:Int = _numPointLights;
+		var numLightProbes:Int = _numLightProbes;
 		
-		if (_lightPicker!=null) {
-			numDirectionalLights = calculateNumDirectionalLights(_lightPicker.numDirectionalLights);
-			numPointLights = calculateNumPointLights(_lightPicker.numPointLights);
-			numLightProbes = calculateNumProbes(_lightPicker.numLightProbes);
+		if (_lightPicker != null) {
+			_numDirectionalLights = calculateNumDirectionalLights(_lightPicker.numDirectionalLights);
+			_numPointLights = calculateNumPointLights(_lightPicker.numPointLights);
+			_numLightProbes = calculateNumProbes(_lightPicker.numLightProbes);
 			
 			if (_includeCasters) {
-				numPointLights += _lightPicker.numCastingPointLights;
-				numDirectionalLights += _lightPicker.numCastingDirectionalLights;
+				_numPointLights += _lightPicker.numCastingPointLights;
+				_numDirectionalLights += _lightPicker.numCastingDirectionalLights;
 			}
 		} else {
-			numDirectionalLights = 0;
-			numPointLights = 0;
-			numLightProbes = 0;
+			_numDirectionalLights = 0;
+			_numPointLights = 0;
+			_numLightProbes = 0;
 		}
 		
 		
-		if (numPointLights != _numPointLights ||
-			numDirectionalLights != _numDirectionalLights ||
-			numLightProbes != _numLightProbes) {
-			_numPointLights = numPointLights;
-			_numDirectionalLights = numDirectionalLights;
-			_numLightProbes = numLightProbes;
+		if (numPointLights != _numPointLights || numDirectionalLights != _numDirectionalLights || numLightProbes != _numLightProbes) {
 			invalidateShaderProgram();
 		}
 	
@@ -223,7 +215,7 @@ class LightingPass extends CompiledPass
 	/**
 	 * @inheritDoc
 	 */
-	override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
+	override private function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
 		renderable.inverseSceneTransform.copyRawDataTo(_inverseSceneMatrix);
 		
@@ -243,16 +235,15 @@ class LightingPass extends CompiledPass
 	/**
 	 * @inheritDoc
 	 */
-	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	override private function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
 		super.activate(stage3DProxy, camera);
 		
-		if (_tangentSpace && _cameraPositionIndex >= 0) {
+		if (!_tangentSpace && _cameraPositionIndex >= 0) {
 			var pos:Vector3D = camera.scenePosition;
 			_vertexConstantData[_cameraPositionIndex] = pos.x;
 			_vertexConstantData[_cameraPositionIndex + 1] = pos.y;
 			_vertexConstantData[_cameraPositionIndex + 2] = pos.z;
-			_vertexConstantData[_cameraPositionIndex + 3] = 1;
 		}
 	}
 
@@ -300,14 +291,12 @@ class LightingPass extends CompiledPass
 		}
 		
 		while (caster < numLightTypes) {
-			if (caster!=0)
+			if (caster != 0)
 				dirLights = _lightPicker.castingDirectionalLights;
 			len = dirLights.length;
 			if (len > _numDirectionalLights)
 				len = _numDirectionalLights;
-			// For loop conversion - 				for (i = 0; i < len; ++i)
-			var i = 0;
-			while (i < len) {
+			for (i in 0...len) {
 				dirLight = dirLights[offset + i];
 				dirPos = dirLight.sceneDirection;
 				
@@ -342,10 +331,9 @@ class LightingPass extends CompiledPass
 				
 				if (++total == _numDirectionalLights) {
 					// break loop
-					i = len;
 					caster = numLightTypes;
+					break;
 				}
-				i++;
 			}
 			caster++;
 		}
@@ -368,12 +356,10 @@ class LightingPass extends CompiledPass
 		} else
 			caster = 0;
 		while (caster < numLightTypes) {
-			if (caster!=0)
+			if (caster != 0)
 				pointLights = _lightPicker.castingPointLights;
 			len = pointLights.length;
-			// For loop conversion - 				for (i = 0; i < len; ++i)
-			var i = 0;
-			while (i < len) {
+			for (i in 0...len) {
 				pointLight = pointLights[offset + i];
 				dirPos = pointLight.scenePosition;
 				
@@ -408,10 +394,9 @@ class LightingPass extends CompiledPass
 				
 				if (++total == _numPointLights) {
 					// break loop
-					i = len;
 					caster = numLightTypes;
+					break;
 				}
-				i++;
 			}
 			caster++;
 		}
@@ -419,8 +404,10 @@ class LightingPass extends CompiledPass
 		// more directional supported than currently picked, need to clamp all to 0
 		if (_numPointLights > total) {
 			i = k + (total - _numPointLights)*12;
-			for (k in  k...i)
+			while (k < i) {
 				_fragmentConstantData[k] = 0;
+				k++;
+			}
 		}
 	}
 
@@ -429,23 +416,19 @@ class LightingPass extends CompiledPass
 	 */
 	override private function updateProbes(stage3DProxy:Stage3DProxy):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3D = stage3DProxy._context3D;
 		var probe:LightProbe;
 		var lightProbes:Vector<LightProbe> = _lightPicker.lightProbes;
 		var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 		var len:Int = lightProbes.length - _lightProbesOffset;
 		var addDiff:Bool = usesProbesForDiffuse();
-		var addSpec:Bool = _methodSetup._specularMethod!=null && usesProbesForSpecular();
+		var addSpec:Bool = (_methodSetup._specularMethod != null) && usesProbesForSpecular();
 		
 		if (!(addDiff || addSpec))
 			return;
 		
 		if (len > _numLightProbes)
 			len = _numLightProbes;
-		
-		// For loop conversion - 						for (var i:UInt = 0; i < len; ++i)
-		
-		var i:UInt = 0;
 		
 		for (i in 0...len) {
 			probe = lightProbes[_lightProbesOffset + i];
@@ -456,10 +439,7 @@ class LightingPass extends CompiledPass
 				context.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
 		}
 		
-		// For loop conversion - 						for (i = 0; i < len; ++i)
-		
 		for (i in 0...len)
 			_fragmentConstantData[_probeWeightsIndex + i] = weights[_lightProbesOffset + i];
 	}
 }
-

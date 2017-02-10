@@ -1,6 +1,5 @@
 package away3d.loaders.parsers;
 
-//import away3d.arcane;
 import away3d.events.Asset3DEvent;
 import away3d.library.assets.BitmapDataAsset;
 import away3d.textures.ATFTexture;
@@ -14,8 +13,6 @@ import openfl.display.Loader;
 import openfl.events.Event;
 import openfl.utils.ByteArray;
 
-//use namespace arcane;
-
 /**
  * ImageParser provides a "parser" for natively supported image types (jpg, png). While it simply loads bytes into
  * a loader object, it wraps it in a BitmapDataResource so resource management can happen consistently without
@@ -23,10 +20,10 @@ import openfl.utils.ByteArray;
  */
 class ImageParser extends ParserBase
 {
-	var _byteData:ByteArray;
-	var _startedParsing:Bool;
-	var _doneParsing:Bool;
-	var _loader:Loader;
+	private var _byteData:ByteArray;
+	private var _startedParsing:Bool;
+	private var _doneParsing:Bool;
+	private var _loader:Loader;
 	
 	/**
 	 * Creates a new ImageParser object.
@@ -111,27 +108,15 @@ class ImageParser extends ParserBase
 		
 		_byteData = getByteData();
 		if (!_startedParsing) {
+			_byteData.position = 0;
 			if (_byteData.readUTFBytes(3) == 'ATF') {
 				_byteData.position = 0;
 				asset = new ATFTexture(_byteData);
 				finalizeAsset(asset, _fileName);
 				return ParserBase.PARSING_DONE;
 			} else {
-				_byteData.position = 0;
 				_loader = new Loader();
 				_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadComplete);
-				
-				// trace("FIRST 10 BYTES");
-				// trace("=0x89"+(_byteData.readUnsignedByte() == 0x89));
-				// trace("=0x50"+(_byteData.readUnsignedByte() == 0x50));
-				// trace("=0x4E"+(_byteData.readUnsignedByte() == 0x4E));
-				// trace("=0x47"+(_byteData.readUnsignedByte() == 0x47));
-				// trace("=0x0D"+(_byteData.readUnsignedByte() == 0x0D));
-				// trace("=0x0A"+(_byteData.readUnsignedByte() == 0x0A));
-				// trace("=0x1A"+(_byteData.readUnsignedByte() == 0x1A));
-				// trace("=0x0A"+(_byteData.readUnsignedByte() == 0x0A));
-
-				_byteData.position = 0;
 				_loader.loadBytes(_byteData);
 				_startedParsing = true;
 			}
@@ -159,12 +144,9 @@ class ImageParser extends ParserBase
 			bmp = new BitmapData(8, 8, false, 0x0);
 			
 			//create chekerboard for this texture rather than a new Default Material
-			var i:UInt, j:UInt;
-			// For loop conversion - 				for (i = 0; i < 8; i++)
 			for (i in 0...8) {
-				// For loop conversion - 					for (j = 0; j < 8; j++)
 				for (j in 0...8) {
-					if (((j & 1) ^ (i & 1))>0)
+					if (((j & 1) ^ (i & 1)) > 0)
 						bmp.setPixel(i, j, 0xFFFFFF);
 				}
 			}
@@ -175,4 +157,3 @@ class ImageParser extends ParserBase
 		_doneParsing = true;
 	}
 }
-

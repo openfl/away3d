@@ -1,6 +1,7 @@
 package away3d.loaders.parsers;
 
 import away3d.loaders.misc.SingleFileLoader;
+
 import openfl.Vector;
 
 class Parsers
@@ -38,12 +39,11 @@ class Parsers
 	 *
 	 * @see away3d.loading.Asset3DLibrary.enableParser
 	 */
-	public static var ALL_BUNDLED:Vector<Class<ParserBase>> = Vector.ofArray(cast [
-		//AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
-		//MD2Parser, MD5AnimParser, MD5MeshParser, OBJParser,
-		//DAEParser
-		Max3DSParser
-		]);
+	public static var ALL_BUNDLED:Array<Dynamic> = [
+		AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
+		MD2Parser, MD5AnimParser, MD5MeshParser, OBJParser,
+		DAEParser, Max3DSParser
+		];
 	
 	/**
 	 * Short-hand function to enable all bundled parsers for auto-detection. In practice,
@@ -59,4 +59,3 @@ class Parsers
 		SingleFileLoader.enableParsers(ALL_BUNDLED);
 	}
 }
-

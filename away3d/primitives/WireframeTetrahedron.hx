@@ -46,7 +46,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	{
 		return _orientation;
 	}
-
+	
 	private function set_orientation(value:String):String
 	{
 		_orientation = value;
@@ -98,7 +98,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		var bv2:Vector3D = null;
 		var bv3:Vector3D = null;
 		var top:Vector3D = null;
-		var hw:Float = _width * 0.5;
+		var hw:Float = _width*0.5;
 		
 		switch(_orientation) {
 			case WireframeTetrahedron.ORIENTATION_XY:

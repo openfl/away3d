@@ -33,7 +33,7 @@ class DistanceMapPass extends MaterialPassBase
 	public function new()
 	{
 		super();
-		_fragmentData = Vector.ofArray([	 1.0, 255.0, 65025.0, 16581375.0,
+		_fragmentData = Vector.ofArray([    1.0, 255.0, 65025.0, 16581375.0,
 			1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0,
 			0.0, 0.0, 0.0, 0.0]);
 		_vertexData = new Vector<Float>(4, true);
@@ -86,7 +86,8 @@ class DistanceMapPass extends MaterialPassBase
 	/**
 	 * @inheritDoc
 	 */
-	@:allow(away3d) override private function getVertexCode():String {
+	@:allow(away3d) override private function getVertexCode():String
+	{
 		var code:String;
 		code = "m44 op, vt0, vc0		\n" +
 			"m44 vt1, vt0, vc5		\n" +
@@ -127,7 +128,7 @@ class DistanceMapPass extends MaterialPassBase
 		
 		if (_alphaThreshold > 0) {
 			var format:String;
-			switch(_alphaMask.format) {
+			switch (_alphaMask.format) {
 				case Context3DTextureFormat.COMPRESSED:
 					format = "dxt1,";
 				case Context3DTextureFormat.COMPRESSED_ALPHA:

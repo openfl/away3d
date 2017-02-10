@@ -141,8 +141,8 @@ class RegisterPool
 		
 		var hash:String = RegisterPool._initPool(regName, regCount);
 		
-		_vectorRegisters = RegisterPool._regPool.get(hash);
-		_registerComponents = RegisterPool._regCompsPool.get(hash);
+		_vectorRegisters = RegisterPool._regPool[hash];
+		_registerComponents = RegisterPool._regCompsPool[hash];
 		
 		_usedVectorCount = new Vector<UInt>(regCount, true);
 		_usedSingleCount = new Vector<Vector<UInt>>(4, true);
