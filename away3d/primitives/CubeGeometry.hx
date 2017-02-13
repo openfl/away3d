@@ -444,7 +444,7 @@ class CubeGeometry extends PrimitiveBase
 		du = u_tile_dim/_segmentsW;
 		dv = v_tile_dim/_segmentsD;
 		for (i in 0..._segmentsW + 1) {
-			for (i in 0..._segmentsD + 1) {
+			for (j in 0..._segmentsD + 1) {
 				data[uidx++] = ( tl0u + i*du)*target.scaleU;
 				data[uidx++] = ( tl0v + (v_tile_dim - j*dv))*target.scaleV;
 				uidx += skip;
@@ -462,7 +462,7 @@ class CubeGeometry extends PrimitiveBase
 		du = u_tile_dim/_segmentsD;
 		dv = v_tile_dim/_segmentsH;
 		for (i in 0..._segmentsD + 1) {
-			for (i in 0..._segmentsH + 1) {
+			for (j in 0..._segmentsH + 1) {
 				data[uidx++] = ( tl0u + i*du)*target.scaleU;
 				data[uidx++] = ( tl0v + (v_tile_dim - j*dv))*target.scaleV;
 				uidx += skip;
