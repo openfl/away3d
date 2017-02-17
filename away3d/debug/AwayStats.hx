@@ -3,28 +3,19 @@ package away3d.debug;
 import away3d.core.managers.Stage3DProxy;
 import away3d.containers.View3D;
 
-import haxe.Timer;
 import openfl.display.BitmapData;
-import openfl.display.Bitmap;
-import openfl.display.PixelSnapping;
 import openfl.display.CapsStyle;
 import openfl.display.Graphics;
 import openfl.display.LineScaleMode;
-import openfl.display.Loader;
-import openfl.display.LoaderInfo;
 import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
-import openfl.geom.Matrix;
-import openfl.geom.Point;
 import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
-import openfl.text.TextFormatAlign;
-import openfl.utils.ByteArray;
-import openfl.Assets;
+import flash.utils.Timer;
 import openfl.Lib;
 import openfl.Vector;
 
@@ -75,7 +66,7 @@ class AwayStats extends Sprite
 	
 	private var _views:Vector<View3D>;
 	private var _timer:Timer;
-	private var _last_frame__timestamp:Float;
+	private var _last_frame_timestamp:Float;
 	
 	private var _fps:Float;
 	private var _ram:Float;
@@ -89,11 +80,12 @@ class AwayStats extends Sprite
 	private var _num_frames:Int;
 	private var _fps_sum:Float;
 	
-	private var _stats_panel:Sprite;
+	private var _top_bar:Sprite;
 	private var _btm_bar:Sprite;
-	private var _dragOverlay:Sprite;
+	private var _btm_bar_hit:Sprite;
 	
 	private var _data_format:TextFormat;
+	private var _label_format:TextFormat;
 	
 	private var _fps_bar:Shape;
 	private var _afps_bar:Shape;
@@ -101,17 +93,18 @@ class AwayStats extends Sprite
 	private var _hfps_bar:Shape;
 	private var _diagram:Sprite;
 	private var _dia_bmp:BitmapData;
-	private var _tmp_bmp:BitmapData;
+	
 	private var _mem_points:Array<Dynamic>;
 	private var _mem_graph:Shape;
 	private var _updates:Int;
+	
+	private var _min_max_btn:Sprite;
 	
 	private var _fps_tf:TextField;
 	private var _afps_tf:TextField;
 	private var _ram_tf:TextField;
 	private var _poly_tf:TextField;
-	private var _vb_ib_tf:TextField;
-	private var _draw_tf:TextField;
+	private var _swhw_tf:TextField;
 	
 	private var _drag_dx:Float;
 	private var _drag_dy:Float;
@@ -120,28 +113,23 @@ class AwayStats extends Sprite
 	private var _mean_data:Array<Dynamic>;
 	private var _mean_data_length:Int;
 	
+	private var _enable_reset:Bool;
+	private var _enable_mod_fr:Bool;
 	private var _transparent:Bool;
-	private var _currentFPS:Float;
-	private var _cacheCount:Int;
-	private var _times:Array <Float>;
-	private var _counters:Sprite;
-	private var _logo:Sprite;
-	private var _lastTextY:Int;
+	private var _minimized:Bool;
+	private var _showing_driv_info:Bool;
 	
-	private static var _WIDTH:Int = 200;
-	private static var _HEIGHT:Int = 105;
-	private static var _DIAG_X:Int = 80;
-	private static var _DIAG_WIDTH:Int = _WIDTH - _DIAG_X;
-	private static var _DIAG_HEIGHT:Int = 50;
-	private static var _UPPER_Y:Float = -1;
-	private static var _MID_Y:Float = 9;
-	private static var _LOWER_Y:Float = 19;
-	private static var _LOWEST_Y:Float = 29;
-	private static var _BOTTOM_BAR_HEIGHT:Int = 41;
-	private static var _POLY_COL:Int = 0xffcc00;
-	private static var _MEM_COL:Int = 0xff00cc;
-	private static var _PT:Point = new Point();
-	private static var _DPT:Point = new Point(1, 0);
+	private static inline var _WIDTH:Int = 125;
+	private static inline var _MAX_HEIGHT:Int = 85;
+	private static inline var _MIN_HEIGHT:Int = 51;
+	private static inline var _UPPER_Y:Int = -1;
+	private static inline var _MID_Y:Int = 9;
+	private static inline var _LOWER_Y:Int = 19;
+	private static inline var _DIAG_HEIGHT:Int = _MAX_HEIGHT - 50;
+	private static inline var _BOTTOM_BAR_HEIGHT:Int = 31;
+	
+	private static inline var _POLY_COL:Int = 0xffcc00;
+	private static inline var _MEM_COL:Int = 0xff00cc;
 	
 	// Singleton instance reference
 	private static var _INSTANCE:AwayStats;
@@ -179,19 +167,24 @@ class AwayStats extends Sprite
 	 * and lower parts of the graph area to increase and decrease SWF frame rate
 	 * respectively.
 	 */
-	public function new(view3d:View3D = null, meanDataLength:Int = 0)
+	public function new(view3d:View3D = null, minimized:Bool = false, transparent:Bool = false, meanDataLength:Int = 0, enableClickToReset:Bool = true, enableModifyFrameRate:Bool = true)
 	{
 		super();
 		
+		_minimized = minimized;
+		_transparent = transparent;
+		_enable_reset = enableClickToReset;
+		_enable_mod_fr = enableModifyFrameRate;
 		_mean_data_length = meanDataLength;
-		_views = new Vector<View3D>();
 		
+		_views = new Vector<View3D>();
 		if (view3d != null)
 			_views.push(view3d);
 		
+		// Store instance for singleton access. Singleton status
+		// is not enforced, since the widget will work anyway.
 		if (_INSTANCE != null)
-			trace("Creating several statistics windows in one project. Is this intentional?");
-		
+			trace('Creating several statistics windows in one project. Is this intentional?');
 		_INSTANCE = this;
 		
 		_fps = 0;
@@ -201,10 +194,9 @@ class AwayStats extends Sprite
 		_max_ram = 0;
 		_tfaces = 0;
 		_rfaces = 0;
-		_last_frame__timestamp = 0;
-		_lastTextY = 0;
+		_last_frame_timestamp = 0;
 		
-		init();
+		_init();
 	}
 	
 	private function get_max_ram():Float
@@ -232,13 +224,16 @@ class AwayStats extends Sprite
 		return _fps;
 	}
 	
-	private function init():Void
+	private function _init():Void
 	{
-		initMisc();
-		initStats();
-		initInteraction();
+		_initMisc();
+		_initTopBar();
+		_initBottomBar();
+		_initDiagrams();
+		_initInteraction();
 		
 		reset();
+		_redrawWindow();
 		
 		addEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
 		addEventListener(Event.REMOVED_FROM_STAGE, _onRemovedFromStage);
@@ -282,222 +277,374 @@ class AwayStats extends Sprite
 		}
 	}
 	
-	private function initMisc():Void
+	private function _initMisc():Void
 	{
-		_currentFPS = 0;
-		_cacheCount = 0;
-		_times = [];
-		_timer = new Timer(200);
-		_timer.run = onTimer;
+		_timer = new Timer(200, 0);
+		_timer.addEventListener('timer', _onTimer);
 		
-		_data_format = new TextFormat("_sans", 9, 0xffffff, false);
+		_label_format = new TextFormat('_sans', 9, 0xffffff, true);
+		_data_format = new TextFormat('_sans', 9, 0xffffff, false);
 		
 		if (_mean_data_length > 0) {
 			_mean_data = [];
-			for (i in 0..._mean_data_length) {
+			for (i in 0..._mean_data_length)
 				_mean_data[i] = 0.0;
-			}
 		}
-		
-		_dia_bmp = new BitmapData(_DIAG_WIDTH, _DIAG_HEIGHT, true, 0);
-		_tmp_bmp = new BitmapData(_DIAG_WIDTH, _DIAG_HEIGHT, true, 0);
 	}
 	
 	/**
 	 * @private
 	 * Draw logo and create title textfield.
 	 */
-	private function initStats():Void
+	private function _initTopBar():Void
 	{
+		var logo:Shape;
+		var markers:Shape;
+		//var logo_tf : TextField;
+		var fps_label_tf:TextField;
+		var afps_label_tf:TextField;
 		
-		_stats_panel = new Sprite();   
-		_stats_panel.graphics.beginFill(0x555555, 0.4);
-		_stats_panel.graphics.drawRect(0, 0, _WIDTH, _HEIGHT);
-		_stats_panel.graphics.endFill();
+		_top_bar = new Sprite();
+		_top_bar.graphics.beginFill(0, 0);
+		_top_bar.graphics.drawRect(0, 0, _WIDTH, 20);
+		addChild(_top_bar);
 		
-		_stats_panel.graphics.lineStyle(1, 0xaaaaaa);
-		_stats_panel.graphics.moveTo( _DIAG_X, 0 );
-		_stats_panel.graphics.lineTo( _DIAG_X, _DIAG_HEIGHT + 5 );
-		_stats_panel.graphics.moveTo( _DIAG_X - 5, _DIAG_HEIGHT );
-		_stats_panel.graphics.lineTo( _DIAG_X + _DIAG_WIDTH, _DIAG_HEIGHT );
+		logo = new Shape();
+		logo.x = 9;
+		logo.y = 7.5;
+		logo.scaleX = 0.6;
+		logo.scaleY = 0.6;
+		logo.graphics.beginFill(0xffffff, 1);
 		
-		addChild(_stats_panel);
-  		
-		// Add the counters
-		_counters = new Sprite();
-		_counters.x = _DIAG_X;
-		_counters.y = _DIAG_HEIGHT;
-		addChild(_counters);
+		// Left
+		logo.graphics.moveTo(-0.5, -7);
+		logo.graphics.curveTo(-0.5, -7.7, -1, -7);
+		logo.graphics.lineTo(-9, 5);
+		logo.graphics.curveTo(-9.3, 5.5, -8, 5);
+		logo.graphics.curveTo(-1, 1, -0.5, -7);
+		
+		// Right
+		logo.graphics.moveTo(0.5, -7);
+		logo.graphics.curveTo(0.5, -7.7, 1, -7);
+		logo.graphics.lineTo(9, 5);
+		logo.graphics.curveTo(9.3, 5.5, 8, 5);
+		logo.graphics.curveTo(1, 1, 0.5, -7);
+		
+		// Bottom
+		logo.graphics.moveTo(-8, 7);
+		logo.graphics.curveTo(-8.3, 6.7, -7.5, 6.3);
+		logo.graphics.curveTo(0, 2, 7.5, 6.3);
+		logo.graphics.curveTo(8.3, 6.7, 8, 7);
+		logo.graphics.lineTo(-8, 7);
+		_top_bar.addChild(logo);
+		
+		// Color markers 
+		markers = new Shape();
+		markers.graphics.beginFill(0xffffff);
+		markers.graphics.drawRect(20, 7, 4, 4);
+		markers.graphics.beginFill(0x3388dd);
+		markers.graphics.drawRect(77, 7, 4, 4);
+		_top_bar.addChild(markers);
+		
+		// CURRENT FPS
+		fps_label_tf = new TextField();
+		fps_label_tf.defaultTextFormat = _label_format;
+		fps_label_tf.autoSize = TextFieldAutoSize.LEFT;
+		fps_label_tf.text = 'FR:';
+		fps_label_tf.x = 24;
+		fps_label_tf.y = 2;
+		fps_label_tf.selectable = false;
+		_top_bar.addChild(fps_label_tf);
+		
+		_fps_tf = new TextField();
+		_fps_tf.defaultTextFormat = _data_format;
+		_fps_tf.autoSize = TextFieldAutoSize.LEFT;
+		_fps_tf.x = fps_label_tf.x + 16;
+		_fps_tf.y = fps_label_tf.y;
+		_fps_tf.selectable = false;
+		_top_bar.addChild(_fps_tf);
+		
+		// AVG FPS
+		afps_label_tf = new TextField();
+		afps_label_tf.defaultTextFormat = _label_format;
+		afps_label_tf.autoSize = TextFieldAutoSize.LEFT;
+		afps_label_tf.text = 'A:';
+		afps_label_tf.x = 81;
+		afps_label_tf.y = 2;
+		afps_label_tf.selectable = false;
+		_top_bar.addChild(afps_label_tf);
 		
 		_afps_tf = new TextField();
-		addText( "AV/TRG", _afps_tf, 0x3388dd );
+		_afps_tf.defaultTextFormat = _data_format;
+		_afps_tf.autoSize = TextFieldAutoSize.LEFT;
+		_afps_tf.x = afps_label_tf.x + 12;
+		_afps_tf.y = afps_label_tf.y;
+		_afps_tf.selectable = false;
+		_top_bar.addChild(_afps_tf);
 		
-		_ram_tf = new TextField();
-		addText( "RAM", _ram_tf, _MEM_COL );
+		// Minimize / maximize button
+		_min_max_btn = new Sprite();
+		_min_max_btn.x = _WIDTH - 8;
+		_min_max_btn.y = 7;
+		_min_max_btn.graphics.beginFill(0, 0);
+		_min_max_btn.graphics.lineStyle(1, 0xefefef, 1, true);
+		_min_max_btn.graphics.drawRect(-4, -4, 8, 8);
+		_min_max_btn.graphics.moveTo(-3, 2);
+		_min_max_btn.graphics.lineTo(3, 2);
+		_min_max_btn.buttonMode = true;
+		_min_max_btn.addEventListener(MouseEvent.CLICK, _onMinMaxBtnClick);
+		_top_bar.addChild(_min_max_btn);
+	}
+	
+	private function _initBottomBar():Void
+	{
+		var markers:Shape;
+		var ram_label_tf:TextField;
+		var poly_label_tf:TextField;
+		var swhw_label_tf:TextField;
 		
-		_poly_tf = new TextField();
-		addText( "POLY", _poly_tf, _POLY_COL );
-		
-		_vb_ib_tf = new TextField();
-		addText( "VB/IB", _vb_ib_tf, 0xffffff );
-		
-		_draw_tf = new TextField();
-		addText( "DRAWS", _draw_tf, 0xffffff );
-	   	
-		// Graph
-		var graph = new Bitmap( _dia_bmp );
-		_mem_graph = new Shape();
-		graph.x = _mem_graph.x = _DIAG_X;
-		_stats_panel.addChild( graph );
-		_stats_panel.addChild( _mem_graph );
+		_btm_bar = new Sprite();
+		_btm_bar.graphics.beginFill(0, 0.2);
+		_btm_bar.graphics.drawRect(0, 0, _WIDTH, _BOTTOM_BAR_HEIGHT);
+		addChild(_btm_bar);
 		
 		// Hit area for bottom bar (to avoid having textfields
 		// affect interaction badly.)
-		_dragOverlay = new Sprite();
-		_dragOverlay.graphics.beginFill(0, 0);
-		_dragOverlay.graphics.drawRect(0, 1, _WIDTH, _HEIGHT);
-		_stats_panel.addChild(_dragOverlay);
+		_btm_bar_hit = new Sprite();
+		_btm_bar_hit.graphics.beginFill(0xffcc00, 0);
+		_btm_bar_hit.graphics.drawRect(0, 1, _WIDTH, _BOTTOM_BAR_HEIGHT - 1);
+		addChild(_btm_bar_hit);
 		
-		// Current FPS
-		_fps_tf = new TextField();
-		_fps_tf.defaultTextFormat = new TextFormat("_sans", 40, 0xffffff, true, false, false, null, null, TextFormatAlign.CENTER);
-		_fps_tf.width = 60;
-		_fps_tf.x = 10;
-		_fps_tf.y = 55;
-		_fps_tf.selectable = false;
-		_stats_panel.addChild(_fps_tf);
+		// Color markers
+		markers = new Shape();
+		markers.graphics.beginFill(_MEM_COL);
+		markers.graphics.drawRect(5, 4, 4, 4);
+		markers.graphics.beginFill(_POLY_COL);
+		markers.graphics.drawRect(5, 14, 4, 4);
+		_btm_bar.addChild(markers);
 		
-		var logoData = 
-			"iVBORw0KGgoAAAANSUhEUgAAAIAAAABuBAMAAAAdXgYKAAAAD1BMVEUAAAAbq8FN" + 
-			"v9B61+O76fBSwR2CAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAA" + 
-			"D9sAAA/bAQ1E0UgAAAAHdElNRQffBRMIKAYf3Sl8AAAEIElEQVRYw7WY7YHrKAxF" + 
-			"ccYFINNAsm5gHVwAu6b/mh4gEMIfMZB5/Ml4Eh1fCZAEQvzN8cCPsRvwP36obsAm" + 
-			"EWA67Uf9JcAiYFC2GwAR0CdhjABQ65eAee3zwW4a5C8ABg8wXR44AASA7gJYAmht" + 
-			"bRdABwAEgOnwIADk14DBA9YOH6wHvKKCPsBWAEy7BwEgEsC2e8AAuhewxHXgAabV" + 
-			"AxfDXwDIDLCtHhSA9QuASADT6AEBpgiwjQI2DxC/CjBtHhBA6TgNvYCfBLBNHvgY" + 
-			"9gJGAvxbAkwfYNApirbFgwDA4jp3AXwM37E6E8A0eECTwBZCMwDwH0BRtA0hYIBB" + 
-			"EcBUC0jp5DuAjAAggK32wAOAAHOKYhPgnQCuRyGAqfUgpGQCQBcAQBwBttaDHUAR" + 
-			"wNQJcIClBOhmwCsDBuwRqnywNAlAMfSAuRnwzgLQB1vlw0gAnMR/3HKIPtRF0RIA" + 
-			"GzTwy2EKE7lW+WAphk6Asw+A0KuptcYH8mBzO9Hbg28ywGkYWgEv+QiG/uQEoduj" + 
-			"KNqaEGwg3JufNAlOz9wEWLwAyaZRCmXvfRgzwAmY8heDl1ABoJ9Y3x4+hSgkrPc+" + 
-			"ZIB758S/8Y/jrYT8i/8EjwBKEI96wPYUfCegBDnc+pDXsevRJU4fAP7pAXMtYFuO" + 
-			"AC/pbjGynShfII6Au8XINlIMAQcMHrBWATQDoPcIeN5kFZ5OBa6CEiCH6WNWGUmA" + 
-			"CwD5TYCHPz59TK2sIMgrgPpUZEmAy4aPBMhBTIDLElfUxHMAnX5OJbCqfuUCAtaP" + 
-			"gE1jQTgChgC47lV4Y+MB0zngumFjrRmeuE8WEtaJi4Ytd6chExwBYXegD2dda26P" + 
-			"l7h7nxkAkP9WF503nRBib5e2c0rqOSoXnTcJ0GnS/O+T98AiMZ+fHkjAGygH7lLa" + 
-			"kxq2kyPUSAJSc/k6JlUETfrsCDUmAak9PkvrrPM+HANJgJa8lHABqcyExnkvIQtY" + 
-			"imp2+vBDEsz+rO5GLme8uBaFVmgi7G4bNPZD7K2S7PmczDo5Ud7Y5DNS7gomnJCy" + 
-			"0OJRll/MjLs1kIWnFqecUoqj4XdOvL33QyIhbG9/DVFoS6uJXxmVnSXuoAcCwu7k" + 
-			"dNpThgl4ly0NRJMfHXGw71y9BEMXh4U90EibKQ0mEJNburn09sDUc5PiMZ9hMMXH" + 
-			"299gL4tZTmPdyud3fouvMt6HcQv2wOKbB21zGvEwCYEQ7ost2ssc3cI877M4XvGn" + 
-			"geB92MgeMGGR+ty0FSIgNw/+ynpM8YedvS0GQzCHQRnxkEVYzs1LP5Yc8kHxtaPO" + 
-			"1J+JWGCfMkU8XFy+foc47K8igPbD2AWyEKA+qD+IWI4Adf96jlgOab/SPFcwKAVU" + 
-			"qN+JKNO+qn49a6XKJGcbR66CoVyttnlsuYoJbbvG5m3/ABGuVkEUmYMPAAAAAElF" + 
-			"TkSuQmCC";
+		// CURRENT RAM
+		ram_label_tf = new TextField();
+		ram_label_tf.defaultTextFormat = _label_format;
+		ram_label_tf.autoSize = TextFieldAutoSize.LEFT;
+		ram_label_tf.text = 'RAM:';
+		ram_label_tf.x = 10;
+		ram_label_tf.y = _UPPER_Y;
+		ram_label_tf.selectable = false;
+		ram_label_tf.mouseEnabled = false;
+		_btm_bar.addChild(ram_label_tf);
 		
-		_logo = new Sprite();
-		_logo.mouseEnabled = true;
-		_logo.x = _logo.y = 5;
-		_logo.scaleX = _logo.scaleY = 0.5;
-		_stats_panel.addChild(_logo);
+		_ram_tf = new TextField();
+		_ram_tf.defaultTextFormat = _data_format;
+		_ram_tf.autoSize = TextFieldAutoSize.LEFT;
+		_ram_tf.x = ram_label_tf.x + 31;
+		_ram_tf.y = ram_label_tf.y;
+		_ram_tf.selectable = false;
+		_ram_tf.mouseEnabled = false;
+		_btm_bar.addChild(_ram_tf);
 		
-		#if flash
-		var logoLdr:Loader = new Loader();
-		logoLdr.contentLoaderInfo.addEventListener(Event.COMPLETE, onLogoData);
-		logoLdr.loadBytes( haxe.crypto.Base64.decode( logoData ).getData() );
-		#else 
-		var logoBmp = new Bitmap( BitmapData.fromBytes( ByteArray.fromBytes( haxe.crypto.Base64.decode( logoData ) ) ), PixelSnapping.AUTO, true );
-		_logo.addChild( logoBmp );
-		#end
+		// POLY COUNT
+		poly_label_tf = new TextField();
+		poly_label_tf.defaultTextFormat = _label_format;
+		poly_label_tf.autoSize = TextFieldAutoSize.LEFT;
+		poly_label_tf.text = 'POLY:';
+		poly_label_tf.x = 10;
+		poly_label_tf.y = _MID_Y;
+		poly_label_tf.selectable = false;
+		poly_label_tf.mouseEnabled = false;
+		_btm_bar.addChild(poly_label_tf);
+		
+		_poly_tf = new TextField();
+		_poly_tf.defaultTextFormat = _data_format;
+		_poly_tf.autoSize = TextFieldAutoSize.LEFT;
+		_poly_tf.x = poly_label_tf.x + 31;
+		_poly_tf.y = poly_label_tf.y;
+		_poly_tf.selectable = false;
+		_poly_tf.mouseEnabled = false;
+		_btm_bar.addChild(_poly_tf);
+		
+		// SOFTWARE RENDERER WARNING
+		swhw_label_tf = new TextField();
+		swhw_label_tf.defaultTextFormat = _label_format;
+		swhw_label_tf.autoSize = TextFieldAutoSize.LEFT;
+		swhw_label_tf.text = 'DRIV:';
+		swhw_label_tf.x = 10;
+		swhw_label_tf.y = _LOWER_Y;
+		swhw_label_tf.selectable = false;
+		swhw_label_tf.mouseEnabled = false;
+		_btm_bar.addChild(swhw_label_tf);
+		
+		_swhw_tf = new TextField();
+		_swhw_tf.defaultTextFormat = _data_format;
+		_swhw_tf.autoSize = TextFieldAutoSize.LEFT;
+		_swhw_tf.x = swhw_label_tf.x + 31;
+		_swhw_tf.y = swhw_label_tf.y;
+		_swhw_tf.selectable = false;
+		_swhw_tf.mouseEnabled = false;
+		_btm_bar.addChild(_swhw_tf);
 	}
 	
-	private function onLogoData( e:Event )
+	private function _initDiagrams():Void
 	{
-		//var logoBmp = new Bitmap( e.currentTarget.content, PixelSnapping.AUTO, true );	
-		_logo.addChild( cast (e.currentTarget, LoaderInfo).content );
+		
+		_dia_bmp = new BitmapData(_WIDTH, _DIAG_HEIGHT, true, 0);
+		_diagram = new Sprite();
+		_diagram.graphics.beginBitmapFill(_dia_bmp);
+		_diagram.graphics.drawRect(0, 0, _dia_bmp.width, _dia_bmp.height);
+		_diagram.graphics.endFill();
+		_diagram.y = 17;
+		addChild(_diagram);
+		
+		_diagram.graphics.lineStyle(1, 0xffffff, 0.03);
+		_diagram.graphics.moveTo(0, 0);
+		_diagram.graphics.lineTo(_WIDTH, 0);
+		_diagram.graphics.moveTo(0, Math.floor(_dia_bmp.height/2));
+		_diagram.graphics.lineTo(_WIDTH, Math.floor(_dia_bmp.height/2));
+		
+		// FRAME RATE BAR
+		_fps_bar = new Shape();
+		_fps_bar.graphics.beginFill(0xffffff);
+		_fps_bar.graphics.drawRect(0, 0, _WIDTH, 4);
+		_fps_bar.x = 0;
+		_fps_bar.y = 16;
+		addChild(_fps_bar);
+		
+		// AVERAGE FPS
+		_afps_bar = new Shape();
+		_afps_bar.graphics.lineStyle(1, 0x3388dd, 1, false, LineScaleMode.NORMAL, CapsStyle.SQUARE);
+		_afps_bar.graphics.lineTo(0, 4);
+		_afps_bar.y = _fps_bar.y;
+		addChild(_afps_bar);
+		
+		// MINIMUM FPS
+		_lfps_bar = new Shape();
+		_lfps_bar.graphics.lineStyle(1, 0xff0000, 1, false, LineScaleMode.NORMAL, CapsStyle.SQUARE);
+		_lfps_bar.graphics.lineTo(0, 4);
+		_lfps_bar.y = _fps_bar.y;
+		addChild(_lfps_bar);
+		
+		// MAXIMUM FPS
+		_hfps_bar = new Shape();
+		_hfps_bar.graphics.lineStyle(1, 0x00ff00, 1, false, LineScaleMode.NORMAL, CapsStyle.SQUARE);
+		_hfps_bar.graphics.lineTo(0, 4);
+		_hfps_bar.y = _fps_bar.y;
+		addChild(_hfps_bar);
+		
+		_mem_points = [];
+		_mem_graph = new Shape();
+		_mem_graph.y = _diagram.y + _diagram.height;
+		addChildAt(_mem_graph, 0);
 	}
 	
-	private function addText( label:String, txtFld:TextField, col:UInt = 0xffffff )
-	{
-		var lbl = new TextField();
-		lbl.defaultTextFormat = new TextFormat("_sans", 9, col, false);
-		lbl.autoSize = TextFieldAutoSize.LEFT;
-		lbl.text = label+":";
-		lbl.y = _lastTextY;
-		lbl.selectable = false;
-		lbl.mouseEnabled = false;
-		_counters.addChild(lbl);
-		
-		txtFld.defaultTextFormat = _data_format;
-		txtFld.autoSize = TextFieldAutoSize.LEFT;
-		txtFld.x = 45;
-		txtFld.y = lbl.y;
-		txtFld.selectable = false;
-		txtFld.mouseEnabled = false;
-		_counters.addChild(txtFld);
-		
-		_lastTextY += 10;
-	}
-	
-	private function initInteraction():Void
+	private function _initInteraction():Void
 	{
 		// Mouse down to drag on the title
-		_dragOverlay.addEventListener(MouseEvent.MOUSE_DOWN, onDragOverlayMouseDown);
+		_top_bar.addEventListener(MouseEvent.MOUSE_DOWN, _onTopBarMouseDown);
 		
 		// Reset functionality
-		_logo.addEventListener(MouseEvent.CLICK, onResetCounters);
-		_fps_tf.addEventListener(MouseEvent.MOUSE_UP, onResetAvgFPS, false, 1);
+		if (_enable_reset) {
+			_btm_bar.mouseEnabled = false;
+			_btm_bar_hit.addEventListener(MouseEvent.CLICK, _onCountersClick_reset);
+			_afps_tf.addEventListener(MouseEvent.MOUSE_UP, _onAverageFpsClick_reset, false, 1);
+		}
+		
+		// Framerate increase/decrease by clicking on the diagram
+		if (_enable_mod_fr)
+			_diagram.addEventListener(MouseEvent.CLICK, _onDiagramClick);
 	}
 	
-	private function redrawStats():Void
+	private function _redrawWindow():Void
+	{
+		var plate_height:Float = 0;
+		
+		plate_height = _minimized? _MIN_HEIGHT : _MAX_HEIGHT;
+		
+		// Main plate
+		if (!_transparent) {
+			this.graphics.clear();
+			this.graphics.beginFill(0, 0.6);
+			this.graphics.drawRect(0, 0, _WIDTH, plate_height);
+		}
+		
+		// Minimize/maximize button
+		_min_max_btn.rotation = _minimized? 180 : 0;
+		
+		// Position counters
+		_btm_bar.y = plate_height - _BOTTOM_BAR_HEIGHT;
+		_btm_bar_hit.y = _btm_bar.y;
+		
+		// Hide/show diagram for minimized/maximized view respectively
+		_diagram.visible = !_minimized;
+		_mem_graph.visible = !_minimized;
+		_fps_bar.visible = _minimized;
+		_afps_bar.visible = _minimized;
+		_lfps_bar.visible = _minimized;
+		_hfps_bar.visible = _minimized;
+		
+		// Redraw memory graph
+		if (!_minimized)
+			_redrawMemGraph();
+	}
+	
+	private function _redrawStats():Void
 	{
 		var dia_y:Int;
 		
 		// Redraw counters
-		_fps_tf.text = Std.string(_fps);
-		_afps_tf.text = Std.string(Math.round(_avg_fps)) + ("/" + Std.string(stage.frameRate));
-		_ram_tf.text = "not impl"; //getRamString(_ram) + (" / " + getRamString(_max_ram));
+		_fps_tf.text = _fps + '/' + stage.frameRate;
+		_afps_tf.text = Std.string(Math.round(_avg_fps));
+		_ram_tf.text = _getRamString(_ram) + ' / ' + _getRamString(_max_ram);
 		
 		// Move entire diagram
-		_tmp_bmp.fillRect(_tmp_bmp.rect, 0x0);
-		_tmp_bmp.copyPixels( _dia_bmp, _dia_bmp.rect, _DPT);
-		_dia_bmp.fillRect(_dia_bmp.rect, 0x0);
-		_dia_bmp.copyPixels( _tmp_bmp, _dia_bmp.rect, _PT);
+		_dia_bmp.scroll(1, 0);
 		
 		// Only redraw polycount if there is a  view available
 		// or they won't have been calculated properly
 		if (_views.length > 0) {
-			//_poly_tf.text = _rfaces.toString().concat(' / ', _tfaces); // TODO: Total faces not yet available in 4.x
+			//				_poly_tf.text = Std.string(_rfaces).concat(' / ', _tfaces); // TODO: Total faces not yet available in 4.x
 			_poly_tf.text = _rfaces + "";
 			
 			// Plot rendered faces
-			dia_y = _dia_bmp.height - Math.floor(_rfaces / _tfaces * _dia_bmp.height);
+			dia_y = _dia_bmp.height - Math.floor(_rfaces/_tfaces*_dia_bmp.height);
 			_dia_bmp.setPixel32(1, dia_y, _POLY_COL + 0xff000000);
 		} else
-			_poly_tf.text = "n/a (no view)";
+			_poly_tf.text = 'n/a (no view)';
 		
-		_vb_ib_tf.text = Stage3DProxy.vertexBufferCount + " / " + Stage3DProxy.indexBufferCount;
+		// Show software (SW) or hardware (HW)
+		if (!_showing_driv_info) {
+			if (_views != null && _views.length > 0 && _views[0].renderer.stage3DProxy != null && _views[0].renderer.stage3DProxy.context3D != null) {
+				var di:String = _views[0].renderer.stage3DProxy.context3D.driverInfo;
+				_swhw_tf.text = di.substr(0, di.indexOf(' '));
+				_showing_driv_info = true;
+			} else
+				_swhw_tf.text = 'n/a (no view)';
+		}
 		
-		_draw_tf.text = Std.string( Stage3DProxy.drawTriangleCount );
-		
-		dia_y = _dia_bmp.height - Math.floor(_fps / stage.frameRate * _dia_bmp.height);
+		// Plot current framerate
+		dia_y = _dia_bmp.height - Math.floor(_fps/stage.frameRate*_dia_bmp.height);
 		_dia_bmp.setPixel32(1, dia_y, 0xffffffff);
 		
 		// Plot average framerate
-		dia_y = _dia_bmp.height - Math.floor(_avg_fps / stage.frameRate * _dia_bmp.height);
+		dia_y = _dia_bmp.height - Math.floor(_avg_fps/stage.frameRate*_dia_bmp.height);
 		_dia_bmp.setPixel32(1, dia_y, 0xff33bbff);
 		
 		// Redraw diagrams
-		//if (_updates % 5 == 0)
-			//redrawMemGraph();
+		if (_minimized) {
+			_fps_bar.scaleX = Math.min(1, _fps/stage.frameRate);
+			_afps_bar.x = Math.min(1, _avg_fps/stage.frameRate)*_WIDTH;
+			_lfps_bar.x = Math.min(1, _min_fps/stage.frameRate)*_WIDTH;
+			_hfps_bar.x = Math.min(1, _max_fps/stage.frameRate)*_WIDTH;
+		} else if (_updates%5 == 0)
+			_redrawMemGraph();
 		
-		_mem_graph.x = _updates % 5;
+		// Move along regardless of whether the graph
+		// was updated this time around
+		_mem_graph.x = _updates%5;
+		
 		_updates++;
-		
-		//_dia_bmp.draw( _tmp_bmp );
 	}
 	
-	private function redrawMemGraph():Void
+	private function _redrawMemGraph():Void
 	{
 		var i:Int;
 		var g:Graphics;
@@ -507,19 +654,14 @@ class AwayStats extends Sprite
 		_mem_graph.scaleY = 1;
 		g = _mem_graph.graphics;
 		g.clear();
-		g.lineStyle(1, _MEM_COL, 1, true, LineScaleMode.NONE);
+		g.lineStyle(.5, _MEM_COL, 1, true, LineScaleMode.NONE);
 		g.moveTo(5*(_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
 		i = _mem_points.length - 1;
-		
 		while (i >= 0) {
-			trace(" - "+(i * 5)+":"+_mem_points[i]+" "+_mem_points[i + 1]);
-			if (_mem_points[i + 1] == 0 || _mem_points[i] == 0) {
+		if (_mem_points[i + 1] == 0 || _mem_points[i] == 0) {
 				g.moveTo(i*5, -_mem_points[i]);
-				{
-					--i;
-					continue;
-				}
-
+				--i;
+				continue;
 			}
 			
 			g.lineTo(i*5, -_mem_points[i]);
@@ -531,7 +673,7 @@ class AwayStats extends Sprite
 		_mem_graph.scaleY = _dia_bmp.height/max_val;
 	}
 	
-	private function getRamString(ram:Float):String
+	private function _getRamString(ram:Float):String
 	{
 		var ram_unit:String = 'B';
 		
@@ -548,8 +690,6 @@ class AwayStats extends Sprite
 	
 	public function reset():Void
 	{
-		var i:Int;
-		
 		// Reset all values
 		_updates = 0;
 		_num_frames = 0;
@@ -560,22 +700,17 @@ class AwayStats extends Sprite
 		_max_ram = 0;
 		
 		// Reset RAM usage log
-		i = 0;
-		_mem_points = [];
-		while (i < _WIDTH / 5) {
+		for (i in 0...Std.int(_WIDTH/5))
 			_mem_points[i] = 0;
-			i++;
-		}
 		
 		// Reset FPS log if any
 		if (_mean_data != null) {
-			i = 0;
-			while (i < _mean_data.length) {
+			for (i in 0..._mean_data.length)
 				_mean_data[i] = 0.0;
-				i++;
-			}
 		}
 		
+		// Clear diagram graphics
+		_mem_graph.graphics.clear();
 		_dia_bmp.fillRect(_dia_bmp.rect, 0);
 	}
 	
@@ -597,25 +732,24 @@ class AwayStats extends Sprite
 		this.y = Math.round(this.y);
 		
 		_dragging = false;
-		stage.removeEventListener(Event.MOUSE_LEAVE, onMouseUpOrLeave);
-		stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUpOrLeave);
-		stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+		stage.removeEventListener(Event.MOUSE_LEAVE, _onMouseUpOrLeave);
+		stage.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUpOrLeave);
+		stage.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
 	}
 	
 	private function _onAddedToStage(ev:Event):Void
 	{
-		_timer = new Timer(200);
-		_timer.run = onTimer;
-		addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		_timer.start();
+		addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 	}
 	
 	private function _onRemovedFromStage(ev:Event):Void
 	{
 		_timer.stop();
-		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+		removeEventListener(Event.ENTER_FRAME, _onTimer);
 	}
 	
-	private function onTimer():Void
+	private function _onTimer(_):Void
 	{
 		// Store current and max RAM
 		_ram = System.totalMemory;
@@ -623,7 +757,7 @@ class AwayStats extends Sprite
 			_max_ram = _ram;
 		
 		// Remove first, add last
-		if (_updates % 5 == 0) {
+		if (_updates%5 == 0) {
 			_mem_points.unshift(_ram/1024);
 			_mem_points.pop();
 		}
@@ -639,30 +773,15 @@ class AwayStats extends Sprite
 			}
 		}
 		
-		redrawStats();
+		_redrawStats();
 	}
 	
-	private function onEnterFrame(ev:Event):Void
+	private function _onEnterFrame(ev:Event):Void
 	{
-		var currentTime = Timer.stamp ();
-		_times.push (currentTime);
+		var time:Float = Lib.getTimer() - _last_frame_timestamp;
 		
-		while (_times[0] < currentTime - 1) {
-			
-			_times.shift ();
-			
-		}
-		
-		var _currentCount = _times.length;
-		_currentFPS = Math.round ((_currentCount + _cacheCount) / 2);
-		
-		if (_currentCount != _cacheCount /*&& visible*/) {
-			
-			_fps = _currentFPS;
-			
-		}
-		
-		_cacheCount = _currentCount;
+		// Calculate current FPS
+		_fps = Math.floor(1000/time);
 		_fps_sum += _fps;
 		
 		// Update min/max fps
@@ -678,7 +797,7 @@ class AwayStats extends Sprite
 		// the sum reflecting the log entries.
 		if (_mean_data != null) {
 			_mean_data.push(_fps);
-			_fps_sum -= Std.parseInt(_mean_data.shift()) /* WARNING check type */;
+			_fps_sum -= Std.parseFloat(_mean_data.shift()) /* WARNING check type */;
 			
 			// Average = sum of all log entries over
 			// number of log entries.
@@ -690,51 +809,59 @@ class AwayStats extends Sprite
 			_avg_fps = _fps_sum/_num_frames;
 		}
 		
-		_last_frame__timestamp = Lib.getTimer();
+		_last_frame_timestamp = Lib.getTimer();
+	}
+	
+	private function _onDiagramClick(ev:MouseEvent):Void
+	{
+		stage.frameRate -= Math.floor((_diagram.mouseY - _dia_bmp.height/2)/5);
 	}
 	
 	/**
 	 * @private
 	 * Reset just the average FPS counter.
 	 */
-	private function onResetAvgFPS(ev:MouseEvent):Void
+	private function _onAverageFpsClick_reset(ev:MouseEvent):Void
 	{
 		if (!_dragging) {
-			var i:Int;
-			
 			_num_frames = 0;
 			_fps_sum = 0;
 			if (_mean_data != null) {
-				for (i in 0..._mean_data.length) {
+				for (i in 0..._mean_data.length)
 					_mean_data[i] = 0.0;
-				}
 			}
 		}
 	}
 	
-	private function onResetCounters(ev:MouseEvent):Void
+	private function _onCountersClick_reset(ev:MouseEvent):Void
 	{
 		reset();
 	}
 	
-	private function onDragOverlayMouseDown(ev:MouseEvent):Void
+	private function _onMinMaxBtnClick(ev:MouseEvent):Void
+	{
+		_minimized = !_minimized;
+		_redrawWindow();
+	}
+	
+	private function _onTopBarMouseDown(ev:MouseEvent):Void
 	{
 		_drag_dx = this.mouseX;
 		_drag_dy = this.mouseY;
 		
-		stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUpOrLeave);
-		stage.addEventListener(Event.MOUSE_LEAVE, onMouseUpOrLeave);
+		stage.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
+		stage.addEventListener(MouseEvent.MOUSE_UP, _onMouseUpOrLeave);
+		stage.addEventListener(Event.MOUSE_LEAVE, _onMouseUpOrLeave);
 	}
 	
-	private function onMouseMove(ev:MouseEvent):Void
+	private function _onMouseMove(ev:MouseEvent):Void
 	{
 		_dragging = true;
 		this.x = stage.mouseX - _drag_dx;
 		this.y = stage.mouseY - _drag_dy;
 	}
 	
-	private function onMouseUpOrLeave(ev:Event):Void
+	private function _onMouseUpOrLeave(ev:Event):Void
 	{
 		_endDrag();
 	}
