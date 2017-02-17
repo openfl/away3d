@@ -28,7 +28,7 @@ class FontSize
 				var textureType:Class<Dynamic> = Reflect.getProperty(type, "TEXTURE");
 				data = cast(Type.createInstance(dataType, null), Xml);
 				//texture = cast(Type.createInstance(textureType, null), Bitmap).bitmapData;
-				texture = BitmapData.fromBytes(cast(Type.createInstance(textureType, null), Bytes)); // is this correct?
+				texture = BitmapData.fromBytes(cast(Type.createInstance(textureType, []), Bytes)); // is this correct?
 				
 			}catch (e:Error) {
 				throw new Error("Class inheriting from FontSize ("+type+") should have PUBLIC static members FAMILY, SIZE, DATA and TEXTURE.");

@@ -210,19 +210,19 @@ class Loader3D extends ObjectContainer3D
 			var obj:ObjectContainer3D = null;
 			switch (ev.asset.assetType) {
 				case Asset3DType.LIGHT:
-					obj = cast(ev.asset, LightBase);
+					obj = Std.is(ev.asset, LightBase) ? cast ev.asset : null;
 				case Asset3DType.CONTAINER:
-					obj = cast(ev.asset, ObjectContainer3D);
+					obj = Std.is(ev.asset, ObjectContainer3D) ? cast ev.asset : null;
 				case Asset3DType.MESH:
-					obj = cast(ev.asset, Mesh);
+					obj = Std.is(ev.asset, Mesh) ? cast ev.asset : null;
 				case Asset3DType.SKYBOX:
-					obj = cast(ev.asset, SkyBox);
+					obj = Std.is(ev.asset, SkyBox) ? cast ev.asset : null;
 				case Asset3DType.TEXTURE_PROJECTOR:
-					obj = cast(ev.asset, TextureProjector);
+					obj = Std.is(ev.asset, TextureProjector) ? cast ev.asset : null;
 				case Asset3DType.CAMERA:
-					obj = cast(ev.asset, Camera3D);
+					obj = Std.is(ev.asset, Camera3D) ? cast ev.asset : null;
 				case Asset3DType.SEGMENT_SET:
-					obj = cast(ev.asset, SegmentSet);
+					obj = Std.is(ev.asset, SegmentSet) ? cast ev.asset : null;
 			}
 			
 			// If asset was of fitting type, and doesn't

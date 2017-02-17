@@ -58,7 +58,7 @@ class Projector
 	{
 		var child:ObjectContainer3D;
 		if (Std.is(obj, Mesh) && obj.numChildren == 0)
-			remapMesh(cast((obj), Mesh));
+			remapMesh(cast(obj, Mesh));
 		
 		for (i in 0...obj.numChildren) {
 			child = obj.getChildAt(i);

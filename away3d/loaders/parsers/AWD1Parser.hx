@@ -105,7 +105,7 @@ class AWD1Parser extends ParserBase
 		if (resourceDependency.assets.length != 1)
 			return;
 		
-		var asset:Texture2DBase = cast(resourceDependency.assets[0], Texture2DBase);
+		var asset:Texture2DBase = Std.is(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
 		var m:Mesh = retrieveMeshFromID(resourceDependency.id);
 		
 		if (m != null && asset != null) {

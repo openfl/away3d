@@ -96,7 +96,7 @@ class LightsHelper
 		if (materialOwner.material != null) {
 			switch (_state) {
 				case 0:
-					picker = cast(materialOwner.material.lightPicker, StaticLightPicker);
+					picker = Std.is(materialOwner.material.lightPicker, StaticLightPicker) ? cast materialOwner.material.lightPicker : null;
 					if (picker == null || picker.lights != _lightsArray) 
 						materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
 				

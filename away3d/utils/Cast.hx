@@ -3,6 +3,7 @@ package away3d.utils;
 import away3d.errors.CastError;
 import away3d.textures.BitmapTexture;
 
+import haxe.io.Bytes;
 import openfl.display.DisplayObject;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -39,7 +40,10 @@ class Cast
 		if (Std.is(data, ByteArrayData))
 			return data;
 		
-		return cast(data, ByteArray);
+		if (Std.is(data, Bytes))
+			return cast(data, ByteArray);
+		
+		return null;
 	}
 	
 	/*

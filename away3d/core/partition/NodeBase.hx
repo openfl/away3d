@@ -49,7 +49,7 @@ class NodeBase
 	
 	private function set_showDebugBounds(value:Bool):Bool
 	{
-		if (cast((_debugPrimitive != null), Bool) == value)
+		if ((_debugPrimitive != null) == value)
 			return value;
 		
 		if (value)

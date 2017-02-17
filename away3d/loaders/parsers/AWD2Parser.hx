@@ -175,7 +175,7 @@ class AWD2Parser extends ParserBase
 			var thisBitmapTexture:Texture2DBase;
 			var block:AWDBlock;
 			if (isCubeTextureArray.length == 1) {
-				asset = cast(resourceDependency.assets[0], Texture2DBase);
+				asset = Std.is(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
 				if (asset != null) {
 					var mat:TextureMaterial;
 					//var users:Array;

@@ -139,7 +139,7 @@ class DAEParser extends ParserBase
 	{
 		if (resourceDependency.assets.length != 1)
 			return;
-		var resource:Texture2DBase = cast(resourceDependency.assets[0], Texture2DBase);
+		var resource:Texture2DBase = Std.is(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
 		_dependencyCount--;
 		
 		if (resource != null && cast(resource, BitmapTexture).bitmapData != null) {

@@ -94,7 +94,7 @@ class Weld
 		var removedVertCnt:Int = 0;
 		var child:ObjectContainer3D;
 		if (Std.is(obj, Mesh) && obj.numChildren == 0)
-			removedVertCnt += applyToGeom(cast((obj), Mesh).geometry);
+			removedVertCnt += applyToGeom(cast(obj, Mesh).geometry);
 		
 		for (i in 0...obj.numChildren) {
 			child = obj.getChildAt(i);

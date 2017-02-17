@@ -516,9 +516,9 @@ class ShaderCompiler
 		else
 			_combinedLightSources = _diffuseLightSources;
 		
-		_usingSpecularMethod = cast((_methodSetup._specularMethod != null && (
+		_usingSpecularMethod = (_methodSetup._specularMethod != null && (
 			usesLightsForSpecular() ||
-			usesProbesForSpecular())), Bool);
+			usesProbesForSpecular()));
 	}
 
 	/**

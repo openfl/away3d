@@ -79,7 +79,7 @@ class TextField extends Mesh {
 		material = textureMaterial;
 		
 		material.alphaPremultiplied = true;
-		var castMat:SinglePassMaterialBase = cast(material, SinglePassMaterialBase);
+		var castMat:SinglePassMaterialBase = Std.is(material, SinglePassMaterialBase) ? cast material : null;
 		if (castMat != null) {
 			castMat.alphaBlending = true;
 		}
