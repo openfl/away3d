@@ -77,7 +77,7 @@ class SingleObjectDepthPass extends MaterialPassBase
 			}
 		}
 		
-		_textures = new Vector<Map<IRenderable, Texture>>();
+		_textures = new Vector<Map<IRenderable, Texture>>(8);
 		_projections = new Map<IRenderable, Matrix3D>();
 		_projectionTexturesInvalid = false;
 	}
@@ -167,7 +167,7 @@ class SingleObjectDepthPass extends MaterialPassBase
 		// todo: use texture proxy?
 		if (!_textures[contextIndex].exists(renderable))
 			_textures[contextIndex][renderable] = context.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
-		var target:Texture = _textures[contextIndex].get(renderable);
+		var target:Texture = _textures[contextIndex][renderable];
 		
 		stage3DProxy.setRenderTarget(target, true);
 		context.clear(1.0, 1.0, 1.0);

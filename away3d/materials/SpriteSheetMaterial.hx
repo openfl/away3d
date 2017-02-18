@@ -55,7 +55,7 @@ class SpriteSheetMaterial extends TextureMaterial
 	
 	private function initTextures():Void
 	{
-		if (_diffuses != null || _diffuses.length == 0)
+		if (_diffuses == null || _diffuses.length == 0)
 			throw new Error("you must pass at least one bitmapdata into diffuses param!");
 		
 		_TBDiffuse = _diffuses[0];

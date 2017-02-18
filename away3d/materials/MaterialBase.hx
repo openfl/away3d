@@ -119,7 +119,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	
 	private var _lightPicker:LightPickerBase;
 	private var _distanceBasedDepthRender:Bool;
-	private var _depthCompareMode:Context3DCompareMode;
+	private var _depthCompareMode:Context3DCompareMode = Context3DCompareMode.LESS_EQUAL;
 	
 	/**
 	 * Creates a new MaterialBase object.

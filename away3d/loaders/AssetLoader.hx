@@ -165,8 +165,9 @@ class AssetLoader extends EventDispatcher
 				prev.resolve();
 			
 			retrieveNext(parser);
-		} else
+		} else {
 			dispatchEvent(new LoaderEvent(LoaderEvent.RESOURCE_COMPLETE, _uri));
+		}
 	}
 	
 	/**

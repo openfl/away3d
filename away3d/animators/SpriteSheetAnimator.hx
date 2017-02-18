@@ -37,7 +37,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	private var _vectorFrame:Vector<Float>;
 	private var _fps:Int = 10;
 	private var _ms:Int = 100;
-	private var _lastTime:Int;
+	private var _lastTime:Int = 0;
 	private var _reverse:Bool;
 	private var _backAndForth:Bool;
 	private var _specsDirty:Bool;

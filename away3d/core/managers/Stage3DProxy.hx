@@ -199,7 +199,7 @@ class Stage3DProxy extends EventDispatcher
 		
 		_antiAlias = antiAlias;
 		_enableDepthAndStencil = enableDepthAndStencil;
-		
+
 		if (_context3D != null)
 			_context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
 	}
@@ -233,17 +233,14 @@ class Stage3DProxy extends EventDispatcher
 	{
 		if (_renderTarget == target && surfaceSelector == _renderSurfaceSelector && _enableDepthAndStencil == enableDepthAndStencil)
 			return;
-		
 		_renderTarget = target;
 		_renderSurfaceSelector = surfaceSelector;
 		_enableDepthAndStencil = enableDepthAndStencil;
 		
 		if (target != null)
 			_context3D.setRenderToTexture(target, enableDepthAndStencil, _antiAlias, surfaceSelector);
-		else {
+		else
 			_context3D.setRenderToBackBuffer();
-			//_context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil);
-		}
 	}
 	
 	/*
@@ -360,7 +357,7 @@ class Stage3DProxy extends EventDispatcher
 	 */
 	private function get_driverInfo():String
 	{
-		return (_context3D != null) ? _context3D.driverInfo : null;
+		return (_context3D != null)? _context3D.driverInfo : null;
 	}
 	
 	/**
@@ -423,11 +420,11 @@ class Stage3DProxy extends EventDispatcher
 	{
 		if (_viewPort.width == width)
 			return width;
-		
+
 		if(width<50) width = 50;
 		_viewPort.width = _backBufferWidth = width;
 		_backBufferDirty = true;
-		
+
 		notifyViewportUpdated();
 		return width;
 	}
@@ -444,7 +441,7 @@ class Stage3DProxy extends EventDispatcher
 	{
 		if (_viewPort.height == height)
 			return height;
-		
+
 		if(height<50) height = 50;
 		_viewPort.height = _backBufferHeight = height;
 		_backBufferDirty = true;
@@ -595,14 +592,20 @@ class Stage3DProxy extends EventDispatcher
 		// old value (will likely be same if re-requesting.)
 		if (!_usesSoftwareRendering)
 			_usesSoftwareRendering = forceSoftware;
-		
 		_profile = profile;
 		
-		// Enum to string - cast for Flash and Std.string for other platforms, cast doesn't work on windows :( 
-		var renderMode:Context3DRenderMode = (forceSoftware) ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-		_stage3D.requestContext3D( Std.string( renderMode ) );
-
-
+		// ugly stuff for backward compatibility
+		var renderMode:Context3DRenderMode = forceSoftware? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
+		if (profile == "baseline")
+			_stage3D.requestContext3D(renderMode);
+		else {
+			try {
+				_stage3D.requestContext3D(renderMode, profile);
+			} catch (error:Dynamic) {
+				throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
+			}
+		}
+		
 		_contextRequested = true;
 	}
 	
@@ -612,7 +615,10 @@ class Stage3DProxy extends EventDispatcher
 	 */
 	private function onEnterFrame(event:Event):Void
 	{
-		if (_context3D == null) return;
+		if (_context3D == null)
+			return;
+		
+		// Clear the stage3D instance
 		clear();
 		
 		//notify the enterframe listeners

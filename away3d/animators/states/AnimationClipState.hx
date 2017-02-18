@@ -129,7 +129,7 @@ class AnimationClipState extends AnimationStateBase
 		var time:Int = _time;
 		
 		//trace("time", time, totalDuration)
-		if (looping && (time >= totalDuration || time < 0)) {
+		if (looping && (time >= totalDuration || time < 0) && totalDuration > 0) {
 			time %= totalDuration;
 			if (time < 0)
 				time += totalDuration;
@@ -145,7 +145,7 @@ class AnimationClipState extends AnimationStateBase
 			_nextFrame = 0;
 			_blendWeight = 0;
 		} else if (_animationClipNode.fixedFrameRate) {
-			var t:Float = time/totalDuration*lastFrame;
+			var t:Float = totalDuration > 0 ? time/totalDuration*lastFrame : 0;
 			_currentFrame = Std.int(t);
 			_blendWeight = t - _currentFrame;
 			_nextFrame = _currentFrame + 1;
