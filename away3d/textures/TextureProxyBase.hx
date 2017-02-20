@@ -76,6 +76,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		var tex:TextureBase = _textures[contextIndex];
 		var context:Context3D = stage3DProxy._context3D;
 		
+		if (context == null) return null;
+		
 		if (tex == null || _dirty[contextIndex] != context) {
 			_textures[contextIndex] = tex = createTexture(context);
 			_dirty[contextIndex] = context;
