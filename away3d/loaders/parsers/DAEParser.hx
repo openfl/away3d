@@ -295,14 +295,14 @@ class DAEParser extends ParserBase
 		var sub:CompactSubGeometry;
 		var skinned_sub_geom:SkinnedSubGeometry;
 		var primitive:DAEPrimitive;
-		var jointIndices:Vector<UInt>;
+		var jointIndices:Vector<Float>;
 		var jointWeights:Vector<Float>;
 		var i:Int, j:Int, k:Int, l:Int;
 		
 		for (i in 0...geometry.subGeometries.length) {
 			sub = cast(geometry.subGeometries[i], CompactSubGeometry);
 			primitive = mesh.primitives[i];
-			jointIndices = new Vector<UInt>(skin.maxBones * primitive.vertices.length, true);
+			jointIndices = new Vector<Float>(skin.maxBones * primitive.vertices.length, true);
 			jointWeights = new Vector<Float>(skin.maxBones * primitive.vertices.length, true);
 			l = 0;
 			

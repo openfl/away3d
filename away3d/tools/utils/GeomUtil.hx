@@ -16,7 +16,7 @@ class GeomUtil
 	 * Build a list of sub-geometries from raw data vectors, splitting them up in
 	 * such a way that they won't exceed buffer length limits.
 	 */
-	public static function fromVectors(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int = 0):Vector<ISubGeometry>
+	public static function fromVectors(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<Float>, triangleOffset:Int = 0):Vector<ISubGeometry>
 	{
 		
 		
@@ -45,7 +45,7 @@ class GeomUtil
 			var splitNormals:Vector<Float> = (normals != null)? new Vector<Float>() : null;
 			var splitTangents:Vector<Float> = (tangents != null)? new Vector<Float>() : null;
 			var splitWeights:Vector<Float> = (weights != null)? new Vector<Float>() : null;
-			var splitJointIndices:Vector<UInt> = (jointIndices != null)? new Vector<UInt>() : null;
+			var splitJointIndices:Vector<Float> = (jointIndices != null)? new Vector<Float>() : null;
 			
 			var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length/3), true);
 			i = mappings.length;
@@ -72,7 +72,7 @@ class GeomUtil
 					splitNormals = (normals != null)? new Vector<Float>() : null;
 					splitTangents = (tangents != null)? new Vector<Float>() : null;
 					splitWeights = (weights != null)? new Vector<Float>() : null;
-					splitJointIndices = (jointIndices != null)? new Vector<UInt>() : null;
+					splitJointIndices = (jointIndices != null)? new Vector<Float>() : null;
 					splitIndex = 0;
 					j = mappings.length;
 					while (j-- > 0)
@@ -167,7 +167,7 @@ class GeomUtil
 	/**
 	 * Build a sub-geometry from data vectors.
 	 */
-	public static function constructSubGeometry(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<UInt>, triangleOffset:Int):CompactSubGeometry
+	public static function constructSubGeometry(verts:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, weights:Vector<Float>, jointIndices:Vector<Float>, triangleOffset:Int):CompactSubGeometry
 	{
 		var sub:CompactSubGeometry;
 		

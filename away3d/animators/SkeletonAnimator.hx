@@ -365,7 +365,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	{
 		var vertexData:Vector<Float> = subGeom.vertexData;
 		var targetData:Vector<Float> = state.animatedVertexData;
-		var jointIndices:Vector<UInt> = subGeom.jointIndexData;
+		var jointIndices:Vector<Float> = subGeom.jointIndexData;
 		var jointWeights:Vector<Float> = subGeom.jointWeightsData;
 		var index:Int = 0;
 		var j:UInt = 0, k:Int = 0;
@@ -405,7 +405,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 				weight = jointWeights[j];
 				if (weight > 0) {
 					// implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
-					var mtxOffset:Int = jointIndices[j++] << 2;
+					var mtxOffset:Int = Std.int(jointIndices[j++]) << 2;
 					m11 = _globalMatrices[mtxOffset];
 					m12 = _globalMatrices[mtxOffset + 1];
 					m13 = _globalMatrices[mtxOffset + 2];

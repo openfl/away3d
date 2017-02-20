@@ -25,7 +25,7 @@ interface IRenderable extends IMaterialOwner
 	 * return the scene transform.
 	 */
 	function getRenderSceneTransform(camera:Camera3D):Matrix3D;
-
+	
 	/**
 	 * The inverse scene transform object that transforms from world to model space.
 	 */

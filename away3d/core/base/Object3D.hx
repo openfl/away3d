@@ -235,9 +235,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_x(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (_x == val)
 			return val;
 		
@@ -257,9 +254,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_y(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (_y == val)
 			return val;
 		
@@ -279,9 +273,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_z(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (_z == val)
 			return val;
 		
@@ -301,9 +292,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_rotationX(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (rotationX == val)
 			return val;
 		
@@ -323,9 +311,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_rotationY(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (rotationY == val)
 			return val;
 		
@@ -345,9 +330,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_rotationZ(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (rotationZ == val)
 			return val;
 		
@@ -367,9 +349,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_scaleX(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (_scaleX == val)
 			return val;
 		
@@ -389,9 +368,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_scaleY(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (_scaleY == val)
 			return val;
 		
@@ -411,9 +387,6 @@ class Object3D extends NamedAssetBase
 	
 	private function set_scaleZ(val:Float):Float
 	{
-		if (Math.isNaN(val))
-			val = 0;
-		
 		if (_scaleZ == val)
 			return val;
 		
@@ -508,14 +481,14 @@ class Object3D extends NamedAssetBase
 	{
 		return _pivotPoint;
 	}
-
+	
 	private function set_pivotPoint(pivot:Vector3D):Vector3D
 	{
 		if (_pivotPoint == null) _pivotPoint = new Vector3D();
 		_pivotPoint.x = pivot.x;
 		_pivotPoint.y = pivot.y;
 		_pivotPoint.z = pivot.z;
-		
+
 		invalidatePivot();
 		return pivot;
 	}
@@ -539,7 +512,7 @@ class Object3D extends NamedAssetBase
 		invalidatePosition();
 		return value;
 	}
-	
+
 	/**
 	 * Defines the position of the 3d object, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 * @param v the destination Vector3D
@@ -853,7 +826,6 @@ class Object3D extends NamedAssetBase
 	private static var tempAxeX:Vector3D;
 	private static var tempAxeY:Vector3D;
 	private static var tempAxeZ:Vector3D;
-	
 	/**
 	 * Rotates the 3d object around to face a point defined relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 *
@@ -868,20 +840,20 @@ class Object3D extends NamedAssetBase
 		var xAxis:Vector3D = tempAxeX;
 		var yAxis:Vector3D = tempAxeY;
 		var zAxis:Vector3D = tempAxeZ;
-		
+
 		var raw:Vector<Float>;
 		
 		if (upAxis == null) upAxis = Vector3D.Y_AXIS;
-		
+
 		if (_transformDirty) {
 			updateTransform();
 		}
-		
+
 		zAxis.x = target.x - _x;
 		zAxis.y = target.y - _y;
 		zAxis.z = target.z - _z;
 		zAxis.normalize();
-		
+
 		xAxis.x = upAxis.y*zAxis.z - upAxis.z*zAxis.y;
 		xAxis.y = upAxis.z*zAxis.x - upAxis.x*zAxis.z;
 		xAxis.z = upAxis.x*zAxis.y - upAxis.y*zAxis.x;
@@ -893,7 +865,7 @@ class Object3D extends NamedAssetBase
 			xAxis.z = 0;
 			xAxis.normalize();
 		}
-		
+
 		yAxis.x = zAxis.y*xAxis.z - zAxis.z*xAxis.y;
 		yAxis.y = zAxis.z*xAxis.x - zAxis.x*xAxis.z;
 		yAxis.z = zAxis.x*xAxis.y - zAxis.y*xAxis.x;
@@ -949,7 +921,7 @@ class Object3D extends NamedAssetBase
 	/**
 	 * Invalidates the transformation matrix, causing it to be updated upon the next request
 	 */
-	private function invalidateTransform():Void
+	@:allow(away3d) private function invalidateTransform():Void
 	{
 		_transformDirty = true;
 	}
@@ -963,7 +935,7 @@ class Object3D extends NamedAssetBase
 		_rot.x = _rotationX;
 		_rot.y = _rotationY;
 		_rot.z = _rotationZ;
-		
+
 		if (!_pivotZero) {
 			_sca.x = 1;
 			_sca.y = 1;
