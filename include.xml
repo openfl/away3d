@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
 	
+	<haxelib name="openfl" />
+	
 	<window depth-buffer="true" stencil-buffer="true" />
 	
 	<haxelib name="away3d-samples" if="setup" />
