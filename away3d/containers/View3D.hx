@@ -721,7 +721,7 @@ class View3D extends Sprite
 		Stage3DProxy.drawTriangleCount = 0;
 		
 		//if context3D has Disposed by the OS,don't render at this frame
-		if (!stage3DProxy.recoverFromDisposal()) {
+		if (stage3DProxy.context3D == null || !stage3DProxy.recoverFromDisposal()) {
 			_backBufferInvalid = true;
 			return;
 		}
