@@ -43,13 +43,9 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 		super();
 		_subMeshes = new Vector<SubMesh>();
 		
-		this.geometry = geometry;
-		if (this.geometry == null)
-			this.geometry = new Geometry(); //this should never happen, but if people insist on trying to create their meshes before they have geometry to fill it, it becomes necessary
+		this.geometry = geometry != null ? geometry : new Geometry(); //this should never happen, but if people insist on trying to create their meshes before they have geometry to fill it, it becomes necessary
 		
-		this.material = material;
-		if (this.material == null)
-			this.material = DefaultMaterialManager.getDefaultMaterial(this);
+		this.material = material != null ? material : DefaultMaterialManager.getDefaultMaterial(this);
 	}
 	
 	public function bakeTransformations():Void

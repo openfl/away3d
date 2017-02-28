@@ -102,7 +102,7 @@ class LinearExtrude extends Mesh
 		if (material == null && materials != null && materials.front != null)
 			material = materials.front;
 		super(geom, material);
-		
+				
 		_aVectors = vectors;
 		_axis = axis;
 		_offset = offset;
@@ -124,7 +124,7 @@ class LinearExtrude extends Mesh
 	private function buildExtrude():Void
 	{
 		
-		if (_aVectors.length != 0 || _aVectors.length < 2)
+		if (_aVectors == null || _aVectors.length < 2)
 			throw new Error("LinearExtrusion error: at least 2 vector3D required!");
 		if (_closePath)
 			_aVectors.push(new Vector3D(_aVectors[0].x, _aVectors[0].y, _aVectors[0].z));
@@ -273,7 +273,7 @@ class LinearExtrude extends Mesh
 		_centerMesh = val;
 		
 		if (_centerMesh && _subGeometry.vertexData.length > 0)
-			MeshHelper.recenter(this)
+			MeshHelper.recenter(this);
 		else
 			invalidateGeometry();
 		return val;
@@ -388,6 +388,7 @@ class LinearExtrude extends Mesh
 			_vertices = vertices = sglist.vertices;
 			_indices = indices = sglist.indices;
 		} else {
+
 			subGeom = _subGeometry;
 			uvs = _uvs;
 			vertices = _vertices;
@@ -478,7 +479,7 @@ class LinearExtrude extends Mesh
 		var baseMaxZ:Float = _aVectors[0].z;
 		var baseMinZ:Float = _aVectors[0].z;
 		
-		for (i in 0..._aVectors.length) {
+		for (i in 1..._aVectors.length) {
 			baseMaxX = Math.max(_aVectors[i].x, baseMaxX);
 			baseMinX = Math.min(_aVectors[i].x, baseMinX);
 			baseMaxY = Math.max(_aVectors[i].y, baseMaxY);
@@ -714,7 +715,7 @@ class LinearExtrude extends Mesh
 					
 					//right
 					if (renderSide.right) {
-						mat = ((materials != null && materials.right != null)) ? materials.right : this.material;
+						mat = (materials != null && materials.right != null) ? materials.right : this.material;
 						if (_flip) {
 							addFace(v1a, v1b, v1c, _uva, _uvb, _uvc, mat);
 							addFace(v2a, v2b, v2c, _uva, _uvc, _uvd, mat);
@@ -723,23 +724,22 @@ class LinearExtrude extends Mesh
 							addFace(v2b, v2a, v2c, _uvc, _uva, _uvd, mat);
 						}
 					}
+					
+					//left
 					if (renderSide.left) {
-						mat = ((materials != null && materials.left != null)) ? materials.left : this.material;
+						mat = (materials != null && materials.left != null) ? materials.left : this.material;
 						if (_flip) {
 							addFace(v4c, v3b, v3a, _uvd, _uvb, _uva, mat, true);
 							addFace(v4c, v4b, v3b, _uvd, _uvc, _uvb, mat, true);
-						}
-
-						else {
+						} else {
 							addFace(v3b, v4c, v3a, _uvb, _uvd, _uva, mat, true);
 							addFace(v4b, v4c, v3b, _uvc, _uvd, _uvb, mat, true);
 						}
-
 					}
 					
 					//back
 					if (i == 0 && renderSide.back) {
-						mat = ((materials != null && materials.back != null)) ? materials.back : this.material;
+						mat = (materials != null && materials.back != null) ? materials.back : this.material;
 						if (_flip) {
 							addFace(v3a, v3b, v1b, _uva, _uvb, _uvc, mat);
 							addFace(v3a, v1b, v1a, _uva, _uvc, _uvd, mat);
@@ -751,19 +751,19 @@ class LinearExtrude extends Mesh
 					
 					//bottom
 					if (j == 0 && renderSide.bottom) {
-						mat = ((materials != null && materials.bottom != null)) ? materials.bottom : this.material;
+						mat = (materials != null && materials.bottom != null) ? materials.bottom : this.material;
 						addThicknessSubdivision([v4c, v3a], [v2c, v1a], _uvd.u, _uvb.u, mat);
 					}
 					
 					//top
 					if (j == _subdivision - 1 && renderSide.top) {
-						mat = ((materials != null && materials.top != null)) ? materials.top : this.material;
+						mat = (materials != null && materials.top != null) ? materials.top : this.material;
 						addThicknessSubdivision([v3b, v3c], [v1b, v1c], _uva.u, _uvc.u, mat);
 					}
 					
 					//front 
 					if (i == _aVectors.length - 2 && renderSide.front) {
-						mat = ((materials != null && materials.front != null)) ? materials.front : this.material;
+						mat = (materials != null && materials.front != null) ? materials.front : this.material;
 						if (_flip) {
 							addFace(v2c, v2b, v3c, _uva, _uvb, _uvc, mat);
 							addFace(v2c, v3c, v4c, _uva, _uvc, _uvd, mat);
@@ -989,7 +989,7 @@ class LinearExtrude extends Mesh
 	
 	private function isFinite(ptx:Float):Bool
 	{
-		return (Math.POSITIVE_INFINITY == (ptx) || Math.POSITIVE_INFINITY == (ptx));
+		return (Math.NEGATIVE_INFINITY != ptx && Math.POSITIVE_INFINITY != ptx);
 	}
 	
 	private function lineIntersect(Line1:Line, Line2:Line):Point
