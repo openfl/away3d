@@ -543,7 +543,7 @@ class LinearExtrude extends Mesh
 			renderSide = new RenderSide();
 			
 			for (i in 0...aListsides.length)
-				Reflect.setField(renderSide, aListsides[i], (_ignoreSides.indexOf(aListsides[i]) == -1));
+				Reflect.setProperty(renderSide, aListsides[i], (_ignoreSides.indexOf(aListsides[i]) == -1));
 			
 			switch(_axis) {
 				case LinearExtrude.X_AXIS:
@@ -575,28 +575,28 @@ class LinearExtrude extends Mesh
 				points = aLines[i];
 				
 				if (i == 0) {
-					Reflect.setField(vector, prop1, points.pt2.x);
-					Reflect.setField(vector, prop2, points.pt2.y);
-					Reflect.setField(vector, prop3, Reflect.field(_aVectors[0], prop3));
+					Reflect.setProperty(vector, prop1, points.pt2.x);
+					Reflect.setProperty(vector, prop2, points.pt2.y);
+					Reflect.setProperty(vector, prop3, Reflect.getProperty(_aVectors[0], prop3));
 					_varr.push(new Vertex(vector.x, vector.y, vector.z));
 					
-					Reflect.setField(vector2, prop1, points.pt1.x);
-					Reflect.setField(vector2, prop2, points.pt1.y);
-					Reflect.setField(vector2, prop3, Reflect.field(_aVectors[0], prop3));
+					Reflect.setProperty(vector2, prop1, points.pt1.x);
+					Reflect.setProperty(vector2, prop2, points.pt1.y);
+					Reflect.setProperty(vector2, prop3, Reflect.getProperty(_aVectors[0], prop3));
 					_varr2.push(new Vertex(vector2.x, vector2.y, vector2.z));
 					
 					elevate(vector, vector2, increase);
 					
 					if (aLines.length == 1) {
 						
-						Reflect.setField(vector3, prop1, points.pt4.x);
-						Reflect.setField(vector3, prop2, points.pt4.y);
-						Reflect.setField(vector3, prop3, Reflect.field(_aVectors[0], prop3));
+						Reflect.setProperty(vector3, prop1, points.pt4.x);
+						Reflect.setProperty(vector3, prop2, points.pt4.y);
+						Reflect.setProperty(vector3, prop3, Reflect.getProperty(_aVectors[0], prop3));
 						_varr.push(new Vertex(vector3.x, vector3.y, vector3.z));
 						
-						Reflect.setField(vector4, prop1, points.pt3.x);
-						Reflect.setField(vector4, prop2, points.pt3.y);
-						Reflect.setField(vector4, prop3, Reflect.field(_aVectors[0], prop3));
+						Reflect.setProperty(vector4, prop1, points.pt3.x);
+						Reflect.setProperty(vector4, prop2, points.pt3.y);
+						Reflect.setProperty(vector4, prop3, Reflect.getProperty(_aVectors[0], prop3));
 						_varr2.push(new Vertex(vector4.x, vector4.y, vector4.z));
 						
 						elevate(vector3, vector4, increase);
@@ -604,40 +604,40 @@ class LinearExtrude extends Mesh
 					
 				} else if (i == aLines.length - 1) {
 					
-					Reflect.setField(vector, prop1, points.pt2.x);
-					Reflect.setField(vector, prop2, points.pt2.y);
-					Reflect.setField(vector, prop3, Reflect.field(_aVectors[i], prop3));
+					Reflect.setProperty(vector, prop1, points.pt2.x);
+					Reflect.setProperty(vector, prop2, points.pt2.y);
+					Reflect.setProperty(vector, prop3, Reflect.getProperty(_aVectors[i], prop3));
 					_varr.push(new Vertex(vector.x, vector.y, vector.z));
 					
-					Reflect.setField(vector2, prop1, points.pt1.x);
-					Reflect.setField(vector2, prop2, points.pt1.y);
-					Reflect.setField(vector2, prop3, Reflect.field(_aVectors[i], prop3));
+					Reflect.setProperty(vector2, prop1, points.pt1.x);
+					Reflect.setProperty(vector2, prop2, points.pt1.y);
+					Reflect.setProperty(vector2, prop3, Reflect.getProperty(_aVectors[i], prop3));
 					_varr2.push(new Vertex(vector2.x, vector2.y, vector2.z));
 					
 					elevate(vector, vector2, increase);
 					
-					Reflect.setField(vector3, prop1, points.pt4.x);
-					Reflect.setField(vector3, prop2, points.pt4.y);
-					Reflect.setField(vector3, prop3, Reflect.field(_aVectors[i], prop3));
+					Reflect.setProperty(vector3, prop1, points.pt4.x);
+					Reflect.setProperty(vector3, prop2, points.pt4.y);
+					Reflect.setProperty(vector3, prop3, Reflect.getProperty(_aVectors[i], prop3));
 					_varr.push(new Vertex(vector3.x, vector3.y, vector3.z));
 					
-					Reflect.setField(vector4, prop1, points.pt3.x);
-					Reflect.setField(vector4, prop2, points.pt3.y);
-					Reflect.setField(vector4, prop3, Reflect.field(_aVectors[i], prop3));
+					Reflect.setProperty(vector4, prop1, points.pt3.x);
+					Reflect.setProperty(vector4, prop2, points.pt3.y);
+					Reflect.setProperty(vector4, prop3, Reflect.getProperty(_aVectors[i], prop3));
 					_varr2.push(new Vertex(vector4.x, vector4.y, vector4.z));
 					
 					elevate(vector3, vector4, increase);
 					
 				} else {
 					
-					Reflect.setField(vector, prop1, points.pt2.x);
-					Reflect.setField(vector, prop2, points.pt2.y);
-					Reflect.setField(vector, prop3, Reflect.field(_aVectors[i], prop3));
+					Reflect.setProperty(vector, prop1, points.pt2.x);
+					Reflect.setProperty(vector, prop2, points.pt2.y);
+					Reflect.setProperty(vector, prop3, Reflect.getProperty(_aVectors[i], prop3));
 					_varr.push(new Vertex(vector.x, vector.y, vector.z));
 					
-					Reflect.setField(vector2, prop1, points.pt1.x);
-					Reflect.setField(vector2, prop2, points.pt1.y);
-					Reflect.setField(vector2, prop3, Reflect.field(_aVectors[i], prop3));
+					Reflect.setProperty(vector2, prop1, points.pt1.x);
+					Reflect.setProperty(vector2, prop2, points.pt1.y);
+					Reflect.setProperty(vector2, prop3, Reflect.getProperty(_aVectors[i], prop3));
 					_varr2.push(new Vertex(vector2.x, vector2.y, vector2.z));
 					
 					elevate(vector, vector2, increase);
@@ -653,7 +653,7 @@ class LinearExtrude extends Mesh
 				_varr.push(new Vertex(vector.x, vector.y, vector.z));
 				
 				for (j in 0..._subdivision) {
-					Reflect.setField(vector, _axis, Reflect.field(vector, _axis) + increase);
+					Reflect.setProperty(vector, _axis, Reflect.getProperty(vector, _axis) + increase);
 					_varr.push(new Vertex(vector.x, vector.y, vector.z));
 				}
 			}
@@ -797,7 +797,7 @@ class LinearExtrude extends Mesh
 		var index:Int = 0;
 		var v1:Float = 0;
 		var v2:Float = 0;
-		var tmp = new Vector<Dynamic>();
+		var tmp = new Vector<Vertex>();
 		
 		for (i in 0...points1.length) {
 			stepx = (points2[i].x - points1[i].x)/_thicknessSubdivision;
@@ -842,13 +842,13 @@ class LinearExtrude extends Mesh
 	
 	}
 	
-	private function elevate(v0:Dynamic, v1:Dynamic, increase:Float):Void
+	private function elevate(v0:Vertex, v1:Vertex, increase:Float):Void
 	{
 		for (i in 0..._subdivision) {
-			Reflect.setField(v0, _axis, Reflect.field(v0, _axis) + increase);
-			Reflect.setField(v1, _axis, Reflect.field(v1, _axis) + increase);
-			_varr.push(new Vertex(Reflect.field(v0, X_AXIS), Reflect.field(v0, Y_AXIS), Reflect.field(v0, Z_AXIS)));
-			_varr2.push(new Vertex(Reflect.field(v1, X_AXIS), Reflect.field(v1, Y_AXIS), Reflect.field(v1, Z_AXIS)));
+			Reflect.setProperty(v0, _axis, Reflect.getProperty(v0, _axis) + increase);
+			Reflect.setProperty(v1, _axis, Reflect.getProperty(v1, _axis) + increase);
+			_varr.push(new Vertex( v0.x, v0.y, v0.z ));
+			_varr2.push(new Vertex( v1.x, v1.y, v1.z ));
 		}
 	}
 	
@@ -859,14 +859,14 @@ class LinearExtrude extends Mesh
 		
 		for (i in 0..._aVectors.length - 1) {
 			
-			if (Reflect.field(_aVectors[i], prop1) == 0 && Reflect.field(_aVectors[i], prop2) == 0)
-				Reflect.setField(_aVectors[i], prop1, EPS);
+			if (Reflect.getProperty(_aVectors[i], prop1) == 0 && Reflect.getProperty(_aVectors[i], prop2) == 0)
+				Reflect.setProperty(_aVectors[i], prop1, EPS);
 			
-			if (Reflect.field(_aVectors[i + 1], prop2) && Reflect.field(_aVectors[i], prop2) == Reflect.field(_aVectors[i + 1], prop2))
-				Reflect.setField(_aVectors[i + 1], prop2, Reflect.field(_aVectors[i + 1], prop2) + EPS);
+			if (Reflect.getProperty(_aVectors[i + 1], prop2) && Reflect.getProperty(_aVectors[i], prop2) == Reflect.getProperty(_aVectors[i + 1], prop2))
+				Reflect.setProperty(_aVectors[i + 1], prop2, Reflect.getProperty(_aVectors[i + 1], prop2) + EPS);
 			
-			if (Reflect.field(_aVectors[i], prop1) && Reflect.field(_aVectors[i], prop1) == Reflect.field(_aVectors[i + 1], prop1))
-				Reflect.setField(_aVectors[i + 1], prop1, Reflect.field(_aVectors[i + 1], prop1) + EPS);
+			if (Reflect.getProperty(_aVectors[i], prop1) && Reflect.getProperty(_aVectors[i], prop1) == Reflect.getProperty(_aVectors[i + 1], prop1))
+				Reflect.setProperty(_aVectors[i + 1], prop1, Reflect.getProperty(_aVectors[i + 1], prop1) + EPS);
 			
 			anchors.push(defineAnchors(_aVectors[i], _aVectors[i + 1], prop1, prop2));
 		}
@@ -949,15 +949,15 @@ class LinearExtrude extends Mesh
 	
 	private function defineAnchors(base:Vector3D, baseEnd:Vector3D, prop1:String, prop2:String):FourPoints
 	{
-		var angle:Float = (Math.atan2(Reflect.field(base, prop2) - Reflect.field(baseEnd, prop2), Reflect.field(base, prop1) - Reflect.field(baseEnd, prop1)) * 180) / Math.PI;
+		var angle:Float = (Math.atan2(Reflect.getProperty(base, prop2) - Reflect.getProperty(baseEnd, prop2), Reflect.getProperty(base, prop1) - Reflect.getProperty(baseEnd, prop1)) * 180) / Math.PI;
 		angle -= 270;
 		var angle2:Float = angle + 180;
 		
 		var fourPoints:FourPoints = new FourPoints();
-		fourPoints.pt1 = new Point(Reflect.field(base, prop1), Reflect.field(base, prop2));
-		fourPoints.pt2 = new Point(Reflect.field(base, prop1), Reflect.field(base, prop2));
-		fourPoints.pt3 = new Point(Reflect.field(baseEnd, prop1), Reflect.field(baseEnd, prop2));
-		fourPoints.pt4 = new Point(Reflect.field(baseEnd, prop1), Reflect.field(baseEnd, prop2));
+		fourPoints.pt1 = new Point(Reflect.getProperty(base, prop1), Reflect.getProperty(base, prop2));
+		fourPoints.pt2 = new Point(Reflect.getProperty(base, prop1), Reflect.getProperty(base, prop2));
+		fourPoints.pt3 = new Point(Reflect.getProperty(baseEnd, prop1), Reflect.getProperty(baseEnd, prop2));
+		fourPoints.pt4 = new Point(Reflect.getProperty(baseEnd, prop1), Reflect.getProperty(baseEnd, prop2));
 		
 		var radius:Float = _thickness * .5;
 		
