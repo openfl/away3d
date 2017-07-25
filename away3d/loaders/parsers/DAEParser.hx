@@ -124,7 +124,7 @@ class DAEParser extends ParserBase
 	 */
 	public static function supportsData(data:Dynamic):Bool
 	{
-		var text:String = Std.is(data, String) ? data : (Std.is(data, ByteArrayData) ? data.readUTFBytes(data.length) : "");
+		var text = Std.string (data);
 		if (text.indexOf("COLLADA") != -1 || text.indexOf("collada") != -1)
 			return true;
 		
