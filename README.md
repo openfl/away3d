@@ -1,4 +1,4 @@
-[![Apache 2.0 License](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](LICENSE.md) [![Haxelib Version](https://img.shields.io/github/tag/openfl/away3d.svg?style=flat&label=haxelib)](http://lib.haxe.org/p/away3d) [![Build Status](https://img.shields.io/travis/openfl/away3d.svg?style=flat)](https://travis-ci.org/openfl/away3d)
+[![Apache 2.0 License](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](LICENSE.md) [![Haxelib Version](https://img.shields.io/github/tag/openfl/away3d.svg?style=flat&label=haxelib)](http://lib.haxe.org/p/away3d) [![Build Status](https://img.shields.io/circleci/project/github/openfl/away3d/master.svg)](https://circleci.com/gh/openfl/away3d)
 
 Away3D
 ======
