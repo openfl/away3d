@@ -3,11 +3,12 @@ package away3d.textures;
 import away3d.materials.utils.MipmapGenerator;
 import away3d.tools.utils.TextureUtils;
 
+import lime.utils.UInt8Array;
+
 import openfl.display.BitmapData;
 import openfl.display3D.textures.Texture;
 import openfl.display3D.textures.TextureBase;
 import openfl.errors.Error;
-import openfl.utils.UInt8Array;
 import openfl.utils.ByteArray;
 
 class BitmapTexture extends Texture2DBase
