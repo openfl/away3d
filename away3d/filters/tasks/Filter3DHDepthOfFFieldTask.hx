@@ -32,7 +32,7 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase
 	{
 		super(true);
 		_maxBlur = maxBlur;
-		_data = Vector.ofArray([ 0.0, 0.0, 0.0, _focusDistance, 0.0, 0.0, 0.0, 0.0, _range, 0.0, 0.0, 0.0, 1.0, 1.0 / 255.0, 1 / 65025.0, 1 / 16581375.0 ]);
+		_data = Vector.ofArray([ 0.0, 0.0, 0.0, _focusDistance, 0.0, 0.0, 0.0, 0.0, (_range != 0 ? 1 / _range : 0), 0.0, 0.0, 0.0, 1.0, 1.0 / 255.0, 1 / 65025.0, 1 / 16581375.0 ]);
 		this.stepSize = stepSize;
 	}
 	
@@ -60,7 +60,7 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase
 	private function set_range(value:Float):Float
 	{
 		_range = value;
-		_data[8] = 1 / value;
+		_data[8] = (_range != 0 ? 1 / _range : 0);
 		return value;
 	}
 	
