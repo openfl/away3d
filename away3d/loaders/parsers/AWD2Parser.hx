@@ -1161,7 +1161,7 @@ class AWD2Parser extends ParserBase
 			if (!assetVO.enable && (lightPickerAddr != 0))
 				_blocks[blockID].addError("Could not find the LightPicker (ID = " + lightPickerAddr + " ) for this TextureMaterial");
 			else {
-				cast(mat, MaterialBase).lightPicker = cast(assetVO.data, LightPickerBase);
+				cast(mat, MaterialBase).lightPicker = Std.is(assetVO.data, LightPickerBase) ? cast assetVO.data : null;
 				//debugString+=" | Lightpicker-Name = "+LightPickerBase(returnedArray[1]).name;
 			}
 			
@@ -1381,6 +1381,7 @@ class AWD2Parser extends ParserBase
 			data_len = _newBlockBytes.readUnsignedInt();
 			var data:ByteArray;
 			data = new ByteArray();
+			data.endian = BIG_ENDIAN;
 			_newBlockBytes.readBytes(data, 0, data_len);
 			addDependency(Std.string(_cur_block_id), null, false, data, true);
 		}
@@ -1419,6 +1420,7 @@ class AWD2Parser extends ParserBase
 				data_len = _newBlockBytes.readUnsignedInt();
 				var data:ByteArray;
 				data = new ByteArray();
+				data.endian = BIG_ENDIAN;
 				_newBlockBytes.readBytes(data, 0, data_len);
 				addDependency(Std.string(_cur_block_id) + "#" + i, null, false, data, true);
 			}
