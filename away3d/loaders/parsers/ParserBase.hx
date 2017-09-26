@@ -39,7 +39,7 @@ import openfl.Vector;
  * @see away3d.loading.parsers.AssetLoader
  * @see away3d.loading.ResourceManager
  */
-class ParserBase extends EventDispatcher
+@:keepSub class ParserBase extends EventDispatcher
 {
 	@:allow(away3d) private var _fileName:String;
 	private var _dataFormat:String;
