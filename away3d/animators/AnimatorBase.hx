@@ -1,7 +1,6 @@
 package away3d.animators;
 
 import away3d.animators.nodes.AnimationNodeBase;
-import away3d.animators.states.AnimationStateBase;
 import away3d.animators.states.IAnimationState;
 import away3d.entities.Mesh;
 import away3d.events.AnimatorEvent;
@@ -42,7 +41,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	private var _activeState:IAnimationState;
 	private var _activeAnimationName:String;
 	private var _absoluteTime:Int = 0;
-	private var _animationStates:Map<AnimationNodeBase, AnimationStateBase> = new Map();
+	private var _animationStates:Map<AnimationNodeBase, IAnimationState> = new Map();
 	
 	/**
 	 * Enables translation of the animated mesh from data returned per frame via the positionDelta property of the active animation node. Defaults to true.
@@ -51,17 +50,17 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 */
 	public var updatePosition:Bool = true;
 
-	public function getAnimationState(node:AnimationNodeBase):AnimationStateBase
+	public function getAnimationState(node:AnimationNodeBase):IAnimationState
 	{
 		var className:Class<IAnimationState> = node.stateClass;
 		
 		if (!_animationStates.exists(node))
-			_animationStates.set(node, cast(Type.createInstance(className, [this, node]), AnimationStateBase));
+			_animationStates.set(node, cast(Type.createInstance(className, [this, node]), IAnimationState));
 		
 		return _animationStates.get(node);
 	}
 	
-	public function getAnimationStateByName(name:String):AnimationStateBase
+	public function getAnimationStateByName(name:String):IAnimationState
 	{
 		return getAnimationState(_animationSet.getAnimation(name));
 	}
