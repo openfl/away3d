@@ -50,9 +50,9 @@ interface IAnimator
 	 */
 	function removeOwner(mesh:Mesh):Void;
 	
-	function getAnimationState(node:AnimationNodeBase):AnimationStateBase;
+	function getAnimationState(node:AnimationNodeBase):IAnimationState;
 	
-	function getAnimationStateByName(name:String):AnimationStateBase;
+	function getAnimationStateByName(name:String):IAnimationState;
 	
 	/**
 	 * Returns a shallow clone (re-using the same IAnimationSet) of this IAnimator.
