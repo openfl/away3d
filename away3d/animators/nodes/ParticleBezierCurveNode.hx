@@ -50,7 +50,7 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	{
 		super("ParticleBezierCurve", mode, 6);
 		
-		_stateClass = ParticleBezierCurveState;
+		_stateConstructor = cast ParticleBezierCurveState.new;
 		
 		_controlPoint = controlPoint;
 		if (_controlPoint == null)

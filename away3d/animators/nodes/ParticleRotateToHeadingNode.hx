@@ -22,7 +22,7 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 	{
 		super("ParticleRotateToHeading", ParticlePropertiesMode.GLOBAL, 0, 3);
 		
-		_stateClass = ParticleRotateToHeadingState;
+		_stateConstructor = cast ParticleRotateToHeadingState.new;
 	}
 	
 	/**

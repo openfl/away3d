@@ -36,7 +36,7 @@ class ParticleFollowNode extends ParticleNodeBase
 	 */
 	public function new(usesPosition:Bool = true, usesRotation:Bool = true, smooth:Bool = false)
 	{
-		_stateClass = ParticleFollowState;
+		_stateConstructor = cast ParticleFollowState.new;
 		
 		_usesPosition = usesPosition;
 		_usesRotation = usesRotation;

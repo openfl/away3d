@@ -36,7 +36,7 @@ class ParticleInitialColorNode extends ParticleNodeBase
 	
 	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = false, initialColor:ColorTransform = null)
 	{
-		_stateClass = ParticleInitialColorState;
+		_stateConstructor = cast ParticleInitialColorState.new;
 		
 		_usesMultiplier = usesMultiplier;
 		_usesOffset = usesOffset;

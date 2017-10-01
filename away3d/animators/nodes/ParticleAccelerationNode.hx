@@ -37,7 +37,7 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	{
 		super("ParticleAcceleration", mode, 3);
 		
-		_stateClass = ParticleAccelerationState;
+		_stateConstructor = cast ParticleAccelerationState.new;
 		
 		_acceleration = acceleration;
 		if (_acceleration == null)_acceleration = new Vector3D();

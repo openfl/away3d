@@ -36,7 +36,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 	{
 		super("ParticleRotateToPosition", mode, 3, 3);
 		
-		_stateClass = ParticleRotateToPositionState;
+		_stateConstructor = cast ParticleRotateToPositionState.new;
 		
 		_position = position;
 		if (_position == null)

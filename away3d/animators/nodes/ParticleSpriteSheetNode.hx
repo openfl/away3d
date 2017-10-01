@@ -101,7 +101,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 		}
 		super("ParticleSpriteSheet", mode, len, ParticleAnimationSet.POST_PRIORITY + 1);
 		
-		_stateClass = ParticleSpriteSheetState;
+		_stateConstructor = cast ParticleSpriteSheetState.new;
 		
 		_usesCycle = usesCycle;
 		_usesPhase = usesPhase;

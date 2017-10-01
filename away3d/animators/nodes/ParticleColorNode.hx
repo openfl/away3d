@@ -82,7 +82,7 @@ class ParticleColorNode extends ParticleNodeBase
 	 */
 	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, startColor:ColorTransform = null, endColor:ColorTransform = null, cycleDuration:Float = 1, cyclePhase:Float = 0)
 	{
-		_stateClass = ParticleColorState;
+		_stateConstructor = cast ParticleColorState.new;
 		
 		_usesMultiplier = usesMultiplier;
 		_usesOffset = usesOffset;

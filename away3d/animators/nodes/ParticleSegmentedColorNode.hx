@@ -38,7 +38,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 	
 	public function new(usesMultiplier:Bool, usesOffset:Bool, numSegmentPoint:Int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector<ColorSegmentPoint>)
 	{
-		_stateClass = ParticleSegmentedColorState;
+		_stateConstructor = cast ParticleSegmentedColorState.new;
 		
 		//because of the stage3d register limitation, it only support the global mode
 		super("ParticleSegmentedColor", ParticlePropertiesMode.GLOBAL, 0, ParticleAnimationSet.COLOR_PRIORITY);

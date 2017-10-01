@@ -32,7 +32,7 @@ class ParticleSegmentedScaleNode extends ParticleNodeBase
 	 */
 	public function new(numSegmentPoint:Int, startScale:Vector3D, endScale:Vector3D, segmentScales:Vector<Vector3D>)
 	{
-		_stateClass = ParticleSegmentedScaleState;
+		_stateConstructor = cast ParticleSegmentedScaleState.new;
 		
 		//because of the stage3d register limitation, it only support the global mode
 		super("ParticleSegmentedScale", ParticlePropertiesMode.GLOBAL, 0, 3);

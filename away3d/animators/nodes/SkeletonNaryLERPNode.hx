@@ -25,7 +25,7 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 	 */
 	public function new()
 	{
-		_stateClass = SkeletonNaryLERPState;
+		_stateConstructor = cast SkeletonNaryLERPState.new;
 		super();
 	}
 	

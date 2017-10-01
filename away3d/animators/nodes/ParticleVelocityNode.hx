@@ -37,7 +37,7 @@ class ParticleVelocityNode extends ParticleNodeBase
 	{
 		super("ParticleVelocity", mode, 3);
 		
-		_stateClass = ParticleVelocityState;
+		_stateConstructor = cast ParticleVelocityState.new;
 		
 		_velocity = velocity;
 		if (_velocity == null)
