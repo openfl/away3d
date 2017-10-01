@@ -27,7 +27,7 @@ class UVClipNode extends AnimationClipNodeBase
 	 */
 	public function new()
 	{
-		_stateClass = UVClipState;
+		_stateConstructor = cast UVClipState.new;
 		super();
 	}
 	

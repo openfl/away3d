@@ -52,10 +52,10 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 
 	public function getAnimationState(node:AnimationNodeBase):IAnimationState
 	{
-		var className:Class<IAnimationState> = node.stateClass;
+		var stateConstructor:IAnimator -> AnimationNodeBase -> IAnimationState = node.stateConstructor;
 		
 		if (!_animationStates.exists(node))
-			_animationStates.set(node, cast(Type.createInstance(className, [this, node]), IAnimationState));
+			_animationStates.set(node,stateConstructor(cast(this, IAnimator), node));
 		
 		return _animationStates.get(node);
 	}

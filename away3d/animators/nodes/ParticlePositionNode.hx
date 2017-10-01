@@ -37,7 +37,7 @@ class ParticlePositionNode extends ParticleNodeBase
 	{
 		super("ParticlePosition", mode, 3);
 		
-		_stateClass = ParticlePositionState;
+		_stateConstructor = cast ParticlePositionState.new;
 
 		_position = position;
 		if (_position == null)

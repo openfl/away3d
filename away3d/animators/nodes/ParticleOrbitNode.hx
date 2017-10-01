@@ -64,7 +64,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 			len++;
 		super("ParticleOrbit", mode, len);
 		
-		_stateClass = ParticleOrbitState;
+		_stateConstructor = cast ParticleOrbitState.new;
 		
 		_usesEulers = usesEulers;
 		_usesCycle = usesCycle;

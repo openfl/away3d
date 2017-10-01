@@ -27,7 +27,7 @@ class ParticleBillboardNode extends ParticleNodeBase
 	{
 		super("ParticleBillboard", ParticlePropertiesMode.GLOBAL, 0, 4);
 		
-		_stateClass = ParticleBillboardState;
+		_stateConstructor = cast ParticleBillboardState.new;
 		
 		_billboardAxis = billboardAxis;
 	}

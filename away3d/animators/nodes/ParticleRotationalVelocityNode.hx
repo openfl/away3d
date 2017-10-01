@@ -34,7 +34,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	 */
 	public function new(mode:Int, rotationalVelocity:Vector3D = null)
 	{
-		_stateClass = ParticleRotationalVelocityState;
+		_stateConstructor = cast ParticleRotationalVelocityState.new;
 		
 		super("ParticleRotationalVelocity", mode, 4);
 		

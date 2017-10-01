@@ -37,7 +37,7 @@ class ParticleOscillatorNode extends ParticleNodeBase
 	{
 		super("ParticleOscillator", mode, 4);
 		
-		_stateClass = ParticleOscillatorState;
+		_stateConstructor = cast ParticleOscillatorState.new;
 		
 		_oscillator = oscillator;
 		if (_oscillator == null)

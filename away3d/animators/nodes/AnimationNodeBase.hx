@@ -1,5 +1,6 @@
 package away3d.animators.nodes;
 
+import away3d.animators.AnimatorBase;
 import away3d.animators.states.IAnimationState;
 import away3d.library.assets.*;
 
@@ -8,14 +9,14 @@ import away3d.library.assets.*;
  */
 class AnimationNodeBase extends NamedAssetBase implements IAsset
 {
-	public var stateClass(get, never):Class<IAnimationState>;
+	public var stateConstructor(get, never):IAnimator -> AnimationNodeBase -> IAnimationState;
 	public var assetType(get, never):String;
 	
-	private var _stateClass:Class<IAnimationState>;
+	private var _stateConstructor:IAnimator -> AnimationNodeBase -> IAnimationState;
 	
-	private function get_stateClass():Class<IAnimationState>
+	private function get_stateConstructor():IAnimator -> AnimationNodeBase -> IAnimationState
 	{
-		return _stateClass;
+		return _stateConstructor;
 	}
 	
 	/**

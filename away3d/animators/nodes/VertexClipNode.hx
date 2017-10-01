@@ -29,7 +29,7 @@ class VertexClipNode extends AnimationClipNodeBase
 	 */
 	public function new()
 	{
-		_stateClass = VertexClipState;
+		_stateConstructor = cast VertexClipState.new;
 		super();
 	}
 	

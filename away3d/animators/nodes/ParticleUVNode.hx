@@ -55,7 +55,7 @@ class ParticleUVNode extends ParticleNodeBase
 	{
 		super("ParticleUV", mode, 4, ParticleAnimationSet.POST_PRIORITY + 1);
 		
-		_stateClass = ParticleUVState;
+		_stateConstructor = cast ParticleUVState.new;
 		
 		_cycle = cycle;
 		_scale = scale;

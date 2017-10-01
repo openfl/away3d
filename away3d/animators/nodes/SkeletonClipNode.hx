@@ -35,7 +35,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	 */
 	public function new()
 	{
-		_stateClass = SkeletonClipState;
+		_stateConstructor = cast SkeletonClipState.new;
 		super();
 	}
 	

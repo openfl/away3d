@@ -34,7 +34,7 @@ class ParticleTimeNode extends ParticleNodeBase
 	 */
 	public function new(usesDuration:Bool = false, usesLooping:Bool = false, usesDelay:Bool = false)
 	{
-		_stateClass = ParticleTimeState;
+		_stateConstructor = cast ParticleTimeState.new;
 		
 		_usesDuration = usesDuration;
 		_usesLooping = usesLooping;

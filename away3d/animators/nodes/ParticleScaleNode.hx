@@ -59,7 +59,7 @@ class ParticleScaleNode extends ParticleNodeBase
 			len++;
 		super("ParticleScale", mode, len, 3);
 		
-		_stateClass = ParticleScaleState;
+		_stateConstructor = cast ParticleScaleState.new;
 		
 		_usesCycle = usesCycle;
 		_usesPhase = usesPhase;
