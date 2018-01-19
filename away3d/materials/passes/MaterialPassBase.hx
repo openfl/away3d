@@ -61,11 +61,11 @@ class MaterialPassBase extends EventDispatcher
 	
 	// agal props. these NEED to be set by subclasses!
 	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
-	private var _numUsedStreams:Int;
-	private var _numUsedTextures:Int;
-	private var _numUsedVertexConstants:Int;
-	private var _numUsedFragmentConstants:Int;
-	private var _numUsedVaryings:Int;
+	private var _numUsedStreams:Int = 0;
+	private var _numUsedTextures:Int = 0;
+	private var _numUsedVertexConstants:Int = 0;
+	private var _numUsedFragmentConstants:Int = 0;
+	private var _numUsedVaryings:Int = 0;
 	
 	private var _smooth:Bool = true;
 	private var _repeat:Bool = false;
