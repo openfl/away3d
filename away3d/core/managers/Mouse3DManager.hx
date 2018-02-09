@@ -18,6 +18,7 @@ import openfl.Vector;
  * Mouse3DManager enforces a singleton pattern and is not intended to be instanced.
  * it provides a manager class for detecting 3D mouse hits on View3D objects and sending out 3D mouse events.
  */
+@:access(away3d.containers.View3D)
 class Mouse3DManager
 {
 	public var forceMouseMove(get, set):Bool;
@@ -29,6 +30,7 @@ class Mouse3DManager
 	
 	private var _activeView:View3D;
 	private var _updateDirty:Bool = true;
+	private var _noRethrow:Bool = false;
 	private var _nullVector:Vector3D = new Vector3D();
 	private static var _collidingObject:PickingCollisionVO;
 	private static var _previousCollidingObject:PickingCollisionVO;
@@ -243,15 +245,32 @@ class Mouse3DManager
 	
 	private function reThrowEvent(event:MouseEvent):Void
 	{
-		if (_activeView == null || (_activeView != null && !_activeView.shareContext))
+		if (_activeView == null || (_activeView != null && !_activeView.shareContext) || _noRethrow)
 			return;
 		
 		var keys:Iterator<View3D> = _view3Ds.keys();
 		for (v in keys) {
 			if (v != _activeView && _view3Ds.get(v) < _view3Ds.get(_activeView)) {
-				v.dispatchEvent(event);
+				v._mouse3DManager.processEvent(event);
 			}
 		}
+	}
+	
+	private function processEvent(event:MouseEvent):Void
+	{
+		_noRethrow = true;
+		switch(event.type)
+		{
+			case MouseEvent.CLICK: onClick(event);
+			case MouseEvent.DOUBLE_CLICK: onDoubleClick(event);
+			case MouseEvent.MOUSE_MOVE: onMouseMove(event);
+			case MouseEvent.MOUSE_OVER: onMouseOver(event);
+			case MouseEvent.MOUSE_OUT: onMouseOut(event);
+			case MouseEvent.MOUSE_DOWN: onMouseDown(event);
+			case MouseEvent.MOUSE_UP: onMouseUp(event);
+			case MouseEvent.MOUSE_WHEEL: onMouseWheel(event);
+		}
+		_noRethrow = false;
 	}
 	
 	private function hasKey(view:View3D):Bool
