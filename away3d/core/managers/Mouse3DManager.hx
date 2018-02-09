@@ -248,8 +248,10 @@ class Mouse3DManager
 		
 		var keys:Iterator<View3D> = _view3Ds.keys();
 		for (v in keys) {
-			if (v != _activeView && _view3Ds.get(v) < _view3Ds.get(_activeView)) {
-				v.dispatchEvent(event);
+			if (v != _activeView && _view3Ds.get(v) == _view3Ds.get(_activeView) - 1) {
+				if (event.bubbles == true)
+					v.dispatchEvent(new MouseEvent(event.type, false, event.cancelable, event.localX, event.localY, event.relatedObject, event.ctrlKey, event.altKey, event.shiftKey, event.buttonDown, event.delta, event.commandKey, event.clickCount));
+				else v.dispatchEvent(event);
 			}
 		}
 	}
