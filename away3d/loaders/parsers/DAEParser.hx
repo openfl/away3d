@@ -57,7 +57,7 @@ class DAEParser extends ParserBase
 	private var _doc:Xml;
 	private var _fastDoc:Fast;
 	private var _parseState:DAEParserState = DAEParserState.LOAD_XML;
-	private var _imageList:List<Fast>;
+	private var _imageList:#if (haxe_ver >= "4.0.0") Array<Fast> #else List<Fast> #end;
 	private var _imageCount:Int;
 	private var _currentImage:Int;
 	private var _dependencyCount:Int = 0;
@@ -174,7 +174,7 @@ class DAEParser extends ParserBase
 		if (_defaultBitmapMaterial == null)
 			_defaultBitmapMaterial = buildDefaultMaterial();
 		
-		var empty:List<Fast> = new List<Fast>();
+		var empty = #if (haxe_ver >= "4.0.0") new Array<Fast>() #else new List<Fast>() #end;
 		switch (_parseState) {
 			case DAEParserState.LOAD_XML:
 				try {
@@ -223,8 +223,8 @@ class DAEParser extends ParserBase
 				if (_fastDoc.hasNode.resolve("scene")) {
 					_scene = new DAEScene(_fastDoc.node.scene);
 					
-					var list:List<Fast> = new List();
-					var visualScenes:List<Fast> = _fastDoc.node.library_visual_scenes.nodes.resolve("visual_scene");
+					var list = #if (haxe_ver >= "4.0.0") new Array<Fast>() #else new List<Fast>() #end;
+					var visualScenes = _fastDoc.node.library_visual_scenes.nodes.resolve("visual_scene");
 					for (visualScene in visualScenes) {
 						if (visualScene.att.id == _scene.instance_visual_scene.url) {
 							list.push(visualScene);
@@ -233,7 +233,7 @@ class DAEParser extends ParserBase
 					
 					if (list.length > 0) {
 						//_rootContainer = new ObjectContainer3D();
-						_root = new DAEVisualScene(this, list.first());
+						_root = new DAEVisualScene(this, #if (haxe_ver >= "4.0.0") list[0] #else list.first() #end);
 						_root.updateTransforms(_root);
 						_animationInfo = parseAnimationInfo();
 						parseSceneGraph(_root);
@@ -356,7 +356,7 @@ class DAEParser extends ParserBase
 		return info;
 	}
 	
-	private function parseLibrary<T>(list:List<Fast>, clas:Class<T>):Map<String, T>
+	private function parseLibrary<T>(list:#if (haxe_ver >= "4.0.0") Array<Fast> #else List<Fast> #end, clas:Class<T>):Map<String, T>
 	{
 		var library:Map<String, T> = new Map<String, T>();
 		for (element in list) {
@@ -1309,16 +1309,16 @@ class DAEPrimitive extends DAEElement
 		_p = null;
 		_vcount = null;
 		
-		var list:List<Fast> = element.nodes.resolve("input");
+		var list = element.nodes.resolve("input");
 		
 		for (item in list)
 			_inputs.push(new DAEInput(item));
 		
 		if (element.hasNode.resolve("p") && element.nodes.resolve("p").length > 0)
-			_p = readIntArray(element.nodes.resolve("p").first());
+			_p = readIntArray(element.nodes.resolve("p") #if (haxe_ver >= "4.0.0") [0] #else .first() #end);
 		
 		if (element.hasNode.resolve("vcount") && element.nodes.resolve("vcount").length > 0)
-			_vcount = readIntArray(element.nodes.resolve("vcount").first());
+			_vcount = readIntArray(element.nodes.resolve("vcount") #if (haxe_ver >= "4.0.0") [0] #else .first() #end);
 	}
 	
 	public function create(mesh:DAEMesh):Vector<DAEFace>
@@ -2020,7 +2020,7 @@ class DAENode extends DAEElement
 	
 	override private function traverseChildHandler(child:Fast, nodeName:String):Void
 	{
-		var instances:List<Fast>;
+		var instances;
 		
 		switch (nodeName) {
 			case "node":
@@ -2039,10 +2039,10 @@ class DAENode extends DAEElement
 			case "instance_node":
 				var instance = new DAEInstanceNode(child);
 
-				instances = new List<Fast>();
-				var libList:List<Fast> = _root.nodes.resolve("library_nodes");
+				instances = #if (haxe_ver >= "4.0.0") new Array<Fast>() #else new List<Fast>() #end;
+				var libList = _root.nodes.resolve("library_nodes");
 				for (lib in libList.iterator()) {
-					var nodes:List<Fast> = lib.nodes.resolve("node");
+					var nodes = lib.nodes.resolve("node");
 					for (node in nodes) {
 						if (node.att.id == instance.url) {
 							instances.push(node);
@@ -2050,7 +2050,7 @@ class DAENode extends DAEElement
 					}
 				}
 				if (instances.length > 0)
-					this.nodes.push(new DAENode(this.parser, instances.first(), this));
+					this.nodes.push(new DAENode(this.parser, #if (haxe_ver >= "4.0.0") instances[0] #else instances.first() #end, this));
 			
 			case "matrix", "translate", "scale", "rotate":
 				this.transforms.push(new DAETransform(child));
@@ -2320,7 +2320,7 @@ class DAEMorph extends DAEEffect
 		var sources:Map<String, DAESource> = new Map<String, DAESource>();
 		var source:DAESource;
 		var input:DAEInput;
-		var list:List<Fast> = element.nodes.resolve("" + this.source);
+		var list = element.nodes.resolve("" + this.source);
 		
 		if (element.hasNode.resolve("targets") && element.nodes.resolve("targets").length > 0) {
 			for (item in list.iterator()) {
@@ -2381,7 +2381,7 @@ class DAESkin extends DAEElement
 		var children:Iterator<Fast> = element.elements;
 		var sources:Map<String, DAESource> = new Map<String, DAESource>();
 		
-		var sourceList:List<Fast> = element.nodes.resolve("source");
+		var sourceList = element.nodes.resolve("source");
 		for (item in sourceList.iterator()) {
 			var source:DAESource = new DAESource(item);
 			sources[source.id] = source;
@@ -2423,7 +2423,7 @@ class DAESkin extends DAEElement
 	
 	private function parseJoints(element:Fast, sources:Map<String, DAESource>):Void
 	{
-		var list:List<Fast> = element.nodes.resolve("input");
+		var list = element.nodes.resolve("input");
 		var input:DAEInput;
 		var source:DAESource;
 		
@@ -2452,7 +2452,7 @@ class DAESkin extends DAEElement
 	
 	private function parseVertexWeights(element:Fast, sources:Map<String, DAESource>):Void
 	{
-		var list:List<Fast> = element.nodes.resolve("input");
+		var list = element.nodes.resolve("input");
 		var input:DAEInput;
 		var inputs:Vector<DAEInput> = new Vector<DAEInput>();
 		var source:DAESource;
@@ -2544,7 +2544,7 @@ class DAESampler extends DAEElement
 	override public function deserialize(element:Fast):Void
 	{
 		super.deserialize(element);
-		var list:List<Fast> = element.nodes.resolve("input");
+		var list = element.nodes.resolve("input");
 		_inputs = new Vector<DAEInput>();
 		
 		for (item in list.iterator())
