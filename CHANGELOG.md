@@ -1,3 +1,32 @@
+
+5.0.6
+-----
+- Improved support for multiple Away3D/Starling layers
+- OpenFL 8 and Haxe 4 preview 3 minor fixes
+
+5.0.5
+-----
+- Fixed parsers to be kept even when using for -dce full
+- Fixed shader initialization values
+
+5.0.4
+-----
+- Fixed range behavior in DepthOfField filter
+- Fixed endianness in AWD2Parser
+
+5.0.3
+-----
+- Minor fix for OpenFL 6
+
+5.0.2
+-----
+- Updated to only request Stage3D context if one is not available already
+
+5.0.1
+-----
+- Fixed UV mapping for non-tile6 CubeGeometry texturing
+- Various compile and runtime fixes
+
 5.0.0
 -----
 - Major improvements for use with OpenFL 4
