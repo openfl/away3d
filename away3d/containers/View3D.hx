@@ -614,7 +614,7 @@ class View3D extends Sprite
 		#if !flash return value; #end
 	}
 	
-	@:setter(x)
+	@:setter(y)
 	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_y(value:Float)
 	#else
