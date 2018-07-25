@@ -477,7 +477,11 @@ class View3D extends Sprite
 	 * Not supported. Use filters3d instead.
 	 */
 	@:getter(filters)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function get_filters():Array<BitmapFilter>
+	#else
+	private #if !flash override #end function get_filters():Array<BitmapFilter>
+	#end
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return null;
@@ -487,7 +491,11 @@ class View3D extends Sprite
 	 * Not supported. Use filters3d instead.
 	 */
 	@:setter(filters)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_filters(value:Array<BitmapFilter>)
+	#else
+	private #if !flash override #end function set_filters(value:Array<BitmapFilter>)
+	#end
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		#if !flash return value; #end
@@ -498,13 +506,21 @@ class View3D extends Sprite
 	 * platform to 2048 pixels.
 	 */
 	@:getter(width)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function get_width():Float
+	#else
+	private #if !flash override #end function get_width():Float
+	#end
 	{
 		return _width;
 	}
 
 	@:setter(width)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_width(value:Float)
+	#else
+	private #if !flash override #end function set_width(value:Float)
+	#end
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
 		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -537,13 +553,21 @@ class View3D extends Sprite
 	 * platform to 2048 pixels.
 	 */
 	@:getter(height)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function get_height():Float
+	#else
+	private #if !flash override #end function get_height():Float
+	#end
 	{
 		return _height;
 	}
 	
 	@:setter(height)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_height(value:Float)
+	#else
+	private #if !flash override #end function set_height(value:Float)
+	#end
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
 		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -572,7 +596,11 @@ class View3D extends Sprite
 	}
 	
 	@:setter(x)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_x(value:Float)
+	#else
+	private #if !flash override #end function set_x(value:Float)
+	#end
 	{
 		if (x == value)
 			#if flash return #else return value #end;
@@ -586,8 +614,12 @@ class View3D extends Sprite
 		#if !flash return value; #end
 	}
 	
-	@:setter(x)
+	@:setter(y)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_y(value:Float)
+	#else
+	private #if !flash override #end function set_y(value:Float)
+	#end
 	{
 		if (y == value)
 			#if flash return #else return value #end;
@@ -602,7 +634,11 @@ class View3D extends Sprite
 	}
 	
 	@:setter(visible)
+	#if (openfl < "8.0.0")
 	private #if (!flash && !display) override #end function set_visible(value:Bool)
+	#else
+	private #if !flash override #end function set_visible(value:Bool)
+	#end
 	{
 		super.visible = value;
 		
