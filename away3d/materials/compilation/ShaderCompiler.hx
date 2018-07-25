@@ -1000,7 +1000,10 @@ class ShaderCompiler
 		for (i in 0...numMethods) {
 			method = methods[i].method;
 			data = methods[i].data;
-			_vertexCode += method.getVertexCode(data, _registerCache);
+			if (method.preTransfer) _vertexCode = method.getVertexCode(data, _registerCache) + _vertexCode;
+			else _vertexCode += method.getVertexCode(data, _registerCache);
+
+
 			if (data.needsGlobalVertexPos || data.needsGlobalFragmentPos)
 				_registerCache.removeVertexTempUsage(_sharedRegisters.globalPositionVertex);
 
