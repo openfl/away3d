@@ -25,6 +25,7 @@ class ShadingMethodBase extends NamedAssetBase
 	
 	private var _sharedRegisters:ShaderRegisterData;
 	private var _passes:Vector<MaterialPassBase>;
+	public var preTransfer:Bool = false;
 	
 	/**
 	 * Create a new ShadingMethodBase object.
