@@ -104,6 +104,7 @@ class MaterialPassBase extends EventDispatcher
 	private var _UVTarget:String;
 	private var _UVSource:String;
 	
+	private var _agalVersion:Int = 1;
 	private var _writeDepth:Bool = true;
 	
 	public var animationRegisterCache:AnimationRegisterCache;
@@ -539,7 +540,7 @@ class MaterialPassBase extends EventDispatcher
 			trace("--------------------");
 			trace(fragmentCode);
 		}
-		AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
+		AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode, _agalVersion);
 	}
 
 	/**

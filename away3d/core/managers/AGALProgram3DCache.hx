@@ -80,7 +80,7 @@ class AGALProgram3DCache
 		_usages = null;
 	}
 	
-	public function setProgram3D(pass:MaterialPassBase, vertexCode:String, fragmentCode:String):Void
+	public function setProgram3D(pass:MaterialPassBase, vertexCode:String, fragmentCode:String, agalVersion:Int=1):Void
 	{
 		var stageIndex:Int = _stage3DProxy._stage3DIndex;
 		var program:Program3D;
@@ -93,8 +93,8 @@ class AGALProgram3DCache
 			++_currentId;
 			program = _stage3DProxy._context3D.createProgram();
 			
-			var vertexByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode);
-			var fragmentByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode);
+			var vertexByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode, agalVersion);
+			var fragmentByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode, agalVersion);
 			
 			program.upload(vertexByteCode, fragmentByteCode);
 			
