@@ -50,6 +50,7 @@ import openfl.Vector;
 	private function getTextData():String
 	{
 		var s = ParserUtil.toString(_data);
+		if (s == null) return "";
 		return s.split("xmlns").join("_xmlns");
 	}
 	
