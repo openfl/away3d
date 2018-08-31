@@ -11,6 +11,7 @@ import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
 import openfl.display.Stage;
 import openfl.events.MouseEvent;
+import openfl.geom.Point;
 import openfl.geom.Vector3D;
 import openfl.Vector;
 
@@ -77,16 +78,17 @@ class Mouse3DManager
 			if (view.stage3DProxy.bufferClear)
 				_collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
 			
+			var p:Point = view.localToGlobal(new Point(view.mouseX, view.mouseY));
 			if (!view.shareContext) {
 				if (view == _activeView && (_forceMouseMove || _updateDirty)) { // If forceMouseMove is off, and no 2D mouse events dirtied the update, don't update either.
-					_collidingObject = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
+					_collidingObject = _mousePicker.getViewCollision(p.x, p.y, view);
 				}
 			} else {
-				if (view.getBounds(view.parent).contains(view.mouseX + view.x, view.mouseY + view.y)) {
+				//if (view.getBounds(view.parent).contains((view.mouseX + view.x)/view.parent.scaleX, (view.mouseY + view.y)/view.parent.scaleY)) {
 					if (_collidingViewObjects == null) 
 						_collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
-					_collidingObject = _collidingViewObjects[_view3Ds[view]] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
-				}
+					_collidingObject = _collidingViewObjects[_view3Ds[view]] = _mousePicker.getViewCollision(p.x, p.y, view);
+				//}
 			}
 		}
 	}

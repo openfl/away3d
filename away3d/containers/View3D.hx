@@ -43,8 +43,11 @@ class View3D extends Sprite
 {
 	private var _width:Float = 0;
 	private var _height:Float = 0;
-	private var _localPos:Point = new Point();
+	private var _localTLPos:Point = new Point();
+	private var _localBRPos:Point = new Point();
 	private var _globalPos:Point = new Point();
+	private var _globalWidth:Float = 0;
+	private var _globalHeight:Float = 0;
 	private var _globalPosDirty:Bool;
 	private var _scene:Scene3D;
 	private var _camera:Camera3D;
@@ -362,8 +365,8 @@ class View3D extends Sprite
 		_renderer.backgroundG = ((_backgroundColor >> 8) & 0xff)/0xff;
 		_renderer.backgroundB = (_backgroundColor & 0xff)/0xff;
 		_renderer.backgroundAlpha = _backgroundAlpha;
-		_renderer.viewWidth = _width;
-		_renderer.viewHeight = _height;
+		_renderer.viewWidth = _globalWidth;
+		_renderer.viewHeight = _globalHeight;
 		
 		_backBufferInvalid = true;
 		return _renderer;
@@ -529,18 +532,22 @@ class View3D extends Sprite
 		if (_width == value)
 			#if flash return #else return value #end;
 		
-		if (_rttBufferManager != null)
-			_rttBufferManager.viewWidth = Std.int(value);
-		
 		_hitField.width = value;
 		_width = value;
-		_aspectRatio = _width/_height;
+		
+		_localBRPos.x = value + _localTLPos.x;
+		_globalWidth = parent != null? parent.localToGlobal(_localBRPos).x - _globalPos.x : value;
+	
+		if (_rttBufferManager != null)
+			_rttBufferManager.viewWidth = Std.int(_globalWidth);
+		
+		_aspectRatio = _globalWidth/_globalHeight;
 		_camera.lens.aspectRatio = _aspectRatio;
 		_depthTextureInvalid = true;
 		
-		_renderer.viewWidth = value;
+		_renderer.viewWidth = _globalWidth;
 		
-		_scissorRect.width = value;
+		_scissorRect.width = _globalWidth;
 		
 		_backBufferInvalid = true;
 		_scissorRectDirty = true;
@@ -576,18 +583,22 @@ class View3D extends Sprite
 		if (_height == value)
 			#if flash return #else return value #end;
 		
-		if (_rttBufferManager != null)
-			_rttBufferManager.viewHeight = Std.int(value);
-		
 		_hitField.height = value;
 		_height = value;
-		_aspectRatio = _width/_height;
+		
+		_localBRPos.y = value + _localTLPos.y;
+		_globalHeight = parent != null? parent.localToGlobal(_localBRPos).y - _globalPos.y : value;
+		
+		if (_rttBufferManager != null)
+			_rttBufferManager.viewHeight = Std.int(_globalHeight);
+			
+		_aspectRatio = _globalWidth/_globalHeight;
 		_camera.lens.aspectRatio = _aspectRatio;
 		_depthTextureInvalid = true;
 		
-		_renderer.viewHeight = value;
+		_renderer.viewHeight = _globalHeight;
 		
-		_scissorRect.height = value;
+		_scissorRect.height = _globalHeight;
 		
 		_backBufferInvalid = true;
 		_scissorRectDirty = true;
@@ -606,9 +617,9 @@ class View3D extends Sprite
 			#if flash return #else return value #end;
 		
 		super.x = value;
-		_localPos.x = value;
+		_localTLPos.x = value;
 		
-		_globalPos.x = parent != null ? parent.localToGlobal(_localPos).x : value;
+		_globalPos.x = parent != null ? parent.localToGlobal(_localTLPos).x : value;
 		_globalPosDirty = true;
 		
 		#if !flash return value; #end
@@ -625,9 +636,9 @@ class View3D extends Sprite
 			#if flash return #else return value #end;
 		
 		super.y = value;
-		_localPos.y = value;
+		_localTLPos.y = value;
 		
-		_globalPos.y = parent != null ? parent.localToGlobal(_localPos).y : value;
+		_globalPos.y = parent != null ? parent.localToGlobal(_localTLPos).y : value;
 		_globalPosDirty = true;
 		
 		#if !flash return value; #end
@@ -704,7 +715,7 @@ class View3D extends Sprite
 		// Doing this anyway (and relying on _stage3DProxy to cache width/height for 
 		// context does get available) means usesSoftwareRendering won't be reliable.
 		if (_stage3DProxy.context3D!=null && !_shareContext) {
-			if (_width>0 && _height>0) {
+			if (_globalWidth > 0 && _globalHeight > 0) {
 				// Backbuffers are limited to 2048x2048 in software mode and
 				// trying to configure the backbuffer to be bigger than that
 				// will throw an error. Capping the value is a graceful way of
@@ -716,17 +727,18 @@ class View3D extends Sprite
 					// and height setters, at that point we couldn't be sure that
 					// the context had even been retrieved and the software flag
 					// thus be reliable. Make checks again.
-					if (_width > 2048)
-						_width = 2048;
-					if (_height > 2048)
-						_height = 2048;
+					if (_globalWidth > 2048)
+						_globalWidth = 2048;
+					if (_globalHeight > 2048)
+						_globalHeight = 2048;
 				}
 				
-				_stage3DProxy.configureBackBuffer(Std.int(_width), Std.int(_height), _antiAlias, true);
+				_stage3DProxy.configureBackBuffer(Std.int(_globalWidth), Std.int(_globalHeight), _antiAlias, true);
 				_backBufferInvalid = false;
 			} else {
-				width = stage.stageWidth;
-				height = stage.stageHeight;
+				var stageBR:Point = new Point(stage.x + stage.stageWidth, stage.y + stage.stageHeight);
+				width = parent != null? parent.globalToLocal(stageBR).x - _localTLPos.x : stage.stageWidth;
+				height = parent != null? parent.globalToLocal(stageBR).y - _localTLPos.y : stage.stageHeight;
 			}
 		}
 	}
@@ -770,7 +782,7 @@ class View3D extends Sprite
 			stage3DProxy.clearDepthBuffer();
 		
 		if (!_parentIsStage) {
-			var globalPos:Point = parent.localToGlobal(_localPos);
+			var globalPos:Point = parent.localToGlobal(_localTLPos);
 			if (_globalPos.x != globalPos.x || _globalPos.y != globalPos.y) {
 				_globalPos = globalPos;
 				_globalPosDirty = true;
@@ -957,8 +969,8 @@ class View3D extends Sprite
 	{
 		var v:Vector3D = _camera.project(point3d);
 		
-		v.x = (v.x + 1.0)*_width/2.0;
-		v.y = (v.y + 1.0)*_height/2.0;
+		v.x = (v.x + 1.0)*_globalWidth/2.0;
+		v.y = (v.y + 1.0)*_globalHeight/2.0;
 		
 		return v;
 	}
@@ -976,7 +988,7 @@ class View3D extends Sprite
 	 */
 	public function unproject(sX:Float, sY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		return _camera.unproject((sX*2 - _width)/_stage3DProxy.width, (sY*2 - _height)/_stage3DProxy.height, sZ, v);
+		return _camera.unproject(((sX - _globalPos.x)*2 - _globalWidth)/_stage3DProxy.width, ((sY - _globalPos.y)*2 - _globalHeight)/_stage3DProxy.height, sZ, v);
 	}
 	
 	/**
@@ -991,7 +1003,7 @@ class View3D extends Sprite
 	 */
 	public function getRay(sX:Float, sY:Float, sZ:Float):Vector3D
 	{
-		return _camera.getRay((sX*2 - _width)/_width, (sY*2 - _height)/_height, sZ);
+		return _camera.getRay(((sX - _globalPos.x)*2 - _globalWidth)/_globalWidth, ((sY - _globalPos.y)*2 - _globalHeight)/_globalHeight, sZ);
 	}
 	
 	public var mousePicker(get, set):IPicker;
@@ -1065,14 +1077,15 @@ class View3D extends Sprite
 		_renderer.stage3DProxy = _depthRenderer.stage3DProxy = _stage3DProxy;
 		
 		//default wiidth/height to stageWidth/stageHeight
-		if (_width == 0)
-			width = stage.stageWidth;
+		var stageBR:Point = new Point(stage.x + stage.stageWidth, stage.y + stage.stageHeight);
+		if (_globalWidth == 0)
+			width = parent != null? parent.globalToLocal(stageBR).x - _localTLPos.x : stage.stageWidth;
 		else
-			_rttBufferManager.viewWidth = Std.int(_width);
-		if (_height == 0)
-			height = stage.stageHeight;
+			_rttBufferManager.viewWidth = Std.int(_globalWidth);
+		if (_globalHeight == 0)
+			height = parent != null? parent.globalToLocal(stageBR).y - _localTLPos.y : stage.stageHeight;
 		else
-			_rttBufferManager.viewHeight = Std.int(_height);
+			_rttBufferManager.viewHeight = Std.int(_globalHeight);
 		
 		if (_shareContext)
 			_mouse3DManager.addViewLayer(this);
@@ -1082,7 +1095,7 @@ class View3D extends Sprite
 	{
 		_parentIsStage = (parent == stage);
 		
-		_globalPos = parent.localToGlobal(_localPos);
+		_globalPos = parent.localToGlobal(_localTLPos);
 		_globalPosDirty = true;
 	}
 	
@@ -1091,6 +1104,8 @@ class View3D extends Sprite
 		if (_shareContext) {
 			_scissorRect.x = _globalPos.x - _stage3DProxy.x;
 			_scissorRect.y = _globalPos.y - _stage3DProxy.y;
+			_scissorRect.width = _globalWidth;
+			_scissorRect.height = _globalHeight;
 			_scissorRectDirty = true;
 		}
 		
