@@ -614,7 +614,8 @@ class AwayStats extends Sprite
 		if (!_showing_driv_info) {
 			if (_views != null && _views.length > 0 && _views[0].renderer.stage3DProxy != null && _views[0].renderer.stage3DProxy.context3D != null) {
 				var di:String = _views[0].renderer.stage3DProxy.context3D.driverInfo;
-				_swhw_tf.text = di.substr(0, di.indexOf(' '));
+				var index = di.indexOf(' ');
+				_swhw_tf.text = di.substr(0, index > -1 ? index : di.length);
 				_showing_driv_info = true;
 			} else
 				_swhw_tf.text = 'n/a (no view)';
