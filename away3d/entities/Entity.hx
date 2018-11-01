@@ -364,7 +364,6 @@ class Entity extends ObjectContainer3D
 	private function updateBounds():Void
 	{
 		throw new AbstractMethodError();
-		return null;
 	}
 	
 	/**

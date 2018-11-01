@@ -31,7 +31,7 @@ class SkyBox extends Entity implements IRenderable
 	public var animator(get, never):IAnimator;
 	public var numTriangles(get, never):Int;
 	public var sourceEntity(get, never):Entity;
-	public var material(get, set_material):MaterialBase;
+	public var material(get, set):MaterialBase;
 	public var castsShadows(get, never):Bool;
 	public var uvTransform(get, never):Matrix;
 	public var uvTransform2(get, never):Matrix;

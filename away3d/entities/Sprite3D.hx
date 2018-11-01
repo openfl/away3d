@@ -32,7 +32,7 @@ class Sprite3D extends Entity implements IRenderable
 	public var height(get, set):Float;
 	public var numTriangles(get, never):Int;
 	public var sourceEntity(get, never):Entity;
-	public var material(get, set_material):MaterialBase;
+	public var material(get, set):MaterialBase;
 	public var animator(get, never):IAnimator;
 	public var castsShadows(get, never):Bool;
 	public var uvTransform(get, never):Matrix;

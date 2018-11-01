@@ -38,7 +38,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 		return _nextUVFrame;
 	}
 	
-	function new(animator:IAnimator, uvClipNode:UVClipNode)
+	@:allow(away3d) function new(animator:IAnimator, uvClipNode:UVClipNode)
 	{
 		super(animator, uvClipNode);
 		

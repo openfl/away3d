@@ -54,9 +54,9 @@ import openfl.Vector;
  */
 class Object3D extends NamedAssetBase
 {
-	public var x(get, set_x):Float;
-	public var y(get, set_y):Float;
-	public var z(get, set_z):Float;
+	public var x(get, set):Float;
+	public var y(get, set):Float;
+	public var z(get, set):Float;
 	public var rotationX(get, set):Float;
 	public var rotationY(get, set):Float;
 	public var rotationZ(get, set):Float;

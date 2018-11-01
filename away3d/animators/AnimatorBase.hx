@@ -22,7 +22,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	public var activeAnimation(get, never):AnimationNodeBase;
 	public var activeAnimationName(get, never):String;
 	public var autoUpdate(get, set):Bool;
-	public var time(get, set_time):Int;
+	public var time(get, set):Int;
 	public var playbackSpeed(get, set):Float;
 	public var assetType(get, never):String;
 	
