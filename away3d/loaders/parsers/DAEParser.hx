@@ -31,7 +31,7 @@ import away3d.textures.Texture2DBase;
 #if (haxe_ver >= 4)
 import haxe.xml.Access;
 #else
-import haxe.xml.Access as Access;
+import haxe.xml.Fast as Access;
 #end
 
 import haxe.EnumTools;
