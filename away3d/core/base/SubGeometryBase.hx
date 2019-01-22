@@ -17,9 +17,9 @@ class SubGeometryBase
 	public var autoDeriveVertexNormals(get, set):Bool;
 	public var useFaceWeights(get, set):Bool;
 	public var numTriangles(get, never):Int;
-	public var indexData(get, never):Vector<UInt>;
+	@:allow(away3d) private var indexData(get, never):Vector<UInt>;
 	public var autoDeriveVertexTangents(get, set):Bool;
-	public var faceNormals(get, never):Vector<Float>;
+	@:allow(away3d) private var faceNormals(get, never):Vector<Float>;
 	public var UVStride(get, never):Int;
 	public var vertexData(get, never):Vector<Float>;
 	public var vertexPositionData(get, never):Vector<Float>;
@@ -33,7 +33,7 @@ class SubGeometryBase
 	public var vertexNormalOffset(get, never):Int;
 	public var vertexTangentOffset(get, never):Int;
 	public var UVOffset(get, never):Int;
-	public var parentGeometry(get, set):Geometry;
+	@:allow(away3d) private var parentGeometry(get, set):Geometry;
 	public var scaleU(get, never):Float;
 	public var scaleV(get, never):Float;
 	

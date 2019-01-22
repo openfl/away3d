@@ -116,7 +116,7 @@ class PathExtrude extends Mesh
 	 * @param    distributeU            [optional]    Boolean. If the mesh uv' u value is procentually spreaded over the entire mesh surface. Prevents the source map to be stretched. Default is true.
 	 * @param    keepExtremes        [optional]    Boolean. If the the first and last profile coordinates must be kept accessible, in order to feed classes such as DelaunayMesh. Default is false;
 	 */
-	function new(material:MaterialBase = null, path:IPath = null, profile:Vector<Vector3D> = null, subdivision:Int = 2, coverAll:Bool = true, coverSegment:Bool = false, alignToPath:Bool = true, centerMesh:Bool = false, mapFit:Bool = false, flip:Bool = false, closePath:Bool = false, materials:Vector<MaterialBase> = null, scales:Vector<Vector3D> = null, smoothScale:Bool = true, rotations:Vector<Vector3D> = null, smoothSurface:Bool = true, distribute:Bool = false, distributeU:Bool = true, keepExtremes:Bool = false)
+	public function new(material:MaterialBase = null, path:IPath = null, profile:Vector<Vector3D> = null, subdivision:Int = 2, coverAll:Bool = true, coverSegment:Bool = false, alignToPath:Bool = true, centerMesh:Bool = false, mapFit:Bool = false, flip:Bool = false, closePath:Bool = false, materials:Vector<MaterialBase> = null, scales:Vector<Vector3D> = null, smoothScale:Bool = true, rotations:Vector<Vector3D> = null, smoothSurface:Bool = true, distribute:Bool = false, distributeU:Bool = true, keepExtremes:Bool = false)
 	{
 		var geom:Geometry = new Geometry();
 		_subGeometry = new SubGeometry();

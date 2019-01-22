@@ -41,14 +41,14 @@ interface IAnimator
 	 *
 	 * @private
 	 */
-	function addOwner(mesh:Mesh):Void;
+	@:allow(away3d) private function addOwner(mesh:Mesh):Void;
 	
 	/**
 	 * Used by the mesh object from which the animator is removed, unregisters the owner for internal use.
 	 *
 	 * @private
 	 */
-	function removeOwner(mesh:Mesh):Void;
+	@:allow(away3d) private function removeOwner(mesh:Mesh):Void;
 	
 	function getAnimationState(node:AnimationNodeBase):IAnimationState;
 	

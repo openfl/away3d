@@ -20,7 +20,7 @@ class Ray
 	private var _c:Float;
 	private var _d:Float;
 	
-	function new()
+	public function new()
 	{
 	}
 	

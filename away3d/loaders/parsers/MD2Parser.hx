@@ -412,7 +412,7 @@ class MD2Parser extends ParserBase
 				tvertices.push(sx * _byteData.readUnsignedByte() + tx);
 				tvertices.push(sy * _byteData.readUnsignedByte() + ty);
 				tvertices.push(sz * _byteData.readUnsignedByte() + tz);
-				_byteData.position++;
+				_byteData.position = _byteData.position + 1;
 			}
 			
 			k = 0;

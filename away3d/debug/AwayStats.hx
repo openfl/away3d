@@ -296,7 +296,7 @@ class AwayStats extends Sprite
 	 * @private
 	 * Draw logo and create title textfield.
 	 */
-	private function _initTopBar():Void
+	@:allow(away3d) private function _initTopBar():Void
 	{
 		var logo:Shape;
 		var markers:Shape;
@@ -822,7 +822,7 @@ class AwayStats extends Sprite
 	 * @private
 	 * Reset just the average FPS counter.
 	 */
-	private function _onAverageFpsClick_reset(ev:MouseEvent):Void
+	@:allow(away3d) private function _onAverageFpsClick_reset(ev:MouseEvent):Void
 	{
 		if (!_dragging) {
 			_num_frames = 0;

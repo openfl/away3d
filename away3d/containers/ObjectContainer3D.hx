@@ -22,8 +22,8 @@ import openfl.Vector;
 class ObjectContainer3D extends Object3D implements IAsset
 {
 	public var ignoreTransform(get, set):Bool;
-	public var implicitPartition(get, set):Partition3D;
-	public var isVisible(get, never):Bool;
+	@:allow(away3d) private var implicitPartition(get, set):Partition3D;
+	@:allow(away3d) private var isVisible(get, never):Bool;
 	public var mouseEnabled(get, set):Bool;
 	public var mouseChildren(get, set):Bool;
 	public var visible(get, set):Bool;

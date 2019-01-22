@@ -127,7 +127,7 @@ class Scene3D extends EventDispatcher
 	 * When an entity is added to the scene, or to one of its children, add it to the partition tree.
 	 * @private
 	 */
-	public function registerEntity(entity:Entity):Void
+	@:allow(away3d) private function registerEntity(entity:Entity):Void
 	{
 		var partition:Partition3D = entity.implicitPartition;
 		addPartitionUnique(partition);
@@ -139,7 +139,7 @@ class Scene3D extends EventDispatcher
 	 * When an entity is removed from the scene, or from one of its children, remove it from its former partition tree.
 	 * @private
 	 */
-	public function unregisterEntity(entity:Entity):Void
+	@:allow(away3d) private function unregisterEntity(entity:Entity):Void
 	{
 		entity.implicitPartition.removeEntity(entity);
 	}

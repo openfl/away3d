@@ -44,7 +44,7 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 		return value;
 	}
 	
-	function new(animator:IAnimator, skeletonAnimationNode:SkeletonDifferenceNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonDifferenceNode)
 	{
 		super(animator, skeletonAnimationNode);
 		

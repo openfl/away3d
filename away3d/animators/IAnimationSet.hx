@@ -40,7 +40,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function resetGPUCompatibility():Void;
+	@:allow(away3d) private function resetGPUCompatibility():Void;
 	
 	/**
 	 * Called by the animator to void the GPU indicator when register space in the shader
@@ -48,7 +48,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function cancelGPUCompatibility():Void;
+	@:allow(away3d) private function cancelGPUCompatibility():Void;
 	
 	/**
 	 * Generates the AGAL Vertex code for the animation, tailored to the material pass's requirements.
@@ -60,7 +60,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String;
+	@:allow(away3d) private function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String;
 	
 	/**
 	 * Generates the AGAL Fragment code for the animation, tailored to the material pass's requirements.
@@ -70,7 +70,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String;
+	@:allow(away3d) private function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String;
 	
 	/**
 	 * Generates the extra AGAL Fragment code for the animation when UVs are required, tailored to the material pass's requirements.
@@ -82,7 +82,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function getAGALUVCode(pass:MaterialPassBase, UVSource:String, UVTarget:String):String;
+	@:allow(away3d) private function getAGALUVCode(pass:MaterialPassBase, UVSource:String, UVTarget:String):String;
 	
 	/**
 	 * Resets any constants used in the creation of AGAL for the vertex and fragment shaders.
@@ -91,7 +91,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function doneAGALCode(pass:MaterialPassBase):Void;
+	@:allow(away3d) private function doneAGALCode(pass:MaterialPassBase):Void;
 	
 	/**
 	 * Sets the GPU render state required by the animation that is independent of the rendered mesh.
@@ -101,7 +101,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
+	@:allow(away3d) private function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 	
 	/**
 	 * Clears the GPU render state that has been set by the current animation.
@@ -111,5 +111,5 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
+	@:allow(away3d) private function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 }

@@ -260,7 +260,7 @@ class NURBSGeometry extends PrimitiveBase
 	}
 	
 	/** @private */
-	private function nurbPoint(nU:Float, nV:Float, target:Vector3D = null):Vector3D
+	@:allow(away3d) private function nurbPoint(nU:Float, nV:Float, target:Vector3D = null):Vector3D
 	{
 		var pbasis:Float;
 		var jbas:Int;
@@ -336,7 +336,7 @@ class NURBSGeometry extends PrimitiveBase
 	}
 	
 	/** @private */
-	private function sumrbas():Float
+	@:allow(away3d) private function sumrbas():Float
 	{
 		var i:Int;
 		var j:Int;
@@ -361,7 +361,7 @@ class NURBSGeometry extends PrimitiveBase
 	}
 	
 	/** @private */
-	private function knot(n:Int, c:Int):Vector<Float>
+	@:allow(away3d) private function knot(n:Int, c:Int):Vector<Float>
 	{
 		var nplusc:Int = n + c;
 		var nplus2:Int = n + 2;
@@ -378,7 +378,7 @@ class NURBSGeometry extends PrimitiveBase
 	}
 	
 	/** @private */
-	private function basis(nurbOrder:Int, t:Float, numPoints:Int, knot:Vector<Float>):Vector<Float>
+	@:allow(away3d) private function basis(nurbOrder:Int, t:Float, numPoints:Int, knot:Vector<Float>):Vector<Float>
 	{
 		var nPlusO:Int;
 		var i:Int;

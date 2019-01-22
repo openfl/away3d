@@ -22,7 +22,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 	private var _backAndForth:Bool;
 	private var _forcedFrame:Bool;
 	
-	function new(animator:IAnimator, clipNode:SpriteSheetClipNode)
+	public function new(animator:IAnimator, clipNode:SpriteSheetClipNode)
 	{
 		super(animator, clipNode);
 		

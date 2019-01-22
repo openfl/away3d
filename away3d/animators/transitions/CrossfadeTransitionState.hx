@@ -12,7 +12,7 @@ class CrossfadeTransitionState extends SkeletonBinaryLERPState
 	private var _crossfadeAnimationNode:CrossfadeTransitionNode;
 	private var _animationStateTransitionComplete:AnimationStateEvent;
 	
-	function new(animator:IAnimator, crossfadeAnimationNode:CrossfadeTransitionNode)
+	public function new(animator:IAnimator, crossfadeAnimationNode:CrossfadeTransitionNode)
 	{
 		super(animator, crossfadeAnimationNode);
 		

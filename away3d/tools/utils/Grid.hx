@@ -24,7 +24,7 @@ class Grid
 	 * @param     unit                        [optional] Number. The grid unit. Default is 1.
 	 * @param     objectSpace            [optional] Boolean. Apply only to vertexes in geometry objectspace when Object3D are considered. Default is false.
 	 */
-	function new(unit:Float = 1, objectSpace:Bool = false)
+	public function new(unit:Float = 1, objectSpace:Bool = false)
 	{
 		_objectSpace = objectSpace;
 		_unit = Math.abs(unit);

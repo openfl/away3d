@@ -68,7 +68,7 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Delegate to the concrete parser.
 	 */
-	override function resolveDependency(resourceDependency:ResourceDependency):Void
+	override private function resolveDependency(resourceDependency:ResourceDependency):Void
 	{
 		if (_parser != null)
 			_parser.resolveDependency(resourceDependency);
@@ -78,7 +78,7 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Delegate to the concrete parser.
 	 */
-	override function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
+	override private function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
 	{
 		if (_parser != null)
 			_parser.resolveDependencyFailure(resourceDependency);
@@ -146,7 +146,7 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Just bubble events from concrete parser.
 	 */
-	private function onParseError(ev:ParserEvent):Void
+	@:allow(away3d) private function onParseError(ev:ParserEvent):Void
 	{
 		dispatchEvent(ev.clone());
 	}
@@ -155,7 +155,7 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Just bubble events from concrete parser.
 	 */
-	private function onReadyForDependencies(ev:ParserEvent):Void
+	@:allow(away3d) private function onReadyForDependencies(ev:ParserEvent):Void
 	{
 		dispatchEvent(ev.clone());
 	}
@@ -164,7 +164,7 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Just bubble events from concrete parser.
 	 */
-	private function onAssetComplete(ev:Asset3DEvent):Void
+	@:allow(away3d) private function onAssetComplete(ev:Asset3DEvent):Void
 	{
 		dispatchEvent(ev.clone());
 	}
@@ -173,7 +173,7 @@ class AWDParser extends ParserBase
 	 * @private
 	 * Just bubble events from concrete parser.
 	 */
-	private function onParseComplete(ev:ParserEvent):Void
+	@:allow(away3d) private function onParseComplete(ev:ParserEvent):Void
 	{
 		_parser.removeEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 		_parser.removeEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);

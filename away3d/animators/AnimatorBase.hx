@@ -264,7 +264,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	public function addOwner(mesh:Mesh):Void
+	@:allow(away3d) private function addOwner(mesh:Mesh):Void
 	{
 		_owners.push(mesh);
 	}
@@ -274,7 +274,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	public function removeOwner(mesh:Mesh):Void
+	@:allow(away3d) private function removeOwner(mesh:Mesh):Void
 	{
 		_owners.splice(_owners.indexOf(mesh), 1);
 	}
@@ -284,7 +284,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	private function updateDeltaTime(dt:Int):Void
+	@:allow(away3d) private function updateDeltaTime(dt:Int):Void
 	{
 		_absoluteTime += dt;
 		
@@ -319,7 +319,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	public function dispatchCycleEvent():Void
+	@:allow(away3d) private function dispatchCycleEvent():Void
 	{
 		if (hasEventListener(AnimatorEvent.CYCLE_COMPLETE))
 		{

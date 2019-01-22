@@ -131,7 +131,7 @@ interface ISubGeometry
 	/**
 	 * Retrieves the object's indices as a uint array.
 	 */
-	var indexData(get, never):Vector<UInt>;
+	@:allow(away3d) private var indexData(get, never):Vector<UInt>;
 	
 	/**
 	 * Retrieves the object's uvs as a Number array.
@@ -152,9 +152,9 @@ interface ISubGeometry
 	
 	function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void;
 	
-	var parentGeometry(get, set):Geometry;
+	@:allow(away3d) private var parentGeometry(get, set):Geometry;
 	
-	var faceNormals(get, never):Vector<Float>;
+	@:allow(away3d) private var faceNormals(get, never):Vector<Float>;
 	
 	function cloneWithSeperateBuffers():SubGeometry;
 	

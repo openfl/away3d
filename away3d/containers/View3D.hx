@@ -1038,7 +1038,7 @@ class View3D extends Sprite
 	 * @see away3d.core.traverse.EntityCollector
 	 * @private
 	 */
-	public var entityCollector(get, null):EntityCollector;
+	@:allow(away3d) private var entityCollector(get, null):EntityCollector;
 	
 	private function get_entityCollector():EntityCollector
 	{

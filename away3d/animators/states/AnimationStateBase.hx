@@ -28,7 +28,7 @@ class AnimationStateBase implements IAnimationState
 		return _rootDelta;
 	}
 	
-	function new(animator:IAnimator, animationNode:AnimationNodeBase)
+	public function new(animator:IAnimator, animationNode:AnimationNodeBase)
 	{
 		_animator = animator;
 		_animationNode = animationNode;

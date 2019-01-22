@@ -25,7 +25,7 @@ import openfl.utils.ByteArray;
  *  <p>The font is based on "uni05_53.ttf" from Craig Kroeger (http://www.miniml.com) and was
  *  converted to a Bitmap Font with "GlyphDesigner" from 71squared (http://www.71squared.com).
  *  </p> */
-class MiniBitmapFont
+@:noCompletion @:dox(hide) class MiniBitmapFont
 {
 	private static var BITMAP_WIDTH:Int = 128;
 	private static var BITMAP_HEIGHT:Int = 64;

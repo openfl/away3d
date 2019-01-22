@@ -67,7 +67,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	public function resetGPUCompatibility():Void
+	@:allow(away3d) private function resetGPUCompatibility():Void
 	{
 		_usesCPU = false;
 	}

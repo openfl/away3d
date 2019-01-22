@@ -50,7 +50,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 		return _direction;
 	}
 
-	function new(animator:IAnimator, skeletonAnimationNode:SkeletonDirectionalNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonDirectionalNode)
 	{
 		super(animator, skeletonAnimationNode);
 		
@@ -169,7 +169,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 	 *
 	 * @private
 	 */
-	private function updateBlend():Void
+	@:allow(away3d) private function updateBlend():Void
 	{
 		_blendDirty = false;
 		

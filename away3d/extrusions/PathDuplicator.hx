@@ -53,7 +53,7 @@ class PathDuplicator
 	 * @param    randomRotationY    [optional]    Boolean. If the clones must have a random rotationY added to them.
 	 *
 	 */
-	function new(path:IPath = null, meshes:Vector<Mesh> = null, scene:Scene3D = null, repeat:Int = 1, alignToPath:Bool = true, segmentSpread:Bool = true, container:ObjectContainer3D = null, randomRotationY:Bool = false)
+	public function new(path:IPath = null, meshes:Vector<Mesh> = null, scene:Scene3D = null, repeat:Int = 1, alignToPath:Bool = true, segmentSpread:Bool = true, container:ObjectContainer3D = null, randomRotationY:Bool = false)
 	{
 		_path = path;
 		_meshes = meshes;

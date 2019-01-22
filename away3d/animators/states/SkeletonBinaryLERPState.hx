@@ -42,7 +42,7 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 		return value;
 	}
 	
-	function new(animator:IAnimator, skeletonAnimationNode:SkeletonBinaryLERPNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonBinaryLERPNode)
 	{
 		super(animator, skeletonAnimationNode);
 		

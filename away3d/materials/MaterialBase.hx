@@ -49,7 +49,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	public var requiresBlending(get, never):Bool;
 	public var uniqueId(get, never):Int;
 	@:allow(away3d) private var numPasses(get, never):Int;
-	public var owners(get, never):Vector<IMaterialOwner>;
+	@:allow(away3d) private var owners(get, never):Vector<IMaterialOwner>;
 	
 	/**
 	 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
@@ -69,7 +69,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	private var _classification:String;
+	@:allow(away3d) private var _classification:String;
 
 	/**
 	 * An id for this material used to sort the renderables by material, which reduces render state changes across

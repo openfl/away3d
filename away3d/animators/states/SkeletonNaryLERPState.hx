@@ -19,7 +19,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 	private var _blendWeights:Vector<Float> = new Vector<Float>();
 	private var _inputs:Vector<ISkeletonAnimationState> = new Vector<ISkeletonAnimationState>();
 	
-	function new(animator:IAnimator, skeletonAnimationNode:SkeletonNaryLERPNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonNaryLERPNode)
 	{
 		super(animator, skeletonAnimationNode);
 		
