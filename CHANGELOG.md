@@ -1,4 +1,18 @@
 
+5.0.8
+-----
+- Added new segment material for use with orthographic lens
+- Corrected getSubMeshForSubGeometry to accept ISubGeometry
+- Fixes to view width & height settings for shared contexts
+- Fixed fields that were not properly marked private
+- Fixes for Haxe 4 preview 5
+
+5.0.7
+-----
+- Added option to use AGAL 2 in MaterialPassBase
+- Fixed view3D.y setter on Flash target
+- Fixed a minor model parser issue
+
 5.0.6
 -----
 - Improved support for multiple Away3D/Starling layers
