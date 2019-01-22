@@ -28,10 +28,10 @@ import away3d.materials.utils.DefaultMaterialManager;
 import away3d.textures.BitmapTexture;
 import away3d.textures.Texture2DBase;
 
-#if (haxe_ver < "4.0.0")
-import haxe.xml.Access as Access;
-#else
+#if (haxe_ver >= 4)
 import haxe.xml.Access;
+#else
+import haxe.xml.Access as Access;
 #end
 
 import haxe.EnumTools;
