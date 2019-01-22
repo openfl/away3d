@@ -4,7 +4,7 @@
 	"license": "Apache",
 	"tags": [ "away3d", "3d", "engine", "openfl", "cross", "cpp", "flash", "game", "js", "web", "ios", "android" ],
 	"description": "Away3D is an open source platform for developing interactive 3D graphics for video games and applications.",
-	"version": "5.0.7",
-	"releasenote": "Minor fixes",
+	"version": "5.0.8",
+	"releasenote": "Minor upstream changes, Haxe 4 improvements",
 	"contributors": [ "Greg209", "singmajesty", "p.j.shand" ]
 }
