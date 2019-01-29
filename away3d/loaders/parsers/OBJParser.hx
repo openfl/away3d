@@ -833,7 +833,7 @@ class OBJParser extends ParserBase
 					}
 				}
 				
-				mesh.material.name = decomposeID[1] != "" ? decomposeID[1] : decomposeID[0];
+				mesh.material.name = decomposeID[0] == "def000" ? decomposeID[1] + ".material" : decomposeID[0];
 				_meshes.splice(i, 1);
 				--i;
 			}
