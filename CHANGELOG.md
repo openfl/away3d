@@ -1,4 +1,9 @@
 
+5.0.9
+-----
+- Improved material name handling in OBJParser
+- Fixed support for Haxe 4 RC4
+
 5.0.8
 -----
 - Added new segment material for use with orthographic lens
