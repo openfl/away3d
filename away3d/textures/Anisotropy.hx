@@ -22,9 +22,9 @@ package away3d.textures;
 		
 	}
 	
-	@:to private static function toString (value:Int):String
+	@:to private function toString ():String
 	{
-		return switch (value) {
+		return switch (cast this : Anisotropy) {
 			case Anisotropy.NONE: "bool";
 			case Anisotropy.ANISOTROPIC2X: "anisotropic2x";
 			case Anisotropy.ANISOTROPIC4X: "anisotropic4x";
