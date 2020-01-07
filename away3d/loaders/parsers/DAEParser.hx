@@ -1270,9 +1270,9 @@ class DAEVertex
 		return s;
 	}
 	
-	private function format(v:Float, numDecimals:Int = 2):String
+	private function format(v:Float, numDecimals:Float = 4):String
 	{
-		var dp:Int = 10^numDecimals;
+		var dp:Float = Math.pow(10., numDecimals);
 		return Std.string(Math.round(v * dp) / dp);
 	}
 }
@@ -1307,7 +1307,7 @@ class DAEPrimitive extends DAEElement
 	{
 		super.deserialize(element);
 		this.type = element.name;
-		this.material = element.att.material;
+		if (element.has.material)  this.material = element.att.material;
 		this.count = readIntAttr(element, "count", 0);
 		
 		_inputs = new Vector<DAEInput>();
@@ -1770,7 +1770,7 @@ class DAEColorOrTexture extends DAEElement
 			
 			case "texture":
 				this.texture = new DAETexture();
-				this.texture.texcoord = child.att.texcoord;
+				if (child.has.texcoord) this.texture.texcoord = child.att.texcoord;
 				this.texture.texture = child.att.texture;
 			
 			default:
