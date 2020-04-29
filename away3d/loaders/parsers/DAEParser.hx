@@ -716,7 +716,7 @@ class DAEParser extends ParserBase
 		var controller:DAEController = _libControllers[instance_controller.url];
 		var skeletonId:String = instance_controller.skeleton[0];
 		var skeletonRoot:DAENode = _root.findNodeById(skeletonId);
-		if (skeletonRoot != null)
+		if (skeletonRoot == null)
 			skeletonRoot = _root.findNodeBySid(skeletonId);
 		
 		if (skeletonRoot == null)
