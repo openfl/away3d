@@ -221,7 +221,37 @@ class DAEParser extends ParserBase
 			case DAEParserState.PARSE_VISUAL_SCENE:
 				_scene = null;
 				_root = null;
-				_libAnimations = parseLibrary(_fastDoc.hasNode.library_animations ? _fastDoc.node.resolve("library_animations").nodes.resolve("animation") : empty, DAEAnimation);
+				//Unlike images, materials, effects, geometry, and controllers, animations can be nested.
+				var animationList = empty;
+				if(_fastDoc.hasNode.library_animations) {
+					//Use an array to collect the data, even in Haxe 3.
+					#if (haxe_ver >= "4.0.0")
+					var animationArray = _fastDoc.node.library_animations.nodes.animation;
+					#else
+					var animationArray = Lambda.array(_fastDoc.node.library_animations.nodes.animation);
+					#end
+					
+					//Iterate through, including any animations that are added during iteration. Neither
+					//the default array iterator nor the default list iterator handles this correctly.
+					var i:Int = 0;
+					while(i < animationArray.length) {
+						if(animationArray[i].hasNode.animation) {
+							for(childAnimation in animationArray[i].nodes.animation) {
+								animationArray.push(childAnimation);
+							}
+						}
+						
+						i++;
+					}
+					
+					#if (haxe_ver >= "4.0.0")
+					animationList = animationArray;
+					#else
+					animationList = Lambda.list(animationArray);
+					#end
+				}
+				
+				_libAnimations = parseLibrary(animationList, DAEAnimation);
 				//_animators = new Vector.<IAnimator>();
 				_rootNodes = new Vector<AnimationNodeBase>();
 				
