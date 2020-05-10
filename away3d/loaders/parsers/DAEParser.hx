@@ -340,7 +340,7 @@ class DAEParser extends ParserBase
 	private function parseAnimationInfo():DAEAnimationInfo
 	{
 		var info:DAEAnimationInfo = new DAEAnimationInfo();
-		info.minTime = Math.NEGATIVE_INFINITY;
+		info.minTime = Math.POSITIVE_INFINITY;
 		info.maxTime = -info.minTime;
 		info.numFrames = 0;
 		
@@ -356,6 +356,13 @@ class DAEParser extends ParserBase
 					info.numFrames = Std.int(Math.max(info.numFrames, channel.sampler.input.length));
 				}
 			}
+		}
+		
+		if(!Math.isFinite(info.minTime)) {
+			info.minTime = 0;
+		}
+		if(!Math.isFinite(info.maxTime)) {
+			info.maxTime = 0;
 		}
 		
 		return info;
