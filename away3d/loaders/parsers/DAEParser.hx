@@ -239,6 +239,13 @@ class DAEParser extends ParserBase
 							for(childAnimation in animationArray[i].nodes.animation) {
 								animationArray.push(childAnimation);
 							}
+							
+							//Often, parent nodes will contain no animation data of their own,
+							//meaning there's no need to make a DAEAnimation for them.
+							if(!animationArray[i].hasNode.source) {
+								animationArray.splice(i, 1);
+								i--;
+							}
 						}
 						
 						i++;
