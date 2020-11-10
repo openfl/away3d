@@ -504,7 +504,11 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 			} else {
 				// append parent pose
 				parentPose = globalPoses[parentIndex];
-				
+				if(parentPose == null)
+				{
+				     parentPose = new JointPose();
+				     globalPoses[parentIndex] = parentPose;
+				}
 				// rotate point
 				or = parentPose.orientation;
 				tr = pose.translation;
