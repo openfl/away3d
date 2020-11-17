@@ -55,7 +55,8 @@ class ParticleBillboardState extends ParticleStateBase
 			_matrix.copyColumnFrom(1, _billboardAxis);
 			_matrix.copyColumnFrom(2, look);
 			_matrix.copyColumnFrom(3, pos);
-			_matrix.appendRotation(-comps[1].w*MathConsts.RADIANS_TO_DEGREES, comps[1]);
+			// Bugfix:
+			// _matrix.appendRotation(-comps[1].w*MathConsts.RADIANS_TO_DEGREES, comps[1]);
 		} else {
 			//create a quick inverse projection matrix
 			_matrix.copyFrom(renderable.getRenderSceneTransform(camera));
