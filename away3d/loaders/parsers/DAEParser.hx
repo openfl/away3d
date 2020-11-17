@@ -1537,7 +1537,7 @@ class DAEGeometry extends DAEElement
 	{
 		super.deserialize(element);
 		traverseChildren(element);
-		meshName = element.att.resolve("name");
+		meshName = element.att.hasField("name") ? element.att.resolve("name") : element.att.resolve("id");
 	}
 	
 	override private function traverseChildHandler(child:Access, nodeName:String):Void
@@ -2754,6 +2754,8 @@ class DAEAnimation extends DAEElement
 	public function new(element:Access = null)
 	{
 		super(element);
+		if (this.id == "")
+			this.id = element.node.channel.att.resolve("source");
 	}
 	
 	override public function deserialize(element:Access):Void
