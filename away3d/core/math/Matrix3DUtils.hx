@@ -250,9 +250,18 @@ class Matrix3DUtils
 		} else if (orientationStyle == Orientation3D.AXIS_ANGLE) {
 			tw = Math.acos((a + f + k - 1) / 2);
 			var len:Float = Math.sqrt((j - g) * (j - g) + (c - i) * (c - i) + (e - b) * (e - b));
-			tx = (j - g) / len;
-			ty = (c - i) / len;
-			tz = (e - b) / len;
+			if(len == 0)
+			{
+				tx = 0;
+				ty = 1;
+				tz = 0;
+			}
+			else
+			{
+				tx = (j - g) / len;
+				ty = (c - i) / len;
+				tz = (e - b) / len;
+			}
 		} else {//Orientation3D.QUATERNION
 			var tr:Float = a + f + k;
 			if (tr > 0) {
