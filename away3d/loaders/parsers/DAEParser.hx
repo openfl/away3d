@@ -828,7 +828,7 @@ class DAEParser extends ParserBase
 		var shininess:Float = effect.shader.props.hasField("shininess") ? Std.parseFloat(effect.shader.props.shininess) : 10;
 		var transparency:Float = effect.shader.props.hasField("transparency") ? Std.parseFloat(effect.shader.props.transparency) : 1;
 		
-		if (diffuse != null && diffuse.texture != null && effect.surface != null) {
+		if (diffuse != null && diffuse.texture != null && effect.surface != null && _libImages != null) {
 			var image:DAEImage = _libImages[effect.surface.init_from];
 			
 			if (image.resource != null && isBitmapDataValid(cast(image.resource, BitmapTexture).bitmapData)) {
