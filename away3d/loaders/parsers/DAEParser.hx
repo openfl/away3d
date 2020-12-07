@@ -617,11 +617,12 @@ class DAEParser extends ParserBase
 		//var useGPU : Bool = _configFlags & CONFIG_USE_GPU ? true : false;
 		//var animation : SkeletonAnimation = new SkeletonAnimation(skeleton, skin.maxBones, useGPU);
 		var animated:Bool = isAnimatedSkeleton(skeleton);
-		var duration:Float = _animationInfo.numFrames == 0 ? 1.0 : _animationInfo.maxTime - _animationInfo.minTime;
+		// Use maxTime, the total duration should not be affected by the minimum time.
+		var duration:Float = _animationInfo.numFrames == 0 ? 1.0 : _animationInfo.maxTime;
 		var numFrames:Int = Std.int(Math.max(_animationInfo.numFrames, (animated ? 50 : 2)));
 		var frameDuration:Float = duration / numFrames;
-		
-		var t:Float = 0;
+		// Use minTime, avoid getting uninitialized bone poses at the initial frame.
+		var t:Float = _animationInfo.minTime;
 		var clip:SkeletonClipNode = new SkeletonClipNode();
 		//mesh.geometry.animation = animation;
 		var skeletonPose:SkeletonPose = null;
@@ -638,7 +639,12 @@ class DAEParser extends ParserBase
 				if (node == null)
 					node = _root.findNodeBySid(skin.joints[j]);
 				pose = new JointPose();
-				matrix = (matrix != null ? node.getAnimatedMatrix(t) : node.matrix);
+				
+				// Fix matrix
+				matrix = node.getAnimatedMatrix(t);
+				if(matrix == null)
+					matrix = node.matrix;
+
 				pose.name = skin.joints[j];
 				pose.orientation.fromMatrix(matrix);
 				pose.translation.copyFrom(matrix.position);
@@ -653,7 +659,11 @@ class DAEParser extends ParserBase
 			}
 			
 			t += frameDuration;
+			if(t >= _animationInfo.maxTime)
+				t = _animationInfo.maxTime;
+			
 			clip.addFrame(skeletonPose, Std.int(frameDuration * 1000));
+
 		}
 		
 		finalizeAsset(clip);
