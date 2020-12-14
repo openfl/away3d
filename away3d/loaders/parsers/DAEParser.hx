@@ -2023,7 +2023,6 @@ class DAETransform extends DAEElement
 	private function get_matrix():Matrix3D
 	{
 		var matrix:Matrix3D = new Matrix3D();
-		
 		switch (this.type) {
 			case "matrix":
 				matrix = new Matrix3D(this.data);
@@ -2036,7 +2035,6 @@ class DAETransform extends DAEElement
 				var axis:Vector3D = new Vector3D(this.data[0], this.data[1], this.data[2]);
 				matrix.appendRotation(this.data[3], axis);
 		}
-		
 		return matrix;
 	}
 }
@@ -2148,7 +2146,7 @@ class DAENode extends DAEElement
 		for (i in 0...this.channels.length) {
 			channel = this.channels[i];
 			minTime = Math.min(minTime, channel.sampler.minTime);
-			minTime = Math.max(maxTime, channel.sampler.maxTime);
+			maxTime = Math.max(maxTime, channel.sampler.maxTime);
 			channelsBySID.set(channel.targetSid, channel);
 		}
 		

@@ -48,8 +48,26 @@ class Sprite3D extends Entity implements IRenderable
 	public var vertexNormalOffset(get, never):Int;
 	public var vertexTangentOffset(get, never):Int;
 
+	/**
+	 * Whether to share geometry, if the geometry is not shared, the UVData can be modified dynamically
+	 */
+	public var shareGeometry:Bool = true;
+
 	// TODO: Replace with CompactSubGeometry
-	private static var _geometry:SubGeometry;
+	private var ___geometry:SubGeometry;
+	private static var __geometry:SubGeometry;
+	private var _geometry(get,set):SubGeometry;
+	private function get__geometry():SubGeometry{
+		return shareGeometry?__geometry:___geometry;
+	}
+	private function set__geometry(g:SubGeometry):SubGeometry{
+		if(shareGeometry){
+			__geometry = g;
+			return __geometry;
+		}
+		___geometry = g;
+		return ___geometry;
+	}
 	//private static var _pickingSubMesh:SubGeometry;
 	
 	private var _material:MaterialBase;
@@ -64,9 +82,10 @@ class Sprite3D extends Entity implements IRenderable
 	private var _height:Float;
 	private var _shadowCaster:Bool = false;
 	
-	public function new(material:MaterialBase, width:Float, height:Float)
+	public function new(material:MaterialBase, width:Float, height:Float,shareGeometry:Bool = true)
 	{
 		super();
+		this.shareGeometry = shareGeometry;
 		this.material = material;
 		_width = width;
 		_height = height;
