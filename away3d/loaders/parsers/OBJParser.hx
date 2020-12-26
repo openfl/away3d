@@ -754,6 +754,10 @@ class OBJParser extends ParserBase
 	
 	private function loadMtl(mtlurl:String):Void
 	{
+		// CPP target cannot be recognized./
+		if(mtlurl.indexOf("./") == 0){
+			mtlurl = mtlurl.substr(2);
+		}
 		// Add raw-data dependency to queue and load dependencies now,
 		// which will pause the parsing in the meantime.
 		addDependency('mtl', new URLRequest(mtlurl), true);
