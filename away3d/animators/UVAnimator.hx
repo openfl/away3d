@@ -119,8 +119,8 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	 */
 	public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int, camera:Camera3D):Void
 	{
-		var material:TextureMaterial = Std.is(renderable.material, TextureMaterial) ? cast renderable.material : null;
-		var subMesh:SubMesh = Std.is(renderable, SubMesh) ? cast renderable : null;
+		var material:TextureMaterial = Std.isOfType(renderable.material, TextureMaterial) ? cast renderable.material : null;
+		var subMesh:SubMesh = Std.isOfType(renderable, SubMesh) ? cast renderable : null;
 		
 		if (material == null || subMesh == null)
 			return;

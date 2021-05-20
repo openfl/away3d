@@ -104,7 +104,7 @@ class Grid
 			object3d.scenePosition.z -= object3d.scenePosition.z%_unit;
 		}
 		
-		if (Std.is(object3d, Mesh) && object3d.numChildren == 0 && dovert)
+		if (Std.isOfType(object3d, Mesh) && object3d.numChildren == 0 && dovert)
 			snap(cast(object3d, Mesh));
 		
 		for (i in 0...object3d.numChildren) {

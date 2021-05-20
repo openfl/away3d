@@ -338,7 +338,7 @@ class Merge
 	{
 		var child:ObjectContainer3D;
 		
-		if (Std.is(object, Mesh) && object != receiver)
+		if (Std.isOfType(object, Mesh) && object != receiver)
 			collect(cast(object, Mesh), _disposeSources);
 		
 		for (i in 0...object.numChildren) {

@@ -42,7 +42,7 @@ class MipmapGenerator
 			
 			mipmap.draw(source, _matrix, null, null, null, true);
 			
-			if (Std.is(target, Texture)) 
+			if (Std.isOfType(target, Texture)) 
 				cast(target, Texture).uploadFromBitmapData(mipmap, i++);
 			else 
 				cast(target, CubeTexture).uploadFromBitmapData(mipmap, side, i++);

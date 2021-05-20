@@ -146,7 +146,7 @@ class Geometry extends NamedAssetBase implements IAsset
 		
 		for (i in 0...numSubGeoms) {
 			subGeom = _subGeometries[i];
-			if (Std.is(subGeom, SubGeometry))
+			if (Std.isOfType(subGeom, SubGeometry))
 				continue;
 			
 			_removableCompactSubGeometries.push(subGeom);

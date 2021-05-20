@@ -270,12 +270,12 @@ class Mouse3DManager
 		var child:DisplayObject;
 		for (c in 0...childCount) {
 			child = container.getChildAt(c);
-			if (Std.is(child, View3D) && _view3Ds.exists(cast child)) {
+			if (Std.isOfType(child, View3D) && _view3Ds.exists(cast child)) {
 				_view3Ds[cast child] = _childDepth;
 				_view3DLookup[_childDepth] = cast child;
 				_childDepth++;
 			}
-			if (Std.is(child, DisplayObjectContainer))
+			if (Std.isOfType(child, DisplayObjectContainer))
 				traverseDisplayObjects(cast(child, DisplayObjectContainer));
 		}
 	}
