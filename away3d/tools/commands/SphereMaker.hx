@@ -75,7 +75,7 @@ class SphereMaker
 	private function parse(object:ObjectContainer3D):Void
 	{
 		var child:ObjectContainer3D;
-		if (Std.is(object, Mesh))
+		if (Std.isOfType(object, Mesh))
 			apply(cast(object, Mesh), _weight, _radiusMode, _radius);
 		
 		for (i in 0...object.numChildren) {

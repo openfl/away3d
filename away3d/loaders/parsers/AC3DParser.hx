@@ -89,7 +89,7 @@ class AC3DParser extends ParserBase
 			ba.position = 0;
 			str = ba.readUTFBytes(4);
 		} else {
-			str = Std.is(data, String)? cast(data, String).substr(0, 4) : null;
+			str = Std.isOfType(data, String)? cast(data, String).substr(0, 4) : null;
 		}
 		
 		if (str == 'AC3D')

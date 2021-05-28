@@ -89,7 +89,7 @@ class ParticleGeometryHelper
 				
 				var k:Int;
 				var tempLen:Int;
-				var compact:CompactSubGeometry = Std.is(sourceSubGeometry, CompactSubGeometry) ? cast sourceSubGeometry : null;
+				var compact:CompactSubGeometry = Std.isOfType(sourceSubGeometry, CompactSubGeometry) ? cast sourceSubGeometry : null;
 				var product:Int;
 				var sourceVertices:Vector<Float>;
 				

@@ -293,7 +293,7 @@ class MeshDebugger
 	private function parse(object:ObjectContainer3D, scene:Scene3D, displayNormals:Bool, displayVertexNormals:Bool, displayTangents:Bool):Void
 	{
 		var child:ObjectContainer3D;
-		if (Std.is(object, Mesh) && object.numChildren == 0)
+		if (Std.isOfType(object, Mesh) && object.numChildren == 0)
 			debug(cast(object, Mesh), scene, displayNormals, displayVertexNormals, displayTangents);
 		
 		for (i in 0...object.numChildren) {

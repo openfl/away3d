@@ -93,7 +93,7 @@ class Weld
 	{
 		var removedVertCnt:Int = 0;
 		var child:ObjectContainer3D;
-		if (Std.is(obj, Mesh) && obj.numChildren == 0)
+		if (Std.isOfType(obj, Mesh) && obj.numChildren == 0)
 			removedVertCnt += applyToGeom(cast(obj, Mesh).geometry);
 		
 		for (i in 0...obj.numChildren) {
@@ -114,7 +114,7 @@ class Weld
 			
 			// TODO: Remove this check when ISubGeometry can always
 			// be updated using a single unified method (from vectors.)
-			if (Std.is(subGeom, CompactSubGeometry))
+			if (Std.isOfType(subGeom, CompactSubGeometry))
 				removedVertsCnt += applyToSubGeom(subGeom, cast(subGeom, CompactSubGeometry));
 			
 			else {

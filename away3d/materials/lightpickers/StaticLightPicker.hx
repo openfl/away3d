@@ -62,18 +62,18 @@ class StaticLightPicker extends LightPickerBase
 		for (i in 0...len) {
 			light = value[i];
 			light.addEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
-			if (Std.is(light, PointLight)) {
+			if (Std.isOfType(light, PointLight)) {
 				if (light.castsShadows)
 					_castingPointLights[numCastingPointLights++] = cast(light, PointLight)
 				else
 					_pointLights[numPointLights++] = cast(light, PointLight);
 				
-			} else if (Std.is(light, DirectionalLight)) {
+			} else if (Std.isOfType(light, DirectionalLight)) {
 				if (light.castsShadows)
 					_castingDirectionalLights[numCastingDirectionalLights++] = cast(light, DirectionalLight)
 				else
 					_directionalLights[numDirectionalLights++] = cast(light, DirectionalLight);
-			} else if (Std.is(light, LightProbe))
+			} else if (Std.isOfType(light, LightProbe))
 				_lightProbes[numLightProbes++] = cast(light, LightProbe);
 		}
 		
@@ -116,9 +116,9 @@ class StaticLightPicker extends LightPickerBase
 		
 		var light:LightBase = cast(event.target, LightBase);
 		
-		if (Std.is(light, PointLight))
+		if (Std.isOfType(light, PointLight))
 			updatePointCasting(cast(light, PointLight))
-		else if (Std.is(light, DirectionalLight))
+		else if (Std.isOfType(light, DirectionalLight))
 			updateDirectionalCasting(cast(light, DirectionalLight));
 		
 		dispatchEvent(new Event(Event.CHANGE));

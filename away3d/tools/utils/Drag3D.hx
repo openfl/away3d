@@ -335,7 +335,7 @@ class Drag3D
 	
 	private function init():Void
 	{
-		if (!Std.is(_view.camera.lens, PerspectiveLens))
+		if (!Std.isOfType(_view.camera.lens, PerspectiveLens))
 			_view.camera.lens = new PerspectiveLens();
 	}
 	
