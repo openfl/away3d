@@ -392,7 +392,7 @@ class Entity extends ObjectContainer3D
 	{
 		// If there is a parent and this child does not have a triangle collider, use its parent's triangle collider.
 		if (_parent == null && pickingCollider != null) {
-			if (Std.isOfType(_parent, Entity)) {
+			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(_parent, Entity)) {
 				var collider:IPickingCollider = cast(_parent, Entity).pickingCollider;
 				if (collider != null)
 					pickingCollider = collider;

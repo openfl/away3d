@@ -73,7 +73,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	{
 		var animationRegisterCache:AnimationRegisterCache = _particleAnimationSet._animationRegisterCache;
 		
-		var subMesh:SubMesh = Std.isOfType(renderable, SubMesh) ? cast renderable : null;
+		var subMesh:SubMesh = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(renderable, SubMesh) ? cast renderable : null;
 		var state:ParticleStateBase;
 		
 		if (subMesh == null)

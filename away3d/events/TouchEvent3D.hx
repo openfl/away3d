@@ -176,7 +176,7 @@ class TouchEvent3D extends Event
 	 */
 	private function get_scenePosition():Vector3D
 	{
-		if (Std.isOfType(object, ObjectContainer3D))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(object, ObjectContainer3D))
 			return cast((object), ObjectContainer3D).sceneTransform.transformVector(localPosition)
 		else
 			return localPosition;
@@ -187,7 +187,7 @@ class TouchEvent3D extends Event
 	 */
 	private function get_sceneNormal():Vector3D
 	{
-		if (Std.isOfType(object, ObjectContainer3D)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(object, ObjectContainer3D)) {
 			var sceneNormal:Vector3D = cast((object), ObjectContainer3D).sceneTransform.deltaTransformVector(localNormal);
 			sceneNormal.normalize();
 			return sceneNormal;

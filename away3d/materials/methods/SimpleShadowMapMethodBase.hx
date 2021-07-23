@@ -29,7 +29,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 	 */
 	public function new(castingLight:LightBase)
 	{
-		_usePoint = Std.isOfType(castingLight, PointLight);
+		_usePoint = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(castingLight, PointLight);
 		_depthMapCoordReg = null;
 		super(castingLight);
 	}

@@ -49,7 +49,7 @@ class StereoView3D extends View3D
 		if (value == _stereoCam)
 			return value;
 		
-		if (Std.isOfType(value, StereoCamera3D))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(value, StereoCamera3D))
 			_stereoCam = cast(value, StereoCamera3D);
 		else
 			throw new Error("StereoView3D must be used with StereoCamera3D");

@@ -138,7 +138,7 @@ class SingleFileLoader extends EventDispatcher
 	 */
 	public function parseData(data:Dynamic, parser:ParserBase = null, req:URLRequest = null):Void
 	{
-		if (Std.isOfType(data, Class))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class))
 			data = Type.createInstance(data, []);
 		
 		if (parser != null)

@@ -23,10 +23,10 @@ class Cast
 	
 	public static function string(data:Dynamic):String
 	{
-		if (Std.isOfType(data, Class))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class))
 			data = Type.createInstance(data, []);
 		
-		if (Std.isOfType(data, String))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, String))
 			return data;
 		
 		return Std.string(data);
@@ -34,13 +34,13 @@ class Cast
 	
 	public static function byteArray(data:Dynamic):ByteArray
 	{
-		if (Std.isOfType(data, Class))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class))
 			data = Type.createInstance(data, []);
 		
-		if (Std.isOfType(data, ByteArrayData))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, ByteArrayData))
 			return data;
 		
-		if (Std.isOfType(data, Bytes))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Bytes))
 			return cast(data, ByteArray);
 		
 		return null;
@@ -49,10 +49,10 @@ class Cast
 	/*
 	public static function xml(data:Dynamic):XML
 	{
-		if (Std.isOfType(data, Class))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class))
 			data = Type.createInstance(data, []);
 		
-		if (Std.isOfType(data, XML))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, XML))
 			return data;
 		
 		return cast(data, XML);
@@ -72,10 +72,10 @@ class Cast
 	
 	public static function tryColor(data:Dynamic):Int
 	{
-		if (Std.isOfType(data, Int))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Int))
 			return data;
 		
-		if (Std.isOfType(data, String)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, String)) {
 			if (data == "random")
 				return Std.int(Math.random() * 0x1000000);
 			
@@ -272,10 +272,10 @@ class Cast
 		if (data == null)
 			return null;
 		
-		if (Std.isOfType(data, String))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, String))
 			data = Assets.getBitmapData(data);
 		
-		if (Std.isOfType(data, Class)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class)) {
 			try {
 				data = Type.createInstance(data, []);
 			} catch (bitmapError:Dynamic) {
@@ -283,15 +283,15 @@ class Cast
 			}
 		}
 		
-		if (Std.isOfType(data, BitmapData))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, BitmapData))
 			return data;
 		
-		if (Std.isOfType(data, Bitmap)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Bitmap)) {
 			if (cast(data, Bitmap).bitmapData != null) // if (data is BitmapAsset)
 				return (cast(data, Bitmap)).bitmapData;
 		}
 		
-		if (Std.isOfType(data, DisplayObject)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, DisplayObject)) {
 			var ds:DisplayObject = cast(data, DisplayObject);
 			var bmd:BitmapData = new BitmapData(Std.int(ds.width), Std.int(ds.height), true, 0x00FFFF);
 			var mat:Matrix = ds.transform.matrix.clone();
@@ -309,10 +309,10 @@ class Cast
 		if (data == null)
 			return null;
 		
-		if (Std.isOfType(data, String))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, String))
 			data = Assets.getBitmapData(data);
 		
-		if (Std.isOfType(data, Class)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class)) {
 			try {
 				data = Type.createInstance(data, []);
 			} catch (materialError:Dynamic) {
@@ -320,7 +320,7 @@ class Cast
 			}
 		}
 		
-		if (Std.isOfType(data, BitmapTexture))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, BitmapTexture))
 			return data;
 		
 		try {

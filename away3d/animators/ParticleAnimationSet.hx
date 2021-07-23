@@ -263,7 +263,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		if (initParticleFunc == null)
 			throw (new Error("no initParticleFunc set"));
 		
-		var geometry:ParticleGeometry = Std.isOfType(mesh.geometry, ParticleGeometry) ? cast mesh.geometry : null;
+		var geometry:ParticleGeometry = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(mesh.geometry, ParticleGeometry) ? cast mesh.geometry : null;
 		
 		if (geometry == null) 
 			throw (new Error("Particle animation can only be performed on a ParticleGeometry object"));

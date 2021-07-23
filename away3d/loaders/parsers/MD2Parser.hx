@@ -110,7 +110,7 @@ class MD2Parser extends ParserBase
 		if (resourceDependency.assets.length != 1)
 			return;
 		
-		var asset:Texture2DBase = Std.isOfType(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
+		var asset:Texture2DBase = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
 		if (asset != null) {
 			var material:MaterialBase;
 			if (materialMode < 2)

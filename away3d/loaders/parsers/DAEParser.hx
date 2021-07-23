@@ -144,7 +144,7 @@ class DAEParser extends ParserBase
 	{
 		if (resourceDependency.assets.length != 1)
 			return;
-		var resource:Texture2DBase = Std.isOfType(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
+		var resource:Texture2DBase = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
 		_dependencyCount--;
 		
 		if (resource != null && cast(resource, BitmapTexture).bitmapData != null) {
@@ -577,7 +577,7 @@ class DAEParser extends ParserBase
 			if (container != null)
 				container.addChild(mesh);
 			
-			if (controller.skin != null && Std.isOfType(controller.skin.userData, Skeleton)) {
+			if (controller.skin != null && #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(controller.skin.userData, Skeleton)) {
 				
 				if (animationSet == null)
 					animationSet = new SkeletonAnimationSet(controller.skin.maxBones);

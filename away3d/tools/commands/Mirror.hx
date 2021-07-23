@@ -106,7 +106,7 @@ class Mirror
 		
 		// Collect ctr (if it's a mesh) and all it's
 		// mesh children to a flat list.
-		if (Std.isOfType(newObjectContainer, Mesh))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(newObjectContainer, Mesh))
 			meshes.push(cast(newObjectContainer, Mesh));
 		
 		collectMeshChildren(newObjectContainer, meshes);
@@ -155,7 +155,7 @@ class Mirror
 		// mesh children to a flat list.
 		var meshes:Vector<Mesh> = new Vector<Mesh>();
 		
-		if (Std.isOfType(ctr, Mesh))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(ctr, Mesh))
 			meshes.push(cast(ctr, Mesh));
 		
 		collectMeshChildren(ctr, meshes);
@@ -401,7 +401,7 @@ class Mirror
 	{
 		for (i in 0...ctr.numChildren) {
 			var child:ObjectContainer3D = ctr.getChildAt(i);
-			if (Std.isOfType(child, Mesh))
+			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(child, Mesh))
 				meshes.push(cast child);
 			
 			collectMeshChildren(child, meshes);

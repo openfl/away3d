@@ -15,10 +15,10 @@ class ParserUtil
 	 */
 	public static function toByteArray(data:Dynamic):ByteArray
 	{
-		if (Std.isOfType(data, Class))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, Class))
 			data = Type.createInstance(data,[]);
 		
-		if (Std.isOfType(data, ByteArrayData))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, ByteArrayData))
 			return data;
 		else
 			return null;
@@ -39,7 +39,7 @@ class ParserUtil
 		
 		if (length==0) length = 0xffffffff;
 		
-		if (Std.isOfType(data, String)) {
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(data, String)) {
 			var dS:String = cast data;
 			return dS.substr(0, Std.int(Math.min(length, dS.length)));
 		}

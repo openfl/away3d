@@ -62,18 +62,18 @@ class StaticLightPicker extends LightPickerBase
 		for (i in 0...len) {
 			light = value[i];
 			light.addEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
-			if (Std.isOfType(light, PointLight)) {
+			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(light, PointLight)) {
 				if (light.castsShadows)
 					_castingPointLights[numCastingPointLights++] = cast(light, PointLight)
 				else
 					_pointLights[numPointLights++] = cast(light, PointLight);
 				
-			} else if (Std.isOfType(light, DirectionalLight)) {
+			} else if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(light, DirectionalLight)) {
 				if (light.castsShadows)
 					_castingDirectionalLights[numCastingDirectionalLights++] = cast(light, DirectionalLight)
 				else
 					_directionalLights[numDirectionalLights++] = cast(light, DirectionalLight);
-			} else if (Std.isOfType(light, LightProbe))
+			} else if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(light, LightProbe))
 				_lightProbes[numLightProbes++] = cast(light, LightProbe);
 		}
 		
@@ -116,9 +116,9 @@ class StaticLightPicker extends LightPickerBase
 		
 		var light:LightBase = cast(event.target, LightBase);
 		
-		if (Std.isOfType(light, PointLight))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(light, PointLight))
 			updatePointCasting(cast(light, PointLight))
-		else if (Std.isOfType(light, DirectionalLight))
+		else if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(light, DirectionalLight))
 			updateDirectionalCasting(cast(light, DirectionalLight));
 		
 		dispatchEvent(new Event(Event.CHANGE));

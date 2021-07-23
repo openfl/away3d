@@ -175,7 +175,7 @@ class AWD2Parser extends ParserBase
 			var thisBitmapTexture:Texture2DBase;
 			var block:AWDBlock;
 			if (isCubeTextureArray.length == 1) {
-				asset = Std.isOfType(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
+				asset = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(resourceDependency.assets[0], Texture2DBase) ? cast resourceDependency.assets[0] : null;
 				if (asset != null) {
 					var mat:TextureMaterial;
 					//var users:Array;
@@ -860,7 +860,7 @@ class AWD2Parser extends ParserBase
 		light.ambient = props.get(8, 0.0);
 		// if a shadowMapper has been created, adjust the depthMapSize if needed, assign to light and set castShadows to true
 		if (newShadowMapper != null) {
-			if (Std.isOfType(newShadowMapper, CubeMapShadowMapper)) {
+			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(newShadowMapper, CubeMapShadowMapper)) {
 				if (props.get(10, 1) != 1)
 					newShadowMapper.depthMapSize = _depthSizeDic[props.get(10, 1)];
 			} else {
@@ -1161,7 +1161,7 @@ class AWD2Parser extends ParserBase
 			if (!assetVO.enable && (lightPickerAddr != 0))
 				_blocks[blockID].addError("Could not find the LightPicker (ID = " + lightPickerAddr + " ) for this TextureMaterial");
 			else {
-				cast(mat, MaterialBase).lightPicker = Std.isOfType(assetVO.data, LightPickerBase) ? cast assetVO.data : null;
+				cast(mat, MaterialBase).lightPicker = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(assetVO.data, LightPickerBase) ? cast assetVO.data : null;
 				//debugString+=" | Lightpicker-Name = "+LightPickerBase(returnedArray[1]).name;
 			}
 			
@@ -1813,9 +1813,9 @@ class AWD2Parser extends ParserBase
 			if (!assetVO.enable)
 				_blocks[blockID].addError("Could not find the AnimationClipNode Nr " + frames_parsed + " ( " + poseBlockAdress + " ) for this AnimationSet");
 			else {
-				if (Std.isOfType(assetVO.data, VertexClipNode))
+				if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(assetVO.data, VertexClipNode))
 					vertexFrames.push(assetVO.data);
-				if (Std.isOfType(assetVO.data, SkeletonClipNode))
+				if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(assetVO.data, SkeletonClipNode))
 					skeletonFrames.push(assetVO.data);
 			}
 			frames_parsed++;
@@ -2005,7 +2005,7 @@ class AWD2Parser extends ParserBase
 	// Helper - functions
 	private function getUVForVertexAnimation(meshID:UInt):Vector<Vector<Float>>
 	{
-		if (Std.isOfType(_blocks[meshID].data, Mesh))
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(_blocks[meshID].data, Mesh))
 			meshID = _blocks[meshID].geoID;
 		if (_blocks[meshID].uvsForVertexAnimation != null)
 			return _blocks[meshID].uvsForVertexAnimation;
@@ -2192,14 +2192,14 @@ class AWD2Parser extends ParserBase
 						if (cast(_blocks[assetID].data, IAsset).assetType == assetTypesToGet[typeCnt]) {
 							//if the right Asset3DType was found
 							if ((assetTypesToGet[typeCnt] == Asset3DType.TEXTURE) && (extraTypeInfo == "CubeTexture")) {
-								if (Std.isOfType(_blocks[assetID].data, BitmapCubeTexture)) {
+								if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(_blocks[assetID].data, BitmapCubeTexture)) {
 									assetVO.enable = true;
 									assetVO.data = _blocks[assetID].data;
 									return assetVO;
 								}
 							}
 							if ((assetTypesToGet[typeCnt] == Asset3DType.TEXTURE) && (extraTypeInfo == "SingleTexture")) {
-								if (Std.isOfType(_blocks[assetID].data, BitmapTexture)) {
+								if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(_blocks[assetID].data, BitmapTexture)) {
 									assetVO.enable = true;
 									assetVO.data = _blocks[assetID].data;
 									return assetVO;
