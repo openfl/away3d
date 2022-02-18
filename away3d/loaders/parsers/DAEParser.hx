@@ -619,7 +619,8 @@ class DAEParser extends ParserBase
 		var animated:Bool = isAnimatedSkeleton(skeleton);
 		// Use maxTime, the total duration should not be affected by the minimum time.
 		var duration:Float = _animationInfo.numFrames == 0 ? 1.0 : _animationInfo.maxTime;
-		var numFrames:Int = Std.int(Math.max(_animationInfo.numFrames, (animated ? 50 : 2)));
+		// Fixed abnormal bone animation data with less than 50frame
+		var numFrames:Int = Std.int(Math.max(_animationInfo.numFrames, (animated ? _animationInfo.numFrames : 2)));
 		var frameDuration:Float = duration / numFrames;
 		// Use minTime, avoid getting uninitialized bone poses at the initial frame.
 		var t:Float = _animationInfo.minTime;
