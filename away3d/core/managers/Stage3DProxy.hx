@@ -206,7 +206,7 @@ class Stage3DProxy extends EventDispatcher
 		_enableDepthAndStencil = enableDepthAndStencil;
 
 		if (_context3D != null)
-			_context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
+			_context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil, true, true);
 	}
 	
 	/*
@@ -576,7 +576,7 @@ class Stage3DProxy extends EventDispatcher
 			// which they may not have been if View3D.render() has yet to be
 			// invoked for the first time.
 			if (_backBufferWidth > 0 && _backBufferHeight > 0)
-				_context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil);
+				_context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil, true, true);
 			
 			// Dispatch the appropriate event depending on whether context was
 			// created for the first time or recreated after a device loss.

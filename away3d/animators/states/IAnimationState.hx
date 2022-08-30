@@ -1,6 +1,6 @@
 package away3d.animators.states;
 
-import flash.geom.*;
+import openfl.geom.*;
 
 interface IAnimationState
 {
