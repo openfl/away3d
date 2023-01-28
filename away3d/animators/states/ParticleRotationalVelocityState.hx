@@ -73,12 +73,12 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	{
 		// TODO: not used
 		
-		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty.exists(animationSubGeometry))
+		if (_particleRotationalVelocityNode.mode == LOCAL_DYNAMIC && !_dynamicPropertiesDirty.exists(animationSubGeometry))
 			updateDynamicProperties(animationSubGeometry);
 		
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleRotationalVelocityNode.ROTATIONALVELOCITY_INDEX);
 		
-		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.GLOBAL)
+		if (_particleRotationalVelocityNode.mode == GLOBAL)
 			animationRegisterCache.setVertexConst(index, _rotationalVelocityData.x, _rotationalVelocityData.y, _rotationalVelocityData.z, _rotationalVelocityData.w);
 		else
 			animationSubGeometry.activateVertexBuffer(index, _particleRotationalVelocityNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
@@ -86,7 +86,7 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	
 	private function updateRotationalVelocityData():Void
 	{
-		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleRotationalVelocityNode.mode == GLOBAL) {
 			if (_rotationalVelocity.w <= 0)
 				throw(new Error("the cycle duration must greater than zero"));
 			var rotation:Vector3D = _rotationalVelocity.clone();

@@ -84,7 +84,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var orbitRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var orbitRegister:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ORBIT_INDEX, orbitRegister.index);
 		
 		var eulersMatrixRegister:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();

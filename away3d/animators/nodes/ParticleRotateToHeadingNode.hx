@@ -20,7 +20,7 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 	 */
 	public function new()
 	{
-		super("ParticleRotateToHeading", ParticlePropertiesMode.GLOBAL, 0, 3);
+		super("ParticleRotateToHeading", GLOBAL, 0, 3);
 		
 		_stateConstructor = cast ParticleRotateToHeadingState.new;
 	}

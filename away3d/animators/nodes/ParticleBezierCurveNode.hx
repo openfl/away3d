@@ -66,10 +66,10 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var controlValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var controlValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, BEZIER_CONTROL_INDEX, controlValue.index);
 		
-		var endValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var endValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, BEZIER_END_INDEX, endValue.index);
 		
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();

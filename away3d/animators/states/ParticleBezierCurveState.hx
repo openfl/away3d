@@ -69,7 +69,7 @@ class ParticleBezierCurveState extends ParticleStateBase
 		var controlIndex:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleBezierCurveNode.BEZIER_CONTROL_INDEX);
 		var endIndex:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleBezierCurveNode.BEZIER_END_INDEX);
 		
-		if (_particleBezierCurveNode.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+		if (_particleBezierCurveNode.mode == LOCAL_STATIC) {
 			animationSubGeometry.activateVertexBuffer(controlIndex, _particleBezierCurveNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_3);
 			animationSubGeometry.activateVertexBuffer(endIndex, _particleBezierCurveNode.dataOffset + 3, stage3DProxy, Context3DVertexBufferFormat.FLOAT_3);
 		} else {

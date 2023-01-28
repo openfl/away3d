@@ -41,7 +41,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 		_stateConstructor = cast ParticleSegmentedColorState.new;
 		
 		//because of the stage3d register limitation, it only support the global mode
-		super("ParticleSegmentedColor", ParticlePropertiesMode.GLOBAL, 0, ParticleAnimationSet.COLOR_PRIORITY);
+		super("ParticleSegmentedColor", GLOBAL, 0, ParticleAnimationSet.COLOR_PRIORITY);
 		
 		if (numSegmentPoint > 4)
 			throw(new Error("the numSegmentPoint must be less or equal 4"));

@@ -48,7 +48,7 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var accelerationValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var accelerationValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ACCELERATION_INDEX, accelerationValue.index);
 		
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();

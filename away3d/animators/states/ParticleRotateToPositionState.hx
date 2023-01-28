@@ -55,7 +55,7 @@ class ParticleRotateToPositionState extends ParticleStateBase
 			animationRegisterCache.setVertexConstFromMatrix(animationRegisterCache.getRegisterIndex(_animationNode, ParticleRotateToPositionNode.MATRIX_INDEX), _matrix);
 		}
 		
-		if (_particleRotateToPositionNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleRotateToPositionNode.mode == GLOBAL) {
 			_offset = renderable.inverseSceneTransform.transformVector(_position);
 			animationRegisterCache.setVertexConst(index, _offset.x, _offset.y, _offset.z);
 		} else

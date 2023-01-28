@@ -78,7 +78,7 @@ class ParticleScaleNode extends ParticleNodeBase
 		var code:String = "";
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
 		
-		var scaleRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var scaleRegister:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, SCALE_INDEX, scaleRegister.index);
 		
 		if (_usesCycle) {

@@ -120,7 +120,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	{
 		//get 2 vc
 		var uvParamConst1:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
-		var uvParamConst2:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var uvParamConst2:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, UV_INDEX_0, uvParamConst1.index);
 		animationRegisterCache.setRegisterIndex(this, UV_INDEX_1, uvParamConst2.index);
 		

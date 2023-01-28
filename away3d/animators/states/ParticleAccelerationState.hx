@@ -60,7 +60,7 @@ class ParticleAccelerationState extends ParticleStateBase
 		
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleAccelerationNode.ACCELERATION_INDEX);
 		
-		if (_particleAccelerationNode.mode == ParticlePropertiesMode.LOCAL_STATIC)
+		if (_particleAccelerationNode.mode == LOCAL_STATIC)
 			animationSubGeometry.activateVertexBuffer(index, _particleAccelerationNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_3);
 		else
 			animationRegisterCache.setVertexConst(index, _halfAcceleration.x, _halfAcceleration.y, _halfAcceleration.z);
@@ -68,7 +68,7 @@ class ParticleAccelerationState extends ParticleStateBase
 	
 	private function updateAccelerationData():Void
 	{
-		if (_particleAccelerationNode.mode == ParticlePropertiesMode.GLOBAL)
+		if (_particleAccelerationNode.mode == GLOBAL)
 			_halfAcceleration = new Vector3D(_acceleration.x/2, _acceleration.y/2, _acceleration.z/2);
 	}
 }

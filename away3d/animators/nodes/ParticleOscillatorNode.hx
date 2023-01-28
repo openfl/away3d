@@ -49,7 +49,7 @@ class ParticleOscillatorNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var oscillatorRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var oscillatorRegister:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, OSCILLATOR_INDEX, oscillatorRegister.index);
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
 		var dgree:ShaderRegisterElement = new ShaderRegisterElement(temp.regName, temp.index, 0);
