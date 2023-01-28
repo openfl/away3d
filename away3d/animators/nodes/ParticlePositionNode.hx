@@ -33,7 +33,7 @@ class ParticlePositionNode extends ParticleNodeBase
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 * @param    [optional] position        Defines the default position of the particle when in global mode. Defaults to 0,0,0.
 	 */
-	public function new(mode:Int, position:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, position:Vector3D = null)
 	{
 		super("ParticlePosition", mode, 3);
 		

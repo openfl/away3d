@@ -32,7 +32,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 	/**
 	 * Creates a new <code>ParticleRotateToPositionNode</code>
 	 */
-	public function new(mode:Int, position:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, position:Vector3D = null)
 	{
 		super("ParticleRotateToPosition", mode, 3, 3);
 		

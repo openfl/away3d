@@ -80,7 +80,7 @@ class ParticleColorNode extends ParticleNodeBase
 	 * @param    [optional] cycleDuration   Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 * @param    [optional] cyclePhase      Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, startColor:ColorTransform = null, endColor:ColorTransform = null, cycleDuration:Float = 1, cyclePhase:Float = 0)
+	public function new(mode:ParticlePropertiesMode, usesMultiplier:Bool = true, usesOffset:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, startColor:ColorTransform = null, endColor:ColorTransform = null, cycleDuration:Float = 1, cyclePhase:Float = 0)
 	{
 		_stateConstructor = cast ParticleColorState.new;
 		

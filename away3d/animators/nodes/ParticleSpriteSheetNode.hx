@@ -88,7 +88,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	 * @param    [optional] totalFrames     Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows.
 	 * @param    [optional] looping         Defines whether the spritesheet animation is set to loop indefinitely. Defaults to true.
 	 */
-	public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:Int = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Int = -1)
+	public function new(mode:ParticlePropertiesMode, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:Int = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Int = -1)
 	{
 		//todo totalFrames = Math.POSITIVE_INFINITY;
 		

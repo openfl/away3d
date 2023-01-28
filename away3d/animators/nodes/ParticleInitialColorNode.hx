@@ -34,7 +34,7 @@ class ParticleInitialColorNode extends ParticleNodeBase
 	 */
 	public static inline var COLOR_INITIAL_COLORTRANSFORM:String = "ColorInitialColorTransform";
 	
-	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = false, initialColor:ColorTransform = null)
+	public function new(mode:ParticlePropertiesMode, usesMultiplier:Bool = true, usesOffset:Bool = false, initialColor:ColorTransform = null)
 	{
 		_stateConstructor = cast ParticleInitialColorState.new;
 		
