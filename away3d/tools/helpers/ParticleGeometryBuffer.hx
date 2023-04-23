@@ -116,26 +116,6 @@ class ParticleGeometryBuffer
 	}
 	
 	/**
-	 * Adds geometry for a single particle.
-	 * @return The index of the newly-added particle.
-	 */
-	public inline function addTransformedGeometries(geometry:Geometry, ?transform:ParticleGeometryTransform):Void
-	{
-		for (i in 0...geometry.subGeometries.length)
-		{
-			var subGeometry:ISubGeometry = geometry.subGeometries[i];
-			var buildGroup:BuildGroup = buildGroups[i];
-			if (buildGroup == null)
-			{
-				buildGroups[i] = buildGroup = new BuildGroup();
-			}
-			
-			addParticleData(buildGroup, subGeometry.numVertices);
-			buildGroup.addISubGeometry(subGeometry, transform);
-		}
-	}
-	
-	/**
 	 * Exports the current particle data as a single `ParticleGeometry`.
 	 * 
 	 * Note: this does not dispose the buffer, so it's possible to export
