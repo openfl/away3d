@@ -128,7 +128,8 @@ class ParticleGeometryBuffer
 		particleGeometry.particles = particles.copy();
 		particleGeometry.numParticles = numParticles;
 		
-		for (buildGroup in buildGroups) {
+		for (buildGroup in buildGroups)
+		{
 			buildGroup.uploadAndReset();
 			
 			for (subGeometry in buildGroup.output)
@@ -360,7 +361,8 @@ abstract BuildGroup({
 	
 	// Getters & Setters
 	
-	private inline function get_outputCount():Int {
+	private inline function get_outputCount():Int
+	{
 		return this.output.length + this.vertexCount > 0 ? 1 : 0;
 	}
 }
