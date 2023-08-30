@@ -213,6 +213,7 @@ abstract BuildGroup({
 	
 	public function addCompactSubGeometry(subGeometry:CompactSubGeometry, ?transform:ParticleGeometryTransform):Void
 	{
+		var oldVertexCount:Int = this.vertexCount;
 		var newVertexCount:Int = this.vertexCount + subGeometry.numVertices;
 		if (newVertexCount > MAX_VERTEX)
 		{
@@ -321,9 +322,9 @@ abstract BuildGroup({
 		for (i in 0...subGeometry.numTriangles)
 		{
 			var start:Int = i * 3;
-			this.indices.push(sourceIndices[start] + this.vertexCount);
-			this.indices.push(sourceIndices[start + 1] + this.vertexCount);
-			this.indices.push(sourceIndices[start + 2] + this.vertexCount);
+			this.indices.push(sourceIndices[start] + oldVertexCount);
+			this.indices.push(sourceIndices[start + 1] + oldVertexCount);
+			this.indices.push(sourceIndices[start + 2] + oldVertexCount);
 		}
 	}
 	
