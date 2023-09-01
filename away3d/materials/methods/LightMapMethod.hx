@@ -26,7 +26,7 @@ class LightMapMethod extends EffectMethodBase
 	/**
 	 * Indicates the light map should be added into the calculated shading result.
 	 */
-	public static var ADD:BlendMode = BlendMode.ADD;
+	public static inline var ADD:BlendMode = BlendMode.ADD;
 	
 	private var _texture:Texture2DBase;
 	
