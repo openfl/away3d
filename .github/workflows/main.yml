@@ -1,0 +1,53 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+
+  package-haxelib:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: away3d-haxelib
+          path: |
+            ./
+            !scripts/
+            !haxe-*-*/
+            !neko-*-*/
+            !.git/
+          if-no-files-found: error
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.2.5
+
+      - name: Set HAXEPATH
+        run: |
+          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
+
+      - name: Install Haxe dependencies
+        run: |
+          haxelib install lime --quiet
+          haxelib install openfl --quiet
+          haxelib install dox --quiet
+          haxelib dev away3d $GITHUB_WORKSPACE
+
+      - name: Build docs
+        working-directory: scripts
+        run: |
+          haxe docs.hxml
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: away3d-docs
+          path: docs
+          if-no-files-found: error
