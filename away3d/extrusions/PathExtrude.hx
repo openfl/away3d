@@ -627,7 +627,7 @@ class PathExtrude extends Mesh
 		
 		var dist:Float = 0;
 		var tdist:Float;
-		var bleft:Vector3D;
+		var bleft:Vector3D = null;
 		var bu:Float = 0;
 		var bincu:Float = 0;
 		
