@@ -6,5 +6,5 @@
 	"description": "Away3D is an open source platform for developing interactive 3D graphics for video games and applications.",
 	"version": "5.0.9",
 	"releasenote": "Improved material name handling in OBJParser and fixed Haxe 4 RC4 support",
-	"contributors": [ "Greg209", "singmajesty", "p.j.shand" ]
+	"contributors": [ "Greg209", "singmajesty", "p.j.shand", "bowlerhat", "Dimensionscape" ]
 }
