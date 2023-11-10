@@ -52,47 +52,6 @@ jobs:
           path: docs
           if-no-files-found: error
 
-  neko-samples:
-    needs: package-haxelib
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: krdlab/setup-haxe@v1
-        with:
-          haxe-version: 4.2.5
-
-      - name: Set HAXEPATH
-        run: |
-          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
-
-      - name: Install Haxe dependencies
-        run: |
-          haxelib install lime --quiet
-          haxelib install openfl --quiet
-          haxelib install actuate --quiet
-          haxelib git away3d-samples https://github.com/openfl/away3d-samples --quiet
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: away3d-haxelib
-          path: away3d-haxelib
-
-      - name: Prepare away3d
-        run: |
-          haxelib dev away3d away3d-haxelib
-          haxelib run lime setup -alias -y
-          haxelib run openfl setup -alias -y
-
-      - name: Create Away3D samples
-        run: |
-          openfl create away3d:Particles -verbose -nocolor
-          openfl create away3d:Tweening3D -verbose -nocolor
-
-      - name: Build Away3D samples
-        run: |
-          lime build Particles neko -release -verbose -nocolor
-          lime build Tweening3D neko -release -verbose -nocolor
-
   samples:
     needs: package-haxelib
     runs-on: ubuntu-latest
