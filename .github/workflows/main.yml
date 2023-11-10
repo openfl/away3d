@@ -95,7 +95,7 @@ jobs:
           haxelib run lime build samples/basic/Particles neko
           haxelib run lime build samples/basic/Tweening3D neko
 
-      - name: Build HTML samples
+      - name: Build HTML5 samples
         run: |
           haxelib run lime build samples/basic/Particles html5
           haxelib run lime build samples/basic/Tweening3D html5
