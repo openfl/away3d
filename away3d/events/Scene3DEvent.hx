@@ -3,6 +3,7 @@ package away3d.events;
 import away3d.containers.ObjectContainer3D;
 
 import openfl.events.Event;
+import openfl.utils.Object;
 
 class Scene3DEvent extends Event
 {
@@ -12,9 +13,8 @@ class Scene3DEvent extends Event
 	
 	public var objectContainer3D:ObjectContainer3D;
 	
-	//@:getter(target)
 	#if flash
-	private function get_target():Dynamic {
+	#if (haxe_ver < 4.3) @:getter(target) #else override #end private function get_target(): #if (openfl >= "9.2.0") Object #else Dynamic #end {
 		return objectContainer3D;
 	}
 	#end

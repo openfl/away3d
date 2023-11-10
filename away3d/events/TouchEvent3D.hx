@@ -109,10 +109,10 @@ class TouchEvent3D extends Event
 	 * @inheritDoc
 	 */
 	#if flash
-	@:getter(bubbles) function get_bubbles():Bool
+	#if (haxe_ver < 4.3) @:getter(bubbles) #else override #end private function get_bubbles():Bool
 	{
 		// Don't bubble if propagation has been stopped.
-		return this.bubbles && _allowedToPropagate;
+		return super.bubbles && _allowedToPropagate;
 	}
 	#end
 	
