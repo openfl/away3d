@@ -90,18 +90,23 @@ jobs:
           haxelib run openfl create away3d:Particles samples/basic/Particles -verbose -nocolor
           haxelib run openfl create away3d:Tweening3D samples/basic/Tweening3D -verbose -nocolor
 
-      - name: Build Particles sample
-        working-directory: samples/basic/Particles
+      - name: Build Neko samples
         run: |
-          haxelib run lime build html5
-          haxelib run lime build neko
-          haxelib run lime build hl
-          haxelib run lime build flash
+          haxelib run lime build samples/basic/Particles neko
+          haxelib run lime build samples/basic/Tweening3D neko
 
-      - name: Build Tweening3D sample
-        working-directory: samples/basic/Tweening3D
+      - name: Build HTML samples
         run: |
-          haxelib run lime build html5
-          haxelib run lime build neko
-          haxelib run lime build hl
-          haxelib run lime build flash
+          haxelib run lime build samples/basic/Particles html5
+          haxelib run lime build samples/basic/Tweening3D html5
+
+      - name: Build Flash samples
+        run: |
+          haxelib run lime build samples/basic/Particles flash
+          haxelib run lime build samples/basic/Tweening3D flash
+
+      - name: Build HashLink samples
+        if: ${{ matrix.haxe-version != '3.4.7' }}
+        run: |
+          haxelib run lime build samples/basic/Particles hl
+          haxelib run lime build samples/basic/Tweening3D hl
