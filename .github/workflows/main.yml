@@ -39,7 +39,7 @@ jobs:
           haxelib install lime --quiet
           haxelib install openfl --quiet
           haxelib install dox --quiet
-          haxelib dev away3d $GITHUB_WORKSPACE
+          haxelib dev away3d ${{ github.workspace }}
 
       - name: Build docs
         working-directory: scripts
