@@ -33,7 +33,7 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 * @param    [optional] acceleration    Defines the default acceleration vector of the node, used when in global mode.
 	 */
-	public function new(mode:Int, acceleration:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, acceleration:Vector3D = null)
 	{
 		super("ParticleAcceleration", mode, 3);
 		
@@ -48,7 +48,7 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var accelerationValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var accelerationValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ACCELERATION_INDEX, accelerationValue.index);
 		
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();

@@ -47,7 +47,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 		var node:ParticleNodeBase;
 		for (node in _particleAnimationSet.particleNodes) {
 			state = cast(getAnimationState(node), ParticleStateBase);
-			if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC) {
+			if (node.mode == LOCAL_DYNAMIC) {
 				_animatorParticleStates.push(state);
 				node.dataOffset = _totalLenOfOneVertex;
 				_totalLenOfOneVertex += node.dataLength;

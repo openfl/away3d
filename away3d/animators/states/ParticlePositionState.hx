@@ -65,12 +65,12 @@ class ParticlePositionState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		if (_particlePositionNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty.exists(animationSubGeometry))
+		if (_particlePositionNode.mode == LOCAL_DYNAMIC && !_dynamicPropertiesDirty.exists(animationSubGeometry))
 			updateDynamicProperties(animationSubGeometry);
 		
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticlePositionNode.POSITION_INDEX);
 		
-		if (_particlePositionNode.mode == ParticlePropertiesMode.GLOBAL)
+		if (_particlePositionNode.mode == GLOBAL)
 			animationRegisterCache.setVertexConst(index, _position.x, _position.y, _position.z);
 		else
 			animationSubGeometry.activateVertexBuffer(index, _particlePositionNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_3);

@@ -15,11 +15,11 @@ import openfl.Vector;
 class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 {
 	public var numPoses(get, never):Int;
-	public var blendMode(get, never):String;
+	public var blendMode(get, never):VertexAnimationMode;
 	public var useNormals(get, never):Bool;
 
 	private var _numPoses:Int;
-	private var _blendMode:String;
+	private var _blendMode:VertexAnimationMode;
 	private var _streamIndices:Map<MaterialPassBase, Int> = new Map();
 	private var _useNormals:Map<MaterialPassBase, Bool> = new Map();
 	private var _useTangents:Map<MaterialPassBase, Bool> = new Map();
@@ -37,7 +37,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * Returns the active blend mode of the vertex animator object.
 	 */
-	private function get_blendMode():String
+	private function get_blendMode():VertexAnimationMode
 	{
 		return _blendMode;
 	}
@@ -58,7 +58,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	 *
 	 * @see away3d.animators.data.VertexAnimationMode
 	 */
-	public function new(numPoses:Int = 2, blendMode:String = "absolute")
+	public function new(numPoses:Int = 2, blendMode:VertexAnimationMode = ABSOLUTE)
 	{
 		super();
 		
@@ -71,7 +71,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String
 	{
-		if (_blendMode == VertexAnimationMode.ABSOLUTE)
+		if (_blendMode == ABSOLUTE)
 			return getAbsoluteAGALCode(pass, sourceRegisters, targetRegisters);
 		else
 			return getAdditiveAGALCode(pass, sourceRegisters, targetRegisters);

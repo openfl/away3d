@@ -57,7 +57,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 	 * @param    [optional] cyclePhase      Defines the phase of the orbit in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 * @param    [optional] eulers          Defines the euler rotation in degrees, applied to the orientation of the orbit when in global mode.
 	 */
-	public function new(mode:Int, usesEulers:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, radius:Float = 100, cycleDuration:Float = 1, cyclePhase:Float = 0, eulers:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, usesEulers:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, radius:Float = 100, cycleDuration:Float = 1, cyclePhase:Float = 0, eulers:Vector3D = null)
 	{
 		var len:Int = 3;
 		if (usesPhase)
@@ -84,7 +84,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var orbitRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var orbitRegister:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ORBIT_INDEX, orbitRegister.index);
 		
 		var eulersMatrixRegister:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
