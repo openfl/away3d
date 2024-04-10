@@ -954,7 +954,7 @@ class View3D extends Sprite
 	}
 	
 	/**
-	 * Disposes all memory occupied by the view. This will also dispose the renderer.
+	 * Intends to dispose all memory occupied by the view, and also dispose the renderer. Throws a `NullObjectReference` exception if the view scene ever contained mesh objects.
 	 */
 	public function dispose():Void
 	{
