@@ -199,7 +199,7 @@ class View3D extends Sprite
 	private function onScenePartitionChanged(event:Event):Void
 	{
 		if (_camera!=null)
-			_camera.partition = scene.partition;
+			_camera.partition = _scene.partition;
 	}
 	
 	/*
