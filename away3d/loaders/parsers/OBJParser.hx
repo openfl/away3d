@@ -237,9 +237,8 @@ class OBJParser extends ParserBase
 				loadMtl(trunk[1]);
 			case "g":
 				createGroup(trunk);
-			case "o":
-				createObject(trunk);
 			case "usemtl":
+				createObject(trunk);
 				if (_mtlLib) {
 					if (trunk[1] == "")
 						trunk[1] = "def000";
