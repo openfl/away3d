@@ -57,7 +57,7 @@ class ParticleOscillatorState extends ParticleStateBase
 	{
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleOscillatorNode.OSCILLATOR_INDEX);
 		
-		if (_particleOscillatorNode.mode == ParticlePropertiesMode.LOCAL_STATIC)
+		if (_particleOscillatorNode.mode == LOCAL_STATIC)
 			animationSubGeometry.activateVertexBuffer(index, _particleOscillatorNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 		else
 			animationRegisterCache.setVertexConst(index, _oscillatorData.x, _oscillatorData.y, _oscillatorData.z, _oscillatorData.w);
@@ -65,7 +65,7 @@ class ParticleOscillatorState extends ParticleStateBase
 	
 	private function updateOscillatorData():Void
 	{
-		if (_particleOscillatorNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleOscillatorNode.mode == GLOBAL) {
 			if (_oscillator.w <= 0)
 				throw(new Error("the cycle duration must greater than zero"));
 			if (_oscillatorData == null)

@@ -103,11 +103,11 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		var i:Int;
 		var n:ParticleNodeBase = cast(node, ParticleNodeBase);
 		n.processAnimationSetting(this);
-		if (n.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+		if (n.mode == LOCAL_STATIC) {
 			n.dataOffset = _totalLenOfOneVertex;
 			_totalLenOfOneVertex += n.dataLength;
 			_localStaticNodes.push(n);
-		} else if (n.mode == ParticlePropertiesMode.LOCAL_DYNAMIC)
+		} else if (n.mode == LOCAL_DYNAMIC)
 			_localDynamicNodes.push(n);
 		
 		i = _particleNodes.length - 1;
