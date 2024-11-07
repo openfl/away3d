@@ -911,8 +911,9 @@ class DAEParser extends ParserBase
 			daeGeometry = _libGeometries[id];
 			if (daeGeometry.mesh != null) {
 				geometry = translateGeometry(daeGeometry.mesh);
+				geometry.name = daeGeometry.name;
 				if (geometry.subGeometries.length != 0) {
-					if (id != null && Math.isNaN(Std.parseFloat(id)))
+					if (geometry.name == null && id != null && Math.isNaN(Std.parseFloat(id)))
 						geometry.name = id;
 					geometries.push(geometry);
 					
@@ -1548,7 +1549,7 @@ class DAEGeometry extends DAEElement
 	{
 		super.deserialize(element);
 		traverseChildren(element);
-		meshName = element.att.hasField("name") ? element.att.resolve("name") : element.att.resolve("id");
+		meshName = element.has.name ? element.att.name : element.att.id;
 	}
 	
 	override private function traverseChildHandler(child:Access, nodeName:String):Void
