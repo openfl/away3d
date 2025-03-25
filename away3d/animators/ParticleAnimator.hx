@@ -157,6 +157,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 		animatorSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);
 		
 		//pass the particles data to the animator subGeometry
+		animatorSubGeometry.animationParticleOffset = subMesh.animationSubGeometry.animationParticleOffset;
 		animatorSubGeometry.animationParticles = subMesh.animationSubGeometry.animationParticles;
 	}
 }

@@ -274,6 +274,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		var subGeometry:ISubGeometry;
 		var subMesh:SubMesh;
 		var localNode:ParticleNodeBase;
+		var particleOffset:Int = 0;
 		
 		for (i in 0...mesh.subMeshes.length) {
 			subMesh = mesh.subMeshes[i];
@@ -283,6 +284,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 				
 				if (animationSubGeometry != null) {
 					subMesh.animationSubGeometry = animationSubGeometry;
+					particleOffset += animationSubGeometry.numAnimationParticles;
 					continue;
 				}
 			}
@@ -295,7 +297,11 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			
 			//create the vertexData vector that will be used for local node data
 			animationSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);
+			
+			particleOffset += animationSubGeometry.animationParticles.length;
 		}
+		
+		animationSubGeometry.animationParticleOffset = particleOffset;
 		
 		if (newAnimationSubGeometry == false)
 			return;
@@ -370,8 +376,10 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 				}
 				
 				//store particle properties if they need to be retreived for dynamic local nodes
-				if (_localDynamicNodes.length > 0)
+				if (_localDynamicNodes.length > 0) {
 					animationSubGeometry.animationParticles.push(new ParticleAnimationData(i, particleProperties.startTime, particleProperties.duration, particleProperties.delay, particle));
+					animationSubGeometry.numAnimationParticles++;
+				}
 				
 				animationSubGeometry.numProcessedVertices += numVertices;
 				
