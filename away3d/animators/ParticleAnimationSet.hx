@@ -350,6 +350,12 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 						break;
 					}
 				}
+				
+				if(j < animationSubGeometry.animationParticleOffset + animationSubGeometry.numAnimationParticles) {
+					j++;
+					continue;
+				}
+				
 				numVertices = particle.numVertices;
 				vertexData = animationSubGeometry.vertexData;
 				vertexLength = numVertices*_totalLenOfOneVertex;
