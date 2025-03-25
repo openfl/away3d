@@ -212,7 +212,8 @@ class RTTBufferManager extends EventDispatcher
 		
 		if (_indexBuffer == null) {
 			_indexBuffer = _stage3DProxy.createIndexBuffer(6);
-			var v:Vector<UInt> = Vector.ofArray([2, 1, 0, 3, 2, 0]);
+			var a:Array<UInt> = [2, 1, 0, 3, 2, 0];
+			var v:Vector<UInt> = Vector.ofArray(a);
 			_indexBuffer.uploadFromVector(v, 0, 6);
 		}
 		

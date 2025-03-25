@@ -116,7 +116,8 @@ class BackgroundImageRenderer
 		_vertexBuffer = _stage3DProxy.createVertexBuffer(4, 4);
 		_program3d = context.createProgram();
 		_indexBuffer = _stage3DProxy.createIndexBuffer(6);
-		var v:Vector<UInt> = Vector.ofArray([ 2, 1, 0, 3, 2, 0 ]);
+		var a:Array<UInt> = [ 2, 1, 0, 3, 2, 0 ];
+		var v:Vector<UInt> = Vector.ofArray(a);
 		_indexBuffer.uploadFromVector(v, 0, 6);
 		_program3d.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
 			new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode())

@@ -15,7 +15,7 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
-import flash.utils.Timer;
+import openfl.utils.Timer;
 import openfl.Lib;
 import openfl.Vector;
 

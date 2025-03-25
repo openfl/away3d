@@ -1,0 +1,112 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+
+  package-haxelib:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: away3d-haxelib
+          path: |
+            ./
+            !scripts/
+            !haxe-*-*/
+            !neko-*-*/
+            !.git/
+          if-no-files-found: error
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.2.5
+
+      - name: Set HAXEPATH
+        run: |
+          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
+
+      - name: Install Haxe dependencies
+        run: |
+          haxelib install lime --quiet
+          haxelib install openfl --quiet
+          haxelib install dox --quiet
+          haxelib dev away3d ${{ github.workspace }}
+
+      - name: Build docs
+        working-directory: scripts
+        run: |
+          haxe docs.hxml
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: away3d-docs
+          path: docs
+          if-no-files-found: error
+
+  samples:
+    needs: package-haxelib
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        haxe-version: [3.4.7, 4.0.5, 4.1.5, 4.2.5, 4.3.2]
+    steps:
+
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: ${{ matrix.haxe-version }}
+
+      - name: Set HAXEPATH
+        run: |
+          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
+
+      - name: Install Haxe dependencies
+        run: |
+          haxelib install lime --quiet
+          haxelib install openfl --quiet
+          haxelib install actuate --quiet
+          haxelib install openfl-samples --quiet
+          haxelib git away3d-samples https://github.com/openfl/away3d-samples --quiet
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: away3d-haxelib
+          path: away3d-haxelib
+
+      - name: Prepare away3d
+        run: |
+          haxelib dev away3d away3d-haxelib
+
+      - name: Create Away3D samples
+        run: |
+          haxelib run openfl create away3d:Particles samples/basic/Particles -verbose -nocolor
+          haxelib run openfl create away3d:Tweening3D samples/basic/Tweening3D -verbose -nocolor
+
+      - name: Build Neko samples
+        run: |
+          haxelib run lime build samples/basic/Particles neko
+          haxelib run lime build samples/basic/Tweening3D neko
+
+      - name: Build HTML5 samples
+        run: |
+          haxelib run lime build samples/basic/Particles html5
+          haxelib run lime build samples/basic/Tweening3D html5
+
+      - name: Build Flash samples
+        run: |
+          haxelib run lime build samples/basic/Particles flash
+          haxelib run lime build samples/basic/Tweening3D flash
+
+      - name: Build HashLink samples
+        if: ${{ matrix.haxe-version != '3.4.7' }}
+        run: |
+          haxelib run lime build samples/basic/Particles hl
+          haxelib run lime build samples/basic/Tweening3D hl

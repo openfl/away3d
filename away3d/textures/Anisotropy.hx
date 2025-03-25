@@ -1,6 +1,6 @@
 package away3d.textures;
 
-#if haxe4 enum #else @:enum #end abstract Anisotropy(Null<Int>)
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract Anisotropy(Null<Int>)
 {
 	public var NONE = 0;
 	public var ANISOTROPIC2X = 1;

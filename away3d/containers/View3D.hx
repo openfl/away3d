@@ -199,7 +199,7 @@ class View3D extends Sprite
 	private function onScenePartitionChanged(event:Event):Void
 	{
 		if (_camera!=null)
-			_camera.partition = scene.partition;
+			_camera.partition = _scene.partition;
 	}
 	
 	/*
@@ -479,11 +479,10 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	@:getter(filters)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function get_filters():Array<BitmapFilter>
+	@:getter(filters) private #if (!flash && !display) override #end function get_filters():Array<BitmapFilter>
 	#else
-	private #if !flash override #end function get_filters():Array<BitmapFilter>
+	#if (flash && haxe_ver < 4.3) @:getter(filters) #else override #end private function get_filters():Array<BitmapFilter>
 	#end
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
@@ -493,36 +492,35 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	@:setter(filters)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function set_filters(value:Array<BitmapFilter>)
+	@:setter(filters) private #if (!flash && !display) override #end function set_filters(value:Array<BitmapFilter>)
 	#else
-	private #if !flash override #end function set_filters(value:Array<BitmapFilter>)
+	#if (flash && haxe_ver < 4.3) @:setter(filters) #else override #end private function set_filters(value:Array<BitmapFilter>):#if (!flash || haxe_ver >= 4.3) Array<BitmapFilter> #else Void #end
 	#end
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
-		#if !flash return value; #end
+		#if (!flash || haxe_ver >= 4.3)
+		return value;
+		#end
 	}
 	
 	/**
 	 * The width of the viewport. When software rendering is used, this is limited by the
 	 * platform to 2048 pixels.
 	 */
-	@:getter(width)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function get_width():Float
+	@:getter(width) private #if (!flash && !display) override #end function get_width():Float
 	#else
-	private #if !flash override #end function get_width():Float
+	#if (flash && haxe_ver < 4.3) @:getter(width) #else override #end private function get_width():Float
 	#end
 	{
 		return _width;
 	}
 
-	@:setter(width)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function set_width(value:Float)
+	@:setter(width) private #if (!flash && !display) override #end function set_width(value:Float)
 	#else
-	private #if !flash override #end function set_width(value:Float)
+	#if (flash && haxe_ver < 4.3) @:setter(width) #else override #end private function set_width(value:Float):#if (!flash || haxe_ver >= 4.3) Float #else Void #end
 	#end
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
@@ -530,7 +528,13 @@ class View3D extends Sprite
 			value = 2048;
 		
 		if (_width == value)
-			#if flash return #else return value #end;
+		{
+			#if (!flash || haxe_ver >= 4.3)
+			return value;
+			#else
+			return;
+			#end
+		}
 		
 		_hitField.width = value;
 		_width = value;
@@ -552,28 +556,28 @@ class View3D extends Sprite
 		_backBufferInvalid = true;
 		_scissorRectDirty = true;
 		
-		#if !flash return value; #end
+		#if (!flash || haxe_ver >= 4.3)
+		return value;
+		#end
 	}
 	
 	/**
 	 * The height of the viewport. When software rendering is used, this is limited by the
 	 * platform to 2048 pixels.
 	 */
-	@:getter(height)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function get_height():Float
+	@:getter(height) private #if (!flash && !display) override #end function get_height():Float
 	#else
-	private #if !flash override #end function get_height():Float
+	#if (flash && haxe_ver < 4.3) @:getter(height) #else override #end private function get_height():Float
 	#end
 	{
 		return _height;
 	}
 	
-	@:setter(height)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function set_height(value:Float)
+	@:setter(height) private #if (!flash && !display) override #end function set_height(value:Float)
 	#else
-	private #if !flash override #end function set_height(value:Float)
+	#if (flash && haxe_ver < 4.3) @:setter(height) #else override #end private function set_height(value:Float):#if (!flash || haxe_ver >= 4.3) Float #else Void #end
 	#end
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
@@ -581,7 +585,13 @@ class View3D extends Sprite
 			value = 2048;
 		
 		if (_height == value)
-			#if flash return #else return value #end;
+		{
+			#if (!flash || haxe_ver >= 4.3)
+			return value;
+			#else
+			return;
+			#end
+		}
 		
 		_hitField.height = value;
 		_height = value;
@@ -603,18 +613,25 @@ class View3D extends Sprite
 		_backBufferInvalid = true;
 		_scissorRectDirty = true;
 		
-		#if !flash return value; #end
+		#if (!flash || haxe_ver >= 4.3)
+		return value;
+		#end
 	}
 	
-	@:setter(x)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function set_x(value:Float)
+	@:setter(x) private #if (!flash && !display) override #end function set_x(value:Float)
 	#else
-	private #if !flash override #end function set_x(value:Float)
+	#if (flash && haxe_ver < 4.3) @:setter(x) #else override #end private function set_x(value:Float):#if (!flash || haxe_ver >= 4.3) Float #else Void #end
 	#end
 	{
 		if (x == value)
-			#if flash return #else return value #end;
+		{
+			#if (!flash || haxe_ver >= 4.3)
+			return value;
+			#else
+			return;
+			#end
+		}
 		
 		super.x = value;
 		_localTLPos.x = value;
@@ -622,18 +639,25 @@ class View3D extends Sprite
 		_globalPos.x = parent != null ? parent.localToGlobal(_localTLPos).x : value;
 		_globalPosDirty = true;
 		
-		#if !flash return value; #end
+		#if (!flash || haxe_ver >= 4.3)
+		return value;
+		#end
 	}
 	
-	@:setter(y)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function set_y(value:Float)
+	@:setter(y) private #if (!flash && !display) override #end function set_y(value:Float)
 	#else
-	private #if !flash override #end function set_y(value:Float)
+	#if (flash && haxe_ver < 4.3) @:setter(y) #else override #end private function set_y(value:Float):#if (!flash || haxe_ver >= 4.3) Float #else Void #end
 	#end
 	{
 		if (y == value)
-			#if flash return #else return value #end;
+		{
+			#if (!flash || haxe_ver >= 4.3)
+			return value;
+			#else
+			return;
+			#end
+		}
 		
 		super.y = value;
 		_localTLPos.y = value;
@@ -641,14 +665,15 @@ class View3D extends Sprite
 		_globalPos.y = parent != null ? parent.localToGlobal(_localTLPos).y : value;
 		_globalPosDirty = true;
 		
-		#if !flash return value; #end
+		#if (!flash || haxe_ver >= 4.3)
+		return value;
+		#end
 	}
 	
-	@:setter(visible)
 	#if (openfl < "8.0.0")
-	private #if (!flash && !display) override #end function set_visible(value:Bool)
+	@:setter(visible) private #if (!flash && !display) override #end function set_visible(value:Bool)
 	#else
-	private #if !flash override #end function set_visible(value:Bool)
+	#if (flash && haxe_ver < 4.3) @:setter(visible) #else override #end private function set_visible(value:Bool):#if (!flash || haxe_ver >= 4.3) Bool #else Void #end
 	#end
 	{
 		super.visible = value;
@@ -656,7 +681,9 @@ class View3D extends Sprite
 		if (_stage3DProxy!=null && !_shareContext)
 			_stage3DProxy.visible = value;
 		
-		#if !flash return value; #end
+		#if (!flash || haxe_ver >= 4.3)
+		return value;
+		#end
 	}
 	
 	/**

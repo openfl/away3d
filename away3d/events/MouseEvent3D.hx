@@ -161,7 +161,7 @@ class MouseEvent3D extends Event
 	 * @inheritDoc
 	 */
 	#if flash
-	@:getter(bubbles) function get_bubbles():Bool
+	#if (haxe_ver < 4.3) @:getter(bubbles) #else override #end private function get_bubbles():Bool
 	{
 		var doesBubble:Bool = super.bubbles && _allowedToPropagate;
 		_allowedToPropagate = true;
