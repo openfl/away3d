@@ -30,6 +30,8 @@ class AnimationSubGeometry
 	
 	public var previousTime:Float = Math.NEGATIVE_INFINITY;
 	
+	public var animationParticleOffset:Int = 0;
+	public var numAnimationParticles:Int = 0;
 	public var animationParticles:Vector<ParticleAnimationData> = new Vector<ParticleAnimationData>();
 	
 	public function new()
