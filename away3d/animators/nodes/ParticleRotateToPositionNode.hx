@@ -32,7 +32,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 	/**
 	 * Creates a new <code>ParticleRotateToPositionNode</code>
 	 */
-	public function new(mode:Int, position:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, position:Vector3D = null)
 	{
 		super("ParticleRotateToPosition", mode, 3, 3);
 		
@@ -48,7 +48,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var positionAttribute:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var positionAttribute:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, POSITION_INDEX, positionAttribute.index);
 		
 		var code:String = "";

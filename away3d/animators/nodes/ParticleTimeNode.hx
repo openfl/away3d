@@ -40,7 +40,7 @@ class ParticleTimeNode extends ParticleNodeBase
 		_usesLooping = usesLooping;
 		_usesDelay = usesDelay;
 		
-		super("ParticleTime", ParticlePropertiesMode.LOCAL_STATIC, 4, 0);
+		super("ParticleTime", LOCAL_STATIC, 4, 0);
 	}
 	
 	/**

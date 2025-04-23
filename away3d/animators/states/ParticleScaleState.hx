@@ -115,7 +115,7 @@ class ParticleScaleState extends ParticleStateBase
 	{
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleScaleNode.SCALE_INDEX);
 		
-		if (_particleScaleNode.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+		if (_particleScaleNode.mode == LOCAL_STATIC) {
 			if (_usesCycle) {
 				if (_usesPhase)
 					animationSubGeometry.activateVertexBuffer(index, _particleScaleNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
@@ -129,7 +129,7 @@ class ParticleScaleState extends ParticleStateBase
 	
 	private function updateScaleData():Void
 	{
-		if (_particleScaleNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleScaleNode.mode == GLOBAL) {
 			if (_usesCycle) {
 				if (_cycleDuration <= 0)
 					throw(new Error("the cycle duration must be greater than zero"));

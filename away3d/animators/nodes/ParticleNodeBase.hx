@@ -1,5 +1,6 @@
 package away3d.animators.nodes;
 
+import away3d.animators.data.ParticlePropertiesMode;
 import away3d.animators.data.ParticleProperties;
 import away3d.animators.ParticleAnimationSet;
 import away3d.animators.data.AnimationRegisterCache;
@@ -12,12 +13,12 @@ import openfl.Vector;
  */
 class ParticleNodeBase extends AnimationNodeBase
 {
-	public var mode(get, never):Int;
+	public var mode(get, never):ParticlePropertiesMode;
 	public var priority(get, never):Int;
 	public var dataLength(get, never):Int;
 	public var oneData(get, never):Vector<Float>;
 	
-	private var _mode:Int;
+	private var _mode:ParticlePropertiesMode;
 	private var _priority:Int;
 	
 	private var _dataLength:Int = 3;
@@ -105,7 +106,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @param               dataLength      Defines the length of the data used by the node when in <code>LOCAL_STATIC</code> mode.
 	 * @param    [optional] priority        the priority of the particle animation node, used to order the agal generated in a particle animation set. Defaults to 1.
 	 */
-	public function new(name:String, mode:Int, dataLength:Int, priority:Int = 1)
+	public function new(name:String, mode:ParticlePropertiesMode, dataLength:Int, priority:Int = 1)
 	{
 		super();
 		

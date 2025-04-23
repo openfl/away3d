@@ -34,7 +34,7 @@ class ParticleInitialColorNode extends ParticleNodeBase
 	 */
 	public static inline var COLOR_INITIAL_COLORTRANSFORM:String = "ColorInitialColorTransform";
 	
-	public function new(mode:Int, usesMultiplier:Bool = true, usesOffset:Bool = false, initialColor:ColorTransform = null)
+	public function new(mode:ParticlePropertiesMode, usesMultiplier:Bool = true, usesOffset:Bool = false, initialColor:ColorTransform = null)
 	{
 		_stateConstructor = cast ParticleInitialColorState.new;
 		
@@ -56,14 +56,14 @@ class ParticleInitialColorNode extends ParticleNodeBase
 		if (animationRegisterCache.needFragmentAnimation) {
 			
 			if (_usesMultiplier) {
-				var multiplierValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+				var multiplierValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 				animationRegisterCache.setRegisterIndex(this, MULTIPLIER_INDEX, multiplierValue.index);
 				
 				code += "mul " + animationRegisterCache.colorMulTarget + "," + multiplierValue + "," + animationRegisterCache.colorMulTarget + "\n";
 			}
 			
 			if (_usesOffset) {
-				var offsetValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.LOCAL_STATIC)? animationRegisterCache.getFreeVertexAttribute() : animationRegisterCache.getFreeVertexConstant();
+				var offsetValue:ShaderRegisterElement = (_mode == LOCAL_STATIC)? animationRegisterCache.getFreeVertexAttribute() : animationRegisterCache.getFreeVertexConstant();
 				animationRegisterCache.setRegisterIndex(this, OFFSET_INDEX, offsetValue.index);
 				
 				code += "add " + animationRegisterCache.colorAddTarget + "," + offsetValue + "," + animationRegisterCache.colorAddTarget + "\n";

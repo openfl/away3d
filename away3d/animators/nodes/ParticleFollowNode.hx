@@ -42,7 +42,7 @@ class ParticleFollowNode extends ParticleNodeBase
 		_usesRotation = usesRotation;
 		_smooth = smooth;
 		
-		super("ParticleFollow", ParticlePropertiesMode.LOCAL_DYNAMIC, (_usesPosition && _usesRotation)? 6 : 3, ParticleAnimationSet.POST_PRIORITY);
+		super("ParticleFollow", LOCAL_DYNAMIC, (_usesPosition && _usesRotation)? 6 : 3, ParticleAnimationSet.POST_PRIORITY);
 	}
 	
 	/**

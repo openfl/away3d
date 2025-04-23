@@ -5,15 +5,15 @@ package away3d.animators.data;
  *
  * @see away3d.animators.VertexAnimator
  */
-class VertexAnimationMode
+@:enum abstract VertexAnimationMode(String) from String to String
 {
 	/**
 	 * Animation mode that adds all outputs from active vertex animation state to form the current vertex animation pose.
 	 */
-	public static var ADDITIVE:String = "additive";
+	public var ADDITIVE = "additive";
 	
 	/**
 	 * Animation mode that picks the output from a single vertex animation state to form the current vertex animation pose.
 	 */
-	public static var ABSOLUTE:String = "absolute";
+	public var ABSOLUTE = "absolute";
 }

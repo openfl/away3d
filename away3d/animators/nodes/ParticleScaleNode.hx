@@ -50,7 +50,7 @@ class ParticleScaleNode extends ParticleNodeBase
 	 * @param    [optional] cycleDuration   Defines the default duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 * @param    [optional] cyclePhase      Defines the default phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-	public function new(mode:Int, usesCycle:Bool, usesPhase:Bool, minScale:Float = 1, maxScale:Float = 1, cycleDuration:Float = 1, cyclePhase:Float = 0)
+	public function new(mode:ParticlePropertiesMode, usesCycle:Bool, usesPhase:Bool, minScale:Float = 1, maxScale:Float = 1, cycleDuration:Float = 1, cyclePhase:Float = 0)
 	{
 		var len:Int = 2;
 		if (usesCycle)
@@ -78,7 +78,7 @@ class ParticleScaleNode extends ParticleNodeBase
 		var code:String = "";
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
 		
-		var scaleRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var scaleRegister:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, SCALE_INDEX, scaleRegister.index);
 		
 		if (_usesCycle) {
