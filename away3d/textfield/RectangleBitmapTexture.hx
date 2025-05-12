@@ -11,8 +11,9 @@ class RectangleBitmapTexture extends Texture2DBase {
 	private var _bitmapData:BitmapData;
 
 	public function new(bitmapData:BitmapData) {
-		this.bitmapData = bitmapData;
 		super();
+
+		this.bitmapData = bitmapData;
 	}
 	
 	public var bitmapData(get, set):BitmapData;
@@ -22,7 +23,7 @@ class RectangleBitmapTexture extends Texture2DBase {
 
 	private function set_bitmapData(value:BitmapData):BitmapData {
 		if (value == _bitmapData)
-			return value;
+			return null;
 
 		invalidateContent();
 		setSize(value.width, value.height);

@@ -74,7 +74,7 @@ class AnimationClipState extends AnimationStateBase
 	 */
 	override public function update(time:Int):Void
 	{
-		if (!_animationClipNode.looping) {
+		if (_animationClipNode.totalDuration > 0) {
 			if (time > _startTime + _animationClipNode.totalDuration)
 				time = _startTime + _animationClipNode.totalDuration;
 			else if (time < _startTime)
@@ -135,12 +135,12 @@ class AnimationClipState extends AnimationStateBase
 				time += totalDuration;
 		}
 		
-		if (!looping && time >= totalDuration) {
+		if (totalDuration > 0 && time >= totalDuration) {
 			notifyPlaybackComplete();
 			_currentFrame = lastFrame;
 			_nextFrame = lastFrame;
 			_blendWeight = 0;
-		} else if (!looping && time <= 0) {
+		} else if (totalDuration > 0 && time <= 0) {
 			_currentFrame = 0;
 			_nextFrame = 0;
 			_blendWeight = 0;
