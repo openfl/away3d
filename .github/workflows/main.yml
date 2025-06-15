@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        haxe-version: [3.4.7, 4.0.5, 4.1.5, 4.2.5, 4.3.2]
+        haxe-version: [4.1.5, 4.2.5, 4.3.7]
     steps:
 
       - uses: krdlab/setup-haxe@v1
@@ -106,7 +106,6 @@ jobs:
           haxelib run lime build samples/basic/Tweening3D flash
 
       - name: Build HashLink samples
-        if: ${{ matrix.haxe-version != '3.4.7' }}
         run: |
           haxelib run lime build samples/basic/Particles hl
           haxelib run lime build samples/basic/Tweening3D hl
