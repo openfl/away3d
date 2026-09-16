@@ -52,7 +52,7 @@ class VertexDefinition
 			// elsewhere. Instead of modifying it, make a copy.
 			if (attribute.offset != -1 && attribute.offset != length)
 			{
-				attributes[index] = attribute.clone();
+				attributes[index] = attribute = attribute.clone();
 			}
 
 			attribute.offset = length;
