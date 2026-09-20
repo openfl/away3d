@@ -310,6 +310,8 @@ class ShaderCompiler
 		_vertexCode = "";
 		_fragmentCode = "";
 
+		_sharedRegisters.custom = null;
+
 		_sharedRegisters.localPosition = _registerCache.getFreeVertexVectorTemp();
 		_registerCache.addVertexTempUsages(_sharedRegisters.localPosition, 1);
 
