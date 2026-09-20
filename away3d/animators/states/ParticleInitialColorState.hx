@@ -58,7 +58,7 @@ class ParticleInitialColorState extends ParticleStateBase
 		// TODO: not used
 		
 		if (animationRegisterCache.needFragmentAnimation) {
-			if (_particleInitialColorNode.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+			if (_particleInitialColorNode.mode == LOCAL_STATIC) {
 				var dataOffset:Int = _particleInitialColorNode.dataOffset;
 				if (_usesMultiplier) {
 					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
@@ -77,7 +77,7 @@ class ParticleInitialColorState extends ParticleStateBase
 	
 	private function updateColorData():Void
 	{
-		if (_particleInitialColorNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleInitialColorNode.mode == GLOBAL) {
 			if (_usesMultiplier)
 				_multiplierData = new Vector3D(_initialColor.redMultiplier, _initialColor.greenMultiplier, _initialColor.blueMultiplier, _initialColor.alphaMultiplier);
 			if (_usesOffset)

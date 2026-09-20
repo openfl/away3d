@@ -46,7 +46,7 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	 * @param    [optional] controlPoint    Defines the default control point of the node, used when in global mode.
 	 * @param    [optional] endPoint        Defines the default end point of the node, used when in global mode.
 	 */
-	public function new(mode:Int, controlPoint:Vector3D = null, endPoint:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, controlPoint:Vector3D = null, endPoint:Vector3D = null)
 	{
 		super("ParticleBezierCurve", mode, 6);
 		
@@ -66,10 +66,10 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var controlValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var controlValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, BEZIER_CONTROL_INDEX, controlValue.index);
 		
-		var endValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var endValue:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, BEZIER_END_INDEX, endValue.index);
 		
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();

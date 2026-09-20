@@ -23,7 +23,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 	private var _poses:Vector<Geometry> = new Vector<Geometry>();
 	private var _weights:Vector<Float> = Vector.ofArray([1, 0, 0, 0.0]);
 	private var _numPoses:Int;
-	private var _blendMode:String;
+	private var _blendMode:VertexAnimationMode;
 	private var _activeVertexState:IVertexAnimationState;
 	
 	/**
@@ -115,7 +115,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		
 		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
 		
-		if (_blendMode == VertexAnimationMode.ABSOLUTE) {
+		if (_blendMode == ABSOLUTE) {
 			i = 1;
 			subGeom = _poses[0].subGeometries[subMesh._index];
 			// set the base sub-geometry so the material can simply pick up on this data
@@ -142,7 +142,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 	{
 		stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
 		
-		if (_blendMode == VertexAnimationMode.ABSOLUTE) {
+		if (_blendMode == ABSOLUTE) {
 			var len:Int = _numPoses;
 			for (i in 0...len) {
 				renderable.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);

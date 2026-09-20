@@ -118,7 +118,7 @@ class ParticleOrbitState extends ParticleStateBase
 	{
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleOrbitNode.ORBIT_INDEX);
 		
-		if (_particleOrbitNode.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+		if (_particleOrbitNode.mode == LOCAL_STATIC) {
 			if (_usesPhase)
 				animationSubGeometry.activateVertexBuffer(index, _particleOrbitNode.dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 			else
@@ -138,7 +138,7 @@ class ParticleOrbitState extends ParticleStateBase
 			_eulersMatrix.appendRotation(_eulers.y, Vector3D.Y_AXIS);
 			_eulersMatrix.appendRotation(_eulers.z, Vector3D.Z_AXIS);
 		}
-		if (_particleOrbitNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleOrbitNode.mode == GLOBAL) {
 			_orbitData = new Vector3D(_radius, 0, _radius*Math.PI*2, _cyclePhase*Math.PI/180);
 			if (_usesCycle) {
 				if (_cycleDuration <= 0)

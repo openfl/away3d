@@ -32,7 +32,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 */
-	public function new(mode:Int, rotationalVelocity:Vector3D = null)
+	public function new(mode:ParticlePropertiesMode, rotationalVelocity:Vector3D = null)
 	{
 		_stateConstructor = cast ParticleRotationalVelocityState.new;
 		
@@ -48,7 +48,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		var rotationRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
+		var rotationRegister:ShaderRegisterElement = (_mode == GLOBAL)? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ROTATIONALVELOCITY_INDEX, rotationRegister.index);
 		
 		var nrmVel:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();

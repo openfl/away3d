@@ -129,7 +129,7 @@ class ParticleColorState extends ParticleStateBase
 				animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.CYCLE_INDEX), _cycleData.x, _cycleData.y, _cycleData.z, _cycleData.w);
 			
 			if (_usesMultiplier) {
-				if (_particleColorNode.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+				if (_particleColorNode.mode == LOCAL_STATIC) {
 					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
 					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
@@ -140,7 +140,7 @@ class ParticleColorState extends ParticleStateBase
 				}
 			}
 			if (_usesOffset) {
-				if (_particleColorNode.mode == ParticlePropertiesMode.LOCAL_STATIC) {
+				if (_particleColorNode.mode == LOCAL_STATIC) {
 					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
 					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
@@ -160,7 +160,7 @@ class ParticleColorState extends ParticleStateBase
 				throw(new Error("the cycle duration must be greater than zero"));
 			_cycleData = new Vector3D(Math.PI*2/_cycleDuration, _cyclePhase*Math.PI/180, 0, 0);
 		}
-		if (_particleColorNode.mode == ParticlePropertiesMode.GLOBAL) {
+		if (_particleColorNode.mode == GLOBAL) {
 			if (_usesCycle) {
 				if (_usesMultiplier) {
 					_startMultiplierData = new Vector3D((_startColor.redMultiplier + _endColor.redMultiplier)/2, (_startColor.greenMultiplier + _endColor.greenMultiplier)/2, (_startColor.blueMultiplier + _endColor.blueMultiplier)/2, (_startColor.alphaMultiplier + _endColor.alphaMultiplier)/2);
