@@ -150,7 +150,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	/**
 	 * @inheritDoc
 	 */
-	public function play(name:String, transition:IAnimationTransition = null, ?offset:Float = null):Void
+	public function play(name:String, transition:IAnimationTransition = null, ?offset:Int = 0):Void
 	{
 		if (_activeAnimationName == name)
 			return;
@@ -165,7 +165,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		_frame = cast(_activeState, SpriteSheetAnimationState).currentFrameData;
 		_activeSpriteSheetState = cast(_activeState, ISpriteSheetAnimationState);
 		
-		start();
+		gotoAndPlay(offset);
 	}
 	
 	/**
