@@ -60,13 +60,19 @@ class ParticleStateBase extends AnimationStateBase
 		var animationParticle:ParticleAnimationData = null;
 		
 		//			var numParticles:uint = _positions.length/dataLength;
-		var numParticles:Int = _dynamicProperties.length;
-		var i:Int = 0;
+		var particleOffset:Int = animationSubGeometry.animationParticleOffset;
+		var numParticles:Int = animationParticles.length;
+		if(numParticles > _dynamicProperties.length - particleOffset) {
+			numParticles = _dynamicProperties.length - particleOffset;
+		}
+		
+		var i:Int = particleOffset;
 		var j:Int = 0;
 		var k:Int = 0;
 		
 		//loop through all particles
-		while (i < numParticles) {
+		while (i < particleOffset + numParticles) {
+			data = _dynamicProperties[i];
 			//loop through each particle data for the current particle
 			while (j < numParticles && (animationParticle = animationParticles[j]).index == i) {
 				data = _dynamicProperties[i];

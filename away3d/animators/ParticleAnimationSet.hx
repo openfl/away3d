@@ -297,6 +297,8 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			animationSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);
 		}
 		
+		calculateParticleOffsets(mesh);
+		
 		if (newAnimationSubGeometry == false)
 			return;
 		
@@ -344,6 +346,12 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 						break;
 					}
 				}
+				
+				if(j < animationSubGeometry.animationParticleOffset + animationSubGeometry.animationParticles.length) {
+					j++;
+					continue;
+				}
+				
 				numVertices = particle.numVertices;
 				vertexData = animationSubGeometry.vertexData;
 				vertexLength = numVertices*_totalLenOfOneVertex;
@@ -366,7 +374,6 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 						
 						counterForVertex += _totalLenOfOneVertex;
 					}
-					
 				}
 				
 				//store particle properties if they need to be retreived for dynamic local nodes
@@ -381,6 +388,25 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			
 			//next particle
 			i++;
+		}
+		
+		calculateParticleOffsets(mesh);
+	}
+	
+	/**
+	 * Will throw an error if a sub-mesh lacks an AnimationSubGeometry; only
+	 * call this after creating them all.
+	 */
+	private function calculateParticleOffsets(mesh:Mesh):Void
+	{
+		var particleOffset:Int = 0;
+		for (subMesh in mesh.subMeshes) {
+			var subGeometry:AnimationSubGeometry = mesh.shareAnimationGeometry
+				? _animationSubGeometries[subMesh.subGeometry]
+				: subMesh.animationSubGeometry;
+			
+			subGeometry.animationParticleOffset = particleOffset;
+			particleOffset += subGeometry.animationParticles.length;
 		}
 	}
 }
