@@ -11,7 +11,7 @@ class Asset3DLibraryIterator
 	
 	private var _assets:Vector<IAsset>;
 	private var _filtered:Vector<IAsset>;
-	private var _idx:Int;
+	private var _idx:Int = 0;
 	
 	public function new(assets:Vector<IAsset>, assetTypeFilter:String, namespaceFilter:String, filterFunc:Dynamic -> Dynamic)
 	{
