@@ -42,6 +42,11 @@ class ShadingMethodBase extends NamedAssetBase
 	 * 
 	 * When compiling the shader, these attributes will be allocated
 	 * automatically and stored by name in `sharedRegisters.custom`.
+	 * 
+	 * When rendering, this will call `IRenderable.activateVertexBufferByName()`
+	 * for each attribute. This will upload the corresponding buffers if found;
+	 * currently this is only supported by `CompactSubGeometry`, and the user is
+	 * responsible for including the attributes in its `VertexDefinition`.
 	 */
 	public var attributes(get, never):ReadOnlyArray<AttributeDefinition>;
 	
@@ -189,7 +194,14 @@ class ShadingMethodBase extends NamedAssetBase
 	 */
 	@:allow(away3d) private function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-	
+		if (_attributes != null && sharedRegisters.custom != null) {
+			for (attribute in _attributes) {
+				var element:ShaderRegisterElement = sharedRegisters.custom[attribute.name];
+				if (element != null) {
+					renderable.activateVertexBufferByName(attribute.name, element.index, stage3DProxy);
+				}
+			}
+		}
 	}
 	
 	/**
