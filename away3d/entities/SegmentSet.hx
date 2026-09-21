@@ -387,6 +387,10 @@ class SegmentSet extends Entity implements IRenderable
 	{
 	}
 	
+	public function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
+	{
+	}
+	
 	private function reOrderIndices(subSetIndex:Int, index:Int):Void
 	{
 		var segRef:SegRef;

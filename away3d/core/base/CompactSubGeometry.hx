@@ -77,7 +77,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		activateSpecificVertexBuffer("position", index, stage3DProxy);
+		activateVertexBufferByName("position", index, stage3DProxy);
 	}
 
 	public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
@@ -87,12 +87,12 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 			invalidateBuffers(_vertexDataInvalid);
 		}
 
-		activateSpecificVertexBuffer("UV", index, stage3DProxy);
+		activateVertexBufferByName("UV", index, stage3DProxy);
 	}
 
 	public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		activateSpecificVertexBuffer("secondaryUV", index, stage3DProxy);
+		activateVertexBufferByName("secondaryUV", index, stage3DProxy);
 	}
 
 	private function uploadData(contextIndex:Int):Void
@@ -103,15 +103,15 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		activateSpecificVertexBuffer("normal", index, stage3DProxy);
+		activateVertexBufferByName("normal", index, stage3DProxy);
 	}
 
 	public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		activateSpecificVertexBuffer("tangent", index, stage3DProxy);
+		activateVertexBufferByName("tangent", index, stage3DProxy);
 	}
 
-	public function activateSpecificVertexBuffer(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
+	public function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var attribute:AttributeDefinition = definition.get(attributeName);
 		if (attribute == null)

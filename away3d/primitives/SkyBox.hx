@@ -109,6 +109,10 @@ class SkyBox extends Entity implements IRenderable
 	{
 	}
 	
+	public function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
+	{
+	}
+	
 	/**
 	 * @inheritDoc
 	 */
