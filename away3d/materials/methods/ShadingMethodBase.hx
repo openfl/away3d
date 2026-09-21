@@ -20,7 +20,14 @@ import openfl.Vector;
  */
 class ShadingMethodBase extends NamedAssetBase
 {
+	/**
+	 * The shared registers created by the compiler and possibly used by methods.
+	 */
 	public var sharedRegisters(get, set):ShaderRegisterData;
+	
+	/**
+	 * Any passes required that render to a texture used by this method.
+	 */
 	public var passes(get, never):Vector<MaterialPassBase>;
 	
 	private var _sharedRegisters:ShaderRegisterData;
@@ -54,9 +61,6 @@ class ShadingMethodBase extends NamedAssetBase
 	
 	}
 
-	/**
-	 * The shared registers created by the compiler and possibly used by methods.
-	 */
 	@:allow(away3d) private function get_sharedRegisters():ShaderRegisterData
 	{
 		return _sharedRegisters;
@@ -68,9 +72,6 @@ class ShadingMethodBase extends NamedAssetBase
 		return value;
 	}
 	
-	/**
-	 * Any passes required that render to a texture used by this method.
-	 */
 	private function get_passes():Vector<MaterialPassBase>
 	{
 		return _passes;
