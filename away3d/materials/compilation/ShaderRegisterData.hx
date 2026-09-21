@@ -124,8 +124,10 @@ class ShaderRegisterData
 	public var bitangent:ShaderRegisterElement;
 	
 	/**
-	 * Space for named registers other than the ones above. Will be null until
-	 * defined by an effect method.
+	 * Space for named registers other than the ones above. Null by default.
+	 * 
+	 * If a method defines `attributes`, this will contain the corresponding
+	 * register elements, indexed by attribute name.
 	 */
 	public var custom:Map<String, ShaderRegisterElement> = null;
 	
