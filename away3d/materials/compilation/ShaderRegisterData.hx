@@ -53,8 +53,6 @@ class ShaderRegisterData
 	/**
 	 * Vertex temp. Contains the vertex position in world space. To use this,
 	 * set either `needsGlobalVertexPos` or `needsGlobalFragmentPos`.
-	 * 
-	 * Multi-pass: may be freed before methods run; do not rely on it.
 	 */
 	public var globalPositionVertex:ShaderRegisterElement;
 	
