@@ -3,6 +3,7 @@ package away3d.tools.helpers;
 import away3d.core.base.ParticleGeometry;
 import away3d.core.base.CompactSubGeometry;
 import away3d.core.base.data.ParticleData;
+import away3d.core.base.data.VertexDefinition;
 import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.tools.helpers.data.ParticleGeometryTransform;
@@ -20,7 +21,7 @@ class ParticleGeometryHelper
 {
 	public static inline var MAX_VERTEX:Int = 65535;
 	
-	public static function generateGeometry(geometries:Vector<Geometry>, transforms:Vector<ParticleGeometryTransform> = null):ParticleGeometry
+	public static function generateGeometry(geometries:Vector<Geometry>, transforms:Vector<ParticleGeometryTransform> = null, ?vertexDefinition:VertexDefinition):ParticleGeometry
 	{
 		var verticesVector:Vector<Vector<Float>> = new Vector<Vector<Float>>();
 		var indicesVector:Vector<Vector<UInt>> = new Vector<Vector<UInt>>();
@@ -45,6 +46,11 @@ class ParticleGeometryHelper
 		var tempTangents:Vector3D = new Vector3D();
 		var tempUV:Point = new Point();
 		
+		var positionDefinition:AttributeDefinition = vertexDefinition.get("position");
+		var normalDefinition:AttributeDefinition = vertexDefinition.get("normal");
+		var tangentDefinition:AttributeDefinition = vertexDefinition.get("tangent");
+		var uvDefinition:AttributeDefinition = vertexDefinition.get("UV");
+		
 		for (i in 0...numParticles) {
 			sourceSubGeometries = geometries[i].subGeometries;
 			numSubGeometries = sourceSubGeometries.length;
@@ -54,7 +60,7 @@ class ParticleGeometryHelper
 					sub2SubMap.push(subGeometries.length);
 					verticesVector.push(new Vector<Float>());
 					indicesVector.push(new Vector<UInt>());
-					subGeometries.push(new CompactSubGeometry());
+					subGeometries.push(new CompactSubGeometry(vertexDefinition));
 					vertexCounters.push(0);
 				}
 				
@@ -66,7 +72,7 @@ class ParticleGeometryHelper
 					sub2SubMap[srcIndex] = subGeometries.length;
 					verticesVector.push(new Vector<Float>());
 					indicesVector.push(new Vector<UInt>());
-					subGeometries.push(new CompactSubGeometry());
+					subGeometries.push(new CompactSubGeometry(vertexDefinition));
 					vertexCounters.push(0);
 				}
 				
@@ -88,13 +94,17 @@ class ParticleGeometryHelper
 				vertexCounters[j] += sourceSubGeometry.numVertices;
 				
 				var k:Int;
-				var tempLen:Int;
 				var compact:CompactSubGeometry = #if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(sourceSubGeometry, CompactSubGeometry) ? cast sourceSubGeometry : null;
 				var product:Int;
 				var sourceVertices:Vector<Float>;
+				var attributesDone:Array<String> = [];
+				
+				var inStride:Int = compact.definition.length;
+				var outStride:Int = subGeometry.definition.length;
+				var startIndex:Int = vertices.length;
+				vertices.length += outStride * compact.numVertices;
 				
 				if (compact != null) {
-					tempLen = compact.numVertices;
 					compact.numTriangles;
 					sourceVertices = compact.vertexData;
 					
@@ -104,64 +114,102 @@ class ParticleGeometryHelper
 						var invVertexTransform:Matrix3D = particleGeometryTransform.invVertexTransform;
 						var UVTransform:Matrix = particleGeometryTransform.UVTransform;
 						
-						for (k in 0...tempLen) {
-							/*
-							 * 0 - 2: vertex position X, Y, Z
-							 * 3 - 5: normal X, Y, Z
-							 * 6 - 8: tangent X, Y, Z
-							 * 9 - 10: U V
-							 * 11 - 12: Secondary U V*/
-							product = k*13;
-							tempVertex.x = sourceVertices[product];
-							tempVertex.y = sourceVertices[product + 1];
-							tempVertex.z = sourceVertices[product + 2];
-							tempNormal.x = sourceVertices[product + 3];
-							tempNormal.y = sourceVertices[product + 4];
-							tempNormal.z = sourceVertices[product + 5];
-							tempTangents.x = sourceVertices[product + 6];
-							tempTangents.y = sourceVertices[product + 7];
-							tempTangents.z = sourceVertices[product + 8];
-							tempUV.x = sourceVertices[product + 9];
-							tempUV.y = sourceVertices[product + 10];
-							if (vertexTransform != null) {
+						var inPositionDefinition:AttributeDefinition = compact.definition.get("position");
+						var inNormalDefinition:AttributeDefinition = compact.definition.get("normal");
+						var inTangentDefinition:AttributeDefinition = compact.definition.get("tangent");
+						var inUVDefinition:AttributeDefinition = compact.definition.get("UV");
+						
+						for (k in 0...compact.numVertices) {
+							product = k*compact.definition.length;
+							
+							if (inPositionDefinition != null && positionDefinition != null && vertexTransform != null) {
+								tempVertex.x = sourceVertices[product + inPositionDefinition.offset];
+								tempVertex.y = sourceVertices[product + inPositionDefinition.offset + 1];
+								tempVertex.z = sourceVertices[product + inPositionDefinition.offset + 2];
+								#if flash
 								tempVertex = vertexTransform.transformVector(tempVertex);
-								tempNormal = invVertexTransform.deltaTransformVector(tempNormal);
-								tempTangents = invVertexTransform.deltaTransformVector(tempNormal);
+								#else
+								vertexTransform.transformVectorToOutput(tempVertex, tempVertex);
+								#end
+								vertices[startIndex + k * vertexDefinition.length + positionDefinition.offset] = tempVertex.x;
+								vertices[startIndex + k * vertexDefinition.length + positionDefinition.offset + 1] = tempVertex.y;
+								vertices[startIndex + k * vertexDefinition.length + positionDefinition.offset + 2] = tempVertex.z;
+								
+								attributesDone.push("position");
 							}
-							if (UVTransform != null)
+							
+							if (inNormalDefinition != null && normalDefinition != null && vertexTransform != null) {
+								tempNormal.x = sourceVertices[product + inNormalDefinition.offset];
+								tempNormal.y = sourceVertices[product + inNormalDefinition.offset + 1];
+								tempNormal.z = sourceVertices[product + inNormalDefinition.offset + 2];
+								#if flash
+								tempNormal = invVertexTransform.deltaTransformVector(tempNormal);
+								#else
+								invVertexTransform.deltaTransformVectorToOutput(tempNormal, tempNormal);
+								#end
+								vertices[startIndex + k * vertexDefinition.length + normalDefinition.offset] = tempNormal.x;
+								vertices[startIndex + k * vertexDefinition.length + normalDefinition.offset + 1] = tempNormal.y;
+								vertices[startIndex + k * vertexDefinition.length + normalDefinition.offset + 2] = tempNormal.z;
+								
+								attributesDone.push("normal");
+							}
+							
+							if (inTangentDefinition != null && tangentDefinition != null && vertexTransform != null) {
+								tempTangents.x = sourceVertices[product + inTangentDefinition.offset];
+								tempTangents.y = sourceVertices[product + inTangentDefinition.offset + 1];
+								tempTangents.z = sourceVertices[product + inTangentDefinition.offset + 2];
+								#if flash
+								tempTangents = invVertexTransform.deltaTransformVector(tempTangents);
+								#else
+								invVertexTransform.deltaTransformVectorToOutput(tempTangents, tempTangents);
+								#end
+								vertices[startIndex + k * vertexDefinition.length + tangentDefinition.offset] = tempTangents.x;
+								vertices[startIndex + k * vertexDefinition.length + tangentDefinition.offset + 1] = tempTangents.y;
+								vertices[startIndex + k * vertexDefinition.length + tangentDefinition.offset + 2] = tempTangents.z;
+								
+								attributesDone.push("tangent");
+							}
+							
+							if (inUVDefinition != null && uvDefinition != null && UVTransform != null) {
+								tempUV.x = sourceVertices[product + inUVDefinition.offset];
+								tempUV.y = sourceVertices[product + inUVDefinition.offset + 1];
+								#if flash
 								tempUV = UVTransform.transformPoint(tempUV);
-							//this is faster than that only push one data
-							vertices.push(tempVertex.x);
-							vertices.push(tempVertex.y);
-							vertices.push(tempVertex.z);
-							vertices.push(tempNormal.x);
-							vertices.push(tempNormal.y);
-							vertices.push(tempNormal.z);
-							vertices.push(tempTangents.x);
-							vertices.push(tempTangents.y);
-							vertices.push(tempTangents.z);
-							vertices.push(tempUV.x);
-							vertices.push(tempUV.y);
-							vertices.push(sourceVertices[product + 11]);
-							vertices.push(sourceVertices[product + 12]);
+								#else
+								UVTransform.transformPointToOutput(tempUV, tempUV);
+								#end
+								vertices[startIndex + k * vertexDefinition.length + uvDefinition.offset] = tempUV.x;
+								vertices[startIndex + k * vertexDefinition.length + uvDefinition.offset + 1] = tempUV.y;
+								
+								attributesDone.push("UV");
+							}
 						}
-					} else {
-						for (k in 0...tempLen) {
-							product = k*13;
-							//this is faster than that only push one data
-							vertices.push(sourceVertices[product]);
-							vertices.push(sourceVertices[product + 1]);
-							vertices.push(sourceVertices[product + 2]);
-							vertices.push(sourceVertices[product + 3]);
-							vertices.push(sourceVertices[product + 4]);
-							vertices.push(sourceVertices[product + 5]);
-							vertices.push(sourceVertices[product + 6]);
-							vertices.push(sourceVertices[product + 7]);
-							vertices.push(sourceVertices[product + 8]);
-							vertices.push(sourceVertices[product + 9]);
-							vertices.push(sourceVertices[product + 10]);
-							vertices.push(sourceVertices[product + 11]);
-							vertices.push(sourceVertices[product + 12]);
+					}
+					
+					for (outAttribute in subGeometry.definition.attributes) {
+						if (attributesDone.indexOf(outAttribute.name) >= 0) {
+							continue;
+						}
+						
+						var sourceAttribute:AttributeDefinition = compact.definition.get(outAttribute.name);
+						
+						if (sourceAttribute == null) {
+							throw 'Input data does not include attribute "${ outAttribute.name }". It defines "'
+								+ [for(attribute in compact.definition.attributes) attribute.name].join('", "') + '".';
+						}
+						
+						if (outAttribute.length != sourceAttribute.length) {
+							throw 'Length mismatch for attribute "${ outAttribute.name }": source has length ${ sourceAttribute.length }, destination needs length ${ outAttribute.name }.';
+						}
+						
+						var length:Int = outAttribute.length;
+						var inOffset:Int = sourceAttribute.offset;
+						var outOffset:Int = outAttribute.offset;
+						
+						for (k in 0...compact.numVertices) {
+							for (l in 0...length) {
+								vertices[startIndex + k * outStride + outOffset + l] = sourceVertices[k * inStride + inOffset + l];
+							}
 						}
 					}
 				} else {
@@ -169,8 +217,7 @@ class ParticleGeometryHelper
 				}
 				
 				var sourceIndices:Vector<UInt> = sourceSubGeometry.indexData;
-				tempLen = sourceSubGeometry.numTriangles;
-				for (k in 0...tempLen) {
+				for (k in 0...sourceSubGeometry.numTriangles) {
 					product = k*3;
 					indices.push(sourceIndices[product] + vertexCounter);
 					indices.push(sourceIndices[product + 1] + vertexCounter);
@@ -183,8 +230,7 @@ class ParticleGeometryHelper
 		particleGeometry.particles = particles;
 		particleGeometry.numParticles = numParticles;
 		
-		numParticles = subGeometries.length;
-		for (i in 0...numParticles) {
+		for (i in 0...subGeometries.length) {
 			subGeometry = subGeometries[i];
 			subGeometry.updateData(verticesVector[i]);
 			subGeometry.updateIndexData(indicesVector[i]);

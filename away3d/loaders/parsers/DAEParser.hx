@@ -492,7 +492,7 @@ class DAEParser extends ParserBase
 		for (i in 0...base.subGeometries.length) {
 			sub = cast(base.subGeometries[i], CompactSubGeometry);
 			vertexData = sub.vertexData.concat();
-			for (v in 0...Std.int(vertexData.length/13)) {
+			for (v in 0...Std.int(vertexData.length/sub.definition.length)) {
 				j = sub.vertexOffset + v*sub.vertexStride;
 				vertexData[j] = morph.method == "NORMALIZED"? startWeight*sub.vertexData[j] : sub.vertexData[j];
 				for (k in 0...morph.targets.length)
