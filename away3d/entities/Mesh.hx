@@ -8,6 +8,7 @@ import away3d.core.partition.*;
 import away3d.events.*;
 import away3d.library.assets.*;
 import away3d.materials.*;
+import away3d.primitives.PrimitiveBase;
 
 import openfl.Vector;
 
@@ -187,10 +188,11 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 */
 	private function get_subMeshes():Vector<SubMesh>
 	{
-		// Since this getter is invoked every iteration of the render loop, and
-		// the geometry construct could affect the sub-meshes, the geometry is
-		// validated here to give it a chance to rebuild.
-		_geometry.validate();
+		// This getter runs every frame, so avoid paying a validation cost unless
+		// the geometry type can actually rebuild itself on demand. In practice
+		// that is limited to PrimitiveBase-derived geometries.
+		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(_geometry, PrimitiveBase))
+			_geometry.validate();
 		
 		return _subMeshes;
 	}
