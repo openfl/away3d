@@ -82,6 +82,14 @@ interface ISubGeometry
 	function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
 	
 	/**
+	 * Assigns the attribute stream for the specified custom attribute
+	 * @param attributeName The name of the attribute to activate
+	 * @param index The attribute stream index for the vertex shader
+	 * @param stage3DProxy The Stage3DProxy to assign the stream to
+	 */
+	function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void;
+	
+	/**
 	 * Retrieves the IndexBuffer3D object that contains triangle indices.
 	 * @param context The Context3D for which we request the buffer
 	 * @return The VertexBuffer3D object that contains triangle indices.

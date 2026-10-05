@@ -1,6 +1,7 @@
 package away3d.materials.methods;
 
 import away3d.*;
+import away3d.core.base.data.VertexDefinition.AttributeDefinition;
 import away3d.errors.*;
 import away3d.library.assets.*;
 import away3d.materials.compilation.*;
@@ -13,9 +14,9 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset
 {
 	public var assetType(get, never):String;
 	
-	public function new()
+	public function new(?attributes:Array<AttributeDefinition>)
 	{
-		super();
+		super(attributes);
 	}
 
 	/**

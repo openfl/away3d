@@ -349,6 +349,14 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
+	public function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
+	{
+		_subGeometry.activateVertexBufferByName(attributeName, index, stage3DProxy);
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 	{
 		return _subGeometry.getIndexBuffer(stage3DProxy);

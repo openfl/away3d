@@ -256,7 +256,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 	
 	override private function createBoundingRenderable():WireframePrimitiveBase
 	{
-		return new WireframeCube(1, 1, 1, 0xffffff, 0.5);
+		return new WireframeCube(1, 1, 1, 0xffffff);
 	}
 
 	override public function classifyToPlane(plane:Plane3D):Int

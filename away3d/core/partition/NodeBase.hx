@@ -171,7 +171,7 @@ class NodeBase
 				_childNodes[i++].acceptTraverser(traverser);
 			
 			if (_debugPrimitive != null)
-				traverser.applyRenderable(_debugPrimitive);
+				traverser.applyEntity(_debugPrimitive);
 		}
 	}
 	

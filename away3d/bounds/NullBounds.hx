@@ -33,7 +33,7 @@ class NullBounds extends BoundingVolumeBase
 	
 	override private function createBoundingRenderable():WireframePrimitiveBase
 	{
-		return if (_renderable != null) _renderable; else new WireframeSphere(100, 16, 12, 0xffffff, 0.5);
+		return if (_renderable != null) _renderable; else new WireframeSphere(100, 16, 12, 0xffffff);
 	}
 	
 	/**

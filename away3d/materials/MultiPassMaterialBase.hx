@@ -315,6 +315,22 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
+	 * Queries whether an effect method of the given type was added to the material.
+	 *
+	 * @param type The type of method to be queried.
+	 * @return true if that type of method was added to the material, false otherwise.
+	 */
+	public function hasMethodOfType(type:Class<EffectMethodBase>):Bool
+	{
+		for (i in 0...numMethods) {
+			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end (getMethodAt(i), type)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Returns the method added at the given index.
 	 * @param index The index of the method to retrieve.
 	 * @return The method at the given index.

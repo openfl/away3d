@@ -86,7 +86,7 @@ class ViewVolume extends NodeBase
 	{
 		if (traverser.enterNode(this)) {
 			if (_debugPrimitive != null)
-				traverser.applyRenderable(_debugPrimitive);
+				traverser.applyEntity(_debugPrimitive);
 			
 			if (!_active)
 				return;

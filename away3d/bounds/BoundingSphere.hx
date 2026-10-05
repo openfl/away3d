@@ -175,7 +175,7 @@ class BoundingSphere extends BoundingVolumeBase
 	
 	override private function createBoundingRenderable():WireframePrimitiveBase
 	{
-		return new WireframeSphere(1, 16, 12, 0xffffff, 0.5);
+		return new WireframeSphere(1, 16, 12, 0xffffff);
 	}
 	
 	override public function classifyToPlane(plane:Plane3D):Int

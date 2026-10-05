@@ -53,6 +53,9 @@ class ShaderRegisterData
 	/**
 	 * Vertex temp. Contains the vertex position in world space. To use this,
 	 * set either `needsGlobalVertexPos` or `needsGlobalFragmentPos`.
+	 * 
+	 * If enabled (i.e., not null), this will be used instead of `localPosition`
+	 * to calculate the vertex's screen position.
 	 */
 	public var globalPositionVertex:ShaderRegisterElement;
 	
@@ -64,8 +67,30 @@ class ShaderRegisterData
 	
 	/**
 	 * Vertex temp. Contains the vertex position in local space.
+	 * 
+	 * By default, this will be used to calculate the vertex's screen position.
+	 * However, `globalPositionVertex` will be used instead if enabled.
 	 */
 	public var localPosition:ShaderRegisterElement;
+	
+	/**
+	 * Vertex temp. Contains the vertex position in clip space. Only available
+	 * during `getClipSpaceVertexCode()`.
+	 * 
+	 * To convert this from clip space to screen space, divide `xyz` by `w`. Be
+	 * sure to multiply by `w` again later, because OpenGL expects clip space.
+	 */
+	public var clipSpacePosition:ShaderRegisterElement;
+	
+	/**
+	 * Vertex constant. Contains the scene transform matrix, which converts
+	 * from local to world space. To use this, set either `needsGlobalVertexPos`
+	 * or `needsGlobalFragmentPos`.
+	 * 
+	 * If this is enabled, `vc0` will contain only the view projection matrix.
+	 * Otherwise, `vc0` will store both matrices combined.
+	 */
+	public var sceneTransform:ShaderRegisterElement;
 	
 	/**
 	 * Vertex attribute. Contains the normal to the vertex, in local space. Not
@@ -122,13 +147,40 @@ class ShaderRegisterData
 	public var bitangent:ShaderRegisterElement;
 	
 	/**
-	 * Space for named registers other than the ones above. Will be null until
-	 * defined by an effect method.
+	 * Space for named registers other than the ones above. Null by default.
+	 * 
+	 * If a method defines `attributes`, this will contain the corresponding
+	 * register elements, indexed by attribute name.
 	 */
 	public var custom:Map<String, ShaderRegisterElement> = null;
 	
 	public function new()
 	{
 	
+	}
+	
+	public function reset():Void
+	{
+		normalVarying = null;
+		tangentVarying = null;
+		bitangentVarying = null;
+		uvVarying = null;
+		secondaryUVVarying = null;
+		viewDirVarying = null;
+		shadedTarget = null;
+		globalPositionVertex = null;
+		globalPositionVarying = null;
+		localPosition = null;
+		sceneTransform = null;
+		normalInput = null;
+		tangentInput = null;
+		animatedNormal = null;
+		animatedTangent = null;
+		commons = null;
+		projectionFragment = null;
+		normalFragment = null;
+		viewDirFragment = null;
+		bitangent = null;
+		custom = null;
 	}
 }

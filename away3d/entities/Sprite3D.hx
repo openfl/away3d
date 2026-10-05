@@ -163,6 +163,11 @@ class Sprite3D extends Entity implements IRenderable
 		_geometry.activateVertexTangentBuffer(index, stage3DProxy);
 	}
 	
+	public function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
+	{
+		_geometry.activateVertexBufferByName(attributeName, index, stage3DProxy);
+	}
+	
 	public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 	{
 		return _geometry.getIndexBuffer(stage3DProxy);
