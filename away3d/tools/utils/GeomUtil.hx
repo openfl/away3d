@@ -189,8 +189,8 @@ class GeomUtil
 	
 	/*
 	 * Combines a set of separate raw buffers into an interleaved one, compatible
-	 * with CompactSubGeometry. SubGeometry uses separate buffers, whereas CompactSubGeometry
-	 * uses a single, combined buffer.
+	 * with a default CompactSubGeometry. SubGeometry uses separate buffers, whereas
+	 * CompactSubGeometry uses a single, combined buffer.
 	 */
 	public static function interleaveBuffers(numVertices:Int, vertices:Vector<Float> = null, normals:Vector<Float> = null, tangents:Vector<Float> = null, uvs:Vector<Float> = null, suvs:Vector<Float> = null):Vector<Float>
 	{

@@ -184,6 +184,23 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		context.setVertexBufferAt(index, _vertexTangentBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
 	}
 	
+	public function activateVertexBufferByName(attributeName:String, index:Int, stage3DProxy:Stage3DProxy):Void
+	{
+		switch (attributeName) {
+			case "position":
+				activateVertexBuffer(index, stage3DProxy);
+			case "normal":
+				activateVertexNormalBuffer(index, stage3DProxy);
+			case "tangent":
+				activateVertexTangentBuffer(index, stage3DProxy);
+			case "UV":
+				activateUVBuffer(index, stage3DProxy);
+			case "secondaryUV":
+				activateSecondaryUVBuffer(index, stage3DProxy);
+			default:
+		}
+	}
+	
 	override public function applyTransformation(transform:Matrix3D):Void
 	{
 		super.applyTransformation(transform);

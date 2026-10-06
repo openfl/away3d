@@ -3,16 +3,22 @@ package away3d.materials.methods;
 import away3d.*;
 import away3d.cameras.*;
 import away3d.core.base.*;
+import away3d.core.base.data.VertexDefinition.AttributeDefinition;
 import away3d.core.managers.*;
 import away3d.events.*;
 import away3d.library.assets.*;
 import away3d.materials.compilation.*;
 import away3d.materials.passes.*;
 import away3d.textures.*;
-
 import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.Context3DTextureFilter;
 import openfl.Vector;
+
+#if haxe4
+import haxe.ds.ReadOnlyArray;
+#else
+import away3d.core.base.data.VertexDefinition.ReadOnlyArray;
+#end
 
 /**
  * ShadingMethodBase provides an abstract base method for shading methods, used by compiled passes to compile
@@ -20,20 +26,43 @@ import openfl.Vector;
  */
 class ShadingMethodBase extends NamedAssetBase
 {
+	/**
+	 * The shared registers created by the compiler and possibly used by methods.
+	 */
 	public var sharedRegisters(get, set):ShaderRegisterData;
+	
+	/**
+	 * Any passes required that render to a texture used by this method.
+	 */
 	public var passes(get, never):Vector<MaterialPassBase>;
+	
+	/**
+	 * One or more vertex attributes (other than the five default attributes)
+	 * used by this method.
+	 * 
+	 * When compiling the shader, these attributes will be allocated
+	 * automatically and stored by name in `sharedRegisters.custom`.
+	 * 
+	 * When rendering, this will call `IRenderable.activateVertexBufferByName()`
+	 * for each attribute. This will upload the corresponding buffers if found;
+	 * currently this is only supported by `CompactSubGeometry`, and the user is
+	 * responsible for including the attributes in its `VertexDefinition`.
+	 */
+	public var attributes(get, never):ReadOnlyArray<AttributeDefinition>;
 	
 	private var _sharedRegisters:ShaderRegisterData;
 	private var _passes:Vector<MaterialPassBase>;
+	private var _attributes:Array<AttributeDefinition>;
 	
 	/**
 	 * Create a new ShadingMethodBase object.
 	 * @param needsNormals Defines whether or not the method requires normals.
 	 * @param needsView Defines whether or not the method requires the view direction.
 	 */
-	public function new()
+	public function new(?attributes:Array<AttributeDefinition>)
 	{
 		super();
+		this._attributes = attributes;
 	}
 
 	/**
@@ -46,6 +75,31 @@ class ShadingMethodBase extends NamedAssetBase
 	}
 
 	/**
+	 * Allocates registers for each attribute in `attributes`
+	 * @param regCache The register cache for the pass currently being compiled.
+	 */
+	@:allow(away3d) private function initAttributes(regCache:ShaderRegisterCache):Void
+	{
+		if (_attributes != null) {
+			if (sharedRegisters.custom == null) {
+				sharedRegisters.custom = new Map();
+			}
+			for (attribute in _attributes) {
+				switch (attribute.name) {
+					case "position", "normal", "tangent", "UV", "secondaryUV":
+						continue;
+					default:
+				}
+				if (!sharedRegisters.custom.exists(attribute.name))
+				{
+					sharedRegisters.custom[attribute.name]
+						= regCache.getFreeVertexAttribute();
+				}
+			}
+		}
+	}
+
+	/**
 	 * Initializes unchanging shader constants using the data from a MethodVO.
 	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
 	 */
@@ -54,9 +108,6 @@ class ShadingMethodBase extends NamedAssetBase
 	
 	}
 
-	/**
-	 * The shared registers created by the compiler and possibly used by methods.
-	 */
 	@:allow(away3d) private function get_sharedRegisters():ShaderRegisterData
 	{
 		return _sharedRegisters;
@@ -68,12 +119,14 @@ class ShadingMethodBase extends NamedAssetBase
 		return value;
 	}
 	
-	/**
-	 * Any passes required that render to a texture used by this method.
-	 */
 	private function get_passes():Vector<MaterialPassBase>
 	{
 		return _passes;
+	}
+	
+	private function get_attributes():ReadOnlyArray<AttributeDefinition>
+	{
+		return _attributes;
 	}
 	
 	/**
@@ -141,7 +194,14 @@ class ShadingMethodBase extends NamedAssetBase
 	 */
 	@:allow(away3d) private function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-	
+		if (_attributes != null && sharedRegisters.custom != null) {
+			for (attribute in _attributes) {
+				var element:ShaderRegisterElement = sharedRegisters.custom[attribute.name];
+				if (element != null) {
+					renderable.activateVertexBufferByName(attribute.name, element.index, stage3DProxy);
+				}
+			}
+		}
 	}
 	
 	/**
