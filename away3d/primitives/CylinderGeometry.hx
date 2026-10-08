@@ -9,20 +9,46 @@ import openfl.Vector;
  */
 class CylinderGeometry extends PrimitiveBase
 {
+	/**
+	 * The radius of the top end of the cylinder.
+	 */
 	public var topRadius(get, set):Float;
+	/**
+	 * The radius of the bottom end of the cylinder.
+	 */
 	public var bottomRadius(get, set):Float;
+	/**
+	 * The radius of the top end of the cylinder.
+	 */
 	public var height(get, set):Float;
-	public var segmentsW(get, set):Int;
-	public var segmentsH(get, set):Int;
+	/**
+	 * The number of sections the circumference is divided into. Defaults to 16.
+	 */
+	public var sectionsC(get, set):Int;
+	/**
+	 * The number of sections the cylinder's height is divided into. Defaults to 1.
+	 */
+	public var sectionsH(get, set):Int;
+	@:noCompletion public var segmentsW(get, set):Int;
+	@:noCompletion public var segmentsH(get, set):Int;
+	/**
+	 * Defines whether the top end of the cylinder is closed (true) or open.
+	 */
 	public var topClosed(get, set):Bool;
+	/**
+	 * Defines whether the bottom end of the cylinder is closed (true) or open.
+	 */
 	public var bottomClosed(get, set):Bool;
+	/**
+	 * Defines whether the cylinder poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 */
 	public var yUp(get, set):Bool;
 	
 	private var _topRadius:Float;
 	private var _bottomRadius:Float;
 	private var _height:Float;
-	private var _segmentsW:Int;
-	private var _segmentsH:Int;
+	private var _sectionsC:Int;
+	private var _sectionsH:Int;
 	private var _topClosed:Bool;
 	private var _bottomClosed:Bool;
 	private var _surfaceClosed:Bool;
@@ -85,16 +111,16 @@ class CylinderGeometry extends PrimitiveBase
 		
 		// evaluate target number of vertices, triangles and indices
 		if (_surfaceClosed) {
-			_numVertices += (_segmentsH + 1)*(_segmentsW + 1); // segmentsH + 1 because of closure, segmentsW + 1 because of UV unwrapping
-			numTriangles += _segmentsH*_segmentsW*2; // each level has segmentW quads, each of 2 triangles
+			_numVertices += (_sectionsH + 1)*(_sectionsC + 1); // sectionsH + 1 because of closure, sectionsC + 1 because of UV unwrapping
+			numTriangles += _sectionsH*_sectionsC*2; // each level has segmentW quads, each of 2 triangles
 		}
 		if (_topClosed) {
-			_numVertices += 2*(_segmentsW + 1); // segmentsW + 1 because of unwrapping
-			numTriangles += _segmentsW; // one triangle for each segment
+			_numVertices += 2*(_sectionsC + 1); // sectionsC + 1 because of unwrapping
+			numTriangles += _sectionsC; // one triangle for each segment
 		}
 		if (_bottomClosed) {
-			_numVertices += 2*(_segmentsW + 1);
-			numTriangles += _segmentsW;
+			_numVertices += 2*(_sectionsC + 1);
+			numTriangles += _sectionsC;
 		}
 		
 		// need to initialize raw arrays or can be reused?
@@ -110,14 +136,14 @@ class CylinderGeometry extends PrimitiveBase
 		}
 		
 		// evaluate revolution steps
-		var revolutionAngleDelta:Float = 2*Math.PI/_segmentsW;
+		var revolutionAngleDelta:Float = 2*Math.PI/_sectionsC;
 		
 		// top
 		if (_topClosed && _topRadius > 0) {
 			
 			z = -0.5*_height;
 			
-			for (i in 0..._segmentsW + 1) {
+			for (i in 0..._sectionsC + 1) {
 				// central vertex
 				if (_yUp) {
 					t1 = 1;
@@ -147,7 +173,7 @@ class CylinderGeometry extends PrimitiveBase
 					comp2 = z;
 				}
 				
-				if (i == _segmentsW)
+				if (i == _sectionsC)
 					addVertex(_rawData[startIndex + _stride], _rawData[startIndex + _stride + 1], _rawData[startIndex + _stride + 2], 0, t1, t2, 1, 0, 0);
 				else
 					addVertex(x, comp1, comp2, 0, t1, t2, 1, 0, 0);
@@ -164,7 +190,7 @@ class CylinderGeometry extends PrimitiveBase
 			
 			startIndex = _vertexOffset + _nextVertexIndex*_stride;
 			
-			for (i in 0..._segmentsW + 1) {
+			for (i in 0..._sectionsC + 1) {
 				if (_yUp) {
 					t1 = -1;
 					t2 = 0;
@@ -192,7 +218,7 @@ class CylinderGeometry extends PrimitiveBase
 					comp2 = z;
 				}
 				
-				if (i == _segmentsW)
+				if (i == _sectionsC)
 					addVertex(x, _rawData[startIndex + 1], _rawData[startIndex + 2], 0, t1, t2, 1, 0, 0);
 				else
 					addVertex(x, comp1, comp2, 0, t1, t2, 1, 0, 0);
@@ -215,13 +241,13 @@ class CylinderGeometry extends PrimitiveBase
 			var a:Int, b:Int, c:Int, d:Int;
 			var na0:Float, na1:Float, naComp1:Float, naComp2:Float;
 			
-			for (j in 0..._segmentsH + 1) {
-				radius = _topRadius - ((j/_segmentsH)*(_topRadius - _bottomRadius));
-				z = -(_height/2) + (j/_segmentsH*_height);
+			for (j in 0..._sectionsH + 1) {
+				radius = _topRadius - ((j/_sectionsH)*(_topRadius - _bottomRadius));
+				z = -(_height/2) + (j/_sectionsH*_height);
 				
 				startIndex = _vertexOffset + _nextVertexIndex*_stride;
 				
-				for (i in 0..._segmentsW + 1) {
+				for (i in 0..._sectionsC + 1) {
 					// revolution vertex
 					revolutionAngle = i*revolutionAngleDelta;
 					x = radius*Math.cos(revolutionAngle);
@@ -246,7 +272,7 @@ class CylinderGeometry extends PrimitiveBase
 						naComp2 = latNormElev;
 					}
 					
-					if (i == _segmentsW) {
+					if (i == _sectionsC) {
 						addVertex(_rawData[startIndex], _rawData[startIndex + 1], _rawData[startIndex + 2],
 							na0, latNormElev, na1,
 							na1, t1, t2);
@@ -260,8 +286,8 @@ class CylinderGeometry extends PrimitiveBase
 					if (i > 0 && j > 0) {
 						a = _nextVertexIndex - 1; // current
 						b = _nextVertexIndex - 2; // previous
-						c = b - _segmentsW - 1; // previous of last level
-						d = a - _segmentsW - 1; // current of last level
+						c = b - _sectionsC - 1; // previous of last level
+						d = a - _sectionsC - 1; // current of last level
 						addTriangleClockWise(a, b, c);
 						addTriangleClockWise(a, c, d);
 					}
@@ -297,14 +323,14 @@ class CylinderGeometry extends PrimitiveBase
 		}
 		
 		// evaluate revolution steps
-		var revolutionAngleDelta:Float = 2*Math.PI/_segmentsW;
+		var revolutionAngleDelta:Float = 2*Math.PI/_sectionsC;
 		
 		// current uv component index
 		var currentUvCompIndex:Int = target.UVOffset;
 		
 		// top
 		if (_topClosed) {
-			for (i in 0..._segmentsW + 1) {
+			for (i in 0..._sectionsC + 1) {
 				
 				revolutionAngle = i*revolutionAngleDelta;
 				x = 0.5 + 0.5* -Math.cos(revolutionAngle);
@@ -321,7 +347,7 @@ class CylinderGeometry extends PrimitiveBase
 		
 		// bottom
 		if (_bottomClosed) {
-			for (i in 0..._segmentsW + 1) {
+			for (i in 0..._sectionsC + 1) {
 				
 				revolutionAngle = i*revolutionAngleDelta;
 				x = 0.5 + 0.5*Math.cos(revolutionAngle);
@@ -338,11 +364,11 @@ class CylinderGeometry extends PrimitiveBase
 		
 		// lateral surface
 		if (_surfaceClosed) {
-			for (j in 0..._segmentsH + 1) {
-				for (i in 0..._segmentsW + 1) {
+			for (j in 0..._sectionsH + 1) {
+				for (i in 0..._sectionsC + 1) {
 					// revolution vertex
-					UVData[currentUvCompIndex++] = ( i/_segmentsW )*target.scaleU;
-					UVData[currentUvCompIndex++] = ( j/_segmentsH )*target.scaleV;
+					UVData[currentUvCompIndex++] = ( i/_sectionsC )*target.scaleU;
+					UVData[currentUvCompIndex++] = ( j/_sectionsH )*target.scaleV;
 					currentUvCompIndex += skip;
 				}
 			}
@@ -352,9 +378,6 @@ class CylinderGeometry extends PrimitiveBase
 		target.updateData(UVData);
 	}
 	
-	/**
-	 * The radius of the top end of the cylinder.
-	 */
 	private function get_topRadius():Float
 	{
 		return _topRadius;
@@ -367,9 +390,6 @@ class CylinderGeometry extends PrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The radius of the bottom end of the cylinder.
-	 */
 	private function get_bottomRadius():Float
 	{
 		return _bottomRadius;
@@ -382,9 +402,6 @@ class CylinderGeometry extends PrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The radius of the top end of the cylinder.
-	 */
 	private function get_height():Float
 	{
 		return _height;
@@ -397,41 +414,52 @@ class CylinderGeometry extends PrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * Defines the number of horizontal segments that make up the cylinder. Defaults to 16.
-	 */
+	private function get_sectionsC():Int
+	{
+		return _sectionsC;
+	}
+	
+	private function set_sectionsC(value:Int):Int
+	{
+		_sectionsC = value;
+		invalidateGeometry();
+		invalidateUVs();
+		return value;
+	}
+	
 	private function get_segmentsW():Int
 	{
-		return _segmentsW;
+		return sectionsC;
 	}
 	
 	private function set_segmentsW(value:Int):Int
 	{
-		_segmentsW = value;
+		return sectionsC = value;
+	}
+	
+	private function get_sectionsH():Int
+	{
+		return _sectionsH;
+	}
+	
+	private function set_sectionsH(value:Int):Int
+	{
+		_sectionsH = value;
 		invalidateGeometry();
 		invalidateUVs();
 		return value;
 	}
 	
-	/**
-	 * Defines the number of vertical segments that make up the cylinder. Defaults to 1.
-	 */
 	private function get_segmentsH():Int
 	{
-		return _segmentsH;
+		return sectionsH;
 	}
 	
 	private function set_segmentsH(value:Int):Int
 	{
-		_segmentsH = value;
-		invalidateGeometry();
-		invalidateUVs();
-		return value;
+		return sectionsH = value;
 	}
 	
-	/**
-	 * Defines whether the top end of the cylinder is closed (true) or open.
-	 */
 	private function get_topClosed():Bool
 	{
 		return _topClosed;
@@ -444,9 +472,6 @@ class CylinderGeometry extends PrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * Defines whether the bottom end of the cylinder is closed (true) or open.
-	 */
 	private function get_bottomClosed():Bool
 	{
 		return _bottomClosed;
@@ -459,9 +484,6 @@ class CylinderGeometry extends PrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * Defines whether the cylinder poles should lay on the Y-axis (true) or on the Z-axis (false).
-	 */
 	private function get_yUp():Bool
 	{
 		return _yUp;
@@ -479,21 +501,21 @@ class CylinderGeometry extends PrimitiveBase
 	 * @param topRadius The radius of the top end of the cylinder.
 	 * @param bottomRadius The radius of the bottom end of the cylinder
 	 * @param height The radius of the bottom end of the cylinder
-	 * @param segmentsW Defines the number of horizontal segments that make up the cylinder. Defaults to 16.
-	 * @param segmentsH Defines the number of vertical segments that make up the cylinder. Defaults to 1.
-	 * @param topClosed Defines whether the top end of the cylinder is closed (true) or open.
-	 * @param bottomClosed Defines whether the bottom end of the cylinder is closed (true) or open.
-	 * @param yUp Defines whether the cone poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 * @param sectionsC The number of sections the circumference is divided into. Defaults to 16.
+	 * @param sectionsH The number of sections the cylinder's height is divided into. Defaults to 1.
+	 * @param topClosed Whether the top end of the cylinder is closed (true) or open.
+	 * @param bottomClosed Whether the bottom end of the cylinder is closed (true) or open.
+	 * @param yUp Whether the cone poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function new(topRadius:Float = 50, bottomRadius:Float = 50, height:Float = 100, segmentsW:Int = 16, segmentsH:Int = 1, topClosed:Bool = true, bottomClosed:Bool = true, surfaceClosed:Bool = true, yUp:Bool = true)
+	public function new(topRadius:Float = 50, bottomRadius:Float = 50, height:Float = 100, sectionsC:Int = 16, sectionsH:Int = 1, topClosed:Bool = true, bottomClosed:Bool = true, surfaceClosed:Bool = true, yUp:Bool = true)
 	{
 		super();
 		
 		_topRadius = topRadius;
 		_bottomRadius = bottomRadius;
 		_height = height;
-		_segmentsW = segmentsW;
-		_segmentsH = segmentsH;
+		_sectionsC = sectionsC;
+		_sectionsH = sectionsH;
 		_topClosed = topClosed;
 		_bottomClosed = bottomClosed;
 		_surfaceClosed = surfaceClosed;

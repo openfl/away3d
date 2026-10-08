@@ -8,8 +8,17 @@ import openfl.geom.Vector3D;
  */
 class WireframeCube extends WireframePrimitiveBase
 {
+	/**
+	 * The size of the cube along its X-axis.
+	 */
 	public var width(get, set):Float;
+	/**
+	 * The size of the cube along its Y-axis.
+	 */
 	public var height(get, set):Float;
+	/**
+	 * The size of the cube along its Z-axis.
+	 */
 	public var depth(get, set):Float;
 	
 	private var _width:Float;
@@ -33,9 +42,6 @@ class WireframeCube extends WireframePrimitiveBase
 		_depth = depth;
 	}
 	
-	/**
-	 * The size of the cube along its X-axis.
-	 */
 	private function get_width():Float
 	{
 		return _width;
@@ -48,9 +54,6 @@ class WireframeCube extends WireframePrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The size of the cube along its Y-axis.
-	 */
 	private function get_height():Float
 	{
 		return _height;
@@ -65,9 +68,6 @@ class WireframeCube extends WireframePrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The size of the cube along its Z-axis.
-	 */
 	private function get_depth():Float
 	{
 		return _depth;

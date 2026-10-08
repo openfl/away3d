@@ -8,25 +8,27 @@ import openfl.Vector;
  */
 class WireframeSphere extends WireframePrimitiveBase
 {
-	private var _segmentsW:Int;
-	private var _segmentsH:Int;
+	private var _sectionsC:Int;
+	private var _sectionsH:Int;
 	private var _radius:Float;
 	
 	/**
 	 * Creates a new WireframeSphere object.
 	 * @param radius The radius of the sphere.
-	 * @param segmentsW Defines the number of horizontal segments that make up the sphere.
-	 * @param segmentsH Defines the number of vertical segments that make up the sphere.
+	 * @param sectionsC The number of sections the sphere is divided into,
+	 * around its equator.
+	 * @param sectionsH The number of sections the sphere's height is divided
+	 * into, from pole to pole.
 	 * @param color The colour of the wireframe lines
 	 * @param thickness The thickness of the wireframe lines
 	 */
-	public function new(radius:Float = 50, segmentsW:Int = 16, segmentsH:Int = 12, color:Int = 0xFFFFFF, thickness:Float = 1)
+	public function new(radius:Float = 50, sectionsC:Int = 16, sectionsH:Int = 12, color:Int = 0xFFFFFF, thickness:Float = 1)
 	{
 		super(color, thickness);
 		
 		_radius = radius;
-		_segmentsW = segmentsW;
-		_segmentsH = segmentsH;
+		_sectionsC = sectionsC;
+		_sectionsH = sectionsH;
 	}
 	
 	/**
@@ -43,13 +45,13 @@ class WireframeSphere extends WireframePrimitiveBase
 		var horangle:Float, z:Float, ringradius:Float;
 		var verangle:Float, x:Float, y:Float;
 		
-		for (j in 0...(_segmentsH + 1)) {
-			horangle = Math.PI*j/_segmentsH;
+		for (j in 0...(_sectionsH + 1)) {
+			horangle = Math.PI*j/_sectionsH;
 			z = -_radius*Math.cos(horangle);
 			ringradius = _radius*Math.sin(horangle);
 			
-			for (i in 0...(_segmentsW + 1)) {
-				verangle = 2*Math.PI*i/_segmentsW;
+			for (i in 0...(_sectionsC + 1)) {
+				verangle = 2*Math.PI*i/_sectionsC;
 				x = ringradius*Math.cos(verangle);
 				y = ringradius*Math.sin(verangle);
 				vertices[numVerts++] = x;
@@ -60,14 +62,14 @@ class WireframeSphere extends WireframePrimitiveBase
 		
 		var a:Int, b:Int, c:Int, d:Int;
 		
-		for (j in 1...(_segmentsH + 1)) {
-			for (i in 1...(_segmentsW + 1)) {
-				a = ((_segmentsW + 1)*j + i)*3;
-				b = ((_segmentsW + 1)*j + i - 1)*3;
-				c = ((_segmentsW + 1)*(j - 1) + i - 1)*3;
-				d = ((_segmentsW + 1)*(j - 1) + i)*3;
+		for (j in 1...(_sectionsH + 1)) {
+			for (i in 1...(_sectionsC + 1)) {
+				a = ((_sectionsC + 1)*j + i)*3;
+				b = ((_sectionsC + 1)*j + i - 1)*3;
+				c = ((_sectionsC + 1)*(j - 1) + i - 1)*3;
+				d = ((_sectionsC + 1)*(j - 1) + i)*3;
 				
-				if (j == _segmentsH) {
+				if (j == _sectionsH) {
 					v0.x = vertices[c];
 					v0.y = vertices[c + 1];
 					v0.z = vertices[c + 2];

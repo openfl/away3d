@@ -6,12 +6,22 @@ import openfl.errors.Error;
 import openfl.geom.Vector3D;
 
 /**
- * A WireframeTetrahedron primitive mesh
+ * A WireframeTetrahedron primitive mesh. This is a square pyramid, rather than
+ * a true tetrahedron.
  */
 class WireframeTetrahedron extends WireframePrimitiveBase
 {
+	/**
+	 * The plane in which the tetrahedron's base lies.
+	 */
 	public var orientation(get, set):String;
+	/**
+	 * The size of the tetrahedron's square base.
+	 */
 	public var width(get, set):Float;
+	/**
+	 * The tetrahedron's height.
+	 */
 	public var height(get, set):Float;
 	
 	public static inline var ORIENTATION_YZ:String = "yz";
@@ -25,7 +35,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	/**
 	 * Creates a new WireframeTetrahedron object.
 	 * @param width The size of the tetrahedron buttom size.
-	 * @param height The size of the tetranhedron height.
+	 * @param height The size of the tetrahedron height.
 	 * @param color The color of the wireframe lines.
 	 * @param thickness The thickness of the wireframe lines.
 	 */
@@ -39,9 +49,6 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		_orientation = orientation;
 	}
 	
-	/**
-	 * The orientation in which the plane lies
-	 */
 	private function get_orientation():String
 	{
 		return _orientation;
@@ -54,9 +61,6 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The size of the tetrahedron bottom.
-	 */
 	private function get_width():Float
 	{
 		return _width;
@@ -71,9 +75,6 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The size of the tetrahedron height.
-	 */
 	private function get_height():Float
 	{
 		return _height;

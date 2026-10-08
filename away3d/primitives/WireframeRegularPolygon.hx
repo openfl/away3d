@@ -7,8 +7,17 @@ import openfl.geom.Vector3D;
  */
 class WireframeRegularPolygon extends WireframePrimitiveBase
 {
+	/**
+	 * The orientation in which the polygon lies.
+	 */
 	public var orientation(get, set):String;
+	/**
+	 * The radius of the regular polygon.
+	 */
 	public var radius(get, set):Float;
+	/**
+	 * The number of sides to the regular polygon.
+	 */
 	public var sides(get, set):Int;
 	
 	public static inline var ORIENTATION_YZ:String = "yz";
@@ -25,7 +34,7 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 	 * @param sides The number of sides on the polygon.
 	 * @param color The colour of the wireframe lines
 	 * @param thickness The thickness of the wireframe lines
-	 * @param orientation The orientaion in which the plane lies.
+	 * @param orientation The orientation in which the plane lies.
 	 */
 	public function new(radius:Float, sides:Int, color:Int = 0xFFFFFF, thickness:Float = 1, orientation:String = "yz")
 	{
@@ -36,9 +45,6 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 		_orientation = orientation;
 	}
 	
-	/**
-	 * The orientaion in which the polygon lies.
-	 */
 	private function get_orientation():String
 	{
 		return _orientation;
@@ -51,9 +57,6 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The radius of the regular polygon.
-	 */
 	private function get_radius():Float
 	{
 		return _radius;
@@ -66,9 +69,6 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 		return value;
 	}
 	
-	/**
-	 * The number of sides to the regular polygon.
-	 */
 	private function get_sides():Int
 	{
 		return _sides;
